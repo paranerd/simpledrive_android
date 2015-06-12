@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.simpledrive"
+    android:versionCode="22"
+    android:versionName="2.4.1" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="18" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_CREDENTIALS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/cloud_icon_5"
+        android:label="@string/app_name"
+        android:theme="@style/MainTheme" >
+        <activity
+            android:name="org.simpledrive.RemoteFiles"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.simpledrive.LocalFiles"
+            android:label="@string/app_name" />
+        <activity
+            android:name="org.simpledrive.Login"
+            android:label="Login"
+            android:theme="@style/LoginTheme"
+            android:windowSoftInputMode="stateAlwaysVisible" >
+        </activity>
+
+        <service android:name="simpledrive.library.AuthenticationService" >
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+"
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+"
+        </service>
+
+        <activity
+            android:name="org.simpledrive.ImageViewer"
+            android:label="Image Viewer" >
+        </activity>
+        <activity
+            android:name="org.simpledrive.NotificationHandler"
+            android:label="Notification Handler" >
+        </activity>
+
+        <service
+            android:name="simpledrive.library.AudioService"
+            android:enabled="true" >
+        </service>
+    </application>
+
+</manifest>

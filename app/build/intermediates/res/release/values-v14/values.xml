@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/values-v14/styles.xml -->
+    <eat-comment/>
+    <style name="AppBaseTheme" parent="@android:style/Theme.Holo.Light"/>
+    <style name="MainTheme" parent="@style/AppBaseTheme">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+    </style>
+    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:icon">@android:color/transparent</item>
+        <item name="android:background">@drawable/actionbar_background</item>
+        <item name="android:height">60.0dip</item>
+        <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
+    </style>
+    <style name="MyActionBarTitleText" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textSize">20.0sp</item>
+        <item name="android:textColor">@color/darkwhite</item>
+    </style>
+</resources>

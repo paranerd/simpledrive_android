@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="#fff0f0f0" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListView android:textColor="#ff555555" android:id="@id/list" android:layout_width="fill_parent" android:layout_height="wrap_content" android:listSelector="@drawable/bkg_dark" android:choiceMode="singleChoice" android:layout_alignParentTop="true" />
+    <TextView android:textSize="20.0sp" android:textColor="#ff555555" android:gravity="center" android:id="@id/empty_list_item" android:layout_width="fill_parent" android:layout_height="fill_parent" android:text="Empty Folder" android:layout_centerHorizontal="true" />
+</RelativeLayout>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center" android:orientation="vertical" android:background="#fff0f0f0" android:padding="10.0dip" android:focusable="true" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/simpledrive_logo" />
+    
+    <EditText
+        android:textColor="#ff555555"
+        android:gravity="center"
+        android:id="@id/txtServer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10.0dip"
+        android:maxWidth="300.0dip"
+        android:minWidth="250.0dip"
+        android:hint="Server address"
+        android:text="192.168.178.35/simpledrive"
+        android:inputType="textUri" />
+    
+    <EditText
+        android:textColor="#ff555555"
+        android:gravity="center"
+        android:id="@id/txtUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10.0dip"
+        android:maxWidth="300.0dip"
+        android:minWidth="250.0dip"
+        android:hint="Username"
+        android:text="paranerd"
+        android:singleLine="true"
+        android:nextFocusDown="@id/txtPassword"/>
+    
+    <EditText
+        android:textColor="#ff555555"
+        android:gravity="center"
+        android:id="@id/txtPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20.0dip"
+        android:maxWidth="300.0dip"
+        android:minWidth="250.0dip"
+        android:hint="Password"
+        android:text="root"
+        android:singleLine="true"
+        android:inputType="textPassword" />
+    
+    <Button
+        android:textColor="#ffeeeeee"
+        android:id="@id/btnLogin"
+        android:background="#ff2e8b57"
+        android:layout_width="200.0dip"
+        android:layout_height="wrap_content"
+        android:text="Login" />
+</LinearLayout><!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/layout/activity_login.xml -->

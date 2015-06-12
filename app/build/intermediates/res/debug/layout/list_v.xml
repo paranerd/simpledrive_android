@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical" android:padding="5.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="0.0px"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:id="@id/icon"
+        android:layout_width="40.0dip"
+        android:layout_height="40.0dip"
+        android:layout_marginLeft="10.0dip"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:textSize="18.0sp"
+        android:textStyle="bold"
+        android:textColor="#ff555555"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:id="@id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="40.0dip"
+        android:layout_marginLeft="10.0dip"
+        android:layout_marginTop="2.0dip"
+        android:singleLine="true"
+        android:layout_toRightOf="@id/icon" />
+
+    <TextView
+        android:textSize="12.0sp"
+        android:textColor="#ffaaaaaa"
+        android:id="@id/size"
+        android:paddingBottom="5.0dip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10.0dip"
+        android:singleLine="true"
+        android:layout_toRightOf="@id/icon"
+        android:layout_below="@id/name"
+        android:layout_alignParentBottom="true" />
+
+    <TextView
+        android:textSize="12.0sp"
+        android:textColor="#ff2e8b57"
+        android:id="@id/owner"
+        android:paddingBottom="5.0dip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10.0dip"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout><!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/layout/list_v.xml -->

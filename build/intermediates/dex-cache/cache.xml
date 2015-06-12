@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\paranerd\Documents\SimpleDrive\app\libs\apache-mime4j-0.6.1.jar"
+        jumboMode="false"
+        revision="22.0.0"
+        sha1="aef60852d64c66a92bc881f41c1718276df7be5a">
+        <dex dex="C:\Users\paranerd\Documents\SimpleDrive\app\build\intermediates\pre-dexed\debug\apache-mime4j-0.6.1-adffc6296ad2612f6a83230a4a0cc84e905225ef.jar" />
+    </item>
+    <item
+        jar="C:\Users\paranerd\Documents\SimpleDrive\app\libs\httpmime-4.3.1.jar"
+        jumboMode="false"
+        revision="22.0.0"
+        sha1="f49e2348b768a7199e021a97e951df25cd5fb714">
+        <dex dex="C:\Users\paranerd\Documents\SimpleDrive\app\build\intermediates\pre-dexed\debug\httpmime-4.3.1-7fac4655add362d0869810924a90a46dc1db02d4.jar" />
+    </item>
+    <item
+        jar="C:\Users\paranerd\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-v4\18.0.0\support-v4-18.0.0.jar"
+        jumboMode="false"
+        revision="22.0.0"
+        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
+        <dex dex="C:\Users\paranerd\Documents\SimpleDrive\app\build\intermediates\pre-dexed\debug\support-v4-18.0.0-8256dca65c77665ca573126616e987ff859fa654.jar" />
+    </item>
+    <item
+        jar="C:\Users\paranerd\Documents\SimpleDrive\app\libs\httpcore-4.3.1.jar"
+        jumboMode="false"
+        revision="22.0.0"
+        sha1="98e2eefcf524f757188f172642ecf5e2c7421947">
+        <dex dex="C:\Users\paranerd\Documents\SimpleDrive\app\build\intermediates\pre-dexed\debug\httpcore-4.3.1-4240eb92041a4f5179036a29c939558688e439b5.jar" />
+    </item>
+    <item
+        jar="C:\Users\paranerd\Documents\SimpleDrive\app\libs\commons-io-2.4.jar"
+        jumboMode="false"
+        revision="22.0.0"
+        sha1="b1b6ea3b7e4aa4f492509a4952029cd8e48019ad">
+        <dex dex="C:\Users\paranerd\Documents\SimpleDrive\app\build\intermediates\pre-dexed\debug\commons-io-2.4-b9af6934840105858ccc5a5a1e3e3fd5c7db1879.jar" />
+    </item>
+
+</items>
