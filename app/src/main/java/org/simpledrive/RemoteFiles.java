@@ -154,7 +154,7 @@ public class RemoteFiles extends Activity
     private static void cancelSelections() {
         selectedElem2 = new JSONArray();
         for(int i = 0; i < allElem.length(); i++) {
-            if (list.getChildAt(0) != null) {
+            if (list.getChildAt(i) != null) {
                 list.getChildAt(i).setBackgroundResource(R.drawable.bkg_light);
             }
             JSONObject obj = new JSONObject();
