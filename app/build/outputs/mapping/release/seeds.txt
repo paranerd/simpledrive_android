@@ -2679,6 +2679,7 @@ org.simpledrive.R$layout: int remote_files
 org.simpledrive.R$layout: int second_fragment
 org.simpledrive.R$layout: int share_dialog
 org.simpledrive.R$menu: int main
+org.simpledrive.R$mipmap: int ic_launcher
 org.simpledrive.R$string: int action_settings
 org.simpledrive.R$string: int app_name
 org.simpledrive.R$string: int hello_world

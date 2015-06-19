@@ -1706,6 +1706,7 @@ org.simpledrive.R$drawable
 org.simpledrive.R$id
 org.simpledrive.R$layout
 org.simpledrive.R$menu
+org.simpledrive.R$mipmap
 org.simpledrive.R$string
 org.simpledrive.R$style
 org.simpledrive.R$xml
