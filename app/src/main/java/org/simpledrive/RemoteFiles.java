@@ -136,11 +136,12 @@ public class RemoteFiles extends Activity
     	
     	@Override
         protected JSONArray doInBackground(String... args) {
-    		String url = server + "php/files_list.php";
+    		String url = server + "php/files_api.php";
     		HashMap<String, String> data = new HashMap<String, String>();
 
     		data.put("file", currDir.toString());
     		data.put("mode", Integer.toString(displayMode));
+            data.put("action", "list");
 
             return Connection.forJSON(url, data);
     	}
@@ -405,6 +406,7 @@ public class RemoteFiles extends Activity
                  Toast.makeText(e, "No connection to server", Toast.LENGTH_SHORT).show();
              }
              else if(value.equals("1") && loginCount < 2) {
+                 Toast.makeText(e, "RemoteFiles Login okay.", Toast.LENGTH_SHORT).show();
     			 new ListContent().execute();
     			 return;
     		 }
@@ -423,52 +425,37 @@ public class RemoteFiles extends Activity
     {
       if (resultCode == RESULT_OK)
       {
-    	  new InitUpload().execute(data.getStringExtra("path"));
+          String upload_path = data.getStringExtra("path");
+          File file = new File(upload_path);
+          if(file.isDirectory()) {
+              upload_recursive(file.getParent(), file);
+          }
+          else {
+              //Long length = file.length();
+              String filename = file.getName();
+              Toast.makeText(e, "Path: " + data.getStringExtra("path") + ", filename: " + filename, Toast.LENGTH_SHORT).show();
+              new Upload().execute(data.getStringExtra("path"), "", filename);
+          }
       }
     }
   }
-  
-  private class InitUpload extends AsyncTask<String, String, String> {
-  	String upload_path;
-  	String filename;
-  	private ProgressDialog pDialog;
-   	@Override
-       protected void onPreExecute() {
-           super.onPreExecute();
 
-          super.onPreExecute();
-          pDialog = new ProgressDialog(e);
-        pDialog.setMessage("Preparing upload ...");
-          pDialog.setIndeterminate(false);
-          pDialog.setCancelable(false);
-          pDialog.show();
-   	}
-   	
-   	@Override
-       protected String doInBackground(String... path) {
-        String url = server + "php/files_upload.php";
-   		upload_path = path[0];
-   		File file = new File(upload_path);
-   		Long length = file.length();
-   		filename = file.getName();
-   		HashMap<String, String> data = new HashMap<String, String>();
-
-   		data.put("size", length.toString());
-   		data.put("dir", currDir.toString());
-        data.put("act", "init");
-        return Connection.forString(url, data);
-   	}
-   	 @Override
-        protected void onPostExecute(String value) {
-         pDialog.dismiss();
-   		 if(!value.isEmpty()) {
-   			new Upload().execute(upload_path, filename);
-   		 }
-   		 else {
-   			Toast.makeText(e, "File too big", Toast.LENGTH_SHORT).show();
-   		 }
-   	 }
-   }
+    public void upload_recursive(String orig_path, File dir) {
+        if(dir.exists()) {
+            File[] files = dir.listFiles();
+            for(int i = 0; i < files.length; i++) {
+                File file = files[i];
+                if(file.isDirectory()) {
+                    upload_recursive(orig_path, file);
+                }
+                else {
+                    String rel_dir = file.getParent().substring(orig_path.length()) + "/";
+                    Toast.makeText(e, "Uploading " + file.getName() + " to " + rel_dir, Toast.LENGTH_SHORT).show();
+                    new Upload().execute(file.getPath(), rel_dir, file.getName());
+                }
+            }
+        }
+    }
 
   public void onBackPressed() {
       if(getSelectedElem().length() != 0) {
@@ -958,8 +945,8 @@ public class RemoteFiles extends Activity
    	
    	@Override
        protected String doInBackground(String... path) {
-   		filename = path[1];
-   		String url = server + "php/files_upload.php";
+   		filename = path[2];
+   		String url = server + "php/files_api.php";
   		
    		UploadFile myEntity = new UploadFile(new ProgressListener()
 				{
@@ -971,9 +958,9 @@ public class RemoteFiles extends Activity
 						}
 					}
 				});
-        String dir = currDir.toString();
+        //String dir = currDir.toString();
 
-        return UploadFile.upload(myEntity, url, path[0], dir);
+        return UploadFile.upload(myEntity, url, path[0], path[1], currDir.toString());
    	}
    	
       @Override
@@ -992,6 +979,9 @@ public class RemoteFiles extends Activity
       
    	 @Override
         protected void onPostExecute(String value) {
+         if(value != null) {
+             Toast.makeText(e, value, Toast.LENGTH_SHORT).show();
+         }
    		Toast.makeText(e, "Uploaded", Toast.LENGTH_SHORT).show();
    		 //uploading = false;
    		new ListContent().execute();

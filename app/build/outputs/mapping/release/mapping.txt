@@ -4107,6 +4107,7 @@ org.simpledrive.LocalFiles -> org.simpledrive.LocalFiles:
     void onLoaderReset(android.support.v4.content.Loader) -> a
     void onLoadFinished(android.support.v4.content.Loader,java.util.ArrayList) -> a
     void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
+    boolean onContextItemSelected(android.view.MenuItem) -> onContextItemSelected
     void onBackPressed() -> onBackPressed
     void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
     java.io.File access$002(java.io.File) -> a
@@ -4163,6 +4164,7 @@ org.simpledrive.RemoteFiles -> org.simpledrive.RemoteFiles:
     void cancelSelections() -> b
     void listContent(org.json.JSONArray) -> b
     void onActivityResult(int,int,android.content.Intent) -> onActivityResult
+    void upload_recursive(java.lang.String,java.io.File) -> a
     void onBackPressed() -> onBackPressed
     boolean onContextItemSelected(android.view.MenuItem) -> onContextItemSelected
     void showRename(java.lang.String) -> b
@@ -4179,7 +4181,7 @@ org.simpledrive.RemoteFiles -> org.simpledrive.RemoteFiles:
     simpledrive.library.AudioService access$102(simpledrive.library.AudioService) -> a
     void access$200(org.json.JSONArray) -> a
     simpledrive.library.AudioService access$100() -> a
-    org.json.JSONArray access$1200(org.simpledrive.RemoteFiles) -> a
+    org.json.JSONArray access$1100(org.simpledrive.RemoteFiles) -> a
 org.simpledrive.RemoteFiles$1 -> org.simpledrive.f:
     org.simpledrive.RemoteFiles this$0 -> a
     void onServiceDisconnected(android.content.ComponentName) -> onServiceDisconnected
@@ -4245,7 +4247,7 @@ org.simpledrive.RemoteFiles$Download -> org.simpledrive.t:
     void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-    void access$1300(org.simpledrive.RemoteFiles$Download,java.lang.Object[]) -> a
+    void access$1200(org.simpledrive.RemoteFiles$Download,java.lang.Object[]) -> a
 org.simpledrive.RemoteFiles$Download$1 -> org.simpledrive.u:
     org.simpledrive.RemoteFiles$Download this$1 -> a
     void transferred(java.lang.Integer) -> a
@@ -4255,52 +4257,42 @@ org.simpledrive.RemoteFiles$GetLink -> org.simpledrive.v:
     void onPostExecute(java.lang.String) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.RemoteFiles$InitUpload -> org.simpledrive.w:
-    java.lang.String upload_path -> a
-    java.lang.String filename -> b
-    android.app.ProgressDialog pDialog -> d
-    org.simpledrive.RemoteFiles this$0 -> c
-    void onPreExecute() -> onPreExecute
-    java.lang.String doInBackground(java.lang.String[]) -> a
-    void onPostExecute(java.lang.String) -> a
-    void onPostExecute(java.lang.Object) -> onPostExecute
-    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.RemoteFiles$ListContent -> org.simpledrive.x:
+org.simpledrive.RemoteFiles$ListContent -> org.simpledrive.w:
     android.app.ProgressDialog pDialog -> a
     void onPreExecute() -> onPreExecute
     org.json.JSONArray doInBackground(java.lang.String[]) -> a
     void onPostExecute(org.json.JSONArray) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.RemoteFiles$Login -> org.simpledrive.y:
+org.simpledrive.RemoteFiles$Login -> org.simpledrive.x:
     android.app.ProgressDialog pDialog -> a
     void onPreExecute() -> onPreExecute
     java.lang.String doInBackground(java.lang.String[]) -> a
     void onPostExecute(java.lang.String) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.RemoteFiles$NewFile -> org.simpledrive.z:
+org.simpledrive.RemoteFiles$NewFile -> org.simpledrive.y:
     org.simpledrive.RemoteFiles this$0 -> a
     void onPreExecute() -> onPreExecute
     java.lang.String doInBackground(java.lang.String[]) -> a
     void onPostExecute(java.lang.String) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.RemoteFiles$Rename -> org.simpledrive.aa:
+org.simpledrive.RemoteFiles$Rename -> org.simpledrive.z:
     org.simpledrive.RemoteFiles this$0 -> a
     void onPreExecute() -> onPreExecute
     java.lang.String doInBackground(java.lang.String[]) -> a
     void onPostExecute(java.lang.String) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.RemoteFiles$Restore -> org.simpledrive.ab:
+org.simpledrive.RemoteFiles$Restore -> org.simpledrive.aa:
     org.simpledrive.RemoteFiles this$0 -> a
     void onPreExecute() -> onPreExecute
     java.lang.String doInBackground(java.lang.Integer[]) -> a
     void onPostExecute(java.lang.String) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.RemoteFiles$Share -> org.simpledrive.ac:
+org.simpledrive.RemoteFiles$Share -> org.simpledrive.ab:
     java.lang.String shareUser -> a
     int shareWrite -> b
     int sharePublic -> c
@@ -4310,14 +4302,14 @@ org.simpledrive.RemoteFiles$Share -> org.simpledrive.ac:
     void onPostExecute(java.lang.String) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.RemoteFiles$Unshare -> org.simpledrive.ad:
+org.simpledrive.RemoteFiles$Unshare -> org.simpledrive.ac:
     org.simpledrive.RemoteFiles this$0 -> a
     void onPreExecute() -> onPreExecute
     java.lang.String doInBackground(java.lang.Integer[]) -> a
     void onPostExecute(java.lang.String) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.RemoteFiles$Upload -> org.simpledrive.ae:
+org.simpledrive.RemoteFiles$Upload -> org.simpledrive.ad:
     android.support.v4.app.NotificationCompat$Builder mBuilder -> c
     android.app.NotificationManager mNotifyManager -> d
     int notificationId -> e
@@ -4330,11 +4322,11 @@ org.simpledrive.RemoteFiles$Upload -> org.simpledrive.ae:
     void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-    void access$1400(org.simpledrive.RemoteFiles$Upload,java.lang.Object[]) -> a
-org.simpledrive.RemoteFiles$Upload$1 -> org.simpledrive.af:
+    void access$1300(org.simpledrive.RemoteFiles$Upload,java.lang.Object[]) -> a
+org.simpledrive.RemoteFiles$Upload$1 -> org.simpledrive.ae:
     org.simpledrive.RemoteFiles$Upload this$1 -> a
     void transferred(java.lang.Integer) -> a
-org.simpledrive.RemoteFiles$Zip -> org.simpledrive.ag:
+org.simpledrive.RemoteFiles$Zip -> org.simpledrive.af:
     org.simpledrive.RemoteFiles this$0 -> a
     void onPreExecute() -> onPreExecute
     java.lang.String doInBackground(java.lang.Integer[]) -> a
@@ -4475,7 +4467,7 @@ simpledrive.library.UploadFile -> simpledrive.library.UploadFile:
     simpledrive.library.UploadFile$ProgressListener listener -> c
     org.apache.http.HttpEntity yourEntity -> a
     long totalSize -> b
-    java.lang.String upload(org.apache.http.HttpEntity,java.lang.String,java.lang.String,java.lang.String) -> a
+    java.lang.String upload(org.apache.http.HttpEntity,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
     void consumeContent() -> consumeContent
     java.io.InputStream getContent() -> getContent
     org.apache.http.Header getContentEncoding() -> getContentEncoding

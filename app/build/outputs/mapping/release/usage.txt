@@ -1710,6 +1710,7 @@ org.simpledrive.R$mipmap
 org.simpledrive.R$string
 org.simpledrive.R$style
 org.simpledrive.R$xml
+org.simpledrive.RemoteFiles$InitUpload
 simpledrive.library.AudioService:
     public static final java.lang.String PLAY_CHANGED
     public static final java.lang.String START_BACKGROUND
