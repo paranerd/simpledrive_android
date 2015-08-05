@@ -1,4 +1,5 @@
 package simpledrive.library;
+
 import java.io.File;
 import java.io.FilterOutputStream;
 import java.io.IOException;
@@ -30,7 +31,7 @@ import org.apache.http.util.EntityUtils;
     				this.listener = listener;
     			}
     			
-    			public static String upload(HttpEntity theEntity, String url, String path, String currDir) {
+    			public static String upload(HttpEntity theEntity, String url, String path, String rel_path, String currDir) {
         			DefaultHttpClient httpClient = Connection.getThreadSafeClient();
         			HttpPost httpPost = new HttpPost(url);
         			
@@ -39,9 +40,10 @@ import org.apache.http.util.EntityUtils;
         			
         			MultipartEntityBuilder reqEntity = MultipartEntityBuilder.create();
         			reqEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-        			reqEntity.addPart("uploadedfile", fileBody);
-        			reqEntity.addTextBody("dir", currDir.toString());
-                    reqEntity.addTextBody("act", "upload");
+        			reqEntity.addPart("0", fileBody);
+        			reqEntity.addTextBody("file", currDir.toString());
+                    reqEntity.addTextBody("action", "upload");
+                    reqEntity.addTextBody("paths", rel_path);
         			yourEntity = reqEntity.build();
         			totalSize = yourEntity.getContentLength();
         			
@@ -52,7 +54,6 @@ import org.apache.http.util.EntityUtils;
         				HttpEntity resEntity = response.getEntity();
         				
         				if (resEntity != null) {
-
                             return EntityUtils.toString(resEntity).trim();
         				}
         			} catch (ClientProtocolException e) {

@@ -1,8 +1,13 @@
 package org.simpledrive;
 
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
@@ -11,10 +16,12 @@ import android.support.v4.content.Loader;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -123,20 +130,42 @@ public class LocalFiles extends FragmentActivity implements LoaderManager.Loader
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
     	super.onCreateContextMenu(menu, v, menuInfo);
 
-    	int OPEN_ID = 4;
+    	//int OPEN_ID = 4;
     	int UPLOAD_ID = 5;
     	
     	AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
 
-    	String type = FileLoader.directories.get(info.position).getType();
-    	
-    	if(type.equals("folder")) {
+    	//String type = FileLoader.directories.get(info.position).getType();
+
+		menu.add(Menu.NONE, UPLOAD_ID, 0, "Upload");
+    	/*if(type.equals("folder")) {
         	menu.add(Menu.NONE, OPEN_ID, 0, "Open");
     	}
     	else {
     		menu.add(Menu.NONE, UPLOAD_ID, 0, "Upload");
-    	}
+    	}*/
     }
+
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+		switch(item.getItemId()) {
+			case 4:
+				Toast.makeText(act, "Open", Toast.LENGTH_SHORT).show();
+				return true;
+			case 5:
+				Toast.makeText(act, "Upload", Toast.LENGTH_SHORT).show();
+				Intent returnIntent = new Intent();
+				returnIntent.putExtra("path", FileLoader.directories.get(info.position).getPath());
+				setResult(RESULT_OK, returnIntent);
+				finish();
+				return true;
+			default:
+				return super.onContextItemSelected(item);
+		}
+	}
     
     public void onBackPressed() {
 		if(!FileLoader.prevDir.equals("")) {

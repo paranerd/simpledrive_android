@@ -101,6 +101,7 @@ public class Login extends Activity {
             pDialog.dismiss();
             if (value != null) {
                 if(value.equals("1")) {
+                    Toast.makeText(org.simpledrive.Login.this, "Login okay.", Toast.LENGTH_SHORT).show();
                     SharedPreferences.Editor editor = getSharedPreferences("org.simpledrive.shared_pref", 0).edit();
                     editor.putString("server", server).commit();
                     Account account = new Account(txtUsername.getText().toString(), "org.simpledrive");
