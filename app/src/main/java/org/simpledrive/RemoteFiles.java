@@ -23,6 +23,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -406,7 +408,6 @@ public class RemoteFiles extends Activity
                  Toast.makeText(e, "No connection to server", Toast.LENGTH_SHORT).show();
              }
              else if(value.equals("1") && loginCount < 2) {
-                 Toast.makeText(e, "RemoteFiles Login okay.", Toast.LENGTH_SHORT).show();
     			 new ListContent().execute();
     			 return;
     		 }
@@ -431,9 +432,7 @@ public class RemoteFiles extends Activity
               upload_recursive(file.getParent(), file);
           }
           else {
-              //Long length = file.length();
               String filename = file.getName();
-              Toast.makeText(e, "Path: " + data.getStringExtra("path") + ", filename: " + filename, Toast.LENGTH_SHORT).show();
               new Upload().execute(data.getStringExtra("path"), "", filename);
           }
       }
@@ -808,15 +807,34 @@ public class RemoteFiles extends Activity
             return Connection.forString(url, data);
         }
         @Override
-        protected void onPostExecute(String value) {
+        protected void onPostExecute(final String value) {
             e.setProgressBarIndeterminateVisibility(false);
             if(value.length() != 0) {
                 new ListContent().execute();
                 if(this.sharePublic == 1) {
-                    ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("label", value);
-                    clipboard.setPrimaryClip(clip);
-                    Toast.makeText(e, "Link copied to clipboard", Toast.LENGTH_SHORT).show();
+                    final AlertDialog.Builder dialog = new AlertDialog.Builder(e);
+
+                    dialog.setMessage("Send link?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String htmlBody = username + " wants to share a file with you.<br>Access it via the following link:<br><br>" + value;
+                            Spanned shareBody = Html.fromHtml(htmlBody);
+                            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                            sharingIntent.setType("text/plain");
+                            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "simpleDrive share link");
+                            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                            startActivity(Intent.createChooser(sharingIntent, "Send via"));
+                        }
+                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                            ClipData clip = ClipData.newPlainText("label", value);
+                            clipboard.setPrimaryClip(clip);
+                            Toast.makeText(e, "Link copied to clipboard", Toast.LENGTH_SHORT).show();
+                            dialog.cancel();
+                        }
+                    }).show();
                 }
             }
             else {
@@ -1098,9 +1116,9 @@ public class RemoteFiles extends Activity
         if(getSelectedElem().length() == 1) {
             menu.add(0, 0, 0, "Rename");
 
-            if (!trash && oslist.get(info.position).get("hash").equals("0") && oslist.get(info.position).get("owner").equals(username)) {
+            if (!trash && oslist.get(info.position).get("hash").equals("null") && oslist.get(info.position).get("owner").equals(username)) {
                 menu.add(0, 2, 2, "Share");
-            } else if (!trash && !oslist.get(info.position).get("hash").equals("0")) {
+            } else if (!trash && !oslist.get(info.position).get("hash").equals("null")) {
                 menu.add(0, 3, 3, "Unshare");
             }
             if (!trash && !oslist.get(info.position).get("type").equals("folder")) {
