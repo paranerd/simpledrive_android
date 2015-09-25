@@ -141,7 +141,7 @@ public class RemoteFiles extends Activity
     		String url = server + "php/files_api.php";
     		HashMap<String, String> data = new HashMap<String, String>();
 
-    		data.put("file", currDir.toString());
+    		data.put("target", currDir.toString());
     		data.put("mode", Integer.toString(displayMode));
             data.put("action", "list");
 
@@ -360,7 +360,7 @@ public class RemoteFiles extends Activity
             String url = server + "php/files_api.php";
             HashMap<String, String> data = new HashMap<String, String>();
 
-            data.put("file", selectedElem.toString());
+            data.put("target", selectedElem.toString());
             data.put("type",  "mobile_audio");
             data.put("filename", audioFilename);
             data.put("action", "cache");
@@ -567,7 +567,7 @@ public class RemoteFiles extends Activity
    		data.put("type", pos[0]);
    		data.put("filename", "");
    		data.put("action", "create");
-   		data.put("file", currDir.toString());
+   		data.put("target", currDir.toString());
         return Connection.forString(url, data);
    	}
    	 @Override
@@ -643,7 +643,7 @@ public class RemoteFiles extends Activity
    		data.put("action", "rename");
    		data.put("newFilename", names[0]);
         try {
-            data.put("file", getSelectedElem().getJSONObject(0).toString());
+            data.put("target", getSelectedElem().getJSONObject(0).toString());
         } catch (JSONException e1) {
             e1.printStackTrace();
         }
@@ -691,7 +691,7 @@ public class RemoteFiles extends Activity
 
    		data.put("action", "download");
    		data.put("source", getSelectedElem().toString());
-        data.put("file", currDir.toString());
+        data.put("target", currDir.toString());
    		
 			new DownloadFile(new DownloadListener()
 			{
@@ -757,7 +757,7 @@ public class RemoteFiles extends Activity
    		data.put("action", "delete");
    		data.put("final", Boolean.toString(displayMode == 3));
         data.put("source", getSelectedElem().toString());
-        data.put("file", currDir.toString());
+        data.put("target", currDir.toString());
         return Connection.forString(url, data);
    	}
    	 @Override
@@ -803,7 +803,7 @@ public class RemoteFiles extends Activity
             data.put("pubAcc", Integer.toString(sharePublic));
             data.put("write", Integer.toString(shareWrite));
             data.put("action", "share");
-            data.put("file", selectedElem.toString());
+            data.put("target", selectedElem.toString());
             return Connection.forString(url, data);
         }
         @Override
@@ -858,7 +858,7 @@ public class RemoteFiles extends Activity
             JSONArray test = new JSONArray();
             test.put(selectedElem);
             data.put("action", "unshare");
-            data.put("file", selectedElem.toString());
+            data.put("target", selectedElem.toString());
             return Connection.forString(url, data);
         }
         @Override
@@ -888,7 +888,7 @@ public class RemoteFiles extends Activity
 
             data.put("action", "zip");
             data.put("source", getSelectedElem().toString());
-            data.put("file", currDir.toString());
+            data.put("target", currDir.toString());
             return Connection.forString(url, data);
         }
         @Override
@@ -922,7 +922,7 @@ public class RemoteFiles extends Activity
             data.put("trash", "true");
             data.put("action", "move");
             data.put("source", test.toString());
-            data.put("file", hierarchy.get(0).toString());
+            data.put("target", hierarchy.get(0).toString());
             return Connection.forString(url, data);
         }
         @Override
@@ -1079,13 +1079,12 @@ public class RemoteFiles extends Activity
 
     try {
         currDir.put("filename", "");
-        currDir.put("realpath", "");
+        currDir.put("parent", "");
         currDir.put("type", "folder");
-        currDir.put("shared", 0);
         currDir.put("size", 0);
         currDir.put("owner", username);
-        currDir.put("shareChild", "0");
         currDir.put("hash", 0);
+        currDir.put("rootshare", null);
         hierarchy.add(currDir);
 	} catch (JSONException e) {
 		// TODO Auto-generated catch block

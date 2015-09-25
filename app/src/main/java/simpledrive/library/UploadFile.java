@@ -41,7 +41,7 @@ import org.apache.http.util.EntityUtils;
         			MultipartEntityBuilder reqEntity = MultipartEntityBuilder.create();
         			reqEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
         			reqEntity.addPart("0", fileBody);
-        			reqEntity.addTextBody("file", currDir.toString());
+        			reqEntity.addTextBody("target", currDir.toString());
                     reqEntity.addTextBody("action", "upload");
                     reqEntity.addTextBody("paths", rel_path);
         			yourEntity = reqEntity.build();
