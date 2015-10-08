@@ -2,11 +2,13 @@
 <resources>
     <!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/values/colors.xml -->
     <eat-comment/>
-    <color name="brightgrey">#ff292929</color>
+    <color name="blue">#ff0000ff</color>
+    <color name="brightgrey">#ffe3e3e3</color>
     <color name="darkgreen">#ff2e8b57</color>
     <color name="darkwhite">#ffeeeeee</color>
     <color name="green">#ff00ff00</color>
     <color name="grey">#ffb3b3b3</color>
+    <color name="lightgreen">#ffb4d7bf</color>
     <color name="red">#ffff0000</color>
     <!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
@@ -75,16 +77,11 @@
     <public id="0x7f0a000d" name="TextViewDate" type="id"/>
     <public id="0x7f070001" name="action_settings" type="string"/>
     <public id="0x7f020000" name="actionbar_background" type="drawable"/>
-    <public id="0x7f030000" name="activity_audioplayer" type="layout"/>
-    <public id="0x7f030001" name="activity_filemanager" type="layout"/>
     <public id="0x7f060000" name="activity_horizontal_margin" type="dimen"/>
     <public id="0x7f030002" name="activity_imageviewer" type="layout"/>
     <public id="0x7f030003" name="activity_login" type="layout"/>
-    <public id="0x7f030004" name="activity_main" type="layout"/>
     <public id="0x7f060001" name="activity_vertical_margin" type="dimen"/>
     <public id="0x7f070000" name="app_name" type="string"/>
-    <public id="0x7f020001" name="audio_icon" type="drawable"/>
-    <public id="0x7f020002" name="audio_icon2" type="drawable"/>
     <public id="0x7f020003" name="audio_thumb" type="drawable"/>
     <public id="0x7f0a0000" name="audioimg" type="id"/>
     <public id="0x7f0a0001" name="audiopath" type="id"/>
@@ -98,27 +95,19 @@
     <public id="0x7f050003" name="brightgrey" type="color"/>
     <public id="0x7f0a0008" name="btnLogin" type="id"/>
     <public id="0x7f020006" name="button_pause" type="drawable"/>
-    <public id="0x7f020007" name="button_pause_backup" type="drawable"/>
     <public id="0x7f020008" name="button_play" type="drawable"/>
-    <public id="0x7f020009" name="button_play_backup" type="drawable"/>
     <public id="0x7f020021" name="checkbutton" type="drawable"/>
-    <public id="0x7f02000a" name="cloud_appstore" type="drawable"/>
     <public id="0x7f02000b" name="cloud_appstore_2" type="drawable"/>
     <public id="0x7f02000c" name="cloud_icon" type="drawable"/>
-    <public id="0x7f02000d" name="cloud_icon_2" type="drawable"/>
-    <public id="0x7f02000e" name="cloud_icon_3" type="drawable"/>
-    <public id="0x7f02000f" name="cloud_icon_4" type="drawable"/>
     <public id="0x7f020010" name="cloud_icon_5" type="drawable"/>
     <public id="0x7f020011" name="cloud_icon_notif" type="drawable"/>
     <public id="0x7f020022" name="createbutton" type="drawable"/>
     <public id="0x7f020012" name="cross" type="drawable"/>
     <public id="0x7f050004" name="darkgreen" type="color"/>
     <public id="0x7f050005" name="darkwhite" type="color"/>
-    <public id="0x7f020013" name="dirup" type="drawable"/>
     <public id="0x7f0a000f" name="empty_list_item" type="id"/>
     <public id="0x7f0a000a" name="fd_Icon1" type="id"/>
     <public id="0x7f030005" name="file_view" type="layout"/>
-    <public id="0x7f030006" name="first_fragment" type="layout"/>
     <public id="0x7f0a0003" name="fmlist" type="id"/>
     <public id="0x7f020014" name="folder_thumb" type="drawable"/>
     <public id="0x7f050001" name="green" type="color"/>
@@ -158,7 +147,6 @@
     <public id="0x7f02001e" name="pressed" type="drawable"/>
     <public id="0x7f050000" name="red" type="color"/>
     <public id="0x7f03000b" name="remote_files" type="layout"/>
-    <public id="0x7f030009" name="second_fragment" type="layout"/>
     <public id="0x7f02001f" name="simpledrive_logo" type="drawable"/>
     <public id="0x7f0a0014" name="size" type="id"/>
     <public id="0x7f0a0007" name="txtPassword" type="id"/>

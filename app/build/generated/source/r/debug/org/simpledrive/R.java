@@ -11,11 +11,13 @@ public final class R {
     public static final class attr {
     }
     public static final class color {
+        public static final int blue=0x7f050006;
         public static final int brightgrey=0x7f050003;
         public static final int darkgreen=0x7f050004;
         public static final int darkwhite=0x7f050005;
         public static final int green=0x7f050001;
         public static final int grey=0x7f050002;
+        public static final int lightgreen=0x7f050007;
         public static final int red=0x7f050000;
     }
     public static final class dimen {
@@ -24,27 +26,19 @@ public final class R {
     }
     public static final class drawable {
         public static final int actionbar_background=0x7f020000;
-        public static final int audio_icon=0x7f020001;
-        public static final int audio_icon2=0x7f020002;
+        public static final int audio_icon2=0x7f020001;
         public static final int audio_thumb=0x7f020003;
         public static final int bkg_dark=0x7f020004;
         public static final int bkg_light=0x7f020005;
         public static final int button_pause=0x7f020006;
-        public static final int button_pause_backup=0x7f020007;
         public static final int button_play=0x7f020008;
-        public static final int button_play_backup=0x7f020009;
         public static final int checkbutton=0x7f020021;
-        public static final int cloud_appstore=0x7f02000a;
         public static final int cloud_appstore_2=0x7f02000b;
         public static final int cloud_icon=0x7f02000c;
-        public static final int cloud_icon_2=0x7f02000d;
-        public static final int cloud_icon_3=0x7f02000e;
-        public static final int cloud_icon_4=0x7f02000f;
         public static final int cloud_icon_5=0x7f020010;
         public static final int cloud_icon_notif=0x7f020011;
         public static final int createbutton=0x7f020022;
         public static final int cross=0x7f020012;
-        public static final int dirup=0x7f020013;
         public static final int folder_thumb=0x7f020014;
         public static final int hoverbutton=0x7f020023;
         public static final int ic_launcher=0x7f020015;
@@ -72,9 +66,12 @@ public final class R {
         public static final int bCreate=0x7f0a0021;
         public static final int bUpload=0x7f0a0022;
         public static final int btnLogin=0x7f0a0008;
+        public static final int changeview=0x7f0a0028;
         public static final int empty_list_item=0x7f0a000f;
         public static final int fd_Icon1=0x7f0a000a;
         public static final int fmlist=0x7f0a0003;
+        public static final int grid=0x7f0a0024;
+        public static final int griditem=0x7f0a0023;
         public static final int icon=0x7f0a0012;
         public static final int image=0x7f0a0004;
         public static final int innerlayout=0x7f0a0010;
@@ -93,29 +90,25 @@ public final class R {
         public static final int owner=0x7f0a001c;
         public static final int pager=0x7f0a0009;
         public static final int playbutton=0x7f0a0002;
-        public static final int sharePublic=0x7f0a0025;
-        public static final int shareUser=0x7f0a0023;
-        public static final int shareWrite=0x7f0a0024;
+        public static final int sharePublic=0x7f0a0027;
+        public static final int shareUser=0x7f0a0025;
+        public static final int shareWrite=0x7f0a0026;
         public static final int size=0x7f0a0014;
-        public static final int trash=0x7f0a0026;
+        public static final int trash=0x7f0a0029;
         public static final int txtPassword=0x7f0a0007;
         public static final int txtServer=0x7f0a0005;
         public static final int txtUsername=0x7f0a0006;
     }
     public static final class layout {
-        public static final int activity_audioplayer=0x7f030000;
-        public static final int activity_filemanager=0x7f030001;
         public static final int activity_imageviewer=0x7f030002;
         public static final int activity_login=0x7f030003;
-        public static final int activity_main=0x7f030004;
         public static final int file_view=0x7f030005;
-        public static final int first_fragment=0x7f030006;
+        public static final int gridview=0x7f030000;
         public static final int list_v=0x7f030007;
         public static final int local_files=0x7f03000a;
         public static final int notification=0x7f030008;
         public static final int remote_files=0x7f03000b;
-        public static final int second_fragment=0x7f030009;
-        public static final int share_dialog=0x7f03000c;
+        public static final int share_dialog=0x7f030001;
     }
     public static final class menu {
         public static final int main=0x7f090000;

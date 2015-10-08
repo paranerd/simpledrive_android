@@ -29,9 +29,6 @@ android.support.v4.view.PagerTitleStrip: void setNonPrimaryAlpha(float)
 android.support.v4.view.PagerTitleStrip: void setTextColor(int)
 android.support.v4.view.PagerTitleStrip: void setGravity(int)
 android.support.v4.view.PagerTitleStrip: int getMinHeight()
-android.support.v4.view.ViewPager
-android.support.v4.view.ViewPager: ViewPager(android.content.Context)
-android.support.v4.view.ViewPager: ViewPager(android.content.Context,android.util.AttributeSet)
 android.support.v4.view.ViewPager: void setScrollState(int)
 android.support.v4.view.ViewPager: void setAdapter(android.support.v4.view.PagerAdapter)
 android.support.v4.view.ViewPager: android.support.v4.view.PagerAdapter getAdapter()
@@ -2575,42 +2572,40 @@ org.apache.james.mime4j_.codec.EncoderUtil$Encoding: org.apache.james.mime4j_.co
 org.apache.james.mime4j_.codec.EncoderUtil$Encoding: org.apache.james.mime4j_.codec.EncoderUtil$Encoding valueOf(java.lang.String)
 org.apache.james.mime4j_.codec.EncoderUtil$Usage: org.apache.james.mime4j_.codec.EncoderUtil$Usage[] values()
 org.apache.james.mime4j_.codec.EncoderUtil$Usage: org.apache.james.mime4j_.codec.EncoderUtil$Usage valueOf(java.lang.String)
+org.simpledrive.GridViewItem
+org.simpledrive.GridViewItem: GridViewItem(android.content.Context)
+org.simpledrive.GridViewItem: GridViewItem(android.content.Context,android.util.AttributeSet)
+org.simpledrive.GridViewItem: GridViewItem(android.content.Context,android.util.AttributeSet,int)
 org.simpledrive.ImageViewer
 org.simpledrive.ImageViewer: ImageViewer()
 org.simpledrive.LocalFiles
 org.simpledrive.LocalFiles: LocalFiles()
 org.simpledrive.Login
 org.simpledrive.Login: Login()
+org.simpledrive.R$color: int blue
 org.simpledrive.R$color: int brightgrey
 org.simpledrive.R$color: int darkgreen
 org.simpledrive.R$color: int darkwhite
 org.simpledrive.R$color: int green
 org.simpledrive.R$color: int grey
+org.simpledrive.R$color: int lightgreen
 org.simpledrive.R$color: int red
 org.simpledrive.R$dimen: int activity_horizontal_margin
 org.simpledrive.R$dimen: int activity_vertical_margin
 org.simpledrive.R$drawable: int actionbar_background
-org.simpledrive.R$drawable: int audio_icon
 org.simpledrive.R$drawable: int audio_icon2
 org.simpledrive.R$drawable: int audio_thumb
 org.simpledrive.R$drawable: int bkg_dark
 org.simpledrive.R$drawable: int bkg_light
 org.simpledrive.R$drawable: int button_pause
-org.simpledrive.R$drawable: int button_pause_backup
 org.simpledrive.R$drawable: int button_play
-org.simpledrive.R$drawable: int button_play_backup
 org.simpledrive.R$drawable: int checkbutton
-org.simpledrive.R$drawable: int cloud_appstore
 org.simpledrive.R$drawable: int cloud_appstore_2
 org.simpledrive.R$drawable: int cloud_icon
-org.simpledrive.R$drawable: int cloud_icon_2
-org.simpledrive.R$drawable: int cloud_icon_3
-org.simpledrive.R$drawable: int cloud_icon_4
 org.simpledrive.R$drawable: int cloud_icon_5
 org.simpledrive.R$drawable: int cloud_icon_notif
 org.simpledrive.R$drawable: int createbutton
 org.simpledrive.R$drawable: int cross
-org.simpledrive.R$drawable: int dirup
 org.simpledrive.R$drawable: int folder_thumb
 org.simpledrive.R$drawable: int hoverbutton
 org.simpledrive.R$drawable: int ic_launcher
@@ -2636,9 +2631,12 @@ org.simpledrive.R$id: int bCheck
 org.simpledrive.R$id: int bCreate
 org.simpledrive.R$id: int bUpload
 org.simpledrive.R$id: int btnLogin
+org.simpledrive.R$id: int changeview
 org.simpledrive.R$id: int empty_list_item
 org.simpledrive.R$id: int fd_Icon1
 org.simpledrive.R$id: int fmlist
+org.simpledrive.R$id: int grid
+org.simpledrive.R$id: int griditem
 org.simpledrive.R$id: int icon
 org.simpledrive.R$id: int image
 org.simpledrive.R$id: int innerlayout
@@ -2665,18 +2663,14 @@ org.simpledrive.R$id: int trash
 org.simpledrive.R$id: int txtPassword
 org.simpledrive.R$id: int txtServer
 org.simpledrive.R$id: int txtUsername
-org.simpledrive.R$layout: int activity_audioplayer
-org.simpledrive.R$layout: int activity_filemanager
 org.simpledrive.R$layout: int activity_imageviewer
 org.simpledrive.R$layout: int activity_login
-org.simpledrive.R$layout: int activity_main
 org.simpledrive.R$layout: int file_view
-org.simpledrive.R$layout: int first_fragment
+org.simpledrive.R$layout: int gridview
 org.simpledrive.R$layout: int list_v
 org.simpledrive.R$layout: int local_files
 org.simpledrive.R$layout: int notification
 org.simpledrive.R$layout: int remote_files
-org.simpledrive.R$layout: int second_fragment
 org.simpledrive.R$layout: int share_dialog
 org.simpledrive.R$menu: int main
 org.simpledrive.R$mipmap: int ic_launcher
@@ -2695,9 +2689,9 @@ org.simpledrive.R$style: int MyActionBarTitleText
 org.simpledrive.R$xml: int authenticator
 org.simpledrive.RemoteFiles
 org.simpledrive.RemoteFiles: RemoteFiles()
-simpledrive.library.AudioService
-simpledrive.library.AudioService: AudioService()
-simpledrive.library.AuthenticationService
-simpledrive.library.AuthenticationService: AuthenticationService()
-simpledrive.library.Connection$MySSLSocketFactory
-simpledrive.library.UploadFile
+simpledrive.lib.AudioService
+simpledrive.lib.AudioService: AudioService()
+simpledrive.lib.AuthenticationService
+simpledrive.lib.AuthenticationService: AuthenticationService()
+simpledrive.lib.Connection$MySSLSocketFactory
+simpledrive.lib.Upload

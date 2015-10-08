@@ -1,15 +1,15 @@
 package org.simpledrive;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.lang.ref.WeakReference;
 import java.net.URLEncoder;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import simpledrive.lib.Connection;
+import simpledrive.lib.Helper;
+import simpledrive.lib.ImageLoader;
 
-import simpledrive.library.Connection;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
@@ -17,123 +17,83 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 public class ImageViewer extends Activity {
-	
-	String file;
-	public static final String PREFS_NAME = "org.simpledrive.shared_pref";
-	SharedPreferences settings;
-	String server;
-	public static ImageViewer e;
-	
-    @Override
+
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_imageviewer);
-        
-        settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        server = settings.getString("server", "");
-		e = this;
-        
-        Bundle extras = getIntent().getExtras();
-        if(extras != null) {
-        	try {
-				file = URLEncoder.encode(extras.getString("file"), "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        }
-    }
-    
-    @Override
-    protected void onPause() {
-    	super.onPause();
-    }
-    
-    @Override
-    protected void onResume() {
-    	super.onResume();
-    	new LoadThumb().execute();
-    }
-	
-    public class LoadThumb extends AsyncTask<String, String, Bitmap> {
-   	 private ProgressDialog pDialog;
-   	@Override
-       protected void onPreExecute() {
-           super.onPreExecute();
-           pDialog = new ProgressDialog(ImageViewer.this);
-           pDialog.setMessage("Loading image ...");
-           pDialog.setIndeterminate(false);
-           pDialog.setCancelable(true);
-           pDialog.show();
-   	}
-   	
-   	@Override
-       protected Bitmap doInBackground(String... path) {
-   		Bitmap bmp = null;
-   		try {
-   			String url = server + "php/files_api.php?file=" + file + "&action=img";
-   			DefaultHttpClient httpClient = Connection.getThreadSafeClient();
-   			HttpGet httpGet = new HttpGet(url);
-   			
-   			HttpResponse response = httpClient.execute(httpGet);
-   			HttpEntity resEntity = response.getEntity();
-   			
-   			if (resEntity != null) {
-   				InputStream in = resEntity.getContent();
-   				bmp = BitmapFactory.decodeStream(in);
-   			}
-   		}
-   		catch (Exception e)
-   		{
-   			e.printStackTrace();
-   		}
 
-   		return bmp;
-   	}
-   	 @Override
-        protected void onPostExecute(final Bitmap bmp) {
-   		pDialog.dismiss();
-   			if(bmp != null) {
+        Bundle extras = getIntent().getExtras();
+		String file = extras.getString("file");
+		String filename = extras.getString("filename");
+		String parent = extras.getString("parent");
+
+		String tmp_folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/simpleDrive/";
+		File tmp = new File(tmp_folder);
+		if(!tmp.exists()) {
+			tmp.mkdir();
+		}
+
+		String cachePath = tmp_folder + Helper.md5(parent + filename) + ".jpg";
+
+		File imgFile = new File(cachePath);
+		if(imgFile.exists()) {
+			Bitmap bmp = BitmapFactory.decodeFile(cachePath);
+			displayImage(bmp);
+		}
+		else {
+			loadImage(file.toString(), filename, cachePath);
+		}
+    }
+
+	public void loadImage(String file, String filename, String path) {
+		final ProgressDialog pDialog;
+		pDialog = new ProgressDialog(this);
+		pDialog.setMessage("Loading image ...");
+		pDialog.setIndeterminate(false);
+		pDialog.setCancelable(true);
+		pDialog.show();
+
+		DisplayMetrics displaymetrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+		int height = displaymetrics.heightPixels;
+		int width = displaymetrics.widthPixels;
+
+		Log.i("target_width: " + width, "target_height: " + height);
+
+		ImageLoader task = new ImageLoader(true, new ImageLoader.TaskListener() {
+			@Override
+			public void onFinished(final Bitmap bmp) {
 				runOnUiThread(new Runnable() {
-	  			     @Override
-	  			     public void run() {
-	  	   				ImageView imgView = (ImageView)findViewById(R.id.image);
-	  	   				int imgHeight = bmp.getHeight();
-	  	   				int imgWidth = bmp.getWidth();
-	  	   				
-	  	   				DisplayMetrics displaymetrics = new DisplayMetrics();
-	  	   				getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-	  	   				int screenHeight = displaymetrics.heightPixels;
-	  	   				int screenWidth = displaymetrics.widthPixels;
-	  	   				
-	  	   				int newWidth, newHeight;
-	  	   				float shrinkTo;
-	  	   				double ratio = 0.8;
-	  	   				if(imgHeight > screenHeight * ratio || imgWidth > screenWidth * ratio) {
-	  	   					shrinkTo = Math.min((float)screenHeight / imgHeight, (float)screenWidth / imgWidth);
-	  	   					newWidth = (int) (imgWidth * shrinkTo * ratio);
-	  	   					newHeight = (int) (imgHeight * shrinkTo * ratio);
-	  	   				}
-	  	   				else {
-	  	   					newWidth = imgWidth;
-	  	   					newHeight = imgHeight;
-	  	   				}
-	  	   				imgView.setImageBitmap(Bitmap.createScaledBitmap(bmp, newWidth, newHeight, false));
-	
-	  			    }
-	  			});
-   			}
-   			else {
-   				Toast.makeText(ImageViewer.this, "Error opening image", Toast.LENGTH_SHORT).show();
-   			}
-   	 }
-   }
+					@Override
+					public void run() {
+						pDialog.dismiss();
+						displayImage(bmp);
+					}
+				});
+			}
+		});
+
+		task.execute(file, filename, width + "", height + "", path);
+	}
+
+	private void displayImage(Bitmap bmp) {
+		ImageView imgView = (ImageView) findViewById(R.id.image);
+		imgView.setImageBitmap(bmp);
+	}
 }

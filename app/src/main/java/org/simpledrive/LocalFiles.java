@@ -1,12 +1,9 @@
 package org.simpledrive;
 
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -26,9 +23,9 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.ArrayList;
 
-import simpledrive.library.FileAdapter;
-import simpledrive.library.FileLoader;
-import simpledrive.library.Item;
+import simpledrive.lib.FileAdapter;
+import simpledrive.lib.FileLoader;
+import simpledrive.lib.Item;
 
 public class LocalFiles extends FragmentActivity implements LoaderManager.LoaderCallbacks<ArrayList<Item>> {
 	static FileAdapter mAdapter;
@@ -129,21 +126,7 @@ public class LocalFiles extends FragmentActivity implements LoaderManager.Loader
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
     	super.onCreateContextMenu(menu, v, menuInfo);
-
-    	//int OPEN_ID = 4;
-    	int UPLOAD_ID = 5;
-    	
-    	AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-
-    	//String type = FileLoader.directories.get(info.position).getType();
-
-		menu.add(Menu.NONE, UPLOAD_ID, 0, "Upload");
-    	/*if(type.equals("folder")) {
-        	menu.add(Menu.NONE, OPEN_ID, 0, "Open");
-    	}
-    	else {
-    		menu.add(Menu.NONE, UPLOAD_ID, 0, "Upload");
-    	}*/
+		menu.add(Menu.NONE, 5, 0, "Upload");
     }
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
