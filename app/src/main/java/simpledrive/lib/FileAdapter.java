@@ -1,4 +1,4 @@
-package simpledrive.library;
+package simpledrive.lib;
 
 import java.util.ArrayList;
 
@@ -6,7 +6,6 @@ import org.simpledrive.R;
 
 import android.app.Activity;
 import android.graphics.Typeface;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,12 +32,8 @@ public class FileAdapter extends ArrayAdapter<Item> {
 		Item i;
 		if(convertView == null) {
 			convertView = layoutInflater.inflate(R.layout.list_v, null);
-		    if(position % 2 != 0) {
-		    	convertView.setBackgroundResource(R.drawable.bkg_light);
-		    }
-		    else {
-		    	convertView.setBackgroundResource(R.drawable.bkg_dark);
-		    }
+			convertView.setBackgroundResource(R.drawable.bkg_light);
+
 			holder = new ViewHolder();
 			holder.name = (TextView) convertView.findViewById(R.id.name);
 			holder.size = (TextView) convertView.findViewById(R.id.size);
@@ -47,12 +42,7 @@ public class FileAdapter extends ArrayAdapter<Item> {
 		}
 		else {
 			holder = (ViewHolder) convertView.getTag();
-		    if(position % 2 != 0) {
-		    	convertView.setBackgroundResource(R.drawable.bkg_light);
-		    }
-		    else {
-		    	convertView.setBackgroundResource(R.drawable.bkg_dark);
-		    }
+			convertView.setBackgroundResource(R.drawable.bkg_light);
 		}
 		
 		i = getItem(position);

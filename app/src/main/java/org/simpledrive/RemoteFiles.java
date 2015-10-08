@@ -16,6 +16,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -25,22 +28,26 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
@@ -56,41 +63,40 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import simpledrive.library.AudioService;
-import simpledrive.library.AudioService.LocalBinder;
-import simpledrive.library.Connection;
-import simpledrive.library.DownloadFile;
-import simpledrive.library.DownloadFile.DownloadListener;
-import simpledrive.library.UploadFile;
-import simpledrive.library.UploadFile.ProgressListener;
+import simpledrive.lib.AudioService;
+import simpledrive.lib.AudioService.LocalBinder;
+import simpledrive.lib.Connection;
+import simpledrive.lib.Download.DownloadListener;
+import simpledrive.lib.Helper;
+import simpledrive.lib.ImageLoader;
+import simpledrive.lib.Upload.ProgressListener;
 
 public class RemoteFiles extends Activity
 {
-  static Typeface myTypeface;
-  public static RemoteFiles e;
-  public static String audioFilename;
-  static ListView list;
-  static ArrayList<HashMap<String, String>> oslist;
-  public static String server = "http";
-  static String firstrun;
-  static JSONObject currDir = new JSONObject();
-  static JSONObject selectedElem = new JSONObject();
-  static JSONArray allElem = new JSONArray();
-  static JSONArray selectedElem2 = new JSONArray();
-  static ArrayList hierarchy = new ArrayList();
-  static AccountManager accMan;
-  static Account[] sc;
-  private static String username = "";
-  private static AudioService mPlayerService;
-  Button bCreate;
-  Button toggleButton;
-  Button bUpload;
-  SharedPreferences settings;
-  private boolean mBound = false;
-  static int displayMode = 0;
+    public static RemoteFiles e;
+    public static String audioFilename;
+    public static String server;
+    public static long currentRequest = 0;
+    private static Typeface myTypeface;
+    private static AbsListView list;
+    private static ArrayList<HashMap<String, String>> oslist;
+    private static JSONObject currDir = new JSONObject();
+    private static HashMap<Integer, JSONObject> allElements = new HashMap<Integer, JSONObject>();
+    private static HashMap<Integer, JSONObject> selectedElem_map= new HashMap<Integer, JSONObject>();
+    private static ArrayList hierarchy = new ArrayList();
+    private static String username = "";
+    private static AudioService mPlayerService;
+    private boolean mBound = false;
+    private static int displayMode = 0;
+    private String tmp_folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/simpleDrive/";
+    private TextView empty;
+    private static String glob_layout;
+    private SharedPreferences settings;
+    private boolean longClicked = false;
   
   ServiceConnection mServiceConnection = new ServiceConnection() {
 		public void onServiceDisconnected(ComponentName name) {
@@ -105,34 +111,17 @@ public class RemoteFiles extends Activity
 		}  
   };
 
-  protected static String convertSize(String sSize) {
-  	float size = Integer.parseInt(sSize);
-  	String convSize;
-  	
-  	if(size > 1073741824) {
-  		convSize = Math.floor((size / 1073741824) * 100) / 100 + " GB";
-  	}
-  	else if(size > 1048576) {
-  		convSize = Math.floor((size / 1048576) * 100) / 100 + " MB";
-  	}
-  	else if(size > 1024) {
-  		convSize = Math.floor((size / 1024) * 100) / 100 + " KB";
-  	}
-  	else {
-  		convSize = size + " Byte";
-  	}
-  	return convSize;
-  }
+  private class ListContent extends AsyncTask<String, String, JSONArray> {
+      ProgressDialog pDialog;
 
-  private static class ListContent extends AsyncTask<String, String, JSONArray> {
-	  private ProgressDialog pDialog;
     	@Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(e);
+            empty.setText("Loading files...");
+            pDialog = new ProgressDialog(RemoteFiles.this);
             pDialog.setMessage("Loading files ...");
             pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
+            pDialog.setCancelable(true);
             pDialog.show();
     	}
     	
@@ -149,36 +138,25 @@ public class RemoteFiles extends Activity
     	}
     	 @Override
          protected void onPostExecute(JSONArray value) {
-           pDialog.dismiss();
+             pDialog.dismiss();
     		 listContent(value);
     	 }
     }
 
-    private static void cancelSelections() {
-        selectedElem2 = new JSONArray();
-        for(int i = 0; i < allElem.length(); i++) {
-            if (list.getChildAt(i) != null) {
-                list.getChildAt(i).setBackgroundResource(R.drawable.bkg_light);
-            }
-            JSONObject obj = new JSONObject();
-            try {
-                selectedElem2.put(i, obj);
-            } catch (JSONException e1) {
-                e1.printStackTrace();
-            }
-        }
+    private static void unselectAll() {
+        selectedElem_map = new HashMap<Integer, JSONObject>();
+        ((SimpleAdapter)list.getAdapter()).notifyDataSetChanged();
     }
   
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	private static void listContent(final JSONArray json) {
+	private void listContent(final JSONArray json) {
         try {
             if(json == null || (json.length() != 0 && json.getJSONObject(0).has("error"))) {
-                new Login().execute(sc[0].name, accMan.getPassword(sc[0]));
-                Toast.makeText(e, "Reconnecting...", Toast.LENGTH_SHORT).show();
+                new Connect().execute();
                 return;
             }
 
-            allElem = json;
+            currentRequest = System.currentTimeMillis();
 
             oslist = new ArrayList<HashMap<String, String>>();
 
@@ -189,22 +167,33 @@ public class RemoteFiles extends Activity
                 Iterator<String> it = c.keys();
                 while (it.hasNext()) {
                     String n = it.next();
-                    String size = (n.equals("size")) ? convertSize(c.getString(n)) : c.getString(n);
+                    String size = (n.equals("size")) ? Helper.convertSize(c.getString(n)) : c.getString(n);
                     map.put(n, size);
                 }
+                allElements.put(i, c);
                 oslist.add(map);
             }
-			 
-		     int[] image = new int[] { R.drawable.folder_thumb, R.drawable.unknown_thumb, R.drawable.audio_thumb, R.drawable.pdf_thumb, R.drawable.dirup, R.drawable.image_thumb};
 
-		     List<HashMap<String, String>> listinfo = new ArrayList<HashMap<String, String>>();
+            String emptyText = (oslist.size() == 0) ? "Nothing to see here." : "";
+            empty.setText(emptyText);
+			 
+            final int[] image = new int[] { R.drawable.folder_thumb, R.drawable.unknown_thumb, R.drawable.audio_thumb, R.drawable.pdf_thumb, R.drawable.image_thumb};
+
+            List<HashMap<String, String>> listinfo = new ArrayList<HashMap<String, String>>();
             listinfo.clear();
 		     
-		     for(int i = 0; i < oslist.size(); i++){
+
+            for(int i = 0; i < oslist.size(); i++)
+            {
                  HashMap<String, String> hm = new HashMap<String, String>();
-		    	 if(oslist.size() == 0) {
-		    		 hm.put("filename", "Empty Folder");
-		    	 }
+                 if(displayMode == 3) {
+                     int pos = oslist.get(i).get("filename").lastIndexOf("_trash");
+                     hm.put("filename", oslist.get(i).get("filename").substring(0, pos));
+                 }
+                 else {
+                     hm.put("filename", oslist.get(i).get("filename"));
+                 }
+
                  if(oslist.get(i).get("type").equals("folder")) {
                 	 hm.put("image", Integer.toString(image[0]));
                  }
@@ -215,152 +204,270 @@ public class RemoteFiles extends Activity
                 	 hm.put("image", Integer.toString(image[3]));
                  }
                  else if(oslist.get(i).get("type").equals("image")) {
-                	 hm.put("image", Integer.toString(image[5]));
+                	 hm.put("image", Integer.toString(image[4]));
                  }
                  else {
                 	 hm.put("image", Integer.toString(image[1]));
                  }
-                 if(displayMode == 3) {
-                     int pos = oslist.get(i).get("filename").lastIndexOf("_trash");
-                     hm.put("filename", oslist.get(i).get("filename").substring(0, pos));
-                 }
-                 else {
-                     hm.put("filename", oslist.get(i).get("filename"));
-                 }
+
                  if(oslist.get(i).get("type").equals("folder")) {
-                	 hm.put("size", "");	 
+                     hm.put("size", "");
                  }
                  else {
-                	 hm.put("size", oslist.get(i).get("size")); 
+                     hm.put("size", oslist.get(i).get("size"));
                  }
+
                  if(!oslist.get(i).get("owner").equals(username)) {
                 	 hm.put("owner", oslist.get(i).get("owner"));
                  }
+                 else if(!oslist.get(i).get("closehash").equals("null")) {
+                     hm.put("owner", "shared");
+                 }
                  listinfo.add(hm);
-		     }
-		     
-		     listinfo.size();
+            }
 
-			ListAdapter adapter = new SimpleAdapter(e, listinfo, R.layout.list_v, new String[] {"image", "filename", "size", "owner"}, new int[] { R.id.icon, R.id.name, R.id.size, R.id.owner}) {
-				@Override public View getView(final int position, View convertView, ViewGroup parent) {
-				    final View view = super.getView(position, convertView, parent);
-				    TextView tvName = (TextView) view.findViewById(R.id.name);
-				    tvName.setTypeface(myTypeface);
-				    TextView tvType = (TextView) view.findViewById(R.id.size);
-				    tvType.setTypeface(myTypeface);
+            int layout = (glob_layout.equals("list")) ? R.layout.list_v : R.layout.gridview;
+            SimpleAdapter adapter = new SimpleAdapter(e, listinfo, layout, new String[]{"image", "filename", "size", "owner"}, new int[]{R.id.icon, R.id.name, R.id.size, R.id.owner})
+            {
+                @Override
+                public View getView(final int position, final View convertView, ViewGroup parent)
+                {
+                    final View view = super.getView(position, convertView, parent);
+                    final TextView tvName = (TextView) view.findViewById(R.id.name);
+                    final ImageView imgview = (ImageView) view.findViewById(R.id.icon);
 
-				    if(oslist.get(position).get("type").equals("folder")) {
-				    	tvName.setGravity(Gravity.CENTER_VERTICAL | Gravity.TOP);
-				    	RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)tvName.getLayoutParams();
-				    	layoutParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
-				    	tvName.setLayoutParams(layoutParams);
-				    }
+                    tvName.setTypeface(myTypeface);
+                    TextView tvType = (TextView) view.findViewById(R.id.size);
+                    tvType.setTypeface(myTypeface);
 
-                    ImageView imgview = (ImageView) view.findViewById(R.id.icon);
-                    imgview.setOnClickListener(new View.OnClickListener() {
+                    if (!oslist.get(position).get("type").equals("image") && glob_layout.equals("grid"))
+                    {
+                        imgview.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) imgview.getLayoutParams();
+                        lp.height = 200;
+                        lp.width = 200;
+                        imgview.setLayoutParams(lp);
+                    } else if (glob_layout.equals("grid")) {
+                        imgview.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) imgview.getLayoutParams();
+                        lp.height = RelativeLayout.LayoutParams.MATCH_PARENT;
+                        lp.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+                        imgview.setLayoutParams(lp);
+                    }
+
+                    if (oslist.get(position).get("type").equals("folder") || glob_layout.equals("grid"))
+                    {
+                        tvName.setGravity(Gravity.CENTER_VERTICAL);
+                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) tvName.getLayoutParams();
+                        layoutParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
+                        tvName.setLayoutParams(layoutParams);
+                    } else {
+                        tvName.setGravity(Gravity.TOP);
+                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) tvName.getLayoutParams();
+                        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+                        tvName.setLayoutParams(layoutParams);
+                    }
+
+                    if (selectedElem_map.get(position) == null)
+                    {
+                        // Item is not selected
+                        if(glob_layout.equals("grid")) {
+                            tvName.setBackgroundColor(getResources().getColor(R.color.brightgrey));
+                        }
+                        else {
+                            view.setBackgroundResource(R.drawable.bkg_light);
+                        }
+                    } else {
+                        // Item is selected
+                        if(glob_layout.equals("grid")) {
+                            tvName.setBackgroundColor(getResources().getColor(R.color.lightgreen));
+                        }
+                        else {
+                            view.setBackgroundColor(getResources().getColor(R.color.lightgreen));
+                        }
+                    }
+
+                    if (oslist.get(position).get("type").equals("image"))
+                    {
+                        try
+                        {
+                            JSONObject file = allElements.get(position);
+                            String filename = file.get("filename").toString();
+                            String file_parent = file.get("parent").toString();
+                            //String cachePath = tmp_folder + Helper.md5(file_parent + filename) + "_thumb.jpg";
+
+                            String thumbPath = tmp_folder + Helper.md5(file_parent + filename) + "_thumb.jpg";
+                            String imgPath  = tmp_folder + Helper.md5(file_parent + filename) + ".jpg";
+
+                            File thumb = new File(thumbPath);
+                            File img = new File(imgPath);
+
+                            if(img.exists()) {
+                                //Log.i("using", "existing");
+                                Bitmap bmp = BitmapFactory.decodeFile(imgPath);
+                                imgview.setImageBitmap(bmp);
+                            }
+                            else if(thumb.exists()) {
+                                Bitmap bmp = BitmapFactory.decodeFile(thumbPath);
+                                imgview.setImageBitmap(bmp);
+                            }
+                            else {
+                                //Log.i("loading thumb for", oslist.get(position).get("filename"));
+                                loadThumb(currentRequest, file.toString(), filename, thumbPath);
+                            }
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+
+                    imgview.setOnClickListener(new View.OnClickListener()
+                    {
                         @Override
-                        public void onClick(View v) {
-                            try {
-                                selectedElem = allElem.getJSONObject(position);
-                                if(selectedElem2.getJSONObject(position).length() == 0) {
-                                    selectedElem2.put(position, selectedElem);
-                                    //view.setBackgroundResource(R.drawable.bkg_dark);
-                                    view.setBackgroundColor(0xfff0f0f0);
-                                }
-                                else {
-                                    JSONObject obj = new JSONObject();
-                                    selectedElem2.put(position, obj);
-                                    view.setBackgroundResource(R.drawable.bkg_light);
-                                }
-                            } catch (JSONException e1) {
-                                e1.printStackTrace();
+                        public void onClick(View v)
+                        {
+                            if (selectedElem_map.size() > 0 || glob_layout.equals("list"))
+                            {
+                                toggleSelection(position);
+                            } else {
+                                openFile(position);
                             }
                         }
                     });
-				    return view;
-				}
-			};
+
+                    imgview.setOnLongClickListener(new View.OnLongClickListener()
+                    {
+                        @Override
+                        public boolean onLongClick(View v)
+                        {
+                            longClicked = true;
+                            toggleSelection(position);
+                            return true;
+                        }
+                    });
+                    return view;
+                }
+            };
 
 			// Set current directory
 			String dir = currDir.getString("filename");
             String title = (displayMode == 3) ? "Trash" : (dir.equals("")) ? "Homefolder" : dir;
 			e.getActionBar().setTitle(title);
 
-			list.setAdapter(adapter);
-            cancelSelections();
-			list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-	            @Override
-	            public void onItemClick(AdapterView<?> parent, View view,
-	                                    int position, long id) {
-	            	String type = oslist.get(+position).get("type");
-                    if(displayMode == 3) {
-                        return;
+            list.setAdapter(adapter);
+            unselectAll();
+			list.setOnItemClickListener(new AdapterView.OnItemClickListener()
+			{
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (selectedElem_map.size() > 0 && !longClicked) {
+                        toggleSelection(position);
+                    } else if (!longClicked) {
+                        openFile(position);
                     }
-	            	if(type.equals("folder")) {
-	            		try {
-							currDir = json.getJSONObject(position);
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-	            		
-	            		try {
-							hierarchy.add(allElem.getJSONObject(position));
-						} catch (JSONException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-	            		new ListContent().execute();
-	            	}
-	            	else if(type.equals("image")) {
-                        try {
-                            selectedElem = allElem.getJSONObject(position);
-                        } catch (JSONException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-			             Intent i = new Intent(e.getApplicationContext(), ImageViewer.class);
-                         i.putExtra("file", selectedElem.toString());
-			             e.startActivity(i);
-	            	}
-	            	else if(type.equals("audio")) {
-	            		try {
-							selectedElem = allElem.getJSONObject(position);
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-
-                        if(mPlayerService != null) {
-                            Toast.makeText(e, "Loading audio...", Toast.LENGTH_SHORT).show();
-                            audioFilename = oslist.get(position).get("filename");
-                            new GetLink().execute();
-                        }
-	            	}
-	            	else {
-	            		Toast.makeText(e, "Can not open file", Toast.LENGTH_SHORT).show();
-	            	}
-	            }
-	        });
+                    longClicked = false;
+                }
+            });
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-   		
    	}
 
-    public static class GetLink extends AsyncTask<String, String, String> {
+    public void openFile(int position)
+    {
+        String type = oslist.get(+position).get("type");
+        if(displayMode == 3)
+        {
+            return;
+        } else if(type.equals("folder")) {
+            currDir = allElements.get(position);
+            hierarchy.add(currDir);
+            new ListContent().execute();
+        } else if(type.equals("image")) {
+            try
+            {
+                //selectedElem = allElem.getJSONObject(position);
+
+                JSONObject obj = allElements.get(position);
+                Intent i = new Intent(e.getApplicationContext(), ImageViewer.class);
+                i.putExtra("file", obj.toString());
+                i.putExtra("filename", obj.get("filename").toString());
+                i.putExtra("parent", obj.get("parent").toString());
+                e.startActivity(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Error opening image", Toast.LENGTH_SHORT).show();
+            }
+        } else if(type.equals("audio")) {
+            /*try
+            {
+                selectedElem = allElem.getJSONObject(position);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }*/
+
+            if(mPlayerService != null)
+            {
+                Toast.makeText(e, "Loading audio...", Toast.LENGTH_SHORT).show();
+                audioFilename = oslist.get(position).get("filename");
+                new GetLink().execute(position);
+            }
+        } else {
+            Toast.makeText(e, "Can not open file", Toast.LENGTH_SHORT).show();
+        }
+        unselectAll();
+    }
+
+    public void toggleSelection(int position)
+    {
+        if(selectedElem_map.get(position) == null)
+        {
+            // Select
+            selectedElem_map.put(position, allElements.get(position));
+        } else {
+            // Unselect
+            selectedElem_map.remove(position);
+        }
+        ((SimpleAdapter)list.getAdapter()).notifyDataSetChanged();
+    }
+
+    public void loadThumb(final long cR, String file,String filename, String path)
+    {
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+
+        String size = (glob_layout.equals("list")) ? Helper.dpToPx(100) + "" : Integer.toString(displaymetrics.widthPixels / 2);
+
+        ImageLoader task = new ImageLoader(false, new ImageLoader.TaskListener()
+        {
+            @Override
+            public void onFinished(final Bitmap bmp)
+            {
+                if (bmp != null && cR == currentRequest)
+                {
+                    // Update adapter
+                    ((SimpleAdapter)list.getAdapter()).notifyDataSetChanged();
+                }
+            }
+        });
+        task.execute(file, filename, size, size, path);
+    }
+
+    public class GetLink extends AsyncTask<Integer, String, String>
+    {
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute()
+        {
             super.onPreExecute();
         }
 
         @Override
-        protected String doInBackground(String... info) {
+        protected String doInBackground(Integer... info)
+        {
             String url = server + "php/files_api.php";
             HashMap<String, String> data = new HashMap<String, String>();
 
-            data.put("target", selectedElem.toString());
+            data.put("target", allElements.get(info[0]).toString()); //.entrySet().iterator().next().toString());
+            //data.put("target", selectedElem_map.get(selected).toString()); //selectedElem.toString());
             data.put("type",  "mobile_audio");
             data.put("filename", audioFilename);
             data.put("action", "cache");
@@ -377,46 +484,57 @@ public class RemoteFiles extends Activity
             }
         }
     }
-	
-	public static int loginCount = 0;
-    public static class Login extends AsyncTask<String, String, String> {
-    	 private ProgressDialog pDialog;
+
+    public class Connect extends AsyncTask<String, String, String> {
     	@Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(e);
-            pDialog.setMessage("Connecting ...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-            loginCount++;
+            empty.setText("Connecting ...");
     	}
     	
     	@Override
         protected String doInBackground(String... login) {
-    		String url = server + "php/core_login.php";
-    		HashMap<String, String> data = new HashMap<String, String>();
-    		data.put("user", login[0]);
-    		data.put("pass", login[1]);
+            AccountManager accMan = AccountManager.get(RemoteFiles.this);
+            Account[] sc = accMan.getAccountsByType("org.simpledrive");
+
+            if (sc.length == 0) {
+                return null;
+            }
+
+            username = sc[0].name;
+            String url = server + "php/core_login.php";
+            HashMap<String, String> data = new HashMap<String, String>();
+            data.put("user", username);
+            data.put("pass", accMan.getPassword(sc[0]));
 
             return Connection.forString(url, data);
     	}
     	 @Override
-         protected void onPostExecute(String value) { 
-    		pDialog.dismiss();
-             if(value == null) {
-                 Toast.makeText(e, "No connection to server", Toast.LENGTH_SHORT).show();
+         protected void onPostExecute(String value) {
+             if(value != null && value.equals("1")) {
+                 try {
+                     hierarchy = new ArrayList();
+
+                     currDir.put("filename", "");
+                     currDir.put("parent", "");
+                     currDir.put("owner", username);
+                     currDir.put("hash", 0);
+                     currDir.put("rootshare", 0);
+                     hierarchy.add(currDir);
+
+                     empty.setText("Nothing to see here.");
+                     new ListContent().execute();
+                 }
+                 catch (JSONException e) {
+                     e.printStackTrace();
+                 }
              }
-             else if(value.equals("1") && loginCount < 2) {
-    			 new ListContent().execute();
-    			 return;
-    		 }
-    		 else {
-    			 Toast.makeText(e, "Login failed", Toast.LENGTH_SHORT).show();
-    		 }
-	         Intent i = new Intent(e.getApplicationContext(), org.simpledrive.Login.class);
-             e.startActivity(i);
-	         e.finish();
+             else {
+                 Toast.makeText(e, "Error reconnecting", Toast.LENGTH_SHORT).show();
+                 Intent i = new Intent(e.getApplicationContext(), Login.class);
+                 e.startActivity(i);
+                 e.finish();
+             }
     	 }
     }
 
@@ -442,14 +560,11 @@ public class RemoteFiles extends Activity
     public void upload_recursive(String orig_path, File dir) {
         if(dir.exists()) {
             File[] files = dir.listFiles();
-            for(int i = 0; i < files.length; i++) {
-                File file = files[i];
-                if(file.isDirectory()) {
+            for (File file : files) {
+                if (file.isDirectory()) {
                     upload_recursive(orig_path, file);
-                }
-                else {
+                } else {
                     String rel_dir = file.getParent().substring(orig_path.length()) + "/";
-                    Toast.makeText(e, "Uploading " + file.getName() + " to " + rel_dir, Toast.LENGTH_SHORT).show();
                     new Upload().execute(file.getPath(), rel_dir, file.getName());
                 }
             }
@@ -457,22 +572,21 @@ public class RemoteFiles extends Activity
     }
 
   public void onBackPressed() {
-      if(getSelectedElem().length() != 0) {
-          cancelSelections();
-          return;
+      if(getSelectedElem_map().length() != 0) {
+          unselectAll();
       }
-    if (hierarchy.size() > 1) {
+      else if (hierarchy.size() > 1) {
         hierarchy.remove(hierarchy.size() - 1);
         currDir = (JSONObject) hierarchy.get(hierarchy.size() - 1);
         new ListContent().execute();
-        return;
-    }
-    else if(displayMode == 3) {
-        displayMode = 0;
-        new ListContent().execute();
-        return;
-    }
-    super.onBackPressed();
+      }
+      else if(displayMode == 3) {
+          displayMode = 0;
+          new ListContent().execute();
+      }
+      else {
+          super.onBackPressed();
+      }
   }
 
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -484,55 +598,23 @@ public class RemoteFiles extends Activity
   		case 0:
   	    	showRename(oslist.get(info.position).get("filename"));
   	    	return true;
+
   		case 1:
   			new Delete().execute(info.position);
   	    	return true;
+
         case 2:
-            final AlertDialog.Builder dialog = new AlertDialog.Builder(e);
-            View shareView = View.inflate(this, R.layout.share_dialog, null);
-            final EditText shareUser = (EditText) shareView.findViewById(R.id.shareUser);
-            final CheckBox shareWrite = (CheckBox) shareView.findViewById(R.id.shareWrite);
-            final CheckBox sharePublic = (CheckBox) shareView.findViewById(R.id.sharePublic);
-
-            dialog.setTitle("Share")
-                    .setView(shareView)
-                    .setCancelable(true)
-                    .setPositiveButton("Share", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-
-            final AlertDialog dialog2 = dialog.create();
-            dialog2.show();
-            dialog2.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(shareUser.getText().toString().isEmpty() && !sharePublic.isChecked()) {
-                        Toast.makeText(e, "Enter a username", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        new Share(shareUser.getText().toString(), shareWrite.isChecked(), sharePublic.isChecked()).execute();
-                        dialog2.dismiss();
-                    }
-                }
-            });
-
-            shareUser.requestFocus();
-            showVirturalKeyboard();
+            showShare();
             return true;
+
         case 3:
             new Unshare().execute(info.position);
             return true;
+
   		case 4:
             new Zip().execute(info.position);
   			return true;
+
   		case 5:
   			String filename1 = oslist.get(info.position).get("filename");
   			Download dl = new Download();
@@ -543,14 +625,56 @@ public class RemoteFiles extends Activity
   		        dl.execute(filename1);
   		      }
   			return true;
+
         case 6:
-            Toast.makeText(e, "Restoring", Toast.LENGTH_SHORT).show();
             new Restore().execute(info.position);
             return true;
+
   		default:
   			return super.onContextItemSelected(item);
   	}
   }
+
+    private void showShare() {
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(e);
+        View shareView = View.inflate(this, R.layout.share_dialog, null);
+        final EditText shareUser = (EditText) shareView.findViewById(R.id.shareUser);
+        final CheckBox shareWrite = (CheckBox) shareView.findViewById(R.id.shareWrite);
+        final CheckBox sharePublic = (CheckBox) shareView.findViewById(R.id.sharePublic);
+
+        dialog.setTitle("Share")
+                .setView(shareView)
+                .setCancelable(true)
+                .setPositiveButton("Share", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        final AlertDialog dialog2 = dialog.create();
+        dialog2.show();
+        dialog2.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(shareUser.getText().toString().isEmpty() && !sharePublic.isChecked()) {
+                    Toast.makeText(e, "Enter a username", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    new Share(shareUser.getText().toString(), shareWrite.isChecked(), sharePublic.isChecked()).execute();
+                    dialog2.dismiss();
+                }
+            }
+        });
+
+        shareUser.requestFocus();
+        showVirturalKeyboard();
+    }
   
   private class NewFile extends AsyncTask<String, String, String> {
    	@Override
@@ -642,11 +766,7 @@ public class RemoteFiles extends Activity
 
    		data.put("action", "rename");
    		data.put("newFilename", names[0]);
-        try {
-            data.put("target", getSelectedElem().getJSONObject(0).toString());
-        } catch (JSONException e1) {
-            e1.printStackTrace();
-        }
+        data.put("target", selectedElem_map.entrySet().iterator().next().toString());
         return Connection.forString(url, data);
    	}
    	 @Override
@@ -690,10 +810,10 @@ public class RemoteFiles extends Activity
    		HashMap<String, String> data = new HashMap<String, String>();
 
    		data.put("action", "download");
-   		data.put("source", getSelectedElem().toString());
+   		data.put("source", getSelectedElem_map().toString());
         data.put("target", currDir.toString());
    		
-			new DownloadFile(new DownloadListener()
+			new simpledrive.lib.Download(new DownloadListener()
 			{
 				@Override
 				public void transferred(Integer num)
@@ -705,7 +825,7 @@ public class RemoteFiles extends Activity
 			});
 			
 			String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
-        return DownloadFile.download(url, data, names[0], path);
+        return simpledrive.lib.Download.download(url, data, path);
    	}
    	
       @Override
@@ -728,16 +848,10 @@ public class RemoteFiles extends Activity
   	 }
   }
 
-    private JSONArray getSelectedElem() {
+    private JSONArray getSelectedElem_map() {
         JSONArray arr = new JSONArray();
-        for(int i = 0; i < selectedElem2.length(); i++) {
-            try {
-                if(selectedElem2.getJSONObject(i).length() != 0) {
-                    arr.put(selectedElem2.getJSONObject(i));
-                }
-            } catch (JSONException e1) {
-                e1.printStackTrace();
-            }
+        for(Map.Entry<Integer, JSONObject> entry : selectedElem_map.entrySet()) {
+            arr.put(entry.getValue());
         }
         return arr;
     }
@@ -756,7 +870,7 @@ public class RemoteFiles extends Activity
 
    		data.put("action", "delete");
    		data.put("final", Boolean.toString(displayMode == 3));
-        data.put("source", getSelectedElem().toString());
+        data.put("source", getSelectedElem_map().toString());
         data.put("target", currDir.toString());
         return Connection.forString(url, data);
    	}
@@ -794,8 +908,8 @@ public class RemoteFiles extends Activity
             String url = server + "php/files_api.php";
             HashMap<String, String> data = new HashMap<String, String>();
 
-            JSONArray test = new JSONArray();
-            test.put(selectedElem);
+            //JSONArray test = new JSONArray();
+            //test.put(selectedElem);
 
             data.put("mail", "");
             data.put("key", "");
@@ -803,7 +917,8 @@ public class RemoteFiles extends Activity
             data.put("pubAcc", Integer.toString(sharePublic));
             data.put("write", Integer.toString(shareWrite));
             data.put("action", "share");
-            data.put("target", selectedElem.toString());
+            //data.put("target", selectedElem.toString());
+            data.put("target", selectedElem_map.entrySet().iterator().next().toString());
             return Connection.forString(url, data);
         }
         @Override
@@ -855,10 +970,11 @@ public class RemoteFiles extends Activity
             String url = server + "php/files_api.php";
             HashMap<String, String> data = new HashMap<String, String>();
 
-            JSONArray test = new JSONArray();
-            test.put(selectedElem);
+            //JSONArray test = new JSONArray();
+            //test.put(selectedElem);
             data.put("action", "unshare");
-            data.put("target", selectedElem.toString());
+            //data.put("target", selectedElem.toString());
+            data.put("target", selectedElem_map.entrySet().iterator().next().toString());
             return Connection.forString(url, data);
         }
         @Override
@@ -869,7 +985,6 @@ public class RemoteFiles extends Activity
             }
             else {
                 new ListContent().execute();
-                Toast.makeText(e, "File unshared", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -887,7 +1002,7 @@ public class RemoteFiles extends Activity
             HashMap<String, String> data = new HashMap<String, String>();
 
             data.put("action", "zip");
-            data.put("source", getSelectedElem().toString());
+            data.put("source", getSelectedElem_map().toString());
             data.put("target", currDir.toString());
             return Connection.forString(url, data);
         }
@@ -916,13 +1031,16 @@ public class RemoteFiles extends Activity
             String url = server + "php/files_api.php";
             HashMap<String, String> data = new HashMap<String, String>();
 
-            JSONArray test = new JSONArray();
-            test.put(selectedElem);
+            //JSONArray test = new JSONArray();
+            //test.put(selectedElem);
+
             data.put("test", "test");
             data.put("trash", "true");
             data.put("action", "move");
-            data.put("source", test.toString());
+            //data.put("source", test.toString());
+            data.put("source", getSelectedElem_map().toString());
             data.put("target", hierarchy.get(0).toString());
+
             return Connection.forString(url, data);
         }
         @Override
@@ -966,7 +1084,7 @@ public class RemoteFiles extends Activity
    		filename = path[2];
    		String url = server + "php/files_api.php";
   		
-   		UploadFile myEntity = new UploadFile(new ProgressListener()
+   		simpledrive.lib.Upload myEntity = new simpledrive.lib.Upload(new ProgressListener()
 				{
 					@Override
 					public void transferred(Integer num)
@@ -976,9 +1094,8 @@ public class RemoteFiles extends Activity
 						}
 					}
 				});
-        //String dir = currDir.toString();
 
-        return UploadFile.upload(myEntity, url, path[0], path[1], currDir.toString());
+        return simpledrive.lib.Upload.upload(myEntity, url, path[0], path[1], currDir.toString());
    	}
    	
       @Override
@@ -997,146 +1114,126 @@ public class RemoteFiles extends Activity
       
    	 @Override
         protected void onPostExecute(String value) {
-         if(value != null) {
+         if(value.length() > 0) {
              Toast.makeText(e, value, Toast.LENGTH_SHORT).show();
          }
-   		Toast.makeText(e, "Uploaded", Toast.LENGTH_SHORT).show();
-   		 //uploading = false;
-   		new ListContent().execute();
+         else {
+             new ListContent().execute();
+         }
    	 }
    }
 
-  protected void onCreate(Bundle paramBundle) {
-    super.onCreate(paramBundle);
-      e = this;
+    protected void onCreate(Bundle paramBundle) {
+        super.onCreate(paramBundle);
+        e = this;
 
-    setContentView(R.layout.remote_files);
-    list = (ListView)findViewById(R.id.list);
-    list.setEmptyView(findViewById(R.id.empty_list_item));
-    myTypeface = Typeface.createFromAsset(getAssets(), "fonts/robotolight.ttf");
-    TextView empty = (TextView) findViewById(R.id.empty_list_item);
-	empty.setTypeface(myTypeface);
+        setContentView(R.layout.remote_files);
 
-	
-    registerForContextMenu(list);
-    
-	Intent intent = new Intent();
-	intent.setClass(this, AudioService.class);
-	getApplicationContext().bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
+        myTypeface = Typeface.createFromAsset(getAssets(), "fonts/robotolight.ttf");
+        empty = (TextView) findViewById(R.id.empty_list_item);
+        empty.setTypeface(myTypeface);
 
-    settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
-    SharedPreferences.Editor localEditor = settings.edit();
-    localEditor.putString("firstrun", "false");
-    localEditor.commit();
-    bUpload = ((Button)findViewById(R.id.bUpload));
-    bUpload.setOnClickListener(new View.OnClickListener() {
-		
-		@Override
-		public void onClick(View v) {
-			bCreate.setVisibility(View.GONE);
-			bUpload.setVisibility(View.GONE);
-			Intent result = new Intent(RemoteFiles.this, LocalFiles.class);
-			startActivityForResult(result, 1);
-		}
-    });
-    bCreate = ((Button)findViewById(R.id.bCreate));
-    bCreate.setOnClickListener(new View.OnClickListener() {
-		
-		@Override
-		public void onClick(View v) {
-			new NewFile().execute("folder");
-		}
-    });
-    toggleButton = ((Button)findViewById(R.id.bAdd));
-    toggleButton.setOnClickListener(new View.OnClickListener() {
-		
-		@Override
-		public void onClick(View v) {
-			if(bCreate.getVisibility() == View.GONE) {
-				bCreate.setVisibility(View.VISIBLE);
-				bUpload.setVisibility(View.VISIBLE);
-			}
-			else {
-				bCreate.setVisibility(View.GONE);
-				bUpload.setVisibility(View.GONE);
-			}
-		}
-    });
-    server = settings.getString("server", "");
-    firstrun = settings.getString("firstrun", "");
-    accMan = AccountManager.get(this);
-    sc = accMan.getAccountsByType("org.simpledrive");
+        Intent intent = new Intent();
+        intent.setClass(this, AudioService.class);
+        getApplicationContext().bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
 
-    if(!Connection.isLoggedIn() && sc.length == 0) {
-      startActivity(new Intent(this, org.simpledrive.Login.class));
-      finish();
+        final Button bUpload = ((Button) findViewById(R.id.bUpload));
+        final Button bCreate = ((Button) findViewById(R.id.bCreate));
+        final Button toggleButton = ((Button) findViewById(R.id.bAdd));
+
+        bUpload.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                bCreate.setVisibility(View.GONE);
+                bUpload.setVisibility(View.GONE);
+                Intent result = new Intent(RemoteFiles.this, LocalFiles.class);
+                startActivityForResult(result, 1);
+            }
+        });
+
+        bCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new NewFile().execute("folder");
+            }
+        });
+
+        toggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (bCreate.getVisibility() == View.GONE) {
+                    bCreate.setVisibility(View.VISIBLE);
+                    bUpload.setVisibility(View.VISIBLE);
+                } else {
+                    bCreate.setVisibility(View.GONE);
+                    bUpload.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
+        server = settings.getString("server", "");
+        glob_layout = (settings.getString("view", "").length() == 0) ? "list" : settings.getString("view", "");
+        setView(glob_layout);
+
+        // Create image cache folder
+        File tmp = new File(tmp_folder);
+        if (!tmp.exists()) {
+            tmp.mkdir();
+        }
+
+        new Connect().execute();
     }
-	else if(sc.length != 0) {
-	    username = sc[0].name;
-	    hierarchy = new ArrayList();
-		new ListContent().execute();
-	}
 
-    try {
-        currDir.put("filename", "");
-        currDir.put("parent", "");
-        currDir.put("type", "folder");
-        currDir.put("size", 0);
-        currDir.put("owner", username);
-        currDir.put("hash", 0);
-        currDir.put("rootshare", null);
-        hierarchy.add(currDir);
-	} catch (JSONException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+    public void setView(String view) {
+        glob_layout = view;
+        settings.edit().putString("view", glob_layout).commit();
+
+        if(glob_layout.equals("list")) {
+            list = (ListView) findViewById(R.id.list);
+            GridView tmp_grid = (GridView) findViewById(R.id.grid);
+            tmp_grid.setVisibility(View.GONE);
+        }
+        else {
+            list = (GridView) findViewById(R.id.grid);
+            ListView tmp_list = (ListView) findViewById(R.id.list);
+            tmp_list.setVisibility(View.GONE);
+        }
+        list.setVisibility(View.VISIBLE);
+        registerForContextMenu(list);
     }
-  }
 
   public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
     super.onCreateContextMenu(menu, v, menuInfo);
     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-    
-	try { 
-		selectedElem = allElem.getJSONObject(info.position);
-        if(selectedElem2.getJSONObject(info.position).length() == 0) {
-            cancelSelections();
-        }
-        selectedElem2.put(info.position, selectedElem);
-	} catch (JSONException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
 
-      boolean trash = (displayMode == 3);
+        if(selectedElem_map.get(info.position) == null) {
+            unselectAll();
+        }
+        selectedElem_map.put(info.position, allElements.get(info.position));
+      ((SimpleAdapter)list.getAdapter()).notifyDataSetChanged();
 
     menu.add(0, 1, 1, "Delete");
 
-    if(!trash) {
-        if(getSelectedElem().length() == 1) {
+    if(!(displayMode == 3)) {
+        if(getSelectedElem_map().length() == 1) {
             menu.add(0, 0, 0, "Rename");
 
-            if (!trash && oslist.get(info.position).get("hash").equals("null") && oslist.get(info.position).get("owner").equals(username)) {
+            if (oslist.get(info.position).get("hash").equals("null") && oslist.get(info.position).get("owner").equals(username)) {
                 menu.add(0, 2, 2, "Share");
-            } else if (!trash && !oslist.get(info.position).get("hash").equals("null")) {
+            } else if (!oslist.get(info.position).get("hash").equals("null")) {
                 menu.add(0, 3, 3, "Unshare");
-            }
-            if (!trash && !oslist.get(info.position).get("type").equals("folder")) {
-                menu.add(0, 5, 5, "Download");
             }
         }
 
         menu.add(0, 4, 4, "Zip");
+        menu.add(0, 5, 5, "Download");
     }
     else {
         menu.add(0, 6, 6, "Restore");
     }
     menu.setHeaderTitle("Options");
-  }
-
-  public boolean onCreateOptionsMenu(Menu menu) {
-      MenuInflater inflater = getMenuInflater();
-      inflater.inflate(R.menu.main, menu);
-    return true;
   }
 
   protected void onDestroy()
@@ -1148,44 +1245,41 @@ public class RemoteFiles extends Activity
       localIntent.setAction("org.simpledrive.action.startbackground");
       startService(localIntent);
     }
-    if (mBound)
-      getApplicationContext().unbindService(mServiceConnection);
+      else if (mBound) {
+        getApplicationContext().unbindService(mServiceConnection);
+    }
   }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+    }
 
   public boolean onOptionsItemSelected(MenuItem paramMenuItem)
   {
     switch (paramMenuItem.getItemId()) {
         default:
             return super.onOptionsItemSelected(paramMenuItem);
+
         case R.id.logout:
-            Connection.logout();
-            AccountManager am = AccountManager.get(RemoteFiles.this);
-            Account aaccount[] = am.getAccounts();
-            for (Account anAaccount : aaccount) {
-                if (anAaccount.type.equals("org.simpledrive")) {
-                    am.removeAccount(new Account(anAaccount.name, anAaccount.type), null, null);
-                }
-            }
+            Connection.logout(e);
             startActivity(new Intent(getApplicationContext(), org.simpledrive.Login.class));
             finish();
             break;
+
         case R.id.trash:
             displayMode = 3;
             currDir = (JSONObject) hierarchy.get(0);
             new ListContent().execute();
+            break;
 
+        case R.id.changeview:
+            String new_view = (glob_layout.equals("grid")) ? "list" : "grid";
+            setView(new_view);
+            new ListContent().execute();
     }
 
     return true;
-  }
-
-  protected void onPause()
-  {
-    super.onPause();
-  }
-
-  protected void onResume()
-  {
-    super.onResume();
   }
 }

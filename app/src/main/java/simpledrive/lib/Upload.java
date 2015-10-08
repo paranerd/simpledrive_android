@@ -1,4 +1,4 @@
-package simpledrive.library;
+package simpledrive.lib;
 
 import java.io.File;
 import java.io.FilterOutputStream;
@@ -18,14 +18,14 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
-    		public class UploadFile implements HttpEntity {
+    		public class Upload implements HttpEntity {
     			
     			private final ProgressListener listener;
     			
     			static HttpEntity yourEntity;
     			static long totalSize;
     			
-    			public UploadFile(final ProgressListener listener)
+    			public Upload(final ProgressListener listener)
     			{
     				super();
     				this.listener = listener;
@@ -41,7 +41,7 @@ import org.apache.http.util.EntityUtils;
         			MultipartEntityBuilder reqEntity = MultipartEntityBuilder.create();
         			reqEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
         			reqEntity.addPart("0", fileBody);
-        			reqEntity.addTextBody("target", currDir.toString());
+        			reqEntity.addTextBody("target", currDir);
                     reqEntity.addTextBody("action", "upload");
                     reqEntity.addTextBody("paths", rel_path);
         			yourEntity = reqEntity.build();
@@ -66,7 +66,7 @@ import org.apache.http.util.EntityUtils;
     				return "Fail";
     			}
     			
-    			public static interface ProgressListener
+    			public interface ProgressListener
     			{
     				void transferred(Integer num);
     			}
@@ -109,9 +109,6 @@ import org.apache.http.util.EntityUtils;
                 public void writeTo(OutputStream outstream) throws IOException {
 
                     class ProxyOutputStream extends FilterOutputStream {
-                        /**
-                         * @author Stephen Colebourne
-                         */
                 		private long transferred;
                 		
                         public ProxyOutputStream(OutputStream proxy) {
@@ -150,4 +147,4 @@ import org.apache.http.util.EntityUtils;
                     yourEntity.writeTo(new ProgressiveOutputStream(outstream));
                 }
 
-            };
+            }

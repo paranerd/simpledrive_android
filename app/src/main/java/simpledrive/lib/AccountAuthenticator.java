@@ -1,4 +1,4 @@
-package simpledrive.library;
+package simpledrive.lib;
 
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;

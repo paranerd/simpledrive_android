@@ -1,4 +1,4 @@
-package simpledrive.library;
+package simpledrive.lib;
 
 import android.app.Service;
 import android.content.Intent;

@@ -1,35 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:orientation="vertical" android:padding="5.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="0.0px"
-  xmlns:android="http://schemas.android.com/apk/res/android">
+<RelativeLayout
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
     <ImageView
         android:id="@id/icon"
         android:layout_width="40.0dip"
         android:layout_height="40.0dip"
-        android:layout_marginLeft="10.0dip"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        android:scaleType="centerCrop" />
 
     <TextView
-        android:textSize="18.0sp"
-        android:textStyle="bold"
-        android:textColor="#ff555555"
-        android:ellipsize="end"
-        android:gravity="center"
         android:id="@id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="40.0dip"
-        android:layout_marginLeft="10.0dip"
-        android:layout_marginTop="2.0dip"
-        android:singleLine="true"
-        android:layout_toRightOf="@id/icon" />
-
-    <TextView
-        android:textSize="12.0sp"
-        android:textColor="#ffaaaaaa"
-        android:id="@id/size"
-        android:paddingBottom="5.0dip"
+        android:textSize="17.0sp"
+        android:textStyle="bold"
+        android:textColor="#ff000000"
+        android:ellipsize="middle"
+        android:gravity="top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10.0dip"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:singleLine="true"
+        android:layout_toRightOf="@id/icon"
+        android:includeFontPadding="false"/>
+
+    <TextView
+        android:textSize="13.0sp"
+        android:textColor="#ffaaaaaa"
+        android:id="@id/size"
+        android:layout_marginBottom="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dip"
+        android:gravity="bottom"
         android:singleLine="true"
         android:layout_toRightOf="@id/icon"
         android:layout_below="@id/name"
@@ -39,10 +48,10 @@
         android:textSize="12.0sp"
         android:textColor="#ff2e8b57"
         android:id="@id/owner"
-        android:paddingBottom="5.0dip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10.0dip"
+        android:gravity="bottom"
+        android:layout_marginBottom="16.0dip"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true" />
 </RelativeLayout>

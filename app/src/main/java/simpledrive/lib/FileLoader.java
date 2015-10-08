@@ -1,4 +1,4 @@
-package simpledrive.library;
+package simpledrive.lib;
 
 import java.io.File;
 import java.sql.Date;
@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 
 import org.simpledrive.R;
 
@@ -17,9 +16,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Environment;
 import android.support.v4.content.AsyncTaskLoader;
-import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 	public class FileLoader extends AsyncTaskLoader<ArrayList<Item>> {
@@ -72,7 +69,7 @@ import android.webkit.MimeTypeMap;
 	   				String type = "file";
 	   				img = BitmapFactory.decodeResource(context.getResources(), R.drawable.unknown_thumb);
 	   				Long lsize = ff.length();
-	   				String size = convertSize(lsize.toString());
+	   				String size = Helper.convertSize(lsize.toString());
 	   				String extension = MimeTypeMap.getFileExtensionFromUrl(ff.getAbsolutePath());
 	   				if(extension != null) {
 	   					MimeTypeMap mime = MimeTypeMap.getSingleton();
@@ -93,13 +90,13 @@ import android.webkit.MimeTypeMap;
 	   	 {    
 	   		 
 	   	 }
-	   	 	directories = sort(directories);
-	   	 	files = sort(files);
+	   	 	directories = Helper.sort(directories);
+	   	 	files = Helper.sort(files);
 	   	 	directories.addAll(files);
 			 if(!currentDir.getName().equalsIgnoreCase("")) {
 				 prevDir = currentDir.getParent();
 			 }
-	   	 	getThumbs();
+	   	 	//getThumbs();
 			return directories;
 		}
 		
@@ -166,58 +163,6 @@ import android.webkit.MimeTypeMap;
 			// Nothing to do here for a simple List
 		}
 
-private static ArrayList<Item> sort(ArrayList<Item> list) {
-	Collections.sort(list, new Comparator<Item>() {
-		@Override
-		public int compare(Item o1, Item o2) {
-			return o1.getFilename().toLowerCase().compareTo(o2.getFilename().toLowerCase());
-		}
-	});
-	return list;
-}
-
-// Helper
-protected static String convertSize(String sSize) {
-	float size = Integer.parseInt(sSize);
-	String convSize;
-	
-	if(size > 1073741824) {
-		convSize = Math.floor((size / 1073741824) * 100) / 100 + " GB";
-	}
-	else if(size > 1048576) {
-		convSize = Math.floor((size / 1048576) * 100) / 100 + " MB";
-	}
-	else if(size > 1024) {
-		convSize = Math.floor((size / 1024) * 100) / 100 + " KB";
-	}
-	else {
-		convSize = size + " Byte";
-	}
-	return convSize;
-}
-
-static Bitmap Shrinkmethod(String file, int width, int height){
-    BitmapFactory.Options bitopt=new BitmapFactory.Options();
-    bitopt.inJustDecodeBounds=true;
-    Bitmap bit=BitmapFactory.decodeFile(file, bitopt);
-
-    int h=(int) Math.ceil(bitopt.outHeight/(float)height);
-    int w=(int) Math.ceil(bitopt.outWidth/(float)width);
-
-    if(h>1 || w>1){
-        if(h>w){
-            bitopt.inSampleSize=h;
-
-        }else{
-            bitopt.inSampleSize=w;
-        }
-    }
-    bitopt.inJustDecodeBounds=false;
-    bit=BitmapFactory.decodeFile(file, bitopt);
-
-    return bit;
-}
-
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 private void getThumbs() {
 	int index = 0;
@@ -262,7 +207,7 @@ private class Thumb extends AsyncTask<HashMap<String, Object>, Bitmap, HashMap<S
  		
  		HashMap<String, Object> hmBitmap = new HashMap<String, Object>();
  		
- 		Bitmap img = Shrinkmethod(path, 50, 50);
+ 		Bitmap img = Helper.shrink(path, 50, 50);
  		hmBitmap.put("img", img);
  		hmBitmap.put("position", position);
  		hmBitmap.put("task", task);
