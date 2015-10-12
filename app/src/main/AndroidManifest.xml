@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="18" />
+        android:targetSdkVersion="21" />
 
     <application
         android:allowBackup="true"
@@ -18,8 +18,17 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
         <activity
@@ -28,7 +37,7 @@
         <activity
             android:name=".Login"
             android:label="Login"
-            android:theme="@style/LoginTheme"
+            android:theme="@style/MainTheme"
             android:windowSoftInputMode="stateAlwaysVisible" >
         </activity>
         <service android:name="simpledrive.lib.AuthenticationService">
@@ -41,7 +50,7 @@
         <activity
             android:name="org.simpledrive.ImageViewer"
             android:label="Image Viewer"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            android:theme="@style/MainThemeFullscreen" >
         </activity>
         <activity
             android:name="org.simpledrive.NotificationHandler"

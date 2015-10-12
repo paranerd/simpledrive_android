@@ -21,7 +21,6 @@ public class ImageLoader extends AsyncTask<String, String, Bitmap> {
     public final String PREFS_NAME = "org.simpledrive.shared_pref";
     SharedPreferences settings = RemoteFiles.e.getSharedPreferences(PREFS_NAME, 0);
     String server = settings.getString("server", "");
-    private boolean fullSize;
 
     public interface TaskListener {
         void onFinished(Bitmap bmp);
@@ -30,10 +29,9 @@ public class ImageLoader extends AsyncTask<String, String, Bitmap> {
     // This is the reference to the associated listener
     private final TaskListener taskListener;
 
-    public ImageLoader(boolean fullSize, TaskListener listener) {
+    public ImageLoader(TaskListener listener) {
         // The listener reference is passed in through the constructor
         this.taskListener = listener;
-        this.fullSize = fullSize;
     }
 
     @Override
@@ -63,10 +61,10 @@ public class ImageLoader extends AsyncTask<String, String, Bitmap> {
             if (resEntity != null) {
                 InputStream in = resEntity.getContent();
                 bmp = BitmapFactory.decodeStream(in);
-                Log.i("width: " + bmp.getWidth(), "height: " + bmp.getHeight());
                 File imgFile = new File(filepath);
 
                 if(bmp == null || !imgFile.createNewFile()) {
+                    in.close();
                     return null;
                 }
 
@@ -80,6 +78,7 @@ public class ImageLoader extends AsyncTask<String, String, Bitmap> {
                 else {
                     bmp.compress(Bitmap.CompressFormat.JPEG, 85, fos);
                 }
+                in.close();
             }
         }
         catch (Exception e)
@@ -92,7 +91,6 @@ public class ImageLoader extends AsyncTask<String, String, Bitmap> {
 
     @Override
     protected void onPostExecute(final Bitmap bmp) {
-        // In onPostExecute we check if the listener is valid
         if(this.taskListener != null) {
             // And if it is we call the callback function on it.
             this.taskListener.onFinished(bmp);

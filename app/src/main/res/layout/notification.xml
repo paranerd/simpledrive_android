@@ -1,8 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@id/notification" android:layout_width="fill_parent" android:layout_height="fill_parent"
+<RelativeLayout
+    android:id="@id/notification"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
   xmlns:android="http://schemas.android.com/apk/res/android">
-    <ImageView android:id="@id/notifimage" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginLeft="-4.0dip" android:layout_marginRight="20.0px" />
-    <ImageView android:id="@id/notifexit" android:background="@drawable/cross" android:layout_width="18.0dip" android:layout_height="18.0dip" android:layout_marginTop="10.0dip" android:layout_marginRight="10.0dip" android:layout_alignParentRight="true" />
-    <ImageView android:id="@id/notifbutton" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginRight="10.0px" android:layout_toLeftOf="@id/notifexit" />
-    <TextView android:textSize="17.0dip" android:textColor="#ffeeeeee" android:gravity="center_vertical" android:id="@id/notiftitle" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginLeft="5.0dip" android:singleLine="true" android:layout_toLeftOf="@id/notifbutton" android:layout_toRightOf="@id/notifimage" style="Custom Notification Title" />
+
+    <ImageView
+        android:id="@id/notifimage"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="-4.0dip"
+        android:layout_marginRight="20.0px" />
+
+    <ImageView
+        android:id="@id/notifexit"
+        android:background="@drawable/cross"
+        android:layout_width="18.0dip"
+        android:layout_height="18.0dip"
+        android:layout_marginTop="10.0dip"
+        android:layout_marginRight="10.0dip"
+        android:layout_alignParentRight="true" />
+
+    <ImageView
+        android:id="@id/notifbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginRight="10.0px"
+        android:layout_toLeftOf="@id/notifexit" />
+
+    <TextView
+        android:textSize="17.0dip"
+        android:textColor="#ffeeeeee"
+        android:gravity="center_vertical"
+        android:id="@id/notiftitle"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="5.0dip"
+        android:singleLine="true"
+        android:layout_toLeftOf="@id/notifbutton"
+        android:layout_toRightOf="@id/notifimage"
+        style="Custom Notification Title" />
 </RelativeLayout>

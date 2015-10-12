@@ -9,8 +9,10 @@ import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class FileAdapter extends ArrayAdapter<Item> {
@@ -60,7 +62,6 @@ public class FileAdapter extends ArrayAdapter<Item> {
 		ImageView thumb;
 		TextView name;
 		TextView size;
-		int position;
 	}
 	
     public void setData(ArrayList<Item> arg1) {

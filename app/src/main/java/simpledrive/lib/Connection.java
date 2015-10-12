@@ -62,6 +62,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
@@ -109,6 +110,8 @@ public class Connection
              BasicHttpParams basichttpparams = new BasicHttpParams();
              HttpProtocolParams.setVersion(basichttpparams, HttpVersion.HTTP_1_1);
              HttpProtocolParams.setContentCharset(basichttpparams, "UTF-8");
+             HttpConnectionParams.setConnectionTimeout(basichttpparams, 3000);
+             HttpConnectionParams.setSoTimeout(basichttpparams, 5000);
              SchemeRegistry schemeregistry = new SchemeRegistry();
              schemeregistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
              schemeregistry.register(new Scheme("https", mysslsocketfactory, 443));
@@ -164,7 +167,7 @@ public class Connection
             HttpPost httpPost = new HttpPost(url);
 
             // add your data
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            List<NameValuePair> nameValuePairs = new ArrayList<>(2);
             for (String key : data.keySet()) {
                 String value = data.get(key);
                 nameValuePairs.add(new BasicNameValuePair(key, value));

@@ -4,8 +4,6 @@ import java.io.File;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 
 import org.simpledrive.R;
@@ -58,7 +56,7 @@ import android.webkit.MimeTypeMap;
 	   				int buf = (fbuf != null) ? fbuf.length : 0;
 	   				
 	   				String num_item = String.valueOf(buf);
-	   				num_item += (buf == 0) ? " item" : " items";
+	   				num_item += (buf == 1) ? " item" : " items";
 	   				img = BitmapFactory.decodeResource(context.getResources(), R.drawable.folder_thumb);
 	   				
 	   				Item item = new Item(ff.getName(), num_item, date_modify, ff.getAbsolutePath(), img, "folder");
@@ -101,9 +99,12 @@ import android.webkit.MimeTypeMap;
 		}
 		
 		@Override
-		public void deliverResult(ArrayList<Item> dirs) {
-			if (isReset()) {
-				if(dirs != null) {
+		public void deliverResult(ArrayList<Item> dirs)
+		{
+			if (isReset())
+			{
+				if(dirs != null)
+				{
 					onReleaseResources(dirs);
 					return;
 				}
@@ -111,27 +112,33 @@ import android.webkit.MimeTypeMap;
 			ArrayList<Item> oldAlbum = directories;
 			directories = dirs;
 			
-			if(isStarted()) {
+			if(isStarted())
+			{
 				super.deliverResult(dirs);
 			}
 			
-			if(oldAlbum != null && oldAlbum != dirs) {
+			if(oldAlbum != null && oldAlbum != dirs)
+			{
 				onReleaseResources(oldAlbum);
 			}
 		}
 		
 		@Override
-		public void forceLoad() {
+		public void forceLoad()
+		{
 			super.forceLoad();
 		}
 		
 		@Override
-		protected void onStartLoading() {
-			if(directories != null) {
+		protected void onStartLoading()
+		{
+			if(directories != null)
+			{
 				deliverResult(directories);
 			}
 			
-			if(takeContentChanged()) {
+			if(takeContentChanged())
+			{
 				forceLoad();
 			} else if (directories == null) {
 				forceLoad();
@@ -139,27 +146,32 @@ import android.webkit.MimeTypeMap;
 		}
 		
 		@Override
-		protected void onStopLoading() {
+		protected void onStopLoading()
+		{
 			cancelLoad();
 		}
 
 		@Override
-		protected void onReset() {
+		protected void onReset()
+		{
 			onStopLoading();
 			
-			if(directories != null) {
+			if(directories != null)
+			{
 				onReleaseResources(directories);
 				directories = null;
 			}
 		}
 		
 		@Override
-		public void onCanceled(ArrayList<Item> dir) {
+		public void onCanceled(ArrayList<Item> dir)
+		{
 			super.onCanceled(dir);
 			onReleaseResources(dir);
 		}
 		
-		protected void onReleaseResources(ArrayList<Item> albumList) {
+		protected void onReleaseResources(ArrayList<Item> albumList)
+		{
 			// Nothing to do here for a simple List
 		}
 
@@ -168,59 +180,62 @@ private void getThumbs() {
 	int index = 0;
 	int imgIndex = 0;
 	for(Item i : directories) {
+		if(imgIndex >= 10) {
+			break;
+		}
 		if(i.getType().equals("image")) {
 			HashMap<String, Object> hm = new HashMap<String, Object>();
 			hm.put("path", i.getPath());
 			hm.put("pos", index);
 			hm.put("current", currentTask);
 			Thumb thmb = new Thumb();
-		    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB && imgIndex < 100) {
+		    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 		        thmb.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, hm);
-		      }
-		      else {
-		        thmb.execute(hm);
-		      }
+			}
+		    else {
+		    	thmb.execute(hm);
+			}
 		    imgIndex++;
 		}
 		index++;
 	}
 }
 
-private class Thumb extends AsyncTask<HashMap<String, Object>, Bitmap, HashMap<String, Object>> {
-	  
+private class Thumb extends AsyncTask<HashMap<String, Object>, Bitmap, Bitmap>
+{
+	private int position;
+	private int task;
+
  	@Override
-     protected void onPreExecute() {
+	protected void onPreExecute()
+	{
          super.onPreExecute();
  	}
  	
  	@Override
-     protected HashMap<String, Object> doInBackground(HashMap<String, Object>... hm) {
- 		Integer task = (Integer) hm[0].get("current");
- 		if(task != currentTask) {
+	protected Bitmap doInBackground(HashMap<String, Object>... hm)
+	{
+ 		task = (Integer) hm[0].get("current");
+ 		if(task != currentTask)
+		{
  			cancel(true);
  		}
- 		if(isCancelled()) {
+
+ 		if(isCancelled())
+		{
  			return null;
  		}
+
  		String path = (String) hm[0].get("path");
- 		int position = (Integer) hm[0].get("pos");
- 		
- 		HashMap<String, Object> hmBitmap = new HashMap<String, Object>();
- 		
- 		Bitmap img = Helper.shrink(path, 50, 50);
- 		hmBitmap.put("img", img);
- 		hmBitmap.put("position", position);
- 		hmBitmap.put("task", task);
- 		return hmBitmap;
+ 		position = (Integer) hm[0].get("pos");
+
+ 		return Helper.shrink2(path, 50);
  	}
  	 @Override
-      protected void onPostExecute(HashMap<String, Object> result) {
- 		 int pos = (Integer) result.get("position");
- 		 Bitmap img2 = (Bitmap) result.get("img");
- 		 int task = (Integer) result.get("task");
+      protected void onPostExecute(Bitmap result) {
  		 
  		if(task == currentTask && directories != null && adapter != null) {
- 		 directories.get(pos).setImg(img2);
+ 		 directories.get(position).setImg(result);
  		 adapter.notifyDataSetChanged();
  		}
  	 }

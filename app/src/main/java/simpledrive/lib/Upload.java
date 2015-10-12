@@ -1,5 +1,7 @@
 package simpledrive.lib;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.FilterOutputStream;
 import java.io.IOException;
@@ -34,7 +36,7 @@ import org.apache.http.util.EntityUtils;
     			public static String upload(HttpEntity theEntity, String url, String path, String rel_path, String currDir) {
         			DefaultHttpClient httpClient = Connection.getThreadSafeClient();
         			HttpPost httpPost = new HttpPost(url);
-        			
+
         			File file = new File(path);
         			ContentBody fileBody = new FileBody(file);
         			
@@ -63,7 +65,7 @@ import org.apache.http.util.EntityUtils;
         				// TODO Auto-generated catch block
         				e.printStackTrace();
         			}
-    				return "Fail";
+    				return "Error uploading";
     			}
     			
     			public interface ProgressListener

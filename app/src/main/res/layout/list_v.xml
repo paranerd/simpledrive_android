@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:id="@+id/wrapper"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingLeft="16dp"
+        android:gravity="center_vertical"
+        android:textSize="15.0sp"
+        android:textColor="#ffaaaaaa"
+        android:background="#fff3f3f3"
+        android:visibility="gone"/>
+
+<RelativeLayout
+    android:id="@+id/inner"
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:layout_width="match_parent"
     android:layout_height="72dp"
+    android:layout_marginTop="0dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
 
@@ -23,7 +42,7 @@
         android:ellipsize="middle"
         android:gravity="top"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:singleLine="true"
@@ -41,7 +60,7 @@
         android:gravity="bottom"
         android:singleLine="true"
         android:layout_toRightOf="@id/icon"
-        android:layout_below="@id/name"
+
         android:layout_alignParentBottom="true" />
 
     <TextView
@@ -54,4 +73,5 @@
         android:layout_marginBottom="16.0dip"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true" />
+</RelativeLayout>
 </RelativeLayout>

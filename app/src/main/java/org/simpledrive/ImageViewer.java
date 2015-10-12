@@ -34,7 +34,6 @@ public class ImageViewer extends Activity {
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_imageviewer);
 
@@ -74,9 +73,7 @@ public class ImageViewer extends Activity {
 		int height = displaymetrics.heightPixels;
 		int width = displaymetrics.widthPixels;
 
-		Log.i("target_width: " + width, "target_height: " + height);
-
-		ImageLoader task = new ImageLoader(true, new ImageLoader.TaskListener() {
+		ImageLoader task = new ImageLoader(new ImageLoader.TaskListener() {
 			@Override
 			public void onFinished(final Bitmap bmp) {
 				runOnUiThread(new Runnable() {
