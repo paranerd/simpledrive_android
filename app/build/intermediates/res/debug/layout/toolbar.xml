@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    android:background="@color/darkgreen"
+    android:elevation="4dp"
+    >
+</android.support.v7.widget.Toolbar><!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/layout/toolbar.xml -->

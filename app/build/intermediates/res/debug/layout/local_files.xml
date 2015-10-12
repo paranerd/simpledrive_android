@@ -5,6 +5,10 @@
     android:layout_height="match_parent"
   	xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+
     <TextView
         android:textSize="20.0sp"
         android:textColor="#ffb3b3b3"
@@ -20,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#ffb3b3b3"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="56dp"
         android:listSelector="@drawable/bkg_light"
         android:choiceMode="singleChoice"
         android:layout_alignParentTop="true" />

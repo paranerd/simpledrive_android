@@ -7,9 +7,11 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -27,7 +29,7 @@ import simpledrive.lib.FileAdapter;
 import simpledrive.lib.FileLoader;
 import simpledrive.lib.Item;
 
-public class LocalFiles extends FragmentActivity implements LoaderManager.LoaderCallbacks<ArrayList<Item>> {
+public class LocalFiles extends ActionBarActivity implements LoaderManager.LoaderCallbacks<ArrayList<Item>> {
 	static FileAdapter mAdapter;
 	
 	static ListView list;
@@ -44,8 +46,13 @@ public class LocalFiles extends FragmentActivity implements LoaderManager.Loader
 	
 	private static File currentDir;
 	public static String currentPath;
+
+	private Toolbar toolbar;
 	
 	public void refresh() {
+		if(toolbar != null) {
+			toolbar.setTitle(currentDir.getName());
+		}
 		getSupportLoaderManager().restartLoader(0, null, this).forceLoad();
 	}
 	
@@ -88,10 +95,10 @@ public class LocalFiles extends FragmentActivity implements LoaderManager.Loader
 						}
 						scrollPos.add(scrollArrayPos, position);
 						scrollArrayPos++;
-							currentDir = new File(item.getPath());
-							currentPath = item.getPath();
-							FileLoader.currentDir = currentDir;
-							refresh();
+						currentDir = new File(item.getPath());
+						currentPath = item.getPath();
+						FileLoader.currentDir = currentDir;
+						refresh();
 					}
 					else
 					{
@@ -102,6 +109,12 @@ public class LocalFiles extends FragmentActivity implements LoaderManager.Loader
 					}
 			}
 		});
+
+		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		if(toolbar != null) {
+			toolbar.setTitle(currentDir.getName());
+		}
     }
     
 	

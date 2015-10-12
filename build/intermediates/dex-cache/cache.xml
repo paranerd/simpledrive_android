@@ -2,39 +2,32 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\paranerd\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-v4\18.0.0\support-v4-18.0.0.jar"
+        jar="C:\Users\paranerd\Documents\simpledrive_android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.0.0\jars\classes.jar"
         jumboMode="false"
         revision="22.0.0"
-        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
-        <dex dex="C:\Users\paranerd\Documents\simpledrive_android\app\build\intermediates\pre-dexed\debug\support-v4-18.0.0-8256dca65c77665ca573126616e987ff859fa654.jar" />
+        sha1="d84409890828e07d344a3b9b1da545dba9897b51">
+        <dex dex="C:\Users\paranerd\Documents\simpledrive_android\app\build\intermediates\pre-dexed\debug\classes-35de1338ed81119aa3ccb7d07e064a3d81b96b0f.jar" />
     </item>
     <item
-        jar="C:\Users\paranerd\Documents\simpledrive_android\app\libs\httpmime-4.3.1.jar"
+        jar="C:\Users\paranerd\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
         jumboMode="false"
         revision="22.0.0"
-        sha1="f49e2348b768a7199e021a97e951df25cd5fb714">
-        <dex dex="C:\Users\paranerd\Documents\simpledrive_android\app\build\intermediates\pre-dexed\debug\httpmime-4.3.1-df62aaf1d1db80178dfa2bcb899280a7ec5f1863.jar" />
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="C:\Users\paranerd\Documents\simpledrive_android\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.1-99bdcf8ec1e3b40a5a5a5df4d4d42343b0a9d57b.jar" />
     </item>
     <item
-        jar="C:\Users\paranerd\Documents\simpledrive_android\app\libs\commons-io-2.4.jar"
+        jar="C:\Users\paranerd\Documents\simpledrive_android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
         jumboMode="false"
         revision="22.0.0"
-        sha1="b1b6ea3b7e4aa4f492509a4952029cd8e48019ad">
-        <dex dex="C:\Users\paranerd\Documents\simpledrive_android\app\build\intermediates\pre-dexed\debug\commons-io-2.4-90c44f65a63f49b84ae790bd614697934a152dad.jar" />
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="C:\Users\paranerd\Documents\simpledrive_android\app\build\intermediates\pre-dexed\debug\classes-62ac660e1ec71f5d53e28c2831c573d1cfd22847.jar" />
     </item>
     <item
-        jar="C:\Users\paranerd\Documents\simpledrive_android\app\libs\httpcore-4.3.1.jar"
+        jar="C:\Users\paranerd\Documents\simpledrive_android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
         jumboMode="false"
         revision="22.0.0"
-        sha1="98e2eefcf524f757188f172642ecf5e2c7421947">
-        <dex dex="C:\Users\paranerd\Documents\simpledrive_android\app\build\intermediates\pre-dexed\debug\httpcore-4.3.1-970202fff419ec8ddae705fd5ae08a45295cae72.jar" />
-    </item>
-    <item
-        jar="C:\Users\paranerd\Documents\simpledrive_android\app\libs\apache-mime4j-0.6.1.jar"
-        jumboMode="false"
-        revision="22.0.0"
-        sha1="aef60852d64c66a92bc881f41c1718276df7be5a">
-        <dex dex="C:\Users\paranerd\Documents\simpledrive_android\app\build\intermediates\pre-dexed\debug\apache-mime4j-0.6.1-f523f9de26f9d2f3103f0f8b55165d4b7cd65388.jar" />
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="C:\Users\paranerd\Documents\simpledrive_android\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.1-e062a574d8d4d1543bda3fff8f5a573e5b603945.jar" />
     </item>
 
 </items>

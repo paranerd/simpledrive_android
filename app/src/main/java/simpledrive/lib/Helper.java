@@ -35,20 +35,45 @@ public class Helper {
         return Bitmap.createScaledBitmap(bmp, newWidth, newHeight, false);
     }
 
+    public static Bitmap shrink2(String file, int size) {
+        BitmapFactory.Options o = new BitmapFactory.Options();
+        o.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(file, o);
+
+        int width_tmp = o.outWidth;
+        int height_tmp = o.outHeight;
+        int scale = (int) Math.pow(2, (double)(0 - 1));
+
+        while(true)
+        {
+            if(width_tmp / size < size || height_tmp < size)
+            {
+                break;
+            }
+            width_tmp /= 2;
+            height_tmp /= 2;
+            scale++;
+        }
+
+        BitmapFactory.Options o2 = new BitmapFactory.Options();
+        o2.inSampleSize = scale;
+        return BitmapFactory.decodeFile(file, o2);
+    }
+
     public static Bitmap shrink(String file, int width, int height){
         BitmapFactory.Options bitopt = new BitmapFactory.Options();
         bitopt.inJustDecodeBounds = true;
 
-        int h = (int) Math.ceil(bitopt.outHeight / (float)height);
+        int h = (int) Math.ceil(bitopt.outHeight / (float) height);
         int w = (int) Math.ceil(bitopt.outWidth / (float)width);
 
         if(h > 1 || w > 1){
             if(h > w){
-                bitopt.inSampleSize=h;
+                bitopt.inSampleSize = h;
 
             }
             else{
-                bitopt.inSampleSize=w;
+                bitopt.inSampleSize = w;
             }
         }
         bitopt.inJustDecodeBounds = false;
@@ -108,6 +133,14 @@ public class Helper {
         DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
         int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
         return px;
+    }
+
+    public static int pxToDp(int px) {
+        DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
+        float logicalDensity = displayMetrics.density;
+
+        int dp = (int) Math.ceil(px / logicalDensity);
+        return dp;
     }
 
 
