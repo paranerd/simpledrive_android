@@ -110,6 +110,7 @@ public class RemoteFiles extends ActionBarActivity {
     private Toolbar toolbar;
     private ImageButton bUpload;
     private ImageButton bCreate;
+    private Menu mMenu;
 
     // Files
     private static ArrayList<NewItem> items = new ArrayList<>();
@@ -1359,10 +1360,16 @@ public class RemoteFiles extends ActionBarActivity {
             list = (ListView) findViewById(R.id.list);
             GridView tmp_grid = (GridView) findViewById(R.id.grid);
             tmp_grid.setVisibility(View.GONE);
+            if(mMenu != null) {
+                mMenu.findItem(R.id.toggle_view).setIcon(R.drawable.ic_grid);
+            }
         } else {
             list = (GridView) findViewById(R.id.grid);
             ListView tmp_list = (ListView) findViewById(R.id.list);
             tmp_list.setVisibility(View.GONE);
+            if(mMenu != null) {
+                mMenu.findItem(R.id.toggle_view).setIcon(R.drawable.ic_list);
+            }
         }
         list.setVisibility(View.VISIBLE);
 
@@ -1418,6 +1425,7 @@ public class RemoteFiles extends ActionBarActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        mMenu = menu;
         if(globLayout.equals("list")) {
             menu.findItem(R.id.toggle_view).setIcon(R.drawable.ic_grid);
         } else {

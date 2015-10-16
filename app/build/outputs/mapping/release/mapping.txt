@@ -9449,10 +9449,11 @@ org.simpledrive.RemoteFiles -> org.simpledrive.RemoteFiles:
     android.support.v7.widget.Toolbar toolbar -> F
     android.widget.ImageButton bUpload -> G
     android.widget.ImageButton bCreate -> H
-    java.util.ArrayList items -> I
-    java.util.ArrayList hierarchy -> J
-    java.lang.Integer firstFilePos -> K
-    org.simpledrive.RemoteFiles$NewFileAdapter newAdapter -> L
+    android.view.Menu mMenu -> I
+    java.util.ArrayList items -> J
+    java.util.ArrayList hierarchy -> K
+    java.lang.Integer firstFilePos -> L
+    org.simpledrive.RemoteFiles$NewFileAdapter newAdapter -> M
     android.content.ServiceConnection mServiceConnection -> n
     void listContent(org.json.JSONArray) -> a
     void openFile(int) -> a
