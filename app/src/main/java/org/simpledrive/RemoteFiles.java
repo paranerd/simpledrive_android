@@ -34,6 +34,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.TypefaceSpan;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
@@ -552,6 +553,8 @@ public class RemoteFiles extends ActionBarActivity {
     }
 
     public class Connect extends AsyncTask<String, String, String> {
+        Account[] sc;
+
     	@Override
         protected void onPreExecute() {
             loginAttemts++;
@@ -562,7 +565,7 @@ public class RemoteFiles extends ActionBarActivity {
     	@Override
         protected String doInBackground(String... login) {
             AccountManager accMan = AccountManager.get(RemoteFiles.this);
-            Account[] sc = accMan.getAccountsByType("org.simpledrive");
+            sc = accMan.getAccountsByType("org.simpledrive");
 
             if (sc.length == 0 || loginAttemts > 1) {
                 return null;
@@ -599,6 +602,31 @@ public class RemoteFiles extends ActionBarActivity {
              } else {
                  Toast.makeText(e, "Error reconnecting", Toast.LENGTH_SHORT).show();
                  empty.setText("Error reconnecting");
+                 mSwipeRefreshLayout.setEnabled(true);
+
+                 JSONObject obj = new JSONObject();
+                 try {
+                     obj.put("filename", "test");
+                     obj.put("parent", "");
+                     obj.put("type", "unknown");
+                     obj.put("size", "0");
+                     obj.put("owner", "");
+                     obj.put("edit", "");
+                     obj.put("rootshare", "");
+                     obj.put("hash", "");
+                     obj.put("closeshare", "");
+                 } catch (JSONException e1) {
+                     e1.printStackTrace();
+                 }
+
+                 JSONArray arr = new JSONArray();
+                 arr.put(obj);
+                 //listContent(arr);
+
+                 if(sc.length == 0) {
+                     Intent i = new Intent(e.getApplicationContext(), Login.class);
+                     e.startActivity(i);
+                 }
              }
     	 }
     }
@@ -1268,11 +1296,9 @@ public class RemoteFiles extends ActionBarActivity {
             }
         });
 
-        toggleButton.setOnClickListener(new View.OnClickListener()
-        {
+        toggleButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 if (bCreate.getVisibility() == View.GONE) {
                     bCreate.setVisibility(View.VISIBLE);
                     bUpload.setVisibility(View.VISIBLE);
@@ -1304,8 +1330,9 @@ public class RemoteFiles extends ActionBarActivity {
                 }
             }
         });
+
         mSwipeRefreshLayout.setColorSchemeResources(R.color.darkgreen, R.color.darkgreen, R.color.darkgreen, R.color.darkgreen);
-        mSwipeRefreshLayout.setProgressViewOffset(false, Helper.dpToPx(56), Helper.dpToPx(56) + 100);
+        mSwipeRefreshLayout.setProgressViewOffset(true, Helper.dpToPx(56), Helper.dpToPx(56) + 100);
 
         settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
         server = settings.getString("server", "");
@@ -1316,7 +1343,7 @@ public class RemoteFiles extends ActionBarActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(getSelectedElem().length() > 0 && !longClicked) {
+                if (getSelectedElem().length() > 0 && !longClicked) {
                     toggleSelection(position);
                 } else if (!longClicked) {
                     openFile(position);
@@ -1333,10 +1360,13 @@ public class RemoteFiles extends ActionBarActivity {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                boolean enable = (list != null && list.getChildCount() > 0 && list.getFirstVisiblePosition() == 0 && list.getChildAt(0).getTop() == 0);
-                mSwipeRefreshLayout.setEnabled(enable);
+                Log.i("on", "scroll");
+                //boolean enable = (list != null && list.getChildCount() > 0 && list.getFirstVisiblePosition() == 0 && list.getChildAt(0).getTop() == 0);
+                //mSwipeRefreshLayout.setEnabled(enable);
             }
         });
+
+        mSwipeRefreshLayout.setEnabled(true);
 
         // Create image cache folder
         File tmp = new File(tmpFolder);
