@@ -9,6 +9,8 @@ public class Item {
 	private String path;
 	private Bitmap img;
 	private String type;
+	private boolean thumbLoading = false;
+	private boolean selected = false;
 	
 	public Item(String filename, String data, String date, String path, Bitmap img, String type) {
 		this.filename = filename;
@@ -17,6 +19,10 @@ public class Item {
 		this.path = path;
 		this.img = img;
 		this.type = type;
+	}
+
+	public boolean is(String type) {
+		return this.type.equals(type);
 	}
 	
 	public String getFilename() {
@@ -37,6 +43,26 @@ public class Item {
 	
 	public Bitmap getImg() {
 		return this.img;
+	}
+
+	public boolean isThumbLoading() {
+		return this.thumbLoading;
+	}
+
+	public void setThumbLoading() {
+		this.thumbLoading = true;
+	}
+
+	public boolean isSelected() {
+		return this.selected;
+	}
+
+	public void setSelected(boolean value) {
+		this.selected = value;
+	}
+
+	public void toggleSelection() {
+		this.selected = !this.selected;
 	}
 	
 	public String getType() {

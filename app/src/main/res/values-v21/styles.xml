@@ -11,7 +11,16 @@
         <item name="android:colorAccent">@color/darkgreen</item>
         <item name="windowActionBar">false</item>
     </style>
+
     <style name="MainThemeFullscreen" parent="MainTheme">
         <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="ToolbarTitle" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/darkwhite</item>
+    </style>
+
+    <style name="ToolbarSubtitle" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
+        <item name="android:textSize">12sp</item>
     </style>
 </resources>

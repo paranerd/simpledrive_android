@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -19,18 +18,15 @@ import java.net.URLEncoder;
 
 public class ImageLoader extends AsyncTask<String, String, Bitmap> {
     public final String PREFS_NAME = "org.simpledrive.shared_pref";
-    SharedPreferences settings = RemoteFiles.e.getSharedPreferences(PREFS_NAME, 0);
-    String server = settings.getString("server", "");
+    private SharedPreferences settings = RemoteFiles.e.getSharedPreferences(PREFS_NAME, 0);
+    private String server = settings.getString("server", "");
+    private final TaskListener taskListener;
 
     public interface TaskListener {
         void onFinished(Bitmap bmp);
     }
 
-    // This is the reference to the associated listener
-    private final TaskListener taskListener;
-
     public ImageLoader(TaskListener listener) {
-        // The listener reference is passed in through the constructor
         this.taskListener = listener;
     }
 
@@ -69,20 +65,16 @@ public class ImageLoader extends AsyncTask<String, String, Bitmap> {
                 }
 
                 FileOutputStream fos = new FileOutputStream(imgFile);
-                bmp = Helper.shrinkBitmap(bmp);
 
                 // Only cache png-s as PNG to save storage
                 if(filename.substring(filename.length() - 3).equals("png")) {
                     bmp.compress(Bitmap.CompressFormat.PNG, 85, fos);
-                }
-                else {
+                } else {
                     bmp.compress(Bitmap.CompressFormat.JPEG, 85, fos);
                 }
                 in.close();
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -92,7 +84,6 @@ public class ImageLoader extends AsyncTask<String, String, Bitmap> {
     @Override
     protected void onPostExecute(final Bitmap bmp) {
         if(this.taskListener != null) {
-            // And if it is we call the callback function on it.
             this.taskListener.onFinished(bmp);
         }
     }

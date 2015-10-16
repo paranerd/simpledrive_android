@@ -12,73 +12,27 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class Helper {
-
-    public static Bitmap shrinkBitmap(Bitmap bmp) {
-        int imgHeight = bmp.getHeight();
-        int imgWidth = bmp.getWidth();
-
-        DisplayMetrics displaymetrics = Resources.getSystem().getDisplayMetrics();
-        int screenHeight = displaymetrics.heightPixels;
-        int screenWidth = displaymetrics.widthPixels;
-
-        int newWidth, newHeight;
-        float shrinkTo;
-
-        if (imgHeight > screenHeight || imgWidth > screenWidth) {
-            shrinkTo = Math.min((float) screenHeight / imgHeight, (float) screenWidth / imgWidth);
-            newWidth = (int) (imgWidth * shrinkTo);
-            newHeight = (int) (imgHeight * shrinkTo);
-        } else {
-            newWidth = imgWidth;
-            newHeight = imgHeight;
-        }
-        return Bitmap.createScaledBitmap(bmp, newWidth, newHeight, false);
-    }
-
-    public static Bitmap shrink2(String file, int size) {
+    public static Bitmap getThumb(String file, int size) {
         BitmapFactory.Options o = new BitmapFactory.Options();
         o.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(file, o);
 
         int width_tmp = o.outWidth;
         int height_tmp = o.outHeight;
-        int scale = (int) Math.pow(2, (double)(0 - 1));
+        float scale = 1;
 
-        while(true)
-        {
-            if(width_tmp / size < size || height_tmp < size)
-            {
-                break;
-            }
-            width_tmp /= 2;
-            height_tmp /= 2;
-            scale++;
+        // Used to scale with power of 2, but filesize is 3x as big
+        /*int ratio = Math.min(o.outWidth/size, o.outHeight / size);
+        int sampleSize = Integer.highestOneBit((int) Math.floor(ratio));
+        sampleSize = (sampleSize == 0) ? 1 : sampleSize;*/
+
+        if (height_tmp > size || width_tmp > size) {
+            scale = 1 / Math.min((float) size / height_tmp, (float) size / width_tmp);
         }
 
         BitmapFactory.Options o2 = new BitmapFactory.Options();
-        o2.inSampleSize = scale;
+        o2.inSampleSize = Math.round(scale);
         return BitmapFactory.decodeFile(file, o2);
-    }
-
-    public static Bitmap shrink(String file, int width, int height){
-        BitmapFactory.Options bitopt = new BitmapFactory.Options();
-        bitopt.inJustDecodeBounds = true;
-
-        int h = (int) Math.ceil(bitopt.outHeight / (float) height);
-        int w = (int) Math.ceil(bitopt.outWidth / (float)width);
-
-        if(h > 1 || w > 1){
-            if(h > w){
-                bitopt.inSampleSize = h;
-
-            }
-            else{
-                bitopt.inSampleSize = w;
-            }
-        }
-        bitopt.inJustDecodeBounds = false;
-
-        return BitmapFactory.decodeFile(file, bitopt);
     }
 
     public static String convertSize(String sSize) {
@@ -118,9 +72,10 @@ public class Helper {
             byte messageDigest[] = digest.digest();
 
             // Create Hex String
-            StringBuffer hexString = new StringBuffer();
-            for (int i=0; i<messageDigest.length; i++)
-                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+            StringBuilder hexString = new StringBuilder();
+            for (byte aMessageDigest : messageDigest) {
+                hexString.append(Integer.toHexString(0xFF & aMessageDigest));
+            }
             return hexString.toString();
 
         } catch (NoSuchAlgorithmException e) {
@@ -131,16 +86,14 @@ public class Helper {
 
     public static int dpToPx(int dp) {
         DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
-        int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-        return px;
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
     public static int pxToDp(int px) {
         DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
         float logicalDensity = displayMetrics.density;
 
-        int dp = (int) Math.ceil(px / logicalDensity);
-        return dp;
+        return (int) Math.ceil(px / logicalDensity);
     }
 
 

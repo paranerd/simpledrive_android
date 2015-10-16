@@ -1,184 +1,444 @@
 package org.simpledrive;
 
-import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.os.Build;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
-import simpledrive.lib.FileAdapter;
-import simpledrive.lib.FileLoader;
+import simpledrive.lib.Helper;
 import simpledrive.lib.Item;
 
-public class LocalFiles extends ActionBarActivity implements LoaderManager.LoaderCallbacks<ArrayList<Item>> {
-	static FileAdapter mAdapter;
-	
-	static ListView list;
-	static String server = "http";
-	public static final String PREFS_NAME = "org.simpledrive.shared_pref";
-	SharedPreferences settings;
-	
-	static Typeface myTypeface;
-	
-	static LocalFiles act;
-	
-	static ArrayList<Integer> scrollPos = new ArrayList<Integer>();
-	static Integer scrollArrayPos = 0;
-	
-	private static File currentDir;
-	public static String currentPath;
+public class LocalFiles extends ActionBarActivity {
+    // General
+    private static LocalFiles act;
+    private static LoadThumb thumbLoader;
 
-	private Toolbar toolbar;
-	
-	public void refresh() {
-		if(toolbar != null) {
-			toolbar.setTitle(currentDir.getName());
-		}
-		getSupportLoaderManager().restartLoader(0, null, this).forceLoad();
-	}
-	
+    // Files
+    private static NewFileAdapter mAdapter;
+    private static ArrayList<String> hierarchy = new ArrayList<>();
+    private static ArrayList<Integer> scrollPos = new ArrayList<>();
+    private ArrayList<Item> items = new ArrayList<>();
+    private Integer firstFilePos = null;
+
+    // View elements
+    private boolean longClicked = false;
+    private TextView empty;
+    private static ListView list;
+    private static Typeface myTypeface;
+    private Toolbar toolbar;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         act = this;
-        settings = getSharedPreferences(PREFS_NAME, 0);
-        server  = settings.getString("server", "");
-        
-        setContentView(R.layout.local_files);
+
+        setContentView(R.layout.activity_localfiles);
         list = (ListView)findViewById(R.id.locallist);
         list.setEmptyView(findViewById(R.id.local_empty_list_item));
-		
-		registerForContextMenu(list);
-		
-		myTypeface = Typeface.createFromAsset(getAssets(), "fonts/robotolight.ttf");
-		TextView empty = (TextView) findViewById(R.id.local_empty_list_item);
-		empty.setTypeface(myTypeface);
-		
-        currentDir = new File(Environment.getExternalStorageDirectory() + "/");
-        currentPath = Environment.getExternalStorageDirectory() + "/";
-        FileLoader.currentDir = currentDir;
 
-		getSupportLoaderManager().initLoader(0, null, this);
-		mAdapter = new FileAdapter(act, R.layout.list_v);
-		list.setAdapter(mAdapter);
-		
-		list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        registerForContextMenu(list);
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-					Item item = FileLoader.directories.get(position);
-					if(item.getType().equals("folder")) {
-						// Remove everything in scroll array below current folder-level
-						for(int i = scrollPos.size() - 1; i >= scrollArrayPos; i--) {
-							scrollPos.remove(i);
-						}
-						scrollPos.add(scrollArrayPos, position);
-						scrollArrayPos++;
-						currentDir = new File(item.getPath());
-						currentPath = item.getPath();
-						FileLoader.currentDir = currentDir;
-						refresh();
-					}
-					else
-					{
-						Intent returnIntent = new Intent();
-						returnIntent.putExtra("path", FileLoader.directories.get(position).getPath());
-						setResult(RESULT_OK, returnIntent);
-						finish();
-					}
-			}
-		});
+        myTypeface = Typeface.createFromAsset(getAssets(), "fonts/robotolight.ttf");
+        empty = (TextView) findViewById(R.id.local_empty_list_item);
+        empty.setTypeface(myTypeface);
 
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
-		if(toolbar != null) {
-			toolbar.setTitle(currentDir.getName());
-		}
+        hierarchy.add(Environment.getExternalStorageDirectory() + "/");
+
+        mAdapter = new NewFileAdapter(act, R.layout.listview);
+        list.setAdapter(mAdapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(getSelectedElem().length > 0 && !longClicked) {
+                    toggleSelection(position);
+                } else if (!longClicked) {
+                    openFile(position);
+                }
+                longClicked = false;
+            }
+        });
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if(toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
+        new ListContent().execute();
     }
-    
-	
-	@Override
-	public Loader<ArrayList<Item>> onCreateLoader(int arg0, Bundle arg1) {
-		return new FileLoader(act, mAdapter);
-	}
 
-	@Override
-	public void onLoaderReset(Loader<ArrayList<Item>> arg0) {
-		mAdapter.setData(null);
-	}
-	
-	@Override
-	public void onLoadFinished(Loader<ArrayList<Item>> arg0, ArrayList<Item> arg1) {
-		mAdapter.setData(arg1);
-		if(scrollPos.size() > 0 && scrollArrayPos < scrollPos.size()) {
-			list.setSelection(scrollPos.get(scrollArrayPos));
-		}
-	}
-    
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-    	super.onCreateContextMenu(menu, v, menuInfo);
-		menu.add(Menu.NONE, 5, 0, "Upload");
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+
+        if(!items.get(info.position).isSelected()) {
+            unselectAll();
+        }
+        items.get(info.position).setSelected(true);
+        if(list != null) {
+            if(mAdapter!= null) {
+                mAdapter.notifyDataSetChanged();
+            }
+        }
+
+        menu.add(Menu.NONE, 5, 0, "Upload");
+        menu.setHeaderTitle("Options");
     }
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case 5:
+                Toast.makeText(act, "Upload started", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent();
+                String[] paths = getSelectedElem();
+                i.putExtra("paths", paths);
+                setResult(RESULT_OK, i);
+                finish();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
 
-		switch(item.getItemId()) {
-			case 4:
-				Toast.makeText(act, "Open", Toast.LENGTH_SHORT).show();
-				return true;
-			case 5:
-				Toast.makeText(act, "Upload", Toast.LENGTH_SHORT).show();
-				Intent returnIntent = new Intent();
-				returnIntent.putExtra("path", FileLoader.directories.get(info.position).getPath());
-				setResult(RESULT_OK, returnIntent);
-				finish();
-				return true;
-			default:
-				return super.onContextItemSelected(item);
-		}
-	}
-    
     public void onBackPressed() {
-		if(!FileLoader.prevDir.equals("")) {
-			if(scrollArrayPos == 0) {
-				scrollPos.add(0, 0);
-			}
-			else {
-				scrollArrayPos--;
-			}
-			currentDir = new File(FileLoader.prevDir);
-			FileLoader.currentDir = currentDir;
-			refresh();
-		}
-		else {
-			Intent returnIntent = new Intent();
-			setResult(RESULT_CANCELED, returnIntent);
-			finish();
-		}
+        if(getSelectedElem().length != 0) {
+            unselectAll();
+
+        } else if (hierarchy.size() > 1) {
+            hierarchy.remove(hierarchy.size() - 1);
+            new ListContent().execute();
+
+        } else {
+            Intent returnIntent = new Intent();
+            setResult(RESULT_CANCELED, returnIntent);
+            finish();
+        }
+    }
+
+    public void openFile(int position) {
+        if(items.get(position).is("folder")) {
+            for(int i = scrollPos.size() - 1; i >= hierarchy.size() - 1; i--) {
+                scrollPos.remove(i);
+            }
+
+            scrollPos.add(position);
+
+            hierarchy.add(items.get(position).getPath());
+            new ListContent().execute();
+        } else {
+            Intent i = new Intent();
+            String[] paths = new String[] {items.get(position).getPath()};
+            i.putExtra("paths", paths);
+            setResult(RESULT_OK, i);
+            finish();
+        }
+        unselectAll();
+    }
+
+    /**
+     * Removes all selected Elements
+     */
+
+    private void unselectAll() {
+        for(Item item : items) {
+            item.setSelected(false);
+        }
+        invalidateOptionsMenu();
+        if(list != null) {
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private String[] getSelectedElem() {
+        List<String> list = new ArrayList<>();
+        for(Item item : items) {
+            if(item.isSelected()) {
+                list.add(item.getPath());
+            }
+        }
+        return list.toArray(new String[list.size()]);
+    }
+
+    public void toggleSelection(int position) {
+        items.get(position).toggleSelection();
+
+        invalidateOptionsMenu();
+
+        if(list != null) {
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private class ListContent extends AsyncTask<String, String, ArrayList<Item>> {
+        ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            empty.setText("Loading files...");
+            pDialog = new ProgressDialog(LocalFiles.this);
+            pDialog.setMessage("Loading files ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+            firstFilePos = null;
+            items = new ArrayList<>();
+
+            if(thumbLoader != null) {
+                thumbLoader.cancel(true);
+                thumbLoader = null;
+            }
+        }
+
+        @Override
+        protected ArrayList<Item> doInBackground(String... args) {
+
+            String dirPath = hierarchy.get(hierarchy.size() - 1);
+            File dir = new File(dirPath);
+
+            ArrayList<Item> directories = new ArrayList<>();
+            ArrayList<Item> files = new ArrayList<>();
+
+            File[] elements = dir.listFiles();
+            for (File file : elements) {
+                String filename = file.getName();
+                String path = file.getAbsolutePath();
+                String size;
+                Bitmap thumb;
+                String type;
+
+                if (file.isDirectory()) {
+                    size = "";
+                    type = "folder";
+                    thumb = BitmapFactory.decodeResource(getResources(), R.drawable.folder_thumb);
+                    directories.add(new Item(filename, size, null, path, thumb, type));
+                } else {
+                    type = getMimeType(file);
+                    switch (type) {
+                        case "image":
+                            thumb = null;
+                            break;
+                        case "audio":
+                            thumb = BitmapFactory.decodeResource(getResources(), R.drawable.audio_thumb);
+                            break;
+                        default:
+                            thumb = BitmapFactory.decodeResource(getResources(), R.drawable.unknown_thumb);
+                    }
+                    size = Helper.convertSize(file.length() + "");
+                    files.add(new Item(filename, size, null, path, thumb, type));
+                }
+            }
+            directories = Helper.sort(directories);
+            files = Helper.sort(files);
+            items.addAll(directories);
+            items.addAll(files);
+            firstFilePos = directories.size();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Item> value) {
+            pDialog.dismiss();
+            String emptyText = (items.size() == 0) ? "Nothing to see here." : "";
+            empty.setText(emptyText);
+
+            mAdapter.setData(items);
+            mAdapter.notifyDataSetChanged();
+
+            if(toolbar != null) {
+                File dir = new File(hierarchy.get(hierarchy.size() - 1));
+                SpannableString s = new SpannableString(dir.getName());
+                s.setSpan(new TypefaceSpan("fonts/robotolight.ttf"), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                toolbar.setTitle(s);
+                toolbar.setSubtitle("Folders: " + firstFilePos + ", Files: " + (items.size() - firstFilePos));
+            }
+
+            if(hierarchy.size() <= scrollPos.size()) {
+                list.setSelection(scrollPos.get(hierarchy.size() - 1));
+            }
+        }
+    }
+
+    public String getMimeType(File file) {
+        String extension = MimeTypeMap.getFileExtensionFromUrl(file.getAbsolutePath());
+        if(extension != null) {
+            MimeTypeMap mime = MimeTypeMap.getSingleton();
+            String filetype = mime.getMimeTypeFromExtension(extension);
+            if(filetype != null) {
+                String[] content = filetype.split("/");
+                if(content[0].equals("image")) {
+                    return "image";
+                } else if(content[0].equals("audio")) {
+                    return "audio";
+                }
+            }
+        }
+        return "unknown";
+    }
+
+    public class NewFileAdapter extends ArrayAdapter<Item> {
+        private LayoutInflater layoutInflater;
+        private int layout;
+
+        public NewFileAdapter(Activity mActivity, int textViewResourceId) {
+            super(mActivity, textViewResourceId);
+            layoutInflater = LayoutInflater.from(mActivity);
+            layout = textViewResourceId;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            final Item item = getItem(position);
+
+            if(convertView == null) {
+                convertView = layoutInflater.inflate(layout, null);
+                convertView.setBackgroundResource(R.drawable.bkg_light);
+
+                holder = new ViewHolder();
+                holder.thumb = (ImageView) convertView.findViewById(R.id.icon);
+                holder.name = (TextView) convertView.findViewById(R.id.name);
+                holder.size = (TextView) convertView.findViewById(R.id.size);
+                holder.separator = (TextView) convertView.findViewById(R.id.separator);
+                convertView.setTag(holder);
+            }
+            else {
+                holder = (ViewHolder) convertView.getTag();
+                convertView.setBackgroundResource(R.drawable.bkg_light);
+            }
+
+            holder.name.setTypeface(myTypeface);
+            holder.size.setTypeface(myTypeface);
+
+            holder.name.setText(item.getFilename());
+            holder.size.setText(item.getData());
+
+            int visibility = (position == 0 || (firstFilePos != null && position == firstFilePos)) ? View.VISIBLE : View.GONE;
+            holder.separator.setVisibility(visibility);
+
+            String text = (firstFilePos != null && position == firstFilePos) ? "Files" : "Folders";
+            holder.separator.setText(text);
+
+            int gravity = (item.is("folder")) ? Gravity.CENTER_VERTICAL : Gravity.TOP;
+            holder.name.setGravity(gravity);
+
+            if (!item.isSelected()) {
+                // Item is not selected
+                convertView.setBackgroundResource(R.drawable.bkg_light);
+            } else {
+                // Item is selected
+                convertView.setBackgroundColor(getResources().getColor(R.color.lightgreen));
+            }
+
+            holder.thumb.setImageBitmap(item.getImg());
+            if(item.is("image") && item.getImg() == null) {
+                item.setImg(BitmapFactory.decodeResource(getResources(), R.drawable.image_thumb));
+                holder.thumb.setImageResource(R.drawable.image_thumb);
+                /*if(!called) {
+                    called = true;
+                    new LoadThumb().execute(position);
+                }*/
+                new LoadThumb().execute(position);
+            }
+
+            holder.thumb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    toggleSelection(position);
+                }
+            });
+
+            holder.thumb.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    longClicked = true;
+                    toggleSelection(position);
+                    return true;
+                }
+            });
+            return convertView;
+        }
+
+        class ViewHolder {
+            ImageView thumb;
+            TextView name;
+            TextView size;
+            TextView separator;
+        }
+
+        public void setData(ArrayList<Item> arg1) {
+            clear();
+            if(arg1 != null) {
+                for (int i=0; i < arg1.size(); i++) {
+                    add(arg1.get(i));
+                }
+            }
+        }
+    }
+
+    public class LoadThumb extends AsyncTask<Integer, Bitmap, Bitmap>
+    {
+        private int position;
+
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Bitmap doInBackground(Integer... hm)
+        {
+
+            if(isCancelled()) {
+                return null;
+            }
+
+            position = hm[0];
+            String path = items.get(position).getPath();
+
+            int thumbSize = Helper.dpToPx(40);
+            return Helper.getThumb(path, thumbSize);
+        }
+        @Override
+        protected void onPostExecute(Bitmap bmp) {
+            items.get(position).setImg(bmp);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 }

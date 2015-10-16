@@ -1,96 +1,174 @@
 package org.simpledrive;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.lang.ref.WeakReference;
-import java.net.URLEncoder;
-
-import simpledrive.lib.Connection;
-import simpledrive.lib.Helper;
-import simpledrive.lib.ImageLoader;
-
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Window;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.LinearLayout;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public class ImageViewer extends Activity {
+import simpledrive.lib.ImageLoader;
 
-	@Override
-    protected void onCreate(Bundle savedInstanceState) {
+public class ImageViewer extends ActionBarActivity {
+    public static ExtendedViewPager mViewPager;
+    private static boolean titleVisible = true;
+    private static Toolbar toolbar;
+    ImageViewer e;
+
+    public static ArrayList<HashMap<String, String>> images;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_imageviewer);
 
+        images = RemoteFiles.getAllImages();
+        e = this;
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if(toolbar != null) {
+            setSupportActionBar(toolbar);
+            toolbar.setBackgroundColor(Color.BLACK);
+            toolbar.setTitleTextColor(Color.parseColor("#eeeeee"));
+            toolbar.setNavigationIcon(R.drawable.ic_arrow);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    e.finish();
+                }
+            });
+        }
+
         Bundle extras = getIntent().getExtras();
-		String file = extras.getString("file");
-		String filename = extras.getString("filename");
-		String parent = extras.getString("parent");
+        final int pos = extras.getInt("position");
 
-		String tmp_folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/simpleDrive/";
-		File tmp = new File(tmp_folder);
-		if(!tmp.exists()) {
-			tmp.mkdir();
-		}
+        mViewPager = (ExtendedViewPager) findViewById(R.id.view_pager);
+        TouchImageAdapter mAdapter = new TouchImageAdapter();
+        mViewPager.setAdapter(mAdapter);
+        mViewPager.setCurrentItem(pos);
 
-		String cachePath = tmp_folder + Helper.md5(parent + filename) + ".jpg";
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if(toolbar != null) {
+                    SpannableString s = new SpannableString(images.get(position).get("filename"));
+                    s.setSpan(new TypefaceSpan("fonts/robotolight.ttf"), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    toolbar.setTitle(s);
+                }
+            }
 
-		File imgFile = new File(cachePath);
-		if(imgFile.exists()) {
-			Bitmap bmp = BitmapFactory.decodeFile(cachePath);
-			displayImage(bmp);
-		}
-		else {
-			loadImage(file.toString(), filename, cachePath);
-		}
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
-	public void loadImage(String file, String filename, String path) {
-		final ProgressDialog pDialog;
-		pDialog = new ProgressDialog(this);
-		pDialog.setMessage("Loading image ...");
-		pDialog.setIndeterminate(false);
-		pDialog.setCancelable(true);
-		pDialog.show();
+    public static void toggleToolbar() {
+        if(titleVisible && toolbar != null) {
+            toolbar.animate().translationY(-toolbar.getBottom()).setInterpolator(new AccelerateInterpolator()).start();
+            titleVisible = false;
+        }
+        else if(toolbar != null) {
+            toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).start();
+            titleVisible = true;
+        }
+    }
 
-		DisplayMetrics displaymetrics = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-		int height = displaymetrics.heightPixels;
-		int width = displaymetrics.widthPixels;
+    class TouchImageAdapter extends PagerAdapter {
+        @Override
+        public int getCount() {
+            return images.size();
+        }
 
-		ImageLoader task = new ImageLoader(new ImageLoader.TaskListener() {
-			@Override
-			public void onFinished(final Bitmap bmp) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						pDialog.dismiss();
-						displayImage(bmp);
-					}
-				});
-			}
-		});
+        @Override
+        public View instantiateItem(ViewGroup container, final int position) {
+            String imgPath = images.get(position).get("path");
+            String thumbPath = images.get(position).get("thumbPath");
+            TouchImageView img = new TouchImageView(container.getContext());
 
-		task.execute(file, filename, width + "", height + "", path);
-	}
+            img.setCustomOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    toggleToolbar();
+                }
+            });
 
-	private void displayImage(Bitmap bmp) {
-		ImageView imgView = (ImageView) findViewById(R.id.image);
-		imgView.setImageBitmap(bmp);
-	}
+            if(new File(imgPath).exists()) {
+                // Load image
+                Bitmap bmp = BitmapFactory.decodeFile(imgPath);
+                img.setImageBitmap(bmp);
+            } else if(new File(thumbPath).exists()) {
+                // Load thumbnail and get image in background
+                Bitmap bmp = BitmapFactory.decodeFile(thumbPath);
+                img.setImageBitmap(bmp);
+                loadImage(thumbPath, img, images.get(position).get("file"), images.get(position).get("filename"), imgPath);
+            } else {
+                // Set placeholder and get image in background
+                img.setImageResource(R.drawable.ic_image);
+                loadImage(null, img, images.get(position).get("file"), images.get(position).get("filename"), imgPath);
+            }
+            container.addView(img, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+            return img;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+    }
+
+    public void loadImage(final String thumbPath, final TouchImageView img, String file, String filename, String path) {
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int height = displaymetrics.heightPixels;
+        int width = displaymetrics.widthPixels;
+
+        ImageLoader task = new ImageLoader(new ImageLoader.TaskListener() {
+            @Override
+            public void onFinished(final Bitmap bmp) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(bmp != null) {
+                            img.setImageBitmap(bmp);
+                            mViewPager.getAdapter().notifyDataSetChanged();
+                        }
+                        if(thumbPath != null) {
+                            new File(thumbPath).delete();
+                        }
+                    }
+                });
+            }
+        });
+
+        task.execute(file, filename, width + "", height + "", path);
+    }
 }
