@@ -1360,9 +1360,8 @@ public class RemoteFiles extends ActionBarActivity {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                Log.i("on", "scroll");
-                //boolean enable = (list != null && list.getChildCount() > 0 && list.getFirstVisiblePosition() == 0 && list.getChildAt(0).getTop() == 0);
-                //mSwipeRefreshLayout.setEnabled(enable);
+                boolean enable = (list != null && list.getChildCount() > 0 && list.getFirstVisiblePosition() == 0 && list.getChildAt(0).getTop() == 0);
+                mSwipeRefreshLayout.setEnabled(enable);
             }
         });
 
