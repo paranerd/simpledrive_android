@@ -9564,7 +9564,8 @@ org.simpledrive.RemoteFiles$9 -> org.simpledrive.ad:
     org.simpledrive.RemoteFiles this$0 -> a
     void run() -> run
 org.simpledrive.RemoteFiles$Connect -> org.simpledrive.ae:
-    org.simpledrive.RemoteFiles this$0 -> a
+    android.accounts.Account[] sc -> a
+    org.simpledrive.RemoteFiles this$0 -> b
     void onPreExecute() -> onPreExecute
     java.lang.String doInBackground(java.lang.String[]) -> a
     void onPostExecute(java.lang.String) -> a
