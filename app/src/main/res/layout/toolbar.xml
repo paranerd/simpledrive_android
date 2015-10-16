@@ -6,7 +6,9 @@
     android:layout_height="56dp"
     app:theme="@style/ThemeOverlay.AppCompat.Dark"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    app:titleTextAppearance="@style/ToolbarTitle"
+    app:subtitleTextAppearance="@style/ToolbarSubtitle"
     android:background="@color/darkgreen"
     android:elevation="4dp"
-    >
+    android:navigationIcon="@drawable/image_thumb">
 </android.support.v7.widget.Toolbar>

@@ -29,11 +29,7 @@
     <public type="drawable" name="play_icon_backup" id="0x7f02001d" />
     <public type="layout" name="activity_imageviewer" id="0x7f030002" />
     <public type="layout" name="activity_login" id="0x7f030003" />
-    <public type="layout" name="file_view" id="0x7f030005" />
-    <public type="layout" name="list_v" id="0x7f030007" />
     <public type="layout" name="notification" id="0x7f030008" />
-    <public type="layout" name="local_files" id="0x7f03000a" />
-    <public type="layout" name="remote_files" id="0x7f03000b" />
     <public type="xml" name="authenticator" id="0x7f040000" />
     <public type="color" name="red" id="0x7f050000" />
     <public type="color" name="green" id="0x7f050001" />

@@ -1,56 +1,14 @@
-/*package simpledrive.library;
-
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import android.util.Log;
-
-public class Connection {
-
-    private static DefaultHttpClient client;
-    private static Boolean loggedIn = false;
-
-    public synchronized static DefaultHttpClient getThreadSafeClient() {
-  
-        if (client != null) {
-        	Log.i("using", "client");
-        	return client;
-        }
-        
-        Log.i("creating", "client");
-        client = new DefaultHttpClient();
-        loggedIn = true;
-  
-        return client;
-    }
-    
-    public static Boolean isLoggedIn() {
-    	return loggedIn;
-    }
-    
-    public static void logout() {
-    	client = null;
-    	loggedIn = false;
-    }
-}*/
-
-//Decompiled by Jad v1.5.8e. Copyright 2001 Pavel Kouznetsov.
-//Jad home page: http://www.geocities.com/kpdus/jad.html
-//Decompiler options: braces fieldsfirst space lnc 
-
 package simpledrive.lib;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.util.Log;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ClientConnectionManager;
@@ -67,13 +25,11 @@ import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.simpledrive.RemoteFiles;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
@@ -91,38 +47,33 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-public class Connection
-{
+public class Connection {
     private static DefaultHttpClient client;
 
-    public static DefaultHttpClient getThreadSafeClient()
-    {
-        if (client != null)
-        {
+    public synchronized static DefaultHttpClient getThreadSafeClient() {
+        if (client != null) {
             return client;
         }
 
-         try {
-             KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
-             keystore.load(null, null);
-             MySSLSocketFactory mysslsocketfactory = new MySSLSocketFactory(keystore);
-             mysslsocketfactory.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-             BasicHttpParams basichttpparams = new BasicHttpParams();
-             HttpProtocolParams.setVersion(basichttpparams, HttpVersion.HTTP_1_1);
-             HttpProtocolParams.setContentCharset(basichttpparams, "UTF-8");
-             HttpConnectionParams.setConnectionTimeout(basichttpparams, 3000);
-             HttpConnectionParams.setSoTimeout(basichttpparams, 5000);
-             SchemeRegistry schemeregistry = new SchemeRegistry();
-             schemeregistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-             schemeregistry.register(new Scheme("https", mysslsocketfactory, 443));
-             ClientConnectionManager ccm = new ThreadSafeClientConnManager(basichttpparams, schemeregistry);
-             client = new DefaultHttpClient(ccm, basichttpparams);
-             return client;
-         }
-         catch (Exception exception)
-         {
-             return new DefaultHttpClient();
-         }
+        try {
+            KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
+            keystore.load(null, null);
+            MySSLSocketFactory mysslsocketfactory = new MySSLSocketFactory(keystore);
+            mysslsocketfactory.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            BasicHttpParams basichttpparams = new BasicHttpParams();
+            HttpProtocolParams.setVersion(basichttpparams, HttpVersion.HTTP_1_1);
+            HttpProtocolParams.setContentCharset(basichttpparams, "UTF-8");
+            HttpConnectionParams.setConnectionTimeout(basichttpparams, 3000);
+            HttpConnectionParams.setSoTimeout(basichttpparams, 5000);
+            SchemeRegistry schemeregistry = new SchemeRegistry();
+            schemeregistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+            schemeregistry.register(new Scheme("https", mysslsocketfactory, 443));
+            ClientConnectionManager ccm = new ThreadSafeClientConnManager(basichttpparams, schemeregistry);
+            client = new DefaultHttpClient(ccm, basichttpparams);
+            return client;
+        } catch (Exception exception) {
+            return new DefaultHttpClient();
+        }
     }
 
     public static String forString(String URL, HashMap<String, String> data) {
@@ -131,7 +82,7 @@ public class Connection
             HttpPost httpPost = new HttpPost(URL);
 
             // add data
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            List<NameValuePair> nameValuePairs = new ArrayList<>(2);
             Iterator<String> myVeryOwnIterator = data.keySet().iterator();
             while(myVeryOwnIterator.hasNext()) {
                 String key = myVeryOwnIterator.next();
@@ -146,12 +97,10 @@ public class Connection
             HttpEntity resEntity = response.getEntity();
             Integer status = response.getStatusLine().getStatusCode();
 
-            if (resEntity != null && status != 404) {
+            if (resEntity != null && status == 200) {
                 return EntityUtils.toString(resEntity).trim();
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -177,12 +126,13 @@ public class Connection
 
             HttpResponse response = httpClient.execute(httpPost);
             HttpEntity entity = response.getEntity();
+
             is = entity.getContent();
 
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
+            if(response.getStatusLine().getStatusCode() != 200 || is == null) {
+                return null;
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -203,54 +153,49 @@ public class Connection
         try {
             jArray = new JSONArray(result);
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return jArray;
     }
-     public static void logout(Context ctx)
-     {
-         client = null;
-         AccountManager am = AccountManager.get(ctx);
-         Account aaccount[] = am.getAccounts();
-         for (Account anAaccount : aaccount) {
-             if (anAaccount.type.equals("org.simpledrive")) {
-                 am.removeAccount(new Account(anAaccount.name, anAaccount.type), null, null);
-             }
-         }
-     }
 
-     public static class MySSLSocketFactory extends SSLSocketFactory
-     {
-         private SSLContext sslContext;
+    public static void logout(Context ctx) {
+        client = null;
+        AccountManager am = AccountManager.get(ctx);
+        Account aaccount[] = am.getAccounts();
+        for (Account anAaccount : aaccount) {
+            if (anAaccount.type.equals("org.simpledrive")) {
+                am.removeAccount(new Account(anAaccount.name, anAaccount.type), null, null);
+            }
+        }
+    }
 
-         public Socket createSocket() throws IOException
-         {
-             return sslContext.getSocketFactory().createSocket();
-         }
+    public static class MySSLSocketFactory extends SSLSocketFactory {
+        private SSLContext sslContext;
 
-         public Socket createSocket(Socket socket, String s, int i, boolean flag) throws IOException
-         {
-             return sslContext.getSocketFactory().createSocket(socket, s, i, flag);
-         }
+        public Socket createSocket() throws IOException {
+            return sslContext.getSocketFactory().createSocket();
+        }
 
-         public MySSLSocketFactory(KeyStore keystore) throws KeyManagementException, NoSuchAlgorithmException, UnrecoverableKeyException, KeyStoreException
-         {
-             super(keystore);
-             sslContext = SSLContext.getInstance("TLS");
-             TrustManager tm = new X509TrustManager() {
-                 public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                 }
+        public Socket createSocket(Socket socket, String s, int i, boolean flag) throws IOException {
+            return sslContext.getSocketFactory().createSocket(socket, s, i, flag);
+        }
 
-                 public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                 }
+        public MySSLSocketFactory(KeyStore keystore) throws KeyManagementException, NoSuchAlgorithmException, UnrecoverableKeyException, KeyStoreException {
+            super(keystore);
+            sslContext = SSLContext.getInstance("TLS");
+            TrustManager tm = new X509TrustManager() {
+                public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                }
 
-                 public X509Certificate[] getAcceptedIssuers() {
+                public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                }
+
+                public X509Certificate[] getAcceptedIssuers() {
                      return null;
                  }
-             };
-             sslContext.init(null, new TrustManager[] { tm }, null);
-         }
-     }
+            };
+            sslContext.init(null, new TrustManager[] { tm }, null);
+        }
+    }
 }
 

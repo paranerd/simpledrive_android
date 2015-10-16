@@ -27,14 +27,11 @@ public class AudioService extends Service implements OnCompletionListener, OnPre
 
 	static private MediaPlayer mediaPlayer;
 	private boolean playPause, prepared = false;
-	private NotificationCompat.Builder mBuilder;
-	private NotificationManager mNotifyManager;
 	int notificationId = 3;
 	
 	private AudioBCReceiver receiver;
 	
 	public static final String PLAY_CHANGED = "org.simpledrive.action.playstatechanged";
-	public static final String START_BACKGROUND = "org.simpledrive.action.startbackground";
 	public static final String CHANGE_PLAY = "org.simpledrive.action.changeplay";
 	public static final String STOP = "org.simpledrive.action.stop";
 	
@@ -79,20 +76,15 @@ public class AudioService extends Service implements OnCompletionListener, OnPre
 	
 	@Override
 	public boolean onError(MediaPlayer mp, int what, int extra) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void onPrepared(MediaPlayer mp) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onCompletion(MediaPlayer mp) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -148,17 +140,7 @@ public class AudioService extends Service implements OnCompletionListener, OnPre
 		try {
 			mediaPlayer.reset();
 			mediaPlayer.setDataSource(url);
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (IllegalArgumentException | IOException | IllegalStateException | SecurityException e) {
 			e.printStackTrace();
 		}
 		mediaPlayer.prepareAsync();
@@ -214,9 +196,9 @@ public class AudioService extends Service implements OnCompletionListener, OnPre
         remoteView.setTextViewText(R.id.notiftitle, RemoteFiles.audioFilename);
         remoteView.setOnClickPendingIntent(R.id.notifbutton, pChange);
         remoteView.setOnClickPendingIntent(R.id.notifexit, pStop);
-        
-        mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mBuilder = new NotificationCompat.Builder(this);
+
+		NotificationManager mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
         mBuilder.setContent(remoteView)
         	.setContentIntent(pIntent)
         	.setOngoing(false)

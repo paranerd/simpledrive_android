@@ -79,7 +79,7 @@ public class Login extends Activity {
             server = login[2];
 
             String url = server + "php/core_login.php";
-            HashMap<String, String> data = new HashMap<String, String>();
+            HashMap<String, String> data = new HashMap<>();
             data.put("user", user);
             data.put("pass", pass);
 

@@ -12,4 +12,6 @@
     <color name="darkwhite">#ffeeeeee</color>
     <color name="orange">#FFFFBB33</color>
     <color name="purple">#FFFFBB33</color>
+    <color name="halfgrey">#33d3d3d3</color>
+    <color name="halfblack">#33000000</color>
 </resources>
