@@ -82,7 +82,7 @@ public class LocalFiles extends ActionBarActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(getSelectedElem().length > 0 && !longClicked) {
+                if (getSelectedElem().length > 0 && !longClicked) {
                     toggleSelection(position);
                 } else if (!longClicked) {
                     openFile(position);
@@ -94,7 +94,15 @@ public class LocalFiles extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar != null) {
             setSupportActionBar(toolbar);
+            toolbar.setNavigationIcon(R.drawable.ic_arrow);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    act.finish();
+                }
+            });
         }
+
         new ListContent().execute();
     }
 

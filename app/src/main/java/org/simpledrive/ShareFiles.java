@@ -97,7 +97,7 @@ public class ShareFiles extends ActionBarActivity {
 
         e = this;
 
-        setContentView(R.layout.activity_remotefiles);
+        setContentView(R.layout.activity_sharefiles);
 
         myTypeface = Typeface.createFromAsset(getAssets(), "fonts/robotolight.ttf");
         empty = (TextView) findViewById(R.id.empty_list_item);
@@ -168,7 +168,7 @@ public class ShareFiles extends ActionBarActivity {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                boolean enable = (list != null && list.getChildCount() > 0 && list.getFirstVisiblePosition() == 0 && list.getChildAt(0).getTop() == 0);
+                boolean enable = ((list != null && list.getChildCount() == 0) || (list != null && list.getChildCount() > 0 && list.getFirstVisiblePosition() == 0 && list.getChildAt(0).getTop() == 0));
                 mSwipeRefreshLayout.setEnabled(enable);
             }
         });
@@ -197,7 +197,7 @@ public class ShareFiles extends ActionBarActivity {
 
         @Override
         protected JSONArray doInBackground(String... args) {
-            String url = server + "php/files_api.php";
+            String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
 
             data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
@@ -392,8 +392,9 @@ public class ShareFiles extends ActionBarActivity {
             }
 
             username = sc[0].name;
-            String url = server + "php/core_login.php";
+            String url = server + "api/core.php";
             HashMap<String, String> data = new HashMap<>();
+            data.put("action", "login");
             data.put("user", username);
             data.put("pass", accMan.getPassword(sc[0]));
 
@@ -445,7 +446,7 @@ public class ShareFiles extends ActionBarActivity {
 
         @Override
         protected String doInBackground(String... pos) {
-            String url = server + "php/files_api.php";
+            String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
 
             data.put("type", "folder");
@@ -547,7 +548,7 @@ public class ShareFiles extends ActionBarActivity {
             String relative = ul_elem.get("relative");
             String target = ul_elem.get("target");
 
-            String url = server + "php/files_api.php";
+            String url = server + "api/files.php";
 
             simpledrive.lib.Upload myEntity = new simpledrive.lib.Upload(new ProgressListener()
             {

@@ -43,7 +43,7 @@ public class ImageViewer extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar != null) {
             setSupportActionBar(toolbar);
-            toolbar.setBackgroundColor(Color.BLACK);
+            toolbar.setBackgroundColor(getResources().getColor(R.color.halfblack));
             toolbar.setTitleTextColor(Color.parseColor("#eeeeee"));
             toolbar.setNavigationIcon(R.drawable.ic_arrow);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
