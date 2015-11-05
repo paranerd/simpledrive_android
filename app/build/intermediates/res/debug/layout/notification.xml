@@ -3,41 +3,39 @@
     android:id="@id/notification"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-  xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
         android:id="@id/notifimage"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_marginLeft="-4.0dip"
-        android:layout_marginRight="20.0px" />
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="8dp"/>
 
     <ImageView
         android:id="@id/notifexit"
-        android:background="@drawable/cross"
-        android:layout_width="18.0dip"
-        android:layout_height="18.0dip"
-        android:layout_marginTop="10.0dip"
-        android:layout_marginRight="10.0dip"
+        android:background="@drawable/ic_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"
         android:layout_alignParentRight="true" />
 
     <ImageView
         android:id="@id/notifbutton"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_marginRight="10.0px"
+        android:layout_height="match_parent"
+        android:layout_marginRight="10.0dp"
         android:layout_toLeftOf="@id/notifexit" />
 
     <TextView
         android:textSize="17.0dip"
-        android:textColor="#ffeeeeee"
+        android:textColor="#ff000000"
         android:gravity="center_vertical"
         android:id="@id/notiftitle"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_marginLeft="5.0dip"
+        android:layout_height="match_parent"
         android:singleLine="true"
-        android:layout_toLeftOf="@id/notifbutton"
-        android:layout_toRightOf="@id/notifimage"
+        android:layout_marginLeft="64dp"
         style="Custom Notification Title" />
 </RelativeLayout><!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/layout/notification.xml -->

@@ -1,4 +1,8 @@
 # view res/layout/activity_remotefiles.xml #generated:2
+-keep class android.support.v4.widget.DrawerLayout { <init>(...); }
+
+# view res/layout/activity_remotefiles.xml #generated:16
+# view res/layout/activity_sharefiles.xml #generated:2
 -keep class android.support.v4.widget.SwipeRefreshLayout { <init>(...); }
 
 # view res/layout/abc_action_menu_item_layout.xml #generated:17

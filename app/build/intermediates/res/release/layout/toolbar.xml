@@ -8,7 +8,9 @@
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
     app:titleTextAppearance="@style/ToolbarTitle"
     app:subtitleTextAppearance="@style/ToolbarSubtitle"
+    app:contentInsetLeft="72dp"
+    app:contentInsetStart="72dp"
     android:background="@color/darkgreen"
     android:elevation="4dp"
-    android:navigationIcon="@drawable/image_thumb">
+    android:navigationIcon="@drawable/image_thumb" >
 </android.support.v7.widget.Toolbar><!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/layout/toolbar.xml -->

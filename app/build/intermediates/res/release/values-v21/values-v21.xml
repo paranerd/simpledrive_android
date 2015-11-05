@@ -302,6 +302,8 @@
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="android:colorAccent">@color/darkgreen</item>
         <item name="windowActionBar">false</item>
+
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
     </style>
     <style name="MainThemeFullscreen" parent="MainTheme">
         <item name="android:windowFullscreen">true</item>
@@ -330,6 +332,6 @@
         <item name="android:textSize">12sp</item>
     </style>
     <style name="ToolbarTitle" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/darkwhite</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 </resources>

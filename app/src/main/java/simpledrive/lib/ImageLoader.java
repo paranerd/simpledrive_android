@@ -46,7 +46,7 @@ public class ImageLoader extends AsyncTask<String, String, Bitmap> {
 
         try {
             String file_enc = URLEncoder.encode(file, "UTF-8");
-            String url = server + "php/files_api.php?target=" + file_enc + "&action=img&width=" + width + "&height=" + height;
+            String url = server + "api/files.php?target=" + file_enc + "&action=img&width=" + width + "&height=" + height;
 
             DefaultHttpClient httpClient = Connection.getThreadSafeClient();
             HttpGet httpGet = new HttpGet(url);

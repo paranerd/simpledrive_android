@@ -54,6 +54,10 @@ android.support.v4.view.ViewPager: void setPageMarginDrawable(android.graphics.d
 android.support.v4.view.ViewPager: void setPageMarginDrawable(int)
 android.support.v4.view.ViewPager: void setScrollingCacheEnabled(boolean)
 android.support.v4.view.ViewPager$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.widget.DrawerLayout
+android.support.v4.widget.DrawerLayout: DrawerLayout(android.content.Context)
+android.support.v4.widget.DrawerLayout: DrawerLayout(android.content.Context,android.util.AttributeSet)
+android.support.v4.widget.DrawerLayout: DrawerLayout(android.content.Context,android.util.AttributeSet,int)
 android.support.v4.widget.DrawerLayout: void setDrawerElevation(float)
 android.support.v4.widget.DrawerLayout: float getDrawerElevation()
 android.support.v4.widget.DrawerLayout: void setScrimColor(int)
@@ -1239,6 +1243,18 @@ android.support.v7.internal.widget.ViewStubCompat: void setLayoutInflater(androi
 android.support.v7.internal.widget.ViewStubCompat: android.view.LayoutInflater getLayoutInflater()
 android.support.v7.internal.widget.ViewStubCompat: void setVisibility(int)
 android.support.v7.internal.widget.ViewStubCompat: void setOnInflateListener(android.support.v7.internal.widget.ViewStubCompat$OnInflateListener)
+android.support.v7.recyclerview.R$attr: int layoutManager
+android.support.v7.recyclerview.R$attr: int reverseLayout
+android.support.v7.recyclerview.R$attr: int spanCount
+android.support.v7.recyclerview.R$attr: int stackFromEnd
+android.support.v7.recyclerview.R$dimen: int item_touch_helper_max_drag_scroll_per_frame
+android.support.v7.recyclerview.R$id: int item_touch_helper_previous_elevation
+android.support.v7.recyclerview.R$styleable: int[] RecyclerView
+android.support.v7.recyclerview.R$styleable: int RecyclerView_android_orientation
+android.support.v7.recyclerview.R$styleable: int RecyclerView_layoutManager
+android.support.v7.recyclerview.R$styleable: int RecyclerView_reverseLayout
+android.support.v7.recyclerview.R$styleable: int RecyclerView_spanCount
+android.support.v7.recyclerview.R$styleable: int RecyclerView_stackFromEnd
 android.support.v7.widget.ActionMenuPresenter$SavedState: android.os.Parcelable$Creator CREATOR
 android.support.v7.widget.ActionMenuView
 android.support.v7.widget.ActionMenuView: ActionMenuView(android.content.Context)
@@ -1274,6 +1290,34 @@ android.support.v7.widget.LinearLayoutCompat: int getOrientation()
 android.support.v7.widget.LinearLayoutCompat: void setGravity(int)
 android.support.v7.widget.LinearLayoutCompat: void setHorizontalGravity(int)
 android.support.v7.widget.LinearLayoutCompat: void setVerticalGravity(int)
+android.support.v7.widget.LinearLayoutManager$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v7.widget.RecyclerView: android.support.v7.widget.RecyclerViewAccessibilityDelegate getCompatAccessibilityDelegate()
+android.support.v7.widget.RecyclerView: void setAccessibilityDelegateCompat(android.support.v7.widget.RecyclerViewAccessibilityDelegate)
+android.support.v7.widget.RecyclerView: void setHasFixedSize(boolean)
+android.support.v7.widget.RecyclerView: void setClipToPadding(boolean)
+android.support.v7.widget.RecyclerView: void setScrollingTouchSlop(int)
+android.support.v7.widget.RecyclerView: void setAdapter(android.support.v7.widget.RecyclerView$Adapter)
+android.support.v7.widget.RecyclerView: android.support.v7.widget.RecyclerView$Adapter getAdapter()
+android.support.v7.widget.RecyclerView: void setRecyclerListener(android.support.v7.widget.RecyclerView$RecyclerListener)
+android.support.v7.widget.RecyclerView: int getBaseline()
+android.support.v7.widget.RecyclerView: void setLayoutManager(android.support.v7.widget.RecyclerView$LayoutManager)
+android.support.v7.widget.RecyclerView: android.support.v7.widget.RecyclerView$LayoutManager getLayoutManager()
+android.support.v7.widget.RecyclerView: android.support.v7.widget.RecyclerView$RecycledViewPool getRecycledViewPool()
+android.support.v7.widget.RecyclerView: void setRecycledViewPool(android.support.v7.widget.RecyclerView$RecycledViewPool)
+android.support.v7.widget.RecyclerView: void setViewCacheExtension(android.support.v7.widget.RecyclerView$ViewCacheExtension)
+android.support.v7.widget.RecyclerView: void setItemViewCacheSize(int)
+android.support.v7.widget.RecyclerView: int getScrollState()
+android.support.v7.widget.RecyclerView: void setScrollState(int)
+android.support.v7.widget.RecyclerView: void setChildDrawingOrderCallback(android.support.v7.widget.RecyclerView$ChildDrawingOrderCallback)
+android.support.v7.widget.RecyclerView: void setOnScrollListener(android.support.v7.widget.RecyclerView$OnScrollListener)
+android.support.v7.widget.RecyclerView: void setLayoutFrozen(boolean)
+android.support.v7.widget.RecyclerView: int getMinFlingVelocity()
+android.support.v7.widget.RecyclerView: int getMaxFlingVelocity()
+android.support.v7.widget.RecyclerView: float getScrollFactor()
+android.support.v7.widget.RecyclerView: void setItemAnimator(android.support.v7.widget.RecyclerView$ItemAnimator)
+android.support.v7.widget.RecyclerView: android.support.v7.widget.RecyclerView$ItemAnimator getItemAnimator()
+android.support.v7.widget.RecyclerView: void setNestedScrollingEnabled(boolean)
+android.support.v7.widget.RecyclerView$SavedState: android.os.Parcelable$Creator CREATOR
 android.support.v7.widget.SearchView: int getSuggestionRowLayout()
 android.support.v7.widget.SearchView: int getSuggestionCommitIconResId()
 android.support.v7.widget.SearchView: void setSearchableInfo(android.app.SearchableInfo)
@@ -1307,6 +1351,8 @@ android.support.v7.widget.SearchView$SearchAutoComplete: SearchView$SearchAutoCo
 android.support.v7.widget.SearchView$SearchAutoComplete: SearchView$SearchAutoComplete(android.content.Context,android.util.AttributeSet,int)
 android.support.v7.widget.SearchView$SearchAutoComplete: void setSearchView(android.support.v7.widget.SearchView)
 android.support.v7.widget.SearchView$SearchAutoComplete: void setThreshold(int)
+android.support.v7.widget.StaggeredGridLayoutManager$LazySpanLookup$FullSpanItem: android.os.Parcelable$Creator CREATOR
+android.support.v7.widget.StaggeredGridLayoutManager$SavedState: android.os.Parcelable$Creator CREATOR
 android.support.v7.widget.SwitchCompat: void setSwitchTypeface(android.graphics.Typeface)
 android.support.v7.widget.SwitchCompat: void setSwitchPadding(int)
 android.support.v7.widget.SwitchCompat: int getSwitchPadding()
@@ -1375,6 +1421,22 @@ android.support.v7.widget.Toolbar: void setCollapsible(boolean)
 android.support.v7.widget.Toolbar: void setMinimumHeight(int)
 android.support.v7.widget.Toolbar: int getMinimumHeightCompat()
 android.support.v7.widget.Toolbar$SavedState: android.os.Parcelable$Creator CREATOR
+de.hdodenhof.circleimageview.CircleImageView: android.widget.ImageView$ScaleType getScaleType()
+de.hdodenhof.circleimageview.CircleImageView: void setScaleType(android.widget.ImageView$ScaleType)
+de.hdodenhof.circleimageview.CircleImageView: void setAdjustViewBounds(boolean)
+de.hdodenhof.circleimageview.CircleImageView: int getBorderColor()
+de.hdodenhof.circleimageview.CircleImageView: void setBorderColor(int)
+de.hdodenhof.circleimageview.CircleImageView: int getBorderWidth()
+de.hdodenhof.circleimageview.CircleImageView: void setBorderWidth(int)
+de.hdodenhof.circleimageview.CircleImageView: void setImageBitmap(android.graphics.Bitmap)
+de.hdodenhof.circleimageview.CircleImageView: void setImageDrawable(android.graphics.drawable.Drawable)
+de.hdodenhof.circleimageview.CircleImageView: void setImageResource(int)
+de.hdodenhof.circleimageview.CircleImageView: void setImageURI(android.net.Uri)
+de.hdodenhof.circleimageview.R$attr: int border_color
+de.hdodenhof.circleimageview.R$attr: int border_width
+de.hdodenhof.circleimageview.R$styleable: int[] CircleImageView
+de.hdodenhof.circleimageview.R$styleable: int CircleImageView_border_color
+de.hdodenhof.circleimageview.R$styleable: int CircleImageView_border_width
 org.apache.http.ConnectionClosedException
 org.apache.http.ConnectionClosedException: long serialVersionUID
 org.apache.http.ConnectionClosedException: ConnectionClosedException(java.lang.String)
@@ -3944,6 +4006,8 @@ org.simpledrive.R$attr: int background
 org.simpledrive.R$attr: int backgroundSplit
 org.simpledrive.R$attr: int backgroundStacked
 org.simpledrive.R$attr: int barSize
+org.simpledrive.R$attr: int border_color
+org.simpledrive.R$attr: int border_width
 org.simpledrive.R$attr: int buttonBarButtonStyle
 org.simpledrive.R$attr: int buttonBarStyle
 org.simpledrive.R$attr: int closeIcon
@@ -3992,6 +4056,7 @@ org.simpledrive.R$attr: int initialActivityCount
 org.simpledrive.R$attr: int isLightTheme
 org.simpledrive.R$attr: int itemPadding
 org.simpledrive.R$attr: int layout
+org.simpledrive.R$attr: int layoutManager
 org.simpledrive.R$attr: int listChoiceBackgroundIndicator
 org.simpledrive.R$attr: int listPopupWindowStyle
 org.simpledrive.R$attr: int listPreferredItemHeight
@@ -4022,6 +4087,7 @@ org.simpledrive.R$attr: int progressBarStyle
 org.simpledrive.R$attr: int prompt
 org.simpledrive.R$attr: int queryBackground
 org.simpledrive.R$attr: int queryHint
+org.simpledrive.R$attr: int reverseLayout
 org.simpledrive.R$attr: int searchIcon
 org.simpledrive.R$attr: int searchViewStyle
 org.simpledrive.R$attr: int selectableItemBackground
@@ -4029,11 +4095,13 @@ org.simpledrive.R$attr: int selectableItemBackgroundBorderless
 org.simpledrive.R$attr: int showAsAction
 org.simpledrive.R$attr: int showDividers
 org.simpledrive.R$attr: int showText
+org.simpledrive.R$attr: int spanCount
 org.simpledrive.R$attr: int spinBars
 org.simpledrive.R$attr: int spinnerDropDownItemStyle
 org.simpledrive.R$attr: int spinnerMode
 org.simpledrive.R$attr: int spinnerStyle
 org.simpledrive.R$attr: int splitTrack
+org.simpledrive.R$attr: int stackFromEnd
 org.simpledrive.R$attr: int state_above_anchor
 org.simpledrive.R$attr: int submitBackground
 org.simpledrive.R$attr: int subtitle
@@ -4100,6 +4168,7 @@ org.simpledrive.R$color: int background_floating_material_dark
 org.simpledrive.R$color: int background_floating_material_light
 org.simpledrive.R$color: int background_material_dark
 org.simpledrive.R$color: int background_material_light
+org.simpledrive.R$color: int black
 org.simpledrive.R$color: int blue
 org.simpledrive.R$color: int bright_foreground_disabled_material_dark
 org.simpledrive.R$color: int bright_foreground_disabled_material_light
@@ -4107,11 +4176,13 @@ org.simpledrive.R$color: int bright_foreground_inverse_material_dark
 org.simpledrive.R$color: int bright_foreground_inverse_material_light
 org.simpledrive.R$color: int bright_foreground_material_dark
 org.simpledrive.R$color: int bright_foreground_material_light
+org.simpledrive.R$color: int brightergreen
 org.simpledrive.R$color: int brightgrey
 org.simpledrive.R$color: int button_material_dark
 org.simpledrive.R$color: int button_material_light
 org.simpledrive.R$color: int darkergreen
 org.simpledrive.R$color: int darkgreen
+org.simpledrive.R$color: int darkgrey
 org.simpledrive.R$color: int darkwhite
 org.simpledrive.R$color: int dim_foreground_disabled_material_dark
 org.simpledrive.R$color: int dim_foreground_disabled_material_light
@@ -4121,6 +4192,7 @@ org.simpledrive.R$color: int green
 org.simpledrive.R$color: int grey
 org.simpledrive.R$color: int halfblack
 org.simpledrive.R$color: int halfgrey
+org.simpledrive.R$color: int halfred
 org.simpledrive.R$color: int highlighted_text_material_dark
 org.simpledrive.R$color: int highlighted_text_material_light
 org.simpledrive.R$color: int hint_foreground_material_dark
@@ -4203,6 +4275,8 @@ org.simpledrive.R$dimen: int dialog_fixed_width_major
 org.simpledrive.R$dimen: int dialog_fixed_width_minor
 org.simpledrive.R$dimen: int disabled_alpha_material_dark
 org.simpledrive.R$dimen: int disabled_alpha_material_light
+org.simpledrive.R$dimen: int item_touch_helper_max_drag_scroll_per_frame
+org.simpledrive.R$dimen: int tool_bar_top_padding
 org.simpledrive.R$drawable: int abc_ab_share_pack_mtrl_alpha
 org.simpledrive.R$drawable: int abc_btn_check_material
 org.simpledrive.R$drawable: int abc_btn_check_to_on_mtrl_000
@@ -4278,14 +4352,22 @@ org.simpledrive.R$drawable: int hoverbutton
 org.simpledrive.R$drawable: int ic_add
 org.simpledrive.R$drawable: int ic_arrow
 org.simpledrive.R$drawable: int ic_check
+org.simpledrive.R$drawable: int ic_close
+org.simpledrive.R$drawable: int ic_cloud
+org.simpledrive.R$drawable: int ic_cloud_circle
 org.simpledrive.R$drawable: int ic_download
 org.simpledrive.R$drawable: int ic_folder
+org.simpledrive.R$drawable: int ic_folder_dark
 org.simpledrive.R$drawable: int ic_grid
 org.simpledrive.R$drawable: int ic_image
 org.simpledrive.R$drawable: int ic_launcher
 org.simpledrive.R$drawable: int ic_list
+org.simpledrive.R$drawable: int ic_logout
+org.simpledrive.R$drawable: int ic_menu
+org.simpledrive.R$drawable: int ic_play_circle
 org.simpledrive.R$drawable: int ic_share
 org.simpledrive.R$drawable: int ic_trash
+org.simpledrive.R$drawable: int ic_trash_dark
 org.simpledrive.R$drawable: int ic_upload
 org.simpledrive.R$drawable: int image_thumb
 org.simpledrive.R$drawable: int normal_dark
@@ -4299,6 +4381,7 @@ org.simpledrive.R$drawable: int pressed
 org.simpledrive.R$drawable: int simpledrive_logo
 org.simpledrive.R$drawable: int unknown_thumb
 org.simpledrive.R$drawable: int uploadbutton
+org.simpledrive.R$id: int DrawerLayout
 org.simpledrive.R$id: int TextView01
 org.simpledrive.R$id: int TextView02
 org.simpledrive.R$id: int TextViewDate
@@ -4334,6 +4417,7 @@ org.simpledrive.R$id: int delete
 org.simpledrive.R$id: int dialog
 org.simpledrive.R$id: int disableHome
 org.simpledrive.R$id: int download
+org.simpledrive.R$id: int drawer
 org.simpledrive.R$id: int dropdown
 org.simpledrive.R$id: int edit_query
 org.simpledrive.R$id: int empty_list_item
@@ -4344,6 +4428,8 @@ org.simpledrive.R$id: int fd_Icon1
 org.simpledrive.R$id: int fmlist
 org.simpledrive.R$id: int grid
 org.simpledrive.R$id: int griditem
+org.simpledrive.R$id: int header_server
+org.simpledrive.R$id: int header_user
 org.simpledrive.R$id: int home
 org.simpledrive.R$id: int homeAsUp
 org.simpledrive.R$id: int icon
@@ -4351,6 +4437,8 @@ org.simpledrive.R$id: int ifRoom
 org.simpledrive.R$id: int image
 org.simpledrive.R$id: int inner
 org.simpledrive.R$id: int innerlayout
+org.simpledrive.R$id: int item_touch_helper_previous_elevation
+org.simpledrive.R$id: int left_drawer
 org.simpledrive.R$id: int list
 org.simpledrive.R$id: int listMode
 org.simpledrive.R$id: int list_item
@@ -4385,6 +4473,7 @@ org.simpledrive.R$id: int search_mag_icon
 org.simpledrive.R$id: int search_plate
 org.simpledrive.R$id: int search_src_text
 org.simpledrive.R$id: int search_voice_btn
+org.simpledrive.R$id: int selectall
 org.simpledrive.R$id: int separator
 org.simpledrive.R$id: int share
 org.simpledrive.R$id: int sharePublic
@@ -4441,6 +4530,8 @@ org.simpledrive.R$layout: int activity_imageviewer
 org.simpledrive.R$layout: int activity_localfiles
 org.simpledrive.R$layout: int activity_login
 org.simpledrive.R$layout: int activity_remotefiles
+org.simpledrive.R$layout: int activity_sharefiles
+org.simpledrive.R$layout: int drawer_list_item
 org.simpledrive.R$layout: int gridview
 org.simpledrive.R$layout: int listview
 org.simpledrive.R$layout: int notification
@@ -4468,6 +4559,8 @@ org.simpledrive.R$string: int abc_shareactionprovider_share_with_application
 org.simpledrive.R$string: int abc_toolbar_collapse_description
 org.simpledrive.R$string: int action_settings
 org.simpledrive.R$string: int app_name
+org.simpledrive.R$string: int drawer_close
+org.simpledrive.R$string: int drawer_open
 org.simpledrive.R$string: int hello_world
 org.simpledrive.R$string: int logout
 org.simpledrive.R$string: int newfolder
@@ -4770,6 +4863,9 @@ org.simpledrive.R$styleable: int ActionMode_titleTextStyle
 org.simpledrive.R$styleable: int[] ActivityChooserView
 org.simpledrive.R$styleable: int ActivityChooserView_expandActivityOverflowButtonDrawable
 org.simpledrive.R$styleable: int ActivityChooserView_initialActivityCount
+org.simpledrive.R$styleable: int[] CircleImageView
+org.simpledrive.R$styleable: int CircleImageView_border_color
+org.simpledrive.R$styleable: int CircleImageView_border_width
 org.simpledrive.R$styleable: int[] CompatTextView
 org.simpledrive.R$styleable: int CompatTextView_textAllCaps
 org.simpledrive.R$styleable: int[] DrawerArrowToggle
@@ -4838,6 +4934,12 @@ org.simpledrive.R$styleable: int PopupWindow_android_popupBackground
 org.simpledrive.R$styleable: int PopupWindow_overlapAnchor
 org.simpledrive.R$styleable: int[] PopupWindowBackgroundState
 org.simpledrive.R$styleable: int PopupWindowBackgroundState_state_above_anchor
+org.simpledrive.R$styleable: int[] RecyclerView
+org.simpledrive.R$styleable: int RecyclerView_android_orientation
+org.simpledrive.R$styleable: int RecyclerView_layoutManager
+org.simpledrive.R$styleable: int RecyclerView_reverseLayout
+org.simpledrive.R$styleable: int RecyclerView_spanCount
+org.simpledrive.R$styleable: int RecyclerView_stackFromEnd
 org.simpledrive.R$styleable: int[] SearchView
 org.simpledrive.R$styleable: int SearchView_android_focusable
 org.simpledrive.R$styleable: int SearchView_android_imeOptions

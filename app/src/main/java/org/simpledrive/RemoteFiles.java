@@ -24,7 +24,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -53,6 +55,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -75,6 +78,7 @@ import simpledrive.lib.Connection;
 import simpledrive.lib.Download.DownloadListener;
 import simpledrive.lib.Helper;
 import simpledrive.lib.ImageLoader;
+import simpledrive.lib.MenuListAdapter;
 import simpledrive.lib.NewItem;
 import simpledrive.lib.Upload.ProgressListener;
 
@@ -88,7 +92,7 @@ public class RemoteFiles extends ActionBarActivity {
     private SharedPreferences settings;
     private boolean longClicked = false;
     private ImageLoader imgLoader;
-    private static int loginAttemts = 0;
+    private static int loginAttemts;
 
     // Audio
     public static String audioFilename;
@@ -113,7 +117,16 @@ public class RemoteFiles extends ActionBarActivity {
     private ImageButton bCreate;
     private Menu mMenu;
 
+    String titles[] = {"Files", "Trash", "Logout"};
+    int icons[] = {R.drawable.ic_folder_dark, R.drawable.ic_trash_dark, R.drawable.ic_logout};
+    ActionBarDrawerToggle mDrawerToggle;
+
+    private DrawerLayout mDrawerLayout;
+    ListView mDrawerList;
+    LinearLayout mDrawerLinear;
+
     // Files
+    private JSONArray json = new JSONArray();
     private static ArrayList<NewItem> items = new ArrayList<>();
     private static ArrayList<JSONObject> hierarchy = new ArrayList<>();
     private Integer firstFilePos;
@@ -148,7 +161,7 @@ public class RemoteFiles extends ActionBarActivity {
     	
     	@Override
         protected JSONArray doInBackground(String... args) {
-    		String url = server + "php/files_api.php";
+    		String url = server + "api/files.php";
     		HashMap<String, String> data = new HashMap<>();
 
             data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
@@ -160,15 +173,16 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(JSONArray value) {
-            pDialog.dismiss();
             mSwipeRefreshLayout.setRefreshing(false);
             if(value == null) {
                 new Connect().execute();
             }
             else {
                 loginAttemts = 0;
+                json = value;
                 listContent(value);
             }
+            pDialog.dismiss();
         }
     }
 
@@ -500,6 +514,16 @@ public class RemoteFiles extends ActionBarActivity {
         }
     }
 
+    private void selectAll() {
+        for(NewItem item : items) {
+            item.setSelected(true);
+        }
+        invalidateOptionsMenu();
+        if(list != null) {
+            newAdapter.notifyDataSetChanged();
+        }
+    }
+
     /**
      * Removes all selected Elements
      */
@@ -532,7 +556,7 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected String doInBackground(Integer... info) {
-            String url = server + "php/files_api.php";
+            String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
 
             data.put("target", items.get(info[0]).getFile().toString());
@@ -572,8 +596,9 @@ public class RemoteFiles extends ActionBarActivity {
             }
 
             username = sc[0].name;
-            String url = server + "php/core_login.php";
+            String url = server + "api/core.php";
             HashMap<String, String> data = new HashMap<>();
+            data.put("action", "login");
             data.put("user", username);
             data.put("pass", accMan.getPassword(sc[0]));
 
@@ -600,32 +625,23 @@ public class RemoteFiles extends ActionBarActivity {
 
                  new ListContent().execute();
              } else {
-                 Toast.makeText(e, "Error reconnecting", Toast.LENGTH_SHORT).show();
-                 empty.setText("Error reconnecting");
-                 mSwipeRefreshLayout.setEnabled(true);
-
-                 JSONObject obj = new JSONObject();
-                 try {
-                     obj.put("filename", "test");
-                     obj.put("parent", "");
-                     obj.put("type", "unknown");
-                     obj.put("size", "0");
-                     obj.put("owner", "");
-                     obj.put("edit", "");
-                     obj.put("rootshare", "");
-                     obj.put("hash", "");
-                     obj.put("closeshare", "");
-                 } catch (JSONException e1) {
-                     e1.printStackTrace();
-                 }
-
-                 JSONArray arr = new JSONArray();
-                 arr.put(obj);
-                 //listContent(arr);
-
                  if(sc.length == 0) {
+                     // No account, return to login
                      Intent i = new Intent(e.getApplicationContext(), Login.class);
                      e.startActivity(i);
+                 }
+                 else {
+                     // No connection
+                     Toast.makeText(e, "Error reconnecting", Toast.LENGTH_SHORT).show();
+                     empty.setText("Error reconnecting\nSwipe down to try again.");
+
+                     if(newAdapter != null) {
+                         newAdapter.setData(null);
+                         newAdapter.notifyDataSetChanged();
+                     }
+
+                     mSwipeRefreshLayout.setRefreshing(false);
+                     mSwipeRefreshLayout.setEnabled(true);
                  }
              }
     	 }
@@ -757,7 +773,7 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected String doInBackground(String... pos) {
-            String url = server + "php/files_api.php";
+            String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
 
             data.put("type", "folder");
@@ -859,7 +875,7 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected String doInBackground(String... names) {
-            String url = server + "php/files_api.php";
+            String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
 
             data.put("action", "rename");
@@ -903,7 +919,7 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected String doInBackground(String... names) {
-            String url = server + "php/files_api.php";
+            String url = server + "api/files.php";
 
             HashMap<String, String> data = new HashMap<>();
 
@@ -966,7 +982,7 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
            protected String doInBackground(Integer... pos) {
-            String url = server + "php/files_api.php";
+            String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
 
             data.put("action", "delete");
@@ -1005,7 +1021,7 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected String doInBackground(Void... params) {
-            String url = server + "php/files_api.php";
+            String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
 
             data.put("mail", "");
@@ -1062,7 +1078,7 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected String doInBackground(Integer... pos) {
-            String url = server + "php/files_api.php";
+            String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
 
             data.put("action", "unshare");
@@ -1089,7 +1105,7 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected String doInBackground(Integer... pos) {
-            String url = server + "php/files_api.php";
+            String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
 
             data.put("action", "zip");
@@ -1118,7 +1134,7 @@ public class RemoteFiles extends ActionBarActivity {
         @Override
         protected String doInBackground(Integer... pos) {
 
-            String url = server + "php/files_api.php";
+            String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
 
             data.put("test", "test");
@@ -1178,7 +1194,7 @@ public class RemoteFiles extends ActionBarActivity {
             String relative = ul_elem.get("relative");
             String target = ul_elem.get("target");
 
-            String url = server + "php/files_api.php";
+            String url = server + "api/files.php";
 
             simpledrive.lib.Upload myEntity = new simpledrive.lib.Upload(new ProgressListener() {
             @Override
@@ -1259,12 +1275,80 @@ public class RemoteFiles extends ActionBarActivity {
         }
     }
 
+    public void prepareNavigationDrawer() {
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.DrawerLayout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerLinear = (LinearLayout) findViewById(R.id.drawer);
+
+        MenuListAdapter mMenuAdapter = new MenuListAdapter(this, titles, null, icons);
+        mDrawerList.setAdapter(mMenuAdapter);
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    displayMode = 0;
+                    if(hierarchy.size() > 0) {
+                        new ListContent().execute();
+                    }
+                    else {
+                        new Connect().execute();
+                    }
+                } else if (position == 1) {
+                    openTrash();
+                } else if (position == 2) {
+                    Connection.logout(e);
+                    startActivity(new Intent(getApplicationContext(), org.simpledrive.Login.class));
+                    finish();
+                }
+
+                mDrawerList.setItemChecked(position, true);
+                mDrawerLayout.closeDrawer(mDrawerLinear);
+            }
+        });
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_menu, R.string.drawer_open, R.string.drawer_close) {
+            public void onDrawerClosed(View view) {
+                supportInvalidateOptionsMenu();
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                supportInvalidateOptionsMenu();
+            }
+        };
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+
+        TextView header_user = (TextView) findViewById(R.id.header_user);
+        header_user.setText(username);
+
+        TextView header_server = (TextView) findViewById(R.id.header_server);
+        header_server.setText(server);
+    }
+
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
 
         e = this;
 
         setContentView(R.layout.activity_remotefiles);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if(toolbar != null) {
+            setSupportActionBar(toolbar);
+
+            /*if (Build.VERSION.SDK_INT >= 19) {
+                // Increase size of toolbar by 24dp and add padding because of translucent statusbar
+                // If enabled, uncomment windowTranslucentStatus in styles.xml
+                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+                lp.height = Helper.dpToPx(80);
+                toolbar.setLayoutParams(lp);
+                toolbar.setPadding(0, Helper.dpToPx(24), 0, 0);
+            }*/
+        }
 
         myTypeface = Typeface.createFromAsset(getAssets(), "fonts/robotolight.ttf");
         empty = (TextView) findViewById(R.id.empty_list_item);
@@ -1322,9 +1406,10 @@ public class RemoteFiles extends ActionBarActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (hierarchy != null) {
+                if (hierarchy.size() > 0) {
                     loginAttemts = 0;
                     new ListContent().execute();
+
                 } else {
                     new Connect().execute();
                 }
@@ -1360,12 +1445,14 @@ public class RemoteFiles extends ActionBarActivity {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                boolean enable = (list != null && list.getChildCount() > 0 && list.getFirstVisiblePosition() == 0 && list.getChildAt(0).getTop() == 0);
+                boolean enable = ((list != null && list.getChildCount() == 0) || (list != null && list.getChildCount() > 0 && list.getFirstVisiblePosition() == 0 && list.getChildAt(0).getTop() == 0));
                 mSwipeRefreshLayout.setEnabled(enable);
             }
         });
 
         mSwipeRefreshLayout.setEnabled(true);
+
+        prepareNavigationDrawer();
 
         // Create image cache folder
         File tmp = new File(tmpFolder);
@@ -1373,11 +1460,7 @@ public class RemoteFiles extends ActionBarActivity {
             tmp.mkdir();
         }
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(toolbar != null) {
-            setSupportActionBar(toolbar);
-        }
-
+        loginAttemts = 0;
         new Connect().execute();
     }
 
@@ -1389,18 +1472,16 @@ public class RemoteFiles extends ActionBarActivity {
             list = (ListView) findViewById(R.id.list);
             GridView tmp_grid = (GridView) findViewById(R.id.grid);
             tmp_grid.setVisibility(View.GONE);
-            if(mMenu != null) {
-                mMenu.findItem(R.id.toggle_view).setIcon(R.drawable.ic_grid);
-            }
         } else {
             list = (GridView) findViewById(R.id.grid);
             ListView tmp_list = (ListView) findViewById(R.id.list);
             tmp_list.setVisibility(View.GONE);
-            if(mMenu != null) {
-                mMenu.findItem(R.id.toggle_view).setIcon(R.drawable.ic_list);
-            }
         }
         list.setVisibility(View.VISIBLE);
+
+        if(mMenu != null) {
+            invalidateOptionsMenu();
+        }
 
         registerForContextMenu(list);
     }
@@ -1491,6 +1572,14 @@ public class RemoteFiles extends ActionBarActivity {
             default:
                 return super.onOptionsItemSelected(paramMenuItem);
 
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(mDrawerLinear);
+                break;
+
+            case R.id.selectall:
+                selectAll();
+                break;
+
             case R.id.logout:
                 Connection.logout(e);
                 startActivity(new Intent(getApplicationContext(), org.simpledrive.Login.class));
@@ -1527,10 +1616,12 @@ public class RemoteFiles extends ActionBarActivity {
     }
 
     public void openTrash() {
-        displayMode = 3;
-        JSONObject first = hierarchy.get(0);
-        hierarchy = new ArrayList<>();
-        hierarchy.add(first);
-        new ListContent().execute();
+        if(hierarchy.size() > 0) {
+            displayMode = 3;
+            JSONObject first = hierarchy.get(0);
+            hierarchy = new ArrayList<>();
+            hierarchy.add(first);
+            new ListContent().execute();
+        }
     }
 }

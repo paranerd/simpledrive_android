@@ -1,121 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swipe_refresh_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<RelativeLayout
-    android:background="#f2f2f2"
+<android.support.v4.widget.DrawerLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/DrawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-  	xmlns:android="http://schemas.android.com/apk/res/android">
+    android:elevation="7dp"
+    android:fitsSystemWindows="true">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
-
-    <TextView
-        android:textSize="20.0sp"
-        android:textColor="#ffb3b3b3"
-        android:gravity="center"
-        android:id="@id/empty_list_item"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:text="Empty Folder"
-        android:layout_centerHorizontal="true" />
-  	
-    <ListView
-        android:id="@id/list"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textColor="#ffb3b3b3"
-        android:layout_marginTop="56dp"
-        android:listSelector="@drawable/bkg_light"
-        android:choiceMode="singleChoice"
-        android:layout_alignParentTop="true" />
+        android:fitsSystemWindows="false">
 
-    <GridView
-        android:id="@+id/grid"
-        android:layout_width="match_parent"
+        <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:background="#f2f2f2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:android="http://schemas.android.com/apk/res/android">
+
+                <include
+                    android:id="@+id/toolbar"
+                    layout="@layout/toolbar"/>
+
+                <TextView
+                    android:textSize="20.0sp"
+                    android:textColor="#ffb3b3b3"
+                    android:gravity="center"
+                    android:id="@id/empty_list_item"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="Empty Folder"
+                    android:layout_centerHorizontal="true" />
+
+                <ListView
+                    android:id="@id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="#ffb3b3b3"
+                    android:layout_below="@+id/toolbar"
+                    android:listSelector="@drawable/bkg_light"
+                    android:choiceMode="singleChoice" />
+
+                <GridView
+                    android:id="@+id/grid"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:numColumns="2"
+                    android:horizontalSpacing="5dp"
+                    android:verticalSpacing="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="61dp"
+                    android:choiceMode="singleChoice" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200.0dip"
+                    android:layout_marginBottom="25.0dip"
+                    android:layout_alignParentBottom="true">
+
+                    <ImageButton
+                        android:id="@+id/bOK"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/action_button"
+                        android:src="@drawable/ic_check"
+                        android:visibility="gone"/>
+
+                    <ImageButton
+                        android:id="@+id/bAdd"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/action_button"
+                        android:src="@drawable/ic_add"
+                        android:visibility="gone"/>
+
+                    <ImageButton
+                        android:id="@+id/bCreate"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginRight="96dp"
+                        android:background="@drawable/action_button"
+                        android:src="@drawable/ic_folder"
+                        android:visibility="gone"/>
+
+                    <ImageButton
+                        android:id="@+id/bUpload"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="80dp"
+                        android:background="@drawable/action_button"
+                        android:src="@drawable/ic_upload"
+                        android:visibility="gone"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@id/innerlayout"
+                    android:background="#cc000000"
+                    android:visibility="gone"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:textSize="20.0sp"
+                        android:textColor="#ffeeeeee"
+                        android:gravity="center"
+                        android:id="@id/overlay"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:text="Swipe Left"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/drawer"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
-        android:numColumns="2"
-        android:horizontalSpacing="5dp"
-        android:verticalSpacing="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="61dp"
-        android:choiceMode="singleChoice" />
-    
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="200.0dip"
-        android:layout_marginBottom="25.0dip"
-        android:layout_alignParentBottom="true">
+        android:orientation="vertical"
+        android:layout_gravity="start">
 
-        <ImageButton
-            android:id="@+id/bOK"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/action_button"
-            android:src="@drawable/ic_check"
-            android:visibility="gone"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@color/darkgreen">
 
-        <ImageButton
-            android:id="@+id/bAdd"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/action_button"
-            android:src="@drawable/ic_add"
-            android:visibility="gone"/>
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:scaleType="fitStart"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/ic_cloud_circle"/>
 
-        <ImageButton
-            android:id="@+id/bCreate"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="96dp"
-            android:background="@drawable/action_button"
-            android:src="@drawable/ic_folder"
-            android:visibility="gone"/>
+            <TextView
+                android:id="@+id/header_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15.0sp"
+                android:textColor="@color/white"
+                android:paddingLeft="16dp"
+                android:layout_above="@+id/header_server"/>
 
-        <ImageButton
-            android:id="@+id/bUpload"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="80dp"
-            android:background="@drawable/action_button"
-            android:src="@drawable/ic_upload"
-            android:visibility="gone"/>
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@id/innerlayout"
-        android:background="#cc000000"
-        android:visibility="gone"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+            <TextView
+                android:id="@+id/header_server"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14.0sp"
+                android:textColor="#ffdddddd"
+                android:layout_alignParentBottom="true"
+                android:paddingLeft="16dp"
+                android:paddingBottom="16dp"/>
+        </RelativeLayout>
 
-        <TextView
-            android:textSize="20.0sp"
-            android:textColor="#ffeeeeee"
-            android:gravity="center"
-            android:id="@id/overlay"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:text="Swipe Left"
-            android:layout_centerHorizontal="true" />
-    </RelativeLayout>
-</RelativeLayout>
-</android.support.v4.widget.SwipeRefreshLayout><!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/layout/activity_remotefiles.xml -->
+        <ListView
+            android:id="@+id/left_drawer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:choiceMode="singleChoice"
+            android:divider="#aae3e3e3"
+            android:dividerHeight="0.1dp" />
+    </LinearLayout>
+</android.support.v4.widget.DrawerLayout><!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/layout/activity_remotefiles.xml -->

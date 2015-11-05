@@ -37,9 +37,9 @@
 
         <TextView
             android:id="@id/name"
-            android:textSize="17.0sp"
+            android:textSize="16.0sp"
             android:textStyle="bold"
-            android:textColor="#ff000000"
+            android:textColor="@color/black"
             android:ellipsize="middle"
             android:gravity="top"
             android:layout_width="wrap_content"
@@ -54,10 +54,10 @@
             android:id="@id/size"
             android:textSize="13.0sp"
             android:textColor="#ffaaaaaa"
+            android:layout_marginLeft="16dp"
             android:layout_marginBottom="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dip"
             android:gravity="bottom"
             android:singleLine="true"
             android:layout_toRightOf="@id/icon"

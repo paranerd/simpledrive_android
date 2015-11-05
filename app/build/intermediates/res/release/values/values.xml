@@ -24,6 +24,7 @@
     <color name="background_material_light">#ffeeeeee</color>
     <!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/values/colors.xml -->
     <eat-comment/>
+    <color name="black">#ff000000</color>
     <color name="blue">#ff0000ff</color>
     <!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/values/values.xml -->
     <eat-comment/>
@@ -35,6 +36,7 @@
     <color name="bright_foreground_material_light">@android:color/black</color>
     <!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/values/colors.xml -->
     <eat-comment/>
+    <color name="brightergreen">#ff02d35f</color>
     <color name="brightgrey">#ffe3e3e3</color>
     <!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/values/values.xml -->
     <eat-comment/>
@@ -44,6 +46,7 @@
     <eat-comment/>
     <color name="darkergreen">#ff29774c</color>
     <color name="darkgreen">#ff2e8b57</color>
+    <color name="darkgrey">#ff545454</color>
     <color name="darkwhite">#ffeeeeee</color>
     <!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/values/values.xml -->
     <eat-comment/>
@@ -57,6 +60,7 @@
     <color name="grey">#ffb3b3b3</color>
     <color name="halfblack">#33000000</color>
     <color name="halfgrey">#33d3d3d3</color>
+    <color name="halfred">#33ff0000</color>
     <!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/values/values.xml -->
     <eat-comment/>
     <color name="highlighted_text_material_dark">#6680cbc4</color>
@@ -111,6 +115,7 @@
     <declare-styleable name="ActionMenuView"/>
     <declare-styleable name="ActionMode"><attr name="titleTextStyle"/><attr name="subtitleTextStyle"/><attr name="background"/><attr name="backgroundSplit"/><attr name="height"/><attr format="reference" name="closeItemLayout"/></declare-styleable>
     <declare-styleable name="ActivityChooserView"><attr format="string" name="initialActivityCount"/><attr format="reference" name="expandActivityOverflowButtonDrawable"/></declare-styleable>
+    <declare-styleable name="CircleImageView"><attr format="dimension" name="border_width"/><attr format="color" name="border_color"/></declare-styleable>
     <declare-styleable name="CompatTextView"><attr format="reference|boolean" name="textAllCaps"/></declare-styleable>
     <declare-styleable name="DrawerArrowToggle"><attr format="color" name="color"/><attr format="boolean" name="spinBars"/><attr format="dimension" name="drawableSize"/><attr format="dimension" name="gapBetweenBars"/><attr format="dimension" name="topBottomBarArrowSize"/><attr format="dimension" name="middleBarArrowSize"/><attr format="dimension" name="barSize"/><attr format="dimension" name="thickness"/></declare-styleable>
     <declare-styleable name="LinearLayoutCompat"><attr name="android:orientation"/><attr name="android:gravity"/><attr name="android:baselineAligned"/><attr name="android:baselineAlignedChildIndex"/><attr name="android:weightSum"/><attr format="boolean" name="measureWithLargestChild"/><attr name="divider"/><attr name="showDividers"><flag name="none" value="0"/><flag name="beginning" value="1"/><flag name="middle" value="2"/><flag name="end" value="4"/></attr><attr format="dimension" name="dividerPadding"/></declare-styleable>
@@ -121,6 +126,7 @@
     <declare-styleable name="MenuView"><attr name="android:itemTextAppearance"/><attr name="android:horizontalDivider"/><attr name="android:verticalDivider"/><attr name="android:headerBackground"/><attr name="android:itemBackground"/><attr name="android:windowAnimationStyle"/><attr name="android:itemIconDisabledAlpha"/><attr format="boolean" name="preserveIconSpacing"/></declare-styleable>
     <declare-styleable name="PopupWindow"><attr format="boolean" name="overlapAnchor"/><attr name="android:popupBackground"/></declare-styleable>
     <declare-styleable name="PopupWindowBackgroundState"><attr format="boolean" name="state_above_anchor"/></declare-styleable>
+    <declare-styleable name="RecyclerView"><attr format="string" name="layoutManager"/><attr name="android:orientation"/><attr format="integer" name="spanCount"/><attr format="boolean" name="reverseLayout"/><attr format="boolean" name="stackFromEnd"/></declare-styleable>
     <declare-styleable name="SearchView"><attr format="reference" name="layout"/><attr format="boolean" name="iconifiedByDefault"/><attr name="android:maxWidth"/><attr format="string" name="queryHint"/><attr name="android:imeOptions"/><attr name="android:inputType"/><attr format="reference" name="closeIcon"/><attr format="reference" name="goIcon"/><attr format="reference" name="searchIcon"/><attr format="reference" name="voiceIcon"/><attr format="reference" name="commitIcon"/><attr format="reference" name="suggestionRowLayout"/><attr format="reference" name="queryBackground"/><attr format="reference" name="submitBackground"/><attr name="android:focusable"/></declare-styleable>
     <declare-styleable name="Spinner"><attr format="reference" name="prompt"/><attr format="enum" name="spinnerMode"><enum name="dialog" value="0"/><enum name="dropdown" value="1"/></attr><attr name="android:dropDownSelector"/><attr name="android:popupBackground"/><attr name="android:dropDownVerticalOffset"/><attr name="android:dropDownHorizontalOffset"/><attr name="android:dropDownWidth"/><attr format="reference" name="popupPromptView"/><attr name="android:gravity"/><attr format="boolean" name="disableChildrenWhenDisabled"/><attr name="android:background"/></declare-styleable>
     <declare-styleable name="SwitchCompat"><attr name="android:thumb"/><attr format="reference" name="track"/><attr name="android:textOn"/><attr name="android:textOff"/><attr format="dimension" name="thumbTextPadding"/><attr format="reference" name="switchTextAppearance"/><attr format="dimension" name="switchMinWidth"/><attr format="dimension" name="switchPadding"/><attr format="boolean" name="splitTrack"/><attr format="boolean" name="showText"/></declare-styleable>
@@ -185,6 +191,12 @@
     <item name="dialog_fixed_width_minor" type="dimen">320dp</item>
     <item format="float" name="disabled_alpha_material_dark" type="dimen">0.30</item>
     <item format="float" name="disabled_alpha_material_light" type="dimen">0.26</item>
+    <!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.0.1/res/values/values.xml -->
+    <eat-comment/>
+    <dimen name="item_touch_helper_max_drag_scroll_per_frame">20dp</dimen>
+    <!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/values/dimens.xml -->
+    <eat-comment/>
+    <dimen name="tool_bar_top_padding">24dp</dimen>
     <!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/values/ids.xml -->
     <eat-comment/>
     <item name="TextView01" type="id">false</item>
@@ -216,6 +228,11 @@
     <item name="icon" type="id">false</item>
     <item name="image" type="id">false</item>
     <item name="innerlayout" type="id">false</item>
+    <!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.0.1/res/values/values.xml -->
+    <eat-comment/>
+    <item name="item_touch_helper_previous_elevation" type="id"/>
+    <!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/values/ids.xml -->
+    <eat-comment/>
     <item name="list" type="id">false</item>
     <item name="local_empty_list_item" type="id">false</item>
     <item name="locallist" type="id">false</item>
@@ -272,6 +289,8 @@
     <eat-comment/>
     <string name="action_settings">Settings</string>
     <string name="app_name">SimpleDrive</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="drawer_open">Open navigation drawer</string>
     <string name="hello_world">Hello world!</string>
     <string name="logout">Logout</string>
     <string name="newfolder">New Folder</string>

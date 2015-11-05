@@ -185,7 +185,7 @@ public class AudioService extends Service implements OnCompletionListener, OnPre
         PendingIntent pStop = PendingIntent.getBroadcast(this, 0, stop, 0);
         
         RemoteViews remoteView = new RemoteViews(getPackageName(), R.layout.notification);
-        remoteView.setImageViewResource(R.id.notifimage, R.drawable.audio_icon2);
+        remoteView.setImageViewResource(R.id.notifimage, R.drawable.ic_play_circle);
 
         if(mediaPlayer.isPlaying()) {
         	remoteView.setImageViewResource(R.id.notifbutton, R.drawable.pause_icon);
@@ -205,7 +205,7 @@ public class AudioService extends Service implements OnCompletionListener, OnPre
         	.setSmallIcon(R.drawable.button_play);
 
         Notification noti = mBuilder.build();
-        
+
         startForeground(notificationId, noti);
 	}
 	
