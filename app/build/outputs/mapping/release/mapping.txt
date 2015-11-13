@@ -10018,7 +10018,7 @@ org.simpledrive.RemoteFiles -> org.simpledrive.RemoteFiles:
     org.simpledrive.RemoteFiles e -> i
     java.lang.String server -> t
     java.lang.String username -> u
-    int displayMode -> v
+    java.lang.String mode -> v
     java.lang.String tmpFolder -> w
     android.content.SharedPreferences settings -> x
     boolean longClicked -> y
@@ -10067,7 +10067,7 @@ org.simpledrive.RemoteFiles -> org.simpledrive.RemoteFiles:
     void download() -> B
     void showShare() -> C
     void showCreate() -> D
-    void showRename(java.lang.String) -> d
+    void showRename(java.lang.String) -> e
     void showVirtualKeyboard() -> E
     org.json.JSONArray getSelectedElem() -> F
     void upload_add_recursive(java.lang.String,java.io.File,java.lang.String) -> a
@@ -10086,7 +10086,7 @@ org.simpledrive.RemoteFiles -> org.simpledrive.RemoteFiles:
     android.widget.TextView access$200(org.simpledrive.RemoteFiles) -> a
     java.lang.String access$300() -> n
     java.util.ArrayList access$400() -> o
-    int access$500() -> p
+    java.lang.String access$500() -> p
     android.support.v4.widget.SwipeRefreshLayout access$600(org.simpledrive.RemoteFiles) -> b
     int access$702(int) -> c
     org.json.JSONArray access$802(org.simpledrive.RemoteFiles,org.json.JSONArray) -> a
@@ -10108,7 +10108,7 @@ org.simpledrive.RemoteFiles -> org.simpledrive.RemoteFiles:
     org.simpledrive.RemoteFiles$NewFileAdapter access$2100(org.simpledrive.RemoteFiles) -> e
     java.util.ArrayList access$3000(org.simpledrive.RemoteFiles) -> f
     boolean access$3202(boolean) -> b
-    int access$502(int) -> d
+    java.lang.String access$502(java.lang.String) -> d
     android.support.v4.widget.DrawerLayout access$3400(org.simpledrive.RemoteFiles) -> g
     android.widget.ImageButton access$3500(org.simpledrive.RemoteFiles) -> h
     android.widget.ImageButton access$3600(org.simpledrive.RemoteFiles) -> i
