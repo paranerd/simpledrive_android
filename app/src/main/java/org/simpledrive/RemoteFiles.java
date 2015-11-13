@@ -87,7 +87,8 @@ public class RemoteFiles extends ActionBarActivity {
     public static RemoteFiles e;
     private static String server;
     private static String username = "";
-    private static int displayMode = 0;
+    //private static int displayMode = 0;
+    private static String mode = "files";
     private static final String tmpFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/simpleDrive/";
     private SharedPreferences settings;
     private boolean longClicked = false;
@@ -164,9 +165,15 @@ public class RemoteFiles extends ActionBarActivity {
     		String url = server + "api/files.php";
     		HashMap<String, String> data = new HashMap<>();
 
-            data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
-    		data.put("mode", Integer.toString(displayMode));
-            data.put("action", "list");
+            //data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
+            try {
+                data.put("path", hierarchy.get(hierarchy.size() - 1).getString("path"));
+                data.put("rootshare", hierarchy.get(hierarchy.size() - 1).getString("rootshare"));
+                data.put("mode", mode);
+                data.put("action", "list");
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
 
             return Connection.forJSON(url, data);
     	}
@@ -193,6 +200,7 @@ public class RemoteFiles extends ActionBarActivity {
   
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void listContent(final JSONArray json) {
+        Log.i("json", json.toString());
         // Reset anything related to listing files
         if(imgLoader != null) {
             imgLoader.cancel(true);
@@ -219,11 +227,11 @@ public class RemoteFiles extends ActionBarActivity {
             try {
                 JSONObject obj = json.getJSONObject(i);
 
-                String filename = (displayMode == 3) ? obj.getString("filename").substring(0, obj.getString("filename").lastIndexOf("_trash")) : obj.getString("filename");
+                String filename = (mode.equals("trash")) ? obj.getString("filename").substring(0, obj.getString("filename").lastIndexOf("_trash")) : obj.getString("filename");
                 String parent = obj.getString("parent");
                 String type = obj.getString("type");
                 String size = (obj.getString("type").equals("folder")) ? "" : Helper.convertSize(obj.getString("size"));
-                String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : (!obj.getString("closehash").equals("null") ? "shared" : "");
+                String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : (!obj.getString("rootshare").equals("null") ? "shared" : "");
                 Bitmap thumb;
 
                 switch (type) {
@@ -277,7 +285,7 @@ public class RemoteFiles extends ActionBarActivity {
         // Set current directory
         try {
             String dir = hierarchy.get(hierarchy.size() - 1).get("filename").toString();
-            String title = (displayMode == 3) ? "Trash" : (dir.equals("")) ? "Homefolder" : dir;
+            String title = (mode.equals("trash")) ? "Trash" : (dir.equals("")) ? "Homefolder" : dir;
             if(toolbar != null) {
                 SpannableString s = new SpannableString(title);
                 s.setSpan(new TypefaceSpan("fonts/robotolight.ttf"), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -453,7 +461,7 @@ public class RemoteFiles extends ActionBarActivity {
 
     public void openFile(int position) {
         NewItem item = items.get(position);
-        if(displayMode == 3) {
+        if(mode == "trash") {
             return;
 
         } else if(item.is("folder")) {
@@ -611,10 +619,11 @@ public class RemoteFiles extends ActionBarActivity {
                      hierarchy = new ArrayList<>();
 
                      JSONObject currDir = new JSONObject();
-                     currDir.put("filename", "");
-                     currDir.put("parent", "");
-                     currDir.put("owner", username);
-                     currDir.put("hash", 0);
+                     //currDir.put("filename", "");
+                     //currDir.put("parent", "");
+                     currDir.put("path", "");
+                     //currDir.put("owner", username);
+                     //currDir.put("hash", 0);
                      currDir.put("rootshare", 0);
                      hierarchy.add(currDir);
 
@@ -667,8 +676,8 @@ public class RemoteFiles extends ActionBarActivity {
             hierarchy.remove(hierarchy.size() - 1);
             new ListContent().execute();
 
-        } else if(displayMode == 3) {
-            displayMode = 0;
+        } else if(mode.equals("trash")) {
+            mode = "files";
             new ListContent().execute();
 
         } else {
@@ -986,7 +995,7 @@ public class RemoteFiles extends ActionBarActivity {
             HashMap<String, String> data = new HashMap<>();
 
             data.put("action", "delete");
-            data.put("final", Boolean.toString(displayMode == 3));
+            data.put("final", Boolean.toString(mode.equals("trash")));
             data.put("source", getSelectedElem().toString());
             data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
             return Connection.forString(url, data);
@@ -1286,7 +1295,7 @@ public class RemoteFiles extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    displayMode = 0;
+                    mode = "files";
                     if(hierarchy.size() > 0) {
                         new ListContent().execute();
                     }
@@ -1502,7 +1511,7 @@ public class RemoteFiles extends ActionBarActivity {
 
         menu.add(0, 1, 1, "Delete");
 
-        if(!(displayMode == 3)) {
+        if(!(mode.equals("trash"))) {
             if(getSelectedElem().length() == 1) {
                 menu.add(0, 0, 0, "Rename");
 
@@ -1617,7 +1626,7 @@ public class RemoteFiles extends ActionBarActivity {
 
     public void openTrash() {
         if(hierarchy.size() > 0) {
-            displayMode = 3;
+            mode = "trash";
             JSONObject first = hierarchy.get(0);
             hierarchy = new ArrayList<>();
             hierarchy.add(first);
