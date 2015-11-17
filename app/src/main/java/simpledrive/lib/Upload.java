@@ -33,7 +33,7 @@ import org.apache.http.util.EntityUtils;
     				this.listener = listener;
     			}
     			
-    			public static String upload(HttpEntity theEntity, String url, String path, String rel_path, String currDir) {
+    			public static String upload(HttpEntity theEntity, String url, String path, String rel_path, String currDir, String token) {
         			DefaultHttpClient httpClient = Connection.getThreadSafeClient();
         			HttpPost httpPost = new HttpPost(url);
 
@@ -45,6 +45,7 @@ import org.apache.http.util.EntityUtils;
         			reqEntity.addPart("0", fileBody);
         			reqEntity.addTextBody("target", currDir);
                     reqEntity.addTextBody("action", "upload");
+                    reqEntity.addTextBody("token", token);
                     reqEntity.addTextBody("paths", rel_path);
         			yourEntity = reqEntity.build();
         			totalSize = yourEntity.getContentLength();

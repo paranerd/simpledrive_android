@@ -87,6 +87,8 @@ public class RemoteFiles extends ActionBarActivity {
     public static RemoteFiles e;
     private static String server;
     private static String username = "";
+    private static String token;
+
     //private static int displayMode = 0;
     private static String mode = "files";
     private static final String tmpFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/simpleDrive/";
@@ -171,6 +173,7 @@ public class RemoteFiles extends ActionBarActivity {
                 data.put("rootshare", hierarchy.get(hierarchy.size() - 1).getString("rootshare"));
                 data.put("mode", mode);
                 data.put("action", "list");
+                data.put("token", token);
             } catch (JSONException e1) {
                 e1.printStackTrace();
             }
@@ -200,7 +203,6 @@ public class RemoteFiles extends ActionBarActivity {
   
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void listContent(final JSONArray json) {
-        Log.i("json", json.toString());
         // Reset anything related to listing files
         if(imgLoader != null) {
             imgLoader.cancel(true);
@@ -272,7 +274,7 @@ public class RemoteFiles extends ActionBarActivity {
             }
         }
 
-        firstFilePos = (firstFilePos == null) ? 0 : firstFilePos;
+        firstFilePos = (firstFilePos == null) ? items.size() : firstFilePos;
 
         String emptyText = (items.size() == 0) ? "Nothing to see here." : "";
         empty.setText(emptyText);
@@ -284,8 +286,18 @@ public class RemoteFiles extends ActionBarActivity {
 
         // Set current directory
         try {
-            String dir = hierarchy.get(hierarchy.size() - 1).get("filename").toString();
-            String title = (mode.equals("trash")) ? "Trash" : (dir.equals("")) ? "Homefolder" : dir;
+            String title;
+            JSONObject hier = hierarchy.get(hierarchy.size() - 1);
+            if(hier.has("filename")) {
+                title = hier.getString("filename");
+            }
+            else if(mode.equals("trash")) {
+                title = "Trash";
+            }
+            else {
+                title = "Homefolder";
+            }
+
             if(toolbar != null) {
                 SpannableString s = new SpannableString(title);
                 s.setSpan(new TypefaceSpan("fonts/robotolight.ttf"), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -452,9 +464,9 @@ public class RemoteFiles extends ActionBarActivity {
             });
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                imgLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, item.getFile().toString(), item.getFilename(), size, size, path);
+                imgLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, item.getFile().toString(), item.getFilename(), size, size, path, token);
             } else {
-                imgLoader.execute(item.getFile().toString(), item.getFilename(), size, size, path);
+                imgLoader.execute(item.getFile().toString(), item.getFilename(), size, size, path, token);
             }
         }
     }
@@ -571,6 +583,7 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("type",  "mobile_audio");
             data.put("filename", audioFilename);
             data.put("action", "cache");
+            data.put("token", token);
 
             return server + Connection.forString(url, data);
         }
@@ -604,9 +617,12 @@ public class RemoteFiles extends ActionBarActivity {
             }
 
             username = sc[0].name;
+            token = accMan.getUserData(sc[0], "token");
+
             String url = server + "api/core.php";
             HashMap<String, String> data = new HashMap<>();
             data.put("action", "login");
+            data.put("token", token);
             data.put("user", username);
             data.put("pass", accMan.getPassword(sc[0]));
 
@@ -614,20 +630,17 @@ public class RemoteFiles extends ActionBarActivity {
     	}
     	 @Override
          protected void onPostExecute(String value) {
-             if(value != null && value.equals("1")) {
+             if(value != null) {
                  try {
                      hierarchy = new ArrayList<>();
 
                      JSONObject currDir = new JSONObject();
-                     //currDir.put("filename", "");
-                     //currDir.put("parent", "");
                      currDir.put("path", "");
-                     //currDir.put("owner", username);
-                     //currDir.put("hash", 0);
                      currDir.put("rootshare", 0);
                      hierarchy.add(currDir);
 
                      empty.setText("Nothing to see here.");
+                     token = value;
                  } catch (JSONException e) {
                      e.printStackTrace();
                  }
@@ -788,6 +801,7 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("type", "folder");
             data.put("filename", pos[0]);
             data.put("action", "create");
+            data.put("token", token);
             data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
             return Connection.forString(url, data);
         }
@@ -888,6 +902,7 @@ public class RemoteFiles extends ActionBarActivity {
             HashMap<String, String> data = new HashMap<>();
 
             data.put("action", "rename");
+            data.put("token", token);
             data.put("newFilename", names[0]);
             data.put("target", getSelected().toString());
             return Connection.forString(url, data);
@@ -933,6 +948,7 @@ public class RemoteFiles extends ActionBarActivity {
             HashMap<String, String> data = new HashMap<>();
 
             data.put("action", "download");
+            data.put("token", token);
             data.put("source", getSelectedElem().toString());
             data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
 
@@ -995,6 +1011,7 @@ public class RemoteFiles extends ActionBarActivity {
             HashMap<String, String> data = new HashMap<>();
 
             data.put("action", "delete");
+            data.put("token", token);
             data.put("final", Boolean.toString(mode.equals("trash")));
             data.put("source", getSelectedElem().toString());
             data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
@@ -1039,6 +1056,7 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("pubAcc", Integer.toString(sharePublic));
             data.put("write", Integer.toString(shareWrite));
             data.put("action", "share");
+            data.put("token", token);
             data.put("target", getSelected().toString());
             return Connection.forString(url, data);
         }
@@ -1091,6 +1109,7 @@ public class RemoteFiles extends ActionBarActivity {
             HashMap<String, String> data = new HashMap<>();
 
             data.put("action", "unshare");
+            data.put("token", token);
             data.put("target", getSelected().toString());
             return Connection.forString(url, data);
         }
@@ -1118,6 +1137,7 @@ public class RemoteFiles extends ActionBarActivity {
             HashMap<String, String> data = new HashMap<>();
 
             data.put("action", "zip");
+            data.put("token", token);
             data.put("source", getSelectedElem().toString());
             data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
             return Connection.forString(url, data);
@@ -1149,6 +1169,7 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("test", "test");
             data.put("trash", "true");
             data.put("action", "move");
+            data.put("token", token);
             data.put("source", getSelectedElem().toString());
             data.put("target", hierarchy.get(0).toString());
 
@@ -1214,7 +1235,7 @@ public class RemoteFiles extends ActionBarActivity {
             }
             });
 
-            return simpledrive.lib.Upload.upload(myEntity, url, filepath, relative, target);
+            return simpledrive.lib.Upload.upload(myEntity, url, filepath, relative, target, token);
         }
 
         @Override

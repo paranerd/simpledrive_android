@@ -69,6 +69,7 @@ public class ShareFiles extends ActionBarActivity {
     private static String server;
     private static String username = "";
     private SharedPreferences settings;
+    private static String token;
 
     // Files
     private static ArrayList<NewItem> items = new ArrayList<>();
@@ -392,9 +393,12 @@ public class ShareFiles extends ActionBarActivity {
             }
 
             username = sc[0].name;
+            token = accMan.getUserData(sc[0], "token");
+
             String url = server + "api/core.php";
             HashMap<String, String> data = new HashMap<>();
             data.put("action", "login");
+            data.put("token", token);
             data.put("user", username);
             data.put("pass", accMan.getPassword(sc[0]));
 
@@ -402,19 +406,17 @@ public class ShareFiles extends ActionBarActivity {
         }
         @Override
         protected void onPostExecute(String value) {
-            if(value != null && value.equals("1")) {
+            if(value != null) {
                 try {
                     hierarchy = new ArrayList<>();
 
                     JSONObject currDir = new JSONObject();
-                    currDir.put("filename", "");
-                    currDir.put("parent", "");
-                    currDir.put("owner", username);
-                    currDir.put("hash", 0);
+                    currDir.put("path", "");
                     currDir.put("rootshare", 0);
                     hierarchy.add(currDir);
 
                     empty.setText("Nothing to see here.");
+                    token = value;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -560,7 +562,7 @@ public class ShareFiles extends ActionBarActivity {
                     }
                 }
             });
-            return simpledrive.lib.Upload.upload(myEntity, url, filepath, relative, target);
+            return simpledrive.lib.Upload.upload(myEntity, url, filepath, relative, target, token);
         }
 
         @Override
