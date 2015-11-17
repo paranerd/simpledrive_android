@@ -1,5 +1,7 @@
 package org.simpledrive;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -29,6 +31,7 @@ public class ImageViewer extends ActionBarActivity {
     private static boolean titleVisible = true;
     private static Toolbar toolbar;
     ImageViewer e;
+    String token;
 
     public static ArrayList<HashMap<String, String>> images;
 
@@ -39,6 +42,13 @@ public class ImageViewer extends ActionBarActivity {
 
         images = RemoteFiles.getAllImages();
         e = this;
+
+        AccountManager accMan = AccountManager.get(ImageViewer.this);
+        Account[] sc = accMan.getAccountsByType("org.simpledrive");
+
+        if (sc.length > 0) {
+            token = accMan.getUserData(sc[0], "token");
+        }
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar != null) {
@@ -169,6 +179,6 @@ public class ImageViewer extends ActionBarActivity {
             }
         });
 
-        task.execute(file, filename, width + "", height + "", path);
+        task.execute(file, filename, width + "", height + "", path, token);
     }
 }

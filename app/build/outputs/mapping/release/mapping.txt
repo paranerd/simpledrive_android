@@ -9879,10 +9879,11 @@ org.simpledrive.GridViewItem -> org.simpledrive.GridViewItem:
     void onMeasure(int,int) -> onMeasure
 org.simpledrive.ImageViewer -> org.simpledrive.ImageViewer:
     org.simpledrive.ExtendedViewPager mViewPager -> i
-    boolean titleVisible -> l
-    android.support.v7.widget.Toolbar toolbar -> m
+    boolean titleVisible -> m
+    android.support.v7.widget.Toolbar toolbar -> n
     org.simpledrive.ImageViewer e -> j
-    java.util.ArrayList images -> k
+    java.lang.String token -> k
+    java.util.ArrayList images -> l
     void onCreate(android.os.Bundle) -> onCreate
     void toggleToolbar() -> toggleToolbar
     void loadImage(java.lang.String,org.simpledrive.TouchImageView,java.lang.String,java.lang.String,java.lang.String) -> a
@@ -10018,58 +10019,59 @@ org.simpledrive.RemoteFiles -> org.simpledrive.RemoteFiles:
     org.simpledrive.RemoteFiles e -> i
     java.lang.String server -> t
     java.lang.String username -> u
-    java.lang.String mode -> v
-    java.lang.String tmpFolder -> w
-    android.content.SharedPreferences settings -> x
-    boolean longClicked -> y
-    simpledrive.lib.ImageLoader imgLoader -> z
-    int loginAttemts -> A
+    java.lang.String token -> v
+    java.lang.String mode -> w
+    java.lang.String tmpFolder -> x
+    android.content.SharedPreferences settings -> y
+    boolean longClicked -> z
+    simpledrive.lib.ImageLoader imgLoader -> A
+    int loginAttemts -> B
     java.lang.String audioFilename -> j
-    simpledrive.lib.AudioService mPlayerService -> B
-    boolean mBound -> C
+    simpledrive.lib.AudioService mPlayerService -> C
+    boolean mBound -> D
     int uploadCurrent -> k
     int uploadTotal -> l
     int uploadSuccessful -> m
-    boolean uploading -> D
-    java.util.ArrayList uploadQueue -> E
-    android.graphics.Typeface myTypeface -> F
-    android.widget.AbsListView list -> G
-    java.lang.String globLayout -> H
-    android.widget.TextView empty -> I
-    android.support.v4.widget.SwipeRefreshLayout mSwipeRefreshLayout -> J
-    android.support.v7.widget.Toolbar toolbar -> K
-    android.widget.ImageButton bUpload -> L
-    android.widget.ImageButton bCreate -> M
-    android.view.Menu mMenu -> N
+    boolean uploading -> E
+    java.util.ArrayList uploadQueue -> F
+    android.graphics.Typeface myTypeface -> G
+    android.widget.AbsListView list -> H
+    java.lang.String globLayout -> I
+    android.widget.TextView empty -> J
+    android.support.v4.widget.SwipeRefreshLayout mSwipeRefreshLayout -> K
+    android.support.v7.widget.Toolbar toolbar -> L
+    android.widget.ImageButton bUpload -> M
+    android.widget.ImageButton bCreate -> N
+    android.view.Menu mMenu -> O
     java.lang.String[] titles -> n
     int[] icons -> o
     android.support.v4.app.ActionBarDrawerToggle mDrawerToggle -> p
-    android.support.v4.widget.DrawerLayout mDrawerLayout -> O
+    android.support.v4.widget.DrawerLayout mDrawerLayout -> P
     android.widget.ListView mDrawerList -> q
     android.widget.LinearLayout mDrawerLinear -> r
-    org.json.JSONArray json -> P
-    java.util.ArrayList items -> Q
-    java.util.ArrayList hierarchy -> R
-    java.lang.Integer firstFilePos -> S
-    org.simpledrive.RemoteFiles$NewFileAdapter newAdapter -> T
+    org.json.JSONArray json -> Q
+    java.util.ArrayList items -> R
+    java.util.ArrayList hierarchy -> S
+    java.lang.Integer firstFilePos -> T
+    org.simpledrive.RemoteFiles$NewFileAdapter newAdapter -> U
     android.content.ServiceConnection mServiceConnection -> s
     void listContent(org.json.JSONArray) -> a
     void openFile(int) -> a
     int getCurrentImage(java.lang.String) -> a
     java.util.ArrayList getAllImages() -> j
     void toggleSelection(int) -> b
-    void selectAll() -> z
-    void unselectAll() -> A
+    void selectAll() -> A
+    void unselectAll() -> B
     org.json.JSONObject getSelected() -> k
     void onActivityResult(int,int,android.content.Intent) -> onActivityResult
     void onBackPressed() -> onBackPressed
     boolean onContextItemSelected(android.view.MenuItem) -> onContextItemSelected
-    void download() -> B
-    void showShare() -> C
-    void showCreate() -> D
-    void showRename(java.lang.String) -> e
-    void showVirtualKeyboard() -> E
-    org.json.JSONArray getSelectedElem() -> F
+    void download() -> C
+    void showShare() -> D
+    void showCreate() -> E
+    void showRename(java.lang.String) -> f
+    void showVirtualKeyboard() -> F
+    org.json.JSONArray getSelectedElem() -> G
     void upload_add_recursive(java.lang.String,java.io.File,java.lang.String) -> a
     void upload_handler(java.util.ArrayList) -> a
     void prepareNavigationDrawer() -> l
@@ -10087,33 +10089,35 @@ org.simpledrive.RemoteFiles -> org.simpledrive.RemoteFiles:
     java.lang.String access$300() -> n
     java.util.ArrayList access$400() -> o
     java.lang.String access$500() -> p
-    android.support.v4.widget.SwipeRefreshLayout access$600(org.simpledrive.RemoteFiles) -> b
-    int access$702(int) -> c
-    org.json.JSONArray access$802(org.simpledrive.RemoteFiles,org.json.JSONArray) -> a
-    void access$900(org.simpledrive.RemoteFiles,org.json.JSONArray) -> b
-    android.graphics.Typeface access$1000() -> q
-    java.lang.String access$1100() -> r
-    java.lang.Integer access$1200(org.simpledrive.RemoteFiles) -> c
-    java.lang.String access$1300() -> s
-    org.json.JSONArray access$1400(org.simpledrive.RemoteFiles) -> d
-    boolean access$1502(org.simpledrive.RemoteFiles,boolean) -> b
-    android.widget.AbsListView access$1600() -> t
-    java.util.ArrayList access$1900() -> u
-    simpledrive.lib.AudioService access$100() -> v
-    int access$708() -> w
-    int access$700() -> x
-    java.lang.String access$2002(java.lang.String) -> c
-    java.lang.String access$2000() -> y
+    java.lang.String access$600() -> q
+    android.support.v4.widget.SwipeRefreshLayout access$700(org.simpledrive.RemoteFiles) -> b
+    int access$802(int) -> c
+    org.json.JSONArray access$902(org.simpledrive.RemoteFiles,org.json.JSONArray) -> a
+    void access$1000(org.simpledrive.RemoteFiles,org.json.JSONArray) -> b
+    android.graphics.Typeface access$1100() -> r
+    java.lang.String access$1200() -> s
+    java.lang.Integer access$1300(org.simpledrive.RemoteFiles) -> c
+    java.lang.String access$1400() -> t
+    org.json.JSONArray access$1500(org.simpledrive.RemoteFiles) -> d
+    boolean access$1602(org.simpledrive.RemoteFiles,boolean) -> b
+    android.widget.AbsListView access$1700() -> u
+    java.util.ArrayList access$2000() -> v
+    simpledrive.lib.AudioService access$100() -> w
+    int access$808() -> x
+    int access$800() -> y
+    java.lang.String access$2102(java.lang.String) -> c
+    java.lang.String access$602(java.lang.String) -> d
+    java.lang.String access$2100() -> z
     java.util.ArrayList access$402(java.util.ArrayList) -> b
-    org.simpledrive.RemoteFiles$NewFileAdapter access$2100(org.simpledrive.RemoteFiles) -> e
-    java.util.ArrayList access$3000(org.simpledrive.RemoteFiles) -> f
-    boolean access$3202(boolean) -> b
-    java.lang.String access$502(java.lang.String) -> d
-    android.support.v4.widget.DrawerLayout access$3400(org.simpledrive.RemoteFiles) -> g
-    android.widget.ImageButton access$3500(org.simpledrive.RemoteFiles) -> h
-    android.widget.ImageButton access$3600(org.simpledrive.RemoteFiles) -> i
-    void access$3700(org.simpledrive.RemoteFiles) -> j
-    boolean access$1500(org.simpledrive.RemoteFiles) -> k
+    org.simpledrive.RemoteFiles$NewFileAdapter access$2200(org.simpledrive.RemoteFiles) -> e
+    java.util.ArrayList access$3100(org.simpledrive.RemoteFiles) -> f
+    boolean access$3302(boolean) -> b
+    java.lang.String access$502(java.lang.String) -> e
+    android.support.v4.widget.DrawerLayout access$3500(org.simpledrive.RemoteFiles) -> g
+    android.widget.ImageButton access$3600(org.simpledrive.RemoteFiles) -> h
+    android.widget.ImageButton access$3700(org.simpledrive.RemoteFiles) -> i
+    void access$3800(org.simpledrive.RemoteFiles) -> j
+    boolean access$1600(org.simpledrive.RemoteFiles) -> k
 org.simpledrive.RemoteFiles$1 -> org.simpledrive.q:
     org.simpledrive.RemoteFiles this$0 -> a
     void onServiceDisconnected(android.content.ComponentName) -> onServiceDisconnected
@@ -10201,7 +10205,7 @@ org.simpledrive.RemoteFiles$Download -> org.simpledrive.aj:
     void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-    void access$2900(org.simpledrive.RemoteFiles$Download,java.lang.Object[]) -> a
+    void access$3000(org.simpledrive.RemoteFiles$Download,java.lang.Object[]) -> a
 org.simpledrive.RemoteFiles$Download$1 -> org.simpledrive.ak:
     org.simpledrive.RemoteFiles$Download this$1 -> a
     void transferred(java.lang.Integer) -> a
@@ -10235,7 +10239,7 @@ org.simpledrive.RemoteFiles$NewFileAdapter -> org.simpledrive.ao:
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     void setData(java.util.ArrayList) -> a
     void loadThumb(simpledrive.lib.NewItem,java.lang.String) -> a
-    org.simpledrive.RemoteFiles$NewFileAdapter access$1700(org.simpledrive.RemoteFiles$NewFileAdapter) -> a
+    org.simpledrive.RemoteFiles$NewFileAdapter access$1800(org.simpledrive.RemoteFiles$NewFileAdapter) -> a
 org.simpledrive.RemoteFiles$NewFileAdapter$1 -> org.simpledrive.ap:
     int val$position -> a
     org.simpledrive.RemoteFiles$NewFileAdapter this$1 -> b
@@ -10310,7 +10314,7 @@ org.simpledrive.RemoteFiles$Upload -> org.simpledrive.az:
     void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-    void access$3100(org.simpledrive.RemoteFiles$Upload,java.lang.Object[]) -> a
+    void access$3200(org.simpledrive.RemoteFiles$Upload,java.lang.Object[]) -> a
 org.simpledrive.RemoteFiles$Upload$1 -> org.simpledrive.ba:
     org.simpledrive.RemoteFiles$Upload this$1 -> a
     void transferred(java.lang.Integer) -> a
@@ -10327,27 +10331,28 @@ org.simpledrive.ShareFiles -> org.simpledrive.ShareFiles:
     java.lang.String server -> o
     java.lang.String username -> p
     android.content.SharedPreferences settings -> q
-    java.util.ArrayList items -> r
-    java.util.ArrayList hierarchy -> s
-    android.graphics.Typeface myTypeface -> t
-    android.widget.AbsListView list -> u
-    android.widget.TextView empty -> v
-    java.lang.String globLayout -> w
-    android.support.v4.widget.SwipeRefreshLayout mSwipeRefreshLayout -> x
-    android.support.v7.widget.Toolbar toolbar -> y
-    simpledrive.lib.ImageLoader imgLoader -> z
-    java.util.ArrayList uploadQueue -> A
+    java.lang.String token -> r
+    java.util.ArrayList items -> s
+    java.util.ArrayList hierarchy -> t
+    android.graphics.Typeface myTypeface -> u
+    android.widget.AbsListView list -> v
+    android.widget.TextView empty -> w
+    java.lang.String globLayout -> x
+    android.support.v4.widget.SwipeRefreshLayout mSwipeRefreshLayout -> y
+    android.support.v7.widget.Toolbar toolbar -> z
+    simpledrive.lib.ImageLoader imgLoader -> A
+    java.util.ArrayList uploadQueue -> B
     int uploadCurrent -> j
     int uploadTotal -> k
     int uploadSuccessful -> l
     boolean uploading -> m
-    java.util.ArrayList uploadsPending -> B
+    java.util.ArrayList uploadsPending -> C
     void onCreate(android.os.Bundle) -> onCreate
     void listContent(org.json.JSONArray) -> a
     void openFile(int) -> a
     void onBackPressed() -> onBackPressed
-    void showCreate() -> s
-    void showVirtualKeyboard() -> t
+    void showCreate() -> t
+    void showVirtualKeyboard() -> u
     void upload_add_recursive(java.lang.String,java.io.File,java.lang.String) -> a
     void upload_handler(java.util.ArrayList) -> a
     java.lang.String getRealPathFromURI(android.net.Uri) -> a
@@ -10368,9 +10373,11 @@ org.simpledrive.ShareFiles -> org.simpledrive.ShareFiles:
     int access$808() -> p
     int access$800() -> q
     java.lang.String access$1202(java.lang.String) -> b
-    java.lang.String access$1200() -> r
+    java.lang.String access$1302(java.lang.String) -> c
+    java.lang.String access$1300() -> r
+    java.lang.String access$1200() -> s
     java.util.ArrayList access$702(java.util.ArrayList) -> b
-    java.util.ArrayList access$1400(org.simpledrive.ShareFiles) -> d
+    java.util.ArrayList access$1500(org.simpledrive.ShareFiles) -> d
 org.simpledrive.ShareFiles$1 -> org.simpledrive.bc:
     org.simpledrive.ShareFiles this$0 -> a
     void onClick(android.view.View) -> onClick
@@ -10448,7 +10455,7 @@ org.simpledrive.ShareFiles$Upload -> org.simpledrive.bp:
     void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-    void access$1500(org.simpledrive.ShareFiles$Upload,java.lang.Object[]) -> a
+    void access$1600(org.simpledrive.ShareFiles$Upload,java.lang.Object[]) -> a
 org.simpledrive.ShareFiles$Upload$1 -> org.simpledrive.bq:
     org.simpledrive.ShareFiles$Upload this$1 -> a
     void transferred(java.lang.Integer) -> a
@@ -10765,7 +10772,7 @@ simpledrive.lib.Upload -> simpledrive.lib.Upload:
     simpledrive.lib.Upload$ProgressListener listener -> c
     org.apache.http.HttpEntity yourEntity -> a
     long totalSize -> b
-    java.lang.String upload(org.apache.http.HttpEntity,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
+    java.lang.String upload(org.apache.http.HttpEntity,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
     void consumeContent() -> consumeContent
     java.io.InputStream getContent() -> getContent
     org.apache.http.Header getContentEncoding() -> getContentEncoding

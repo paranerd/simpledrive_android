@@ -35,16 +35,17 @@ public class Login extends Activity {
 
             @Override
             public void onClick(View arg0) {
-                String username = txtUsername.getText().toString();
-                String password = txtPassword.getText().toString();
-                String server = serverName.getText().toString();
+                String username = txtUsername.getText().toString().replaceAll("\\s+", "");
+                String password = txtPassword.getText().toString().replaceAll("\\s+", "");
+                String server = serverName.getText().toString().replaceAll("\\s+", "");
 
                 // Check if server, username, password is filled
-                if (server.trim().length() == 0 || username.trim().length() == 0 || password.trim().length() == 0) {
+                if (server.length() == 0 || username.length() == 0 || password.length() == 0) {
                     Toast.makeText(getApplicationContext(), "No blank fields", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (server.trim().length() > 3 && !server.substring(0, 4).matches("http")) {
-                        server = (new StringBuilder("http://")).append(server).toString();
+                }
+                else {
+                    if (server.length() > 3 && !server.substring(0, 4).matches("http")) {
+                        server = "http://" + server; //(new StringBuilder("http://")).append(server).toString();
                     }
 
                     if (!server.substring(server.length() - 1).equals("/")) {
@@ -78,7 +79,6 @@ public class Login extends Activity {
             pass = login[1];
             server = login[2];
 
-            //String url = server + "php/core_login.php";
             String url = server + "api/core.php";
             HashMap<String, String> data = new HashMap<>();
             data.put("action", "login");
@@ -93,13 +93,14 @@ public class Login extends Activity {
             if(value == null) {
                 Toast.makeText(Login.this, "Connection error", Toast.LENGTH_SHORT).show();
             }
-            else if(value.equals("1")) {
+            else if(value.length() > 0) {
                 SharedPreferences.Editor editor = getSharedPreferences("org.simpledrive.shared_pref", 0).edit();
                 editor.putString("server", server).commit();
 
                 Account account = new Account(user, "org.simpledrive");
                 Bundle userdata = new Bundle();
                 userdata.putString("SERVER", server);
+                userdata.putString("token", value);
                 AccountManager am = AccountManager.get(Login.this);
                 Account aaccount[] = am.getAccounts();
 
@@ -115,7 +116,7 @@ public class Login extends Activity {
                 finish();
             }
             else {
-               Toast.makeText(Login.this, "Login failed " + value, Toast.LENGTH_SHORT).show();
+               Toast.makeText(Login.this, "Login failed", Toast.LENGTH_SHORT).show();
             }
         }
     }

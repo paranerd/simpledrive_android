@@ -1,5 +1,7 @@
 package simpledrive.lib;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -43,10 +45,11 @@ public class ImageLoader extends AsyncTask<String, String, Bitmap> {
         String width = path[2];
         String height = path[3];
         String filepath = path[4];
+        String token = path[5];
 
         try {
             String file_enc = URLEncoder.encode(file, "UTF-8");
-            String url = server + "api/files.php?target=" + file_enc + "&action=img&width=" + width + "&height=" + height;
+            String url = server + "api/files.php?token=" + token + "&target=" + file_enc + "&action=img&width=" + width + "&height=" + height;
 
             DefaultHttpClient httpClient = Connection.getThreadSafeClient();
             HttpGet httpGet = new HttpGet(url);
