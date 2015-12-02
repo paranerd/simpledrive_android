@@ -10011,8 +10011,8 @@ org.simpledrive.Login$LoginTask -> org.simpledrive.p:
     java.lang.String server -> e
     org.simpledrive.Login this$0 -> a
     void onPreExecute() -> onPreExecute
-    java.lang.String doInBackground(java.lang.String[]) -> a
-    void onPostExecute(java.lang.String) -> a
+    java.util.HashMap doInBackground(java.lang.String[]) -> a
+    void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.RemoteFiles -> org.simpledrive.RemoteFiles:
@@ -10093,12 +10093,13 @@ org.simpledrive.RemoteFiles -> org.simpledrive.RemoteFiles:
     android.support.v4.widget.SwipeRefreshLayout access$700(org.simpledrive.RemoteFiles) -> b
     int access$802(int) -> c
     org.json.JSONArray access$902(org.simpledrive.RemoteFiles,org.json.JSONArray) -> a
+    org.json.JSONArray access$900(org.simpledrive.RemoteFiles) -> c
     void access$1000(org.simpledrive.RemoteFiles,org.json.JSONArray) -> b
     android.graphics.Typeface access$1100() -> r
     java.lang.String access$1200() -> s
-    java.lang.Integer access$1300(org.simpledrive.RemoteFiles) -> c
+    java.lang.Integer access$1300(org.simpledrive.RemoteFiles) -> d
     java.lang.String access$1400() -> t
-    org.json.JSONArray access$1500(org.simpledrive.RemoteFiles) -> d
+    org.json.JSONArray access$1500(org.simpledrive.RemoteFiles) -> e
     boolean access$1602(org.simpledrive.RemoteFiles,boolean) -> b
     android.widget.AbsListView access$1700() -> u
     java.util.ArrayList access$2000() -> v
@@ -10109,15 +10110,15 @@ org.simpledrive.RemoteFiles -> org.simpledrive.RemoteFiles:
     java.lang.String access$602(java.lang.String) -> d
     java.lang.String access$2100() -> z
     java.util.ArrayList access$402(java.util.ArrayList) -> b
-    org.simpledrive.RemoteFiles$NewFileAdapter access$2200(org.simpledrive.RemoteFiles) -> e
-    java.util.ArrayList access$3100(org.simpledrive.RemoteFiles) -> f
+    org.simpledrive.RemoteFiles$NewFileAdapter access$2200(org.simpledrive.RemoteFiles) -> f
+    java.util.ArrayList access$3100(org.simpledrive.RemoteFiles) -> g
     boolean access$3302(boolean) -> b
     java.lang.String access$502(java.lang.String) -> e
-    android.support.v4.widget.DrawerLayout access$3500(org.simpledrive.RemoteFiles) -> g
-    android.widget.ImageButton access$3600(org.simpledrive.RemoteFiles) -> h
-    android.widget.ImageButton access$3700(org.simpledrive.RemoteFiles) -> i
-    void access$3800(org.simpledrive.RemoteFiles) -> j
-    boolean access$1600(org.simpledrive.RemoteFiles) -> k
+    android.support.v4.widget.DrawerLayout access$3500(org.simpledrive.RemoteFiles) -> h
+    android.widget.ImageButton access$3600(org.simpledrive.RemoteFiles) -> i
+    android.widget.ImageButton access$3700(org.simpledrive.RemoteFiles) -> j
+    void access$3800(org.simpledrive.RemoteFiles) -> k
+    boolean access$1600(org.simpledrive.RemoteFiles) -> l
 org.simpledrive.RemoteFiles$1 -> org.simpledrive.q:
     org.simpledrive.RemoteFiles this$0 -> a
     void onServiceDisconnected(android.content.ComponentName) -> onServiceDisconnected
@@ -10182,15 +10183,15 @@ org.simpledrive.RemoteFiles$Connect -> org.simpledrive.ah:
     android.accounts.Account[] sc -> a
     org.simpledrive.RemoteFiles this$0 -> b
     void onPreExecute() -> onPreExecute
-    java.lang.String doInBackground(java.lang.String[]) -> a
-    void onPostExecute(java.lang.String) -> a
+    java.util.HashMap doInBackground(java.lang.String[]) -> a
+    void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.RemoteFiles$Delete -> org.simpledrive.ai:
     org.simpledrive.RemoteFiles this$0 -> a
     void onPreExecute() -> onPreExecute
-    java.lang.String doInBackground(java.lang.Integer[]) -> a
-    void onPostExecute(java.lang.String) -> a
+    java.util.HashMap doInBackground(java.lang.Integer[]) -> a
+    void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.RemoteFiles$Download -> org.simpledrive.aj:
@@ -10212,23 +10213,23 @@ org.simpledrive.RemoteFiles$Download$1 -> org.simpledrive.ak:
 org.simpledrive.RemoteFiles$GetLink -> org.simpledrive.al:
     org.simpledrive.RemoteFiles this$0 -> a
     void onPreExecute() -> onPreExecute
-    java.lang.String doInBackground(java.lang.Integer[]) -> a
-    void onPostExecute(java.lang.String) -> a
+    java.util.HashMap doInBackground(java.lang.Integer[]) -> a
+    void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.RemoteFiles$ListContent -> org.simpledrive.am:
     android.app.ProgressDialog pDialog -> a
     org.simpledrive.RemoteFiles this$0 -> b
     void onPreExecute() -> onPreExecute
-    org.json.JSONArray doInBackground(java.lang.String[]) -> a
-    void onPostExecute(org.json.JSONArray) -> a
+    java.util.HashMap doInBackground(java.lang.String[]) -> a
+    void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.RemoteFiles$NewFile -> org.simpledrive.an:
     org.simpledrive.RemoteFiles this$0 -> a
     void onPreExecute() -> onPreExecute
-    java.lang.String doInBackground(java.lang.String[]) -> a
-    void onPostExecute(java.lang.String) -> a
+    java.util.HashMap doInBackground(java.lang.String[]) -> a
+    void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.RemoteFiles$NewFileAdapter -> org.simpledrive.ao:
@@ -10262,15 +10263,15 @@ org.simpledrive.RemoteFiles$NewFileAdapter$ViewHolder -> org.simpledrive.as:
 org.simpledrive.RemoteFiles$Rename -> org.simpledrive.at:
     org.simpledrive.RemoteFiles this$0 -> a
     void onPreExecute() -> onPreExecute
-    java.lang.String doInBackground(java.lang.String[]) -> a
-    void onPostExecute(java.lang.String) -> a
+    java.util.HashMap doInBackground(java.lang.String[]) -> a
+    void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.RemoteFiles$Restore -> org.simpledrive.au:
     org.simpledrive.RemoteFiles this$0 -> a
     void onPreExecute() -> onPreExecute
-    java.lang.String doInBackground(java.lang.Integer[]) -> a
-    void onPostExecute(java.lang.String) -> a
+    java.util.HashMap doInBackground(java.lang.Integer[]) -> a
+    void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.RemoteFiles$Share -> org.simpledrive.av:
@@ -10279,23 +10280,23 @@ org.simpledrive.RemoteFiles$Share -> org.simpledrive.av:
     int sharePublic -> c
     org.simpledrive.RemoteFiles this$0 -> d
     void onPreExecute() -> onPreExecute
-    java.lang.String doInBackground(java.lang.Void[]) -> a
-    void onPostExecute(java.lang.String) -> a
+    java.util.HashMap doInBackground(java.lang.Void[]) -> a
+    void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.RemoteFiles$Share$1 -> org.simpledrive.aw:
-    java.lang.String val$value -> a
+    java.util.HashMap val$value -> a
     org.simpledrive.RemoteFiles$Share this$1 -> b
     void onClick(android.content.DialogInterface,int) -> onClick
 org.simpledrive.RemoteFiles$Share$2 -> org.simpledrive.ax:
-    java.lang.String val$value -> a
+    java.util.HashMap val$value -> a
     org.simpledrive.RemoteFiles$Share this$1 -> b
     void onClick(android.content.DialogInterface,int) -> onClick
 org.simpledrive.RemoteFiles$Unshare -> org.simpledrive.ay:
     org.simpledrive.RemoteFiles this$0 -> a
     void onPreExecute() -> onPreExecute
-    java.lang.String doInBackground(java.lang.Integer[]) -> a
-    void onPostExecute(java.lang.String) -> a
+    java.util.HashMap doInBackground(java.lang.Integer[]) -> a
+    void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.RemoteFiles$Upload -> org.simpledrive.az:
@@ -10321,8 +10322,8 @@ org.simpledrive.RemoteFiles$Upload$1 -> org.simpledrive.ba:
 org.simpledrive.RemoteFiles$Zip -> org.simpledrive.bb:
     org.simpledrive.RemoteFiles this$0 -> a
     void onPreExecute() -> onPreExecute
-    java.lang.String doInBackground(java.lang.Integer[]) -> a
-    void onPostExecute(java.lang.String) -> a
+    java.util.HashMap doInBackground(java.lang.Integer[]) -> a
+    void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.ShareFiles -> org.simpledrive.ShareFiles:
@@ -10366,16 +10367,16 @@ org.simpledrive.ShareFiles -> org.simpledrive.ShareFiles:
     android.widget.TextView access$500(org.simpledrive.ShareFiles) -> c
     java.lang.String access$600() -> l
     java.util.ArrayList access$700() -> m
-    int access$802(int) -> b
-    void access$900(org.simpledrive.ShareFiles,org.json.JSONArray) -> a
-    android.graphics.Typeface access$1000() -> n
-    java.lang.String access$1100() -> o
-    int access$808() -> p
-    int access$800() -> q
-    java.lang.String access$1202(java.lang.String) -> b
-    java.lang.String access$1302(java.lang.String) -> c
-    java.lang.String access$1300() -> r
-    java.lang.String access$1200() -> s
+    java.lang.String access$800() -> n
+    int access$902(int) -> b
+    void access$1000(org.simpledrive.ShareFiles,org.json.JSONArray) -> a
+    android.graphics.Typeface access$1100() -> o
+    java.lang.String access$1200() -> p
+    int access$908() -> q
+    int access$900() -> r
+    java.lang.String access$1302(java.lang.String) -> b
+    java.lang.String access$802(java.lang.String) -> c
+    java.lang.String access$1300() -> s
     java.util.ArrayList access$702(java.util.ArrayList) -> b
     java.util.ArrayList access$1500(org.simpledrive.ShareFiles) -> d
 org.simpledrive.ShareFiles$1 -> org.simpledrive.bc:
@@ -10407,23 +10408,23 @@ org.simpledrive.ShareFiles$8 -> org.simpledrive.bj:
 org.simpledrive.ShareFiles$Connect -> org.simpledrive.bk:
     org.simpledrive.ShareFiles this$0 -> a
     void onPreExecute() -> onPreExecute
-    java.lang.String doInBackground(java.lang.String[]) -> a
-    void onPostExecute(java.lang.String) -> a
+    java.util.HashMap doInBackground(java.lang.String[]) -> a
+    void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.ShareFiles$ListContent -> org.simpledrive.bl:
     android.app.ProgressDialog pDialog -> a
     org.simpledrive.ShareFiles this$0 -> b
     void onPreExecute() -> onPreExecute
-    org.json.JSONArray doInBackground(java.lang.String[]) -> a
-    void onPostExecute(org.json.JSONArray) -> a
+    java.util.HashMap doInBackground(java.lang.String[]) -> a
+    void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.ShareFiles$NewFile -> org.simpledrive.bm:
     org.simpledrive.ShareFiles this$0 -> a
     void onPreExecute() -> onPreExecute
-    java.lang.String doInBackground(java.lang.String[]) -> a
-    void onPostExecute(java.lang.String) -> a
+    java.util.HashMap doInBackground(java.lang.String[]) -> a
+    void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.ShareFiles$NewFileAdapter -> org.simpledrive.bn:
@@ -10679,8 +10680,7 @@ simpledrive.lib.AuthenticationService -> simpledrive.lib.AuthenticationService:
 simpledrive.lib.Connection -> simpledrive.lib.Connection:
     org.apache.http.impl.client.DefaultHttpClient client -> a
     org.apache.http.impl.client.DefaultHttpClient getThreadSafeClient() -> a
-    java.lang.String forString(java.lang.String,java.util.HashMap) -> a
-    org.json.JSONArray forJSON(java.lang.String,java.util.HashMap) -> b
+    java.util.HashMap forJSON(java.lang.String,java.util.HashMap) -> a
     void logout(android.content.Context) -> a
 simpledrive.lib.Connection$MySSLSocketFactory -> simpledrive.lib.Connection$MySSLSocketFactory:
     javax.net.ssl.SSLContext sslContext -> a

@@ -25,6 +25,7 @@ import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -106,10 +107,13 @@ public class Connection {
         return null;
     }
 
-    public static JSONArray forJSON(String url, HashMap<String, String> data) {
+    public static HashMap<String, String> forJSON(String url, HashMap<String, String> data) {
         InputStream is = null;
         String result = "";
-        JSONArray jArray = null;
+        JSONObject jArray = null;
+        HashMap<String, String> map = new HashMap<>();
+        map.put("status", "error");
+        map.put("msg", "An error occured");
 
         try {
             DefaultHttpClient httpClient = Connection.getThreadSafeClient();
@@ -130,11 +134,19 @@ public class Connection {
             is = entity.getContent();
 
             if(response.getStatusLine().getStatusCode() != 200 || is == null) {
-                return null;
+                Log.i("return", "one");
+                String code = Integer.toString(response.getStatusLine().getStatusCode());
+                Log.i("statusCode", code);
+                map.put("msg", "Connection error");
+                Log.i("returning", map.toString());
+                return map;
             }
 
         } catch (IOException e) {
             e.printStackTrace();
+            Log.i("return", "two");
+            map.put("msg", "Connection error");
+            return map;
         }
 
         try {
@@ -147,15 +159,34 @@ public class Connection {
             is.close();
             result = sb.toString();
         } catch (Exception e) {
-            Log.e("Buffer Error", "Error converting result " + e.toString());
+            Log.i("return", "three");
+            map.put("msg", "Connection error");
+            return map;
         }
 
         try {
-            jArray = new JSONArray(result);
+            jArray = new JSONObject(result);
+            if(!jArray.has("status")) {
+                map.put("msg", "An error occured");
+                Log.i("return", "four");
+                return map;
+            }
+
+            map.put("status", jArray.get("status").toString());
+            if(jArray.has("msg")) {
+                map.put("msg", jArray.get("msg").toString());
+            }
+            else {
+                map.put("msg", "");
+            }
         } catch (JSONException e) {
             e.printStackTrace();
+            Log.i("return", "five");
+            return map;
         }
-        return jArray;
+
+        Log.i("return", "six");
+        return map;
     }
 
     public static void logout(Context ctx) {

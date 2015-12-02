@@ -29,6 +29,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.TypefaceSpan;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -182,7 +183,7 @@ public class ShareFiles extends ActionBarActivity {
         new Connect().execute();
     }
 
-    private class ListContent extends AsyncTask<String, String, JSONArray> {
+    private class ListContent extends AsyncTask<String, String, HashMap<String, String>> {
         ProgressDialog pDialog;
 
         @Override
@@ -197,27 +198,42 @@ public class ShareFiles extends ActionBarActivity {
         }
 
         @Override
-        protected JSONArray doInBackground(String... args) {
+        protected HashMap<String, String> doInBackground(String... args) {
             String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
 
-            data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
-            data.put("mode", "0");
-            data.put("action", "list");
+            try {
+                Log.i("path", hierarchy.get(hierarchy.size() - 1).getString("path"));
+
+                data.put("path", hierarchy.get(hierarchy.size() - 1).getString("path"));
+                data.put("rootshare", hierarchy.get(hierarchy.size() - 1).getString("rootshare"));
+                data.put("mode", "files");
+                data.put("action", "list");
+                data.put("token", token);
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
 
             return Connection.forJSON(url, data);
         }
 
         @Override
-        protected void onPostExecute(JSONArray value) {
+        protected void onPostExecute(HashMap<String, String> value) {
             pDialog.dismiss();
             mSwipeRefreshLayout.setRefreshing(false);
-            if(value == null) {
-                new Connect().execute();
+            if(value.get("status").equals("ok")) {
+                Log.i("msg", value.get("msg"));
+                loginAttemts = 0;
+                try {
+
+                    JSONArray json = new JSONArray(value.get("msg"));
+                    listContent(json);
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
             }
             else {
-                loginAttemts = 0;
-                listContent(value);
+                new Connect().execute();
             }
         }
     }
@@ -246,7 +262,7 @@ public class ShareFiles extends ActionBarActivity {
                 String parent = obj.getString("parent");
                 String type = obj.getString("type");
                 String size = (obj.getString("type").equals("folder")) ? "" : Helper.convertSize(obj.getString("size"));
-                String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : (!obj.getString("closehash").equals("null") ? "shared" : "");
+                String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : (!obj.getString("rootshare").equals("null") ? "shared" : "");
                 Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.drawable.folder_thumb);
 
                 if(type.equals("folder")) {
@@ -268,8 +284,15 @@ public class ShareFiles extends ActionBarActivity {
 
         // Set current directory
         try {
-            String dir = hierarchy.get(hierarchy.size() - 1).get("filename").toString();
-            String title = (dir.equals("")) ? "Homefolder" : dir;
+            String title;
+            JSONObject hier = hierarchy.get(hierarchy.size() - 1);
+            if(hier.has("filename")) {
+                title = hier.getString("filename");
+            }
+            else {
+                title = "Homefolder";
+            }
+
             if(toolbar != null) {
                 SpannableString s = new SpannableString(title);
                 s.setSpan(new TypefaceSpan("fonts/robotolight.ttf"), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -375,7 +398,7 @@ public class ShareFiles extends ActionBarActivity {
         new ListContent().execute();
     }
 
-    public class Connect extends AsyncTask<String, String, String> {
+    public class Connect extends AsyncTask<String, String, HashMap<String, String>> {
         @Override
         protected void onPreExecute() {
             loginAttemts++;
@@ -384,29 +407,33 @@ public class ShareFiles extends ActionBarActivity {
         }
 
         @Override
-        protected String doInBackground(String... login) {
+        protected HashMap<String, String> doInBackground(String... login) {
             AccountManager accMan = AccountManager.get(ShareFiles.this);
             Account[] sc = accMan.getAccountsByType("org.simpledrive");
 
             if (sc.length == 0 || loginAttemts > 1) {
-                return null;
+                HashMap<String, String> map = new HashMap<>();
+                map.put("status", "error");
+                map.put("msg", "An error occured");
+                return map;
             }
 
             username = sc[0].name;
             token = accMan.getUserData(sc[0], "token");
 
             String url = server + "api/core.php";
+            Log.i("url", url);
             HashMap<String, String> data = new HashMap<>();
             data.put("action", "login");
             data.put("token", token);
             data.put("user", username);
             data.put("pass", accMan.getPassword(sc[0]));
 
-            return Connection.forString(url, data);
+            return Connection.forJSON(url, data);
         }
         @Override
-        protected void onPostExecute(String value) {
-            if(value != null) {
+        protected void onPostExecute(HashMap<String, String> value) {
+            if(value.get("status").equals("ok")) {
                 try {
                     hierarchy = new ArrayList<>();
 
@@ -416,7 +443,7 @@ public class ShareFiles extends ActionBarActivity {
                     hierarchy.add(currDir);
 
                     empty.setText("Nothing to see here.");
-                    token = value;
+                    token = value.get("msg");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -439,7 +466,7 @@ public class ShareFiles extends ActionBarActivity {
         }
     }
 
-    private class NewFile extends AsyncTask<String, String, String> {
+    private class NewFile extends AsyncTask<String, String, HashMap<String, String>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -447,23 +474,24 @@ public class ShareFiles extends ActionBarActivity {
         }
 
         @Override
-        protected String doInBackground(String... pos) {
+        protected HashMap<String, String> doInBackground(String... pos) {
             String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
 
             data.put("type", "folder");
             data.put("filename", pos[0]);
             data.put("action", "create");
+            data.put("token", token);
             data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
-            return Connection.forString(url, data);
+            return Connection.forJSON(url, data);
         }
         @Override
-        protected void onPostExecute(String value) {
-            if(value.length() == 0) {
+        protected void onPostExecute(HashMap<String, String> value) {
+            if(value.get("status").equals("ok")) {
                 new ListContent().execute();
             }
             else {
-                Toast.makeText(e, "Error creating folder", Toast.LENGTH_SHORT).show();
+                Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
             }
         }
     }
