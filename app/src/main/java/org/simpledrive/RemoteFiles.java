@@ -89,7 +89,6 @@ public class RemoteFiles extends ActionBarActivity {
     private static String username = "";
     private static String token;
 
-    //private static int displayMode = 0;
     private static String mode = "files";
     private static final String tmpFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/simpleDrive/";
     private SharedPreferences settings;
@@ -148,7 +147,7 @@ public class RemoteFiles extends ActionBarActivity {
 		}
     };
 
-    private class ListContent extends AsyncTask<String, String, JSONArray> {
+    private class ListContent extends AsyncTask<String, String, HashMap<String, String>> {
         ProgressDialog pDialog;
 
     	@Override
@@ -163,7 +162,7 @@ public class RemoteFiles extends ActionBarActivity {
     	}
     	
     	@Override
-        protected JSONArray doInBackground(String... args) {
+        protected HashMap<String, String> doInBackground(String... args) {
     		String url = server + "api/files.php";
     		HashMap<String, String> data = new HashMap<>();
 
@@ -182,15 +181,25 @@ public class RemoteFiles extends ActionBarActivity {
     	}
 
         @Override
-        protected void onPostExecute(JSONArray value) {
+        protected void onPostExecute(HashMap<String, String> value) {
+            if(value == null) {
+                Log.i("list_value", "isNull");
+            }
+            else {
+                Log.i("list_value", value.toString());
+            }
             mSwipeRefreshLayout.setRefreshing(false);
             if(value == null) {
                 new Connect().execute();
             }
-            else {
+            else if(value.get("status").equals("ok")){
                 loginAttemts = 0;
-                json = value;
-                listContent(value);
+                try {
+                    json = new JSONArray(value.get("msg"));
+                    listContent(json);
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
             }
             pDialog.dismiss();
         }
@@ -567,7 +576,7 @@ public class RemoteFiles extends ActionBarActivity {
         return null;
     }
 
-    public class GetLink extends AsyncTask<Integer, String, String> {
+    public class GetLink extends AsyncTask<Integer, String, HashMap<String, String>> {
         @Override
         protected void onPreExecute()
         {
@@ -575,7 +584,7 @@ public class RemoteFiles extends ActionBarActivity {
         }
 
         @Override
-        protected String doInBackground(Integer... info) {
+        protected HashMap<String, String> doInBackground(Integer... info) {
             String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
 
@@ -585,19 +594,20 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("action", "cache");
             data.put("token", token);
 
-            return server + Connection.forString(url, data);
+            return Connection.forJSON(url, data);
         }
         @Override
-        protected void onPostExecute(String value) {
-            if(!value.equals("")) {
-                mPlayerService.initPlay(value);
-            } else {
-                Toast.makeText(e, "Error playing audio", Toast.LENGTH_SHORT).show();
+        protected void onPostExecute(HashMap<String, String> value) {
+            if(value.get("status").equals("ok")) {
+                mPlayerService.initPlay(server + value.get("msg"));
+            }
+            else {
+                Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    public class Connect extends AsyncTask<String, String, String> {
+    public class Connect extends AsyncTask<String, String, HashMap<String, String>> {
         Account[] sc;
 
     	@Override
@@ -608,12 +618,15 @@ public class RemoteFiles extends ActionBarActivity {
     	}
     	
     	@Override
-        protected String doInBackground(String... login) {
+        protected HashMap<String, String> doInBackground(String... login) {
             AccountManager accMan = AccountManager.get(RemoteFiles.this);
             sc = accMan.getAccountsByType("org.simpledrive");
 
             if (sc.length == 0 || loginAttemts > 1) {
-                return null;
+                HashMap<String, String> map = new HashMap<>();
+                map.put("status", "error");
+                map.put("msg", "An error occured");
+                return map;
             }
 
             username = sc[0].name;
@@ -626,11 +639,13 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("user", username);
             data.put("pass", accMan.getPassword(sc[0]));
 
-            return Connection.forString(url, data);
+            Log.i("data", data.toString());
+
+            return Connection.forJSON(url, data);
     	}
     	 @Override
-         protected void onPostExecute(String value) {
-             if(value != null) {
+         protected void onPostExecute(HashMap<String, String> value) {
+             if(value.get("status").equals("ok")) {
                  try {
                      hierarchy = new ArrayList<>();
 
@@ -640,7 +655,7 @@ public class RemoteFiles extends ActionBarActivity {
                      hierarchy.add(currDir);
 
                      empty.setText("Nothing to see here.");
-                     token = value;
+                     token = value.get("msg");
                  } catch (JSONException e) {
                      e.printStackTrace();
                  }
@@ -786,7 +801,7 @@ public class RemoteFiles extends ActionBarActivity {
         showVirtualKeyboard();
     }
 
-    private class NewFile extends AsyncTask<String, String, String> {
+    private class NewFile extends AsyncTask<String, String, HashMap<String, String>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -794,7 +809,7 @@ public class RemoteFiles extends ActionBarActivity {
         }
 
         @Override
-        protected String doInBackground(String... pos) {
+        protected HashMap<String, String> doInBackground(String... pos) {
             String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
 
@@ -803,15 +818,16 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("action", "create");
             data.put("token", token);
             data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
-            return Connection.forString(url, data);
+            return Connection.forJSON(url, data);
         }
 
         @Override
-        protected void onPostExecute(String value) {
-            if(value.length() == 0) {
+        protected void onPostExecute(HashMap<String, String> value) {
+            if(value.get("status").equals("ok")) {
                 new ListContent().execute();
-            } else {
-                Toast.makeText(e, "Error creating folder", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -889,7 +905,7 @@ public class RemoteFiles extends ActionBarActivity {
   	    }, 100);
     }
 
-    private class Rename extends AsyncTask<String, String, String> {
+    private class Rename extends AsyncTask<String, String, HashMap<String, String>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -897,7 +913,7 @@ public class RemoteFiles extends ActionBarActivity {
         }
 
         @Override
-        protected String doInBackground(String... names) {
+        protected HashMap<String, String> doInBackground(String... names) {
             String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
 
@@ -905,15 +921,16 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("token", token);
             data.put("newFilename", names[0]);
             data.put("target", getSelected().toString());
-            return Connection.forString(url, data);
+            return Connection.forJSON(url, data);
         }
 
         @Override
-        protected void onPostExecute(String value) {
-            if(value.length() == 0) {
+        protected void onPostExecute(HashMap<String, String> value) {
+            if(value.get("status").equals("ok")) {
                 new ListContent().execute();
-            } else {
-                Toast.makeText(e, "Error renaming", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -998,7 +1015,7 @@ public class RemoteFiles extends ActionBarActivity {
         return arr;
     }
 
-    private class Delete extends AsyncTask<Integer, String, String> {
+    private class Delete extends AsyncTask<Integer, String, HashMap<String, String>> {
         @Override
            protected void onPreExecute() {
                super.onPreExecute();
@@ -1006,7 +1023,7 @@ public class RemoteFiles extends ActionBarActivity {
         }
 
         @Override
-           protected String doInBackground(Integer... pos) {
+           protected HashMap<String, String> doInBackground(Integer... pos) {
             String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
 
@@ -1015,20 +1032,21 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("final", Boolean.toString(mode.equals("trash")));
             data.put("source", getSelectedElem().toString());
             data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
-            return Connection.forString(url, data);
+            return Connection.forJSON(url, data);
         }
         @Override
-        protected void onPostExecute(String value) {
+        protected void onPostExecute(HashMap<String, String> value) {
             e.setProgressBarIndeterminateVisibility(false);
-            if(value.length() == 0) {
+            if(value.get("status").equals("ok")) {
                 new ListContent().execute();
-            } else {
-                Toast.makeText(e, "Error deleting", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private class Share extends AsyncTask<Void, String, String> {
+    private class Share extends AsyncTask<Void, String, HashMap<String, String>> {
         String shareUser;
         int shareWrite;
         int sharePublic;
@@ -1046,7 +1064,7 @@ public class RemoteFiles extends ActionBarActivity {
         }
 
         @Override
-        protected String doInBackground(Void... params) {
+        protected HashMap<String, String> doInBackground(Void... params) {
             String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
 
@@ -1058,12 +1076,12 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("action", "share");
             data.put("token", token);
             data.put("target", getSelected().toString());
-            return Connection.forString(url, data);
+            return Connection.forJSON(url, data);
         }
         @Override
-        protected void onPostExecute(final String value) {
+        protected void onPostExecute(final HashMap<String, String> value) {
             e.setProgressBarIndeterminateVisibility(false);
-            if(value.length() != 0) {
+            if(value.get("status").equals("ok")) {
                 new ListContent().execute();
                 if(this.sharePublic == 1) {
                     final AlertDialog.Builder dialog = new AlertDialog.Builder(e);
@@ -1083,7 +1101,7 @@ public class RemoteFiles extends ActionBarActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                            ClipData clip = ClipData.newPlainText("label", value);
+                            ClipData clip = ClipData.newPlainText("label", value.get("msg"));
                             clipboard.setPrimaryClip(clip);
                             Toast.makeText(e, "Link copied to clipboard", Toast.LENGTH_SHORT).show();
                             dialog.cancel();
@@ -1091,12 +1109,12 @@ public class RemoteFiles extends ActionBarActivity {
                     }).show();
                 }
             } else {
-                Toast.makeText(e, "Error sharing", Toast.LENGTH_SHORT).show();
+                Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private class Unshare extends AsyncTask<Integer, String, String> {
+    private class Unshare extends AsyncTask<Integer, String, HashMap<String, String>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -1104,27 +1122,28 @@ public class RemoteFiles extends ActionBarActivity {
         }
 
         @Override
-        protected String doInBackground(Integer... pos) {
+        protected HashMap<String, String> doInBackground(Integer... pos) {
             String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
 
             data.put("action", "unshare");
             data.put("token", token);
             data.put("target", getSelected().toString());
-            return Connection.forString(url, data);
+            return Connection.forJSON(url, data);
         }
         @Override
-        protected void onPostExecute(String value) {
+        protected void onPostExecute(HashMap<String, String> value) {
             e.setProgressBarIndeterminateVisibility(false);
-            if(value.length() != 0) {
-                Toast.makeText(e, value, Toast.LENGTH_SHORT).show();
-            } else {
+            if(value.get("status").equals("ok")) {
                 new ListContent().execute();
+            }
+            else {
+                Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private class Zip extends AsyncTask<Integer, String, String> {
+    private class Zip extends AsyncTask<Integer, String, HashMap<String, String>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -1132,7 +1151,7 @@ public class RemoteFiles extends ActionBarActivity {
         }
 
         @Override
-        protected String doInBackground(Integer... pos) {
+        protected HashMap<String, String> doInBackground(Integer... pos) {
             String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
 
@@ -1140,20 +1159,21 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("token", token);
             data.put("source", getSelectedElem().toString());
             data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
-            return Connection.forString(url, data);
+            return Connection.forJSON(url, data);
         }
         @Override
-        protected void onPostExecute(String value) {
+        protected void onPostExecute(HashMap<String, String> value) {
             e.setProgressBarIndeterminateVisibility(false);
-            if(!value.isEmpty()) {
-                Toast.makeText(e, "Error zipping", Toast.LENGTH_SHORT).show();
-            } else {
+            if(value.get("status").equals("ok")) {
                 new ListContent().execute();
+            }
+            else {
+                Toast.makeText(e, "Error zipping", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private class Restore extends AsyncTask<Integer, String, String> {
+    private class Restore extends AsyncTask<Integer, String, HashMap<String, String>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -1161,7 +1181,7 @@ public class RemoteFiles extends ActionBarActivity {
         }
 
         @Override
-        protected String doInBackground(Integer... pos) {
+        protected HashMap<String, String> doInBackground(Integer... pos) {
 
             String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
@@ -1173,16 +1193,16 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("source", getSelectedElem().toString());
             data.put("target", hierarchy.get(0).toString());
 
-            return Connection.forString(url, data);
+            return Connection.forJSON(url, data);
         }
         @Override
-        protected void onPostExecute(String value) {
+        protected void onPostExecute(HashMap<String, String>value) {
             e.setProgressBarIndeterminateVisibility(false);
-            if(value.isEmpty()) {
+            if(value.get("status").equals("ok")) {
                 new ListContent().execute();
             }
             else {
-                Toast.makeText(e, "Error restoring", Toast.LENGTH_SHORT).show();
+                Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
             }
         }
     }
