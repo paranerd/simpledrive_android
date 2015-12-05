@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -64,6 +65,7 @@ public class ImageLoader extends AsyncTask<String, String, Bitmap> {
 
                 if(bmp == null || !imgFile.createNewFile()) {
                     in.close();
+                    Log.i("returning", "null");
                     return null;
                 }
 
@@ -87,6 +89,7 @@ public class ImageLoader extends AsyncTask<String, String, Bitmap> {
     @Override
     protected void onPostExecute(final Bitmap bmp) {
         if(this.taskListener != null) {
+            Log.i("on", "finished");
             this.taskListener.onFinished(bmp);
         }
     }

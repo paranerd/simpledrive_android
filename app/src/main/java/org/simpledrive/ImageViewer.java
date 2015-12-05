@@ -14,6 +14,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.TypefaceSpan;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -172,7 +173,8 @@ public class ImageViewer extends ActionBarActivity {
                             mViewPager.getAdapter().notifyDataSetChanged();
                         }
                         if(thumbPath != null) {
-                            new File(thumbPath).delete();
+                            // Overrides the thumbnail (may consume too much memory with many - then bigger - thumbnails to display)
+                            //new File(thumbPath).delete();
                         }
                     }
                 });
