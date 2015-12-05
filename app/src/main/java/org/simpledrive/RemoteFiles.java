@@ -167,15 +167,16 @@ public class RemoteFiles extends ActionBarActivity {
     		HashMap<String, String> data = new HashMap<>();
 
             //data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
-            try {
-                data.put("path", hierarchy.get(hierarchy.size() - 1).getString("path"));
-                data.put("rootshare", hierarchy.get(hierarchy.size() - 1).getString("rootshare"));
+            //try {
+                data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
+                //data.put("path", hierarchy.get(hierarchy.size() - 1).getString("path"));
+                //data.put("rootshare", hierarchy.get(hierarchy.size() - 1).getString("rootshare"));
                 data.put("mode", mode);
                 data.put("action", "list");
                 data.put("token", token);
-            } catch (JSONException e1) {
+            /*} catch (JSONException e1) {
                 e1.printStackTrace();
-            }
+            }*/
 
             return Connection.forJSON(url, data);
     	}
@@ -1502,8 +1503,6 @@ public class RemoteFiles extends ActionBarActivity {
 
         mSwipeRefreshLayout.setEnabled(true);
 
-        prepareNavigationDrawer();
-
         // Create image cache folder
         File tmp = new File(tmpFolder);
         if (!tmp.exists()) {
@@ -1512,6 +1511,12 @@ public class RemoteFiles extends ActionBarActivity {
 
         loginAttemts = 0;
         new Connect().execute();
+    }
+
+    protected void onResume() {
+        super.onResume();
+
+        prepareNavigationDrawer();
     }
 
     public void setView(String view) {
