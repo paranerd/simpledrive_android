@@ -10025,7 +10025,7 @@ org.simpledrive.RemoteFiles -> org.simpledrive.RemoteFiles:
     android.content.SharedPreferences settings -> y
     boolean longClicked -> z
     simpledrive.lib.ImageLoader imgLoader -> A
-    int loginAttemts -> B
+    int loginAttempts -> B
     java.lang.String audioFilename -> j
     simpledrive.lib.AudioService mPlayerService -> C
     boolean mBound -> D
@@ -10049,33 +10049,35 @@ org.simpledrive.RemoteFiles -> org.simpledrive.RemoteFiles:
     android.support.v4.widget.DrawerLayout mDrawerLayout -> P
     android.widget.ListView mDrawerList -> q
     android.widget.LinearLayout mDrawerLinear -> r
-    org.json.JSONArray json -> Q
-    java.util.ArrayList items -> R
-    java.util.ArrayList hierarchy -> S
-    java.lang.Integer firstFilePos -> T
-    org.simpledrive.RemoteFiles$NewFileAdapter newAdapter -> U
+    java.util.ArrayList items -> Q
+    java.util.ArrayList hierarchy -> R
+    java.lang.Integer firstFilePos -> S
+    org.simpledrive.RemoteFiles$NewFileAdapter newAdapter -> T
+    int sortOrder -> U
     android.content.ServiceConnection mServiceConnection -> s
-    void listContent(org.json.JSONArray) -> a
+    void displayFiles(java.lang.String) -> g
+    void sortByName() -> A
     void openFile(int) -> a
     int getCurrentImage(java.lang.String) -> a
     java.util.ArrayList getAllImages() -> j
     void toggleSelection(int) -> b
-    void selectAll() -> A
-    void unselectAll() -> B
+    void selectAll() -> B
+    void unselectAll() -> C
     org.json.JSONObject getSelected() -> k
     void onActivityResult(int,int,android.content.Intent) -> onActivityResult
     void onBackPressed() -> onBackPressed
     boolean onContextItemSelected(android.view.MenuItem) -> onContextItemSelected
-    void download() -> C
-    void showShare() -> D
-    void showCreate() -> E
-    void showRename(java.lang.String) -> f
-    void showVirtualKeyboard() -> F
-    org.json.JSONArray getSelectedElem() -> G
+    void download() -> D
+    void showShare() -> E
+    void showCreate() -> F
+    void showRename(java.lang.String) -> h
+    void showVirtualKeyboard() -> G
+    org.json.JSONArray getSelectedElem() -> H
     void upload_add_recursive(java.lang.String,java.io.File,java.lang.String) -> a
     void upload_handler(java.util.ArrayList) -> a
     void prepareNavigationDrawer() -> l
     void onCreate(android.os.Bundle) -> onCreate
+    void onResume() -> onResume
     void setView(java.lang.String) -> b
     void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
     void onDestroy() -> onDestroy
@@ -10092,9 +10094,8 @@ org.simpledrive.RemoteFiles -> org.simpledrive.RemoteFiles:
     java.lang.String access$600() -> q
     android.support.v4.widget.SwipeRefreshLayout access$700(org.simpledrive.RemoteFiles) -> b
     int access$802(int) -> c
-    org.json.JSONArray access$902(org.simpledrive.RemoteFiles,org.json.JSONArray) -> a
-    org.json.JSONArray access$900(org.simpledrive.RemoteFiles) -> c
-    void access$1000(org.simpledrive.RemoteFiles,org.json.JSONArray) -> b
+    void access$900(org.simpledrive.RemoteFiles,java.lang.String) -> a
+    int access$1000(org.simpledrive.RemoteFiles) -> c
     android.graphics.Typeface access$1100() -> r
     java.lang.String access$1200() -> s
     java.lang.Integer access$1300(org.simpledrive.RemoteFiles) -> d
@@ -10108,12 +10109,13 @@ org.simpledrive.RemoteFiles -> org.simpledrive.RemoteFiles:
     int access$800() -> y
     java.lang.String access$2102(java.lang.String) -> c
     java.lang.String access$602(java.lang.String) -> d
+    java.lang.String access$302(java.lang.String) -> e
     java.lang.String access$2100() -> z
     java.util.ArrayList access$402(java.util.ArrayList) -> b
     org.simpledrive.RemoteFiles$NewFileAdapter access$2200(org.simpledrive.RemoteFiles) -> f
     java.util.ArrayList access$3100(org.simpledrive.RemoteFiles) -> g
     boolean access$3302(boolean) -> b
-    java.lang.String access$502(java.lang.String) -> e
+    java.lang.String access$502(java.lang.String) -> f
     android.support.v4.widget.DrawerLayout access$3500(org.simpledrive.RemoteFiles) -> h
     android.widget.ImageButton access$3600(org.simpledrive.RemoteFiles) -> i
     android.widget.ImageButton access$3700(org.simpledrive.RemoteFiles) -> j
@@ -10125,14 +10127,14 @@ org.simpledrive.RemoteFiles$1 -> org.simpledrive.q:
     void onServiceConnected(android.content.ComponentName,android.os.IBinder) -> onServiceConnected
 org.simpledrive.RemoteFiles$10 -> org.simpledrive.r:
     org.simpledrive.RemoteFiles this$0 -> a
-    void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+    void run() -> run
 org.simpledrive.RemoteFiles$11 -> org.simpledrive.s:
+    org.simpledrive.RemoteFiles this$0 -> a
+    void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+org.simpledrive.RemoteFiles$12 -> org.simpledrive.t:
     org.simpledrive.RemoteFiles this$0 -> a
     void onDrawerClosed(android.view.View) -> b
     void onDrawerOpened(android.view.View) -> a
-org.simpledrive.RemoteFiles$12 -> org.simpledrive.t:
-    org.simpledrive.RemoteFiles this$0 -> a
-    void onClick(android.view.View) -> onClick
 org.simpledrive.RemoteFiles$13 -> org.simpledrive.u:
     org.simpledrive.RemoteFiles this$0 -> a
     void onClick(android.view.View) -> onClick
@@ -10141,45 +10143,49 @@ org.simpledrive.RemoteFiles$14 -> org.simpledrive.v:
     void onClick(android.view.View) -> onClick
 org.simpledrive.RemoteFiles$15 -> org.simpledrive.w:
     org.simpledrive.RemoteFiles this$0 -> a
-    void onRefresh() -> a
+    void onClick(android.view.View) -> onClick
 org.simpledrive.RemoteFiles$16 -> org.simpledrive.x:
     org.simpledrive.RemoteFiles this$0 -> a
-    void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+    void onRefresh() -> a
 org.simpledrive.RemoteFiles$17 -> org.simpledrive.y:
+    org.simpledrive.RemoteFiles this$0 -> a
+    void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+org.simpledrive.RemoteFiles$18 -> org.simpledrive.z:
     org.simpledrive.RemoteFiles this$0 -> a
     void onScrollStateChanged(android.widget.AbsListView,int) -> onScrollStateChanged
     void onScroll(android.widget.AbsListView,int,int,int) -> onScroll
-org.simpledrive.RemoteFiles$2 -> org.simpledrive.z:
+org.simpledrive.RemoteFiles$2 -> org.simpledrive.aa:
+    org.simpledrive.RemoteFiles this$0 -> a
+    int compare(simpledrive.lib.Item,simpledrive.lib.Item) -> a
+    int compare(java.lang.Object,java.lang.Object) -> compare
+org.simpledrive.RemoteFiles$3 -> org.simpledrive.ab:
     org.simpledrive.RemoteFiles this$0 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.RemoteFiles$3 -> org.simpledrive.aa:
+org.simpledrive.RemoteFiles$4 -> org.simpledrive.ac:
     org.simpledrive.RemoteFiles this$0 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.RemoteFiles$4 -> org.simpledrive.ab:
+org.simpledrive.RemoteFiles$5 -> org.simpledrive.ad:
     android.widget.EditText val$shareUser -> a
     android.widget.CheckBox val$sharePublic -> b
     android.widget.CheckBox val$shareWrite -> c
     android.app.AlertDialog val$dialog2 -> d
     org.simpledrive.RemoteFiles this$0 -> e
     void onClick(android.view.View) -> onClick
-org.simpledrive.RemoteFiles$5 -> org.simpledrive.ac:
+org.simpledrive.RemoteFiles$6 -> org.simpledrive.ae:
     android.widget.EditText val$input -> a
     org.simpledrive.RemoteFiles this$0 -> b
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.RemoteFiles$6 -> org.simpledrive.ad:
+org.simpledrive.RemoteFiles$7 -> org.simpledrive.af:
     org.simpledrive.RemoteFiles this$0 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.RemoteFiles$7 -> org.simpledrive.ae:
+org.simpledrive.RemoteFiles$8 -> org.simpledrive.ag:
     android.widget.EditText val$input -> a
     org.simpledrive.RemoteFiles this$0 -> b
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.RemoteFiles$8 -> org.simpledrive.af:
+org.simpledrive.RemoteFiles$9 -> org.simpledrive.ah:
     org.simpledrive.RemoteFiles this$0 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.RemoteFiles$9 -> org.simpledrive.ag:
-    org.simpledrive.RemoteFiles this$0 -> a
-    void run() -> run
-org.simpledrive.RemoteFiles$Connect -> org.simpledrive.ah:
+org.simpledrive.RemoteFiles$Connect -> org.simpledrive.ai:
     android.accounts.Account[] sc -> a
     org.simpledrive.RemoteFiles this$0 -> b
     void onPreExecute() -> onPreExecute
@@ -10187,14 +10193,14 @@ org.simpledrive.RemoteFiles$Connect -> org.simpledrive.ah:
     void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.RemoteFiles$Delete -> org.simpledrive.ai:
+org.simpledrive.RemoteFiles$Delete -> org.simpledrive.aj:
     org.simpledrive.RemoteFiles this$0 -> a
     void onPreExecute() -> onPreExecute
     java.util.HashMap doInBackground(java.lang.Integer[]) -> a
     void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.RemoteFiles$Download -> org.simpledrive.aj:
+org.simpledrive.RemoteFiles$Download -> org.simpledrive.ak:
     android.support.v4.app.NotificationCompat$Builder mBuilder -> b
     android.app.NotificationManager mNotifyManager -> c
     int notificationId -> d
@@ -10207,17 +10213,17 @@ org.simpledrive.RemoteFiles$Download -> org.simpledrive.aj:
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     void access$3000(org.simpledrive.RemoteFiles$Download,java.lang.Object[]) -> a
-org.simpledrive.RemoteFiles$Download$1 -> org.simpledrive.ak:
+org.simpledrive.RemoteFiles$Download$1 -> org.simpledrive.al:
     org.simpledrive.RemoteFiles$Download this$1 -> a
     void transferred(java.lang.Integer) -> a
-org.simpledrive.RemoteFiles$GetLink -> org.simpledrive.al:
+org.simpledrive.RemoteFiles$GetLink -> org.simpledrive.am:
     org.simpledrive.RemoteFiles this$0 -> a
     void onPreExecute() -> onPreExecute
     java.util.HashMap doInBackground(java.lang.Integer[]) -> a
     void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.RemoteFiles$ListContent -> org.simpledrive.am:
+org.simpledrive.RemoteFiles$ListContent -> org.simpledrive.an:
     android.app.ProgressDialog pDialog -> a
     org.simpledrive.RemoteFiles this$0 -> b
     void onPreExecute() -> onPreExecute
@@ -10225,56 +10231,56 @@ org.simpledrive.RemoteFiles$ListContent -> org.simpledrive.am:
     void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.RemoteFiles$NewFile -> org.simpledrive.an:
+org.simpledrive.RemoteFiles$NewFile -> org.simpledrive.ao:
     org.simpledrive.RemoteFiles this$0 -> a
     void onPreExecute() -> onPreExecute
     java.util.HashMap doInBackground(java.lang.String[]) -> a
     void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.RemoteFiles$NewFileAdapter -> org.simpledrive.ao:
+org.simpledrive.RemoteFiles$NewFileAdapter -> org.simpledrive.ap:
     android.view.LayoutInflater layoutInflater -> b
     org.simpledrive.RemoteFiles$NewFileAdapter e -> c
     int layout -> d
     org.simpledrive.RemoteFiles this$0 -> a
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     void setData(java.util.ArrayList) -> a
-    void loadThumb(simpledrive.lib.NewItem,java.lang.String) -> a
+    void loadThumb(simpledrive.lib.Item,java.lang.String) -> a
     org.simpledrive.RemoteFiles$NewFileAdapter access$1800(org.simpledrive.RemoteFiles$NewFileAdapter) -> a
-org.simpledrive.RemoteFiles$NewFileAdapter$1 -> org.simpledrive.ap:
+org.simpledrive.RemoteFiles$NewFileAdapter$1 -> org.simpledrive.aq:
     int val$position -> a
     org.simpledrive.RemoteFiles$NewFileAdapter this$1 -> b
     void onClick(android.view.View) -> onClick
-org.simpledrive.RemoteFiles$NewFileAdapter$2 -> org.simpledrive.aq:
+org.simpledrive.RemoteFiles$NewFileAdapter$2 -> org.simpledrive.ar:
     int val$position -> a
     org.simpledrive.RemoteFiles$NewFileAdapter this$1 -> b
     boolean onLongClick(android.view.View) -> onLongClick
-org.simpledrive.RemoteFiles$NewFileAdapter$3 -> org.simpledrive.ar:
-    simpledrive.lib.NewItem val$item -> a
+org.simpledrive.RemoteFiles$NewFileAdapter$3 -> org.simpledrive.as:
+    simpledrive.lib.Item val$item -> a
     org.simpledrive.RemoteFiles$NewFileAdapter this$1 -> b
     void onFinished(android.graphics.Bitmap) -> a
-org.simpledrive.RemoteFiles$NewFileAdapter$ViewHolder -> org.simpledrive.as:
+org.simpledrive.RemoteFiles$NewFileAdapter$ViewHolder -> org.simpledrive.at:
     android.widget.ImageView thumb -> a
     android.widget.TextView name -> b
     android.widget.TextView size -> c
     android.widget.TextView owner -> d
     android.widget.TextView separator -> e
     org.simpledrive.RemoteFiles$NewFileAdapter this$1 -> f
-org.simpledrive.RemoteFiles$Rename -> org.simpledrive.at:
+org.simpledrive.RemoteFiles$Rename -> org.simpledrive.au:
     org.simpledrive.RemoteFiles this$0 -> a
     void onPreExecute() -> onPreExecute
     java.util.HashMap doInBackground(java.lang.String[]) -> a
     void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.RemoteFiles$Restore -> org.simpledrive.au:
+org.simpledrive.RemoteFiles$Restore -> org.simpledrive.av:
     org.simpledrive.RemoteFiles this$0 -> a
     void onPreExecute() -> onPreExecute
     java.util.HashMap doInBackground(java.lang.Integer[]) -> a
     void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.RemoteFiles$Share -> org.simpledrive.av:
+org.simpledrive.RemoteFiles$Share -> org.simpledrive.aw:
     java.lang.String shareUser -> a
     int shareWrite -> b
     int sharePublic -> c
@@ -10284,22 +10290,22 @@ org.simpledrive.RemoteFiles$Share -> org.simpledrive.av:
     void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.RemoteFiles$Share$1 -> org.simpledrive.aw:
+org.simpledrive.RemoteFiles$Share$1 -> org.simpledrive.ax:
     java.util.HashMap val$value -> a
     org.simpledrive.RemoteFiles$Share this$1 -> b
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.RemoteFiles$Share$2 -> org.simpledrive.ax:
+org.simpledrive.RemoteFiles$Share$2 -> org.simpledrive.ay:
     java.util.HashMap val$value -> a
     org.simpledrive.RemoteFiles$Share this$1 -> b
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.RemoteFiles$Unshare -> org.simpledrive.ay:
+org.simpledrive.RemoteFiles$Unshare -> org.simpledrive.az:
     org.simpledrive.RemoteFiles this$0 -> a
     void onPreExecute() -> onPreExecute
     java.util.HashMap doInBackground(java.lang.Integer[]) -> a
     void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.RemoteFiles$Upload -> org.simpledrive.az:
+org.simpledrive.RemoteFiles$Upload -> org.simpledrive.ba:
     android.support.v4.app.NotificationCompat$Builder mBuilder -> b
     android.app.NotificationManager mNotifyManager -> c
     int notificationId -> d
@@ -10316,10 +10322,10 @@ org.simpledrive.RemoteFiles$Upload -> org.simpledrive.az:
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     void access$3200(org.simpledrive.RemoteFiles$Upload,java.lang.Object[]) -> a
-org.simpledrive.RemoteFiles$Upload$1 -> org.simpledrive.ba:
+org.simpledrive.RemoteFiles$Upload$1 -> org.simpledrive.bb:
     org.simpledrive.RemoteFiles$Upload this$1 -> a
     void transferred(java.lang.Integer) -> a
-org.simpledrive.RemoteFiles$Zip -> org.simpledrive.bb:
+org.simpledrive.RemoteFiles$Zip -> org.simpledrive.bc:
     org.simpledrive.RemoteFiles this$0 -> a
     void onPreExecute() -> onPreExecute
     java.util.HashMap doInBackground(java.lang.Integer[]) -> a
@@ -10335,13 +10341,13 @@ org.simpledrive.ShareFiles -> org.simpledrive.ShareFiles:
     java.lang.String token -> r
     java.util.ArrayList items -> s
     java.util.ArrayList hierarchy -> t
-    android.graphics.Typeface myTypeface -> u
-    android.widget.AbsListView list -> v
-    android.widget.TextView empty -> w
-    java.lang.String globLayout -> x
-    android.support.v4.widget.SwipeRefreshLayout mSwipeRefreshLayout -> y
-    android.support.v7.widget.Toolbar toolbar -> z
-    simpledrive.lib.ImageLoader imgLoader -> A
+    int sortOrder -> u
+    android.graphics.Typeface myTypeface -> v
+    android.widget.AbsListView list -> w
+    android.widget.TextView empty -> x
+    java.lang.String globLayout -> y
+    android.support.v4.widget.SwipeRefreshLayout mSwipeRefreshLayout -> z
+    android.support.v7.widget.Toolbar toolbar -> A
     java.util.ArrayList uploadQueue -> B
     int uploadCurrent -> j
     int uploadTotal -> k
@@ -10349,11 +10355,12 @@ org.simpledrive.ShareFiles -> org.simpledrive.ShareFiles:
     boolean uploading -> m
     java.util.ArrayList uploadsPending -> C
     void onCreate(android.os.Bundle) -> onCreate
-    void listContent(org.json.JSONArray) -> a
+    void displayFiles(java.lang.String) -> e
+    void sortByName() -> t
     void openFile(int) -> a
     void onBackPressed() -> onBackPressed
-    void showCreate() -> t
-    void showVirtualKeyboard() -> u
+    void showCreate() -> u
+    void showVirtualKeyboard() -> v
     void upload_add_recursive(java.lang.String,java.io.File,java.lang.String) -> a
     void upload_handler(java.util.ArrayList) -> a
     java.lang.String getRealPathFromURI(android.net.Uri) -> a
@@ -10369,50 +10376,56 @@ org.simpledrive.ShareFiles -> org.simpledrive.ShareFiles:
     java.util.ArrayList access$700() -> m
     java.lang.String access$800() -> n
     int access$902(int) -> b
-    void access$1000(org.simpledrive.ShareFiles,org.json.JSONArray) -> a
-    android.graphics.Typeface access$1100() -> o
-    java.lang.String access$1200() -> p
+    void access$1000(org.simpledrive.ShareFiles,java.lang.String) -> a
+    int access$1100(org.simpledrive.ShareFiles) -> d
+    android.graphics.Typeface access$1200() -> o
+    java.lang.String access$1300() -> p
     int access$908() -> q
     int access$900() -> r
-    java.lang.String access$1302(java.lang.String) -> b
+    java.lang.String access$1402(java.lang.String) -> b
     java.lang.String access$802(java.lang.String) -> c
-    java.lang.String access$1300() -> s
+    java.lang.String access$602(java.lang.String) -> d
+    java.lang.String access$1400() -> s
     java.util.ArrayList access$702(java.util.ArrayList) -> b
-    java.util.ArrayList access$1500(org.simpledrive.ShareFiles) -> d
-org.simpledrive.ShareFiles$1 -> org.simpledrive.bc:
+    java.util.ArrayList access$1600(org.simpledrive.ShareFiles) -> e
+org.simpledrive.ShareFiles$1 -> org.simpledrive.bd:
     org.simpledrive.ShareFiles this$0 -> a
     void onClick(android.view.View) -> onClick
-org.simpledrive.ShareFiles$2 -> org.simpledrive.bd:
+org.simpledrive.ShareFiles$2 -> org.simpledrive.be:
     org.simpledrive.ShareFiles this$0 -> a
     void onClick(android.view.View) -> onClick
-org.simpledrive.ShareFiles$3 -> org.simpledrive.be:
+org.simpledrive.ShareFiles$3 -> org.simpledrive.bf:
     org.simpledrive.ShareFiles this$0 -> a
     void onRefresh() -> a
-org.simpledrive.ShareFiles$4 -> org.simpledrive.bf:
+org.simpledrive.ShareFiles$4 -> org.simpledrive.bg:
     org.simpledrive.ShareFiles this$0 -> a
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-org.simpledrive.ShareFiles$5 -> org.simpledrive.bg:
+org.simpledrive.ShareFiles$5 -> org.simpledrive.bh:
     org.simpledrive.ShareFiles this$0 -> a
     void onScrollStateChanged(android.widget.AbsListView,int) -> onScrollStateChanged
     void onScroll(android.widget.AbsListView,int,int,int) -> onScroll
-org.simpledrive.ShareFiles$6 -> org.simpledrive.bh:
+org.simpledrive.ShareFiles$6 -> org.simpledrive.bi:
+    org.simpledrive.ShareFiles this$0 -> a
+    int compare(simpledrive.lib.Item,simpledrive.lib.Item) -> a
+    int compare(java.lang.Object,java.lang.Object) -> compare
+org.simpledrive.ShareFiles$7 -> org.simpledrive.bj:
     android.widget.EditText val$input -> a
     org.simpledrive.ShareFiles this$0 -> b
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.ShareFiles$7 -> org.simpledrive.bi:
+org.simpledrive.ShareFiles$8 -> org.simpledrive.bk:
     org.simpledrive.ShareFiles this$0 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.ShareFiles$8 -> org.simpledrive.bj:
+org.simpledrive.ShareFiles$9 -> org.simpledrive.bl:
     org.simpledrive.ShareFiles this$0 -> a
     void run() -> run
-org.simpledrive.ShareFiles$Connect -> org.simpledrive.bk:
+org.simpledrive.ShareFiles$Connect -> org.simpledrive.bm:
     org.simpledrive.ShareFiles this$0 -> a
     void onPreExecute() -> onPreExecute
     java.util.HashMap doInBackground(java.lang.String[]) -> a
     void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.ShareFiles$ListContent -> org.simpledrive.bl:
+org.simpledrive.ShareFiles$ListContent -> org.simpledrive.bn:
     android.app.ProgressDialog pDialog -> a
     org.simpledrive.ShareFiles this$0 -> b
     void onPreExecute() -> onPreExecute
@@ -10420,27 +10433,27 @@ org.simpledrive.ShareFiles$ListContent -> org.simpledrive.bl:
     void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.ShareFiles$NewFile -> org.simpledrive.bm:
+org.simpledrive.ShareFiles$NewFile -> org.simpledrive.bo:
     org.simpledrive.ShareFiles this$0 -> a
     void onPreExecute() -> onPreExecute
     java.util.HashMap doInBackground(java.lang.String[]) -> a
     void onPostExecute(java.util.HashMap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.ShareFiles$NewFileAdapter -> org.simpledrive.bn:
+org.simpledrive.ShareFiles$NewFileAdapter -> org.simpledrive.bp:
     android.view.LayoutInflater layoutInflater -> b
     int layout -> c
     org.simpledrive.ShareFiles this$0 -> a
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     void setData(java.util.ArrayList) -> a
-org.simpledrive.ShareFiles$NewFileAdapter$ViewHolder -> org.simpledrive.bo:
+org.simpledrive.ShareFiles$NewFileAdapter$ViewHolder -> org.simpledrive.bq:
     android.widget.ImageView thumb -> a
     android.widget.TextView name -> b
     android.widget.TextView size -> c
     android.widget.TextView owner -> d
     android.widget.TextView separator -> e
     org.simpledrive.ShareFiles$NewFileAdapter this$1 -> f
-org.simpledrive.ShareFiles$Upload -> org.simpledrive.bp:
+org.simpledrive.ShareFiles$Upload -> org.simpledrive.br:
     android.support.v4.app.NotificationCompat$Builder mBuilder -> c
     android.app.NotificationManager mNotifyManager -> d
     int notificationId -> e
@@ -10456,11 +10469,11 @@ org.simpledrive.ShareFiles$Upload -> org.simpledrive.bp:
     void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-    void access$1600(org.simpledrive.ShareFiles$Upload,java.lang.Object[]) -> a
-org.simpledrive.ShareFiles$Upload$1 -> org.simpledrive.bq:
+    void access$1700(org.simpledrive.ShareFiles$Upload,java.lang.Object[]) -> a
+org.simpledrive.ShareFiles$Upload$1 -> org.simpledrive.bs:
     org.simpledrive.ShareFiles$Upload this$1 -> a
     void transferred(java.lang.Integer) -> a
-org.simpledrive.TouchImageView -> org.simpledrive.br:
+org.simpledrive.TouchImageView -> org.simpledrive.bt:
     int three -> a
     float normalizedScale -> b
     android.graphics.Matrix matrix -> c
@@ -10562,9 +10575,9 @@ org.simpledrive.TouchImageView -> org.simpledrive.br:
     void access$2500(org.simpledrive.TouchImageView) -> q
     android.content.Context access$2600(org.simpledrive.TouchImageView) -> r
     float[] access$2700(org.simpledrive.TouchImageView) -> s
-org.simpledrive.TouchImageView$1 -> org.simpledrive.bs:
+org.simpledrive.TouchImageView$1 -> org.simpledrive.bu:
     int[] $SwitchMap$android$widget$ImageView$ScaleType -> a
-org.simpledrive.TouchImageView$CompatScroller -> org.simpledrive.bt:
+org.simpledrive.TouchImageView$CompatScroller -> org.simpledrive.bv:
     android.widget.Scroller scroller -> a
     android.widget.OverScroller overScroller -> b
     boolean isPreGingerbread -> c
@@ -10575,7 +10588,7 @@ org.simpledrive.TouchImageView$CompatScroller -> org.simpledrive.bt:
     boolean computeScrollOffset() -> b
     int getCurrX() -> c
     int getCurrY() -> d
-org.simpledrive.TouchImageView$DoubleTapZoom -> org.simpledrive.bu:
+org.simpledrive.TouchImageView$DoubleTapZoom -> org.simpledrive.bw:
     long startTime -> b
     float startZoom -> c
     float targetZoom -> d
@@ -10590,32 +10603,32 @@ org.simpledrive.TouchImageView$DoubleTapZoom -> org.simpledrive.bu:
     void translateImageToCenterTouchPosition(float) -> a
     float interpolate() -> a
     double calculateDeltaScale(float) -> b
-org.simpledrive.TouchImageView$Fling -> org.simpledrive.bv:
+org.simpledrive.TouchImageView$Fling -> org.simpledrive.bx:
     org.simpledrive.TouchImageView$CompatScroller scroller -> a
     int currX -> b
     int currY -> c
     org.simpledrive.TouchImageView this$0 -> d
     void cancelFling() -> a
     void run() -> run
-org.simpledrive.TouchImageView$GestureListener -> org.simpledrive.bw:
+org.simpledrive.TouchImageView$GestureListener -> org.simpledrive.by:
     org.simpledrive.TouchImageView this$0 -> a
     boolean onSingleTapConfirmed(android.view.MotionEvent) -> onSingleTapConfirmed
     void onLongPress(android.view.MotionEvent) -> onLongPress
     boolean onFling(android.view.MotionEvent,android.view.MotionEvent,float,float) -> onFling
     boolean onDoubleTap(android.view.MotionEvent) -> onDoubleTap
     boolean onDoubleTapEvent(android.view.MotionEvent) -> onDoubleTapEvent
-org.simpledrive.TouchImageView$OnTouchImageViewListener -> org.simpledrive.bx:
+org.simpledrive.TouchImageView$OnTouchImageViewListener -> org.simpledrive.bz:
     void onMove() -> a
-org.simpledrive.TouchImageView$PrivateOnTouchListener -> org.simpledrive.by:
+org.simpledrive.TouchImageView$PrivateOnTouchListener -> org.simpledrive.ca:
     android.graphics.PointF last -> b
     org.simpledrive.TouchImageView this$0 -> a
     boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
-org.simpledrive.TouchImageView$ScaleListener -> org.simpledrive.bz:
+org.simpledrive.TouchImageView$ScaleListener -> org.simpledrive.cb:
     org.simpledrive.TouchImageView this$0 -> a
     boolean onScaleBegin(android.view.ScaleGestureDetector) -> onScaleBegin
     boolean onScale(android.view.ScaleGestureDetector) -> onScale
     void onScaleEnd(android.view.ScaleGestureDetector) -> onScaleEnd
-org.simpledrive.TouchImageView$State -> org.simpledrive.ca:
+org.simpledrive.TouchImageView$State -> org.simpledrive.cc:
     org.simpledrive.TouchImageView$State NONE -> a
     org.simpledrive.TouchImageView$State DRAG -> b
     org.simpledrive.TouchImageView$State ZOOM -> c
@@ -10624,7 +10637,7 @@ org.simpledrive.TouchImageView$State -> org.simpledrive.ca:
     org.simpledrive.TouchImageView$State[] $VALUES -> f
     org.simpledrive.TouchImageView$State[] values() -> values
     org.simpledrive.TouchImageView$State valueOf(java.lang.String) -> valueOf
-org.simpledrive.TouchImageView$ZoomVariables -> org.simpledrive.cb:
+org.simpledrive.TouchImageView$ZoomVariables -> org.simpledrive.cd:
     float scale -> a
     float focusX -> b
     float focusY -> c
@@ -10680,7 +10693,7 @@ simpledrive.lib.AuthenticationService -> simpledrive.lib.AuthenticationService:
 simpledrive.lib.Connection -> simpledrive.lib.Connection:
     org.apache.http.impl.client.DefaultHttpClient client -> a
     org.apache.http.impl.client.DefaultHttpClient getThreadSafeClient() -> a
-    java.util.HashMap forJSON(java.lang.String,java.util.HashMap) -> a
+    java.util.HashMap call(java.lang.String,java.util.HashMap) -> a
     void logout(android.content.Context) -> a
 simpledrive.lib.Connection$MySSLSocketFactory -> simpledrive.lib.Connection$MySSLSocketFactory:
     javax.net.ssl.SSLContext sslContext -> a
@@ -10706,10 +10719,7 @@ simpledrive.lib.Helper$1 -> simpledrive.lib.j:
     int compare(simpledrive.lib.Item,simpledrive.lib.Item) -> a
     int compare(java.lang.Object,java.lang.Object) -> compare
 simpledrive.lib.ImageLoader -> simpledrive.lib.k:
-    java.lang.String PREFS_NAME -> a
-    android.content.SharedPreferences settings -> b
-    java.lang.String server -> c
-    simpledrive.lib.ImageLoader$TaskListener taskListener -> d
+    simpledrive.lib.ImageLoader$TaskListener taskListener -> a
     void onPreExecute() -> onPreExecute
     android.graphics.Bitmap doInBackground(java.lang.String[]) -> a
     void onPostExecute(android.graphics.Bitmap) -> a
@@ -10718,23 +10728,30 @@ simpledrive.lib.ImageLoader -> simpledrive.lib.k:
 simpledrive.lib.ImageLoader$TaskListener -> simpledrive.lib.l:
     void onFinished(android.graphics.Bitmap) -> a
 simpledrive.lib.Item -> simpledrive.lib.m:
-    java.lang.String filename -> a
-    java.lang.String data -> b
-    java.lang.String date -> c
-    java.lang.String path -> d
-    android.graphics.Bitmap img -> e
-    java.lang.String type -> f
-    boolean thumbLoading -> g
-    boolean selected -> h
+    org.json.JSONObject json -> a
+    java.lang.String filename -> b
+    java.lang.String parent -> c
+    java.lang.String size -> d
+    java.lang.String edit -> e
+    java.lang.String path -> f
+    android.graphics.Bitmap thumb -> g
+    java.lang.String type -> h
+    java.lang.String hash -> i
+    java.lang.String owner -> j
+    boolean selected -> k
     boolean is(java.lang.String) -> a
-    java.lang.String getFilename() -> a
-    java.lang.String getData() -> b
-    java.lang.String getPath() -> c
-    android.graphics.Bitmap getImg() -> d
-    boolean isSelected() -> e
+    org.json.JSONObject getJSON() -> a
+    java.lang.String getFilename() -> b
+    java.lang.String getSize() -> c
+    java.lang.String getPath() -> d
+    java.lang.String getParent() -> e
+    android.graphics.Bitmap getThumb() -> f
+    boolean isSelected() -> g
     void setSelected(boolean) -> a
-    void toggleSelection() -> f
-    void setImg(android.graphics.Bitmap) -> a
+    void toggleSelection() -> h
+    void setThumb(android.graphics.Bitmap) -> a
+    java.lang.String getHash() -> i
+    java.lang.String getOwner() -> j
 simpledrive.lib.MenuListAdapter -> simpledrive.lib.n:
     android.content.Context context -> a
     java.lang.String[] mTitle -> b
@@ -10745,29 +10762,6 @@ simpledrive.lib.MenuListAdapter -> simpledrive.lib.n:
     int getCount() -> getCount
     java.lang.Object getItem(int) -> getItem
     long getItemId(int) -> getItemId
-simpledrive.lib.NewItem -> simpledrive.lib.o:
-    org.json.JSONObject file -> a
-    java.lang.String filename -> b
-    java.lang.String parent -> c
-    java.lang.String size -> d
-    java.lang.String edit -> e
-    java.lang.String hash -> f
-    android.graphics.Bitmap thumb -> g
-    java.lang.String type -> h
-    java.lang.String owner -> i
-    boolean selected -> j
-    boolean is(java.lang.String) -> a
-    boolean isSelected() -> a
-    void setSelected(boolean) -> a
-    void toggleSelection() -> b
-    org.json.JSONObject getFile() -> c
-    java.lang.String getFilename() -> d
-    java.lang.String getParent() -> e
-    java.lang.String getSize() -> f
-    java.lang.String getHash() -> g
-    java.lang.String getOwner() -> h
-    android.graphics.Bitmap getThumb() -> i
-    void setThumb(android.graphics.Bitmap) -> a
 simpledrive.lib.Upload -> simpledrive.lib.Upload:
     simpledrive.lib.Upload$ProgressListener listener -> c
     org.apache.http.HttpEntity yourEntity -> a
@@ -10783,9 +10777,9 @@ simpledrive.lib.Upload -> simpledrive.lib.Upload:
     boolean isStreaming() -> isStreaming
     void writeTo(java.io.OutputStream) -> writeTo
     simpledrive.lib.Upload$ProgressListener access$000(simpledrive.lib.Upload) -> a
-simpledrive.lib.Upload$1ProgressiveOutputStream -> simpledrive.lib.p:
+simpledrive.lib.Upload$1ProgressiveOutputStream -> simpledrive.lib.o:
     simpledrive.lib.Upload this$0 -> a
-simpledrive.lib.Upload$1ProxyOutputStream -> simpledrive.lib.q:
+simpledrive.lib.Upload$1ProxyOutputStream -> simpledrive.lib.p:
     long transferred -> a
     simpledrive.lib.Upload this$0 -> b
     void write(int) -> write
@@ -10793,5 +10787,5 @@ simpledrive.lib.Upload$1ProxyOutputStream -> simpledrive.lib.q:
     void write(byte[],int,int) -> write
     void flush() -> flush
     void close() -> close
-simpledrive.lib.Upload$ProgressListener -> simpledrive.lib.r:
+simpledrive.lib.Upload$ProgressListener -> simpledrive.lib.q:
     void transferred(java.lang.Integer) -> a

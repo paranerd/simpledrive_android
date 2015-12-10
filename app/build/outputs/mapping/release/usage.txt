@@ -4622,16 +4622,10 @@ simpledrive.lib.AudioService:
     public static final java.lang.String CHANGE_PLAY
     public static final java.lang.String STOP
 simpledrive.lib.Connection:
-    51:203:public Connection()
-    82:107:public static java.lang.String forString(java.lang.String,java.util.HashMap)
+    51:164:public Connection()
 simpledrive.lib.Helper:
     14:14:public Helper()
     93:96:public static int pxToDp(int)
 simpledrive.lib.Item:
-    37:37:public java.lang.String getDate()
-    49:49:public boolean isThumbLoading()
-    53:54:public void setThumbLoading()
-    69:69:public java.lang.String getType()
-simpledrive.lib.NewItem:
-    65:65:public java.lang.String getEdit()
+    53:53:public java.lang.String getLastEdit()
     81:81:public java.lang.String getType()

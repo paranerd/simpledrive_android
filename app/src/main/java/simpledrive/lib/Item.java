@@ -2,55 +2,67 @@ package simpledrive.lib;
 
 import android.graphics.Bitmap;
 
+import org.json.JSONObject;
+
 public class Item {
+	private JSONObject json;
 	private String filename;
-	private String data;
-	private String date;
+	private String parent;
+	private String size;
+	private String edit;
 	private String path;
-	private Bitmap img;
+	private Bitmap thumb;
 	private String type;
-	private boolean thumbLoading = false;
+	private String hash;
+	private String owner;
 	private boolean selected = false;
-	
-	public Item(String filename, String data, String date, String path, Bitmap img, String type) {
+
+	public Item(JSONObject json, String filename, String parent, String path, String size, String edit, String type, String owner, String hash, Bitmap thumb) {
+	//public Item(String filename, String size, String edit, String path, Bitmap thumb, String type) {
+		this.json = json;
 		this.filename = filename;
-		this.data = data;
-		this.date = date;
+		this.parent = parent;
+		this.size = size;
+		this.edit = edit;
 		this.path = path;
-		this.img = img;
+		this.thumb = thumb;
 		this.type = type;
+		this.hash = hash;
+		this.type = type;
+		this.owner = owner;
+		this.selected = false;
 	}
 
 	public boolean is(String type) {
 		return this.type.equals(type);
+	}
+
+	public JSONObject getJSON() {
+		return this.json;
 	}
 	
 	public String getFilename() {
 		return this.filename;
 	}
 	
-	public String getData() {
-		return this.data;
+	public String getSize() {
+		return this.size;
 	}
 	
-	public String getDate() {
-		return this.date;
+	public String getLastEdit() {
+		return this.edit;
 	}
 	
 	public String getPath() {
 		return this.path;
 	}
+
+	public String getParent() {
+		return this.parent;
+	}
 	
-	public Bitmap getImg() {
-		return this.img;
-	}
-
-	public boolean isThumbLoading() {
-		return this.thumbLoading;
-	}
-
-	public void setThumbLoading() {
-		this.thumbLoading = true;
+	public Bitmap getThumb() {
+		return this.thumb;
 	}
 
 	public boolean isSelected() {
@@ -68,8 +80,16 @@ public class Item {
 	public String getType() {
 		return this.type;
 	}
-	
-	public void setImg(Bitmap img) {
-		this.img = img;
+
+	public void setThumb(Bitmap img) {
+		this.thumb = img;
+	}
+
+	public String getHash() {
+		return this.hash;
+	}
+
+	public String getOwner() {
+		return this.owner;
 	}
 }
