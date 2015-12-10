@@ -2,7 +2,6 @@ package org.simpledrive;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
@@ -53,14 +52,15 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import simpledrive.lib.Connection;
 import simpledrive.lib.Helper;
-import simpledrive.lib.ImageLoader;
-import simpledrive.lib.NewItem;
+import simpledrive.lib.Item;
 import simpledrive.lib.Upload.ProgressListener;
 
 public class ShareFiles extends ActionBarActivity {
@@ -73,8 +73,9 @@ public class ShareFiles extends ActionBarActivity {
     private static String token;
 
     // Files
-    private static ArrayList<NewItem> items = new ArrayList<>();
+    private static ArrayList<Item> items = new ArrayList<>();
     private static ArrayList<JSONObject> hierarchy = new ArrayList<>();
+    private int sortOrder = 1;
 
     // View elements
     private static Typeface myTypeface;
@@ -83,7 +84,6 @@ public class ShareFiles extends ActionBarActivity {
     private static String globLayout;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private Toolbar toolbar;
-    private ImageLoader imgLoader;
 
     // Upload
     private ArrayList<HashMap<String, String>> uploadQueue = new ArrayList<>();
@@ -151,7 +151,6 @@ public class ShareFiles extends ActionBarActivity {
         mSwipeRefreshLayout.setProgressViewOffset(false, Helper.dpToPx(56), Helper.dpToPx(56) + 100);
 
         settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
-        server = settings.getString("server", "");
         globLayout = (settings.getString("view", "").length() == 0) ? "list" : settings.getString("view", "");
         setView(globLayout);
 
@@ -202,19 +201,12 @@ public class ShareFiles extends ActionBarActivity {
             String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
 
-            try {
-                Log.i("path", hierarchy.get(hierarchy.size() - 1).getString("path"));
+            data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
+            data.put("mode", "files");
+            data.put("action", "list");
+            data.put("token", token);
 
-                data.put("path", hierarchy.get(hierarchy.size() - 1).getString("path"));
-                data.put("rootshare", hierarchy.get(hierarchy.size() - 1).getString("rootshare"));
-                data.put("mode", "files");
-                data.put("action", "list");
-                data.put("token", token);
-            } catch (JSONException e1) {
-                e1.printStackTrace();
-            }
-
-            return Connection.forJSON(url, data);
+            return Connection.call(url, data);
         }
 
         @Override
@@ -222,15 +214,8 @@ public class ShareFiles extends ActionBarActivity {
             pDialog.dismiss();
             mSwipeRefreshLayout.setRefreshing(false);
             if(value.get("status").equals("ok")) {
-                Log.i("msg", value.get("msg"));
                 loginAttemts = 0;
-                try {
-
-                    JSONArray json = new JSONArray(value.get("msg"));
-                    listContent(json);
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
+                displayFiles(value.get("msg"));
             }
             else {
                 new Connect().execute();
@@ -239,24 +224,18 @@ public class ShareFiles extends ActionBarActivity {
     }
 
     /**
-     * Extract the JSON data and call the Adapter
-     * @param json Array of all files in current directory
+     * Extract JSONArray from server-data and convert to ArrayList
+     * @param rawJSON The raw JSON-Data from the server
      */
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void listContent(final JSONArray json) {
+    private void displayFiles(String rawJSON) {
         // Reset anything related to listing files
-        if(imgLoader != null) {
-            imgLoader.cancel(true);
-            imgLoader = null;
-        }
-
         items = new ArrayList<>();
 
-        // Generate ArrayList from the JSONArray
-        for(int i = 0; i < json.length(); i++){
-            try {
-                JSONObject obj = json.getJSONObject(i);
+        try {
+            JSONArray jar = new JSONArray(rawJSON);
+
+            for(int i = 0; i < jar.length(); i++){
+                JSONObject obj = jar.getJSONObject(i);
 
                 String filename = obj.getString("filename");
                 String parent = obj.getString("parent");
@@ -266,24 +245,12 @@ public class ShareFiles extends ActionBarActivity {
                 Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.drawable.folder_thumb);
 
                 if(type.equals("folder")) {
-                    NewItem item = new NewItem(obj, filename, parent, size, obj.getString("edit"), type, owner, obj.getString("hash"), thumb);
+                    Item item = new Item(obj, filename, parent, null, size, obj.getString("edit"), type, owner, obj.getString("hash"), thumb);
                     items.add(item);
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-        }
 
-        String emptyText = (items.size() == 0) ? "Nothing to see here." : "";
-        empty.setText(emptyText);
-
-        int layout = (globLayout.equals("list")) ? R.layout.listview : R.layout.gridview;
-        NewFileAdapter newAdapter = new NewFileAdapter(e, layout);
-        newAdapter.setData(items);
-        list.setAdapter(newAdapter);
-
-        // Set current directory
-        try {
+            // Show current directory in toolbar
             String title;
             JSONObject hier = hierarchy.get(hierarchy.size() - 1);
             if(hier.has("filename")) {
@@ -299,12 +266,37 @@ public class ShareFiles extends ActionBarActivity {
                 toolbar.setTitle(s);
                 toolbar.setSubtitle("Folders: " + items.size());
             }
-        } catch (JSONException e1) {
-            e1.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
+        sortByName();
+
+        String emptyText = (items.size() == 0) ? "Nothing to see here." : "";
+        empty.setText(emptyText);
+
+        int layout = (globLayout.equals("list")) ? R.layout.listview : R.layout.gridview;
+        NewFileAdapter newAdapter = new NewFileAdapter(e, layout);
+        newAdapter.setData(items);
+        list.setAdapter(newAdapter);
     }
 
-    public class NewFileAdapter extends ArrayAdapter<NewItem> {
+    private void sortByName() {
+        Collections.sort(items, new Comparator<Item>() {
+            @Override
+            public int compare(Item item1, Item item2) {
+                if (item1.is("folder") && !item2.is("folder")) {
+                    return -1;
+                }
+                if (!item1.is("folder") && item2.is("folder")) {
+                    return 1;
+                }
+                return sortOrder * (item1.getFilename().toLowerCase().compareTo(item2.getFilename().toLowerCase()));
+            }
+        });
+    }
+
+    public class NewFileAdapter extends ArrayAdapter<Item> {
         private LayoutInflater layoutInflater;
         private int layout;
 
@@ -317,7 +309,7 @@ public class ShareFiles extends ActionBarActivity {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
-            final NewItem item = getItem(position);
+            final Item item = getItem(position);
 
             if(convertView == null) {
                 convertView = layoutInflater.inflate(layout, null);
@@ -367,8 +359,13 @@ public class ShareFiles extends ActionBarActivity {
                 holder.thumb.setLayoutParams(lp);
             }
 
-            holder.name.setGravity(Gravity.CENTER_VERTICAL);
+            if(globLayout.equals("grid")) {
+                holder.name.setBackgroundColor(getResources().getColor(R.color.brightgrey));
+            } else {
+                convertView.setBackgroundResource(R.drawable.bkg_light);
+            }
 
+            holder.name.setGravity(Gravity.CENTER_VERTICAL);
             holder.thumb.setImageBitmap(item.getThumb());
 
             return convertView;
@@ -382,7 +379,7 @@ public class ShareFiles extends ActionBarActivity {
             TextView separator;
         }
 
-        public void setData(ArrayList<NewItem> arg1) {
+        public void setData(ArrayList<Item> arg1) {
             clear();
             if(arg1 != null) {
                 for (int i=0; i < arg1.size(); i++) {
@@ -393,8 +390,8 @@ public class ShareFiles extends ActionBarActivity {
     }
 
     public void openFile(int position) {
-        NewItem item = items.get(position);
-        hierarchy.add(item.getFile());
+        Item item = items.get(position);
+        hierarchy.add(item.getJSON());
         new ListContent().execute();
     }
 
@@ -411,7 +408,7 @@ public class ShareFiles extends ActionBarActivity {
             AccountManager accMan = AccountManager.get(ShareFiles.this);
             Account[] sc = accMan.getAccountsByType("org.simpledrive");
 
-            if (sc.length == 0 || loginAttemts > 1) {
+            if (sc.length == 0 || loginAttemts > 2) {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("status", "error");
                 map.put("msg", "An error occured");
@@ -420,16 +417,16 @@ public class ShareFiles extends ActionBarActivity {
 
             username = sc[0].name;
             token = accMan.getUserData(sc[0], "token");
+            server = accMan.getUserData(sc[0], "server");
 
             String url = server + "api/core.php";
-            Log.i("url", url);
             HashMap<String, String> data = new HashMap<>();
             data.put("action", "login");
             data.put("token", token);
             data.put("user", username);
             data.put("pass", accMan.getPassword(sc[0]));
 
-            return Connection.forJSON(url, data);
+            return Connection.call(url, data);
         }
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
@@ -483,7 +480,7 @@ public class ShareFiles extends ActionBarActivity {
             data.put("action", "create");
             data.put("token", token);
             data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
-            return Connection.forJSON(url, data);
+            return Connection.call(url, data);
         }
         @Override
         protected void onPostExecute(HashMap<String, String> value) {

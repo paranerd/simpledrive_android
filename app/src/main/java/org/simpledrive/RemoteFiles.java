@@ -68,6 +68,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -78,8 +79,8 @@ import simpledrive.lib.Connection;
 import simpledrive.lib.Download.DownloadListener;
 import simpledrive.lib.Helper;
 import simpledrive.lib.ImageLoader;
+import simpledrive.lib.Item;
 import simpledrive.lib.MenuListAdapter;
-import simpledrive.lib.NewItem;
 import simpledrive.lib.Upload.ProgressListener;
 
 public class RemoteFiles extends ActionBarActivity {
@@ -94,7 +95,7 @@ public class RemoteFiles extends ActionBarActivity {
     private SharedPreferences settings;
     private boolean longClicked = false;
     private ImageLoader imgLoader;
-    private static int loginAttemts;
+    private static int loginAttempts = 0;
 
     // Audio
     public static String audioFilename;
@@ -128,11 +129,11 @@ public class RemoteFiles extends ActionBarActivity {
     LinearLayout mDrawerLinear;
 
     // Files
-    private JSONArray json = new JSONArray();
-    private static ArrayList<NewItem> items = new ArrayList<>();
+    private static ArrayList<Item> items = new ArrayList<>();
     private static ArrayList<JSONObject> hierarchy = new ArrayList<>();
     private Integer firstFilePos;
     private NewFileAdapter newAdapter;
+    private int sortOrder = 1;
 
     ServiceConnection mServiceConnection = new ServiceConnection(){
 		public void onServiceDisconnected(ComponentName name) {
@@ -166,66 +167,46 @@ public class RemoteFiles extends ActionBarActivity {
     		String url = server + "api/files.php";
     		HashMap<String, String> data = new HashMap<>();
 
-            //data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
-            //try {
-                data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
-                //data.put("path", hierarchy.get(hierarchy.size() - 1).getString("path"));
-                //data.put("rootshare", hierarchy.get(hierarchy.size() - 1).getString("rootshare"));
-                data.put("mode", mode);
-                data.put("action", "list");
-                data.put("token", token);
-            /*} catch (JSONException e1) {
-                e1.printStackTrace();
-            }*/
+            data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
+            data.put("mode", mode);
+            data.put("action", "list");
+            data.put("token", token);
 
-            return Connection.forJSON(url, data);
+            return Connection.call(url, data);
     	}
 
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
-            if(value == null) {
-                Log.i("list_value", "isNull");
-            }
-            else {
-                Log.i("list_value", value.toString());
-            }
             mSwipeRefreshLayout.setRefreshing(false);
             if(value == null) {
                 new Connect().execute();
             }
             else if(value.get("status").equals("ok")){
-                loginAttemts = 0;
-                try {
-                    json = new JSONArray(value.get("msg"));
-                    listContent(json);
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
+                loginAttempts = 0;
+
+                displayFiles(value.get("msg"));
             }
             pDialog.dismiss();
         }
     }
 
     /**
-     * Extract the JSON data and call the Adapter
-     * @param json Array of all files in current directory
+     * Extract JSONArray from server-data, convert to ArrayList and display
+     * @param rawJSON The raw JSON-Data from the server
      */
-  
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	private void listContent(final JSONArray json) {
+    private void displayFiles(String rawJSON) {
         // Reset anything related to listing files
         if(imgLoader != null) {
             imgLoader.cancel(true);
             imgLoader = null;
         }
 
-        items = new ArrayList<>();
-        firstFilePos = null;
-
         bCreate.setVisibility(View.GONE);
         bUpload.setVisibility(View.GONE);
 
         int thumbSize;
+        items = new ArrayList<>();
+
         if(globLayout.equals("list")) {
             thumbSize = Helper.dpToPx(40);
         } else {
@@ -234,10 +215,11 @@ public class RemoteFiles extends ActionBarActivity {
             thumbSize = displaymetrics.widthPixels / 2;
         }
 
-        // Generate ArrayList from the JSONArray
-        for(int i = 0; i < json.length(); i++){
-            try {
-                JSONObject obj = json.getJSONObject(i);
+        try {
+            JSONArray jar = new JSONArray(rawJSON);
+
+            for(int i = 0; i < jar.length(); i++){
+                JSONObject obj = jar.getJSONObject(i);
 
                 String filename = (mode.equals("trash")) ? obj.getString("filename").substring(0, obj.getString("filename").lastIndexOf("_trash")) : obj.getString("filename");
                 String parent = obj.getString("parent");
@@ -258,7 +240,7 @@ public class RemoteFiles extends ActionBarActivity {
                         break;
                     case "image":
                         String imgPath = tmpFolder + Helper.md5(parent + filename) + ".jpg";
-                        String thumbPath = tmpFolder + Helper.md5(parent + filename) + "_thumb.jpg";
+                        String thumbPath = (globLayout.equals("list")) ? tmpFolder + Helper.md5(parent + filename) + "_list.jpg" : tmpFolder + Helper.md5(parent + filename) + "_grid.jpg";
 
                         if (new File(imgPath).exists()) {
                             thumb = Helper.getThumb(imgPath, thumbSize);
@@ -273,29 +255,23 @@ public class RemoteFiles extends ActionBarActivity {
                         break;
                 }
 
-                NewItem item = new NewItem(obj, filename, parent, size, obj.getString("edit"), type, owner, obj.getString("hash"), thumb);
+                //Item(JSONObject json, String filename, String parent, String path, String size, String edit, String type, String owner, String hash, Bitmap thumb) {
+                Item item = new Item(obj, filename, parent, null, size, obj.getString("edit"), type, owner, obj.getString("hash"), thumb);
                 items.add(item);
-
-                if(!type.equals("folder") && firstFilePos == null) {
-                    firstFilePos = i;
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-        }
 
-        firstFilePos = (firstFilePos == null) ? items.size() : firstFilePos;
+            sortByName();
 
-        String emptyText = (items.size() == 0) ? "Nothing to see here." : "";
-        empty.setText(emptyText);
+            firstFilePos = items.size();
 
-        int layout = (globLayout.equals("list")) ? R.layout.listview : R.layout.gridview;
-        newAdapter = new NewFileAdapter(e, layout);
-        newAdapter.setData(items);
-        list.setAdapter(newAdapter);
+            for(int i = 0; i < items.size(); i++) {
+                if (!items.get(i).is("folder")) {
+                    firstFilePos = i;
+                    break;
+                }
+            }
 
-        // Set current directory
-        try {
+            // Show current directory in toolbar
             String title;
             JSONObject hier = hierarchy.get(hierarchy.size() - 1);
             if(hier.has("filename")) {
@@ -314,14 +290,37 @@ public class RemoteFiles extends ActionBarActivity {
                 toolbar.setTitle(s);
                 toolbar.setSubtitle("Folders: " + firstFilePos + ", Files: " + (items.size() - firstFilePos));
             }
-        } catch (JSONException e1) {
-            e1.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        unselectAll();
-   	}
+        String emptyText = (items.size() == 0) ? "Nothing to see here." : "";
+        empty.setText(emptyText);
 
-    public class NewFileAdapter extends ArrayAdapter<NewItem> {
+        int layout = (globLayout.equals("list")) ? R.layout.listview : R.layout.gridview;
+        newAdapter = new NewFileAdapter(e, layout);
+        newAdapter.setData(items);
+        list.setAdapter(newAdapter);
+
+        unselectAll();
+    }
+
+    private void sortByName() {
+        Collections.sort(items, new Comparator<Item>() {
+            @Override
+            public int compare(Item item1, Item item2) {
+                if(item1.is("folder") && !item2.is("folder")) {
+                    return -1;
+                }
+                if(!item1.is("folder") && item2.is("folder")) {
+                    return 1;
+                }
+                return sortOrder * (item1.getFilename().toLowerCase().compareTo(item2.getFilename().toLowerCase()));
+            }
+        });
+    }
+
+    public class NewFileAdapter extends ArrayAdapter<Item> {
         private LayoutInflater layoutInflater;
         private NewFileAdapter e;
         private int layout;
@@ -336,7 +335,7 @@ public class RemoteFiles extends ActionBarActivity {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
-            final NewItem item = getItem(position);
+            final Item item = getItem(position);
 
             if(convertView == null) {
                 convertView = layoutInflater.inflate(layout, null);
@@ -409,7 +408,7 @@ public class RemoteFiles extends ActionBarActivity {
             if(item.is("image") && item.getThumb() == null) {
                 item.setThumb(BitmapFactory.decodeResource(getResources(), R.drawable.image_thumb));
                 holder.thumb.setImageResource(R.drawable.image_thumb);
-                String thumbPath = tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + "_thumb.jpg";
+                String thumbPath = (globLayout.equals("list")) ? tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + "_list.jpg" : tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + "_grid.jpg";
                 loadThumb(item, thumbPath);
             }
 
@@ -443,7 +442,7 @@ public class RemoteFiles extends ActionBarActivity {
             TextView separator;
         }
 
-        public void setData(ArrayList<NewItem> arg1) {
+        public void setData(ArrayList<Item> arg1) {
             clear();
             if(arg1 != null) {
                 for (int i=0; i < arg1.size(); i++) {
@@ -452,7 +451,7 @@ public class RemoteFiles extends ActionBarActivity {
             }
         }
 
-        public void loadThumb(final NewItem item, String path) {
+        public void loadThumb(final Item item, String path) {
             DisplayMetrics displaymetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 
@@ -474,20 +473,20 @@ public class RemoteFiles extends ActionBarActivity {
             });
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                imgLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, item.getFile().toString(), item.getFilename(), size, size, path, token);
+                imgLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, item.getJSON().toString(), item.getFilename(), size, size, path, token, server);
             } else {
-                imgLoader.execute(item.getFile().toString(), item.getFilename(), size, size, path, token);
+                imgLoader.execute(item.getJSON().toString(), item.getFilename(), size, size, path, token, server);
             }
         }
     }
 
     public void openFile(int position) {
-        NewItem item = items.get(position);
+        Item item = items.get(position);
         if(mode == "trash") {
             return;
 
         } else if(item.is("folder")) {
-            hierarchy.add(item.getFile());
+            hierarchy.add(item.getJSON());
             new ListContent().execute();
 
         } else if(item.is("image")) {
@@ -519,13 +518,14 @@ public class RemoteFiles extends ActionBarActivity {
 
     public static ArrayList<HashMap<String, String>> getAllImages() {
         ArrayList<HashMap<String, String>> images = new ArrayList<>();
-        for(NewItem item : items) {
+        for(Item item : items) {
             if(item.is("image")) {
                 HashMap<String, String> img = new HashMap<>();
-                img.put("file", item.getFile().toString());
+                img.put("file", item.getJSON().toString());
                 img.put("filename", item.getFilename());
                 img.put("path", tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + ".jpg");
-                img.put("thumbPath", tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + "_thumb.jpg");
+                String thumbPath = (globLayout.equals("list")) ? tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + "_list.jpg" : tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + "_grid.jpg";
+                img.put("thumbPath", thumbPath);
 
                 images.add(img);
             }
@@ -545,7 +545,7 @@ public class RemoteFiles extends ActionBarActivity {
     }
 
     private void selectAll() {
-        for(NewItem item : items) {
+        for(Item item : items) {
             item.setSelected(true);
         }
         invalidateOptionsMenu();
@@ -559,7 +559,7 @@ public class RemoteFiles extends ActionBarActivity {
      */
 
     private void unselectAll() {
-        for(NewItem item : items) {
+        for(Item item : items) {
             item.setSelected(false);
         }
         invalidateOptionsMenu();
@@ -569,9 +569,9 @@ public class RemoteFiles extends ActionBarActivity {
     }
 
     public JSONObject getSelected() {
-        for(NewItem item : items) {
+        for(Item item : items) {
             if(item.isSelected()) {
-                return item.getFile();
+                return item.getJSON();
             }
         }
         return null;
@@ -589,13 +589,13 @@ public class RemoteFiles extends ActionBarActivity {
             String url = server + "api/files.php";
             HashMap<String, String> data = new HashMap<>();
 
-            data.put("target", items.get(info[0]).getFile().toString());
+            data.put("target", items.get(info[0]).getJSON().toString());
             data.put("type",  "mobile_audio");
             data.put("filename", audioFilename);
             data.put("action", "cache");
             data.put("token", token);
 
-            return Connection.forJSON(url, data);
+            return Connection.call(url, data);
         }
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
@@ -613,7 +613,7 @@ public class RemoteFiles extends ActionBarActivity {
 
     	@Override
         protected void onPreExecute() {
-            loginAttemts++;
+            loginAttempts++;
             super.onPreExecute();
             empty.setText("Connecting ...");
     	}
@@ -623,7 +623,7 @@ public class RemoteFiles extends ActionBarActivity {
             AccountManager accMan = AccountManager.get(RemoteFiles.this);
             sc = accMan.getAccountsByType("org.simpledrive");
 
-            if (sc.length == 0 || loginAttemts > 1) {
+            if (sc.length == 0 || loginAttempts > 2) {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("status", "error");
                 map.put("msg", "An error occured");
@@ -632,6 +632,7 @@ public class RemoteFiles extends ActionBarActivity {
 
             username = sc[0].name;
             token = accMan.getUserData(sc[0], "token");
+            server = accMan.getUserData(sc[0], "server");
 
             String url = server + "api/core.php";
             HashMap<String, String> data = new HashMap<>();
@@ -640,9 +641,7 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("user", username);
             data.put("pass", accMan.getPassword(sc[0]));
 
-            Log.i("data", data.toString());
-
-            return Connection.forJSON(url, data);
+            return Connection.call(url, data);
     	}
     	 @Override
          protected void onPostExecute(HashMap<String, String> value) {
@@ -819,7 +818,7 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("action", "create");
             data.put("token", token);
             data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
-            return Connection.forJSON(url, data);
+            return Connection.call(url, data);
         }
 
         @Override
@@ -922,7 +921,7 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("token", token);
             data.put("newFilename", names[0]);
             data.put("target", getSelected().toString());
-            return Connection.forJSON(url, data);
+            return Connection.call(url, data);
         }
 
         @Override
@@ -1008,9 +1007,9 @@ public class RemoteFiles extends ActionBarActivity {
 
     private JSONArray getSelectedElem() {
         JSONArray arr = new JSONArray();
-        for(NewItem item : items) {
+        for(Item item : items) {
             if(item.isSelected()) {
-                arr.put(item.getFile());
+                arr.put(item.getJSON());
             }
         }
         return arr;
@@ -1033,7 +1032,7 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("final", Boolean.toString(mode.equals("trash")));
             data.put("source", getSelectedElem().toString());
             data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
-            return Connection.forJSON(url, data);
+            return Connection.call(url, data);
         }
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
@@ -1077,7 +1076,7 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("action", "share");
             data.put("token", token);
             data.put("target", getSelected().toString());
-            return Connection.forJSON(url, data);
+            return Connection.call(url, data);
         }
         @Override
         protected void onPostExecute(final HashMap<String, String> value) {
@@ -1130,7 +1129,7 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("action", "unshare");
             data.put("token", token);
             data.put("target", getSelected().toString());
-            return Connection.forJSON(url, data);
+            return Connection.call(url, data);
         }
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
@@ -1160,7 +1159,7 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("token", token);
             data.put("source", getSelectedElem().toString());
             data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
-            return Connection.forJSON(url, data);
+            return Connection.call(url, data);
         }
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
@@ -1194,7 +1193,7 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("source", getSelectedElem().toString());
             data.put("target", hierarchy.get(0).toString());
 
-            return Connection.forJSON(url, data);
+            return Connection.call(url, data);
         }
         @Override
         protected void onPostExecute(HashMap<String, String>value) {
@@ -1457,8 +1456,8 @@ public class RemoteFiles extends ActionBarActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                loginAttempts = 0;
                 if (hierarchy.size() > 0) {
-                    loginAttemts = 0;
                     new ListContent().execute();
 
                 } else {
@@ -1471,8 +1470,6 @@ public class RemoteFiles extends ActionBarActivity {
         mSwipeRefreshLayout.setProgressViewOffset(true, Helper.dpToPx(56), Helper.dpToPx(56) + 100);
 
         settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
-        server = settings.getString("server", "");
-
         globLayout = (settings.getString("view", "").length() == 0) ? "list" : settings.getString("view", "");
         setView(globLayout);
 
@@ -1509,7 +1506,6 @@ public class RemoteFiles extends ActionBarActivity {
             tmp.mkdir();
         }
 
-        loginAttemts = 0;
         new Connect().execute();
     }
 
@@ -1521,7 +1517,7 @@ public class RemoteFiles extends ActionBarActivity {
 
     public void setView(String view) {
         globLayout = view;
-        settings.edit().putString("view", globLayout).commit();
+        settings.edit().putString("view", globLayout).apply();
 
         if(globLayout.equals("list")) {
             list = (ListView) findViewById(R.id.list);

@@ -1,18 +1,14 @@
 package simpledrive.lib;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.simpledrive.RemoteFiles;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -20,9 +16,6 @@ import java.io.InputStream;
 import java.net.URLEncoder;
 
 public class ImageLoader extends AsyncTask<String, String, Bitmap> {
-    public final String PREFS_NAME = "org.simpledrive.shared_pref";
-    private SharedPreferences settings = RemoteFiles.e.getSharedPreferences(PREFS_NAME, 0);
-    private String server = settings.getString("server", "");
     private final TaskListener taskListener;
 
     public interface TaskListener {
@@ -47,6 +40,7 @@ public class ImageLoader extends AsyncTask<String, String, Bitmap> {
         String height = path[3];
         String filepath = path[4];
         String token = path[5];
+        String server = path[6];
 
         try {
             String file_enc = URLEncoder.encode(file, "UTF-8");
@@ -65,7 +59,6 @@ public class ImageLoader extends AsyncTask<String, String, Bitmap> {
 
                 if(bmp == null || !imgFile.createNewFile()) {
                     in.close();
-                    Log.i("returning", "null");
                     return null;
                 }
 
@@ -89,7 +82,6 @@ public class ImageLoader extends AsyncTask<String, String, Bitmap> {
     @Override
     protected void onPostExecute(final Bitmap bmp) {
         if(this.taskListener != null) {
-            Log.i("on", "finished");
             this.taskListener.onFinished(bmp);
         }
     }

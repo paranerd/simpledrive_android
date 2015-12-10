@@ -5,19 +5,13 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -91,7 +85,7 @@ public class Login extends Activity {
             data.put("user", user);
             data.put("pass", pass);
 
-            return Connection.forJSON(url, data);
+            return Connection.call(url, data);
         }
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
@@ -101,12 +95,9 @@ public class Login extends Activity {
                 Toast.makeText(Login.this, "Connection error", Toast.LENGTH_SHORT).show();
             }
             else if (value.get("status").equals("ok")) {
-                SharedPreferences.Editor editor = getSharedPreferences("org.simpledrive.shared_pref", 0).edit();
-                editor.putString("server", server).commit();
-
                 Account account = new Account(user, "org.simpledrive");
                 Bundle userdata = new Bundle();
-                userdata.putString("SERVER", server);
+                userdata.putString("server", server);
                 userdata.putString("token", value.get("msg"));
                 AccountManager am = AccountManager.get(Login.this);
                 Account aaccount[] = am.getAccounts();
@@ -116,11 +107,14 @@ public class Login extends Activity {
                         am.removeAccount(new Account(anAaccount.name, anAaccount.type), null, null);
                     }
                 }
-                am.addAccountExplicitly(account, pass, userdata);
-
-                Intent i = new Intent(getApplicationContext(), RemoteFiles.class);
-                startActivity(i);
-                finish();
+                if(am.addAccountExplicitly(account, pass, userdata)) {
+                    Intent i = new Intent(getApplicationContext(), RemoteFiles.class);
+                    startActivity(i);
+                    finish();
+                }
+                else {
+                    Toast.makeText(Login.this, "Error logging in", Toast.LENGTH_SHORT).show();
+                }
             }
             else {
                 Toast.makeText(Login.this, value.get("msg"), Toast.LENGTH_SHORT).show();

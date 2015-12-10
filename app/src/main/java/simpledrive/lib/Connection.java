@@ -77,40 +77,9 @@ public class Connection {
         }
     }
 
-    public static String forString(String URL, HashMap<String, String> data) {
-        try {
-            DefaultHttpClient httpClient = getThreadSafeClient();
-            HttpPost httpPost = new HttpPost(URL);
-
-            // add data
-            List<NameValuePair> nameValuePairs = new ArrayList<>(2);
-            Iterator<String> myVeryOwnIterator = data.keySet().iterator();
-            while(myVeryOwnIterator.hasNext()) {
-                String key = myVeryOwnIterator.next();
-                String value = data.get(key);
-                nameValuePairs.add(new BasicNameValuePair(key, value));
-            }
-
-            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-
-            // execute HTTP post request
-            HttpResponse response = httpClient.execute(httpPost);
-            HttpEntity resEntity = response.getEntity();
-            Integer status = response.getStatusLine().getStatusCode();
-
-            if (resEntity != null && status == 200) {
-                return EntityUtils.toString(resEntity).trim();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static HashMap<String, String> forJSON(String url, HashMap<String, String> data) {
-        InputStream is = null;
-        String result = "";
-        JSONObject jArray = null;
+    public static HashMap<String, String> call(String url, HashMap<String, String> data) {
+        InputStream is;
+        String result;
         HashMap<String, String> map = new HashMap<>();
         map.put("status", "error");
         map.put("msg", "An error occured");
@@ -134,17 +103,13 @@ public class Connection {
             is = entity.getContent();
 
             if(response.getStatusLine().getStatusCode() != 200 || is == null) {
-                Log.i("return", "one");
                 String code = Integer.toString(response.getStatusLine().getStatusCode());
-                Log.i("statusCode", code);
                 map.put("msg", "Connection error");
-                Log.i("returning", map.toString());
                 return map;
             }
 
         } catch (IOException e) {
             e.printStackTrace();
-            Log.i("return", "two");
             map.put("msg", "Connection error");
             return map;
         }
@@ -159,16 +124,14 @@ public class Connection {
             is.close();
             result = sb.toString();
         } catch (Exception e) {
-            Log.i("return", "three");
             map.put("msg", "Connection error");
             return map;
         }
 
         try {
-            jArray = new JSONObject(result);
+            JSONObject jArray = new JSONObject(result);
             if(!jArray.has("status")) {
                 map.put("msg", "An error occured");
-                Log.i("return", "four");
                 return map;
             }
 
@@ -181,11 +144,9 @@ public class Connection {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.i("return", "five");
             return map;
         }
 
-        Log.i("return", "six");
         return map;
     }
 

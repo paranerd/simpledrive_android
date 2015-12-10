@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.TypefaceSpan;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
@@ -169,7 +170,16 @@ public class LocalFiles extends ActionBarActivity {
             new ListContent().execute();
         } else {
             Intent i = new Intent();
+
             String[] paths = new String[] {items.get(position).getPath()};
+            for(int x = 0; x < paths.length; x++) {
+                Log.i("paths", items.get(x).getFilename());
+            }
+
+            if(paths.length == 0) {
+                Log.i("PATHS", "EMPTY");
+            }
+
             i.putExtra("paths", paths);
             setResult(RESULT_OK, i);
             finish();
@@ -254,7 +264,7 @@ public class LocalFiles extends ActionBarActivity {
                     size = "";
                     type = "folder";
                     thumb = BitmapFactory.decodeResource(getResources(), R.drawable.folder_thumb);
-                    directories.add(new Item(filename, size, null, path, thumb, type));
+                    directories.add(new Item(null, filename, null, path, size, null, type, null, null, thumb));
                 } else {
                     type = getMimeType(file);
                     switch (type) {
@@ -268,7 +278,7 @@ public class LocalFiles extends ActionBarActivity {
                             thumb = BitmapFactory.decodeResource(getResources(), R.drawable.unknown_thumb);
                     }
                     size = Helper.convertSize(file.length() + "");
-                    files.add(new Item(filename, size, null, path, thumb, type));
+                    files.add(new Item(null, filename, null, path, size, null, type, null, null, thumb));
                 }
             }
             directories = Helper.sort(directories);
@@ -354,7 +364,7 @@ public class LocalFiles extends ActionBarActivity {
             holder.size.setTypeface(myTypeface);
 
             holder.name.setText(item.getFilename());
-            holder.size.setText(item.getData());
+            holder.size.setText(item.getSize());
 
             int visibility = (position == 0 || (firstFilePos != null && position == firstFilePos)) ? View.VISIBLE : View.GONE;
             holder.separator.setVisibility(visibility);
@@ -373,9 +383,9 @@ public class LocalFiles extends ActionBarActivity {
                 convertView.setBackgroundColor(getResources().getColor(R.color.lightgreen));
             }
 
-            holder.thumb.setImageBitmap(item.getImg());
-            if(item.is("image") && item.getImg() == null) {
-                item.setImg(BitmapFactory.decodeResource(getResources(), R.drawable.image_thumb));
+            holder.thumb.setImageBitmap(item.getThumb());
+            if(item.is("image") && item.getThumb() == null) {
+                item.setThumb(BitmapFactory.decodeResource(getResources(), R.drawable.image_thumb));
                 holder.thumb.setImageResource(R.drawable.image_thumb);
                 /*if(!called) {
                     called = true;
@@ -445,7 +455,7 @@ public class LocalFiles extends ActionBarActivity {
         }
         @Override
         protected void onPostExecute(Bitmap bmp) {
-            items.get(position).setImg(bmp);
+            items.get(position).setThumb(bmp);
             mAdapter.notifyDataSetChanged();
         }
     }
