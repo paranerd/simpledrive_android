@@ -8,9 +8,9 @@
         android:title="Select all"
         app:showAsAction="never" />
 
-    <item android:id="@+id/trash"
+    <item android:id="@+id/clearcache"
         android:orderInCategory="2"
-        android:title="Trash"
+        android:title="Clear Cache"
         app:showAsAction="never" />
 
     <item android:id="@id/logout"

@@ -15,6 +15,7 @@ public class Item {
 	private String type;
 	private String hash;
 	private String owner;
+	private String thumbPath = null;
 	private boolean selected = false;
 
 	public Item(JSONObject json, String filename, String parent, String path, String size, String edit, String type, String owner, String hash, Bitmap thumb) {
@@ -63,6 +64,14 @@ public class Item {
 	
 	public Bitmap getThumb() {
 		return this.thumb;
+	}
+
+	public void setThumbPath(String path) {
+		this.thumbPath = path;
+	}
+
+	public String getThumbPath() {
+		return this.thumbPath;
 	}
 
 	public boolean isSelected() {

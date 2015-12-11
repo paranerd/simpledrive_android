@@ -5,6 +5,8 @@ import android.accounts.AccountManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -31,10 +33,21 @@ public class ImageViewer extends ActionBarActivity {
     public static ExtendedViewPager mViewPager;
     private static boolean titleVisible = true;
     private static Toolbar toolbar;
-    ImageViewer e;
-    String token;
+    private ImageViewer e;
+    private String token;
+    private String server;
+    private ImageLoader imgLoader;
 
     public static ArrayList<HashMap<String, String>> images;
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(imgLoader != null) {
+            imgLoader.cancel(true);
+            imgLoader = null;
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +62,7 @@ public class ImageViewer extends ActionBarActivity {
 
         if (sc.length > 0) {
             token = accMan.getUserData(sc[0], "token");
+            server = accMan.getUserData(sc[0], "server");
         }
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -162,7 +176,7 @@ public class ImageViewer extends ActionBarActivity {
         int height = displaymetrics.heightPixels;
         int width = displaymetrics.widthPixels;
 
-        ImageLoader task = new ImageLoader(new ImageLoader.TaskListener() {
+        imgLoader = new ImageLoader(new ImageLoader.TaskListener() {
             @Override
             public void onFinished(final Bitmap bmp) {
                 runOnUiThread(new Runnable() {
@@ -173,7 +187,7 @@ public class ImageViewer extends ActionBarActivity {
                             mViewPager.getAdapter().notifyDataSetChanged();
                         }
                         if(thumbPath != null) {
-                            // Overrides the thumbnail (may consume too much memory with many - then bigger - thumbnails to display)
+                            // Overrides the thumbnail with the image (may consume too much memory with many - and then bigger - thumbnails to display)
                             //new File(thumbPath).delete();
                         }
                     }
@@ -181,6 +195,10 @@ public class ImageViewer extends ActionBarActivity {
             }
         });
 
-        task.execute(file, filename, width + "", height + "", path, token);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            imgLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, file, filename, width + "", height + "", path, token, server);
+        } else {
+            imgLoader.execute(file, filename, width + "", height + "", path, token, server);
+        }
     }
 }
