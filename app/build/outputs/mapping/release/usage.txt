@@ -3318,7 +3318,6 @@ android.support.v7.app.ActionBar$Tab:
     public abstract android.support.v7.app.ActionBar$Tab setContentDescription(java.lang.CharSequence)
 android.support.v7.app.ActionBar$TabListener
 android.support.v7.app.ActionBarActivity:
-    191:191:public boolean supportRequestWindowFeature(int)
     225:225:public android.support.v7.view.ActionMode startSupportActionMode(android.support.v7.view.ActionMode$Callback)
     257:258:void superSetContentView(int)
     265:266:void superSetContentView(android.view.View,android.view.ViewGroup$LayoutParams)
@@ -3331,7 +3330,6 @@ android.support.v7.app.ActionBarActivity:
 android.support.v7.app.ActionBarActivityDelegate:
     static final java.lang.String METADATA_UI_OPTIONS
     private static final java.lang.String TAG
-    abstract boolean supportRequestWindowFeature(int)
     abstract android.support.v7.view.ActionMode startSupportActionMode(android.support.v7.view.ActionMode$Callback)
     abstract void setSupportProgressBarVisibility(boolean)
     abstract void setSupportProgressBarIndeterminateVisibility(boolean)
@@ -3343,12 +3341,10 @@ android.support.v7.app.ActionBarActivityDelegate$ActionBarDrawableToggleImpl:
     292:293:public boolean isNavigationVisible()
 android.support.v7.app.ActionBarActivityDelegateBase:
     private static final java.lang.String TAG
-    459:482:public boolean supportRequestWindowFeature(int)
     681:681:void setSupportProgressBarVisibility(boolean)
     686:686:void setSupportProgressBarIndeterminateVisibility(boolean)
     691:691:void setSupportProgressBarIndeterminate(boolean)
     696:696:void setSupportProgress(int)
-    1434:1438:private void throwFeatureRequestIfSubDecorInstalled()
 android.support.v7.app.ActionBarActivityDelegateBase$PanelFeatureState:
     boolean wasLastOpen
     android.os.Bundle frozenMenuState
@@ -4282,8 +4278,158 @@ org.apache.commons.io.FileDeleteStrategy
 org.apache.commons.io.FileDeleteStrategy$ForceFileDeleteStrategy
 org.apache.commons.io.FileExistsException
 org.apache.commons.io.FileSystemUtils
-org.apache.commons.io.FileUtils
-org.apache.commons.io.FilenameUtils
+org.apache.commons.io.FileUtils:
+    public static final long ONE_KB
+    public static final long ONE_MB
+    private static final long FILE_COPY_BUFFER_SIZE
+    public static final long ONE_GB
+    public static final long ONE_TB
+    public static final long ONE_PB
+    public static final long ONE_EB
+    82:83:public FileUtils()
+    192:202:public static varargs java.io.File getFile(java.io.File,java.lang.String[])
+    213:224:public static varargs java.io.File getFile(java.lang.String[])
+    235:235:public static java.lang.String getTempDirectoryPath()
+    246:246:public static java.io.File getTempDirectory()
+    257:257:public static java.lang.String getUserDirectoryPath()
+    268:268:public static java.io.File getUserDirectory()
+    291:301:public static java.io.FileInputStream openInputStream(java.io.File)
+    326:326:public static java.io.FileOutputStream openOutputStream(java.io.File)
+    352:367:public static java.io.FileOutputStream openOutputStream(java.io.File,boolean)
+    391:406:public static java.lang.String byteCountToDisplaySize(java.math.BigInteger)
+    426:426:public static java.lang.String byteCountToDisplaySize(long)
+    443:451:public static void touch(java.io.File)
+    463:463:public static java.io.File[] convertFileCollectionToFileArray(java.util.Collection)
+    478:492:private static void innerListFiles(java.util.Collection,java.io.File,org.apache.commons.io.filefilter.IOFileFilter,boolean)
+    521:530:public static java.util.Collection listFiles(java.io.File,org.apache.commons.io.filefilter.IOFileFilter,org.apache.commons.io.filefilter.IOFileFilter)
+    544:550:private static void validateListFilesParameters(java.io.File,org.apache.commons.io.filefilter.IOFileFilter)
+    559:559:private static org.apache.commons.io.filefilter.IOFileFilter setUpEffectiveFileFilter(org.apache.commons.io.filefilter.IOFileFilter)
+    569:569:private static org.apache.commons.io.filefilter.IOFileFilter setUpEffectiveDirFilter(org.apache.commons.io.filefilter.IOFileFilter)
+    593:605:public static java.util.Collection listFilesAndDirs(java.io.File,org.apache.commons.io.filefilter.IOFileFilter,org.apache.commons.io.filefilter.IOFileFilter)
+    628:628:public static java.util.Iterator iterateFiles(java.io.File,org.apache.commons.io.filefilter.IOFileFilter,org.apache.commons.io.filefilter.IOFileFilter)
+    652:652:public static java.util.Iterator iterateFilesAndDirs(java.io.File,org.apache.commons.io.filefilter.IOFileFilter,org.apache.commons.io.filefilter.IOFileFilter)
+    664:668:private static java.lang.String[] toSuffixes(java.lang.String[])
+    685:691:public static java.util.Collection listFiles(java.io.File,java.lang.String[],boolean)
+    710:710:public static java.util.Iterator iterateFiles(java.io.File,java.lang.String[],boolean)
+    730:764:public static boolean contentEquals(java.io.File,java.io.File)
+    787:821:public static boolean contentEqualsIgnoreEOL(java.io.File,java.io.File,java.lang.String)
+    841:846:public static java.io.File toFile(java.net.URL)
+    865:894:static java.lang.String decodeUrl(java.lang.String)
+    917:931:public static java.io.File[] toFiles(java.net.URL[])
+    945:951:public static java.net.URL[] toURLs(java.io.File[])
+    977:978:public static void copyFileToDirectory(java.io.File,java.io.File)
+    1006:1014:public static void copyFileToDirectory(java.io.File,java.io.File,boolean)
+    1038:1039:public static void copyFile(java.io.File,java.io.File)
+    1067:1092:public static void copyFile(java.io.File,java.io.File,boolean)
+    1112:1116:public static long copyFile(java.io.File,java.io.OutputStream)
+    1129:1163:private static void doCopyFile(java.io.File,java.io.File,boolean)
+    1190:1203:public static void copyDirectoryToDirectory(java.io.File,java.io.File)
+    1230:1231:public static void copyDirectory(java.io.File,java.io.File)
+    1261:1262:public static void copyDirectory(java.io.File,java.io.File,boolean)
+    1310:1311:public static void copyDirectory(java.io.File,java.io.File,java.io.FileFilter)
+    1361:1390:public static void copyDirectory(java.io.File,java.io.File,java.io.FileFilter,boolean)
+    1406:1437:private static void doCopyDirectory(java.io.File,java.io.File,java.io.FileFilter,boolean,java.util.List)
+    1460:1462:public static void copyURLToFile(java.net.URL,java.io.File)
+    1486:1491:public static void copyURLToFile(java.net.URL,java.io.File,int,int)
+    1510:1520:public static void copyInputStreamToFile(java.io.InputStream,java.io.File)
+    1561:1574:public static boolean deleteQuietly(java.io.File)
+    1605:1625:public static boolean directoryContains(java.io.File,java.io.File)
+    1677:1694:public static boolean waitFor(java.io.File,int)
+    1709:1714:public static java.lang.String readFileToString(java.io.File,java.nio.charset.Charset)
+    1734:1734:public static java.lang.String readFileToString(java.io.File,java.lang.String)
+    1748:1748:public static java.lang.String readFileToString(java.io.File)
+    1761:1766:public static byte[] readFileToByteArray(java.io.File)
+    1781:1786:public static java.util.List readLines(java.io.File,java.nio.charset.Charset)
+    1806:1806:public static java.util.List readLines(java.io.File,java.lang.String)
+    1819:1819:public static java.util.List readLines(java.io.File)
+    1854:1863:public static org.apache.commons.io.LineIterator lineIterator(java.io.File,java.lang.String)
+    1877:1877:public static org.apache.commons.io.LineIterator lineIterator(java.io.File)
+    1895:1896:public static void writeStringToFile(java.io.File,java.lang.String,java.nio.charset.Charset)
+    1911:1912:public static void writeStringToFile(java.io.File,java.lang.String,java.lang.String)
+    1926:1934:public static void writeStringToFile(java.io.File,java.lang.String,java.nio.charset.Charset,boolean)
+    1951:1952:public static void writeStringToFile(java.io.File,java.lang.String,java.lang.String,boolean)
+    1962:1963:public static void writeStringToFile(java.io.File,java.lang.String)
+    1976:1977:public static void writeStringToFile(java.io.File,java.lang.String,boolean)
+    1988:1989:public static void write(java.io.File,java.lang.CharSequence)
+    2002:2003:public static void write(java.io.File,java.lang.CharSequence,boolean)
+    2015:2016:public static void write(java.io.File,java.lang.CharSequence,java.nio.charset.Charset)
+    2029:2030:public static void write(java.io.File,java.lang.CharSequence,java.lang.String)
+    2044:2046:public static void write(java.io.File,java.lang.CharSequence,java.nio.charset.Charset,boolean)
+    2063:2064:public static void write(java.io.File,java.lang.CharSequence,java.lang.String,boolean)
+    2078:2079:public static void writeByteArrayToFile(java.io.File,byte[])
+    2092:2100:public static void writeByteArrayToFile(java.io.File,byte[],boolean)
+    2118:2119:public static void writeLines(java.io.File,java.lang.String,java.util.Collection)
+    2136:2137:public static void writeLines(java.io.File,java.lang.String,java.util.Collection,boolean)
+    2150:2151:public static void writeLines(java.io.File,java.util.Collection)
+    2166:2167:public static void writeLines(java.io.File,java.util.Collection,boolean)
+    2187:2188:public static void writeLines(java.io.File,java.lang.String,java.util.Collection,java.lang.String)
+    2207:2217:public static void writeLines(java.io.File,java.lang.String,java.util.Collection,java.lang.String,boolean)
+    2231:2232:public static void writeLines(java.io.File,java.util.Collection,java.lang.String)
+    2249:2250:public static void writeLines(java.io.File,java.util.Collection,java.lang.String,boolean)
+    2293:2298:public static void forceDeleteOnExit(java.io.File)
+    2308:2316:private static void deleteDirectoryOnExit(java.io.File)
+    2326:2353:private static void cleanDirectoryOnExit(java.io.File)
+    2367:2388:public static void forceMkdir(java.io.File)
+    2411:2419:public static long sizeOf(java.io.File)
+    2444:2452:public static java.math.BigInteger sizeOfAsBigInteger(java.io.File)
+    2468:2489:public static long sizeOfDirectory(java.io.File)
+    2503:2521:public static java.math.BigInteger sizeOfDirectoryAsBigInteger(java.io.File)
+    2531:2537:private static void checkDirectory(java.io.File)
+    2554:2561:public static boolean isFileNewer(java.io.File,java.io.File)
+    2577:2580:public static boolean isFileNewer(java.io.File,java.util.Date)
+    2596:2602:public static boolean isFileNewer(java.io.File,long)
+    2621:2628:public static boolean isFileOlder(java.io.File,java.io.File)
+    2644:2647:public static boolean isFileOlder(java.io.File,java.util.Date)
+    2663:2669:public static boolean isFileOlder(java.io.File,long)
+    2685:2687:public static long checksumCRC32(java.io.File)
+    2708:2718:public static java.util.zip.Checksum checksum(java.io.File,java.util.zip.Checksum)
+    2735:2762:public static void moveDirectory(java.io.File,java.io.File)
+    2778:2796:public static void moveDirectoryToDirectory(java.io.File,java.io.File,boolean)
+    2812:2839:public static void moveFile(java.io.File,java.io.File)
+    2855:2872:public static void moveFileToDirectory(java.io.File,java.io.File,boolean)
+    2890:2904:public static void moveToDirectory(java.io.File,java.io.File,boolean)
+org.apache.commons.io.FilenameUtils:
+    public static final char EXTENSION_SEPARATOR
+    private static final char UNIX_SEPARATOR
+    private static final char WINDOWS_SEPARATOR
+    128:129:public FilenameUtils()
+    149:149:private static boolean isSeparator(char)
+    194:194:public static java.lang.String normalize(java.lang.String)
+    241:242:public static java.lang.String normalize(java.lang.String,boolean)
+    288:288:public static java.lang.String normalizeNoEndSeparator(java.lang.String)
+    335:336:public static java.lang.String normalizeNoEndSeparator(java.lang.String,boolean)
+    348:437:private static java.lang.String doNormalize(java.lang.String,char,boolean)
+    482:500:public static java.lang.String concat(java.lang.String,java.lang.String)
+    531:543:public static boolean directoryContains(java.lang.String,java.lang.String)
+    554:557:public static java.lang.String separatorsToUnix(java.lang.String)
+    567:570:public static java.lang.String separatorsToWindows(java.lang.String)
+    580:586:public static java.lang.String separatorsToSystem(java.lang.String)
+    623:671:public static int getPrefixLength(java.lang.String)
+    689:694:public static int indexOfLastSeparator(java.lang.String)
+    711:716:public static int indexOfExtension(java.lang.String)
+    750:760:public static java.lang.String getPrefix(java.lang.String)
+    786:786:public static java.lang.String getPath(java.lang.String)
+    813:813:public static java.lang.String getPathNoEndSeparator(java.lang.String)
+    824:836:private static java.lang.String doGetPath(java.lang.String,int)
+    865:865:public static java.lang.String getFullPath(java.lang.String)
+    895:895:public static java.lang.String getFullPathNoEndSeparator(java.lang.String)
+    906:928:private static java.lang.String doGetFullPath(java.lang.String,boolean)
+    949:953:public static java.lang.String getName(java.lang.String)
+    974:974:public static java.lang.String getBaseName(java.lang.String)
+    996:1003:public static java.lang.String getExtension(java.lang.String)
+    1026:1033:public static java.lang.String removeExtension(java.lang.String)
+    1050:1050:public static boolean equals(java.lang.String,java.lang.String)
+    1065:1065:public static boolean equalsOnSystem(java.lang.String,java.lang.String)
+    1081:1081:public static boolean equalsNormalized(java.lang.String,java.lang.String)
+    1098:1098:public static boolean equalsNormalizedOnSystem(java.lang.String,java.lang.String)
+    1116:1130:public static boolean equals(java.lang.String,java.lang.String,boolean,org.apache.commons.io.IOCase)
+    1146:1153:public static boolean isExtension(java.lang.String,java.lang.String)
+    1168:1180:public static boolean isExtension(java.lang.String,java.lang.String[])
+    1195:1207:public static boolean isExtension(java.lang.String,java.util.Collection)
+    1234:1234:public static boolean wildcardMatch(java.lang.String,java.lang.String)
+    1260:1260:public static boolean wildcardMatchOnSystem(java.lang.String,java.lang.String)
+    1278:1356:public static boolean wildcardMatch(java.lang.String,java.lang.String,org.apache.commons.io.IOCase)
+    1371:1398:static java.lang.String[] splitOnTokens(java.lang.String)
 org.apache.commons.io.HexDump
 org.apache.commons.io.IOCase
 org.apache.commons.io.IOExceptionWithCause
@@ -4607,6 +4753,8 @@ org.simpledrive.R$string
 org.simpledrive.R$style
 org.simpledrive.R$styleable
 org.simpledrive.R$xml
+org.simpledrive.RemoteFiles$NewFileAdapter:
+    private org.simpledrive.RemoteFiles$NewFileAdapter e
 org.simpledrive.TouchImageView:
     private static final java.lang.String DEBUG
     private static final float SUPER_MIN_MULTIPLIER
@@ -4622,10 +4770,10 @@ simpledrive.lib.AudioService:
     public static final java.lang.String CHANGE_PLAY
     public static final java.lang.String STOP
 simpledrive.lib.Connection:
-    51:164:public Connection()
+    51:165:public Connection()
 simpledrive.lib.Helper:
     14:14:public Helper()
     93:96:public static int pxToDp(int)
 simpledrive.lib.Item:
-    53:53:public java.lang.String getLastEdit()
-    81:81:public java.lang.String getType()
+    54:54:public java.lang.String getLastEdit()
+    90:90:public java.lang.String getType()

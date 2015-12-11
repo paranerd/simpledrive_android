@@ -448,6 +448,7 @@ int id bUpload 0x7f0a0022
 int id beginning 0x7f0a0037
 int id btnLogin 0x7f0a0008
 int id checkbox 0x7f0a004b
+int id clearcache 0x7f0a0073
 int id collapseActionView 0x7f0a003b
 int id decor_content_parent 0x7f0a0051
 int id default_activity_button 0x7f0a0047
@@ -529,7 +530,6 @@ int id tabMode 0x7f0a002f
 int id title 0x7f0a0049
 int id toggle_view 0x7f0a0077
 int id toolbar 0x7f0a0061
-int id trash 0x7f0a0073
 int id txtPassword 0x7f0a0007
 int id txtServer 0x7f0a0005
 int id txtUsername 0x7f0a0006

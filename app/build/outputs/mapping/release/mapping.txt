@@ -3617,6 +3617,7 @@ android.support.v7.app.ActionBarActivity -> android.support.v7.a.e:
     boolean onMenuItemSelected(int,android.view.MenuItem) -> onMenuItemSelected
     void onDestroy() -> onDestroy
     void onTitleChanged(java.lang.CharSequence,int) -> onTitleChanged
+    boolean supportRequestWindowFeature(int) -> a
     void supportInvalidateOptionsMenu() -> e
     void invalidateOptionsMenu() -> invalidateOptionsMenu
     void onSupportActionModeStarted(android.support.v7.view.ActionMode) -> a
@@ -3675,6 +3676,7 @@ android.support.v7.app.ActionBarActivityDelegate -> android.support.v7.a.f:
     void addContentView(android.view.View,android.view.ViewGroup$LayoutParams) -> b
     void onTitleChanged(java.lang.CharSequence) -> a
     void supportInvalidateOptionsMenu() -> g
+    boolean supportRequestWindowFeature(int) -> b
     boolean onPreparePanel(int,android.view.View,android.view.Menu) -> a
     void onPanelClosed(int,android.view.Menu) -> a
     boolean onMenuOpened(int,android.view.Menu) -> b
@@ -3747,6 +3749,7 @@ android.support.v7.app.ActionBarActivityDelegateBase -> android.support.v7.a.i:
     void ensureSubDecor() -> p
     void onSubDecorInstalled() -> q
     void applyFixedSizeWindow() -> r
+    boolean supportRequestWindowFeature(int) -> b
     void onTitleChanged(java.lang.CharSequence) -> a
     boolean onCreatePanelMenu(int,android.view.Menu) -> c
     boolean onPreparePanel(int,android.view.View,android.view.Menu) -> a
@@ -3771,7 +3774,7 @@ android.support.v7.app.ActionBarActivityDelegateBase -> android.support.v7.a.i:
     boolean initializePanelContent(android.support.v7.app.ActionBarActivityDelegateBase$PanelFeatureState) -> c
     boolean preparePanel(android.support.v7.app.ActionBarActivityDelegateBase$PanelFeatureState,android.view.KeyEvent) -> b
     void checkCloseActionMenu(android.support.v7.internal.view.menu.MenuBuilder) -> b
-    void closePanel(int) -> b
+    void closePanel(int) -> c
     void closePanel(android.support.v7.app.ActionBarActivityDelegateBase$PanelFeatureState,boolean) -> a
     boolean onKeyDownPanel(int,android.view.KeyEvent) -> d
     void onKeyUpPanel(int,android.view.KeyEvent) -> e
@@ -3779,9 +3782,10 @@ android.support.v7.app.ActionBarActivityDelegateBase -> android.support.v7.a.i:
     android.support.v7.app.ActionBarActivityDelegateBase$PanelFeatureState findMenuPanel(android.view.Menu) -> a
     android.support.v7.app.ActionBarActivityDelegateBase$PanelFeatureState getPanelState(int,boolean) -> a
     boolean performPanelShortcut(android.support.v7.app.ActionBarActivityDelegateBase$PanelFeatureState,int,android.view.KeyEvent,int) -> a
-    void invalidatePanelMenu(int) -> c
-    void doInvalidatePanelMenu(int) -> d
-    int updateStatusGuard(int) -> e
+    void invalidatePanelMenu(int) -> d
+    void doInvalidatePanelMenu(int) -> e
+    int updateStatusGuard(int) -> f
+    void throwFeatureRequestIfSubDecorInstalled() -> s
     int access$000(android.support.v7.app.ActionBarActivityDelegateBase) -> a
     void access$100(android.support.v7.app.ActionBarActivityDelegateBase,int) -> a
     boolean access$202(android.support.v7.app.ActionBarActivityDelegateBase,boolean) -> a
@@ -7598,6 +7602,26 @@ android.support.v7.widget.WindowCallbackWrapper -> android.support.v7.widget.as:
     boolean onMenuOpened(int,android.view.Menu) -> c
     android.support.v7.view.ActionMode startActionMode(android.support.v7.view.ActionMode$Callback) -> a
     android.view.View onCreatePanelView(int) -> a
+org.apache.commons.io.FileUtils -> org.apache.a.a.a:
+    java.math.BigInteger ONE_KB_BI -> a
+    java.math.BigInteger ONE_MB_BI -> b
+    java.math.BigInteger ONE_GB_BI -> c
+    java.math.BigInteger ONE_TB_BI -> d
+    java.math.BigInteger ONE_PB_BI -> e
+    java.math.BigInteger ONE_EB_BI -> f
+    java.math.BigInteger ONE_ZB -> g
+    java.math.BigInteger ONE_YB -> h
+    java.io.File[] EMPTY_FILE_ARRAY -> i
+    java.nio.charset.Charset UTF8 -> j
+    void deleteDirectory(java.io.File) -> a
+    void cleanDirectory(java.io.File) -> b
+    void forceDelete(java.io.File) -> c
+    boolean isSymlink(java.io.File) -> d
+org.apache.commons.io.FilenameUtils -> org.apache.a.a.b:
+    java.lang.String EXTENSION_SEPARATOR_STR -> a
+    char SYSTEM_SEPARATOR -> b
+    char OTHER_SEPARATOR -> c
+    boolean isSystemWindows() -> a
 org.apache.http.ConnectionClosedException -> org.apache.http.ConnectionClosedException:
     long serialVersionUID -> serialVersionUID
 org.apache.http.ConnectionReuseStrategy -> org.apache.http.ConnectionReuseStrategy:
@@ -9879,15 +9903,19 @@ org.simpledrive.GridViewItem -> org.simpledrive.GridViewItem:
     void onMeasure(int,int) -> onMeasure
 org.simpledrive.ImageViewer -> org.simpledrive.ImageViewer:
     org.simpledrive.ExtendedViewPager mViewPager -> i
-    boolean titleVisible -> m
-    android.support.v7.widget.Toolbar toolbar -> n
-    org.simpledrive.ImageViewer e -> j
-    java.lang.String token -> k
-    java.util.ArrayList images -> l
+    boolean titleVisible -> k
+    android.support.v7.widget.Toolbar toolbar -> l
+    org.simpledrive.ImageViewer e -> m
+    java.lang.String token -> n
+    java.lang.String server -> o
+    simpledrive.lib.ImageLoader imgLoader -> p
+    java.util.ArrayList images -> j
+    void onDestroy() -> onDestroy
     void onCreate(android.os.Bundle) -> onCreate
     void toggleToolbar() -> toggleToolbar
     void loadImage(java.lang.String,org.simpledrive.TouchImageView,java.lang.String,java.lang.String,java.lang.String) -> a
-    android.support.v7.widget.Toolbar access$000() -> j
+    org.simpledrive.ImageViewer access$000(org.simpledrive.ImageViewer) -> a
+    android.support.v7.widget.Toolbar access$100() -> j
 org.simpledrive.ImageViewer$1 -> org.simpledrive.a:
     org.simpledrive.ImageViewer this$0 -> a
     void onClick(android.view.View) -> onClick
@@ -9932,10 +9960,10 @@ org.simpledrive.LocalFiles -> org.simpledrive.LocalFiles:
     void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
     boolean onContextItemSelected(android.view.MenuItem) -> onContextItemSelected
     void onBackPressed() -> onBackPressed
-    void openFile(int) -> a
+    void openFile(int) -> b
     void unselectAll() -> q
     java.lang.String[] getSelectedElem() -> r
-    void toggleSelection(int) -> b
+    void toggleSelection(int) -> c
     java.lang.String getMimeType(java.io.File) -> a
     java.lang.String[] access$000(org.simpledrive.LocalFiles) -> a
     boolean access$100(org.simpledrive.LocalFiles) -> b
@@ -10024,55 +10052,56 @@ org.simpledrive.RemoteFiles -> org.simpledrive.RemoteFiles:
     java.lang.String tmpFolder -> x
     android.content.SharedPreferences settings -> y
     boolean longClicked -> z
-    simpledrive.lib.ImageLoader imgLoader -> A
-    int loginAttempts -> B
+    int loginAttempts -> A
+    java.util.ArrayList thumbQueue -> B
+    boolean thumbLoading -> C
     java.lang.String audioFilename -> j
-    simpledrive.lib.AudioService mPlayerService -> C
-    boolean mBound -> D
+    simpledrive.lib.AudioService mPlayerService -> D
+    boolean mBound -> E
     int uploadCurrent -> k
     int uploadTotal -> l
     int uploadSuccessful -> m
-    boolean uploading -> E
-    java.util.ArrayList uploadQueue -> F
-    android.graphics.Typeface myTypeface -> G
-    android.widget.AbsListView list -> H
-    java.lang.String globLayout -> I
-    android.widget.TextView empty -> J
-    android.support.v4.widget.SwipeRefreshLayout mSwipeRefreshLayout -> K
-    android.support.v7.widget.Toolbar toolbar -> L
-    android.widget.ImageButton bUpload -> M
-    android.widget.ImageButton bCreate -> N
-    android.view.Menu mMenu -> O
+    boolean uploading -> F
+    java.util.ArrayList uploadQueue -> G
+    android.graphics.Typeface myTypeface -> H
+    android.widget.AbsListView list -> I
+    java.lang.String globLayout -> J
+    android.widget.TextView empty -> K
+    android.support.v4.widget.SwipeRefreshLayout mSwipeRefreshLayout -> L
+    android.support.v7.widget.Toolbar toolbar -> M
+    android.widget.ImageButton bUpload -> N
+    android.widget.ImageButton bCreate -> O
+    android.view.Menu mMenu -> P
     java.lang.String[] titles -> n
     int[] icons -> o
     android.support.v4.app.ActionBarDrawerToggle mDrawerToggle -> p
-    android.support.v4.widget.DrawerLayout mDrawerLayout -> P
+    android.support.v4.widget.DrawerLayout mDrawerLayout -> Q
     android.widget.ListView mDrawerList -> q
     android.widget.LinearLayout mDrawerLinear -> r
-    java.util.ArrayList items -> Q
-    java.util.ArrayList hierarchy -> R
-    java.lang.Integer firstFilePos -> S
-    org.simpledrive.RemoteFiles$NewFileAdapter newAdapter -> T
-    int sortOrder -> U
+    java.util.ArrayList items -> R
+    java.util.ArrayList hierarchy -> S
+    java.lang.Integer firstFilePos -> T
+    org.simpledrive.RemoteFiles$NewFileAdapter newAdapter -> U
+    int sortOrder -> V
     android.content.ServiceConnection mServiceConnection -> s
     void displayFiles(java.lang.String) -> g
-    void sortByName() -> A
-    void openFile(int) -> a
+    void sortByName() -> B
+    void openFile(int) -> b
     int getCurrentImage(java.lang.String) -> a
     java.util.ArrayList getAllImages() -> j
-    void toggleSelection(int) -> b
-    void selectAll() -> B
-    void unselectAll() -> C
+    void toggleSelection(int) -> c
+    void selectAll() -> C
+    void unselectAll() -> D
     org.json.JSONObject getSelected() -> k
     void onActivityResult(int,int,android.content.Intent) -> onActivityResult
     void onBackPressed() -> onBackPressed
     boolean onContextItemSelected(android.view.MenuItem) -> onContextItemSelected
-    void download() -> D
-    void showShare() -> E
-    void showCreate() -> F
+    void download() -> E
+    void showShare() -> F
+    void showCreate() -> G
     void showRename(java.lang.String) -> h
-    void showVirtualKeyboard() -> G
-    org.json.JSONArray getSelectedElem() -> H
+    void showVirtualKeyboard() -> H
+    org.json.JSONArray getSelectedElem() -> I
     void upload_add_recursive(java.lang.String,java.io.File,java.lang.String) -> a
     void upload_handler(java.util.ArrayList) -> a
     void prepareNavigationDrawer() -> l
@@ -10084,43 +10113,47 @@ org.simpledrive.RemoteFiles -> org.simpledrive.RemoteFiles:
     boolean onPrepareOptionsMenu(android.view.Menu) -> onPrepareOptionsMenu
     boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
     boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
-    void openTrash() -> m
+    void clearCache() -> m
+    void openTrash() -> n
     boolean access$002(org.simpledrive.RemoteFiles,boolean) -> a
     simpledrive.lib.AudioService access$102(simpledrive.lib.AudioService) -> a
     android.widget.TextView access$200(org.simpledrive.RemoteFiles) -> a
-    java.lang.String access$300() -> n
-    java.util.ArrayList access$400() -> o
-    java.lang.String access$500() -> p
-    java.lang.String access$600() -> q
-    android.support.v4.widget.SwipeRefreshLayout access$700(org.simpledrive.RemoteFiles) -> b
-    int access$802(int) -> c
-    void access$900(org.simpledrive.RemoteFiles,java.lang.String) -> a
-    int access$1000(org.simpledrive.RemoteFiles) -> c
-    android.graphics.Typeface access$1100() -> r
-    java.lang.String access$1200() -> s
-    java.lang.Integer access$1300(org.simpledrive.RemoteFiles) -> d
-    java.lang.String access$1400() -> t
-    org.json.JSONArray access$1500(org.simpledrive.RemoteFiles) -> e
-    boolean access$1602(org.simpledrive.RemoteFiles,boolean) -> b
-    android.widget.AbsListView access$1700() -> u
-    java.util.ArrayList access$2000() -> v
-    simpledrive.lib.AudioService access$100() -> w
-    int access$808() -> x
-    int access$800() -> y
-    java.lang.String access$2102(java.lang.String) -> c
-    java.lang.String access$602(java.lang.String) -> d
-    java.lang.String access$302(java.lang.String) -> e
-    java.lang.String access$2100() -> z
-    java.util.ArrayList access$402(java.util.ArrayList) -> b
-    org.simpledrive.RemoteFiles$NewFileAdapter access$2200(org.simpledrive.RemoteFiles) -> f
-    java.util.ArrayList access$3100(org.simpledrive.RemoteFiles) -> g
-    boolean access$3302(boolean) -> b
-    java.lang.String access$502(java.lang.String) -> f
-    android.support.v4.widget.DrawerLayout access$3500(org.simpledrive.RemoteFiles) -> h
-    android.widget.ImageButton access$3600(org.simpledrive.RemoteFiles) -> i
-    android.widget.ImageButton access$3700(org.simpledrive.RemoteFiles) -> j
-    void access$3800(org.simpledrive.RemoteFiles) -> k
-    boolean access$1600(org.simpledrive.RemoteFiles) -> l
+    java.util.ArrayList access$300() -> o
+    java.util.ArrayList access$400(org.simpledrive.RemoteFiles) -> b
+    boolean access$502(org.simpledrive.RemoteFiles,boolean) -> b
+    android.support.v4.widget.SwipeRefreshLayout access$600(org.simpledrive.RemoteFiles) -> c
+    java.lang.String access$700() -> p
+    java.util.ArrayList access$800() -> q
+    java.lang.String access$900() -> r
+    java.lang.String access$1000() -> s
+    int access$1102(int) -> d
+    void access$1200(org.simpledrive.RemoteFiles,java.lang.String) -> a
+    int access$1300(org.simpledrive.RemoteFiles) -> d
+    android.graphics.Typeface access$1400() -> t
+    java.lang.String access$1500() -> u
+    java.lang.Integer access$1600(org.simpledrive.RemoteFiles) -> e
+    java.lang.String access$1700() -> v
+    boolean access$500(org.simpledrive.RemoteFiles) -> f
+    org.json.JSONArray access$1800(org.simpledrive.RemoteFiles) -> g
+    boolean access$1902(org.simpledrive.RemoteFiles,boolean) -> c
+    android.widget.AbsListView access$2000() -> w
+    org.simpledrive.RemoteFiles$NewFileAdapter access$2100(org.simpledrive.RemoteFiles) -> h
+    simpledrive.lib.AudioService access$100() -> x
+    int access$1108() -> y
+    int access$1100() -> z
+    java.lang.String access$2302(java.lang.String) -> c
+    java.lang.String access$1002(java.lang.String) -> d
+    java.lang.String access$702(java.lang.String) -> e
+    java.lang.String access$2300() -> A
+    java.util.ArrayList access$802(java.util.ArrayList) -> b
+    java.util.ArrayList access$3200(org.simpledrive.RemoteFiles) -> i
+    boolean access$3402(boolean) -> b
+    java.lang.String access$902(java.lang.String) -> f
+    android.support.v4.widget.DrawerLayout access$3600(org.simpledrive.RemoteFiles) -> j
+    android.widget.ImageButton access$3700(org.simpledrive.RemoteFiles) -> k
+    android.widget.ImageButton access$3800(org.simpledrive.RemoteFiles) -> l
+    void access$3900(org.simpledrive.RemoteFiles) -> m
+    boolean access$1900(org.simpledrive.RemoteFiles) -> n
 org.simpledrive.RemoteFiles$1 -> org.simpledrive.q:
     org.simpledrive.RemoteFiles this$0 -> a
     void onServiceDisconnected(android.content.ComponentName) -> onServiceDisconnected
@@ -10212,7 +10245,7 @@ org.simpledrive.RemoteFiles$Download -> org.simpledrive.ak:
     void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-    void access$3000(org.simpledrive.RemoteFiles$Download,java.lang.Object[]) -> a
+    void access$3100(org.simpledrive.RemoteFiles$Download,java.lang.Object[]) -> a
 org.simpledrive.RemoteFiles$Download$1 -> org.simpledrive.al:
     org.simpledrive.RemoteFiles$Download this$1 -> a
     void transferred(java.lang.Integer) -> a
@@ -10224,8 +10257,7 @@ org.simpledrive.RemoteFiles$GetLink -> org.simpledrive.am:
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.RemoteFiles$ListContent -> org.simpledrive.an:
-    android.app.ProgressDialog pDialog -> a
-    org.simpledrive.RemoteFiles this$0 -> b
+    org.simpledrive.RemoteFiles this$0 -> a
     void onPreExecute() -> onPreExecute
     java.util.HashMap doInBackground(java.lang.String[]) -> a
     void onPostExecute(java.util.HashMap) -> a
@@ -10240,13 +10272,11 @@ org.simpledrive.RemoteFiles$NewFile -> org.simpledrive.ao:
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.RemoteFiles$NewFileAdapter -> org.simpledrive.ap:
     android.view.LayoutInflater layoutInflater -> b
-    org.simpledrive.RemoteFiles$NewFileAdapter e -> c
-    int layout -> d
+    int layout -> c
     org.simpledrive.RemoteFiles this$0 -> a
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     void setData(java.util.ArrayList) -> a
-    void loadThumb(simpledrive.lib.Item,java.lang.String) -> a
-    org.simpledrive.RemoteFiles$NewFileAdapter access$1800(org.simpledrive.RemoteFiles$NewFileAdapter) -> a
+    void loadThumb(simpledrive.lib.Item) -> a
 org.simpledrive.RemoteFiles$NewFileAdapter$1 -> org.simpledrive.aq:
     int val$position -> a
     org.simpledrive.RemoteFiles$NewFileAdapter this$1 -> b
@@ -10321,7 +10351,7 @@ org.simpledrive.RemoteFiles$Upload -> org.simpledrive.ba:
     void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-    void access$3200(org.simpledrive.RemoteFiles$Upload,java.lang.Object[]) -> a
+    void access$3300(org.simpledrive.RemoteFiles$Upload,java.lang.Object[]) -> a
 org.simpledrive.RemoteFiles$Upload$1 -> org.simpledrive.bb:
     org.simpledrive.RemoteFiles$Upload this$1 -> a
     void transferred(java.lang.Integer) -> a
@@ -10357,7 +10387,7 @@ org.simpledrive.ShareFiles -> org.simpledrive.ShareFiles:
     void onCreate(android.os.Bundle) -> onCreate
     void displayFiles(java.lang.String) -> e
     void sortByName() -> t
-    void openFile(int) -> a
+    void openFile(int) -> b
     void onBackPressed() -> onBackPressed
     void showCreate() -> u
     void showVirtualKeyboard() -> v
@@ -10375,7 +10405,7 @@ org.simpledrive.ShareFiles -> org.simpledrive.ShareFiles:
     java.lang.String access$600() -> l
     java.util.ArrayList access$700() -> m
     java.lang.String access$800() -> n
-    int access$902(int) -> b
+    int access$902(int) -> c
     void access$1000(org.simpledrive.ShareFiles,java.lang.String) -> a
     int access$1100(org.simpledrive.ShareFiles) -> d
     android.graphics.Typeface access$1200() -> o
@@ -10738,7 +10768,8 @@ simpledrive.lib.Item -> simpledrive.lib.m:
     java.lang.String type -> h
     java.lang.String hash -> i
     java.lang.String owner -> j
-    boolean selected -> k
+    java.lang.String thumbPath -> k
+    boolean selected -> l
     boolean is(java.lang.String) -> a
     org.json.JSONObject getJSON() -> a
     java.lang.String getFilename() -> b
@@ -10746,12 +10777,14 @@ simpledrive.lib.Item -> simpledrive.lib.m:
     java.lang.String getPath() -> d
     java.lang.String getParent() -> e
     android.graphics.Bitmap getThumb() -> f
-    boolean isSelected() -> g
+    void setThumbPath(java.lang.String) -> b
+    java.lang.String getThumbPath() -> g
+    boolean isSelected() -> h
     void setSelected(boolean) -> a
-    void toggleSelection() -> h
+    void toggleSelection() -> i
     void setThumb(android.graphics.Bitmap) -> a
-    java.lang.String getHash() -> i
-    java.lang.String getOwner() -> j
+    java.lang.String getHash() -> j
+    java.lang.String getOwner() -> k
 simpledrive.lib.MenuListAdapter -> simpledrive.lib.n:
     android.content.Context context -> a
     java.lang.String[] mTitle -> b

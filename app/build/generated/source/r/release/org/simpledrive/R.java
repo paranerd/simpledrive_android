@@ -1461,6 +1461,7 @@ containing a value of this type.
         public static final int beginning=0x7f0a0037;
         public static final int btnLogin=0x7f0a0008;
         public static final int checkbox=0x7f0a004b;
+        public static final int clearcache=0x7f0a0073;
         public static final int collapseActionView=0x7f0a003b;
         public static final int decor_content_parent=0x7f0a0051;
         public static final int default_activity_button=0x7f0a0047;
@@ -1542,7 +1543,6 @@ containing a value of this type.
         public static final int title=0x7f0a0049;
         public static final int toggle_view=0x7f0a0077;
         public static final int toolbar=0x7f0a0061;
-        public static final int trash=0x7f0a0073;
         public static final int txtPassword=0x7f0a0007;
         public static final int txtServer=0x7f0a0005;
         public static final int txtUsername=0x7f0a0006;

@@ -4410,6 +4410,7 @@ org.simpledrive.R$id: int bUpload
 org.simpledrive.R$id: int beginning
 org.simpledrive.R$id: int btnLogin
 org.simpledrive.R$id: int checkbox
+org.simpledrive.R$id: int clearcache
 org.simpledrive.R$id: int collapseActionView
 org.simpledrive.R$id: int decor_content_parent
 org.simpledrive.R$id: int default_activity_button
@@ -4491,7 +4492,6 @@ org.simpledrive.R$id: int tabMode
 org.simpledrive.R$id: int title
 org.simpledrive.R$id: int toggle_view
 org.simpledrive.R$id: int toolbar
-org.simpledrive.R$id: int trash
 org.simpledrive.R$id: int txtPassword
 org.simpledrive.R$id: int txtServer
 org.simpledrive.R$id: int txtUsername

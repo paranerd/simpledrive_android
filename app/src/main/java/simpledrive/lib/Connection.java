@@ -97,13 +97,14 @@ public class Connection {
 
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
+            Log.i("call", "called");
+
             HttpResponse response = httpClient.execute(httpPost);
             HttpEntity entity = response.getEntity();
 
             is = entity.getContent();
 
             if(response.getStatusLine().getStatusCode() != 200 || is == null) {
-                String code = Integer.toString(response.getStatusLine().getStatusCode());
                 map.put("msg", "Connection error");
                 return map;
             }
