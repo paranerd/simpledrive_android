@@ -196,9 +196,9 @@ public class ImageViewer extends ActionBarActivity {
         });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            imgLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, file, filename, width + "", height + "", path, token, server);
+            imgLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, file, filename, width + "", height + "", path, token, server, "img");
         } else {
-            imgLoader.execute(file, filename, width + "", height + "", path, token, server);
+            imgLoader.execute(file, filename, width + "", height + "", path, token, server, "img");
         }
     }
 }

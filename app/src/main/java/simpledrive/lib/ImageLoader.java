@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URLEncoder;
-import java.util.zip.GZIPInputStream;
 
 public class ImageLoader extends AsyncTask<String, String, Bitmap> {
     private final TaskListener taskListener;
@@ -42,10 +41,11 @@ public class ImageLoader extends AsyncTask<String, String, Bitmap> {
         String filepath = path[4];
         String token = path[5];
         String server = path[6];
+        String type = path[7];
 
         try {
             String file_enc = URLEncoder.encode(file, "UTF-8");
-            String url = server + "api/files.php?token=" + token + "&target=" + file_enc + "&action=img&width=" + width + "&height=" + height;
+            String url = server + "api/files.php?token=" + token + "&target=" + file_enc + "&action=img&width=" + width + "&height=" + height + "&type=" + type;
 
             DefaultHttpClient httpClient = Connection.getThreadSafeClient();
             HttpGet httpGet = new HttpGet(url);

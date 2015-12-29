@@ -10220,7 +10220,8 @@ org.simpledrive.RemoteFiles$9 -> org.simpledrive.ah:
     void onClick(android.content.DialogInterface,int) -> onClick
 org.simpledrive.RemoteFiles$Connect -> org.simpledrive.ai:
     android.accounts.Account[] sc -> a
-    org.simpledrive.RemoteFiles this$0 -> b
+    android.accounts.AccountManager accMan -> b
+    org.simpledrive.RemoteFiles this$0 -> c
     void onPreExecute() -> onPreExecute
     java.util.HashMap doInBackground(java.lang.String[]) -> a
     void onPostExecute(java.util.HashMap) -> a
