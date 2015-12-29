@@ -251,7 +251,6 @@ public class RemoteFiles extends ActionBarActivity {
                         break;
                 }
 
-                //Item(JSONObject json, String filename, String parent, String path, String size, String edit, String type, String owner, String hash, Bitmap thumb) {
                 Item item = new Item(obj, filename, parent, null, size, obj.getString("edit"), type, owner, obj.getString("hash"), thumb);
                 items.add(item);
             }
@@ -480,10 +479,10 @@ public class RemoteFiles extends ActionBarActivity {
             });
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                imgLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, item.getJSON().toString(), item.getFilename(), size, size, item.getThumbPath(), token, server);
+                imgLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, item.getJSON().toString(), item.getFilename(), size, size, item.getThumbPath(), token, server, "thumb");
             }
             else {
-                imgLoader.execute(item.getJSON().toString(), item.getFilename(), size, size, item.getThumbPath(), token, server);
+                imgLoader.execute(item.getJSON().toString(), item.getFilename(), size, size, item.getThumbPath(), token, server, "thumb");
             }
         }
     }
@@ -618,6 +617,7 @@ public class RemoteFiles extends ActionBarActivity {
 
     public class Connect extends AsyncTask<String, String, HashMap<String, String>> {
         Account[] sc;
+        AccountManager accMan = AccountManager.get(RemoteFiles.this);
 
     	@Override
         protected void onPreExecute() {
@@ -628,7 +628,6 @@ public class RemoteFiles extends ActionBarActivity {
     	
     	@Override
         protected HashMap<String, String> doInBackground(String... login) {
-            AccountManager accMan = AccountManager.get(RemoteFiles.this);
             sc = accMan.getAccountsByType("org.simpledrive");
 
             if (sc.length == 0 || loginAttempts > 2) {
@@ -664,6 +663,7 @@ public class RemoteFiles extends ActionBarActivity {
 
                      empty.setText("Nothing to see here.");
                      token = value.get("msg");
+                     accMan.setUserData(sc[0], "token", token);
                  } catch (JSONException e) {
                      e.printStackTrace();
                  }
@@ -973,8 +973,8 @@ public class RemoteFiles extends ActionBarActivity {
 
             data.put("action", "download");
             data.put("token", token);
-            data.put("source", getSelectedElem().toString());
-            data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
+            data.put("target", getSelectedElem().toString());
+            //data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
 
             new simpledrive.lib.Download(new DownloadListener()
             {
