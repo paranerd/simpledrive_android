@@ -4,6 +4,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -26,6 +27,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.simpledrive.RemoteFiles;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -97,15 +99,13 @@ public class Connection {
 
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-            Log.i("call", "called");
-
             HttpResponse response = httpClient.execute(httpPost);
             HttpEntity entity = response.getEntity();
 
             is = entity.getContent();
 
             if(response.getStatusLine().getStatusCode() != 200 || is == null) {
-                map.put("msg", "Connection error");
+                map.put("msg", response.getStatusLine().getReasonPhrase());
                 return map;
             }
 
@@ -130,21 +130,22 @@ public class Connection {
         }
 
         try {
-            JSONObject jArray = new JSONObject(result);
-            if(!jArray.has("status")) {
-                map.put("msg", "An error occured");
-                return map;
-            }
-
-            map.put("status", jArray.get("status").toString());
-            if(jArray.has("msg")) {
-                map.put("msg", jArray.get("msg").toString());
+            map.put("status", "ok");
+            if(result.length() > 0) {
+                JSONObject obj = new JSONObject(result);
+                if(obj.has("msg")) {
+                    map.put("msg", obj.getString("msg"));
+                }
+                else {
+                    map.put("msg", "");
+                }
             }
             else {
                 map.put("msg", "");
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            map.put("status", "error");
             return map;
         }
 
