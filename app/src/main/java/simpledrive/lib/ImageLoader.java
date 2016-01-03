@@ -3,7 +3,6 @@ package simpledrive.lib;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -53,8 +52,6 @@ public class ImageLoader extends AsyncTask<String, String, Bitmap> {
             HttpResponse response = httpClient.execute(httpGet);
             HttpEntity resEntity = response.getEntity();
 
-            Log.i("status", Integer.toString(response.getStatusLine().getStatusCode()));
-
             if (resEntity != null) {
                 InputStream in = resEntity.getContent();
                 bmp = BitmapFactory.decodeStream(in);
@@ -62,7 +59,6 @@ public class ImageLoader extends AsyncTask<String, String, Bitmap> {
 
                 if(bmp == null || !imgFile.createNewFile()) {
                     in.close();
-                    Log.i("return", "null");
                     return null;
                 }
 
@@ -80,7 +76,6 @@ public class ImageLoader extends AsyncTask<String, String, Bitmap> {
             e.printStackTrace();
         }
 
-        Log.i("create", filename);
         return bmp;
     }
 
