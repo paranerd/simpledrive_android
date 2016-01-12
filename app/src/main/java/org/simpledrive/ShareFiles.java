@@ -447,6 +447,7 @@ public class ShareFiles extends ActionBarActivity {
 
                 new ListContent().execute();
             } else {
+                loginAttemts = 0;
                 Toast.makeText(e, "Error reconnecting", Toast.LENGTH_SHORT).show();
                 empty.setText("Error reconnecting");
             }
@@ -538,7 +539,7 @@ public class ShareFiles extends ActionBarActivity {
         }, 100);
     }
 
-    private class Upload extends AsyncTask<String, Integer, String> {
+    private class Upload extends AsyncTask<String, Integer, HashMap<String, String>> {
         private NotificationCompat.Builder mBuilder;
         private NotificationManager mNotifyManager;
         private int notificationId = 1;
@@ -568,7 +569,7 @@ public class ShareFiles extends ActionBarActivity {
         }
 
         @Override
-        protected String doInBackground(String... path) {
+        protected HashMap<String, String> doInBackground(String... path) {
             HashMap<String, String> ul_elem = uploadQueue.remove(0);
             filename = ul_elem.get("filename");
             String filepath = ul_elem.get("path");
@@ -598,8 +599,8 @@ public class ShareFiles extends ActionBarActivity {
         }
 
         @Override
-        protected void onPostExecute(String value) {
-            uploadSuccessful = (value.length() > 0) ? uploadSuccessful : uploadSuccessful + 1;
+        protected void onPostExecute(HashMap<String, String> value) {
+            uploadSuccessful = (value == null || !value.get("status").equals("ok")) ? uploadSuccessful : uploadSuccessful + 1;
             fullSuccessful = RemoteFiles.uploadSuccessful + uploadSuccessful;
             if(uploadQueue.size() > 0) {
                 new Upload().execute();

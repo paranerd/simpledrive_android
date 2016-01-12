@@ -7,6 +7,7 @@ import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -33,9 +34,11 @@ import org.apache.http.util.EntityUtils;
     				this.listener = listener;
     			}
     			
-    			public static String upload(HttpEntity theEntity, String url, String path, String rel_path, String currDir, String token) {
+    			public static HashMap<String, String> upload(HttpEntity theEntity, String url, String path, String rel_path, String currDir, String token) {
         			DefaultHttpClient httpClient = Connection.getThreadSafeClient();
         			HttpPost httpPost = new HttpPost(url);
+
+                    HashMap<String, String> map = new HashMap<>();
 
         			File file = new File(path);
         			ContentBody fileBody = new FileBody(file);
@@ -54,19 +57,21 @@ import org.apache.http.util.EntityUtils;
                     
                     try {
         				HttpResponse response = httpClient.execute(httpPost);
-        				HttpEntity resEntity = response.getEntity();
-        				
-        				if (resEntity != null) {
-                            return EntityUtils.toString(resEntity).trim();
-        				}
-        			} catch (ClientProtocolException e) {
-        				// TODO Auto-generated catch block
-        				e.printStackTrace();
+
+                        if(response.getStatusLine().getStatusCode() != 200) {
+                            map.put("status", "error");
+                            map.put("msg", response.getStatusLine().getReasonPhrase());
+                            return map;
+                        }
+                        map.put("status", "ok");
+                        map.put("msg", "");
+                        return map;
         			} catch (IOException e) {
-        				// TODO Auto-generated catch block
         				e.printStackTrace();
-        			}
-    				return "Error uploading";
+                        map.put("status", "error");
+                        map.put("msg", "Connection error");
+                        return map;
+                    }
     			}
     			
     			public interface ProgressListener
