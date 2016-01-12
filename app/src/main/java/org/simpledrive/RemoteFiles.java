@@ -1037,8 +1037,7 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("action", "delete");
             data.put("token", token);
             data.put("final", Boolean.toString(mode.equals("trash")));
-            data.put("source", getSelectedElem().toString());
-            data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
+            data.put("target", getSelectedElem().toString());
             return Connection.call(url, data);
         }
         @Override
