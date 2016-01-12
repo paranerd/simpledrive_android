@@ -156,7 +156,6 @@ public class RemoteFiles extends ActionBarActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             empty.setText("Loading files...");
-            items.clear();
             thumbQueue.clear();
             thumbLoading = false;
 
@@ -179,15 +178,15 @@ public class RemoteFiles extends ActionBarActivity {
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
             mSwipeRefreshLayout.setRefreshing(false);
-            if(value == null) {
+            if(value == null || !value.get("status").equals("ok")) {
+                String msg = (value == null) ? "An error occurred" : value.get("msg");
+                Toast.makeText(e, msg, Toast.LENGTH_SHORT).show();
                 new Connect().execute();
             }
-            else if(value.get("status").equals("ok")){
+            else {
                 loginAttempts = 0;
-
                 displayFiles(value.get("msg"));
             }
-            mSwipeRefreshLayout.setRefreshing(false);
         }
     }
 
@@ -285,8 +284,9 @@ public class RemoteFiles extends ActionBarActivity {
                 toolbar.setTitle(s);
                 toolbar.setSubtitle("Folders: " + firstFilePos + ", Files: " + (items.size() - firstFilePos));
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (JSONException exp) {
+            exp.printStackTrace();
+            Toast.makeText(e, "An error occurred", Toast.LENGTH_SHORT).show();
         }
 
         String emptyText = (items.size() == 0) ? "Nothing to see here." : "";
@@ -633,7 +633,7 @@ public class RemoteFiles extends ActionBarActivity {
             if (sc.length == 0 || loginAttempts > 2) {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("status", "error");
-                map.put("msg", "An error occured");
+                map.put("msg", "An error occurred");
                 return map;
             }
 
@@ -1214,7 +1214,7 @@ public class RemoteFiles extends ActionBarActivity {
         }
     }
 
-    private class Upload extends AsyncTask<String, Integer, String> {
+    private class Upload extends AsyncTask<String, Integer, HashMap<String, String>> {
         private NotificationCompat.Builder mBuilder;
         private NotificationManager mNotifyManager;
         private int notificationId = 1;
@@ -1244,7 +1244,7 @@ public class RemoteFiles extends ActionBarActivity {
         }
 
         @Override
-        protected String doInBackground(String... path) {
+        protected HashMap<String, String> doInBackground(String... path) {
             HashMap<String, String> ul_elem = uploadQueue.remove(0);
             filename = ul_elem.get("filename");
             String filepath = ul_elem.get("path");
@@ -1273,8 +1273,8 @@ public class RemoteFiles extends ActionBarActivity {
         }
 
         @Override
-        protected void onPostExecute(String value) {
-            uploadSuccessful = (value.length() > 0) ? uploadSuccessful : uploadSuccessful + 1;
+        protected void onPostExecute(HashMap<String, String> value) {
+            uploadSuccessful = (value == null || !value.get("status").equals("ok")) ? uploadSuccessful : uploadSuccessful + 1;
             fullSuccessful = ShareFiles.uploadSuccessful + uploadSuccessful;
             if(uploadQueue.size() > 0) {
                 new Upload().execute();

@@ -4770,7 +4770,7 @@ simpledrive.lib.AudioService:
     public static final java.lang.String CHANGE_PLAY
     public static final java.lang.String STOP
 simpledrive.lib.Connection:
-    53:166:public Connection()
+    53:158:public Connection()
 simpledrive.lib.Helper:
     14:14:public Helper()
     93:96:public static int pxToDp(int)

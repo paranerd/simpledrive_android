@@ -66,8 +66,8 @@ public class Connection {
             BasicHttpParams basichttpparams = new BasicHttpParams();
             HttpProtocolParams.setVersion(basichttpparams, HttpVersion.HTTP_1_1);
             HttpProtocolParams.setContentCharset(basichttpparams, "UTF-8");
-            HttpConnectionParams.setConnectionTimeout(basichttpparams, 3000);
-            HttpConnectionParams.setSoTimeout(basichttpparams, 5000);
+            HttpConnectionParams.setConnectionTimeout(basichttpparams, 6000);
+            HttpConnectionParams.setSoTimeout(basichttpparams, 6000);
             SchemeRegistry schemeregistry = new SchemeRegistry();
             schemeregistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
             schemeregistry.register(new Scheme("https", mysslsocketfactory, 443));
@@ -83,8 +83,6 @@ public class Connection {
         InputStream is;
         String result;
         HashMap<String, String> map = new HashMap<>();
-        map.put("status", "error");
-        map.put("msg", "An error occured");
 
         try {
             DefaultHttpClient httpClient = Connection.getThreadSafeClient();
@@ -105,12 +103,14 @@ public class Connection {
             is = entity.getContent();
 
             if(response.getStatusLine().getStatusCode() != 200 || is == null) {
+                map.put("status", "error");
                 map.put("msg", response.getStatusLine().getReasonPhrase());
                 return map;
             }
 
         } catch (IOException e) {
             e.printStackTrace();
+            map.put("status", "error");
             map.put("msg", "Connection error");
             return map;
         }
@@ -125,30 +125,22 @@ public class Connection {
             is.close();
             result = sb.toString();
         } catch (Exception e) {
+            map.put("status", "error");
             map.put("msg", "Connection error");
             return map;
         }
 
         try {
+            JSONObject obj = new JSONObject(result);
             map.put("status", "ok");
-            if(result.length() > 0) {
-                JSONObject obj = new JSONObject(result);
-                if(obj.has("msg")) {
-                    map.put("msg", obj.getString("msg"));
-                }
-                else {
-                    map.put("msg", "");
-                }
-            }
-            else {
-                map.put("msg", "");
-            }
+            map.put("msg", obj.getString("msg"));
+            return map;
         } catch (JSONException e) {
             e.printStackTrace();
-            map.put("status", "error");
-            return map;
         }
 
+        map.put("status", "error");
+        map.put("msg", "An error occurred");
         return map;
     }
 
