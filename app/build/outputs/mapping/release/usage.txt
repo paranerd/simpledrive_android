@@ -4524,8 +4524,64 @@ org.apache.commons.io.output.TeeOutputStream
 org.apache.commons.io.output.ThresholdingOutputStream
 org.apache.commons.io.output.WriterOutputStream
 org.apache.commons.io.output.XmlStreamWriter
+org.apache.http.client.utils.DateUtils$DateFormatHolder:
+    200:200:DateUtils$DateFormatHolder()
+org.apache.http.conn.scheme.LayeredSocketFactoryAdaptor
+org.apache.http.conn.scheme.SchemeLayeredSocketFactoryAdaptor
+org.apache.http.conn.scheme.SchemeLayeredSocketFactoryAdaptor2
+org.apache.http.conn.scheme.SchemeSocketFactoryAdaptor
+org.apache.http.conn.scheme.SocketFactoryAdaptor
+org.apache.http.conn.ssl.TokenParser:
+    public static final char CR
+    public static final char LF
+    public static final char SP
+    public static final char HT
+    public static final char DQUOTE
+    public static final char ESCAPE
 org.apache.http.entity.mime.MultipartFormEntity:
     56:56:org.apache.http.entity.mime.AbstractMultipartForm getMultipart()
+org.apache.http.impl.auth.NTLMEngineImpl:
+    protected static final int FLAG_REQUEST_UNICODE_ENCODING
+    protected static final int FLAG_REQUEST_TARGET
+    protected static final int FLAG_REQUEST_SIGN
+    protected static final int FLAG_REQUEST_SEAL
+    protected static final int FLAG_REQUEST_LAN_MANAGER_KEY
+    protected static final int FLAG_REQUEST_NTLMv1
+    protected static final int FLAG_DOMAIN_PRESENT
+    protected static final int FLAG_WORKSTATION_PRESENT
+    protected static final int FLAG_REQUEST_ALWAYS_SIGN
+    protected static final int FLAG_REQUEST_NTLM2_SESSION
+    protected static final int FLAG_REQUEST_VERSION
+    protected static final int FLAG_TARGETINFO_PRESENT
+    protected static final int FLAG_REQUEST_128BIT_KEY_EXCH
+    protected static final int FLAG_REQUEST_EXPLICIT_KEY_EXCH
+    protected static final int FLAG_REQUEST_56BIT_ENCRYPTION
+    static final java.lang.String DEFAULT_CHARSET
+    120:127:final java.lang.String getResponseFor(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
+    176:176:java.lang.String getCredentialCharset()
+    184:185:void setCredentialCharset(java.lang.String)
+    49:49:static synthetic int access$1100(byte[],int)
+org.apache.http.impl.auth.NTLMEngineImpl$HMACMD5:
+    1642:1643:void update(byte[],int,int)
+org.apache.http.impl.auth.NTLMEngineImpl$NTLMMessage:
+    876:876:protected int getPreambleLength()
+    886:889:protected byte readByte(int)
+    902:902:protected int readUShort(int)
+org.apache.http.impl.client.CloseableHttpResponseProxy
+org.apache.http.impl.client.InternalHttpClient:
+    private static final java.lang.String TAG
+org.apache.http.impl.conn.CPoolEntry:
+    private static final java.lang.String TAG
+org.apache.http.impl.conn.HttpClientConnectionOperator:
+    static final java.lang.String SOCKET_FACTORY_REGISTRY
+    private static final java.lang.String TAG
+org.apache.http.impl.conn.LoggingManagedHttpClientConnection:
+    private static final java.lang.String TAG
+    private static final java.lang.String HEADER_TAG
+org.apache.http.impl.execchain.ConnectionHolder:
+    private static final java.lang.String TAG
+org.apache.http.impl.execchain.RequestEntityProxy:
+    83:83:public org.apache.http.HttpEntity getOriginal()
 org.apache.http.pool.RouteSpecificPool:
     57:57:public final java.lang.Object getRoute()
 org.apache.http.protocol.ChainBuilder:
@@ -4770,10 +4826,16 @@ simpledrive.lib.AudioService:
     public static final java.lang.String CHANGE_PLAY
     public static final java.lang.String STOP
 simpledrive.lib.Connection:
-    53:158:public Connection()
+    55:212:public Connection()
+simpledrive.lib.Connection$MySSLSocketFactory:
+    224:238:public Connection$MySSLSocketFactory(java.security.KeyStore)
+simpledrive.lib.Connection$MySSLSocketFactory$1
 simpledrive.lib.Helper:
     14:14:public Helper()
     93:96:public static int pxToDp(int)
 simpledrive.lib.Item:
     54:54:public java.lang.String getLastEdit()
     90:90:public java.lang.String getType()
+simpledrive.lib.Uploader
+simpledrive.lib.Uploader$1
+simpledrive.lib.Uploader$TaskListener

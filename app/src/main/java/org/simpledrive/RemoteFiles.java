@@ -67,7 +67,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -84,6 +83,7 @@ import simpledrive.lib.ImageLoader;
 import simpledrive.lib.Item;
 import simpledrive.lib.MenuListAdapter;
 import simpledrive.lib.Upload.ProgressListener;
+import simpledrive.lib.Uploader;
 
 public class RemoteFiles extends ActionBarActivity {
     // General
@@ -974,7 +974,6 @@ public class RemoteFiles extends ActionBarActivity {
             data.put("action", "download");
             data.put("token", token);
             data.put("target", getSelectedElem().toString());
-            //data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
 
             new simpledrive.lib.Download(new DownloadListener()
             {
@@ -1008,7 +1007,7 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(String value) {
-            // Do something
+            // Do Nothing
         }
   }
 
@@ -1226,20 +1225,23 @@ public class RemoteFiles extends ActionBarActivity {
         protected void onPreExecute() {
             super.onPreExecute();
 
+            Log.i("starting upload", Integer.toString(uploadCurrent));
+
             Intent intent = new Intent(e, RemoteFiles.class);
             PendingIntent pIntent = PendingIntent.getActivity(e, 0, intent, 0);
-
-            mNotifyManager = (NotificationManager) e.getSystemService(Context.NOTIFICATION_SERVICE);
-            mBuilder = new NotificationCompat.Builder(e);
-            mBuilder.setContentIntent(pIntent)
-                    .setOngoing(true)
-                    .setSmallIcon(R.drawable.cloud_icon_notif)
-                    .setProgress(100, 0, false);
-            mNotifyManager.notify(notificationId, mBuilder.build());
 
             uploadCurrent++;
             fullCurrent = ShareFiles.uploadCurrent + uploadCurrent;
             fullTotal = ShareFiles.uploadTotal + uploadTotal;
+
+            mNotifyManager = (NotificationManager) e.getSystemService(Context.NOTIFICATION_SERVICE);
+            mBuilder = new NotificationCompat.Builder(e);
+            mBuilder.setContentIntent(pIntent)
+                    .setContentTitle("Uploading " + fullCurrent + " of " + fullTotal)
+                    .setOngoing(true)
+                    .setSmallIcon(R.drawable.cloud_icon_notif)
+                    .setProgress(100, 0, false);
+            mNotifyManager.notify(notificationId, mBuilder.build());
         }
 
         @Override
@@ -1256,6 +1258,7 @@ public class RemoteFiles extends ActionBarActivity {
             @Override
             public void transferred(Integer num) {
                 if(num % 5 == 0) {
+                    //Log.i("publishing progress", Integer.toString(num));
                     publishProgress(num);
                 }
             }
@@ -1267,17 +1270,29 @@ public class RemoteFiles extends ActionBarActivity {
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            mBuilder.setProgress(100, values[0], false).setContentTitle("Uploading " + fullCurrent + " of " + fullTotal).setContentText(filename);
+            //Log.i("progress update", Integer.toString(values[0]));
+            mBuilder.setProgress(100, values[0], false)
+                    .setContentTitle("Uploading " + fullCurrent + " of " + fullTotal)
+                    .setContentText(filename);
             mNotifyManager.notify(notificationId, mBuilder.build());
         }
 
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
+            Log.i("post execute", Integer.toString(uploadCurrent));
             uploadSuccessful = (value == null || !value.get("status").equals("ok")) ? uploadSuccessful : uploadSuccessful + 1;
             fullSuccessful = ShareFiles.uploadSuccessful + uploadSuccessful;
             if(uploadQueue.size() > 0) {
-                new Upload().execute();
-            } else {
+                try {
+                    Log.i("waiting", "1ms");
+                    Thread.sleep(1);
+                    Log.i("after", "sleep");
+                    new Upload().execute();
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            else {
                 if(!ShareFiles.uploading) {
                     String file = (fullTotal == 1) ? "file" : "files";
                     mBuilder.setContentTitle("Upload complete")
