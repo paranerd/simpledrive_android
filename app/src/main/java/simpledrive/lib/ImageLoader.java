@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.File;
@@ -46,7 +47,12 @@ public class ImageLoader extends AsyncTask<String, String, Bitmap> {
             String file_enc = URLEncoder.encode(file, "UTF-8");
             String url = server + "api/files.php?token=" + token + "&target=" + file_enc + "&action=img&width=" + width + "&height=" + height + "&type=" + type;
 
-            DefaultHttpClient httpClient = Connection.getThreadSafeClient();
+            CloseableHttpClient httpClient = Connection.getThreadSafeClient();
+
+            if(httpClient == null) {
+                return null;
+            }
+
             HttpGet httpGet = new HttpGet(url);
 
             HttpResponse response = httpClient.execute(httpGet);

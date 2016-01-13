@@ -18,6 +18,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -38,7 +39,12 @@ public class Download {
 	
 	public static String download(String URL, HashMap<String, String> data, String target) {
 		try {
-			DefaultHttpClient httpClient = Connection.getThreadSafeClient();
+			CloseableHttpClient httpClient = Connection.getThreadSafeClient();
+
+			if(httpClient == null) {
+				return "Fail";
+			}
+
 			HttpPost httpPost = new HttpPost(URL);
 
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);

@@ -4,36 +4,39 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLContextBuilder;
 import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpProtocolParams;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.simpledrive.RemoteFiles;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.Socket;
+import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -43,7 +46,6 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.net.ssl.SSLContext;
@@ -51,42 +53,99 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 public class Connection {
-    private static DefaultHttpClient client;
+    private static CloseableHttpClient client;
 
-    public synchronized static DefaultHttpClient getThreadSafeClient() {
+    public synchronized static CloseableHttpClient getThreadSafeClient() {
         if (client != null) {
             return client;
         }
 
         try {
-            KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
-            keystore.load(null, null);
-            MySSLSocketFactory mysslsocketfactory = new MySSLSocketFactory(keystore);
-            mysslsocketfactory.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-            BasicHttpParams basichttpparams = new BasicHttpParams();
-            HttpProtocolParams.setVersion(basichttpparams, HttpVersion.HTTP_1_1);
-            HttpProtocolParams.setContentCharset(basichttpparams, "UTF-8");
-            HttpConnectionParams.setConnectionTimeout(basichttpparams, 6000);
-            HttpConnectionParams.setSoTimeout(basichttpparams, 6000);
-            SchemeRegistry schemeregistry = new SchemeRegistry();
-            schemeregistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-            schemeregistry.register(new Scheme("https", mysslsocketfactory, 443));
-            ClientConnectionManager ccm = new ThreadSafeClientConnManager(basichttpparams, schemeregistry);
-            client = new DefaultHttpClient(ccm, basichttpparams);
-            return client;
+            HttpClientBuilder httpClient1 = HttpClients.custom();
+
+            // Setup SSL
+            SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
+                @Override
+                public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                    return true;
+                }
+            }).build();
+
+            SSLConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(sslContext, SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
+                    .register("http", PlainConnectionSocketFactory.getSocketFactory())
+                    .register("https", sslSocketFactory)
+                    .build();
+
+            PoolingHttpClientConnectionManager connMgr = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
+            connMgr.setMaxTotal(200);
+            connMgr.setDefaultMaxPerRoute(100);
+
+            // Setup config
+            RequestConfig.Builder requestBuilder = RequestConfig.custom()
+                    .setConnectTimeout(10000)
+                    .setConnectionRequestTimeout(10000);
+
+            // Apply SSL
+            httpClient1.setSslcontext(sslContext);
+
+            // Apply config
+            httpClient1.setDefaultRequestConfig(requestBuilder.build());
+            httpClient1.setMaxConnTotal(10);
+
+            // Apply Connection Manager
+            httpClient1.setConnectionManager(connMgr);
+
+            // Build client
+            CloseableHttpClient closeable = httpClient1.build();
+            client = closeable;
+
+            return closeable;
         } catch (Exception exception) {
-            return new DefaultHttpClient();
+            return null;
         }
     }
 
     public static HashMap<String, String> call(String url, HashMap<String, String> data) {
+        /*try {
+            URL server = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) server.openConnection();
+
+            con.setDoOutput(true);
+            con.setChunkedStreamingMode(0);
+
+            OutputStream out = new BufferedOutputStream(con.getOutputStream());
+            writeStream(out);
+
+            InputStream is2 = new BufferedInputStream(con.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+
         InputStream is;
         String result;
         HashMap<String, String> map = new HashMap<>();
+        CloseableHttpClient httpClient = getThreadSafeClient();
+
+        Log.i("url", url);
+        Log.i("data", data.toString());
 
         try {
-            DefaultHttpClient httpClient = Connection.getThreadSafeClient();
+            if(httpClient == null) {
+                map.put("status", "error");
+                map.put("msg", "An error occured");
+                return map;
+            }
             HttpPost httpPost = new HttpPost(url);
+
+            // add your data
+            /*List<HashMap<String, String>> nameValuePairs = new ArrayList<>(2);
+            for (String key : data.keySet()) {
+                String value = data.get(key);
+                HashMap<String, String> is_new = new HashMap<>();
+                is_new.put(key, value);
+                nameValuePairs.add(is_new);
+            }*/
 
             // add your data
             List<NameValuePair> nameValuePairs = new ArrayList<>(2);
@@ -97,12 +156,15 @@ public class Connection {
 
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
+            Log.i("before", "execute");
             HttpResponse response = httpClient.execute(httpPost);
             HttpEntity entity = response.getEntity();
 
+            Log.i("response", response.getStatusLine().toString());
+
             is = entity.getContent();
 
-            if(response.getStatusLine().getStatusCode() != 200 || is == null) {
+            if(response.getStatusLine().getStatusCode() != HttpURLConnection.HTTP_OK || is == null) {
                 map.put("status", "error");
                 map.put("msg", response.getStatusLine().getReasonPhrase());
                 return map;
@@ -124,24 +186,16 @@ public class Connection {
             }
             is.close();
             result = sb.toString();
-        } catch (Exception e) {
-            map.put("status", "error");
-            map.put("msg", "Connection error");
-            return map;
-        }
 
-        try {
             JSONObject obj = new JSONObject(result);
             map.put("status", "ok");
             map.put("msg", obj.getString("msg"));
             return map;
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            map.put("status", "error");
+            map.put("msg", "An error occured");
+            return map;
         }
-
-        map.put("status", "error");
-        map.put("msg", "An error occurred");
-        return map;
     }
 
     public static void logout(Context ctx) {

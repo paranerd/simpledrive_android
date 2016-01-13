@@ -12,16 +12,17 @@ import java.util.HashMap;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
+import org.apache.http.impl.client.HttpClientBuilder;
 
-    		public class Upload implements HttpEntity {
+public class Upload implements HttpEntity {
     			
     			private final ProgressListener listener;
     			
@@ -35,10 +36,17 @@ import org.apache.http.util.EntityUtils;
     			}
     			
     			public static HashMap<String, String> upload(HttpEntity theEntity, String url, String path, String rel_path, String currDir, String token) {
-        			DefaultHttpClient httpClient = Connection.getThreadSafeClient();
-        			HttpPost httpPost = new HttpPost(url);
-
+                    Log.i("upload", "called");
+                    CloseableHttpClient httpClient = Connection.getThreadSafeClient();
                     HashMap<String, String> map = new HashMap<>();
+
+                    if(httpClient == null) {
+                        map.put("status", "error");
+                        map.put("msg", "Connection error");
+                        return map;
+                    }
+
+        			HttpPost httpPost = new HttpPost(url);
 
         			File file = new File(path);
         			ContentBody fileBody = new FileBody(file);
@@ -54,22 +62,31 @@ import org.apache.http.util.EntityUtils;
         			totalSize = yourEntity.getContentLength();
         			
                     httpPost.setEntity(theEntity);
-                    
+
+                    Log.i("before", "execute");
                     try {
         				HttpResponse response = httpClient.execute(httpPost);
+                        Log.i("after", "execute");
+
+                        Log.i("code", Integer.toString(response.getStatusLine().getStatusCode()));
 
                         if(response.getStatusLine().getStatusCode() != 200) {
                             map.put("status", "error");
                             map.put("msg", response.getStatusLine().getReasonPhrase());
+                            Log.i("error", "1");
+                            //httpClient.close();
                             return map;
                         }
                         map.put("status", "ok");
                         map.put("msg", "");
+                        Log.i("status", "ok");
+                        //httpClient.close();
                         return map;
         			} catch (IOException e) {
         				e.printStackTrace();
                         map.put("status", "error");
                         map.put("msg", "Connection error");
+                        Log.i("error", "Connection error");
                         return map;
                     }
     			}
@@ -139,9 +156,11 @@ import org.apache.http.util.EntityUtils;
                         }
 
                         public void flush() throws IOException {
+                            Log.i("upload", "flushed");
                             out.flush();
                         }
                         public void close() throws IOException {
+                            Log.i("upload", "closed");
                             out.close();
                         }
                     }

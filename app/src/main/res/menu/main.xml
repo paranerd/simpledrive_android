@@ -13,11 +13,6 @@
         android:title="Clear Cache"
         app:showAsAction="never" />
 
-    <item android:id="@id/logout"
-        android:orderInCategory="3"
-        android:title="@string/logout"
-        app:showAsAction="never" />
-
     <item
         android:id="@+id/download"
         android:orderInCategory="300"
@@ -45,4 +40,9 @@
         android:title="Toggle View"
         android:icon="@drawable/ic_grid"
         app:showAsAction="always" />
+
+    <item android:id="@id/logout"
+        android:orderInCategory="301"
+        android:title="@string/logout"
+        app:showAsAction="never" />
 </menu>
