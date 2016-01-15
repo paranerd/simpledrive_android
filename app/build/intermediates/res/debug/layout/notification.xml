@@ -38,4 +38,4 @@
         android:singleLine="true"
         android:layout_marginLeft="64dp"
         style="Custom Notification Title" />
-</RelativeLayout><!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/layout/notification.xml -->
+</RelativeLayout><!-- From: file:/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/layout/notification.xml -->

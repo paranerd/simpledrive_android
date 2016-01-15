@@ -22,11 +22,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spannable;
@@ -34,7 +34,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.TypefaceSpan;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
@@ -76,21 +75,15 @@ import java.util.TimerTask;
 
 import simpledrive.lib.AudioService;
 import simpledrive.lib.AudioService.LocalBinder;
-import simpledrive.lib.Connection;
-import simpledrive.lib.Download.DownloadListener;
 import simpledrive.lib.Helper;
-import simpledrive.lib.ImageLoader;
 import simpledrive.lib.Item;
 import simpledrive.lib.MenuListAdapter;
-import simpledrive.lib.Upload.ProgressListener;
-import simpledrive.lib.Uploader;
+import simpledrive.lib.Connection;
 
 public class RemoteFiles extends ActionBarActivity {
     // General
     public static RemoteFiles e;
-    private static String server;
     private static String username = "";
-    private static String token;
 
     private static String mode = "files";
     private static final String tmpFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/simpleDrive/";
@@ -109,7 +102,7 @@ public class RemoteFiles extends ActionBarActivity {
     public static int uploadCurrent = 0;
     public static int uploadTotal = 0;
     public static int uploadSuccessful = 0;
-    private static boolean uploading = false;
+    public static boolean uploading = false;
     private ArrayList<HashMap<String, String>> uploadQueue = new ArrayList<>();
 
     // View elements
@@ -164,15 +157,14 @@ public class RemoteFiles extends ActionBarActivity {
     	
     	@Override
         protected HashMap<String, String> doInBackground(String... args) {
-    		String url = server + "api/files.php";
-    		HashMap<String, String> data = new HashMap<>();
+    		String url = "files"; // server + "api/files.php";
 
-            data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
-            data.put("mode", mode);
-            data.put("action", "list");
-            data.put("token", token);
+            Connection multipart = new Connection(url, null);
+            multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).toString());
+            multipart.addFormField("action", "list");
+            multipart.addFormField("mode", mode);
 
-            return Connection.call(url, data);
+            return multipart.finish();
     	}
 
         @Override
@@ -317,14 +309,12 @@ public class RemoteFiles extends ActionBarActivity {
 
     public class NewFileAdapter extends ArrayAdapter<Item> {
         private LayoutInflater layoutInflater;
-        private NewFileAdapter e;
         private int layout;
 
         public NewFileAdapter(Activity mActivity, int textViewResourceId) {
             super(mActivity, textViewResourceId);
             layoutInflater = LayoutInflater.from(mActivity);
             layout = textViewResourceId;
-            //e = this;
         }
 
         @Override
@@ -408,7 +398,9 @@ public class RemoteFiles extends ActionBarActivity {
                 item.setThumbPath(thumbPath);
 
                 if(!thumbLoading) {
-                    loadThumb(item);
+                    //loadThumb(item);
+                    thumbQueue.add(item);
+                    new LoadThumb().execute();
                 }
                 else {
                     thumbQueue.add(item);
@@ -418,7 +410,7 @@ public class RemoteFiles extends ActionBarActivity {
             holder.thumb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(getSelectedElem().length() > 0 || globLayout.equals("list")) {
+                    if (getSelectedElem().length() > 0 || globLayout.equals("list")) {
                         toggleSelection(position);
                     } else {
                         openFile(position);
@@ -453,37 +445,65 @@ public class RemoteFiles extends ActionBarActivity {
                 }
             }
         }
+    }
 
-        public void loadThumb(final Item item) {
+    private class LoadThumb extends AsyncTask<String, Integer, HashMap<String, String>> {
+        Item item;
+        String size;
+        String filepath;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
             thumbLoading = true;
+        }
+
+        @Override
+        protected HashMap<String, String> doInBackground(String... info) {
+            item = thumbQueue.remove(0);
+
             DisplayMetrics displaymetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 
-            String size = (globLayout.equals("list")) ? Helper.dpToPx(100) + "" : Integer.toString(displaymetrics.widthPixels / 2);
+            size = (globLayout.equals("list")) ? Helper.dpToPx(100) + "" : Integer.toString(displaymetrics.widthPixels / 2);
+            String file = item.getJSON().toString();
+            String filename = item.getFilename();
+            filepath = item.getThumbPath();
 
-            ImageLoader imgLoader = new ImageLoader(new ImageLoader.TaskListener()
-            {
-                @Override
-                public void onFinished(final Bitmap bmp)
-                {
-                    thumbLoading = false;
-                    if (bmp != null && list != null) {
-                        // Update adapter to display thumb
-                        item.setThumb(bmp);
-                        newAdapter.notifyDataSetChanged();
-                    }
-                    if (thumbQueue.size() > 0) {
-                        loadThumb(thumbQueue.remove(0));
-                    }
-                }
-            });
+            File thumb = new File(filepath);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                imgLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, item.getJSON().toString(), item.getFilename(), size, size, item.getThumbPath(), token, server, "thumb");
+            Connection multipart = new Connection("files", null);
+
+            multipart.addFormField("target", file);
+            multipart.addFormField("action", "img");
+            multipart.addFormField("width", size);
+            multipart.addFormField("height", size);
+            multipart.addFormField("type", "thumb");
+            multipart.setDownloadPath(thumb.getParent(), thumb.getName());
+            return multipart.finish();
+            //return multipart.download(thumb.getParent(), thumb.getName());
+        }
+
+        @Override
+        protected void onPostExecute(HashMap<String, String> value) {
+            Bitmap bmp = Helper.getThumb(filepath, Integer.valueOf(size));
+
+            thumbLoading = false;
+            if (bmp != null && list != null) {
+                // Update adapter to display thumb
+                item.setThumb(bmp);
+                newAdapter.notifyDataSetChanged();
             }
-            else {
-                imgLoader.execute(item.getJSON().toString(), item.getFilename(), size, size, item.getThumbPath(), token, server, "thumb");
+
+            if (thumbQueue.size() > 0) {
+                new LoadThumb().execute();
             }
+
+            /*if(filename.substring(filename.length() - 3).equals("png")) {
+                bmp.compress(Bitmap.CompressFormat.PNG, 85, fos);
+            } else {
+                bmp.compress(Bitmap.CompressFormat.JPEG, 85, fos);
+            }*/
         }
     }
 
@@ -593,21 +613,18 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(Integer... info) {
-            String url = server + "api/files.php";
-            HashMap<String, String> data = new HashMap<>();
+            Connection multipart = new Connection("files", null);
+            multipart.addFormField("target", items.get(info[0]).getJSON().toString());
+            multipart.addFormField("action", "cache");
+            multipart.addFormField("type", "mobile_audio");
+            multipart.addFormField("filename", audioFilename);
 
-            data.put("target", items.get(info[0]).getJSON().toString());
-            data.put("type",  "mobile_audio");
-            data.put("filename", audioFilename);
-            data.put("action", "cache");
-            data.put("token", token);
-
-            return Connection.call(url, data);
+            return multipart.finish();
         }
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
             if(value.get("status").equals("ok")) {
-                mPlayerService.initPlay(server + value.get("msg"));
+                mPlayerService.initPlay(value.get("msg"));
             }
             else {
                 Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
@@ -638,17 +655,15 @@ public class RemoteFiles extends ActionBarActivity {
             }
 
             username = sc[0].name;
-            token = accMan.getUserData(sc[0], "token");
-            server = accMan.getUserData(sc[0], "server");
+            Connection.setServer(accMan.getUserData(sc[0], "server"));
 
-            String url = server + "api/core.php";
-            HashMap<String, String> data = new HashMap<>();
-            data.put("action", "login");
-            data.put("token", token);
-            data.put("user", username);
-            data.put("pass", accMan.getPassword(sc[0]));
+            Connection multipart = new Connection("core", null);
+            multipart.addFormField("action", "login");
+            multipart.addFormField("user", username);
+            multipart.addFormField("pass", accMan.getPassword(sc[0]));
+            multipart.forceSetCookie();
 
-            return Connection.call(url, data);
+            return multipart.finish();
     	}
     	 @Override
          protected void onPostExecute(HashMap<String, String> value) {
@@ -662,8 +677,8 @@ public class RemoteFiles extends ActionBarActivity {
                      hierarchy.add(currDir);
 
                      empty.setText("Nothing to see here.");
-                     token = value.get("msg");
-                     accMan.setUserData(sc[0], "token", token);
+                     Connection.setToken(value.get("msg"));
+                     accMan.setUserData(sc[0], "token", value.get("msg"));
                  } catch (JSONException e) {
                      e.printStackTrace();
                  }
@@ -817,15 +832,13 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(String... pos) {
-            String url = server + "api/files.php";
-            HashMap<String, String> data = new HashMap<>();
+            Connection multipart = new Connection("files", null);
+            multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).toString());
+            multipart.addFormField("action", "create");
+            multipart.addFormField("filename", pos[0]);
+            multipart.addFormField("type", "folder");
 
-            data.put("type", "folder");
-            data.put("filename", pos[0]);
-            data.put("action", "create");
-            data.put("token", token);
-            data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
-            return Connection.call(url, data);
+            return multipart.finish();
         }
 
         @Override
@@ -901,8 +914,7 @@ public class RemoteFiles extends ActionBarActivity {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
-            public void run()
-            {
+            public void run() {
                 InputMethodManager m = (InputMethodManager) e.getSystemService(Context.INPUT_METHOD_SERVICE);
 
                 if (m != null) {
@@ -921,14 +933,12 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(String... names) {
-            String url = server + "api/files.php";
-            HashMap<String, String> data = new HashMap<>();
+            Connection multipart = new Connection("files", null);
+            multipart.addFormField("target", getSelected().toString());
+            multipart.addFormField("action", "create");
+            multipart.addFormField("newFilename", names[0]);
 
-            data.put("action", "rename");
-            data.put("token", token);
-            data.put("newFilename", names[0]);
-            data.put("target", getSelected().toString());
-            return Connection.call(url, data);
+            return multipart.finish();
         }
 
         @Override
@@ -942,7 +952,7 @@ public class RemoteFiles extends ActionBarActivity {
         }
     }
 
-    private class Download extends AsyncTask<String, Integer, String> {
+    private class Download extends AsyncTask<String, Integer, HashMap<String, String>> {
         private NotificationCompat.Builder mBuilder;
         private NotificationManager mNotifyManager;
         private int notificationId = 2;
@@ -966,48 +976,37 @@ public class RemoteFiles extends ActionBarActivity {
         }
 
         @Override
-        protected String doInBackground(String... names) {
-            String url = server + "api/files.php";
+        protected HashMap<String, String> doInBackground(String... names) {
+            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
 
-            HashMap<String, String> data = new HashMap<>();
-
-            data.put("action", "download");
-            data.put("token", token);
-            data.put("target", getSelectedElem().toString());
-
-            new simpledrive.lib.Download(new DownloadListener()
-            {
+            Connection multipart = new Connection("files", new Connection.ProgressListener() {
                 @Override
-                public void transferred(Integer num)
-                {
-                    if(num % 5 == 0) {
-                        publishProgress(num);
-                    }
+                public void transferred(Integer num) {
+                    publishProgress(num);
                 }
             });
 
-            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
-            return simpledrive.lib.Download.download(url, data, path);
+            multipart.addFormField("action", "download");
+            multipart.addFormField("target", getSelectedElem().toString());
+            multipart.setDownloadPath(path, null);
+            return multipart.finish();
         }
 
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
+
             mBuilder.setProgress(100, values[0], false);
             mNotifyManager.notify(notificationId, mBuilder.build());
-
-            if(values[0] == 100) {
-                mBuilder.setContentTitle("Download complete")
-                .setOngoing(false)
-                .setContentText("")
-                .setProgress(0,0,false);
-                mNotifyManager.notify(notificationId, mBuilder.build());
-            }
         }
 
         @Override
-        protected void onPostExecute(String value) {
-            // Do Nothing
+        protected void onPostExecute(HashMap<String, String> value) {
+            mBuilder.setContentTitle("Download complete")
+                    .setOngoing(false)
+                    .setContentText("")
+                    .setProgress(0,0,false);
+            mNotifyManager.notify(notificationId, mBuilder.build());
         }
   }
 
@@ -1030,14 +1029,12 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
            protected HashMap<String, String> doInBackground(Integer... pos) {
-            String url = server + "api/files.php";
-            HashMap<String, String> data = new HashMap<>();
+            Connection multipart = new Connection("files", null);
+            multipart.addFormField("target", getSelectedElem().toString());
+            multipart.addFormField("action", "delete");
+            multipart.addFormField("final", Boolean.toString(mode.equals("trash")));
 
-            data.put("action", "delete");
-            data.put("token", token);
-            data.put("final", Boolean.toString(mode.equals("trash")));
-            data.put("target", getSelectedElem().toString());
-            return Connection.call(url, data);
+            return multipart.finish();
         }
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
@@ -1070,18 +1067,16 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(Void... params) {
-            String url = server + "api/files.php";
-            HashMap<String, String> data = new HashMap<>();
+            Connection multipart = new Connection("files", null);
+            multipart.addFormField("target", getSelectedElem().toString());
+            multipart.addFormField("action", "share");
+            multipart.addFormField("mail", "");
+            multipart.addFormField("key", "");
+            multipart.addFormField("userto", shareUser);
+            multipart.addFormField("pubAcc", Integer.toString(sharePublic));
+            multipart.addFormField("write", Integer.toString(shareWrite));
 
-            data.put("mail", "");
-            data.put("key", "");
-            data.put("userto", shareUser);
-            data.put("pubAcc", Integer.toString(sharePublic));
-            data.put("write", Integer.toString(shareWrite));
-            data.put("action", "share");
-            data.put("token", token);
-            data.put("target", getSelected().toString());
-            return Connection.call(url, data);
+            return multipart.finish();
         }
         @Override
         protected void onPostExecute(final HashMap<String, String> value) {
@@ -1128,13 +1123,11 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(Integer... pos) {
-            String url = server + "api/files.php";
-            HashMap<String, String> data = new HashMap<>();
+            Connection multipart = new Connection("files", null);
+            multipart.addFormField("target", getSelected().toString());
+            multipart.addFormField("action", "unshare");
 
-            data.put("action", "unshare");
-            data.put("token", token);
-            data.put("target", getSelected().toString());
-            return Connection.call(url, data);
+            return multipart.finish();
         }
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
@@ -1157,14 +1150,12 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(Integer... pos) {
-            String url = server + "api/files.php";
-            HashMap<String, String> data = new HashMap<>();
+            Connection multipart = new Connection("files", null);
+            multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).toString());
+            multipart.addFormField("action", "zip");
+            multipart.addFormField("source", getSelectedElem().toString());
 
-            data.put("action", "zip");
-            data.put("token", token);
-            data.put("source", getSelectedElem().toString());
-            data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
-            return Connection.call(url, data);
+            return multipart.finish();
         }
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
@@ -1187,18 +1178,13 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(Integer... pos) {
+            Connection multipart = new Connection("files", null);
+            multipart.addFormField("target", hierarchy.get(0).toString());
+            multipart.addFormField("action", "move");
+            multipart.addFormField("trash", "true");
+            multipart.addFormField("source", getSelectedElem().toString());
 
-            String url = server + "api/files.php";
-            HashMap<String, String> data = new HashMap<>();
-
-            data.put("test", "test");
-            data.put("trash", "true");
-            data.put("action", "move");
-            data.put("token", token);
-            data.put("source", getSelectedElem().toString());
-            data.put("target", hierarchy.get(0).toString());
-
-            return Connection.call(url, data);
+            return multipart.finish();
         }
         @Override
         protected void onPostExecute(HashMap<String, String>value) {
@@ -1225,8 +1211,6 @@ public class RemoteFiles extends ActionBarActivity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            Log.i("starting upload", Integer.toString(uploadCurrent));
-
             Intent intent = new Intent(e, RemoteFiles.class);
             PendingIntent pIntent = PendingIntent.getActivity(e, 0, intent, 0);
 
@@ -1252,25 +1236,26 @@ public class RemoteFiles extends ActionBarActivity {
             String relative = ul_elem.get("relative");
             String target = ul_elem.get("target");
 
-            String url = server + "api/files.php";
-
-            simpledrive.lib.Upload myEntity = new simpledrive.lib.Upload(new ProgressListener() {
-            @Override
-            public void transferred(Integer num) {
-                if(num % 5 == 0) {
-                    //Log.i("publishing progress", Integer.toString(num));
-                    publishProgress(num);
+            Connection multipart = new Connection("files", new Connection.ProgressListener() {
+                @Override
+                public void transferred(Integer num) {
+                    if(num % 5 == 0) {
+                        publishProgress(num);
+                    }
                 }
-            }
             });
 
-            return simpledrive.lib.Upload.upload(myEntity, url, filepath, relative, target, token);
+            multipart.addFormField("paths", relative);
+            multipart.addFormField("target", target);
+            multipart.addFormField("action", "upload");
+            multipart.addFilePart("0", new File(filepath));
+
+            return multipart.finish();
         }
 
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            //Log.i("progress update", Integer.toString(values[0]));
             mBuilder.setProgress(100, values[0], false)
                     .setContentTitle("Uploading " + fullCurrent + " of " + fullTotal)
                     .setContentText(filename);
@@ -1279,18 +1264,10 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
-            Log.i("post execute", Integer.toString(uploadCurrent));
             uploadSuccessful = (value == null || !value.get("status").equals("ok")) ? uploadSuccessful : uploadSuccessful + 1;
             fullSuccessful = ShareFiles.uploadSuccessful + uploadSuccessful;
             if(uploadQueue.size() > 0) {
-                try {
-                    Log.i("waiting", "1ms");
-                    Thread.sleep(1);
-                    Log.i("after", "sleep");
-                    new Upload().execute();
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
+                new Upload().execute();
             }
             else {
                 if(!ShareFiles.uploading) {
@@ -1380,7 +1357,7 @@ public class RemoteFiles extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_menu, R.string.drawer_open, R.string.drawer_close) {
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
             public void onDrawerClosed(View view) {
                 supportInvalidateOptionsMenu();
             }
@@ -1397,11 +1374,12 @@ public class RemoteFiles extends ActionBarActivity {
         header_user.setText(username);
 
         TextView header_server = (TextView) findViewById(R.id.header_server);
-        header_server.setText(server);
+        header_server.setText(Connection.getServer());
     }
 
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
+
         supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         e = this;

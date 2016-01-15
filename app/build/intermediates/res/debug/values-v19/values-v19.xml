@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/values-v19/styles.xml -->
+    <!-- From: file:/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/values-v19/styles.xml -->
     <eat-comment/>
     <style name="MainTheme" parent="Theme.AppCompat.Light">
         <!-- Main theme colors -->

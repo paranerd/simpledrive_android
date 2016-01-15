@@ -26,4 +26,4 @@
         android:text="Public access"
         android:layout_below="@id/shareWrite"/>
 
-</RelativeLayout><!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/layout/share_dialog.xml -->
+</RelativeLayout><!-- From: file:/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/layout/share_dialog.xml -->

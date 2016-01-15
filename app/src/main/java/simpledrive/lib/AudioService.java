@@ -136,7 +136,8 @@ public class AudioService extends Service implements OnCompletionListener, OnPre
         }
 	}
 	
-	public void initPlay(String url) {
+	public void initPlay(String cacheUrl) {
+		String url = Connection.getServer() + cacheUrl;
 		try {
 			mediaPlayer.reset();
 			mediaPlayer.setDataSource(url);

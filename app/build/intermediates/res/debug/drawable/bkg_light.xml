@@ -3,4 +3,4 @@
   xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true" android:drawable="@drawable/pressed" />
     <item android:state_focused="false" android:drawable="@drawable/normal_light" />
-</selector><!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/drawable/bkg_light.xml -->
+</selector><!-- From: file:/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/drawable/bkg_light.xml -->

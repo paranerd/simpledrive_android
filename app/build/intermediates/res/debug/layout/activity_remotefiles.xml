@@ -184,4 +184,4 @@
             android:divider="#aae3e3e3"
             android:dividerHeight="0.1dp" />
     </LinearLayout>
-</android.support.v4.widget.DrawerLayout><!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/layout/activity_remotefiles.xml -->
+</android.support.v4.widget.DrawerLayout><!-- From: file:/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/layout/activity_remotefiles.xml -->

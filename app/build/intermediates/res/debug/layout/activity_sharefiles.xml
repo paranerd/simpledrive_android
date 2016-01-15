@@ -117,4 +117,4 @@
                 android:layout_centerHorizontal="true" />
         </RelativeLayout>
     </RelativeLayout>
-</android.support.v4.widget.SwipeRefreshLayout><!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/layout/activity_sharefiles.xml -->
+</android.support.v4.widget.SwipeRefreshLayout><!-- From: file:/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/layout/activity_sharefiles.xml -->

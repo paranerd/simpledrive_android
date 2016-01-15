@@ -13,4 +13,4 @@
     android:background="@color/darkgreen"
     android:elevation="4dp"
     android:navigationIcon="@drawable/image_thumb" >
-</android.support.v7.widget.Toolbar><!-- From: file:/C:/Users/paranerd/Documents/simpledrive_android/app/src/main/res/layout/toolbar.xml -->
+</android.support.v7.widget.Toolbar><!-- From: file:/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/layout/toolbar.xml -->
