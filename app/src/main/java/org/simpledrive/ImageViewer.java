@@ -1,12 +1,9 @@
 package org.simpledrive;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -16,7 +13,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.TypefaceSpan;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -27,25 +23,24 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import simpledrive.lib.ImageLoader;
+import simpledrive.lib.Connection;
 
 public class ImageViewer extends ActionBarActivity {
     public static ExtendedViewPager mViewPager;
     private static boolean titleVisible = true;
     private static Toolbar toolbar;
     private ImageViewer e;
-    private String token;
-    private String server;
-    private ImageLoader imgLoader;
+    private int width;
+    private int height;
+    private AsyncTask loader;
 
     public static ArrayList<HashMap<String, String>> images;
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(imgLoader != null) {
-            imgLoader.cancel(true);
-            imgLoader = null;
+        if(loader != null) {
+            loader.cancel(true);
         }
     }
 
@@ -57,13 +52,10 @@ public class ImageViewer extends ActionBarActivity {
         images = RemoteFiles.getAllImages();
         e = this;
 
-        AccountManager accMan = AccountManager.get(ImageViewer.this);
-        Account[] sc = accMan.getAccountsByType("org.simpledrive");
-
-        if (sc.length > 0) {
-            token = accMan.getUserData(sc[0], "token");
-            server = accMan.getUserData(sc[0], "server");
-        }
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        height = displaymetrics.heightPixels;
+        width = displaymetrics.widthPixels;
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar != null) {
@@ -147,11 +139,13 @@ public class ImageViewer extends ActionBarActivity {
                 // Load thumbnail and get image in background
                 Bitmap bmp = BitmapFactory.decodeFile(thumbPath);
                 img.setImageBitmap(bmp);
-                loadImage(thumbPath, img, images.get(position).get("file"), images.get(position).get("filename"), imgPath);
+                //loadImage(thumbPath, img, images.get(position).get("file"), images.get(position).get("filename"), imgPath);
+                loader = new LoadImage(thumbPath, img, images.get(position).get("file"), images.get(position).get("filename"), imgPath).execute();
             } else {
                 // Set placeholder and get image in background
                 img.setImageResource(R.drawable.ic_image);
-                loadImage(null, img, images.get(position).get("file"), images.get(position).get("filename"), imgPath);
+                //loadImage(null, img, images.get(position).get("file"), images.get(position).get("filename"), imgPath);
+                new LoadImage(thumbPath, img, images.get(position).get("file"), images.get(position).get("filename"), imgPath).execute();
             }
             container.addView(img, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
@@ -169,36 +163,58 @@ public class ImageViewer extends ActionBarActivity {
         }
     }
 
-    public void loadImage(final String thumbPath, final TouchImageView img, String file, String filename, String path) {
+    private class LoadImage extends AsyncTask<String, Integer, HashMap<String, String>> {
+        String thumbPath;
+        TouchImageView img;
+        String file;
+        String filename;
+        String path;
 
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        int height = displaymetrics.heightPixels;
-        int width = displaymetrics.widthPixels;
+        public LoadImage(final String thumbPath, final TouchImageView img, String file, String filename, String path) {
+            this.thumbPath = thumbPath;
+            this.img = img;
+            this.file = file;
+            this.filename = filename;
+            this.path = path;
+        }
 
-        imgLoader = new ImageLoader(new ImageLoader.TaskListener() {
-            @Override
-            public void onFinished(final Bitmap bmp) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(bmp != null) {
-                            img.setImageBitmap(bmp);
-                            mViewPager.getAdapter().notifyDataSetChanged();
-                        }
-                        if(thumbPath != null) {
-                            // Overrides the thumbnail with the image (may consume too much memory with many - and then bigger - thumbnails to display)
-                            //new File(thumbPath).delete();
-                        }
-                    }
-                });
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected HashMap<String, String> doInBackground(String... info) {
+            File thumb = new File(path);
+
+            Connection multipart = new Connection("files", null);
+            multipart.addFormField("target", file);
+            multipart.addFormField("action", "img");
+            multipart.addFormField("width", width + "");
+            multipart.addFormField("height", height + "");
+            multipart.addFormField("type", "img");
+            multipart.setDownloadPath(thumb.getParent(), thumb.getName());
+            return multipart.finish();
+        }
+
+        @Override
+        protected void onPostExecute(HashMap<String, String> value) {
+            if(this.isCancelled()) {
+                return;
             }
-        });
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            imgLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, file, filename, width + "", height + "", path, token, server, "img");
-        } else {
-            imgLoader.execute(file, filename, width + "", height + "", path, token, server, "img");
+            Bitmap bmp = BitmapFactory.decodeFile(path);
+
+            if (bmp != null && mViewPager != null) {
+                // Update adapter to display thumb
+                img.setImageBitmap(bmp);
+                mViewPager.getAdapter().notifyDataSetChanged();
+            }
+
+            if(thumbPath != null) {
+                // Overrides the thumbnail with the image (may consume too much memory with many - and then bigger - thumbnails to display)
+                //new File(thumbPath).delete();
+            }
         }
     }
 }

@@ -21,7 +21,7 @@ public class Helper {
         int height_tmp = o.outHeight;
         float scale = 1;
 
-        // Used to scale with power of 2, but filesize is 3x as big
+        // Used to scale with power of 2, but filesize will be 3x as big
         /*int ratio = Math.min(o.outWidth/size, o.outHeight / size);
         int sampleSize = Integer.highestOneBit((int) Math.floor(ratio));
         sampleSize = (sampleSize == 0) ? 1 : sampleSize;*/
@@ -80,8 +80,8 @@ public class Helper {
 
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
+            return "";
         }
-        return "";
     }
 
     public static int dpToPx(int dp) {

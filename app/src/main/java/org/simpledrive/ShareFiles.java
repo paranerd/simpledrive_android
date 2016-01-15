@@ -28,7 +28,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.TypefaceSpan;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,19 +57,16 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import simpledrive.lib.Connection;
 import simpledrive.lib.Helper;
 import simpledrive.lib.Item;
-import simpledrive.lib.Upload.ProgressListener;
+import simpledrive.lib.Connection;
 
 public class ShareFiles extends ActionBarActivity {
     // General
     private static int loginAttemts = 0;
     public static ShareFiles e;
-    private static String server;
     private static String username = "";
     private SharedPreferences settings;
-    private static String token;
 
     // Files
     private static ArrayList<Item> items = new ArrayList<>();
@@ -198,15 +194,12 @@ public class ShareFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(String... args) {
-            String url = server + "api/files.php";
-            HashMap<String, String> data = new HashMap<>();
+            Connection multipart = new Connection("files", null);
+            multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).toString());
+            multipart.addFormField("action", "list");
+            multipart.addFormField("mode", "files");
 
-            data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
-            data.put("mode", "files");
-            data.put("action", "list");
-            data.put("token", token);
-
-            return Connection.call(url, data);
+            return multipart.finish();
         }
 
         @Override
@@ -396,6 +389,9 @@ public class ShareFiles extends ActionBarActivity {
     }
 
     public class Connect extends AsyncTask<String, String, HashMap<String, String>> {
+        Account[] sc;
+        AccountManager accMan = AccountManager.get(ShareFiles.this);
+
         @Override
         protected void onPreExecute() {
             loginAttemts++;
@@ -405,8 +401,8 @@ public class ShareFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(String... login) {
-            AccountManager accMan = AccountManager.get(ShareFiles.this);
-            Account[] sc = accMan.getAccountsByType("org.simpledrive");
+            accMan = AccountManager.get(ShareFiles.this);
+            sc = accMan.getAccountsByType("org.simpledrive");
 
             if (sc.length == 0 || loginAttemts > 2) {
                 HashMap<String, String> map = new HashMap<>();
@@ -416,17 +412,16 @@ public class ShareFiles extends ActionBarActivity {
             }
 
             username = sc[0].name;
-            token = accMan.getUserData(sc[0], "token");
-            server = accMan.getUserData(sc[0], "server");
 
-            String url = server + "api/core.php";
-            HashMap<String, String> data = new HashMap<>();
-            data.put("action", "login");
-            data.put("token", token);
-            data.put("user", username);
-            data.put("pass", accMan.getPassword(sc[0]));
+            Connection.setServer(accMan.getUserData(sc[0], "server"));
 
-            return Connection.call(url, data);
+            Connection multipart = new Connection("core", null);
+            multipart.addFormField("action", "login");
+            multipart.addFormField("user", username);
+            multipart.addFormField("pass", accMan.getPassword(sc[0]));
+            multipart.forceSetCookie();
+
+            return multipart.finish();
         }
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
@@ -440,7 +435,8 @@ public class ShareFiles extends ActionBarActivity {
                     hierarchy.add(currDir);
 
                     empty.setText("Nothing to see here.");
-                    token = value.get("msg");
+                    Connection.setToken(value.get("msg"));
+                    accMan.setUserData(sc[0], "token", value.get("msg"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -473,15 +469,13 @@ public class ShareFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(String... pos) {
-            String url = server + "api/files.php";
-            HashMap<String, String> data = new HashMap<>();
+            Connection multipart = new Connection("files", null);
+            multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).toString());
+            multipart.addFormField("action", "create");
+            multipart.addFormField("filename", pos[0]);
+            multipart.addFormField("type", "folder");
 
-            data.put("type", "folder");
-            data.put("filename", pos[0]);
-            data.put("action", "create");
-            data.put("token", token);
-            data.put("target", hierarchy.get(hierarchy.size() - 1).toString());
-            return Connection.call(url, data);
+            return multipart.finish();
         }
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
@@ -543,7 +537,7 @@ public class ShareFiles extends ActionBarActivity {
         private NotificationCompat.Builder mBuilder;
         private NotificationManager mNotifyManager;
         private int notificationId = 1;
-        String filename;
+        private String filename;
         private int fullCurrent;
         private int fullTotal;
         private int fullSuccessful;
@@ -552,20 +546,21 @@ public class ShareFiles extends ActionBarActivity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            Intent intent = new Intent(e, ShareFiles.class);
+            Intent intent = new Intent(e, RemoteFiles.class);
             PendingIntent pIntent = PendingIntent.getActivity(e, 0, intent, 0);
-
-            mNotifyManager = (NotificationManager) e.getSystemService(Context.NOTIFICATION_SERVICE);
-            mBuilder = new NotificationCompat.Builder(e);
-            mBuilder.setContentIntent(pIntent)
-                    .setOngoing(true)
-                    .setSmallIcon(R.drawable.cloud_icon_notif);
-            mBuilder.setProgress(100, 0, false);
-            mNotifyManager.notify(notificationId, mBuilder.build());
 
             uploadCurrent++;
             fullCurrent = RemoteFiles.uploadCurrent + uploadCurrent;
             fullTotal = RemoteFiles.uploadTotal + uploadTotal;
+
+            mNotifyManager = (NotificationManager) e.getSystemService(Context.NOTIFICATION_SERVICE);
+            mBuilder = new NotificationCompat.Builder(e);
+            mBuilder.setContentIntent(pIntent)
+                    .setContentTitle("Uploading " + fullCurrent + " of " + fullTotal)
+                    .setOngoing(true)
+                    .setSmallIcon(R.drawable.cloud_icon_notif)
+                    .setProgress(100, 0, false);
+            mNotifyManager.notify(notificationId, mBuilder.build());
         }
 
         @Override
@@ -576,25 +571,29 @@ public class ShareFiles extends ActionBarActivity {
             String relative = ul_elem.get("relative");
             String target = ul_elem.get("target");
 
-            String url = server + "api/files.php";
-
-            simpledrive.lib.Upload myEntity = new simpledrive.lib.Upload(new ProgressListener()
-            {
+            Connection multipart = new Connection("files", new Connection.ProgressListener() {
                 @Override
-                public void transferred(Integer num)
-                {
+                public void transferred(Integer num) {
                     if(num % 5 == 0) {
                         publishProgress(num);
                     }
                 }
             });
-            return simpledrive.lib.Upload.upload(myEntity, url, filepath, relative, target, token);
+
+            multipart.addFormField("paths", relative);
+            multipart.addFormField("target", target);
+            multipart.addFormField("action", "upload");
+            multipart.addFilePart("0", new File(filepath));
+
+            return multipart.finish();
         }
 
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            mBuilder.setProgress(100, values[0], false).setContentTitle("Uploading " + fullCurrent + " of " + fullTotal).setContentText(filename);
+            mBuilder.setProgress(100, values[0], false)
+                    .setContentTitle("Uploading " + fullCurrent + " of " + fullTotal)
+                    .setContentText(filename);
             mNotifyManager.notify(notificationId, mBuilder.build());
         }
 
@@ -606,13 +605,15 @@ public class ShareFiles extends ActionBarActivity {
                 new Upload().execute();
             }
             else {
-                String file = (uploadTotal == 1) ? "file" : "files";
-                mBuilder.setContentTitle("Upload complete")
-                        .setContentText(fullSuccessful + " of " + fullTotal + " " + file + " added")
-                        .setOngoing(false)
-                        .setProgress(0, 0, false);
-                mNotifyManager.notify(notificationId, mBuilder.build());
-                uploading = false;
+                if(!RemoteFiles.uploading) {
+                    String file = (fullTotal == 1) ? "file" : "files";
+                    mBuilder.setContentTitle("Upload complete")
+                            .setContentText(fullSuccessful + " of " + fullTotal + " " + file + " added")
+                            .setOngoing(false)
+                            .setProgress(0, 0, false);
+                    mNotifyManager.notify(notificationId, mBuilder.build());
+                    uploading = false;
+                }
             }
         }
     }
@@ -707,7 +708,7 @@ public class ShareFiles extends ActionBarActivity {
 
     public void setView(String view) {
         globLayout = view;
-        settings.edit().putString("view", globLayout).commit();
+        settings.edit().putString("view", globLayout).apply();
 
         if(globLayout.equals("list")) {
             list = (ListView) findViewById(R.id.list);

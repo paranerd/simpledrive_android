@@ -19,9 +19,14 @@ import simpledrive.lib.Connection;
 
 public class Login extends Activity {
 
+    String username;
+    String password;
+    String server;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);              
 
@@ -34,9 +39,9 @@ public class Login extends Activity {
 
             @Override
             public void onClick(View arg0) {
-                String username = txtUsername.getText().toString().replaceAll("\\s+", "");
-                String password = txtPassword.getText().toString().replaceAll("\\s+", "");
-                String server = serverName.getText().toString().replaceAll("\\s+", "");
+                username = txtUsername.getText().toString().replaceAll("\\s+", "");
+                password = txtPassword.getText().toString().replaceAll("\\s+", "");
+                server = serverName.getText().toString().replaceAll("\\s+", "");
 
                 // Check if server, username, password is filled
                 if (server.length() == 0 || username.length() == 0 || password.length() == 0) {
@@ -44,13 +49,13 @@ public class Login extends Activity {
                 }
                 else {
                     if (server.length() > 3 && !server.substring(0, 4).matches("http")) {
-                        server = "http://" + server; //(new StringBuilder("http://")).append(server).toString();
+                        server = "http://" + server;
                     }
 
                     if (!server.substring(server.length() - 1).equals("/")) {
                         server += "/";
                     }
-                    new LoginTask().execute(username, password, server);
+                    new LoginTask().execute();
                 }
             }
         });
@@ -58,9 +63,6 @@ public class Login extends Activity {
 
     public class LoginTask extends AsyncTask<String, String, HashMap<String, String>> {
       	private ProgressDialog pDialog;
-        private String user;
-        private String pass;
-        private String server;
 
       	@Override
         protected void onPreExecute() {
@@ -70,22 +72,19 @@ public class Login extends Activity {
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
+
+            Connection.setServer(server);
         }
       	
       	@Override
         protected HashMap<String, String> doInBackground(String... login) {
-            user = login[0];
-            pass = login[1];
-            server = login[2];
+            Connection multipart = new Connection("core", null);
+            multipart.addFormField("action", "login");
+            multipart.addFormField("user", username);
+            multipart.addFormField("pass", password);
+            multipart.forceSetCookie();
 
-            String url = server + "api/core.php";
-
-            HashMap<String, String> data = new HashMap<>();
-            data.put("action", "login");
-            data.put("user", user);
-            data.put("pass", pass);
-
-            return Connection.call(url, data);
+            return multipart.finish();
         }
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
@@ -95,19 +94,22 @@ public class Login extends Activity {
                 Toast.makeText(Login.this, "Connection error", Toast.LENGTH_SHORT).show();
             }
             else if (value.get("status").equals("ok")) {
-                Account account = new Account(user, "org.simpledrive");
+                Account account = new Account(username, "org.simpledrive");
                 Bundle userdata = new Bundle();
                 userdata.putString("server", server);
                 userdata.putString("token", value.get("msg"));
+
+                Connection.setToken(value.get("msg"));
+
                 AccountManager am = AccountManager.get(Login.this);
                 Account aaccount[] = am.getAccounts();
 
                 for (Account anAaccount : aaccount) {
                     if (anAaccount.type.equals("org.simpledrive")) {
-                        am.removeAccount(new Account(anAaccount.name, anAaccount.type), null, null);
+                        am.removeAccount(new Account(anAaccount.name, anAaccount.type), null, null, null);
                     }
                 }
-                if(am.addAccountExplicitly(account, pass, userdata)) {
+                if(am.addAccountExplicitly(account, password, userdata)) {
                     Intent i = new Intent(getApplicationContext(), RemoteFiles.class);
                     startActivity(i);
                     finish();
