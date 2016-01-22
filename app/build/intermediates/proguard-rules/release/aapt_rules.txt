@@ -37,7 +37,7 @@
 # view res/layout/abc_screen_simple.xml #generated:17
 -keep class android.support.v7.internal.widget.FitWindowsLinearLayout { <init>(...); }
 
-# view v11\res/layout-v11/abc_screen_content_include.xml #generated:19
+# view v11/res/layout-v11/abc_screen_content_include.xml #generated:19
 -keep class android.support.v7.internal.widget.NativeActionModeAwareLayout { <init>(...); }
 
 # view res/layout/abc_action_mode_close_item_material.xml #generated:17

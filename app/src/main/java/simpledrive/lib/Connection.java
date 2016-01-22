@@ -247,7 +247,7 @@ public class Connection {
             }
             else {
                 status = "error";
-                msg = httpConn.getResponseMessage();
+                msg = (httpConn.getResponseCode() == 404) ? "Connection error" : httpConn.getResponseMessage();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -314,7 +314,7 @@ public class Connection {
         Account aaccount[] = am.getAccounts();
         for (Account anAaccount : aaccount) {
             if (anAaccount.type.equals("org.simpledrive")) {
-                am.removeAccount(new Account(anAaccount.name, anAaccount.type), null, null, null);
+                am.removeAccount(new Account(anAaccount.name, anAaccount.type), null, null);
             }
         }
     }
