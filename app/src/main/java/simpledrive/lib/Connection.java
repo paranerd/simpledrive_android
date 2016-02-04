@@ -59,14 +59,15 @@ public class Connection {
     /**
      * This constructor initializes a new HTTP POST request
      *
-     * @param api The api to connect to
+     * @param endpoint The endpoint to connect to
+     * @param action The action to execute
      */
-    public Connection(String api, final ProgressListener listener) {
+    public Connection(String endpoint, String action, final ProgressListener listener) {
         boundary = "===" + System.currentTimeMillis() + "===";
         this.listener = listener;
 
         try {
-            URL url = new URL(server + "api/" + api + ".php");
+            URL url = new URL(server + "api/" + endpoint + "/" + action);
             trustCertificate();
             httpConn = (server.startsWith("https")) ? (HttpsURLConnection) url.openConnection() : (HttpURLConnection) url.openConnection();
             httpConn.setUseCaches(false);

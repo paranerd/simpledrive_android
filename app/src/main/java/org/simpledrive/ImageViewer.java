@@ -187,9 +187,8 @@ public class ImageViewer extends ActionBarActivity {
         protected HashMap<String, String> doInBackground(String... info) {
             File thumb = new File(path);
 
-            Connection multipart = new Connection("files", null);
+            Connection multipart = new Connection("files", "img", null);
             multipart.addFormField("target", file);
-            multipart.addFormField("action", "img");
             multipart.addFormField("width", width + "");
             multipart.addFormField("height", height + "");
             multipart.addFormField("type", "img");

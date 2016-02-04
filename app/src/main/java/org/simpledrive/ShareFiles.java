@@ -194,9 +194,8 @@ public class ShareFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(String... args) {
-            Connection multipart = new Connection("files", null);
+            Connection multipart = new Connection("files", "list", null);
             multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).toString());
-            multipart.addFormField("action", "list");
             multipart.addFormField("mode", "files");
 
             return multipart.finish();
@@ -235,7 +234,7 @@ public class ShareFiles extends ActionBarActivity {
                 String type = obj.getString("type");
                 String size = (obj.getString("type").equals("folder")) ? "" : Helper.convertSize(obj.getString("size"));
                 String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : (!obj.getString("rootshare").equals("null") ? "shared" : "");
-                Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.drawable.folder_thumb);
+                Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder_dark);
 
                 if(type.equals("folder")) {
                     Item item = new Item(obj, filename, parent, null, size, obj.getString("edit"), type, owner, obj.getString("hash"), thumb);
@@ -415,8 +414,7 @@ public class ShareFiles extends ActionBarActivity {
 
             Connection.setServer(accMan.getUserData(sc[0], "server"));
 
-            Connection multipart = new Connection("core", null);
-            multipart.addFormField("action", "login");
+            Connection multipart = new Connection("core", "login", null);
             multipart.addFormField("user", username);
             multipart.addFormField("pass", accMan.getPassword(sc[0]));
             multipart.forceSetCookie();
@@ -469,9 +467,8 @@ public class ShareFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(String... pos) {
-            Connection multipart = new Connection("files", null);
+            Connection multipart = new Connection("files", "create", null);
             multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).toString());
-            multipart.addFormField("action", "create");
             multipart.addFormField("filename", pos[0]);
             multipart.addFormField("type", "folder");
 
@@ -571,7 +568,7 @@ public class ShareFiles extends ActionBarActivity {
             String relative = ul_elem.get("relative");
             String target = ul_elem.get("target");
 
-            Connection multipart = new Connection("files", new Connection.ProgressListener() {
+            Connection multipart = new Connection("files", "upload", new Connection.ProgressListener() {
                 @Override
                 public void transferred(Integer num) {
                     if(num % 5 == 0) {
@@ -582,7 +579,6 @@ public class ShareFiles extends ActionBarActivity {
 
             multipart.addFormField("paths", relative);
             multipart.addFormField("target", target);
-            multipart.addFormField("action", "upload");
             multipart.addFilePart("0", new File(filepath));
 
             return multipart.finish();

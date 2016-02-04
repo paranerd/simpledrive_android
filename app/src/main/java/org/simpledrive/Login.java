@@ -78,8 +78,7 @@ public class Login extends Activity {
       	
       	@Override
         protected HashMap<String, String> doInBackground(String... login) {
-            Connection multipart = new Connection("core", null);
-            multipart.addFormField("action", "login");
+            Connection multipart = new Connection("core", "login", null);
             multipart.addFormField("user", username);
             multipart.addFormField("pass", password);
             multipart.forceSetCookie();
