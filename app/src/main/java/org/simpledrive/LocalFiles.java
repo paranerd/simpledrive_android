@@ -263,7 +263,7 @@ public class LocalFiles extends ActionBarActivity {
                 if (file.isDirectory()) {
                     size = "";
                     type = "folder";
-                    thumb = BitmapFactory.decodeResource(getResources(), R.drawable.folder_thumb);
+                    thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder_dark);
                     directories.add(new Item(null, filename, null, path, size, null, type, null, null, thumb));
                 } else {
                     type = getMimeType(file);
@@ -272,10 +272,13 @@ public class LocalFiles extends ActionBarActivity {
                             thumb = null;
                             break;
                         case "audio":
-                            thumb = BitmapFactory.decodeResource(getResources(), R.drawable.audio_thumb);
+                            thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_audio);
+                            break;
+                        case "pdf":
+                            thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_pdf);
                             break;
                         default:
-                            thumb = BitmapFactory.decodeResource(getResources(), R.drawable.unknown_thumb);
+                            thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown);
                     }
                     size = Helper.convertSize(file.length() + "");
                     files.add(new Item(null, filename, null, path, size, null, type, null, null, thumb));
@@ -385,8 +388,8 @@ public class LocalFiles extends ActionBarActivity {
 
             holder.thumb.setImageBitmap(item.getThumb());
             if(item.is("image") && item.getThumb() == null) {
-                item.setThumb(BitmapFactory.decodeResource(getResources(), R.drawable.image_thumb));
-                holder.thumb.setImageResource(R.drawable.image_thumb);
+                item.setThumb(BitmapFactory.decodeResource(getResources(), R.drawable.ic_image));
+                holder.thumb.setImageResource(R.drawable.ic_image);
                 /*if(!called) {
                     called = true;
                     new LoadThumb().execute(position);

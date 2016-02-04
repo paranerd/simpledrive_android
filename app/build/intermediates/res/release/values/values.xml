@@ -1523,7 +1523,6 @@
     <public id="0x7f030003" name="activity_login" type="layout"/>
     <public id="0x7f060001" name="activity_vertical_margin" type="dimen"/>
     <public id="0x7f070000" name="app_name" type="string"/>
-    <public id="0x7f020003" name="audio_thumb" type="drawable"/>
     <public id="0x7f0a0000" name="audioimg" type="id"/>
     <public id="0x7f0a0001" name="audiopath" type="id"/>
     <public id="0x7f040000" name="authenticator" type="xml"/>
@@ -1539,8 +1538,6 @@
     <public id="0x7f020008" name="button_play" type="drawable"/>
     <public id="0x7f020021" name="checkbutton" type="drawable"/>
     <public id="0x7f02000b" name="cloud_appstore_2" type="drawable"/>
-    <public id="0x7f02000c" name="cloud_icon" type="drawable"/>
-    <public id="0x7f020010" name="cloud_icon_5" type="drawable"/>
     <public id="0x7f020011" name="cloud_icon_notif" type="drawable"/>
     <public id="0x7f020022" name="createbutton" type="drawable"/>
     <public id="0x7f020012" name="cross" type="drawable"/>
@@ -1549,7 +1546,6 @@
     <public id="0x7f0a000f" name="empty_list_item" type="id"/>
     <public id="0x7f0a000a" name="fd_Icon1" type="id"/>
     <public id="0x7f0a0003" name="fmlist" type="id"/>
-    <public id="0x7f020014" name="folder_thumb" type="drawable"/>
     <public id="0x7f050001" name="green" type="color"/>
     <public id="0x7f050002" name="grey" type="color"/>
     <public id="0x7f070002" name="hello_world" type="string"/>
@@ -1557,7 +1553,6 @@
     <public id="0x7f020015" name="ic_launcher" type="drawable"/>
     <public id="0x7f0a0012" name="icon" type="id"/>
     <public id="0x7f0a0004" name="image" type="id"/>
-    <public id="0x7f020016" name="image_thumb" type="drawable"/>
     <public id="0x7f0a0010" name="innerlayout" type="id"/>
     <public id="0x7f0a000e" name="list" type="id"/>
     <public id="0x7f0a001e" name="local_empty_list_item" type="id"/>
@@ -1578,7 +1573,6 @@
     <public id="0x7f0a0009" name="pager" type="id"/>
     <public id="0x7f020019" name="pause_icon" type="drawable"/>
     <public id="0x7f02001a" name="pause_icon_backup" type="drawable"/>
-    <public id="0x7f02001b" name="pdf_thumb" type="drawable"/>
     <public id="0x7f02001c" name="play_icon" type="drawable"/>
     <public id="0x7f02001d" name="play_icon_backup" type="drawable"/>
     <public id="0x7f0a0002" name="playbutton" type="id"/>
@@ -1589,7 +1583,6 @@
     <public id="0x7f0a0007" name="txtPassword" type="id"/>
     <public id="0x7f0a0005" name="txtServer" type="id"/>
     <public id="0x7f0a0006" name="txtUsername" type="id"/>
-    <public id="0x7f020020" name="unknown_thumb" type="drawable"/>
     <public id="0x7f070005" name="upload" type="string"/>
     <public id="0x7f020024" name="uploadbutton" type="drawable"/>
 </resources>

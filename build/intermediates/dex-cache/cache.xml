@@ -2,39 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/home/paranerd/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/b1b6ea3b7e4aa4f492509a4952029cd8e48019ad/commons-io-2.4.jar"
-        jumboMode="false"
-        revision="22.0.0"
-        sha1="b1b6ea3b7e4aa4f492509a4952029cd8e48019ad">
-        <dex dex="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/pre-dexed/debug/commons-io-2.4-fc8f9d81cd4f15a00154e5d905850567477caca7.jar" />
-    </item>
-    <item
         jar="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar"
         jumboMode="false"
         revision="22.0.0"
         sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
         <dex dex="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.1-03f9b3c7ba118a487716ab9ef62a1fd2ef0c53a3.jar" />
-    </item>
-    <item
-        jar="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.0"
-        sha1="d84409890828e07d344a3b9b1da545dba9897b51">
-        <dex dex="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/pre-dexed/debug/classes-65d31d23e60d0eb6547c273191326bf38e8a8066.jar" />
-    </item>
-    <item
-        jar="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.0"
-        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
-        <dex dex="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/pre-dexed/debug/classes-40b49b254b56ba11273241d804bb6df8f05456ac.jar" />
-    </item>
-    <item
-        jar="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/exploded-aar/de.hdodenhof/circleimageview/1.2.1/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.0"
-        sha1="4b868b833b0887aa48c4e581558eef4f1196f6a2">
-        <dex dex="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/pre-dexed/debug/classes-58f9f2e748bc0ed2becbe6f03f097993f390760b.jar" />
     </item>
     <item
         jar="/home/paranerd/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar"
@@ -44,11 +16,39 @@
         <dex dex="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.1-3538e58a879d598f2a52123c26c16fe738af734b.jar" />
     </item>
     <item
+        jar="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.0"
+        sha1="d84409890828e07d344a3b9b1da545dba9897b51">
+        <dex dex="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/pre-dexed/debug/classes-65d31d23e60d0eb6547c273191326bf38e8a8066.jar" />
+    </item>
+    <item
         jar="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.1/jars/classes.jar"
         jumboMode="false"
         revision="22.0.0"
         sha1="09c5e804bc67fc0580360043dff067df574a60d4">
         <dex dex="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/pre-dexed/debug/classes-a97b4993ea8894bb1618d0a922bd4b8cfa313243.jar" />
+    </item>
+    <item
+        jar="/home/paranerd/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/b1b6ea3b7e4aa4f492509a4952029cd8e48019ad/commons-io-2.4.jar"
+        jumboMode="false"
+        revision="22.0.0"
+        sha1="b1b6ea3b7e4aa4f492509a4952029cd8e48019ad">
+        <dex dex="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/pre-dexed/debug/commons-io-2.4-fc8f9d81cd4f15a00154e5d905850567477caca7.jar" />
+    </item>
+    <item
+        jar="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/exploded-aar/de.hdodenhof/circleimageview/1.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.0"
+        sha1="4b868b833b0887aa48c4e581558eef4f1196f6a2">
+        <dex dex="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/pre-dexed/debug/classes-58f9f2e748bc0ed2becbe6f03f097993f390760b.jar" />
+    </item>
+    <item
+        jar="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.0"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/pre-dexed/debug/classes-40b49b254b56ba11273241d804bb6df8f05456ac.jar" />
     </item>
 
 </items>

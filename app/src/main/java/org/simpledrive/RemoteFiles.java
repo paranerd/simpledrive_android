@@ -157,11 +157,8 @@ public class RemoteFiles extends ActionBarActivity {
     	
     	@Override
         protected HashMap<String, String> doInBackground(String... args) {
-    		String url = "files"; // server + "api/files.php";
-
-            Connection multipart = new Connection(url, null);
+            Connection multipart = new Connection("files", "list", null);
             multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).toString());
-            multipart.addFormField("action", "list");
             multipart.addFormField("mode", mode);
 
             return multipart.finish();
@@ -217,13 +214,13 @@ public class RemoteFiles extends ActionBarActivity {
 
                 switch (type) {
                     case "folder":
-                        thumb = BitmapFactory.decodeResource(getResources(), R.drawable.folder_thumb);
+                        thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder_dark);
                         break;
                     case "audio":
-                        thumb = BitmapFactory.decodeResource(getResources(), R.drawable.audio_thumb);
+                        thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_audio);
                         break;
                     case "pdf":
-                        thumb = BitmapFactory.decodeResource(getResources(), R.drawable.pdf_thumb);
+                        thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_pdf);
                         break;
                     case "image":
                         String imgPath = tmpFolder + Helper.md5(parent + filename) + ".jpg";
@@ -238,7 +235,7 @@ public class RemoteFiles extends ActionBarActivity {
                         }
                         break;
                     default:
-                        thumb = BitmapFactory.decodeResource(getResources(), R.drawable.unknown_thumb);
+                        thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown);
                         break;
                 }
 
@@ -392,8 +389,8 @@ public class RemoteFiles extends ActionBarActivity {
             holder.thumb.setImageBitmap(item.getThumb());
 
             if(item.is("image") && item.getThumb() == null) {
-                item.setThumb(BitmapFactory.decodeResource(getResources(), R.drawable.image_thumb));
-                holder.thumb.setImageResource(R.drawable.image_thumb);
+                item.setThumb(BitmapFactory.decodeResource(getResources(), R.drawable.ic_image));
+                holder.thumb.setImageResource(R.drawable.ic_image);
                 String thumbPath = (globLayout.equals("list")) ? tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + "_list.jpg" : tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + "_grid.jpg";
                 item.setThumbPath(thumbPath);
 
@@ -467,21 +464,18 @@ public class RemoteFiles extends ActionBarActivity {
 
             size = (globLayout.equals("list")) ? Helper.dpToPx(100) + "" : Integer.toString(displaymetrics.widthPixels / 2);
             String file = item.getJSON().toString();
-            String filename = item.getFilename();
             filepath = item.getThumbPath();
 
             File thumb = new File(filepath);
 
-            Connection multipart = new Connection("files", null);
+            Connection multipart = new Connection("files", "img", null);
 
             multipart.addFormField("target", file);
-            multipart.addFormField("action", "img");
             multipart.addFormField("width", size);
             multipart.addFormField("height", size);
             multipart.addFormField("type", "thumb");
             multipart.setDownloadPath(thumb.getParent(), thumb.getName());
             return multipart.finish();
-            //return multipart.download(thumb.getParent(), thumb.getName());
         }
 
         @Override
@@ -613,9 +607,8 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(Integer... info) {
-            Connection multipart = new Connection("files", null);
+            Connection multipart = new Connection("files", "cache", null);
             multipart.addFormField("target", items.get(info[0]).getJSON().toString());
-            multipart.addFormField("action", "cache");
             multipart.addFormField("type", "mobile_audio");
             multipart.addFormField("filename", audioFilename);
 
@@ -657,8 +650,7 @@ public class RemoteFiles extends ActionBarActivity {
             username = sc[0].name;
             Connection.setServer(accMan.getUserData(sc[0], "server"));
 
-            Connection multipart = new Connection("core", null);
-            multipart.addFormField("action", "login");
+            Connection multipart = new Connection("core", "login", null);
             multipart.addFormField("user", username);
             multipart.addFormField("pass", accMan.getPassword(sc[0]));
             multipart.forceSetCookie();
@@ -832,9 +824,8 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(String... pos) {
-            Connection multipart = new Connection("files", null);
+            Connection multipart = new Connection("files", "create", null);
             multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).toString());
-            multipart.addFormField("action", "create");
             multipart.addFormField("filename", pos[0]);
             multipart.addFormField("type", "folder");
 
@@ -933,9 +924,8 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(String... names) {
-            Connection multipart = new Connection("files", null);
+            Connection multipart = new Connection("files", "create", null);
             multipart.addFormField("target", getSelected().toString());
-            multipart.addFormField("action", "create");
             multipart.addFormField("newFilename", names[0]);
 
             return multipart.finish();
@@ -979,14 +969,13 @@ public class RemoteFiles extends ActionBarActivity {
         protected HashMap<String, String> doInBackground(String... names) {
             String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
 
-            Connection multipart = new Connection("files", new Connection.ProgressListener() {
+            Connection multipart = new Connection("files", "download", new Connection.ProgressListener() {
                 @Override
                 public void transferred(Integer num) {
                     publishProgress(num);
                 }
             });
 
-            multipart.addFormField("action", "download");
             multipart.addFormField("target", getSelectedElem().toString());
             multipart.setDownloadPath(path, null);
             return multipart.finish();
@@ -1029,9 +1018,8 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
            protected HashMap<String, String> doInBackground(Integer... pos) {
-            Connection multipart = new Connection("files", null);
+            Connection multipart = new Connection("files", "delete", null);
             multipart.addFormField("target", getSelectedElem().toString());
-            multipart.addFormField("action", "delete");
             multipart.addFormField("final", Boolean.toString(mode.equals("trash")));
 
             return multipart.finish();
@@ -1067,9 +1055,8 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(Void... params) {
-            Connection multipart = new Connection("files", null);
+            Connection multipart = new Connection("files", "share", null);
             multipart.addFormField("target", getSelectedElem().toString());
-            multipart.addFormField("action", "share");
             multipart.addFormField("mail", "");
             multipart.addFormField("key", "");
             multipart.addFormField("userto", shareUser);
@@ -1123,9 +1110,8 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(Integer... pos) {
-            Connection multipart = new Connection("files", null);
+            Connection multipart = new Connection("files", "unshare", null);
             multipart.addFormField("target", getSelected().toString());
-            multipart.addFormField("action", "unshare");
 
             return multipart.finish();
         }
@@ -1150,9 +1136,8 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(Integer... pos) {
-            Connection multipart = new Connection("files", null);
+            Connection multipart = new Connection("files", "zip", null);
             multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).toString());
-            multipart.addFormField("action", "zip");
             multipart.addFormField("source", getSelectedElem().toString());
 
             return multipart.finish();
@@ -1178,9 +1163,8 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(Integer... pos) {
-            Connection multipart = new Connection("files", null);
+            Connection multipart = new Connection("files", "move", null);
             multipart.addFormField("target", hierarchy.get(0).toString());
-            multipart.addFormField("action", "move");
             multipart.addFormField("trash", "true");
             multipart.addFormField("source", getSelectedElem().toString());
 
@@ -1236,7 +1220,7 @@ public class RemoteFiles extends ActionBarActivity {
             String relative = ul_elem.get("relative");
             String target = ul_elem.get("target");
 
-            Connection multipart = new Connection("files", new Connection.ProgressListener() {
+            Connection multipart = new Connection("files", "upload", new Connection.ProgressListener() {
                 @Override
                 public void transferred(Integer num) {
                     if(num % 5 == 0) {
@@ -1247,7 +1231,6 @@ public class RemoteFiles extends ActionBarActivity {
 
             multipart.addFormField("paths", relative);
             multipart.addFormField("target", target);
-            multipart.addFormField("action", "upload");
             multipart.addFilePart("0", new File(filepath));
 
             return multipart.finish();
