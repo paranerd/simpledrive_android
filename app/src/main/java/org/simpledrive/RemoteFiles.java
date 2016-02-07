@@ -924,7 +924,7 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(String... names) {
-            Connection multipart = new Connection("files", "create", null);
+            Connection multipart = new Connection("files", "rename", null);
             multipart.addFormField("target", getSelected().toString());
             multipart.addFormField("newFilename", names[0]);
 
