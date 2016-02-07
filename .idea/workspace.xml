@@ -10,268 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f76600b6-727c-43a2-99c2-b938b088f43b" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable/audio_icon2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable/audio_thumb.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable/cloud_icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable/cloud_icon_5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable/folder_thumb.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable/image_thumb.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable/pdf_thumb.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable/unknown_thumb.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable/audio_icon2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable/audio_thumb.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable/cloud_icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable/cloud_icon_5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable/folder_thumb.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable/image_thumb.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable/pdf_thumb.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable/unknown_thumb.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/image_one-web.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/audio_icon2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/audio_thumb.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/cloud_icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/cloud_icon_5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/folder_thumb.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/image_thumb.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/pdf_thumb.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/unknown_thumb.png" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/simpledrive/lib/AudioService.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/simpledrive/lib/AudioService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/simpledrive/lib/AudioService.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/simpledrive/lib/AudioService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/BuildConfig.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/BuildConfig.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/simpledrive/lib/Connection$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/simpledrive/lib/Connection$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/simpledrive/lib/Connection$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/simpledrive/lib/Connection$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/simpledrive/lib/Connection$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/simpledrive/lib/Connection$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/simpledrive/lib/Connection$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/simpledrive/lib/Connection$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/simpledrive/lib/Connection.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/simpledrive/lib/Connection.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/simpledrive/lib/Connection.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/simpledrive/lib/Connection.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ImageViewer$LoadImage.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ImageViewer$LoadImage.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ImageViewer$LoadImage.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ImageViewer$LoadImage.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ImageViewer$TouchImageAdapter.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ImageViewer$TouchImageAdapter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ImageViewer$TouchImageAdapter.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ImageViewer$TouchImageAdapter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ImageViewer.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ImageViewer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ImageViewer.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ImageViewer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/LocalFiles$ListContent.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/LocalFiles$ListContent.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/LocalFiles$ListContent.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/LocalFiles$ListContent.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/LocalFiles$LoadThumb.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/LocalFiles$LoadThumb.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/LocalFiles$LoadThumb.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/LocalFiles$LoadThumb.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/LocalFiles$NewFileAdapter$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/LocalFiles$NewFileAdapter$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/LocalFiles$NewFileAdapter$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/LocalFiles$NewFileAdapter$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/LocalFiles$NewFileAdapter$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/LocalFiles$NewFileAdapter$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/LocalFiles$NewFileAdapter$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/LocalFiles$NewFileAdapter$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/LocalFiles$NewFileAdapter$ViewHolder.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/LocalFiles$NewFileAdapter$ViewHolder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/LocalFiles$NewFileAdapter$ViewHolder.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/LocalFiles$NewFileAdapter$ViewHolder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/LocalFiles$NewFileAdapter.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/LocalFiles$NewFileAdapter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/LocalFiles$NewFileAdapter.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/LocalFiles$NewFileAdapter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/LocalFiles.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/LocalFiles.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/LocalFiles.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/LocalFiles.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/Login$LoginTask.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/Login$LoginTask.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/Login$LoginTask.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/Login$LoginTask.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/android/support/v7/appcompat/R$drawable.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/android/support/v7/appcompat/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$drawable.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/android/support/v7/appcompat/R$drawable.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/android/support/v7/appcompat/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R$drawable.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$id.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$id.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R$id.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R$id.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$integer.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$integer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R$integer.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R$integer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$layout.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$layout.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R$layout.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R$layout.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$menu.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$menu.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R$menu.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R$menu.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$mipmap.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$mipmap.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R$mipmap.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R$mipmap.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$string.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$string.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R$string.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R$string.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$style.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$style.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R$style.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R$style.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$styleable.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$styleable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R$styleable.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R$styleable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$xml.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$xml.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R$xml.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R$xml.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/R.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$10.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$10.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$10.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$10.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$11.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$11.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$11.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$11.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$12.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$12.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$12.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$12.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$13.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$13.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$13.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$13.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$14.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$14.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$14.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$14.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$15.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$15.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$15.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$15.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$16.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$16.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$16.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$16.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$17.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$17.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$17.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$17.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$18.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$18.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$18.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$18.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$3.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$3.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$4.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$4.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$5.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$5.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$6.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$6.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$7.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$7.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$7.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$7.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$8.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$8.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$8.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$8.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$9.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$9.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$9.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$9.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Connect.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Connect.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Connect.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Connect.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Delete.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Delete.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Delete.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Delete.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Download$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Download$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Download$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Download$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Download.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Download.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Download.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Download.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$GetLink.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$GetLink.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$GetLink.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$GetLink.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$ListContent.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$ListContent.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$ListContent.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$ListContent.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$LoadThumb.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$LoadThumb.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$LoadThumb.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$LoadThumb.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$NewFile.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$NewFile.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$NewFile.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$NewFile.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$NewFileAdapter$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$NewFileAdapter$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$NewFileAdapter$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$NewFileAdapter$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$NewFileAdapter$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$NewFileAdapter$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$NewFileAdapter$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$NewFileAdapter$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$NewFileAdapter$ViewHolder.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$NewFileAdapter$ViewHolder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$NewFileAdapter$ViewHolder.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$NewFileAdapter$ViewHolder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$NewFileAdapter.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$NewFileAdapter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$NewFileAdapter.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$NewFileAdapter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Rename.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Rename.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Rename.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Rename.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Restore.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Restore.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Restore.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Restore.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Share$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Share$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Share$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Share$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Share$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Share$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Share$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Share$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Share.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Share.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Share.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Share.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Unshare.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Unshare.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Unshare.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Unshare.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Upload$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Upload$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Upload$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Upload$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Upload.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Upload.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Upload.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Upload.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Zip.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles$Zip.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Zip.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles$Zip.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/RemoteFiles.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/RemoteFiles.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$6.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$6.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$7.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$7.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$7.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$7.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$8.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$8.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$8.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$8.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$9.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$9.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$9.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$9.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$Connect.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$Connect.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$Connect.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$Connect.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$ListContent.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$ListContent.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$ListContent.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$ListContent.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$NewFile.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$NewFile.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$NewFile.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$NewFile.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$NewFileAdapter$ViewHolder.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$NewFileAdapter$ViewHolder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$NewFileAdapter$ViewHolder.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$NewFileAdapter$ViewHolder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$NewFileAdapter.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$NewFileAdapter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$NewFileAdapter.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$NewFileAdapter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$Upload$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$Upload$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$Upload$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$Upload$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$Upload.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles$Upload.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$Upload.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles$Upload.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/ShareFiles.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/release/org/simpledrive/ShareFiles.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/outputs/apk/app-debug-unaligned.apk" afterPath="$PROJECT_DIR$/app/build/outputs/apk/app-debug-unaligned.apk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/outputs/apk/app-debug.apk" afterPath="$PROJECT_DIR$/app/build/outputs/apk/app-debug.apk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/outputs/apk/app-release-unaligned.apk" afterPath="$PROJECT_DIR$/app/build/outputs/apk/app-release-unaligned.apk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app-release.apk" afterPath="$PROJECT_DIR$/app/app-release.apk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/cache.properties.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/pre-dexed/debug/classes-40b49b254b56ba11273241d804bb6df8f05456ac.jar" afterPath="$PROJECT_DIR$/app/build/intermediates/pre-dexed/debug/classes-40b49b254b56ba11273241d804bb6df8f05456ac.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/pre-dexed/debug/classes-58f9f2e748bc0ed2becbe6f03f097993f390760b.jar" afterPath="$PROJECT_DIR$/app/build/intermediates/pre-dexed/debug/classes-58f9f2e748bc0ed2becbe6f03f097993f390760b.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/pre-dexed/debug/classes-65d31d23e60d0eb6547c273191326bf38e8a8066.jar" afterPath="$PROJECT_DIR$/app/build/intermediates/pre-dexed/debug/classes-65d31d23e60d0eb6547c273191326bf38e8a8066.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/pre-dexed/debug/classes-a97b4993ea8894bb1618d0a922bd4b8cfa313243.jar" afterPath="$PROJECT_DIR$/app/build/intermediates/pre-dexed/debug/classes-a97b4993ea8894bb1618d0a922bd4b8cfa313243.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/dex/debug/classes.dex" afterPath="$PROJECT_DIR$/app/build/intermediates/dex/debug/classes.dex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/dex/release/classes.dex" afterPath="$PROJECT_DIR$/app/build/intermediates/dex/release/classes.dex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes-proguard/release/classes.jar" afterPath="$PROJECT_DIR$/app/build/intermediates/classes-proguard/release/classes.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/pre-dexed/debug/commons-io-2.4-fc8f9d81cd4f15a00154e5d905850567477caca7.jar" afterPath="$PROJECT_DIR$/app/build/intermediates/pre-dexed/debug/commons-io-2.4-fc8f9d81cd4f15a00154e5d905850567477caca7.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable-hdpi/ic_folder_dark.png" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable-hdpi/ic_folder_dark.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable-ldpi/ic_folder_dark.png" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable-ldpi/ic_folder_dark.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable-mdpi/ic_folder_dark.png" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable-mdpi/ic_folder_dark.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable-xhdpi/ic_folder_dark.png" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable-xhdpi/ic_folder_dark.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable-xxhdpi/ic_folder_dark.png" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable-xxhdpi/ic_folder_dark.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable-hdpi/ic_folder_dark.png" afterPath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable-hdpi/ic_folder_dark.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable-ldpi/ic_folder_dark.png" afterPath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable-ldpi/ic_folder_dark.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable-mdpi/ic_folder_dark.png" afterPath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable-mdpi/ic_folder_dark.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable-xhdpi/ic_folder_dark.png" afterPath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable-xhdpi/ic_folder_dark.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable-xxhdpi/ic_folder_dark.png" afterPath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable-xxhdpi/ic_folder_dark.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/ic_folder_dark.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/ic_folder_dark.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-ldpi/ic_folder_dark.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-ldpi/ic_folder_dark.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/ic_folder_dark.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/ic_folder_dark.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/ic_folder_dark.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/ic_folder_dark.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/ic_folder_dark.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/ic_folder_dark.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable-hdpi/ic_image.png" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable-hdpi/ic_image.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable-mdpi/ic_image.png" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable-mdpi/ic_image.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable-xhdpi/ic_image.png" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable-xhdpi/ic_image.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable-xxhdpi/ic_image.png" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable-xxhdpi/ic_image.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable-hdpi/ic_image.png" afterPath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable-hdpi/ic_image.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable-mdpi/ic_image.png" afterPath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable-mdpi/ic_image.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable-xhdpi/ic_image.png" afterPath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable-xhdpi/ic_image.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable-xxhdpi/ic_image.png" afterPath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable-xxhdpi/ic_image.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/ic_image.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/ic_image.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/ic_image.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/ic_image.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/ic_image.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/ic_image.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/ic_image.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/ic_image.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.1-03f9b3c7ba118a487716ab9ef62a1fd2ef0c53a3.jar" afterPath="$PROJECT_DIR$/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.1-03f9b3c7ba118a487716ab9ef62a1fd2ef0c53a3.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/outputFileStates.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/resources/resources-debug-androidTest.ap_" afterPath="$PROJECT_DIR$/app/build/intermediates/resources/resources-debug-androidTest.ap_" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/resources/resources-debug.ap_" afterPath="$PROJECT_DIR$/app/build/intermediates/resources/resources-debug.ap_" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/resources/resources-release.ap_" afterPath="$PROJECT_DIR$/app/build/intermediates/resources/resources-release.ap_" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable/simpledrive_logo.png" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/drawable/simpledrive_logo.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable/simpledrive_logo.png" afterPath="$PROJECT_DIR$/app/build/intermediates/res/release/drawable/simpledrive_logo.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/simpledrive_logo.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/simpledrive_logo.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.1-3538e58a879d598f2a52123c26c16fe738af734b.jar" afterPath="$PROJECT_DIR$/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.1-3538e58a879d598f2a52123c26c16fe738af734b.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/manifests/full/debug/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/manifests/full/debug/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/manifests/full/release/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/manifests/full/release/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/generated/source/buildConfig/release/org/simpledrive/BuildConfig.java" afterPath="$PROJECT_DIR$/app/build/generated/source/buildConfig/release/org/simpledrive/BuildConfig.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/simpledrive/lib/Connection.java" afterPath="$PROJECT_DIR$/app/src/main/java/simpledrive/lib/Connection.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/ImageViewer.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/ImageViewer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/LocalFiles.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/LocalFiles.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/Login.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/Login.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/generated/source/r/debug/android/support/v7/appcompat/R.java" afterPath="$PROJECT_DIR$/app/build/generated/source/r/debug/android/support/v7/appcompat/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/generated/source/r/debug/org/simpledrive/R.java" afterPath="$PROJECT_DIR$/app/build/generated/source/r/debug/org/simpledrive/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/generated/source/r/release/android/support/v7/appcompat/R.java" afterPath="$PROJECT_DIR$/app/build/generated/source/r/release/android/support/v7/appcompat/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/generated/source/r/release/org/simpledrive/R.java" afterPath="$PROJECT_DIR$/app/build/generated/source/r/release/org/simpledrive/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/symbols/debug/R.txt" afterPath="$PROJECT_DIR$/app/build/intermediates/symbols/debug/R.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/symbols/release/R.txt" afterPath="$PROJECT_DIR$/app/build/intermediates/symbols/release/R.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/RemoteFiles.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/RemoteFiles.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/ShareFiles.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/ShareFiles.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/outputs/mapping/release/dump.txt" afterPath="$PROJECT_DIR$/app/build/outputs/mapping/release/dump.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/outputs/lint-results-release-fatal.html" afterPath="$PROJECT_DIR$/app/build/outputs/lint-results-release-fatal.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeResources/debug/merger.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeResources/debug/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeResources/release/merger.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeResources/release/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/public.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/public.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/outputs/mapping/release/seeds.txt" afterPath="$PROJECT_DIR$/app/build/outputs/mapping/release/seeds.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout/toolbar.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/layout/toolbar.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/release/layout/toolbar.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/release/layout/toolbar.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/toolbar.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/toolbar.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/values/values.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/values/values.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/release/values/values.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/release/values/values.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="simpledrive_android.iws" />
@@ -302,11 +41,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="RemoteFiles.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RemoteFiles.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/RemoteFiles.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="488" column="31" selection-start-line="488" selection-start-column="31" selection-end-line="488" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.3554817">
+              <caret line="826" column="67" selection-start-line="826" selection-start-column="60" selection-end-line="826" selection-end-column="67" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -314,10 +53,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.093023255">
+            <state vertical-scroll-proportion="0.0">
               <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
               <folding />
             </state>
@@ -1808,8 +1547,8 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/public.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/toolbar.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/LocalFiles.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/RemoteFiles.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/RemoteFiles.java" />
       </list>
     </option>
   </component>
@@ -1969,6 +1708,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="ProjectPane" />
+      <pane id="Scratches" />
       <pane id="Scope">
         <subPane subId="Project Files">
           <PATH>
@@ -1989,8 +1730,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="ProjectPane" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2159,7 +1898,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="24" width="1920" height="1056" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -2168,7 +1907,6 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -2182,13 +1920,14 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18036287" sideWeight="0.5" order="5" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
     </layout>
@@ -2197,11 +1936,11 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18036287" sideWeight="0.5" order="5" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="combo" />
@@ -2219,8 +1958,8 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -2598,14 +2337,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/toolbar.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-9.4838705">
           <caret line="14" column="46" selection-start-line="14" selection-start-column="46" selection-end-line="14" selection-end-column="46" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/LocalFiles.java">
@@ -2615,21 +2354,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/RemoteFiles.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="488" column="31" selection-start-line="488" selection-start-column="31" selection-end-line="488" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/RemoteFiles.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.093023255">
-          <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
-          <folding />
+        <state vertical-scroll-proportion="0.3554817">
+          <caret line="826" column="67" selection-start-line="826" selection-start-column="60" selection-end-line="826" selection-end-column="67" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
