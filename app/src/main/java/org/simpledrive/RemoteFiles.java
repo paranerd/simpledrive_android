@@ -106,7 +106,6 @@ public class RemoteFiles extends ActionBarActivity {
     private ArrayList<HashMap<String, String>> uploadQueue = new ArrayList<>();
 
     // View elements
-    private static Typeface myTypeface;
     private static AbsListView list;
     private static String globLayout;
     private TextView empty;
@@ -335,9 +334,6 @@ public class RemoteFiles extends ActionBarActivity {
                 holder = (ViewHolder) convertView.getTag();
                 convertView.setBackgroundResource(R.drawable.bkg_light);
             }
-
-            holder.name.setTypeface(myTypeface);
-            holder.size.setTypeface(myTypeface);
 
             holder.name.setText(item.getFilename());
             holder.size.setText(item.getSize());
@@ -1383,9 +1379,7 @@ public class RemoteFiles extends ActionBarActivity {
             }*/
         }
 
-        myTypeface = Typeface.createFromAsset(getAssets(), "fonts/robotolight.ttf");
         empty = (TextView) findViewById(R.id.empty_list_item);
-        empty.setTypeface(myTypeface);
 
         Intent intent = new Intent();
         intent.setClass(this, AudioService.class);
