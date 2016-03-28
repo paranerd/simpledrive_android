@@ -1534,13 +1534,9 @@
     <public id="0x7f020005" name="bkg_light" type="drawable"/>
     <public id="0x7f050003" name="brightgrey" type="color"/>
     <public id="0x7f0a0008" name="btnLogin" type="id"/>
-    <public id="0x7f020006" name="button_pause" type="drawable"/>
-    <public id="0x7f020008" name="button_play" type="drawable"/>
     <public id="0x7f020021" name="checkbutton" type="drawable"/>
-    <public id="0x7f02000b" name="cloud_appstore_2" type="drawable"/>
     <public id="0x7f020011" name="cloud_icon_notif" type="drawable"/>
     <public id="0x7f020022" name="createbutton" type="drawable"/>
-    <public id="0x7f020012" name="cross" type="drawable"/>
     <public id="0x7f050004" name="darkgreen" type="color"/>
     <public id="0x7f050005" name="darkwhite" type="color"/>
     <public id="0x7f0a000f" name="empty_list_item" type="id"/>

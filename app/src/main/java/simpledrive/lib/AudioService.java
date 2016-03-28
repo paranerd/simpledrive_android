@@ -203,7 +203,7 @@ public class AudioService extends Service implements OnCompletionListener, OnPre
         mBuilder.setContent(remoteView)
         	.setContentIntent(pIntent)
         	.setOngoing(false)
-        	.setSmallIcon(R.drawable.button_play);
+        	.setSmallIcon(R.drawable.play_icon);
 
         Notification noti = mBuilder.build();
 

@@ -2,11 +2,7 @@
 <resources>
     <public type="drawable" name="bkg_dark" id="0x7f020004" />
     <public type="drawable" name="bkg_light" id="0x7f020005" />
-    <public type="drawable" name="button_pause" id="0x7f020006" />
-    <public type="drawable" name="button_play" id="0x7f020008" />
-    <public type="drawable" name="cloud_appstore_2" id="0x7f02000b" />
     <public type="drawable" name="cloud_icon_notif" id="0x7f020011" />
-    <public type="drawable" name="cross" id="0x7f020012" />
     <public type="drawable" name="normal_dark" id="0x7f020017" />
     <public type="drawable" name="normal_light" id="0x7f020018" />
     <public type="drawable" name="pressed" id="0x7f02001e" />
