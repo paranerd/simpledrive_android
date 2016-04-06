@@ -267,9 +267,9 @@ public class RemoteFiles extends ActionBarActivity {
             }
 
             if(toolbar != null) {
-                SpannableString s = new SpannableString(title);
-                s.setSpan(new TypefaceSpan("fonts/robotolight.ttf"), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                toolbar.setTitle(s);
+                //SpannableString s = new SpannableString(title);
+                //s.setSpan(new TypefaceSpan("fonts/robotolight.ttf"), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                toolbar.setTitle(title);
                 toolbar.setSubtitle("Folders: " + firstFilePos + ", Files: " + (items.size() - firstFilePos));
             }
         } catch (JSONException exp) {

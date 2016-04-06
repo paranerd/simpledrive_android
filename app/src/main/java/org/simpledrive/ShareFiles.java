@@ -74,7 +74,6 @@ public class ShareFiles extends ActionBarActivity {
     private int sortOrder = 1;
 
     // View elements
-    private static Typeface myTypeface;
     private static AbsListView list;
     private TextView empty;
     private static String globLayout;
@@ -97,9 +96,7 @@ public class ShareFiles extends ActionBarActivity {
 
         setContentView(R.layout.activity_sharefiles);
 
-        myTypeface = Typeface.createFromAsset(getAssets(), "fonts/robotolight.ttf");
         empty = (TextView) findViewById(R.id.empty_list_item);
-        empty.setTypeface(myTypeface);
 
         uploadsPending = getUploads(getIntent());
 
@@ -253,9 +250,7 @@ public class ShareFiles extends ActionBarActivity {
             }
 
             if(toolbar != null) {
-                SpannableString s = new SpannableString(title);
-                s.setSpan(new TypefaceSpan("fonts/robotolight.ttf"), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                toolbar.setTitle(s);
+                toolbar.setTitle(title);
                 toolbar.setSubtitle("Folders: " + items.size());
             }
         } catch (JSONException e) {
@@ -319,9 +314,6 @@ public class ShareFiles extends ActionBarActivity {
                 holder = (ViewHolder) convertView.getTag();
                 convertView.setBackgroundResource(R.drawable.bkg_light);
             }
-
-            holder.name.setTypeface(myTypeface);
-            holder.size.setTypeface(myTypeface);
 
             holder.name.setText(item.getFilename());
             holder.size.setText(item.getSize());
