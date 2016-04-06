@@ -54,7 +54,6 @@ public class LocalFiles extends ActionBarActivity {
     private boolean longClicked = false;
     private TextView empty;
     private static ListView list;
-    private static Typeface myTypeface;
     private Toolbar toolbar;
 
 
@@ -70,9 +69,7 @@ public class LocalFiles extends ActionBarActivity {
 
         registerForContextMenu(list);
 
-        myTypeface = Typeface.createFromAsset(getAssets(), "fonts/robotolight.ttf");
         empty = (TextView) findViewById(R.id.local_empty_list_item);
-        empty.setTypeface(myTypeface);
 
         hierarchy.add(Environment.getExternalStorageDirectory() + "/");
 
@@ -303,9 +300,9 @@ public class LocalFiles extends ActionBarActivity {
 
             if(toolbar != null) {
                 File dir = new File(hierarchy.get(hierarchy.size() - 1));
-                SpannableString s = new SpannableString(dir.getName());
-                s.setSpan(new TypefaceSpan("fonts/robotolight.ttf"), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                toolbar.setTitle(s);
+                //SpannableString s = new SpannableString(dir.getName());
+                //s.setSpan(new TypefaceSpan("fonts/robotolight.ttf"), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                toolbar.setTitle(dir.getName());
                 toolbar.setSubtitle("Folders: " + firstFilePos + ", Files: " + (items.size() - firstFilePos));
             }
 
@@ -362,9 +359,6 @@ public class LocalFiles extends ActionBarActivity {
                 holder = (ViewHolder) convertView.getTag();
                 convertView.setBackgroundResource(R.drawable.bkg_light);
             }
-
-            holder.name.setTypeface(myTypeface);
-            holder.size.setTypeface(myTypeface);
 
             holder.name.setText(item.getFilename());
             holder.size.setText(item.getSize());

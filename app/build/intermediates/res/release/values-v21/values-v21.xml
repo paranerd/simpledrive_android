@@ -332,6 +332,7 @@
         <item name="android:textSize">12sp</item>
     </style>
     <style name="ToolbarTitle" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/darkwhite</item>
+        <item name="android:fontFamily">sans-serif</item>
     </style>
 </resources>

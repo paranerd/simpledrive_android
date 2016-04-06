@@ -1830,15 +1830,10 @@ org.simpledrive.R$drawable: int action_button
 org.simpledrive.R$drawable: int action_button_ripple
 org.simpledrive.R$drawable: int bkg_dark
 org.simpledrive.R$drawable: int bkg_light
-org.simpledrive.R$drawable: int button_pause
-org.simpledrive.R$drawable: int button_play
 org.simpledrive.R$drawable: int checkbutton
 org.simpledrive.R$drawable: int cloud_app_icon
-org.simpledrive.R$drawable: int cloud_appstore_2
-org.simpledrive.R$drawable: int cloud_icon
 org.simpledrive.R$drawable: int cloud_icon_notif
 org.simpledrive.R$drawable: int createbutton
-org.simpledrive.R$drawable: int cross
 org.simpledrive.R$drawable: int hoverbutton
 org.simpledrive.R$drawable: int ic_add
 org.simpledrive.R$drawable: int ic_arrow
@@ -1871,7 +1866,6 @@ org.simpledrive.R$drawable: int play_icon
 org.simpledrive.R$drawable: int play_icon_backup
 org.simpledrive.R$drawable: int pressed
 org.simpledrive.R$drawable: int simpledrive_logo
-org.simpledrive.R$drawable: int simpledrive_logo_bkp
 org.simpledrive.R$drawable: int uploadbutton
 org.simpledrive.R$id: int DrawerLayout
 org.simpledrive.R$id: int TextView01
@@ -2032,7 +2026,6 @@ org.simpledrive.R$layout: int support_simple_spinner_dropdown_item
 org.simpledrive.R$layout: int toolbar
 org.simpledrive.R$menu: int main
 org.simpledrive.R$mipmap: int ic_launcher
-org.simpledrive.R$mipmap: int image_one
 org.simpledrive.R$string: int abc_action_bar_home_description
 org.simpledrive.R$string: int abc_action_bar_home_description_format
 org.simpledrive.R$string: int abc_action_bar_home_subtitle_description_format
