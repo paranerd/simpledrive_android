@@ -3,6 +3,7 @@ package simpledrive.lib;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -247,8 +248,24 @@ public class Connection {
                 httpConn.disconnect();
             }
             else {
+                InputStream is = httpConn.getErrorStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+
+                reader.close();
+                String result = sb.toString();
+
+                JSONObject obj = new JSONObject(result);
                 status = "error";
-                msg = (httpConn.getResponseCode() == 404) ? "Connection error" : httpConn.getResponseMessage();
+                msg = obj.getString("msg");
+                //msg = (httpConn.getResponseCode() == 404) ? "Connection error" : httpConn.getResponseMessage();
+                is.close();
+                httpConn.disconnect();
             }
         } catch (Exception e) {
             e.printStackTrace();

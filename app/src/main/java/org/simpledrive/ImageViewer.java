@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -13,11 +14,17 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.TypefaceSpan;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.webkit.WebView;
+import android.widget.AbsoluteLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -112,6 +119,24 @@ public class ImageViewer extends ActionBarActivity {
         }
     }
 
+    public int[] scaleImage(int img_width, int img_height) {
+        int[] dim = new int[2];
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+
+        float screen_width = displaymetrics.widthPixels;
+        float screen_height = displaymetrics.heightPixels;
+
+        float shrink_to = 1;
+
+        shrink_to = (img_height > screen_height || img_width > screen_width) ? Math.min(screen_height, screen_width / img_width) : 1;
+
+        dim[0] = Math.round(img_width * shrink_to);
+        dim[1] = Math.round(img_height * shrink_to);
+
+        return dim;
+    }
+
     class TouchImageAdapter extends PagerAdapter {
         @Override
         public int getCount() {
@@ -122,7 +147,8 @@ public class ImageViewer extends ActionBarActivity {
         public View instantiateItem(ViewGroup container, final int position) {
             String imgPath = images.get(position).get("path");
             String thumbPath = images.get(position).get("thumbPath");
-            TouchImageView img = new TouchImageView(container.getContext());
+            TouchImageView img = new TouchImageView(container.getContext());;
+            WebView wv = null;
 
             img.setCustomOnClickListener(new View.OnClickListener() {
                 @Override
@@ -133,8 +159,39 @@ public class ImageViewer extends ActionBarActivity {
 
             if(new File(imgPath).exists()) {
                 // Load image
-                Bitmap bmp = BitmapFactory.decodeFile(imgPath);
-                img.setImageBitmap(bmp);
+                String ext = "." + FilenameUtils.getExtension(imgPath);
+
+                if(ext.equals(".gif")) {
+                    wv = new WebView(container.getContext());
+                    DisplayMetrics displaymetrics = new DisplayMetrics();
+                    getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inJustDecodeBounds = true;
+                    BitmapFactory.decodeFile(imgPath, options);
+                    int[] dim = scaleImage(options.outWidth, options.outHeight);
+                    int img_height = dim[1];
+                    int img_width = dim[0];
+
+                    int topMargin = ((displaymetrics.heightPixels - img_height) / 2 > 0) ? (displaymetrics.heightPixels - img_height) / 2 : 0;
+                    int leftMargin = ((displaymetrics.widthPixels - img_width) / 2 > 0) ? (displaymetrics.widthPixels - img_width) / 2 : 0;
+
+                    wv.setBackgroundColor(Color.parseColor("#000000"));
+                    String url = "file://" + imgPath;
+
+                    String data = "<html><head></head><body><img width=" + img_width + " height=" + img_height + " src=\"" + url + "\" /></body></html>";
+                    wv.loadDataWithBaseURL(null, "<style>body{background-color: black;}img{margin-top: " + topMargin + "px;margin-left: " + leftMargin + "px;display: block;height: " + img_height + "px;width: " + img_width + "px;max-width: 100%;}</style>" + data, "text/html", "UTF-8", null);
+
+                    RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    lp.height = img_height;
+                    lp.width = img_width;
+                    wv.setLayoutParams(lp);
+                    wv.setInitialScale(100);
+                }
+                else {
+                    Bitmap bmp = BitmapFactory.decodeFile(imgPath);
+                    img.setImageBitmap(bmp);
+                }
             } else if(new File(thumbPath).exists()) {
                 // Load thumbnail and get image in background
                 Bitmap bmp = BitmapFactory.decodeFile(thumbPath);
@@ -147,8 +204,13 @@ public class ImageViewer extends ActionBarActivity {
                 //loadImage(null, img, images.get(position).get("file"), images.get(position).get("filename"), imgPath);
                 new LoadImage(thumbPath, img, images.get(position).get("file"), images.get(position).get("filename"), imgPath).execute();
             }
-            container.addView(img, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
+            if(wv != null) {
+                container.addView(wv, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                return wv;
+            }
+
+            container.addView(img, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             return img;
         }
 
@@ -166,6 +228,7 @@ public class ImageViewer extends ActionBarActivity {
     private class LoadImage extends AsyncTask<String, Integer, HashMap<String, String>> {
         String thumbPath;
         TouchImageView img;
+        WebView wv;
         String file;
         String filename;
         String path;
@@ -173,6 +236,14 @@ public class ImageViewer extends ActionBarActivity {
         public LoadImage(final String thumbPath, final TouchImageView img, String file, String filename, String path) {
             this.thumbPath = thumbPath;
             this.img = img;
+            this.file = file;
+            this.filename = filename;
+            this.path = path;
+        }
+
+        public LoadImage(final String thumbPath, final WebView wv, String file, String filename, String path) {
+            this.thumbPath = thumbPath;
+            this.wv = wv;
             this.file = file;
             this.filename = filename;
             this.path = path;
@@ -187,8 +258,8 @@ public class ImageViewer extends ActionBarActivity {
         protected HashMap<String, String> doInBackground(String... info) {
             File thumb = new File(path);
 
-            Connection multipart = new Connection("files", "img", null);
-            multipart.addFormField("target", file);
+            Connection multipart = new Connection("files", "read", null);
+            multipart.addFormField("target", "[" + file + "]");
             multipart.addFormField("width", width + "");
             multipart.addFormField("height", height + "");
             multipart.addFormField("type", "img");

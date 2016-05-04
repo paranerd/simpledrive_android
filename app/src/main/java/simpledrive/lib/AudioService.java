@@ -6,7 +6,6 @@ import org.simpledrive.R;
 import org.simpledrive.RemoteFiles;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -23,18 +22,19 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
-public class AudioService extends Service implements OnCompletionListener, OnPreparedListener, OnErrorListener {
+public class AudioService extends Service {
 
-	static private MediaPlayer mediaPlayer;
-	private boolean playPause, prepared = false;
+	private MediaPlayer mediaPlayer;
+	private static boolean playPause, prepared = false;
 	int notificationId = 3;
 	
 	private AudioBCReceiver receiver;
+	private static boolean active;
 	
 	public static final String PLAY_CHANGED = "org.simpledrive.action.playstatechanged";
 	public static final String CHANGE_PLAY = "org.simpledrive.action.changeplay";
 	public static final String STOP = "org.simpledrive.action.stop";
-	
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -47,7 +47,7 @@ public class AudioService extends Service implements OnCompletionListener, OnPre
 	    mediaPlayer = new MediaPlayer();
 	    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
@@ -65,6 +65,8 @@ public class AudioService extends Service implements OnCompletionListener, OnPre
 		if(playPause) {
 			return true;
 		}
+		prepared = false;
+		active = false;
 		stopSelf();
 		return true;
 	}
@@ -73,19 +75,6 @@ public class AudioService extends Service implements OnCompletionListener, OnPre
 	public void onRebind(Intent intent) {
 		super.onRebind(intent);
 	}
-	
-	@Override
-	public boolean onError(MediaPlayer mp, int what, int extra) {
-		return false;
-	}
-
-	@Override
-	public void onPrepared(MediaPlayer mp) {
-	}
-
-	@Override
-	public void onCompletion(MediaPlayer mp) {
-	}
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -93,51 +82,63 @@ public class AudioService extends Service implements OnCompletionListener, OnPre
 	}
 
 	public class LocalBinder extends Binder {
-		
 		public AudioService getService() {
 			return AudioService.this;
 		}
 	}
-	
-	public boolean isPlaying() {
-		return playPause;
+
+	public static boolean isActive() {
+		return active;
 	}
-	
-	public void pause(boolean stop) {
-		if(mediaPlayer != null && mediaPlayer.isPlaying()) {
+
+	public static boolean isPlaying() {
+		return prepared && playPause;
+	}
+
+	public void seekTo(int pos) {
+		int seekTo = (int) (((float)pos / 100) * mediaPlayer.getDuration());
+		mediaPlayer.seekTo(seekTo);
+	}
+
+	public void pause() {
+		if(prepared && mediaPlayer != null && mediaPlayer.isPlaying()) {
 			mediaPlayer.pause();
 			playPause = false;
 			sendBroadcast(PLAY_CHANGED);
-			buildNotification(false);
+			buildNotification();
 		}
-		if(stop) {
-			stopForeground(true);
+	}
+
+	public void stop() {
+		if(prepared && mediaPlayer != null && mediaPlayer.isPlaying()) {
+			mediaPlayer.pause();
+			playPause = false;
 		}
+		active = false;
+		stopForeground(true);
 	}
 	
 	public void play() {
-        if (!mediaPlayer.isPlaying()) {
+        if (prepared && mediaPlayer != null && !mediaPlayer.isPlaying()) {
             mediaPlayer.start();
             playPause = true;
             sendBroadcast(PLAY_CHANGED);
-            buildNotification(true);
+            buildNotification();
         }
 	}
 	
-	public void togglePlay(boolean stop) {
-    	if(!prepared) {
-    		return;
-    	}
+	public void togglePlay() {
         if (!playPause) {
         	play();
         }
         else {
-        	pause(stop);
+        	pause();
         }
 	}
 	
-	public void initPlay(String cacheUrl) {
-		String url = Connection.getServer() + cacheUrl;
+	public void initPlay(String url) {
+		active = true;
+		prepared = false;
 		try {
 			mediaPlayer.reset();
 			mediaPlayer.setDataSource(url);
@@ -151,10 +152,7 @@ public class AudioService extends Service implements OnCompletionListener, OnPre
 			public void onPrepared(MediaPlayer arg0) {
 				// Buffered enough to play
 				prepared = true;
-				playPause = true;
-				mediaPlayer.start();
-				sendBroadcast(PLAY_CHANGED);
-				buildNotification(true);
+				play();
 			}
 		});
 	    mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
@@ -167,6 +165,21 @@ public class AudioService extends Service implements OnCompletionListener, OnPre
 	            sendBroadcast(STOP);
 	        }
 	    });
+		mediaPlayer.setOnErrorListener(new OnErrorListener() {
+			@Override
+			public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
+				active = false;
+				prepared = false;
+				return false;
+			}
+		});
+	}
+
+	public int getCurrentPosition() {
+		if(mediaPlayer != null && isPlaying()) {
+			return (int) (((float) mediaPlayer.getCurrentPosition() / mediaPlayer.getDuration()) * 100);
+		}
+		return 0;
 	}
 	
 	public void sendBroadcast(String what) {
@@ -175,7 +188,7 @@ public class AudioService extends Service implements OnCompletionListener, OnPre
 		sendBroadcast(intent);
 	}
 	
-	public void buildNotification(boolean playing) {
+	public void buildNotification() {
         Intent intent = new Intent(this, RemoteFiles.class);
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
         
@@ -198,7 +211,7 @@ public class AudioService extends Service implements OnCompletionListener, OnPre
         remoteView.setOnClickPendingIntent(R.id.notifbutton, pChange);
         remoteView.setOnClickPendingIntent(R.id.notifexit, pStop);
 
-		NotificationManager mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		//NotificationManager mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
         mBuilder.setContent(remoteView)
         	.setContentIntent(pIntent)
@@ -215,10 +228,10 @@ public class AudioService extends Service implements OnCompletionListener, OnPre
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if(intent.getAction().equals(CHANGE_PLAY)) {
-				togglePlay(false);
+				togglePlay();
 			}
 			else if(intent.getAction().equals(STOP)) {
-				pause(true);
+				stop();
 			}
 		}
 	}

@@ -663,32 +663,35 @@ public class ShareFiles extends ActionBarActivity {
         return result;
     }
 
-    private ArrayList<String> getUploads(Intent intent)
-    {
+    private ArrayList<String> getUploads(Intent intent) {
         String action = intent.getAction();
         String type = intent.getType();
         ArrayList<String> uploads = new ArrayList<>();
 
-        if (Intent.ACTION_SEND.equals(action) && type != null)
-        {
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
             Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-            if (type.startsWith("image/"))
-            {
+            if (uri == null) {
+               return null;
+            }
+            if (type.startsWith("image/")) {
                 uploads.add(getRealPathFromURI(uri));
-            } else {
+            }
+            else {
                 uploads.add(uri.getPath());
             }
-        } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
+        }
+        else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
             ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
             for(Uri uri : uris) {
-                if (uri.toString().startsWith("content"))
-                {
+                if (uri.toString().startsWith("content")) {
                     uploads.add(getRealPathFromURI(uri));
-                } else {
+                }
+                else {
                     uploads.add(uri.getPath());
                 }
             }
-        } else {
+        }
+        else {
             return null;
         }
         return uploads;
