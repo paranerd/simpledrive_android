@@ -1,0 +1,7 @@
+CHANGED,/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/simpledrive/lib/AudioService$LocalBinder$override.class
+CHANGED,/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/simpledrive/lib/AudioService$override.class
+CHANGED,/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/simpledrive/lib/AudioService$AudioBCReceiver$override.class
+CHANGED,/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/simpledrive/lib/AudioService$1$override.class
+CHANGED,/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/com/android/tools/fd/runtime/AppPatchesLoaderImpl.class
+CHANGED,/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/simpledrive/lib/AudioService$2$override.class
+CHANGED,/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/simpledrive/lib/AudioService$3$override.class

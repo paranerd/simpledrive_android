@@ -16,11 +16,11 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -29,11 +29,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.style.TypefaceSpan;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
@@ -56,16 +54,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -82,9 +85,9 @@ import simpledrive.lib.Connection;
 
 public class RemoteFiles extends ActionBarActivity {
     // General
+    public static boolean appVisible;
     public static RemoteFiles e;
     private static String username = "";
-
     private static String mode = "files";
     private static final String tmpFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/simpleDrive/";
     private SharedPreferences settings;
@@ -97,6 +100,8 @@ public class RemoteFiles extends ActionBarActivity {
     public static String audioFilename;
     private static AudioService mPlayerService;
     private boolean mBound = false;
+    private final Handler mHandler = new Handler();
+    private boolean audioUpdateRunning = false;
 
     // Upload
     public static int uploadCurrent = 0;
@@ -105,7 +110,7 @@ public class RemoteFiles extends ActionBarActivity {
     public static boolean uploading = false;
     private ArrayList<HashMap<String, String>> uploadQueue = new ArrayList<>();
 
-    // View elements
+    // Interface
     private static AbsListView list;
     private static String globLayout;
     private TextView empty;
@@ -114,14 +119,17 @@ public class RemoteFiles extends ActionBarActivity {
     private ImageButton bUpload;
     private ImageButton bCreate;
     private Menu mMenu;
-
-    String titles[] = {"Files", "Trash", "Logout"};
-    int icons[] = {R.drawable.ic_folder_dark, R.drawable.ic_trash_dark, R.drawable.ic_logout};
-    ActionBarDrawerToggle mDrawerToggle;
-
+    public static TextView audioTitle;
+    public static RelativeLayout player;
+    public static RelativeLayout hoverButtons;
+    public static SeekBar seek;
+    public static ImageButton bPlay, bExit;
+    private String titles[] = {"Files", "Trash", "Logout"};
+    private int icons[] = {R.drawable.ic_folder_dark, R.drawable.ic_trash_dark, R.drawable.ic_logout};
+    private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
-    ListView mDrawerList;
-    LinearLayout mDrawerLinear;
+    private ListView mDrawerList;
+    private LinearLayout mDrawerLinear;
 
     // Files
     private static ArrayList<Item> items = new ArrayList<>();
@@ -222,7 +230,8 @@ public class RemoteFiles extends ActionBarActivity {
                         thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_pdf);
                         break;
                     case "image":
-                        String imgPath = tmpFolder + Helper.md5(parent + filename) + ".jpg";
+                        String ext = FilenameUtils.getExtension(filename);
+                        String imgPath = tmpFolder + Helper.md5(parent + filename) + ext;
                         String thumbPath = (globLayout.equals("list")) ? tmpFolder + Helper.md5(parent + filename) + "_list.jpg" : tmpFolder + Helper.md5(parent + filename) + "_grid.jpg";
 
                         if (new File(imgPath).exists()) {
@@ -267,8 +276,6 @@ public class RemoteFiles extends ActionBarActivity {
             }
 
             if(toolbar != null) {
-                //SpannableString s = new SpannableString(title);
-                //s.setSpan(new TypefaceSpan("fonts/robotolight.ttf"), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 toolbar.setTitle(title);
                 toolbar.setSubtitle("Folders: " + firstFilePos + ", Files: " + (items.size() - firstFilePos));
             }
@@ -464,9 +471,9 @@ public class RemoteFiles extends ActionBarActivity {
 
             File thumb = new File(filepath);
 
-            Connection multipart = new Connection("files", "img", null);
+            Connection multipart = new Connection("files", "read", null);
 
-            multipart.addFormField("target", file);
+            multipart.addFormField("target", "[" + file + "]");
             multipart.addFormField("width", size);
             multipart.addFormField("height", size);
             multipart.addFormField("type", "thumb");
@@ -515,12 +522,63 @@ public class RemoteFiles extends ActionBarActivity {
             Toast.makeText(e, "Loading audio...", Toast.LENGTH_SHORT).show();
             audioFilename = item.getFilename();
             items.get(position).setSelected(true);
-            new GetLink().execute(position);
+            try {
+                URI uri = new URI(Connection.getServer() + "api/files/read?target=[" + URLEncoder.encode(items.get(position).getJSON().toString()) + "]&token=" + Connection.token);
+                mPlayerService.initPlay(uri.toASCIIString());
+                showAudioPlayer();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
         }
         else {
             Toast.makeText(e, "Can not open file", Toast.LENGTH_SHORT).show();
         }
         unselectAll();
+    }
+
+    public void showAudioPlayer() {
+        player.setVisibility(View.VISIBLE);
+        audioTitle.setText(audioFilename);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)hoverButtons.getLayoutParams();
+        params.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        hoverButtons.setLayoutParams(params);
+
+        if (!audioUpdateRunning) {
+            startUpdateLoop();
+        }
+    }
+
+    public void hideAudioPlayer() {
+        player.setVisibility(View.GONE);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)hoverButtons.getLayoutParams();
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        hoverButtons.setLayoutParams(params);
+    }
+
+    public void startUpdateLoop() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                audioUpdateRunning = true;
+                if(AudioService.isPlaying()) {
+                    int pos = mPlayerService.getCurrentPosition();
+
+                    seek.setProgress(pos);
+                    bPlay.setBackgroundResource(R.drawable.ic_pause);
+                }
+                else {
+                    bPlay.setBackgroundResource(R.drawable.ic_play);
+                }
+
+                if(AudioService.isActive() && appVisible) {
+                    mHandler.postDelayed(this, 1000);
+                }
+                else {
+                    audioUpdateRunning = false;
+                    hideAudioPlayer();
+                }
+            }
+        });
     }
 
     public int getCurrentImage(String filename) {
@@ -537,10 +595,11 @@ public class RemoteFiles extends ActionBarActivity {
         ArrayList<HashMap<String, String>> images = new ArrayList<>();
         for(Item item : items) {
             if(item.is("image")) {
+                String ext = "." + FilenameUtils.getExtension(item.getFilename());
                 HashMap<String, String> img = new HashMap<>();
                 img.put("file", item.getJSON().toString());
                 img.put("filename", item.getFilename());
-                img.put("path", tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + ".jpg");
+                img.put("path", tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + ext);
                 String thumbPath = (globLayout.equals("list")) ? tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + "_list.jpg" : tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + "_grid.jpg";
                 img.put("thumbPath", thumbPath);
 
@@ -594,33 +653,6 @@ public class RemoteFiles extends ActionBarActivity {
         return null;
     }
 
-    public class GetLink extends AsyncTask<Integer, String, HashMap<String, String>> {
-        @Override
-        protected void onPreExecute()
-        {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected HashMap<String, String> doInBackground(Integer... info) {
-            Connection multipart = new Connection("files", "cache", null);
-            multipart.addFormField("target", items.get(info[0]).getJSON().toString());
-            multipart.addFormField("type", "mobile_audio");
-            multipart.addFormField("filename", audioFilename);
-
-            return multipart.finish();
-        }
-        @Override
-        protected void onPostExecute(HashMap<String, String> value) {
-            if(value.get("status").equals("ok")) {
-                mPlayerService.initPlay(value.get("msg"));
-            }
-            else {
-                Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
     public class Connect extends AsyncTask<String, String, HashMap<String, String>> {
         Account[] sc;
         AccountManager accMan = AccountManager.get(RemoteFiles.this);
@@ -672,6 +704,7 @@ public class RemoteFiles extends ActionBarActivity {
                  }
 
                  new ListContent().execute();
+                 new GetVersion().execute();
              } else {
                  if(sc.length == 0) {
                      // No account, return to login
@@ -693,6 +726,36 @@ public class RemoteFiles extends ActionBarActivity {
                  }
              }
     	 }
+    }
+
+    private class GetVersion extends AsyncTask<Integer, String, HashMap<String, String>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            e.setProgressBarIndeterminateVisibility(true);
+        }
+
+        @Override
+        protected HashMap<String, String> doInBackground(Integer... pos) {
+            Connection multipart = new Connection("core", "version", null);
+
+            return multipart.finish();
+        }
+        @Override
+        protected void onPostExecute(HashMap<String, String> value) {
+            e.setProgressBarIndeterminateVisibility(false);
+            if(value.get("status").equals("ok")) {
+                try {
+                    JSONObject job = new JSONObject(value.get("msg"));
+                    String latest = job.getString("server");
+                    if (latest.length() > 0 && latest != "null") {
+                        Toast.makeText(e, "Update your server to " + latest, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -965,7 +1028,7 @@ public class RemoteFiles extends ActionBarActivity {
         protected HashMap<String, String> doInBackground(String... names) {
             String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
 
-            Connection multipart = new Connection("files", "download", new Connection.ProgressListener() {
+            Connection multipart = new Connection("files", "read", new Connection.ProgressListener() {
                 @Override
                 public void transferred(Integer num) {
                     publishProgress(num);
@@ -1365,6 +1428,53 @@ public class RemoteFiles extends ActionBarActivity {
 
         setContentView(R.layout.activity_remotefiles);
 
+        bPlay = (ImageButton) e.findViewById(R.id.bPlay);
+        bPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPlayerService.togglePlay();
+                if (mPlayerService.isPlaying()) {
+                    bPlay.setBackgroundResource(R.drawable.ic_pause);
+                }
+                else {
+                    bPlay.setBackgroundResource(R.drawable.ic_play);
+                }
+            }
+        });
+
+        bExit = (ImageButton) e.findViewById(R.id.bExit);
+        bExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPlayerService.stop();
+            }
+        });
+
+        player = (RelativeLayout) findViewById(R.id.audioplayer);
+        audioTitle = (TextView) e.findViewById(R.id.audio_title);
+
+        seek = (SeekBar) findViewById(R.id.seekBar1);
+        seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (AudioService.isPlaying() && fromUser) {
+                    mPlayerService.seekTo(progress);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        hoverButtons = (RelativeLayout) findViewById(R.id.hover_buttons);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar != null) {
             setSupportActionBar(toolbar);
@@ -1486,10 +1596,24 @@ public class RemoteFiles extends ActionBarActivity {
         new Connect().execute();
     }
 
+    protected void onPause() {
+        super.onPause();
+        appVisible = false;
+    }
+
     protected void onResume() {
         super.onResume();
+        appVisible = true;
 
         prepareNavigationDrawer();
+
+        // Prepare audio player
+        if(mPlayerService.isPlaying()) {
+            showAudioPlayer();
+        }
+        else {
+            hideAudioPlayer();
+        }
     }
 
     public void setView(String view) {

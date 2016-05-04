@@ -1,4 +1,6 @@
+android.support.annotation.Keep
 android.support.v4.app.BackStackState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.BaseFragmentActivityApi24: BaseFragmentActivityApi24()
 android.support.v4.app.BaseFragmentActivityDonut: BaseFragmentActivityDonut()
 android.support.v4.app.BaseFragmentActivityHoneycomb: BaseFragmentActivityHoneycomb()
 android.support.v4.app.Fragment$SavedState: android.os.Parcelable$Creator CREATOR
@@ -1251,6 +1253,8 @@ android.support.v7.recyclerview.R$attr: int reverseLayout
 android.support.v7.recyclerview.R$attr: int spanCount
 android.support.v7.recyclerview.R$attr: int stackFromEnd
 android.support.v7.recyclerview.R$dimen: int item_touch_helper_max_drag_scroll_per_frame
+android.support.v7.recyclerview.R$dimen: int item_touch_helper_swipe_escape_max_velocity
+android.support.v7.recyclerview.R$dimen: int item_touch_helper_swipe_escape_velocity
 android.support.v7.recyclerview.R$id: int item_touch_helper_previous_elevation
 android.support.v7.recyclerview.R$styleable: int[] RecyclerView
 android.support.v7.recyclerview.R$styleable: int RecyclerView_android_orientation
@@ -1270,6 +1274,10 @@ android.support.v7.widget.ActionMenuView: void setOverflowReserved(boolean)
 android.support.v7.widget.ActionMenuView: int getWindowAnimations()
 android.support.v7.widget.ActionMenuView: android.view.Menu getMenu()
 android.support.v7.widget.ActionMenuView: void setExpandedActionViewsExclusive(boolean)
+android.support.v7.widget.GridLayoutManager
+android.support.v7.widget.GridLayoutManager: GridLayoutManager(android.content.Context,android.util.AttributeSet,int,int)
+android.support.v7.widget.GridLayoutManager: GridLayoutManager(android.content.Context,int)
+android.support.v7.widget.GridLayoutManager: GridLayoutManager(android.content.Context,int,int,boolean)
 android.support.v7.widget.LinearLayoutCompat: LinearLayoutCompat(android.content.Context)
 android.support.v7.widget.LinearLayoutCompat: LinearLayoutCompat(android.content.Context,android.util.AttributeSet)
 android.support.v7.widget.LinearLayoutCompat: LinearLayoutCompat(android.content.Context,android.util.AttributeSet,int)
@@ -1293,6 +1301,10 @@ android.support.v7.widget.LinearLayoutCompat: int getOrientation()
 android.support.v7.widget.LinearLayoutCompat: void setGravity(int)
 android.support.v7.widget.LinearLayoutCompat: void setHorizontalGravity(int)
 android.support.v7.widget.LinearLayoutCompat: void setVerticalGravity(int)
+android.support.v7.widget.LinearLayoutManager
+android.support.v7.widget.LinearLayoutManager: LinearLayoutManager(android.content.Context)
+android.support.v7.widget.LinearLayoutManager: LinearLayoutManager(android.content.Context,int,boolean)
+android.support.v7.widget.LinearLayoutManager: LinearLayoutManager(android.content.Context,android.util.AttributeSet,int,int)
 android.support.v7.widget.LinearLayoutManager$SavedState: android.os.Parcelable$Creator CREATOR
 android.support.v7.widget.RecyclerView: android.support.v7.widget.RecyclerViewAccessibilityDelegate getCompatAccessibilityDelegate()
 android.support.v7.widget.RecyclerView: void setAccessibilityDelegateCompat(android.support.v7.widget.RecyclerViewAccessibilityDelegate)
@@ -1320,6 +1332,8 @@ android.support.v7.widget.RecyclerView: float getScrollFactor()
 android.support.v7.widget.RecyclerView: void setItemAnimator(android.support.v7.widget.RecyclerView$ItemAnimator)
 android.support.v7.widget.RecyclerView: android.support.v7.widget.RecyclerView$ItemAnimator getItemAnimator()
 android.support.v7.widget.RecyclerView: void setNestedScrollingEnabled(boolean)
+android.support.v7.widget.RecyclerView: android.support.v4.view.NestedScrollingChildHelper getScrollingChildHelper()
+android.support.v7.widget.RecyclerView$LayoutManager: RecyclerView$LayoutManager()
 android.support.v7.widget.RecyclerView$SavedState: android.os.Parcelable$Creator CREATOR
 android.support.v7.widget.SearchView: int getSuggestionRowLayout()
 android.support.v7.widget.SearchView: int getSuggestionCommitIconResId()
@@ -1354,6 +1368,9 @@ android.support.v7.widget.SearchView$SearchAutoComplete: SearchView$SearchAutoCo
 android.support.v7.widget.SearchView$SearchAutoComplete: SearchView$SearchAutoComplete(android.content.Context,android.util.AttributeSet,int)
 android.support.v7.widget.SearchView$SearchAutoComplete: void setSearchView(android.support.v7.widget.SearchView)
 android.support.v7.widget.SearchView$SearchAutoComplete: void setThreshold(int)
+android.support.v7.widget.StaggeredGridLayoutManager
+android.support.v7.widget.StaggeredGridLayoutManager: StaggeredGridLayoutManager(android.content.Context,android.util.AttributeSet,int,int)
+android.support.v7.widget.StaggeredGridLayoutManager: StaggeredGridLayoutManager(int,int)
 android.support.v7.widget.StaggeredGridLayoutManager$LazySpanLookup$FullSpanItem: android.os.Parcelable$Creator CREATOR
 android.support.v7.widget.StaggeredGridLayoutManager$SavedState: android.os.Parcelable$Creator CREATOR
 android.support.v7.widget.SwitchCompat: void setSwitchTypeface(android.graphics.Typeface)
@@ -1449,7 +1466,6 @@ org.simpledrive.GridViewItem: GridViewItem(android.content.Context,android.util.
 org.simpledrive.GridViewItem: GridViewItem(android.content.Context,android.util.AttributeSet,int)
 org.simpledrive.ImageViewer
 org.simpledrive.ImageViewer: ImageViewer()
-org.simpledrive.ImageViewer: void toggleToolbar()
 org.simpledrive.LocalFiles
 org.simpledrive.LocalFiles: LocalFiles()
 org.simpledrive.Login
@@ -1770,6 +1786,8 @@ org.simpledrive.R$dimen: int dialog_fixed_width_minor
 org.simpledrive.R$dimen: int disabled_alpha_material_dark
 org.simpledrive.R$dimen: int disabled_alpha_material_light
 org.simpledrive.R$dimen: int item_touch_helper_max_drag_scroll_per_frame
+org.simpledrive.R$dimen: int item_touch_helper_swipe_escape_max_velocity
+org.simpledrive.R$dimen: int item_touch_helper_swipe_escape_velocity
 org.simpledrive.R$dimen: int tool_bar_top_padding
 org.simpledrive.R$drawable: int abc_ab_share_pack_mtrl_alpha
 org.simpledrive.R$drawable: int abc_btn_check_material
@@ -1851,7 +1869,9 @@ org.simpledrive.R$drawable: int ic_launcher
 org.simpledrive.R$drawable: int ic_list
 org.simpledrive.R$drawable: int ic_logout
 org.simpledrive.R$drawable: int ic_menu
+org.simpledrive.R$drawable: int ic_pause
 org.simpledrive.R$drawable: int ic_pdf
+org.simpledrive.R$drawable: int ic_play
 org.simpledrive.R$drawable: int ic_play_circle
 org.simpledrive.R$drawable: int ic_share
 org.simpledrive.R$drawable: int ic_trash
@@ -1865,6 +1885,7 @@ org.simpledrive.R$drawable: int pause_icon_backup
 org.simpledrive.R$drawable: int play_icon
 org.simpledrive.R$drawable: int play_icon_backup
 org.simpledrive.R$drawable: int pressed
+org.simpledrive.R$drawable: int progressbar
 org.simpledrive.R$drawable: int simpledrive_logo
 org.simpledrive.R$drawable: int uploadbutton
 org.simpledrive.R$id: int DrawerLayout
@@ -1886,12 +1907,18 @@ org.simpledrive.R$id: int action_mode_bar_stub
 org.simpledrive.R$id: int action_mode_close_button
 org.simpledrive.R$id: int activity_chooser_view_content
 org.simpledrive.R$id: int always
+org.simpledrive.R$id: int audio_title
 org.simpledrive.R$id: int audioimg
 org.simpledrive.R$id: int audiopath
+org.simpledrive.R$id: int audioplayer
 org.simpledrive.R$id: int bAdd
 org.simpledrive.R$id: int bCheck
 org.simpledrive.R$id: int bCreate
+org.simpledrive.R$id: int bExit
+org.simpledrive.R$id: int bNext
 org.simpledrive.R$id: int bOK
+org.simpledrive.R$id: int bPlay
+org.simpledrive.R$id: int bPrev
 org.simpledrive.R$id: int bUpload
 org.simpledrive.R$id: int beginning
 org.simpledrive.R$id: int btnLogin
@@ -1919,6 +1946,7 @@ org.simpledrive.R$id: int header_server
 org.simpledrive.R$id: int header_user
 org.simpledrive.R$id: int home
 org.simpledrive.R$id: int homeAsUp
+org.simpledrive.R$id: int hover_buttons
 org.simpledrive.R$id: int icon
 org.simpledrive.R$id: int ifRoom
 org.simpledrive.R$id: int image
@@ -1960,6 +1988,7 @@ org.simpledrive.R$id: int search_mag_icon
 org.simpledrive.R$id: int search_plate
 org.simpledrive.R$id: int search_src_text
 org.simpledrive.R$id: int search_voice_btn
+org.simpledrive.R$id: int seekBar1
 org.simpledrive.R$id: int selectall
 org.simpledrive.R$id: int separator
 org.simpledrive.R$id: int share
