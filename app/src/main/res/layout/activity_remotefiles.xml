@@ -42,6 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#ffb3b3b3"
+                    android:layout_below="@+id/toolbar"
                     android:layout_above="@+id/audioplayer"
                     android:listSelector="@drawable/bkg_light"
                     android:choiceMode="singleChoice" />
