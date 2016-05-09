@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        jar="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="22.0.0"
+        sha1="5e19986cb22792ea408976c8606195f3defde779">
+        <dex dex="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_d901a2a2a7bb33e3d2da061e470a67f0e6c05637/classes.dex" />
+    </item>
+
+</items>

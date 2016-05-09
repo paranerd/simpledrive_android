@@ -8,12 +8,12 @@
         "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/layout/activity_imageviewer.xml"
     },
     {
-        "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/debug/layout/activity_remotefiles.xml",
-        "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/layout/activity_remotefiles.xml"
-    },
-    {
         "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/debug/layout/abc_list_menu_item_checkbox.xml",
         "source": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/layout/abc_list_menu_item_checkbox.xml"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/debug/layout/activity_remotefiles.xml",
+        "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/layout/activity_remotefiles.xml"
     },
     {
         "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/debug/layout/drawer_list_item.xml",
