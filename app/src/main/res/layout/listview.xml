@@ -61,7 +61,6 @@
             android:gravity="bottom"
             android:singleLine="true"
             android:layout_toRightOf="@id/icon"
-
             android:layout_alignParentBottom="true" />
 
         <TextView

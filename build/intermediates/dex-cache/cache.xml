@@ -2,11 +2,67 @@
 <items version="2" >
 
     <item
-        jar="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jar="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/24.0.0-alpha2/jars/classes.jar"
         jumboMode="true"
         revision="22.0.0"
-        sha1="5e19986cb22792ea408976c8606195f3defde779">
-        <dex dex="/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_d901a2a2a7bb33e3d2da061e470a67f0e6c05637/classes.dex" />
+        sha1="2f417d93e1f62fd4fb4a2c0f3a4a882dd0ca7843">
+        <dex dex="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-24.0.0-alpha2_b56687f049515f1c505f7884b17ccfb8d4aa780f/classes.dex" />
+    </item>
+    <item
+        jar="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="22.0.0"
+        sha1="ad8e2598bc9ba565d7ca630358b533c6255bf0f9">
+        <dex dex="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_2c3192e2c98ba62bfc702187eae9f1c370c0a3b9/classes.dex" />
+    </item>
+    <item
+        jar="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        revision="22.0.0"
+        sha1="24209fa0a0155a648e7f0053221ff135d459d1b7">
+        <dex dex="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_1c6a79c64892c7cf8d02aab82874e5d24659fd54/classes.dex" />
+    </item>
+    <item
+        jar="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/de.hdodenhof/circleimageview/1.2.1/jars/classes.jar"
+        jumboMode="true"
+        revision="22.0.0"
+        sha1="4b868b833b0887aa48c4e581558eef4f1196f6a2">
+        <dex dex="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/de.hdodenhof-circleimageview-1.2.1_21e931705d0e942ff7fd9a024e42c6981044ed7c/classes.dex" />
+    </item>
+    <item
+        jar="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.0.0-alpha2/jars/libs/internal_impl-24.0.0-alpha2.jar"
+        jumboMode="true"
+        revision="22.0.0"
+        sha1="e460bc069dfd21d22770cf2a2370c9021b9c98a2">
+        <dex dex="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.0.0-alpha2_44ab71916219eb85c2cc8256350c7129bd00c6d9/classes.dex" />
+    </item>
+    <item
+        jar="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.0.0-alpha2/jars/classes.jar"
+        jumboMode="true"
+        revision="22.0.0"
+        sha1="32ab8bede8cd600f25a5bb3fe15068c81c8910dc">
+        <dex dex="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-24.0.0-alpha2_4262a401e2969bb41c20fbc977ba3524bbda65ec/classes.dex" />
+    </item>
+    <item
+        jar="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/jars/classes.jar"
+        jumboMode="true"
+        revision="22.0.0"
+        sha1="d84409890828e07d344a3b9b1da545dba9897b51">
+        <dex dex="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-22.0.0_b901ef4999c1155b38415a0b5438ab6092c911de/classes.dex" />
+    </item>
+    <item
+        jar="/home/paranerd/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/24.0.0-alpha2/support-annotations-24.0.0-alpha2.jar"
+        jumboMode="true"
+        revision="22.0.0"
+        sha1="8071e1e6cd07e9253720313d6c14286a7ee424e0">
+        <dex dex="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-24.0.0-alpha2_9d3956e9149432957f37dabdd7ffe35a1b43635d/classes.dex" />
+    </item>
+    <item
+        jar="/home/paranerd/Dokumente/development/android-studio/gradle/m2repository/commons-io/commons-io/2.4/commons-io-2.4.jar"
+        jumboMode="true"
+        revision="22.0.0"
+        sha1="b1b6ea3b7e4aa4f492509a4952029cd8e48019ad">
+        <dex dex="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/commons-io-2.4_e52eea79506579f727874b2c412a0ad8fec684b0/classes.dex" />
     </item>
 
 </items>

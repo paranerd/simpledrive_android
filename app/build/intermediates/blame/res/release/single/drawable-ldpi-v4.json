@@ -1,23 +1,95 @@
 [
     {
-        "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_arrow.png",
-        "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/drawable-ldpi/ic_arrow.png"
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_folder.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-ldpi/ic_folder.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_cloud.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-ldpi/ic_cloud.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_grid.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-ldpi/ic_grid.png"
     },
     {
         "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_share.png",
         "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/drawable-ldpi/ic_share.png"
     },
     {
-        "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_upload.png",
-        "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/drawable-ldpi/ic_upload.png"
-    },
-    {
         "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_folder_dark.png",
         "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/drawable-ldpi/ic_folder_dark.png"
     },
     {
+        "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_trash.png",
+        "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/drawable-ldpi/ic_trash.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_list.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-ldpi/ic_list.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_folder.png",
+        "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/drawable-ldpi/ic_folder.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_upload.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-ldpi/ic_upload.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_download.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-ldpi/ic_download.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_trash_dark.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-ldpi/ic_trash_dark.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_cloud.png",
+        "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/drawable-ldpi/ic_cloud.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_grid.png",
+        "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/drawable-ldpi/ic_grid.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_logout.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-ldpi/ic_logout.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_play.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-ldpi/ic_play.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_arrow.png",
+        "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/drawable-ldpi/ic_arrow.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_share.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-ldpi/ic_share.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_pause.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-ldpi/ic_pause.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_upload.png",
+        "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/drawable-ldpi/ic_upload.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_check.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-ldpi/ic_check.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_add.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-ldpi/ic_add.png"
+    },
+    {
         "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_download.png",
         "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/drawable-ldpi/ic_download.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_trash.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-ldpi/ic_trash.png"
     },
     {
         "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_trash_dark.png",
@@ -40,12 +112,8 @@
         "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/drawable-ldpi/ic_play.png"
     },
     {
-        "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_trash.png",
-        "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/drawable-ldpi/ic_trash.png"
-    },
-    {
-        "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_folder.png",
-        "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/drawable-ldpi/ic_folder.png"
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_folder_dark.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-ldpi/ic_folder_dark.png"
     },
     {
         "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_pause.png",
@@ -56,19 +124,23 @@
         "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/drawable-ldpi/ic_add.png"
     },
     {
-        "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_cloud.png",
-        "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/drawable-ldpi/ic_cloud.png"
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_menu.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-ldpi/ic_menu.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_arrow.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-ldpi/ic_arrow.png"
     },
     {
         "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_list.png",
         "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/drawable-ldpi/ic_list.png"
     },
     {
-        "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_grid.png",
-        "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/drawable-ldpi/ic_grid.png"
-    },
-    {
         "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_image.png",
         "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/drawable-ldpi/ic_image.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-ldpi-v4/ic_image.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-ldpi/ic_image.png"
     }
 ]

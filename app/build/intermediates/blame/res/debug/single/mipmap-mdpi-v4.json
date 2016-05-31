@@ -1,5 +1,9 @@
 [
     {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_launcher.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+    },
+    {
         "merged": "/home/paranerd/Dokumente/simpledrive_android/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_launcher.png",
         "source": "/home/paranerd/Dokumente/simpledrive_android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
     }
