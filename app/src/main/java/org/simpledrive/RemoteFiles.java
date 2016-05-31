@@ -749,7 +749,7 @@ public class RemoteFiles extends ActionBarActivity {
                     JSONObject job = new JSONObject(value.get("msg"));
                     String latest = job.getString("server");
                     if (latest.length() > 0 && latest != "null") {
-                        Toast.makeText(e, "Update your server to " + latest, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(e, "Server update available: " + latest, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e1) {
                     e1.printStackTrace();
