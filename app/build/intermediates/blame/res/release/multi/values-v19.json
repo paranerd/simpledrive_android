@@ -1,0 +1,91 @@
+[
+    {
+        "outputFile": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/values-v19/values-v19.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 13,
+                    "endColumn": 12,
+                    "endOffset": 689
+                },
+                "from": {
+                    "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/values-v19/styles.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 100,
+                        "endLine": 14,
+                        "endColumn": 12,
+                        "endOffset": 734
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 14,
+                    "startColumn": 4,
+                    "startOffset": 694,
+                    "endLine": 16,
+                    "endColumn": 12,
+                    "endOffset": 818
+                },
+                "from": {
+                    "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/values-v19/styles.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 740,
+                        "endLine": 18,
+                        "endColumn": 12,
+                        "endOffset": 864
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 17,
+                    "startColumn": 4,
+                    "startOffset": 823,
+                    "endLine": 19,
+                    "endColumn": 12,
+                    "endOffset": 981
+                },
+                "from": {
+                    "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/values-v19/styles.xml",
+                    "position": {
+                        "startLine": 25,
+                        "startColumn": 4,
+                        "startOffset": 1099,
+                        "endLine": 27,
+                        "endColumn": 12,
+                        "endOffset": 1257
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 20,
+                    "startColumn": 4,
+                    "startOffset": 986,
+                    "endLine": 23,
+                    "endColumn": 12,
+                    "endOffset": 1209
+                },
+                "from": {
+                    "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/values-v19/styles.xml",
+                    "position": {
+                        "startLine": 20,
+                        "startColumn": 4,
+                        "startOffset": 870,
+                        "endLine": 23,
+                        "endColumn": 12,
+                        "endOffset": 1093
+                    }
+                }
+            }
+        ]
+    }
+]
