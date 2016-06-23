@@ -96,6 +96,7 @@ public class Login extends Activity {
                 Account account = new Account(username, "org.simpledrive");
                 Bundle userdata = new Bundle();
                 userdata.putString("server", server);
+                userdata.putString("pin", "1234");
                 userdata.putString("token", value.get("msg"));
 
                 Connection.setToken(value.get("msg"));
