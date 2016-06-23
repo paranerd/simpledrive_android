@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout android:gravity="center" android:orientation="vertical" android:background="#fff0f0f0" android:padding="10.0dip" android:focusable="true" android:layout_width="fill_parent" android:layout_height="fill_parent"
   xmlns:android="http://schemas.android.com/apk/res/android">
-    <ImageView
-        android:layout_width="fill_parent"
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/simpledrive_logo" />
+        android:text="simpleDrive"
+        android:textColor="@color/darkgreen"
+        android:gravity="center"
+        android:layout_marginTop="0dp"
+        android:fontFamily="sans-serif-light"
+        android:textSize="40.0sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Private. Secure. Simple"
+        android:textColor="@color/grey"
+        android:gravity="center"
+        android:fontFamily="sans-serif-light"
+        android:textSize="18.0sp"/>
     
     <EditText
-        android:textColor="#ff555555"
+        android:textColor="@color/darkgrey"
         android:gravity="center"
         android:id="@id/txtServer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="10.0dip"
         android:maxWidth="300.0dip"
         android:minWidth="250.0dip"
@@ -19,7 +34,7 @@
         android:inputType="textUri" />
     
     <EditText
-        android:textColor="#ff555555"
+        android:textColor="@color/darkgrey"
         android:gravity="center"
         android:id="@id/txtUsername"
         android:layout_width="wrap_content"
@@ -32,7 +47,7 @@
         android:nextFocusDown="@id/txtPassword"/>
     
     <EditText
-        android:textColor="#ff555555"
+        android:textColor="@color/darkgrey"
         android:gravity="center"
         android:id="@id/txtPassword"
         android:layout_width="wrap_content"
@@ -45,7 +60,7 @@
         android:inputType="textPassword" />
     
     <Button
-        android:textColor="#ffeeeeee"
+        android:textColor="@color/white"
         android:id="@id/btnLogin"
         android:background="#ff2e8b57"
         android:layout_width="200.0dip"

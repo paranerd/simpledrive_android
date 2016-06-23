@@ -216,7 +216,8 @@ public class RemoteFiles extends ActionBarActivity {
                 String parent = obj.getString("parent");
                 String type = obj.getString("type");
                 String size = (obj.getString("type").equals("folder")) ? "" : Helper.convertSize(obj.getString("size"));
-                String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : (!obj.getString("rootshare").equals("null") ? "shared" : "");
+                Log.i("rootshare", obj.getString("rootshare"));
+                String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : ((obj.getString("rootshare").length() == 0) ? "" : "shared");
                 Bitmap thumb;
 
                 switch (type) {
@@ -693,7 +694,7 @@ public class RemoteFiles extends ActionBarActivity {
 
                      JSONObject currDir = new JSONObject();
                      currDir.put("path", "");
-                     currDir.put("rootshare", 0);
+                     currDir.put("rootshare", "");
                      hierarchy.add(currDir);
 
                      empty.setText("Nothing to see here.");
@@ -737,7 +738,7 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(Integer... pos) {
-            Connection multipart = new Connection("core", "version", null);
+            Connection multipart = new Connection("system", "version", null);
 
             return multipart.finish();
         }
