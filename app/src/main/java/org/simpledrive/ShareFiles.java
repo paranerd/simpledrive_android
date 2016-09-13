@@ -230,7 +230,7 @@ public class ShareFiles extends ActionBarActivity {
                 String parent = obj.getString("parent");
                 String type = obj.getString("type");
                 String size = (obj.getString("type").equals("folder")) ? "" : Helper.convertSize(obj.getString("size"));
-                String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : (!obj.getString("rootshare").equals("null") ? "shared" : "");
+                String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : ((obj.getString("rootshare").length() == 0) ? "" : "shared");
                 Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder_dark);
 
                 if(type.equals("folder")) {

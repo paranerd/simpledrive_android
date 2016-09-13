@@ -20,6 +20,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,7 @@ public class LocalFiles extends ActionBarActivity {
     private TextView empty;
     private static ListView list;
     private Toolbar toolbar;
+    private Menu mMenu;
 
 
     @Override
@@ -125,6 +127,34 @@ public class LocalFiles extends ActionBarActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (getSelectedElem().length > 0) {
+            mMenu.findItem(R.id.select).setVisible(true);
+        }
+        else {
+            mMenu.findItem(R.id.select).setVisible(false);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem paramMenuItem) {
+        switch (paramMenuItem.getItemId()) {
+            default:
+                return super.onOptionsItemSelected(paramMenuItem);
+
+            case R.id.select:
+                Toast.makeText(act, "Upload started", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent();
+                String[] paths = getSelectedElem();
+                i.putExtra("paths", paths);
+                setResult(RESULT_OK, i);
+                finish();
+                break;
+        }
+        return true;
+    }
+
+    @Override
     public boolean onContextItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case 5:
@@ -138,6 +168,13 @@ public class LocalFiles extends ActionBarActivity {
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.file_selector, menu);
+        mMenu = menu;
+        return true;
     }
 
     public void onBackPressed() {

@@ -451,14 +451,14 @@ int id bUpload 0x7f0d000c
 int id beginning 0x7f0d0037
 int id btnLogin 0x7f0d000d
 int id checkbox 0x7f0d004b
-int id clearcache 0x7f0d007b
+int id clearcache 0x7f0d007c
 int id collapseActionView 0x7f0d003b
 int id decor_content_parent 0x7f0d0051
 int id default_activity_button 0x7f0d0047
-int id delete 0x7f0d007d
+int id delete 0x7f0d007e
 int id dialog 0x7f0d003f
 int id disableHome 0x7f0d0030
-int id download 0x7f0d007c
+int id download 0x7f0d007d
 int id drawer 0x7f0d006f
 int id dropdown 0x7f0d0040
 int id edit_query 0x7f0d0055
@@ -517,9 +517,10 @@ int id search_plate 0x7f0d005b
 int id search_src_text 0x7f0d005c
 int id search_voice_btn 0x7f0d0060
 int id seekBar1 0x7f0d006a
-int id selectall 0x7f0d007a
+int id select 0x7f0d007a
+int id selectall 0x7f0d007b
 int id separator 0x7f0d0075
-int id share 0x7f0d007e
+int id share 0x7f0d007f
 int id sharePublic 0x7f0d0079
 int id shareUser 0x7f0d0077
 int id shareWrite 0x7f0d0078
@@ -533,7 +534,7 @@ int id submit_area 0x7f0d005e
 int id swipe_refresh_layout 0x7f0d0064
 int id tabMode 0x7f0d002f
 int id title 0x7f0d0049
-int id toggle_view 0x7f0d007f
+int id toggle_view 0x7f0d0080
 int id toolbar 0x7f0d0061
 int id txtPassword 0x7f0d0029
 int id txtServer 0x7f0d002a
@@ -581,7 +582,8 @@ int layout notification 0x7f04001e
 int layout share_dialog 0x7f04001f
 int layout support_simple_spinner_dropdown_item 0x7f040020
 int layout toolbar 0x7f040021
-int menu main 0x7f0e0000
+int menu file_selector 0x7f0e0000
+int menu main 0x7f0e0001
 int mipmap ic_launcher 0x7f030000
 int string abc_action_bar_home_description 0x7f070000
 int string abc_action_bar_home_description_format 0x7f070001
@@ -976,12 +978,13 @@ int styleable PopupWindow_android_popupBackground 0
 int styleable PopupWindow_overlapAnchor 1
 int[] styleable PopupWindowBackgroundState { 0x7f010033 }
 int styleable PopupWindowBackgroundState_state_above_anchor 0
-int[] styleable RecyclerView { 0x010100c4, 0x7f010034, 0x7f010035, 0x7f010036, 0x7f010037 }
+int[] styleable RecyclerView { 0x010100c4, 0x010100f1, 0x7f010034, 0x7f010035, 0x7f010036, 0x7f010037 }
+int styleable RecyclerView_android_descendantFocusability 1
 int styleable RecyclerView_android_orientation 0
-int styleable RecyclerView_layoutManager 1
-int styleable RecyclerView_reverseLayout 3
-int styleable RecyclerView_spanCount 2
-int styleable RecyclerView_stackFromEnd 4
+int styleable RecyclerView_layoutManager 2
+int styleable RecyclerView_reverseLayout 4
+int styleable RecyclerView_spanCount 3
+int styleable RecyclerView_stackFromEnd 5
 int[] styleable SearchView { 0x010100da, 0x0101011f, 0x01010220, 0x01010264, 0x7f010038, 0x7f010039, 0x7f01003a, 0x7f01003b, 0x7f01003c, 0x7f01003d, 0x7f01003e, 0x7f01003f, 0x7f010040, 0x7f010041, 0x7f010042 }
 int styleable SearchView_android_focusable 0
 int styleable SearchView_android_imeOptions 3

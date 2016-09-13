@@ -1464,14 +1464,14 @@ containing a value of this type.
         public static final int beginning=0x7f0d0037;
         public static final int btnLogin=0x7f0d000d;
         public static final int checkbox=0x7f0d004b;
-        public static final int clearcache=0x7f0d007b;
+        public static final int clearcache=0x7f0d007c;
         public static final int collapseActionView=0x7f0d003b;
         public static final int decor_content_parent=0x7f0d0051;
         public static final int default_activity_button=0x7f0d0047;
-        public static final int delete=0x7f0d007d;
+        public static final int delete=0x7f0d007e;
         public static final int dialog=0x7f0d003f;
         public static final int disableHome=0x7f0d0030;
-        public static final int download=0x7f0d007c;
+        public static final int download=0x7f0d007d;
         public static final int drawer=0x7f0d006f;
         public static final int dropdown=0x7f0d0040;
         public static final int edit_query=0x7f0d0055;
@@ -1530,9 +1530,10 @@ containing a value of this type.
         public static final int search_src_text=0x7f0d005c;
         public static final int search_voice_btn=0x7f0d0060;
         public static final int seekBar1=0x7f0d006a;
-        public static final int selectall=0x7f0d007a;
+        public static final int select=0x7f0d007a;
+        public static final int selectall=0x7f0d007b;
         public static final int separator=0x7f0d0075;
-        public static final int share=0x7f0d007e;
+        public static final int share=0x7f0d007f;
         public static final int sharePublic=0x7f0d0079;
         public static final int shareUser=0x7f0d0077;
         public static final int shareWrite=0x7f0d0078;
@@ -1546,7 +1547,7 @@ containing a value of this type.
         public static final int swipe_refresh_layout=0x7f0d0064;
         public static final int tabMode=0x7f0d002f;
         public static final int title=0x7f0d0049;
-        public static final int toggle_view=0x7f0d007f;
+        public static final int toggle_view=0x7f0d0080;
         public static final int toolbar=0x7f0d0061;
         public static final int txtPassword=0x7f0d0029;
         public static final int txtServer=0x7f0d002a;
@@ -1600,7 +1601,8 @@ containing a value of this type.
         public static final int toolbar=0x7f040021;
     }
     public static final class menu {
-        public static final int main=0x7f0e0000;
+        public static final int file_selector=0x7f0e0000;
+        public static final int main=0x7f0e0001;
     }
     public static final class mipmap {
         public static final int ic_launcher=0x7f030000;
@@ -3304,12 +3306,14 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #RecyclerView_android_descendantFocusability android:descendantFocusability}</code></td><td></td></tr>
            <tr><td><code>{@link #RecyclerView_android_orientation android:orientation}</code></td><td></td></tr>
            <tr><td><code>{@link #RecyclerView_layoutManager org.simpledrive:layoutManager}</code></td><td></td></tr>
            <tr><td><code>{@link #RecyclerView_reverseLayout org.simpledrive:reverseLayout}</code></td><td></td></tr>
            <tr><td><code>{@link #RecyclerView_spanCount org.simpledrive:spanCount}</code></td><td></td></tr>
            <tr><td><code>{@link #RecyclerView_stackFromEnd org.simpledrive:stackFromEnd}</code></td><td></td></tr>
            </table>
+           @see #RecyclerView_android_descendantFocusability
            @see #RecyclerView_android_orientation
            @see #RecyclerView_layoutManager
            @see #RecyclerView_reverseLayout
@@ -3317,9 +3321,15 @@ containing a value of this type.
            @see #RecyclerView_stackFromEnd
          */
         public static final int[] RecyclerView = {
-            0x010100c4, 0x7f010034, 0x7f010035, 0x7f010036,
-            0x7f010037
+            0x010100c4, 0x010100f1, 0x7f010034, 0x7f010035,
+            0x7f010036, 0x7f010037
         };
+        /**
+          <p>This symbol is the offset where the {@link android.R.attr#descendantFocusability}
+          attribute's value can be found in the {@link #RecyclerView} array.
+          @attr name android:descendantFocusability
+        */
+        public static final int RecyclerView_android_descendantFocusability = 1;
         /**
           <p>This symbol is the offset where the {@link android.R.attr#orientation}
           attribute's value can be found in the {@link #RecyclerView} array.
@@ -3339,7 +3349,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name org.simpledrive:layoutManager
         */
-        public static final int RecyclerView_layoutManager = 1;
+        public static final int RecyclerView_layoutManager = 2;
         /**
           <p>This symbol is the offset where the {@link org.simpledrive.R.attr#reverseLayout}
           attribute's value can be found in the {@link #RecyclerView} array.
@@ -3353,7 +3363,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name org.simpledrive:reverseLayout
         */
-        public static final int RecyclerView_reverseLayout = 3;
+        public static final int RecyclerView_reverseLayout = 4;
         /**
           <p>This symbol is the offset where the {@link org.simpledrive.R.attr#spanCount}
           attribute's value can be found in the {@link #RecyclerView} array.
@@ -3367,7 +3377,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name org.simpledrive:spanCount
         */
-        public static final int RecyclerView_spanCount = 2;
+        public static final int RecyclerView_spanCount = 3;
         /**
           <p>This symbol is the offset where the {@link org.simpledrive.R.attr#stackFromEnd}
           attribute's value can be found in the {@link #RecyclerView} array.
@@ -3381,7 +3391,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name org.simpledrive:stackFromEnd
         */
-        public static final int RecyclerView_stackFromEnd = 4;
+        public static final int RecyclerView_stackFromEnd = 5;
         /** Attributes that can be used with a SearchView.
            <p>Includes the following attributes:</p>
            <table>

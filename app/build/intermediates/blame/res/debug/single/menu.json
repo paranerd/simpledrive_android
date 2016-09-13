@@ -1,5 +1,9 @@
 [
     {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/debug/menu/file_selector.xml",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/menu/file_selector.xml"
+    },
+    {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/debug/menu/main.xml",
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/menu/main.xml"
     }

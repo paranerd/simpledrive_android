@@ -1,8 +1,9 @@
 android.support.annotation.Keep
 android.support.v4.app.BackStackState: android.os.Parcelable$Creator CREATOR
-android.support.v4.app.BaseFragmentActivityApi24: BaseFragmentActivityApi24()
 android.support.v4.app.BaseFragmentActivityDonut: BaseFragmentActivityDonut()
+android.support.v4.app.BaseFragmentActivityEclair: BaseFragmentActivityEclair()
 android.support.v4.app.BaseFragmentActivityHoneycomb: BaseFragmentActivityHoneycomb()
+android.support.v4.app.BaseFragmentActivityJB: BaseFragmentActivityJB()
 android.support.v4.app.Fragment$SavedState: android.os.Parcelable$Creator CREATOR
 android.support.v4.app.FragmentActivity: FragmentActivity()
 android.support.v4.app.FragmentManagerState: android.os.Parcelable$Creator CREATOR
@@ -22,6 +23,7 @@ android.support.v4.media.session.ParcelableVolumeInfo: android.os.Parcelable$Cre
 android.support.v4.media.session.PlaybackStateCompat: android.os.Parcelable$Creator CREATOR
 android.support.v4.media.session.PlaybackStateCompat$CustomAction: android.os.Parcelable$Creator CREATOR
 android.support.v4.os.ResultReceiver: android.os.Parcelable$Creator CREATOR
+android.support.v4.view.AbsSavedState: android.os.Parcelable$Creator CREATOR
 android.support.v4.view.PagerTabStrip: void setTabIndicatorColor(int)
 android.support.v4.view.PagerTabStrip: void setTabIndicatorColorResource(int)
 android.support.v4.view.PagerTabStrip: int getTabIndicatorColor()
@@ -44,7 +46,6 @@ android.support.v4.view.ViewPager: ViewPager(android.content.Context,android.uti
 android.support.v4.view.ViewPager: void setScrollState(int)
 android.support.v4.view.ViewPager: void setAdapter(android.support.v4.view.PagerAdapter)
 android.support.v4.view.ViewPager: android.support.v4.view.PagerAdapter getAdapter()
-android.support.v4.view.ViewPager: void setOnAdapterChangeListener(android.support.v4.view.ViewPager$OnAdapterChangeListener)
 android.support.v4.view.ViewPager: int getClientWidth()
 android.support.v4.view.ViewPager: void setCurrentItem(int)
 android.support.v4.view.ViewPager: int getCurrentItem()
@@ -1257,6 +1258,7 @@ android.support.v7.recyclerview.R$dimen: int item_touch_helper_swipe_escape_max_
 android.support.v7.recyclerview.R$dimen: int item_touch_helper_swipe_escape_velocity
 android.support.v7.recyclerview.R$id: int item_touch_helper_previous_elevation
 android.support.v7.recyclerview.R$styleable: int[] RecyclerView
+android.support.v7.recyclerview.R$styleable: int RecyclerView_android_descendantFocusability
 android.support.v7.recyclerview.R$styleable: int RecyclerView_android_orientation
 android.support.v7.recyclerview.R$styleable: int RecyclerView_layoutManager
 android.support.v7.recyclerview.R$styleable: int RecyclerView_reverseLayout
@@ -1331,6 +1333,8 @@ android.support.v7.widget.RecyclerView: int getMaxFlingVelocity()
 android.support.v7.widget.RecyclerView: float getScrollFactor()
 android.support.v7.widget.RecyclerView: void setItemAnimator(android.support.v7.widget.RecyclerView$ItemAnimator)
 android.support.v7.widget.RecyclerView: android.support.v7.widget.RecyclerView$ItemAnimator getItemAnimator()
+android.support.v7.widget.RecyclerView: boolean getPreserveFocusAfterLayout()
+android.support.v7.widget.RecyclerView: void setPreserveFocusAfterLayout(boolean)
 android.support.v7.widget.RecyclerView: void setNestedScrollingEnabled(boolean)
 android.support.v7.widget.RecyclerView: android.support.v4.view.NestedScrollingChildHelper getScrollingChildHelper()
 android.support.v7.widget.RecyclerView$LayoutManager: RecyclerView$LayoutManager()
@@ -1989,6 +1993,7 @@ org.simpledrive.R$id: int search_plate
 org.simpledrive.R$id: int search_src_text
 org.simpledrive.R$id: int search_voice_btn
 org.simpledrive.R$id: int seekBar1
+org.simpledrive.R$id: int select
 org.simpledrive.R$id: int selectall
 org.simpledrive.R$id: int separator
 org.simpledrive.R$id: int share
@@ -2053,6 +2058,7 @@ org.simpledrive.R$layout: int notification
 org.simpledrive.R$layout: int share_dialog
 org.simpledrive.R$layout: int support_simple_spinner_dropdown_item
 org.simpledrive.R$layout: int toolbar
+org.simpledrive.R$menu: int file_selector
 org.simpledrive.R$menu: int main
 org.simpledrive.R$mipmap: int ic_launcher
 org.simpledrive.R$string: int abc_action_bar_home_description
@@ -2449,6 +2455,7 @@ org.simpledrive.R$styleable: int PopupWindow_overlapAnchor
 org.simpledrive.R$styleable: int[] PopupWindowBackgroundState
 org.simpledrive.R$styleable: int PopupWindowBackgroundState_state_above_anchor
 org.simpledrive.R$styleable: int[] RecyclerView
+org.simpledrive.R$styleable: int RecyclerView_android_descendantFocusability
 org.simpledrive.R$styleable: int RecyclerView_android_orientation
 org.simpledrive.R$styleable: int RecyclerView_layoutManager
 org.simpledrive.R$styleable: int RecyclerView_reverseLayout
