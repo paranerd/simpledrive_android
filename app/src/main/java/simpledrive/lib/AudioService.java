@@ -202,10 +202,10 @@ public class AudioService extends Service {
         remoteView.setImageViewResource(R.id.notifimage, R.drawable.ic_play_circle);
 
         if(mediaPlayer.isPlaying()) {
-        	remoteView.setImageViewResource(R.id.notifbutton, R.drawable.pause_icon);
+        	remoteView.setImageViewResource(R.id.notifbutton, R.drawable.ic_pause);
         }
         else {
-        	remoteView.setImageViewResource(R.id.notifbutton, R.drawable.play_icon);
+        	remoteView.setImageViewResource(R.id.notifbutton, R.drawable.ic_play);
         }
         remoteView.setTextViewText(R.id.notiftitle, RemoteFiles.audioFilename);
         remoteView.setOnClickPendingIntent(R.id.notifbutton, pChange);
@@ -216,7 +216,7 @@ public class AudioService extends Service {
         mBuilder.setContent(remoteView)
         	.setContentIntent(pIntent)
         	.setOngoing(false)
-        	.setSmallIcon(R.drawable.play_icon);
+        	.setSmallIcon(R.drawable.ic_play);
 
         Notification noti = mBuilder.build();
 

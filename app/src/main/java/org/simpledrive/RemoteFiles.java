@@ -126,7 +126,7 @@ public class RemoteFiles extends ActionBarActivity {
     public static SeekBar seek;
     public static ImageButton bPlay, bExit;
     private String titles[] = {"Files", "Trash", "Logout"};
-    private int icons[] = {R.drawable.ic_folder_dark, R.drawable.ic_trash_dark, R.drawable.ic_logout};
+    private int icons[] = {R.drawable.ic_folder, R.drawable.ic_trash, R.drawable.ic_logout};
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -246,7 +246,7 @@ public class RemoteFiles extends ActionBarActivity {
                         }
                         break;
                     default:
-                        thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown_dark);
+                        thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown);
                         break;
                 }
 

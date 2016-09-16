@@ -228,21 +228,8 @@
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_gravity="start">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@color/darkgreen">
-
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:scaleType="fitStart"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/ic_cloud_circle"/>
+        android:layout_gravity="start"
+        android:background="@color/darkgreen">
 
             <TextView
                 android:id="@+id/header_user"
@@ -251,24 +238,23 @@
                 android:textSize="15.0sp"
                 android:textColor="@color/white"
                 android:paddingLeft="16dp"
-                android:layout_above="@+id/header_server"/>
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"/>
 
             <TextView
                 android:id="@+id/header_server"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14.0sp"
-                android:textColor="#ffdddddd"
-                android:layout_alignParentBottom="true"
+                android:textSize="12.0sp"
+                android:textColor="@color/white"
+                android:layout_below="@+id/header_user"
                 android:paddingLeft="16dp"
                 android:paddingBottom="16dp"/>
-        </RelativeLayout>
 
         <ListView
             android:id="@+id/left_drawer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#fff"
             android:choiceMode="singleChoice"
             android:divider="#aae3e3e3"
             android:dividerHeight="0.1dp" />
