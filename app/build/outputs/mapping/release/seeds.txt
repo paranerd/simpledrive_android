@@ -1461,6 +1461,8 @@ de.hdodenhof.circleimageview.R$attr: int border_width
 de.hdodenhof.circleimageview.R$styleable: int[] CircleImageView
 de.hdodenhof.circleimageview.R$styleable: int CircleImageView_border_color
 de.hdodenhof.circleimageview.R$styleable: int CircleImageView_border_width
+org.simpledrive.Editor
+org.simpledrive.Editor: Editor()
 org.simpledrive.ExtendedViewPager
 org.simpledrive.ExtendedViewPager: ExtendedViewPager(android.content.Context)
 org.simpledrive.ExtendedViewPager: ExtendedViewPager(android.content.Context,android.util.AttributeSet)
@@ -1852,6 +1854,7 @@ org.simpledrive.R$drawable: int action_button
 org.simpledrive.R$drawable: int action_button_ripple
 org.simpledrive.R$drawable: int bkg_dark
 org.simpledrive.R$drawable: int bkg_light
+org.simpledrive.R$drawable: int checkbox_selector
 org.simpledrive.R$drawable: int checkbutton
 org.simpledrive.R$drawable: int cloud_app_icon
 org.simpledrive.R$drawable: int cloud_icon_notif
@@ -1881,6 +1884,7 @@ org.simpledrive.R$drawable: int ic_share
 org.simpledrive.R$drawable: int ic_trash
 org.simpledrive.R$drawable: int ic_trash_dark
 org.simpledrive.R$drawable: int ic_unknown
+org.simpledrive.R$drawable: int ic_unknown_dark
 org.simpledrive.R$drawable: int ic_upload
 org.simpledrive.R$drawable: int normal_dark
 org.simpledrive.R$drawable: int normal_light
@@ -1918,6 +1922,8 @@ org.simpledrive.R$id: int audioplayer
 org.simpledrive.R$id: int bAdd
 org.simpledrive.R$id: int bCheck
 org.simpledrive.R$id: int bCreate
+org.simpledrive.R$id: int bCreateFile
+org.simpledrive.R$id: int bCreateFolder
 org.simpledrive.R$id: int bExit
 org.simpledrive.R$id: int bNext
 org.simpledrive.R$id: int bOK
@@ -1938,6 +1944,8 @@ org.simpledrive.R$id: int download
 org.simpledrive.R$id: int drawer
 org.simpledrive.R$id: int dropdown
 org.simpledrive.R$id: int edit_query
+org.simpledrive.R$id: int editor
+org.simpledrive.R$id: int editorscroll
 org.simpledrive.R$id: int empty_list_item
 org.simpledrive.R$id: int end
 org.simpledrive.R$id: int expand_activities_button
@@ -1982,6 +1990,7 @@ org.simpledrive.R$id: int playbutton
 org.simpledrive.R$id: int progress_circular
 org.simpledrive.R$id: int progress_horizontal
 org.simpledrive.R$id: int radio
+org.simpledrive.R$id: int savetext
 org.simpledrive.R$id: int search_badge
 org.simpledrive.R$id: int search_bar
 org.simpledrive.R$id: int search_button
@@ -2046,6 +2055,7 @@ org.simpledrive.R$layout: int abc_screen_toolbar
 org.simpledrive.R$layout: int abc_search_dropdown_item_icons_2line
 org.simpledrive.R$layout: int abc_search_view
 org.simpledrive.R$layout: int abc_simple_dropdown_hint
+org.simpledrive.R$layout: int activity_editor
 org.simpledrive.R$layout: int activity_imageviewer
 org.simpledrive.R$layout: int activity_localfiles
 org.simpledrive.R$layout: int activity_login
@@ -2058,6 +2068,7 @@ org.simpledrive.R$layout: int notification
 org.simpledrive.R$layout: int share_dialog
 org.simpledrive.R$layout: int support_simple_spinner_dropdown_item
 org.simpledrive.R$layout: int toolbar
+org.simpledrive.R$menu: int editor
 org.simpledrive.R$menu: int file_selector
 org.simpledrive.R$menu: int main
 org.simpledrive.R$mipmap: int ic_launcher

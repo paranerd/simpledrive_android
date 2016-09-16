@@ -28,7 +28,7 @@ public class Login extends Activity {
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_login);              
+        setContentView(R.layout.activity_login);
 
         final EditText txtUsername = (EditText) findViewById(R.id.txtUsername);
         final EditText txtPassword = (EditText) findViewById(R.id.txtPassword);

@@ -184,6 +184,10 @@
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/drawable-hdpi-v4/abc_popup_background_mtrl_mult.9.png"
     },
     {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-hdpi-v4/ic_unknown_dark.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-hdpi/ic_unknown_dark.png"
+    },
+    {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-hdpi-v4/ic_menu.png",
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-hdpi/ic_menu.png"
     },

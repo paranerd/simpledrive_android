@@ -117,7 +117,8 @@ public class RemoteFiles extends ActionBarActivity {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private Toolbar toolbar;
     private ImageButton bUpload;
-    private ImageButton bCreate;
+    private ImageButton bCreateFolder;
+    private ImageButton bCreateFile;
     private Menu mMenu;
     public static TextView audioTitle;
     public static RelativeLayout player;
@@ -192,7 +193,8 @@ public class RemoteFiles extends ActionBarActivity {
      */
     private void displayFiles(String rawJSON) {
         // Reset anything related to listing files
-        bCreate.setVisibility(View.GONE);
+        bCreateFolder.setVisibility(View.GONE);
+        bCreateFile.setVisibility(View.GONE);
         bUpload.setVisibility(View.GONE);
 
         int thumbSize;
@@ -244,7 +246,7 @@ public class RemoteFiles extends ActionBarActivity {
                         }
                         break;
                     default:
-                        thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown);
+                        thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown_dark);
                         break;
                 }
 
@@ -530,6 +532,12 @@ public class RemoteFiles extends ActionBarActivity {
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
+        }
+        else if (item.is("text")) {
+            Intent i = new Intent(e.getApplicationContext(), Editor.class);
+            i.putExtra("file", items.get(position).getJSON().toString());
+            i.putExtra("filename", items.get(position).getFilename());
+            e.startActivity(i);
         }
         else {
             Toast.makeText(e, "Can not open file", Toast.LENGTH_SHORT).show();
@@ -887,7 +895,7 @@ public class RemoteFiles extends ActionBarActivity {
             Connection multipart = new Connection("files", "create", null);
             multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).toString());
             multipart.addFormField("filename", pos[0]);
-            multipart.addFormField("type", "folder");
+            multipart.addFormField("type", pos[1]);
 
             return multipart.finish();
         }
@@ -903,10 +911,10 @@ public class RemoteFiles extends ActionBarActivity {
         }
     }
 
-    private void showCreate() {
+    private void showCreate(final String type) {
         AlertDialog.Builder alert = new AlertDialog.Builder(e);
 
-        alert.setTitle("New Folder");
+        alert.setTitle("New " + type.substring(0,1).toUpperCase() + type.substring(1));
 
         // Set an EditText view to get user input
         final EditText input = new EditText(e);
@@ -915,7 +923,7 @@ public class RemoteFiles extends ActionBarActivity {
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String newFilename = input.getText().toString();
-                new NewFile().execute(newFilename);
+                new NewFile().execute(newFilename, type);
             }
         });
 
@@ -1479,6 +1487,7 @@ public class RemoteFiles extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar != null) {
             setSupportActionBar(toolbar);
+            toolbar.setNavigationIcon(R.drawable.ic_menu);
 
             /*if (Build.VERSION.SDK_INT >= 19) {
                 // Increase size of toolbar by 24dp and add padding because of translucent statusbar
@@ -1497,35 +1506,45 @@ public class RemoteFiles extends ActionBarActivity {
         getApplicationContext().bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
 
         bUpload = ((ImageButton) findViewById(R.id.bUpload));
-        bCreate = ((ImageButton) findViewById(R.id.bCreate));
+        bCreateFolder = ((ImageButton) findViewById(R.id.bCreateFolder));
+        bCreateFile = ((ImageButton) findViewById(R.id.bCreateFile));
         final ImageButton toggleButton = ((ImageButton) findViewById(R.id.bAdd));
         final ImageButton bOK = ((ImageButton) findViewById(R.id.bOK));
 
         bUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bCreate.setVisibility(View.GONE);
+                bCreateFolder.setVisibility(View.GONE);
+                bCreateFile.setVisibility(View.GONE);
                 bUpload.setVisibility(View.GONE);
                 Intent result = new Intent(RemoteFiles.this, LocalFiles.class);
                 startActivityForResult(result, 1);
             }
         });
 
-        bCreate.setOnClickListener(new View.OnClickListener() {
+        bCreateFolder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showCreate();
+                showCreate("folder");
+            }
+        });
+        bCreateFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCreate("file");
             }
         });
 
         toggleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (bCreate.getVisibility() == View.GONE) {
-                    bCreate.setVisibility(View.VISIBLE);
+                if (bCreateFolder.getVisibility() == View.GONE) {
+                    bCreateFolder.setVisibility(View.VISIBLE);
+                    bCreateFile.setVisibility(View.VISIBLE);
                     bUpload.setVisibility(View.VISIBLE);
                 } else {
-                    bCreate.setVisibility(View.GONE);
+                    bCreateFolder.setVisibility(View.GONE);
+                    bCreateFile.setVisibility(View.GONE);
                     bUpload.setVisibility(View.GONE);
                 }
             }
@@ -1534,7 +1553,8 @@ public class RemoteFiles extends ActionBarActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toggleButton.setBackgroundResource(R.drawable.action_button_ripple);
             bUpload.setBackgroundResource(R.drawable.action_button_ripple);
-            bCreate.setBackgroundResource(R.drawable.action_button_ripple);
+            bCreateFolder.setBackgroundResource(R.drawable.action_button_ripple);
+            bCreateFile.setBackgroundResource(R.drawable.action_button_ripple);
             bOK.setBackgroundResource(R.drawable.action_button_ripple);
         }
 

@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:2:1-71:12
+ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:2:1-77:12
 	package
 		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:3:5-30
 		INJECTED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml
@@ -44,7 +44,7 @@ ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main
 	android:name
 		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:14:22-77
 application
-ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:16:5-69:19
+ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:16:5-75:19
 MERGED from [com.android.support:support-v4:24.1.1] /home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.1.1/AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:appcompat-v7:22.0.0] /home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:24.1.1] /home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.1.1/AndroidManifest.xml:25:5-20
@@ -140,12 +140,20 @@ ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main
 		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:62:13-55
 	android:name
 		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:60:13-55
-service#simpledrive.lib.AudioService
-ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:65:9-68:19
-	android:enabled
+activity#org.simpledrive.Editor
+ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:65:9-69:20
+	android:label
 		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:67:13-35
+	android:theme
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:68:13-45
 	android:name
-		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:66:13-56
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:66:13-50
+service#simpledrive.lib.AudioService
+ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:71:9-74:19
+	android:enabled
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:73:13-35
+	android:name
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:72:13-56
 uses-sdk
 INJECTED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:support-v4:24.1.1] /home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.1.1/AndroidManifest.xml:21:5-23:54

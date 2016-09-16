@@ -65,6 +65,9 @@
 # view res/layout/toolbar.xml #generated:2
 -keep class android.support.v7.widget.Toolbar { <init>(...); }
 
+# view AndroidManifest.xml #generated:78
+-keep class org.simpledrive.Editor { <init>(...); }
+
 # view res/layout/activity_imageviewer.xml #generated:11
 -keep class org.simpledrive.ExtendedViewPager { <init>(...); }
 
@@ -86,7 +89,7 @@
 # view AndroidManifest.xml #generated:33
 -keep class org.simpledrive.ShareFiles { <init>(...); }
 
-# view AndroidManifest.xml #generated:79
+# view AndroidManifest.xml #generated:84
 -keep class simpledrive.lib.AudioService { <init>(...); }
 
 # view AndroidManifest.xml #generated:61

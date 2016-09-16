@@ -80,6 +80,10 @@
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/drawable/abc_btn_check_material.xml"
     },
     {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/checkbox_selector.xml",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable/checkbox_selector.xml"
+    },
+    {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/abc_edit_text_material.xml",
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/drawable/abc_edit_text_material.xml"
     },

@@ -4,36 +4,36 @@
     api-level="23"
     density="xxhdpi"
     format="7"
-    timestamp="21486232415793" >
+    timestamp="61995697725249" >
 
     <task
         name="javac"
-        duration="592" />
+        duration="175" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="72" />
+        duration="7" />
     <task
         name="verifier"
-        duration="3" />
+        duration="1" />
 
     <artifact
         location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_6/classes.dex"
         type="DEX" />
 
-    <build timestamp="20607991517949" >
+    <build timestamp="59593700140559" >
         <artifact
             location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/outputs/apk/app-debug.apk"
             type="MAIN" />
     </build>
-    <build timestamp="21316249806739" >
+    <build timestamp="61359837098470" >
         <artifact
             location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/resources-debug.ap_"
             type="RESOURCES" />
     </build>
-    <build timestamp="21486232415793" >
+    <build timestamp="61995697725249" >
         <artifact
             location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_6/classes.dex"
             type="DEX" />
