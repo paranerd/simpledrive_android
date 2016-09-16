@@ -30,10 +30,11 @@
 
         <ImageView
             android:id="@id/icon"
-            android:layout_width="40.0dip"
-            android:layout_height="40.0dip"
+            android:layout_width="56.0dip"
+            android:layout_height="56.0dip"
             android:layout_centerVertical="true"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:background="@drawable/action_button"/>
 
         <TextView
             android:id="@id/name"
