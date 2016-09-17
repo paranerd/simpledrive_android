@@ -1,2 +1,3 @@
-CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/RemoteFiles$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/RemoteFiles$NewFileAdapter$ViewHolder$override.class
 CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/com/android/tools/fd/runtime/AppPatchesLoaderImpl.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/RemoteFiles$NewFileAdapter$override.class
