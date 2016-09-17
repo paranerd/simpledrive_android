@@ -297,7 +297,7 @@ public class LocalFiles extends ActionBarActivity {
                 if (file.isDirectory()) {
                     size = "";
                     type = "folder";
-                    thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder_dark);
+                    thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
                     directories.add(new Item(null, filename, null, path, size, null, type, null, null, thumb));
                 } else {
                     type = getMimeType(file);

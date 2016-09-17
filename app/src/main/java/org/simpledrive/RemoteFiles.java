@@ -224,7 +224,7 @@ public class RemoteFiles extends ActionBarActivity {
 
                 switch (type) {
                     case "folder":
-                        thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder_dark);
+                        thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
                         break;
                     case "audio":
                         thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_audio);
@@ -463,7 +463,12 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(String... info) {
-            item = thumbQueue.remove(0);
+            if (thumbQueue.size() > 0) {
+                item = thumbQueue.remove(0);
+            }
+            else {
+                return null;
+            }
 
             DisplayMetrics displaymetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -486,24 +491,26 @@ public class RemoteFiles extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
-            Bitmap bmp = Helper.getThumb(filepath, Integer.valueOf(size));
+            if (value != null) {
+                Bitmap bmp = Helper.getThumb(filepath, Integer.valueOf(size));
 
-            thumbLoading = false;
-            if (bmp != null && list != null) {
-                // Update adapter to display thumb
-                item.setThumb(bmp);
-                newAdapter.notifyDataSetChanged();
+                thumbLoading = false;
+                if (bmp != null && list != null) {
+                    // Update adapter to display thumb
+                    item.setThumb(bmp);
+                    newAdapter.notifyDataSetChanged();
+                }
+
+                if (thumbQueue.size() > 0) {
+                    new LoadThumb().execute();
+                }
+
+                /*if(filename.substring(filename.length() - 3).equals("png")) {
+                    bmp.compress(Bitmap.CompressFormat.PNG, 85, fos);
+                } else {
+                    bmp.compress(Bitmap.CompressFormat.JPEG, 85, fos);
+                }*/
             }
-
-            if (thumbQueue.size() > 0) {
-                new LoadThumb().execute();
-            }
-
-            /*if(filename.substring(filename.length() - 3).equals("png")) {
-                bmp.compress(Bitmap.CompressFormat.PNG, 85, fos);
-            } else {
-                bmp.compress(Bitmap.CompressFormat.JPEG, 85, fos);
-            }*/
         }
     }
 
