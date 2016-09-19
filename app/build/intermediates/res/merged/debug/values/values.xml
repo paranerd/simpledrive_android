@@ -225,11 +225,18 @@
     <string name="abc_toolbar_collapse_description">Collapse</string>
     <string name="action_settings">Settings</string>
     <string name="app_name">SimpleDrive</string>
+    <string name="connecting">Connecting...</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="drawer_open">Open navigation drawer</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="empty">Nothing to see here.</string>
+    <string name="files">Files</string>
+    <string name="folders">Folders</string>
+    <string name="loading">Loading...</string>
     <string name="logout">Logout</string>
     <string name="newfolder">New Folder</string>
+    <string name="reconnect_error">Error reconnecting</string>
+    <string name="swipe_down">Swipe down to try again</string>
+    <string name="unknown_error">An error occurred</string>
     <string name="upload">Upload</string>
     <style name="Animation.AppCompat.DropDownUp" parent="Base.Animation.AppCompat.DropDownUp"/>
     <style name="AppBaseTheme" parent="@android:style/Theme.Light"/>

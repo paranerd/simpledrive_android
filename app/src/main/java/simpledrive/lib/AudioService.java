@@ -211,7 +211,6 @@ public class AudioService extends Service {
 		remoteView.setOnClickPendingIntent(R.id.notifbutton, pChange);
 		remoteView.setOnClickPendingIntent(R.id.notifexit, pStop);
 
-		//NotificationManager mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
 		mBuilder.setContent(remoteView)
 				.setContentIntent(pIntent)

@@ -55,7 +55,7 @@ public class LocalFiles extends ActionBarActivity {
 
     // View elements
     private boolean longClicked = false;
-    private TextView empty;
+    private TextView info;
     private static ListView list;
     private Toolbar toolbar;
     private Menu mMenu;
@@ -73,7 +73,7 @@ public class LocalFiles extends ActionBarActivity {
 
         registerForContextMenu(list);
 
-        empty = (TextView) findViewById(R.id.local_empty_list_item);
+        info = (TextView) findViewById(R.id.info);
 
         hierarchy.add(Environment.getExternalStorageDirectory() + "/");
 
@@ -263,7 +263,6 @@ public class LocalFiles extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            empty.setText("Loading files...");
             pDialog = new ProgressDialog(LocalFiles.this);
             pDialog.setMessage("Loading files ...");
             pDialog.setIndeterminate(false);
@@ -331,8 +330,14 @@ public class LocalFiles extends ActionBarActivity {
         @Override
         protected void onPostExecute(ArrayList<Item> value) {
             pDialog.dismiss();
-            String emptyText = (items.size() == 0) ? "Nothing to see here." : "";
-            empty.setText(emptyText);
+
+            if (items.size() == 0) {
+                info.setVisibility(View.VISIBLE);
+                info.setText(R.string.empty);
+            }
+            else {
+                info.setVisibility(View.GONE);
+            }
 
             mAdapter.setData(items);
             mAdapter.notifyDataSetChanged();

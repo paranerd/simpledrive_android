@@ -6,7 +6,7 @@ ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main
 		INJECTED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml
 		INJECTED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml
 	android:versionName
-		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:5:5-32
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:5:5-33
 		INJECTED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml
 		INJECTED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml
 	android:versionCode
@@ -55,7 +55,7 @@ MERGED from [de.hdodenhof:circleimageview:1.2.1] /home/paranerd/Dokumente/develo
 	android:allowBackup
 		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:17:9-35
 	android:icon
-		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:18:9-45
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:18:9-43
 	android:theme
 		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:20:9-41
 activity#org.simpledrive.RemoteFiles

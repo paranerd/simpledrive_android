@@ -1,2 +1,16 @@
-CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/simpledrive/lib/AudioService$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/R$layout$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/R$menu$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/LocalFiles$ListContent$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/R$mipmap$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/R$style$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/RemoteFiles$14$override.class
 CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/com/android/tools/fd/runtime/AppPatchesLoaderImpl.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/R$id$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/R$xml$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/simpledrive/lib/AudioService$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/RemoteFiles$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/R$integer$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/R$drawable$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/R$string$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/R$styleable$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/RemoteFiles$3$override.class

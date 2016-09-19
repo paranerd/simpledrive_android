@@ -75,7 +75,7 @@ public class ShareFiles extends ActionBarActivity {
 
     // View elements
     private static AbsListView list;
-    private TextView empty;
+    private TextView info;
     private static String globLayout;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private Toolbar toolbar;
@@ -96,7 +96,7 @@ public class ShareFiles extends ActionBarActivity {
 
         setContentView(R.layout.activity_sharefiles);
 
-        empty = (TextView) findViewById(R.id.empty_list_item);
+        info = (TextView) findViewById(R.id.info);
 
         uploadsPending = getUploads(getIntent());
 
@@ -181,7 +181,6 @@ public class ShareFiles extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            empty.setText("Loading files...");
             pDialog = new ProgressDialog(ShareFiles.this);
             pDialog.setMessage("Loading files ...");
             pDialog.setIndeterminate(false);
@@ -259,8 +258,13 @@ public class ShareFiles extends ActionBarActivity {
 
         sortByName();
 
-        String emptyText = (items.size() == 0) ? "Nothing to see here." : "";
-        empty.setText(emptyText);
+        if (items.size() == 0) {
+            info.setVisibility(View.VISIBLE);
+            info.setText(R.string.empty);
+        }
+        else {
+            info.setVisibility(View.GONE);
+        }
 
         int layout = (globLayout.equals("list")) ? R.layout.listview : R.layout.gridview;
         NewFileAdapter newAdapter = new NewFileAdapter(e, layout);
@@ -325,9 +329,7 @@ public class ShareFiles extends ActionBarActivity {
             if(globLayout.equals("list")) {
                 int visibility = (position == 0) ? View.VISIBLE : View.GONE;
                 holder.separator.setVisibility(visibility);
-
-                String text = "Folders";
-                holder.separator.setText(text);
+                holder.separator.setText(R.string.connecting);
             }
 
             return convertView;
@@ -366,7 +368,6 @@ public class ShareFiles extends ActionBarActivity {
         protected void onPreExecute() {
             loginAttemts++;
             super.onPreExecute();
-            empty.setText("Connecting ...");
         }
 
         @Override
@@ -377,7 +378,6 @@ public class ShareFiles extends ActionBarActivity {
             if (sc.length == 0 || loginAttemts > 2) {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("status", "error");
-                map.put("msg", "An error occured");
                 return map;
             }
 
@@ -403,7 +403,8 @@ public class ShareFiles extends ActionBarActivity {
                     currDir.put("rootshare", 0);
                     hierarchy.add(currDir);
 
-                    empty.setText("Nothing to see here.");
+                    info.setVisibility(View.VISIBLE);
+                    info.setText(R.string.empty);
                     Connection.setToken(value.get("msg"));
                     accMan.setUserData(sc[0], "token", value.get("msg"));
                 } catch (JSONException e) {
@@ -413,8 +414,9 @@ public class ShareFiles extends ActionBarActivity {
                 new ListContent().execute();
             } else {
                 loginAttemts = 0;
-                Toast.makeText(e, "Error reconnecting", Toast.LENGTH_SHORT).show();
-                empty.setText("Error reconnecting");
+                //Toast.makeText(e, R.string.reconnect_error, Toast.LENGTH_SHORT).show();
+                info.setVisibility(View.VISIBLE);
+                info.setText(R.string.reconnect_error);
             }
         }
     }
@@ -526,7 +528,7 @@ public class ShareFiles extends ActionBarActivity {
             mBuilder.setContentIntent(pIntent)
                     .setContentTitle("Uploading " + fullCurrent + " of " + fullTotal)
                     .setOngoing(true)
-                    .setSmallIcon(R.drawable.cloud_icon_notif)
+                    .setSmallIcon(R.drawable.ic_cloud)
                     .setProgress(100, 0, false);
             mNotifyManager.notify(notificationId, mBuilder.build());
         }
