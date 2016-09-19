@@ -51,13 +51,13 @@
                     android:id="@+id/grid"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:numColumns="2"
-                    android:horizontalSpacing="5dp"
-                    android:verticalSpacing="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="61dp"
-                    android:choiceMode="singleChoice" />
+                    android:numColumns="3"
+                    android:horizontalSpacing="1dp"
+                    android:verticalSpacing="1dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="60dp"
+                     />
 
                 <RelativeLayout
                     android:id="@+id/hover_buttons"

@@ -4,7 +4,7 @@
     api-level="23"
     density="xxhdpi"
     format="7"
-    timestamp="77382244724161" >
+    timestamp="14677863128746" >
 
     <task
         name="javac"
@@ -19,24 +19,21 @@
         name="verifier"
         duration="0" />
 
-    <artifact
-        location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/resources-debug.ap_"
-        type="RESOURCES" />
-
-    <build timestamp="76953832744819" >
+    <build timestamp="14292280819643" >
         <artifact
             location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/outputs/apk/app-debug.apk"
             type="MAIN" />
     </build>
-    <build timestamp="77282792781601" >
+    <build timestamp="14629700944397" >
         <artifact
-            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_6/classes.dex"
+            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_3/classes.dex"
             type="DEX" />
     </build>
-    <build timestamp="77382244724161" >
+    <build timestamp="14655125917684" >
         <artifact
             location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/resources-debug.ap_"
             type="RESOURCES" />
     </build>
+    <build timestamp="14677863128746" />
 
 </instant-run>

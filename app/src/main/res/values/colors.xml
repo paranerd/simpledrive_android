@@ -11,6 +11,7 @@
     <color name="darkergreen">#ff29774c</color>
     <color name="brightergreen">#ff02d35f</color>
     <color name="lightgreen">#ffb4d7bf</color>
+    <color name="transparentgreen">#552e8b5e</color>
     <color name="darkwhite">#ffeeeeee</color>
     <color name="orange">#FFFFBB33</color>
     <color name="purple">#FFFFBB33</color>
@@ -18,4 +19,5 @@
     <color name="halfgrey">#33d3d3d3</color>
     <color name="halfblack">#33000000</color>
     <color name="halfred">#33ff0000</color>
+    <color name="transparent">#00000000</color>
 </resources>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Base.TextAppearance.AppCompat.Button">
+        <item name="android:textSize">@dimen/abc_text_size_button_material</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+    <style name="Base.Theme.AppCompat" parent="Base.V14.Theme.AppCompat">
+        <item name="android:actionModeCutDrawable">?actionModeCutDrawable</item>
+        <item name="android:actionModeCopyDrawable">?actionModeCopyDrawable</item>
+        <item name="android:actionModePasteDrawable">?actionModePasteDrawable</item>
+        <item name="android:actionModeSelectAllDrawable">?actionModeSelectAllDrawable</item>
+        <item name="android:actionModeShareDrawable">?actionModeShareDrawable</item>
+    </style>
+    <style name="Base.Theme.AppCompat.Dialog" parent="Base.V14.Theme.AppCompat.Dialog">
+        <item name="android:actionModeCutDrawable">?actionModeCutDrawable</item>
+        <item name="android:actionModeCopyDrawable">?actionModeCopyDrawable</item>
+        <item name="android:actionModePasteDrawable">?actionModePasteDrawable</item>
+        <item name="android:actionModeSelectAllDrawable">?actionModeSelectAllDrawable</item>
+        <item name="android:actionModeShareDrawable">?actionModeShareDrawable</item>
+    </style>
+    <style name="Base.Theme.AppCompat.Light" parent="Base.V14.Theme.AppCompat.Light">
+        <item name="android:actionModeCutDrawable">?actionModeCutDrawable</item>
+        <item name="android:actionModeCopyDrawable">?actionModeCopyDrawable</item>
+        <item name="android:actionModePasteDrawable">?actionModePasteDrawable</item>
+        <item name="android:actionModeSelectAllDrawable">?actionModeSelectAllDrawable</item>
+        <item name="android:actionModeShareDrawable">?actionModeShareDrawable</item>
+    </style>
+    <style name="Base.Theme.AppCompat.Light.Dialog" parent="Base.V14.Theme.AppCompat.Light.Dialog">
+        <item name="android:actionModeCutDrawable">?actionModeCutDrawable</item>
+        <item name="android:actionModeCopyDrawable">?actionModeCopyDrawable</item>
+        <item name="android:actionModePasteDrawable">?actionModePasteDrawable</item>
+        <item name="android:actionModeSelectAllDrawable">?actionModeSelectAllDrawable</item>
+        <item name="android:actionModeShareDrawable">?actionModeShareDrawable</item>
+    </style>
+    <style name="Base.V14.Theme.AppCompat" parent="Base.V11.Theme.AppCompat"/>
+    <style name="Base.V14.Theme.AppCompat.Dialog" parent="Base.V11.Theme.AppCompat.Dialog"/>
+    <style name="Base.V14.Theme.AppCompat.Light" parent="Base.V11.Theme.AppCompat.Light"/>
+    <style name="Base.V14.Theme.AppCompat.Light.Dialog" parent="Base.V11.Theme.AppCompat.Light.Dialog"/>
+    <style name="MainTheme" parent="Theme.AppCompat.Light">
+        <!-- Main theme colors -->
+        <!--   your app branding color for the app bar -->
+        <item name="android:colorPrimary">@color/darkgreen</item>
+        <!--   darker variant for the status bar and contextual app bars -->
+        <item name="android:colorPrimaryDark">@color/darkergreen</item>
+        <!--   theme UI controls like checkboxes and text fields -->
+        <item name="android:colorAccent">@color/darkgreen</item>
+        <item name="windowActionBar">false</item>
+    </style>
+    <style name="MainThemeFullscreen" parent="MainTheme">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+    <style name="ToolbarSubtitle" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="ToolbarTitle" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/darkwhite</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+</resources>

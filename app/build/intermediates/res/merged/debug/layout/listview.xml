@@ -20,7 +20,7 @@
     <RelativeLayout
         android:id="@+id/inner"
         android:orientation="vertical"
-        android:paddingLeft="16dp"
+        android:paddingLeft="0dp"
         android:paddingRight="16dp"
         android:layout_width="match_parent"
         android:layout_height="72dp"
@@ -30,11 +30,39 @@
 
         <ImageView
             android:id="@id/icon"
+            android:layout_marginLeft="16dip"
             android:layout_width="48.0dip"
             android:layout_height="48.0dip"
             android:layout_centerVertical="true"
             android:scaleType="center"
             android:background="@drawable/button_flat" />
+
+        <ImageView
+            android:id="@+id/thumb"
+            android:layout_marginLeft="16dip"
+            android:layout_width="48dip"
+            android:layout_height="48dip"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:background="#00000000" />
+
+        <RelativeLayout
+            android:id="@+id/selector"
+            android:layout_width="72dip"
+            android:layout_height="match_parent" >
+
+            <ImageView
+                android:id="@+id/check"
+                android:layout_marginLeft="16dip"
+                android:layout_width="48.0dip"
+                android:layout_height="48.0dip"
+                android:layout_centerVertical="true"
+                android:scaleType="center"
+                android:background="@drawable/button_flat"
+                android:src="@drawable/ic_check"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
 
         <TextView
             android:id="@id/name"
