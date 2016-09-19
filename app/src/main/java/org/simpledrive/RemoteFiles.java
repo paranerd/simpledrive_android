@@ -31,10 +31,8 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -78,10 +76,10 @@ import java.util.TimerTask;
 
 import simpledrive.lib.AudioService;
 import simpledrive.lib.AudioService.LocalBinder;
+import simpledrive.lib.Connection;
 import simpledrive.lib.Helper;
 import simpledrive.lib.Item;
 import simpledrive.lib.MenuListAdapter;
-import simpledrive.lib.Connection;
 
 public class RemoteFiles extends ActionBarActivity {
     // General
@@ -113,7 +111,7 @@ public class RemoteFiles extends ActionBarActivity {
     // Interface
     private static AbsListView list;
     private static String globLayout;
-    private TextView empty;
+    private TextView info;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private Toolbar toolbar;
     private ImageButton bUpload;
@@ -125,9 +123,8 @@ public class RemoteFiles extends ActionBarActivity {
     public static RelativeLayout hoverButtons;
     public static SeekBar seek;
     public static ImageButton bPlay, bExit;
-    private String titles[] = {"Files", "Trash", "Logout"};
-    private int icons[] = {R.drawable.ic_folder, R.drawable.ic_trash, R.drawable.ic_logout};
-    private ActionBarDrawerToggle mDrawerToggle;
+    private String titles[] = {"Files", "Your shares", "Shared with you", "Trash", "Logout"};
+    private int icons[] = {R.drawable.ic_folder, R.drawable.ic_user, R.drawable.ic_share, R.drawable.ic_trash, R.drawable.ic_logout};
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private LinearLayout mDrawerLinear;
@@ -156,7 +153,6 @@ public class RemoteFiles extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            empty.setText("Loading files...");
             thumbQueue.clear();
             thumbLoading = false;
 
@@ -176,8 +172,10 @@ public class RemoteFiles extends ActionBarActivity {
         protected void onPostExecute(HashMap<String, String> value) {
             mSwipeRefreshLayout.setRefreshing(false);
             if(value == null || !value.get("status").equals("ok")) {
-                String msg = (value == null) ? "An error occurred" : value.get("msg");
-                Toast.makeText(e, msg, Toast.LENGTH_SHORT).show();
+                String msg = (value == null) ? getResources().getString(R.string.unknown_error) : value.get("msg");
+                info.setVisibility(View.VISIBLE);
+                info.setText(msg);
+                //Toast.makeText(e, msg, Toast.LENGTH_SHORT).show();
                 new Connect().execute();
             }
             else {
@@ -290,11 +288,16 @@ public class RemoteFiles extends ActionBarActivity {
             }
         } catch (JSONException exp) {
             exp.printStackTrace();
-            Toast.makeText(e, "An error occurred", Toast.LENGTH_SHORT).show();
+            Toast.makeText(e, R.string.unknown_error, Toast.LENGTH_SHORT).show();
         }
 
-        String emptyText = (items.size() == 0) ? "Nothing to see here." : "";
-        empty.setText(emptyText);
+        if (items.size() == 0) {
+            info.setVisibility(View.VISIBLE);
+            info.setText(R.string.empty);
+        }
+        else {
+            info.setVisibility(View.GONE);
+        }
 
         int layout = (globLayout.equals("list")) ? R.layout.listview : R.layout.gridview;
         newAdapter = new NewFileAdapter(e, layout);
@@ -513,7 +516,7 @@ public class RemoteFiles extends ActionBarActivity {
 
     public void openFile(int position) {
         Item item = items.get(position);
-        if(mode == "trash") {
+        if(mode.equals("trash")) {
             return;
         }
         else if(item.is("folder")) {
@@ -674,7 +677,6 @@ public class RemoteFiles extends ActionBarActivity {
         protected void onPreExecute() {
             loginAttempts++;
             super.onPreExecute();
-            empty.setText("Connecting ...");
     	}
     	
     	@Override
@@ -684,7 +686,6 @@ public class RemoteFiles extends ActionBarActivity {
             if (sc.length == 0 || loginAttempts > 2) {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("status", "error");
-                map.put("msg", "An error occurred");
                 return map;
             }
 
@@ -709,7 +710,6 @@ public class RemoteFiles extends ActionBarActivity {
                      currDir.put("rootshare", "");
                      hierarchy.add(currDir);
 
-                     empty.setText("Nothing to see here.");
                      Connection.setToken(value.get("msg"));
                      accMan.setUserData(sc[0], "token", value.get("msg"));
                  } catch (JSONException e) {
@@ -718,18 +718,19 @@ public class RemoteFiles extends ActionBarActivity {
 
                  new ListContent().execute();
                  new GetVersion().execute();
-             } else {
-                 if(sc.length == 0) {
+             }
+             else {
+                 if (sc.length == 0) {
                      // No account, return to login
                      Intent i = new Intent(e.getApplicationContext(), Login.class);
                      e.startActivity(i);
                  }
                  else {
                      // No connection
-                     Toast.makeText(e, "Error reconnecting", Toast.LENGTH_SHORT).show();
-                     empty.setText("Error reconnecting\nSwipe down to try again.");
+                     info.setVisibility(View.VISIBLE);
+                     info.setText(R.string.reconnect_error);
 
-                     if(newAdapter != null) {
+                     if (newAdapter != null) {
                          newAdapter.setData(null);
                          newAdapter.notifyDataSetChanged();
                      }
@@ -761,7 +762,7 @@ public class RemoteFiles extends ActionBarActivity {
                 try {
                     JSONObject job = new JSONObject(value.get("msg"));
                     String latest = job.getString("server");
-                    if (latest.length() > 0 && latest != "null") {
+                    if (latest.length() > 0 && !latest.equals("null")) {
                         Toast.makeText(e, "Server update available: " + latest, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e1) {
@@ -1031,7 +1032,7 @@ public class RemoteFiles extends ActionBarActivity {
                     .setContentText("Download in progress")
                     .setContentIntent(pIntent)
                     .setOngoing(true)
-                    .setSmallIcon(R.drawable.cloud_icon_notif)
+                    .setSmallIcon(R.drawable.ic_cloud)
                     .setProgress(100, 0, false);
             mNotifyManager = (NotificationManager) e.getSystemService(Context.NOTIFICATION_SERVICE);
             mNotifyManager.notify(notificationId, mBuilder.build());
@@ -1279,7 +1280,7 @@ public class RemoteFiles extends ActionBarActivity {
             mBuilder.setContentIntent(pIntent)
                     .setContentTitle("Uploading " + fullCurrent + " of " + fullTotal)
                     .setOngoing(true)
-                    .setSmallIcon(R.drawable.cloud_icon_notif)
+                    .setSmallIcon(R.drawable.ic_cloud)
                     .setProgress(100, 0, false);
             mNotifyManager.notify(notificationId, mBuilder.build());
         }
@@ -1396,9 +1397,19 @@ public class RemoteFiles extends ActionBarActivity {
                     else {
                         new Connect().execute();
                     }
-                } else if (position == 1) {
+                }
+                else if (position == 1) {
+                    mode = "sharedbyme";
+                    new ListContent().execute();
+                }
+                else if (position == 2) {
+                    mode = "sharedwithme";
+                    new ListContent().execute();
+                }
+                else if (position == 3) {
                     openTrash();
-                } else if (position == 2) {
+                }
+                else if (position == 4) {
                     Connection.logout(e);
                     startActivity(new Intent(getApplicationContext(), org.simpledrive.Login.class));
                     finish();
@@ -1412,7 +1423,7 @@ public class RemoteFiles extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
             public void onDrawerClosed(View view) {
                 supportInvalidateOptionsMenu();
             }
@@ -1503,7 +1514,7 @@ public class RemoteFiles extends ActionBarActivity {
             }*/
         }
 
-        empty = (TextView) findViewById(R.id.empty_list_item);
+        info = (TextView) findViewById(R.id.info);
 
         Intent intent = new Intent();
         intent.setClass(this, AudioService.class);
@@ -1740,7 +1751,7 @@ public class RemoteFiles extends ActionBarActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
+        inflater.inflate(R.menu.remote_files, menu);
         return true;
     }
 
@@ -1802,6 +1813,7 @@ public class RemoteFiles extends ActionBarActivity {
             exp.printStackTrace();
             Toast.makeText(e, "Error clearing cache", Toast.LENGTH_SHORT).show();
         }
+
         if(tmp.list().length == 0) {
             Toast.makeText(e, "Cache cleared", Toast.LENGTH_SHORT).show();
         }

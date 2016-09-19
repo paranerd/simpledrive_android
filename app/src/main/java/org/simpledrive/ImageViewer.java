@@ -5,22 +5,16 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.TypefaceSpan;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.webkit.WebView;
-import android.widget.AbsoluteLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -90,9 +84,7 @@ public class ImageViewer extends ActionBarActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if(toolbar != null) {
-                    SpannableString s = new SpannableString(images.get(position).get("filename"));
-                    s.setSpan(new TypefaceSpan("fonts/robotolight.ttf"), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    toolbar.setTitle(s);
+                    toolbar.setTitle(images.get(position).get("filename"));
                 }
             }
 

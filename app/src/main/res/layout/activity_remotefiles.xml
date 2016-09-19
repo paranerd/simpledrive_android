@@ -28,14 +28,16 @@
                     layout="@layout/toolbar"/>
 
                 <TextView
+                    android:id="@+id/info"
                     android:textSize="20.0sp"
                     android:textColor="#ffb3b3b3"
                     android:gravity="center"
-                    android:id="@id/empty_list_item"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:text="Empty Folder"
-                    android:layout_centerHorizontal="true" />
+                    android:text="@string/empty"
+                    android:layout_centerHorizontal="true"
+                    android:visibility="gone"
+                    android:fontFamily="sans-serif-light" />
 
                 <ListView
                     android:id="@id/list"
@@ -235,7 +237,7 @@
                 android:id="@+id/header_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15.0sp"
+                android:textSize="16.0dp"
                 android:textColor="@color/white"
                 android:paddingLeft="16dp"
                 android:layout_alignParentTop="true"
