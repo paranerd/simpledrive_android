@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,6 +30,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -291,31 +293,31 @@ public class LocalFiles extends ActionBarActivity {
                 String filename = file.getName();
                 String path = file.getAbsolutePath();
                 String size;
-                Bitmap thumb;
+                Bitmap icon;
                 String type;
 
                 if (file.isDirectory()) {
-                    size = "";
+                    size = (file.listFiles().length == 1) ? file.listFiles().length + " element" : file.listFiles().length + " elements";
                     type = "folder";
-                    thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
-                    directories.add(new Item(null, filename, null, path, size, null, type, null, null, thumb));
+                    icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
+                    directories.add(new Item(null, filename, null, path, size, null, type, null, null, icon, null));
                 } else {
                     type = getMimeType(file);
                     switch (type) {
                         case "image":
-                            thumb = null;
+                            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_image);
                             break;
                         case "audio":
-                            thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_audio);
+                            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_audio);
                             break;
                         case "pdf":
-                            thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_pdf);
+                            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_pdf);
                             break;
                         default:
-                            thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown);
+                            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown);
                     }
                     size = Helper.convertSize(file.length() + "");
-                    files.add(new Item(null, filename, null, path, size, null, type, null, null, thumb));
+                    files.add(new Item(null, filename, null, path, size, null, type, null, null, icon, null));
                 }
             }
             directories = Helper.sort(directories);
@@ -337,8 +339,6 @@ public class LocalFiles extends ActionBarActivity {
 
             if(toolbar != null) {
                 File dir = new File(hierarchy.get(hierarchy.size() - 1));
-                //SpannableString s = new SpannableString(dir.getName());
-                //s.setSpan(new TypefaceSpan("fonts/robotolight.ttf"), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 toolbar.setTitle(dir.getName());
                 toolbar.setSubtitle("Folders: " + firstFilePos + ", Files: " + (items.size() - firstFilePos));
             }
@@ -386,7 +386,10 @@ public class LocalFiles extends ActionBarActivity {
                 convertView.setBackgroundResource(R.drawable.bkg_light);
 
                 holder = new ViewHolder();
-                holder.thumb = (ImageView) convertView.findViewById(R.id.icon);
+                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                holder.thumb = (ImageView) convertView.findViewById(R.id.thumb);
+                holder.selector = (RelativeLayout) convertView.findViewById(R.id.selector);
+                holder.check = (ImageView) convertView.findViewById(R.id.check);
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.size = (TextView) convertView.findViewById(R.id.size);
                 holder.separator = (TextView) convertView.findViewById(R.id.separator);
@@ -399,6 +402,7 @@ public class LocalFiles extends ActionBarActivity {
 
             holder.name.setText(item.getFilename());
             holder.size.setText(item.getSize());
+            holder.icon.setImageBitmap(item.getIcon());
 
             int visibility = (position == 0 || (firstFilePos != null && position == firstFilePos)) ? View.VISIBLE : View.GONE;
             holder.separator.setVisibility(visibility);
@@ -406,36 +410,42 @@ public class LocalFiles extends ActionBarActivity {
             String text = (firstFilePos != null && position == firstFilePos) ? "Files" : "Folders";
             holder.separator.setText(text);
 
-            int gravity = (item.is("folder")) ? Gravity.CENTER_VERTICAL : Gravity.TOP;
-            holder.name.setGravity(gravity);
+            /*int gravity = (item.is("folder")) ? Gravity.CENTER_VERTICAL : Gravity.TOP;
+            holder.name.setGravity(gravity);*/
 
-            if (!item.isSelected()) {
-                // Item is not selected
+            if (item.isSelected()) {
+                holder.check.setVisibility(View.VISIBLE);
+                convertView.setBackgroundColor(getResources().getColor(R.color.transparentgreen));
+            }
+            else {
+                holder.check.setVisibility(View.INVISIBLE);
+                holder.selector.setBackgroundColor(getResources().getColor(R.color.transparent));
                 convertView.setBackgroundResource(R.drawable.bkg_light);
-            } else {
-                // Item is selected
-                convertView.setBackgroundColor(getResources().getColor(R.color.lightgreen));
             }
 
-            holder.thumb.setImageBitmap(item.getThumb());
-            if(item.is("image") && item.getThumb() == null) {
-                item.setThumb(BitmapFactory.decodeResource(getResources(), R.drawable.ic_image));
-                holder.thumb.setImageResource(R.drawable.ic_image);
+            if(item.is("image")) {
+                if (item.getThumb() == null) {
+                    item.setThumb(BitmapFactory.decodeResource(getResources(), R.drawable.ic_image));
+                    holder.thumb.setImageResource(R.drawable.ic_image);
                 /*if(!called) {
                     called = true;
                     new LoadThumb().execute(position);
                 }*/
-                new LoadThumb().execute(position);
+                    new LoadThumb().execute(position);
+                }
+                else {
+                    holder.thumb.setImageBitmap(item.getThumb());
+                }
             }
 
-            holder.thumb.setOnClickListener(new View.OnClickListener() {
+            holder.selector.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     toggleSelection(position);
                 }
             });
 
-            holder.thumb.setOnLongClickListener(new View.OnLongClickListener() {
+            holder.selector.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     longClicked = true;
@@ -443,11 +453,15 @@ public class LocalFiles extends ActionBarActivity {
                     return true;
                 }
             });
+
             return convertView;
         }
 
         class ViewHolder {
+            ImageView icon;
             ImageView thumb;
+            ImageView check;
+            RelativeLayout selector;
             TextView name;
             TextView size;
             TextView separator;

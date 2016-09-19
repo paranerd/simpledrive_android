@@ -11,6 +11,7 @@ public class Item {
 	private String size;
 	private String edit;
 	private String path;
+	private Bitmap icon;
 	private Bitmap thumb;
 	private String type;
 	private String hash;
@@ -18,7 +19,7 @@ public class Item {
 	private String thumbPath = null;
 	private boolean selected = false;
 
-	public Item(JSONObject json, String filename, String parent, String path, String size, String edit, String type, String owner, String hash, Bitmap thumb) {
+	public Item(JSONObject json, String filename, String parent, String path, String size, String edit, String type, String owner, String hash, Bitmap icon, Bitmap thumb) {
 	//public Item(String filename, String size, String edit, String path, Bitmap thumb, String type) {
 		this.json = json;
 		this.filename = filename;
@@ -26,6 +27,7 @@ public class Item {
 		this.size = size;
 		this.edit = edit;
 		this.path = path;
+		this.icon = icon;
 		this.thumb = thumb;
 		this.type = type;
 		this.hash = hash;
@@ -61,7 +63,11 @@ public class Item {
 	public String getParent() {
 		return this.parent;
 	}
-	
+
+	public Bitmap getIcon() {
+		return this.icon;
+	}
+
 	public Bitmap getThumb() {
 		return this.thumb;
 	}

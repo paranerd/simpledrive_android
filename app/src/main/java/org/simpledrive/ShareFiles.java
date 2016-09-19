@@ -231,10 +231,10 @@ public class ShareFiles extends ActionBarActivity {
                 String type = obj.getString("type");
                 String size = (obj.getString("type").equals("folder")) ? "" : Helper.convertSize(obj.getString("size"));
                 String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : ((obj.getString("rootshare").length() == 0) ? "" : "shared");
-                Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
+                Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
 
                 if(type.equals("folder")) {
-                    Item item = new Item(obj, filename, parent, null, size, obj.getString("edit"), type, owner, obj.getString("hash"), thumb);
+                    Item item = new Item(obj, filename, parent, null, size, obj.getString("edit"), type, owner, obj.getString("hash"), icon, null);
                     items.add(item);
                 }
             }
@@ -303,7 +303,8 @@ public class ShareFiles extends ActionBarActivity {
                 convertView.setBackgroundResource(R.drawable.bkg_light);
 
                 holder = new ViewHolder();
-                holder.thumb = (ImageView) convertView.findViewById(R.id.icon);
+                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                holder.thumb = (ImageView) convertView.findViewById(R.id.thumb);
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.size = (TextView) convertView.findViewById(R.id.size);
                 holder.owner = (TextView) convertView.findViewById(R.id.owner);
@@ -318,6 +319,8 @@ public class ShareFiles extends ActionBarActivity {
             holder.name.setText(item.getFilename());
             holder.size.setText(item.getSize());
             holder.owner.setText(item.getOwner());
+            holder.name.setGravity(Gravity.CENTER_VERTICAL);
+            holder.icon.setImageBitmap(item.getIcon());
 
             if(globLayout.equals("list")) {
                 int visibility = (position == 0) ? View.VISIBLE : View.GONE;
@@ -327,35 +330,11 @@ public class ShareFiles extends ActionBarActivity {
                 holder.separator.setText(text);
             }
 
-            if (!item.is("image") && globLayout.equals("grid")) {
-                DisplayMetrics displaymetrics = new DisplayMetrics();
-                getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-                holder.thumb.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) holder.thumb.getLayoutParams();
-                lp.height = displaymetrics.widthPixels / 8;
-                lp.width = displaymetrics.widthPixels / 8;
-                holder.thumb.setLayoutParams(lp);
-            } else if (globLayout.equals("grid")) {
-                holder.thumb.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) holder.thumb.getLayoutParams();
-                lp.height = RelativeLayout.LayoutParams.MATCH_PARENT;
-                lp.width = RelativeLayout.LayoutParams.MATCH_PARENT;
-                holder.thumb.setLayoutParams(lp);
-            }
-
-            if(globLayout.equals("grid")) {
-                holder.name.setBackgroundColor(getResources().getColor(R.color.brightgrey));
-            } else {
-                convertView.setBackgroundResource(R.drawable.bkg_light);
-            }
-
-            holder.name.setGravity(Gravity.CENTER_VERTICAL);
-            holder.thumb.setImageBitmap(item.getThumb());
-
             return convertView;
         }
 
         class ViewHolder {
+            ImageView icon;
             ImageView thumb;
             TextView name;
             TextView size;

@@ -37,7 +37,7 @@
         
         <Button
             android:id="@id/bCheck"
-            android:background="@drawable/checkbutton"
+            android:background="@drawable/ic_check"
             android:visibility="gone" android:layout_width="55.0dip"
             android:layout_height="55.0dip"
             android:layout_marginRight="20.0dip"

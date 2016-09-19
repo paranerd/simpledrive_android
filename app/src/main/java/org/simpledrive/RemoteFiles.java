@@ -217,40 +217,46 @@ public class RemoteFiles extends ActionBarActivity {
                 String filename = (mode.equals("trash")) ? obj.getString("filename").substring(0, obj.getString("filename").lastIndexOf("_trash")) : obj.getString("filename");
                 String parent = obj.getString("parent");
                 String type = obj.getString("type");
-                String size = (obj.getString("type").equals("folder")) ? "" : Helper.convertSize(obj.getString("size"));
-                Log.i("rootshare", obj.getString("rootshare"));
+                String size = (obj.getString("type").equals("folder")) ? ((obj.getString("size").equals("1")) ? obj.getString("size") + " element" : obj.getString("size") + " elements") : Helper.convertSize(obj.getString("size"));
+
                 String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : ((obj.getString("rootshare").length() == 0) ? "" : "shared");
-                Bitmap thumb;
+                Bitmap icon;
 
                 switch (type) {
                     case "folder":
-                        thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
                         break;
                     case "audio":
-                        thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_audio);
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_audio);
                         break;
                     case "pdf":
-                        thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_pdf);
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_pdf);
                         break;
                     case "image":
-                        String ext = FilenameUtils.getExtension(filename);
-                        String imgPath = tmpFolder + Helper.md5(parent + filename) + ext;
-                        String thumbPath = (globLayout.equals("list")) ? tmpFolder + Helper.md5(parent + filename) + "_list.jpg" : tmpFolder + Helper.md5(parent + filename) + "_grid.jpg";
-
-                        if (new File(imgPath).exists()) {
-                            thumb = Helper.getThumb(imgPath, thumbSize);
-                        } else if (new File(thumbPath).exists()) {
-                            thumb = Helper.getThumb(thumbPath, thumbSize);
-                        } else {
-                            thumb = null;
-                        }
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_image);
                         break;
                     default:
-                        thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown);
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown);
                         break;
                 }
 
-                Item item = new Item(obj, filename, parent, null, size, obj.getString("edit"), type, owner, obj.getString("hash"), thumb);
+                Bitmap thumb = null;
+
+                if (type.equals("image")) {
+                    String ext = FilenameUtils.getExtension(filename);
+                    String imgPath = tmpFolder + Helper.md5(parent + filename) + ext;
+                    String thumbPath = (globLayout.equals("list")) ? tmpFolder + Helper.md5(parent + filename) + "_list.jpg" : tmpFolder + Helper.md5(parent + filename) + "_grid.jpg";
+
+                    if (new File(imgPath).exists()) {
+                        thumb = Helper.getThumb(imgPath, thumbSize);
+                    }
+                    else if (new File(thumbPath).exists()) {
+                        thumb = Helper.getThumb(thumbPath, thumbSize);
+                    }
+                }
+
+
+                Item item = new Item(obj, filename, parent, null, size, obj.getString("edit"), type, owner, obj.getString("hash"), icon, thumb);
                 items.add(item);
             }
 
@@ -333,7 +339,10 @@ public class RemoteFiles extends ActionBarActivity {
                 convertView.setBackgroundResource(R.drawable.bkg_light);
 
                 holder = new ViewHolder();
-                holder.thumb = (ImageView) convertView.findViewById(R.id.icon);
+                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                holder.thumb = (ImageView) convertView.findViewById(R.id.thumb);
+                holder.selector = (RelativeLayout) convertView.findViewById(R.id.selector);
+                holder.check = (ImageView) convertView.findViewById(R.id.check);
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.size = (TextView) convertView.findViewById(R.id.size);
                 holder.owner = (TextView) convertView.findViewById(R.id.owner);
@@ -348,6 +357,7 @@ public class RemoteFiles extends ActionBarActivity {
             holder.name.setText(item.getFilename());
             holder.size.setText(item.getSize());
             holder.owner.setText(item.getOwner());
+            holder.icon.setImageBitmap(item.getIcon());
 
             if(globLayout.equals("list")) {
                 int visibility = (position == 0 || (firstFilePos != null && position == firstFilePos)) ? View.VISIBLE : View.GONE;
@@ -357,60 +367,43 @@ public class RemoteFiles extends ActionBarActivity {
                 holder.separator.setText(text);
             }
 
-            if (!item.is("image") && globLayout.equals("grid")) {
-                DisplayMetrics displaymetrics = new DisplayMetrics();
-                getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-                holder.thumb.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) holder.thumb.getLayoutParams();
-                lp.height = displaymetrics.widthPixels / 8;
-                lp.width = displaymetrics.widthPixels / 8;
-                holder.thumb.setLayoutParams(lp);
-            } else if (globLayout.equals("grid")) {
-                holder.thumb.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) holder.thumb.getLayoutParams();
-                lp.height = RelativeLayout.LayoutParams.MATCH_PARENT;
-                lp.width = RelativeLayout.LayoutParams.MATCH_PARENT;
-                holder.thumb.setLayoutParams(lp);
+            if (item.isSelected()) {
+                holder.check.setVisibility(View.VISIBLE);
+                if(globLayout.equals("grid")) {
+                    holder.selector.setBackgroundColor(getResources().getColor(R.color.transparentgreen));
+                }
+                convertView.setBackgroundColor(getResources().getColor(R.color.transparentgreen));
+            }
+            else {
+                holder.check.setVisibility(View.INVISIBLE);
+                holder.selector.setBackgroundColor(getResources().getColor(R.color.transparent));
+                convertView.setBackgroundResource(R.drawable.bkg_light);
             }
 
-            int gravity = (item.is("folder") || globLayout.equals("grid")) ? Gravity.CENTER_VERTICAL : Gravity.TOP;
-            holder.name.setGravity(gravity);
+            if(item.is("image")) {
+                if (item.getThumb() == null) {
+                    item.setThumb(BitmapFactory.decodeResource(getResources(), R.drawable.ic_image));
+                    holder.thumb.setImageResource(R.drawable.ic_image);
+                    String thumbPath = (globLayout.equals("list")) ? tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + "_list.jpg" : tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + "_grid.jpg";
+                    item.setThumbPath(thumbPath);
 
-            if (!item.isSelected()) {
-                // Item is not selected
-                if(globLayout.equals("grid")) {
-                    holder.name.setBackgroundColor(getResources().getColor(R.color.brightgrey));
-                } else {
-                    convertView.setBackgroundResource(R.drawable.bkg_light);
-                }
-            } else {
-                // Item is selected
-                if(globLayout.equals("grid")) {
-                    holder.name.setBackgroundColor(getResources().getColor(R.color.lightgreen));
-                } else {
-                    convertView.setBackgroundColor(getResources().getColor(R.color.lightgreen));
-                }
-            }
-
-            holder.thumb.setImageBitmap(item.getThumb());
-
-            if(item.is("image") && item.getThumb() == null) {
-                item.setThumb(BitmapFactory.decodeResource(getResources(), R.drawable.ic_image));
-                holder.thumb.setImageResource(R.drawable.ic_image);
-                String thumbPath = (globLayout.equals("list")) ? tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + "_list.jpg" : tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + "_grid.jpg";
-                item.setThumbPath(thumbPath);
-
-                if(!thumbLoading) {
-                    //loadThumb(item);
-                    thumbQueue.add(item);
-                    new LoadThumb().execute();
+                    if (!thumbLoading) {
+                        //loadThumb(item);
+                        thumbQueue.add(item);
+                        new LoadThumb().execute();
+                    } else {
+                        thumbQueue.add(item);
+                    }
                 }
                 else {
-                    thumbQueue.add(item);
+                    holder.thumb.setImageBitmap(item.getThumb());
                 }
             }
+            else {
+                holder.thumb.setImageBitmap(null);
+            }
 
-            holder.thumb.setOnClickListener(new View.OnClickListener() {
+            holder.selector.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (getSelectedElem().length() > 0 || globLayout.equals("list")) {
@@ -421,7 +414,7 @@ public class RemoteFiles extends ActionBarActivity {
                 }
             });
 
-            holder.thumb.setOnLongClickListener(new View.OnLongClickListener() {
+            holder.selector.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     longClicked = true;
@@ -429,15 +422,19 @@ public class RemoteFiles extends ActionBarActivity {
                     return true;
                 }
             });
+
             return convertView;
         }
 
         class ViewHolder {
+            ImageView icon;
             ImageView thumb;
+            ImageView check;
             TextView name;
             TextView size;
             TextView owner;
             TextView separator;
+            RelativeLayout selector;
         }
 
         public void setData(ArrayList<Item> arg1) {

@@ -12,7 +12,7 @@ import simpledrive.lib.Helper;
  * Used to make the GridView-Items square
  */
 public class GridViewItem extends RelativeLayout {
-    private static int reduceHeight = Helper.dpToPx(40);
+    //private static int reduceHeight = Helper.dpToPx(30); --> to exclude filename from grid-item-height
     public GridViewItem(Context context) {
         super(context);
     }
@@ -27,6 +27,7 @@ public class GridViewItem extends RelativeLayout {
 
     @Override
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, widthMeasureSpec - reduceHeight);
+        //super.onMeasure(widthMeasureSpec, widthMeasureSpec - reduceHeight);
+        super.onMeasure(widthMeasureSpec, widthMeasureSpec);
     }
 }

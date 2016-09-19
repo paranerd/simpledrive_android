@@ -27,10 +27,10 @@ public class AudioService extends Service {
 	private MediaPlayer mediaPlayer;
 	private static boolean playPause, prepared = false;
 	int notificationId = 3;
-	
+
 	private AudioBCReceiver receiver;
 	private static boolean active;
-	
+
 	public static final String PLAY_CHANGED = "org.simpledrive.action.playstatechanged";
 	public static final String CHANGE_PLAY = "org.simpledrive.action.changeplay";
 	public static final String STOP = "org.simpledrive.action.stop";
@@ -41,11 +41,11 @@ public class AudioService extends Service {
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(CHANGE_PLAY);
 		filter.addAction(STOP);
-	    receiver = new AudioBCReceiver();
-	    registerReceiver(receiver, filter);
-	    
-	    mediaPlayer = new MediaPlayer();
-	    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+		receiver = new AudioBCReceiver();
+		registerReceiver(receiver, filter);
+
+		mediaPlayer = new MediaPlayer();
+		mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 	}
 
 	@Override
@@ -54,12 +54,12 @@ public class AudioService extends Service {
 		mediaPlayer.release();
 		unregisterReceiver(receiver);
 	}
-	
+
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		return super.onStartCommand(intent, flags, startId);
 	}
-	
+
 	@Override
 	public boolean onUnbind(Intent intent) {
 		if(playPause) {
@@ -70,7 +70,7 @@ public class AudioService extends Service {
 		stopSelf();
 		return true;
 	}
-	
+
 	@Override
 	public void onRebind(Intent intent) {
 		super.onRebind(intent);
@@ -117,25 +117,25 @@ public class AudioService extends Service {
 		active = false;
 		stopForeground(true);
 	}
-	
+
 	public void play() {
-        if (prepared && mediaPlayer != null && !mediaPlayer.isPlaying()) {
-            mediaPlayer.start();
-            playPause = true;
-            sendBroadcast(PLAY_CHANGED);
-            buildNotification();
-        }
+		if (prepared && mediaPlayer != null && !mediaPlayer.isPlaying()) {
+			mediaPlayer.start();
+			playPause = true;
+			sendBroadcast(PLAY_CHANGED);
+			buildNotification();
+		}
 	}
-	
+
 	public void togglePlay() {
-        if (!playPause) {
-        	play();
-        }
-        else {
-        	pause();
-        }
+		if (!playPause) {
+			play();
+		}
+		else {
+			pause();
+		}
 	}
-	
+
 	public void initPlay(String url) {
 		active = true;
 		prepared = false;
@@ -155,16 +155,16 @@ public class AudioService extends Service {
 				play();
 			}
 		});
-	    mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
+		mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
 
-	        @Override
-	        public void onCompletion(MediaPlayer mp) {
-	            playPause = false;
-	            mediaPlayer.pause();
-	            mediaPlayer.seekTo(0);
-	            sendBroadcast(STOP);
-	        }
-	    });
+			@Override
+			public void onCompletion(MediaPlayer mp) {
+				playPause = false;
+				mediaPlayer.pause();
+				mediaPlayer.seekTo(0);
+				sendBroadcast(STOP);
+			}
+		});
 		mediaPlayer.setOnErrorListener(new OnErrorListener() {
 			@Override
 			public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
@@ -181,50 +181,50 @@ public class AudioService extends Service {
 		}
 		return 0;
 	}
-	
+
 	public void sendBroadcast(String what) {
 		Intent intent = new Intent();
 		intent.setAction(what);
 		sendBroadcast(intent);
 	}
-	
-	public void buildNotification() {
-        Intent intent = new Intent(this, RemoteFiles.class);
-        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        
-        Intent change = new Intent(CHANGE_PLAY);
-        PendingIntent pChange = PendingIntent.getBroadcast(this, 0, change, 0);
-        
-        Intent stop = new Intent(STOP);
-        PendingIntent pStop = PendingIntent.getBroadcast(this, 0, stop, 0);
-        
-        RemoteViews remoteView = new RemoteViews(getPackageName(), R.layout.notification);
-        remoteView.setImageViewResource(R.id.notifimage, R.drawable.ic_play_circle);
 
-        if(mediaPlayer.isPlaying()) {
-        	remoteView.setImageViewResource(R.id.notifbutton, R.drawable.ic_pause);
-        }
-        else {
-        	remoteView.setImageViewResource(R.id.notifbutton, R.drawable.ic_play);
-        }
-        remoteView.setTextViewText(R.id.notiftitle, RemoteFiles.audioFilename);
-        remoteView.setOnClickPendingIntent(R.id.notifbutton, pChange);
-        remoteView.setOnClickPendingIntent(R.id.notifexit, pStop);
+	public void buildNotification() {
+		Intent intent = new Intent(this, RemoteFiles.class);
+		PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+		Intent change = new Intent(CHANGE_PLAY);
+		PendingIntent pChange = PendingIntent.getBroadcast(this, 0, change, 0);
+
+		Intent stop = new Intent(STOP);
+		PendingIntent pStop = PendingIntent.getBroadcast(this, 0, stop, 0);
+
+		RemoteViews remoteView = new RemoteViews(getPackageName(), R.layout.notification);
+		remoteView.setImageViewResource(R.id.notifimage, R.drawable.ic_play_circle);
+
+		if(mediaPlayer.isPlaying()) {
+			remoteView.setImageViewResource(R.id.notifbutton, R.drawable.ic_pause_black);
+		}
+		else {
+			remoteView.setImageViewResource(R.id.notifbutton, R.drawable.ic_play_black);
+		}
+		remoteView.setTextViewText(R.id.notiftitle, RemoteFiles.audioFilename);
+		remoteView.setOnClickPendingIntent(R.id.notifbutton, pChange);
+		remoteView.setOnClickPendingIntent(R.id.notifexit, pStop);
 
 		//NotificationManager mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-        mBuilder.setContent(remoteView)
-        	.setContentIntent(pIntent)
-        	.setOngoing(false)
-        	.setSmallIcon(R.drawable.ic_play);
+		mBuilder.setContent(remoteView)
+				.setContentIntent(pIntent)
+				.setOngoing(false)
+				.setSmallIcon(R.drawable.ic_play);
 
-        Notification noti = mBuilder.build();
+		Notification noti = mBuilder.build();
 
-        startForeground(notificationId, noti);
+		startForeground(notificationId, noti);
 	}
-	
+
 	public class AudioBCReceiver extends BroadcastReceiver {
-		
+
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if(intent.getAction().equals(CHANGE_PLAY)) {
