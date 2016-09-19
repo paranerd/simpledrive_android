@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <layer-list>
+            <!-- Pressed Button color -->
+            <item>
+                <shape android:shape="oval">
+                    <solid android:color="@color/darkergreen"/>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+    <item android:state_enabled="true">
+
+        <layer-list>
+            <!-- Default Button color -->
+            <item>
+                <shape android:shape="oval">
+                    <solid android:color="@color/darkgreen"/>
+                </shape>
+            </item>
+        </layer-list>
+
+    </item>
+
+</selector>
