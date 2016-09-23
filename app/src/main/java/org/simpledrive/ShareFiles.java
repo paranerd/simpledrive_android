@@ -14,19 +14,15 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.TypefaceSpan;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -38,7 +34,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -57,9 +52,9 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import simpledrive.lib.Helper;
-import simpledrive.lib.Item;
 import simpledrive.lib.Connection;
+import simpledrive.lib.Util;
+import simpledrive.lib.Item;
 
 public class ShareFiles extends ActionBarActivity {
     // General
@@ -67,18 +62,30 @@ public class ShareFiles extends ActionBarActivity {
     public static ShareFiles e;
     private static String username = "";
     private SharedPreferences settings;
+    private static int grids = 3;
+    private static int gridSize;
 
     // Files
     private static ArrayList<Item> items = new ArrayList<>();
     private static ArrayList<JSONObject> hierarchy = new ArrayList<>();
     private int sortOrder = 1;
 
-    // View elements
+    // Interface
     private static AbsListView list;
     private TextView info;
     private static String globLayout;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private Toolbar toolbar;
+    private GridView tmp_grid;
+    private ListView tmp_list;
+    //private ImageButton bUpload;
+    //private ImageButton bCreate;
+    //private ImageButton toggleButton;
+    //private ImageButton bOK;
+
+    private FloatingActionButton fab;
+    private FloatingActionButton fab_folder;
+    private FloatingActionButton fab_ok;
 
     // Upload
     private ArrayList<HashMap<String, String>> uploadQueue = new ArrayList<>();
@@ -96,23 +103,40 @@ public class ShareFiles extends ActionBarActivity {
 
         setContentView(R.layout.activity_sharefiles);
 
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        gridSize = displaymetrics.widthPixels / grids;
+
+        tmp_grid = (GridView) findViewById(R.id.grid);
+        tmp_list = (ListView) findViewById(R.id.list);
+
         info = (TextView) findViewById(R.id.info);
 
         uploadsPending = getUploads(getIntent());
 
-        ImageButton bUpload = ((ImageButton) findViewById(R.id.bUpload));
-        ImageButton bCreate = ((ImageButton) findViewById(R.id.bCreate));
-        final ImageButton toggleButton = ((ImageButton) findViewById(R.id.bAdd));
-        final ImageButton bOK = ((ImageButton) findViewById(R.id.bOK));
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab_ok = (FloatingActionButton) findViewById(R.id.fab_ok);
+        fab_folder = (FloatingActionButton) findViewById(R.id.fab_folder);
 
-        bCreate.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showCreate();
+                if (fab_folder.getVisibility() == View.GONE) {
+                    fab_folder.setVisibility(View.VISIBLE);
+                } else {
+                    fab_folder.setVisibility(View.GONE);
+                }
             }
         });
 
-        bOK.setOnClickListener(new View.OnClickListener()
+        fab_folder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCreate("folder");
+            }
+        });
+
+        fab_ok.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -122,17 +146,6 @@ public class ShareFiles extends ActionBarActivity {
             }
         });
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            toggleButton.setBackgroundResource(R.drawable.action_button_ripple);
-            bUpload.setBackgroundResource(R.drawable.action_button_ripple);
-            bCreate.setBackgroundResource(R.drawable.action_button_ripple);
-            bOK.setBackgroundResource(R.drawable.action_button_ripple);
-        }
-
-        bOK.setVisibility(View.VISIBLE);
-        bCreate.setVisibility(View.VISIBLE);
-
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -141,7 +154,7 @@ public class ShareFiles extends ActionBarActivity {
             }
         });
         mSwipeRefreshLayout.setColorSchemeResources(R.color.darkgreen, R.color.darkgreen, R.color.darkgreen, R.color.darkgreen);
-        mSwipeRefreshLayout.setProgressViewOffset(false, Helper.dpToPx(56), Helper.dpToPx(56) + 100);
+        mSwipeRefreshLayout.setProgressViewOffset(false, Util.dpToPx(56), Util.dpToPx(56) + 100);
 
         settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
         globLayout = (settings.getString("view", "").length() == 0) ? "list" : settings.getString("view", "");
@@ -228,7 +241,7 @@ public class ShareFiles extends ActionBarActivity {
                 String filename = obj.getString("filename");
                 String parent = obj.getString("parent");
                 String type = obj.getString("type");
-                String size = (obj.getString("type").equals("folder")) ? "" : Helper.convertSize(obj.getString("size"));
+                String size = (obj.getString("type").equals("folder")) ? "" : Util.convertSize(obj.getString("size"));
                 String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : ((obj.getString("rootshare").length() == 0) ? "" : "shared");
                 Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
 
@@ -304,7 +317,6 @@ public class ShareFiles extends ActionBarActivity {
 
             if(convertView == null) {
                 convertView = layoutInflater.inflate(layout, null);
-                convertView.setBackgroundResource(R.drawable.bkg_light);
 
                 holder = new ViewHolder();
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
@@ -312,12 +324,15 @@ public class ShareFiles extends ActionBarActivity {
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.size = (TextView) convertView.findViewById(R.id.size);
                 holder.owner = (TextView) convertView.findViewById(R.id.owner);
-                holder.separator = (TextView) convertView.findViewById(R.id.separator);
+
+                if (globLayout.equals("grid")) {
+                    holder.wrapper = (RelativeLayout) convertView.findViewById(R.id.wrapper);
+                    holder.wrapper.setLayoutParams(new RelativeLayout.LayoutParams(gridSize, gridSize));
+                }
                 convertView.setTag(holder);
             }
             else {
                 holder = (ViewHolder) convertView.getTag();
-                convertView.setBackgroundResource(R.drawable.bkg_light);
             }
 
             holder.name.setText(item.getFilename());
@@ -326,22 +341,16 @@ public class ShareFiles extends ActionBarActivity {
             holder.name.setGravity(Gravity.CENTER_VERTICAL);
             holder.icon.setImageBitmap(item.getIcon());
 
-            if(globLayout.equals("list")) {
-                int visibility = (position == 0) ? View.VISIBLE : View.GONE;
-                holder.separator.setVisibility(visibility);
-                holder.separator.setText(R.string.connecting);
-            }
-
             return convertView;
         }
 
         class ViewHolder {
+            RelativeLayout wrapper;
             ImageView icon;
             ImageView thumb;
             TextView name;
             TextView size;
             TextView owner;
-            TextView separator;
         }
 
         public void setData(ArrayList<Item> arg1) {
@@ -443,10 +452,11 @@ public class ShareFiles extends ActionBarActivity {
             Connection multipart = new Connection("files", "create", null);
             multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).toString());
             multipart.addFormField("filename", pos[0]);
-            multipart.addFormField("type", "folder");
+            multipart.addFormField("type", pos[1]);
 
             return multipart.finish();
         }
+
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
             if(value.get("status").equals("ok")) {
@@ -458,10 +468,10 @@ public class ShareFiles extends ActionBarActivity {
         }
     }
 
-    private void showCreate() {
+    private void showCreate(final String type) {
         AlertDialog.Builder alert = new AlertDialog.Builder(e);
 
-        alert.setTitle("New Folder");
+        alert.setTitle("New " + type.substring(0,1).toUpperCase() + type.substring(1));
 
         // Set an EditText view to get user input
         final EditText input = new EditText(e);
@@ -470,7 +480,7 @@ public class ShareFiles extends ActionBarActivity {
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String newFilename = input.getText().toString();
-                new NewFile().execute(newFilename);
+                new NewFile().execute(newFilename, type);
             }
         });
 
@@ -684,11 +694,9 @@ public class ShareFiles extends ActionBarActivity {
 
         if(globLayout.equals("list")) {
             list = (ListView) findViewById(R.id.list);
-            GridView tmp_grid = (GridView) findViewById(R.id.grid);
             tmp_grid.setVisibility(View.GONE);
         } else {
             list = (GridView) findViewById(R.id.grid);
-            ListView tmp_list = (ListView) findViewById(R.id.list);
             tmp_list.setVisibility(View.GONE);
         }
         list.setVisibility(View.VISIBLE);

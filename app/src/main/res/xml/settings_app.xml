@@ -1,0 +1,40 @@
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="General">
+
+        <Preference
+            android:id="@+id/clearcache"
+            android:key="clearcache"
+            android:title="Clear cache"
+            android:summary="Size: calculating..." />
+
+        <ListPreference
+            android:key="fileview"
+            android:entries="@array/fileviews"
+            android:summary="List"
+            android:entryValues="@array/fileviewValues"
+            android:title="Fileview"
+            android:dialogTitle="Select fileview" />
+
+        <CheckBoxPreference
+            android:key="loadthumb"
+            android:title="Load thumbnails"
+            android:summary="Disable to save data"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Info">
+
+        <Preference
+            android:id="@+id/app_version"
+            android:key="app_version"
+            android:title="App version"
+            android:summary="3.10.0" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

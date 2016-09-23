@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@drawable/item_selector"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
@@ -13,9 +14,8 @@
         android:paddingLeft="16dp"
         android:gravity="center_vertical"
         android:textSize="15.0sp"
-        android:textColor="#ffaaaaaa"
-        android:background="#fff3f3f3"
-        android:visibility="gone"/>
+        android:textColor="@color/darkgreen"
+        android:background="@color/white" />
 
     <RelativeLayout
         android:id="@+id/inner"
@@ -25,44 +25,88 @@
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:layout_marginTop="0dp"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        >
-
-        <ImageView
-            android:id="@id/icon"
-            android:layout_marginLeft="16dip"
-            android:layout_width="48.0dip"
-            android:layout_height="48.0dip"
-            android:layout_centerVertical="true"
-            android:scaleType="center"
-            android:background="@drawable/button_flat" />
-
-        <ImageView
-            android:id="@+id/thumb"
-            android:layout_marginLeft="16dip"
-            android:layout_width="48dip"
-            android:layout_height="48dip"
-            android:layout_centerVertical="true"
-            android:scaleType="centerCrop"
-            android:background="#00000000" />
+        xmlns:android="http://schemas.android.com/apk/res/android" >
 
         <RelativeLayout
-            android:id="@+id/selector"
-            android:layout_width="72dip"
-            android:layout_height="match_parent" >
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/icon_area"
+            android:orientation="vertical" >
+
+            <FrameLayout
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="16dip"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/icon_circle"
+                android:layout_gravity="center"
+                android:background="@drawable/circle_drawable">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/icon"
+                    android:layout_centerVertical="true"
+                    android:scaleType="center" />
+            </FrameLayout>
 
             <ImageView
-                android:id="@+id/check"
-                android:layout_marginLeft="16dip"
-                android:layout_width="48.0dip"
-                android:layout_height="48.0dip"
+                android:id="@+id/thumb"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
                 android:layout_centerVertical="true"
-                android:scaleType="center"
-                android:background="@drawable/button_flat"
-                android:src="@drawable/ic_check"
-                android:visibility="invisible" />
+                android:layout_centerHorizontal="true"
+                android:scaleType="centerCrop"
+                android:background="#00000000" />
+
+            <RelativeLayout
+                android:id="@+id/checked"
+                android:layout_width="80dip"
+                android:layout_height="match_parent"
+                android:visibility="invisible" >
+
+                <!--<ImageView
+                    android:id="@+id/check"
+                    android:layout_marginLeft="16dip"
+                    android:layout_width="48.0dip"
+                    android:layout_height="48.0dip"
+                    android:layout_centerVertical="true"
+                    android:scaleType="center"
+                    android:background="@drawable/button_flat"
+                    android:src="@drawable/ic_check"
+                    android:visibility="invisible" />-->
+
+                <FrameLayout
+                    android:id="@+id/check_wrapper"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="16dip"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:background="@drawable/circle_drawable"
+                     >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/check"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:scaleType="center"
+                        android:src="@drawable/ic_check"
+                         />
+                </FrameLayout>
+
+            </RelativeLayout>
 
         </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_toRightOf="@+id/icon_area" >
 
         <TextView
             android:id="@id/name"
@@ -72,25 +116,23 @@
             android:gravity="top"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:singleLine="true"
-            android:layout_toRightOf="@id/icon"
             android:includeFontPadding="false"
-            android:fontFamily="sans-serif-light" />
+            android:fontFamily="sans-serif-light"
+            android:text="Name" />
 
         <TextView
             android:id="@id/size"
             android:textSize="13.0sp"
             android:textColor="#ffaaaaaa"
-            android:layout_marginLeft="16dp"
             android:layout_marginBottom="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="bottom"
             android:singleLine="true"
-            android:layout_toRightOf="@id/icon"
-            android:layout_alignParentBottom="true" />
+            android:layout_alignParentBottom="true"
+            android:text="Size"/>
 
         <TextView
             android:id="@id/owner"
@@ -101,6 +143,10 @@
             android:gravity="bottom"
             android:layout_marginBottom="16.0dip"
             android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true" />
+            android:layout_alignParentBottom="true"
+            android:text="Owner"/>
+    </RelativeLayout>
+
+
     </RelativeLayout>
 </LinearLayout>

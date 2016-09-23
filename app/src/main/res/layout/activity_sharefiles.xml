@@ -1,120 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swipe_refresh_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <RelativeLayout
-        android:background="#f2f2f2"
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="false"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar"/>
-
-        <TextView
-            android:id="@+id/info"
-            android:textSize="20.0sp"
-            android:textColor="#ffb3b3b3"
-            android:gravity="center"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_centerHorizontal="true"
-            android:fontFamily="sans-serif-light" />
-
-        <ListView
-            android:id="@id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textColor="#ffb3b3b3"
-            android:layout_below="@+id/toolbar"
-            android:listSelector="@drawable/bkg_light"
-            android:choiceMode="singleChoice" />
-
-        <GridView
-            android:id="@+id/grid"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:numColumns="3"
-            android:horizontalSpacing="5dp"
-            android:verticalSpacing="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="61dp"
-            android:choiceMode="singleChoice" />
+        android:layout_height="match_parent">
 
         <RelativeLayout
+            android:background="#f2f2f2"
             android:layout_width="match_parent"
-            android:layout_height="200.0dip"
-            android:layout_marginBottom="25.0dip"
-            android:layout_alignParentBottom="true">
+            android:layout_height="match_parent"
+            xmlns:android="http://schemas.android.com/apk/res/android">
 
-            <ImageButton
-                android:id="@+id/bOK"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/action_button"
-                android:src="@drawable/ic_check"
-                android:visibility="gone"/>
-
-            <ImageButton
-                android:id="@+id/bAdd"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/action_button"
-                android:src="@drawable/ic_add"
-                android:visibility="gone"/>
-
-            <ImageButton
-                android:id="@+id/bCreate"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginRight="96dp"
-                android:background="@drawable/action_button"
-                android:src="@drawable/ic_folder"
-                android:visibility="gone"/>
-
-            <ImageButton
-                android:id="@+id/bUpload"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="80dp"
-                android:background="@drawable/action_button"
-                android:src="@drawable/ic_upload"
-                android:visibility="gone"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@id/innerlayout"
-            android:background="#cc000000"
-            android:visibility="gone"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar"/>
 
             <TextView
+                android:id="@+id/info"
                 android:textSize="20.0sp"
-                android:textColor="#ffeeeeee"
+                android:textColor="#ffb3b3b3"
                 android:gravity="center"
-                android:id="@id/overlay"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="Swipe Left"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif-light" />
+
+            <ListView
+                android:id="@id/list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="#ffb3b3b3"
+                android:layout_below="@+id/toolbar"
+                android:choiceMode="multipleChoiceModal" />
+
+            <GridView
+                android:id="@+id/grid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="3"
+                android:horizontalSpacing="5dp"
+                android:verticalSpacing="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="61dp"
+                android:choiceMode="singleChoice" />
+
+            <RelativeLayout
+                android:id="@id/innerlayout"
+                android:background="#cc000000"
+                android:visibility="gone"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:textSize="20.0sp"
+                    android:textColor="#ffeeeeee"
+                    android:gravity="center"
+                    android:id="@id/overlay"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="Swipe Left"
+                    android:layout_centerHorizontal="true" />
+            </RelativeLayout>
         </RelativeLayout>
-    </RelativeLayout>
-</android.support.v4.widget.SwipeRefreshLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.design.widget.FloatingActionButton
+    android:id="@+id/fab"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|end"
+    android:layout_margin="16dp"
+    android:elevation="7dp"
+    app:backgroundTint="@color/darkgreen"
+    android:src="@drawable/ic_add" />
+
+    <android.support.design.widget.FloatingActionButton
+    android:id="@+id/fab_ok"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|end"
+    android:layout_marginRight="16dp"
+    android:layout_marginBottom="96dp"
+    android:elevation="7dp"
+    app:backgroundTint="@color/darkgreen"
+    android:src="@drawable/ic_check" />
+
+    <android.support.design.widget.FloatingActionButton
+    android:id="@+id/fab_file"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|end"
+    android:layout_marginBottom="16dp"
+    android:layout_marginRight="176dp"
+    android:elevation="7dp"
+    app:backgroundTint="@color/darkgreen"
+    android:src="@drawable/ic_unknown"
+    android:visibility="gone"/>
+
+    <android.support.design.widget.FloatingActionButton
+    android:id="@+id/fab_folder"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|end"
+    android:layout_marginBottom="16dp"
+    android:layout_marginRight="96dp"
+    android:elevation="7dp"
+    app:backgroundTint="@color/darkgreen"
+    android:src="@drawable/ic_folder"
+    android:visibility="gone"/>
+</FrameLayout>

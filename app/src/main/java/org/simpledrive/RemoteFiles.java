@@ -22,17 +22,22 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.DisplayMetrics;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.util.Log;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,21 +54,21 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.simpledrive.settings.SettingsApp;
+import org.simpledrive.settings.SettingsServer;
 
 import java.io.File;
-import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
@@ -77,22 +82,25 @@ import java.util.TimerTask;
 import simpledrive.lib.AudioService;
 import simpledrive.lib.AudioService.LocalBinder;
 import simpledrive.lib.Connection;
-import simpledrive.lib.Helper;
+import simpledrive.lib.Util;
 import simpledrive.lib.Item;
-import simpledrive.lib.MenuListAdapter;
 
-public class RemoteFiles extends ActionBarActivity {
+public class RemoteFiles extends AppCompatActivity {
     // General
     public static boolean appVisible;
     public static RemoteFiles e;
     private static String username = "";
-    private static String mode = "files";
+    private static String viewmode = "files";
     private static final String tmpFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/simpleDrive/";
     private SharedPreferences settings;
     private boolean longClicked = false;
     private static int loginAttempts = 0;
     private ArrayList<Item> thumbQueue = new ArrayList<>();
     private boolean thumbLoading = false;
+    private boolean loadthumbs = false;
+    private int lastSelected = 0;
+    private static int grids = 3;
+    private static int gridSize;
 
     // Audio
     public static String audioFilename;
@@ -114,20 +122,23 @@ public class RemoteFiles extends ActionBarActivity {
     private TextView info;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private Toolbar toolbar;
-    private ImageButton bUpload;
-    private ImageButton bCreateFolder;
-    private ImageButton bCreateFile;
-    private Menu mMenu;
+    private Menu mToolbarMenu;
+    private Menu mContextMenu;
     public static TextView audioTitle;
     public static RelativeLayout player;
-    public static RelativeLayout hoverButtons;
     public static SeekBar seek;
     public static ImageButton bPlay, bExit;
-    private String titles[] = {"Files", "Your shares", "Shared with you", "Trash", "Logout"};
-    private int icons[] = {R.drawable.ic_folder, R.drawable.ic_user, R.drawable.ic_share, R.drawable.ic_trash, R.drawable.ic_logout};
+    public static TextView header_user;
+    public static TextView header_server;
     private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private LinearLayout mDrawerLinear;
+    private NavigationView mNavigationView;
+    private GridView tmp_grid;
+    private ListView tmp_list;
+
+    private FloatingActionButton fab;
+    private FloatingActionButton fab_file;
+    private FloatingActionButton fab_folder;
+    private FloatingActionButton fab_upload;
 
     // Files
     private static ArrayList<Item> items = new ArrayList<>();
@@ -163,7 +174,7 @@ public class RemoteFiles extends ActionBarActivity {
         protected HashMap<String, String> doInBackground(String... args) {
             Connection multipart = new Connection("files", "list", null);
             multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).toString());
-            multipart.addFormField("mode", mode);
+            multipart.addFormField("mode", viewmode);
 
             return multipart.finish();
     	}
@@ -191,20 +202,12 @@ public class RemoteFiles extends ActionBarActivity {
      */
     private void displayFiles(String rawJSON) {
         // Reset anything related to listing files
-        bCreateFolder.setVisibility(View.GONE);
-        bCreateFile.setVisibility(View.GONE);
-        bUpload.setVisibility(View.GONE);
+        fab_file.setVisibility(View.GONE);
+        fab_folder.setVisibility(View.GONE);
+        fab_upload.setVisibility(View.GONE);
 
-        int thumbSize;
+        int thumbSize = (globLayout.equals("list")) ? Util.dpToPx(40) : gridSize;
         items = new ArrayList<>();
-
-        if(globLayout.equals("list")) {
-            thumbSize = Helper.dpToPx(40);
-        } else {
-            DisplayMetrics displaymetrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-            thumbSize = displaymetrics.widthPixels / 2;
-        }
 
         try {
             JSONArray jar = new JSONArray(rawJSON);
@@ -212,10 +215,10 @@ public class RemoteFiles extends ActionBarActivity {
             for(int i = 0; i < jar.length(); i++){
                 JSONObject obj = jar.getJSONObject(i);
 
-                String filename = (mode.equals("trash")) ? obj.getString("filename").substring(0, obj.getString("filename").lastIndexOf("_trash")) : obj.getString("filename");
+                String filename = (viewmode.equals("trash")) ? obj.getString("filename").substring(0, obj.getString("filename").lastIndexOf("_trash")) : obj.getString("filename");
                 String parent = obj.getString("parent");
                 String type = obj.getString("type");
-                String size = (obj.getString("type").equals("folder")) ? ((obj.getString("size").equals("1")) ? obj.getString("size") + " element" : obj.getString("size") + " elements") : Helper.convertSize(obj.getString("size"));
+                String size = (obj.getString("type").equals("folder")) ? ((obj.getString("size").equals("1")) ? obj.getString("size") + " element" : obj.getString("size") + " elements") : Util.convertSize(obj.getString("size"));
 
                 String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : ((obj.getString("rootshare").length() == 0) ? "" : "shared");
                 Bitmap icon;
@@ -242,14 +245,14 @@ public class RemoteFiles extends ActionBarActivity {
 
                 if (type.equals("image")) {
                     String ext = FilenameUtils.getExtension(filename);
-                    String imgPath = tmpFolder + Helper.md5(parent + filename) + ext;
-                    String thumbPath = (globLayout.equals("list")) ? tmpFolder + Helper.md5(parent + filename) + "_list.jpg" : tmpFolder + Helper.md5(parent + filename) + "_grid.jpg";
+                    String imgPath = tmpFolder + Util.md5(parent + filename) + ext;
+                    String thumbPath = (globLayout.equals("list")) ? tmpFolder + Util.md5(parent + filename) + "_list.jpg" : tmpFolder + Util.md5(parent + filename) + "_grid.jpg";
 
                     if (new File(imgPath).exists()) {
-                        thumb = Helper.getThumb(imgPath, thumbSize);
+                        thumb = Util.getThumb(imgPath, thumbSize);
                     }
                     else if (new File(thumbPath).exists()) {
-                        thumb = Helper.getThumb(thumbPath, thumbSize);
+                        thumb = Util.getThumb(thumbPath, thumbSize);
                     }
                 }
 
@@ -275,17 +278,21 @@ public class RemoteFiles extends ActionBarActivity {
             if(hier.has("filename")) {
                 title = hier.getString("filename");
             }
-            else if(mode.equals("trash")) {
+            else if (viewmode.equals("sharedbyme")) {
+                title = "My shares";
+            }
+            else if (viewmode.equals("sharedwithme")) {
+                title = "Shared with me";
+            }
+            else if(viewmode.equals("trash")) {
                 title = "Trash";
             }
             else {
                 title = "Homefolder";
             }
 
-            if(toolbar != null) {
-                toolbar.setTitle(title);
-                toolbar.setSubtitle("Folders: " + firstFilePos + ", Files: " + (items.size() - firstFilePos));
-            }
+            setToolbarTitle(title);
+            setToolbarSubtitle("Folders: " + firstFilePos + ", Files: " + (items.size() - firstFilePos));
         } catch (JSONException exp) {
             exp.printStackTrace();
             Toast.makeText(e, R.string.unknown_error, Toast.LENGTH_SHORT).show();
@@ -300,10 +307,11 @@ public class RemoteFiles extends ActionBarActivity {
         }
 
         int layout = (globLayout.equals("list")) ? R.layout.listview : R.layout.gridview;
-        newAdapter = new NewFileAdapter(e, layout);
+        newAdapter = new NewFileAdapter(e, layout, 1);
         newAdapter.setData(items);
         list.setAdapter(newAdapter);
 
+        invalidateOptionsMenu();
         unselectAll();
     }
 
@@ -325,11 +333,13 @@ public class RemoteFiles extends ActionBarActivity {
     public class NewFileAdapter extends ArrayAdapter<Item> {
         private LayoutInflater layoutInflater;
         private int layout;
+        private int t;
 
-        public NewFileAdapter(Activity mActivity, int textViewResourceId) {
+        public NewFileAdapter(Activity mActivity, int textViewResourceId, int test) {
             super(mActivity, textViewResourceId);
             layoutInflater = LayoutInflater.from(mActivity);
             layout = textViewResourceId;
+            test = test;
         }
 
         @Override
@@ -339,27 +349,32 @@ public class RemoteFiles extends ActionBarActivity {
 
             if(convertView == null) {
                 convertView = layoutInflater.inflate(layout, null);
-                convertView.setBackgroundResource(R.drawable.bkg_light);
 
                 holder = new ViewHolder();
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.thumb = (ImageView) convertView.findViewById(R.id.thumb);
-                holder.selector = (RelativeLayout) convertView.findViewById(R.id.selector);
-                holder.check = (ImageView) convertView.findViewById(R.id.check);
+                holder.checked = (RelativeLayout) convertView.findViewById(R.id.checked);
+                holder.icon_area = (RelativeLayout) convertView.findViewById(R.id.icon_area);
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.size = (TextView) convertView.findViewById(R.id.size);
                 holder.owner = (TextView) convertView.findViewById(R.id.owner);
-                holder.separator = (TextView) convertView.findViewById(R.id.separator);
+
+                if (globLayout.equals("grid")) {
+                    holder.wrapper = (RelativeLayout) convertView.findViewById(R.id.wrapper);
+                    holder.wrapper.setLayoutParams(new RelativeLayout.LayoutParams(gridSize, gridSize));
+                }
+                else {
+                    holder.separator = (TextView) convertView.findViewById(R.id.separator);
+                }
                 convertView.setTag(holder);
             }
             else {
                 holder = (ViewHolder) convertView.getTag();
-                convertView.setBackgroundResource(R.drawable.bkg_light);
             }
 
+            holder.owner.setText(item.getOwner());
             holder.name.setText(item.getFilename());
             holder.size.setText(item.getSize());
-            holder.owner.setText(item.getOwner());
             holder.icon.setImageBitmap(item.getIcon());
 
             if(globLayout.equals("list")) {
@@ -370,32 +385,26 @@ public class RemoteFiles extends ActionBarActivity {
                 holder.separator.setText(text);
             }
 
-            if (item.isSelected()) {
-                holder.check.setVisibility(View.VISIBLE);
-                if(globLayout.equals("grid")) {
-                    holder.selector.setBackgroundColor(getResources().getColor(R.color.transparentgreen));
+            if (isItemSelected(position)) {
+                holder.checked.setVisibility(View.VISIBLE);
+                if(globLayout.equals("grid") && item.is("image")) {
+                    holder.checked.setBackgroundColor(getResources().getColor(R.color.transparentgreen));
                 }
-                convertView.setBackgroundColor(getResources().getColor(R.color.transparentgreen));
             }
             else {
-                holder.check.setVisibility(View.INVISIBLE);
-                holder.selector.setBackgroundColor(getResources().getColor(R.color.transparent));
-                convertView.setBackgroundResource(R.drawable.bkg_light);
+                holder.checked.setVisibility(View.INVISIBLE);
+                holder.checked.setBackgroundColor(getResources().getColor(R.color.transparent));
             }
 
             if(item.is("image")) {
-                if (item.getThumb() == null) {
-                    item.setThumb(BitmapFactory.decodeResource(getResources(), R.drawable.ic_image));
-                    holder.thumb.setImageResource(R.drawable.ic_image);
-                    String thumbPath = (globLayout.equals("list")) ? tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + "_list.jpg" : tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + "_grid.jpg";
+                if (item.getThumb() == null && loadthumbs) {
+                    String thumbPath = (globLayout.equals("list")) ? tmpFolder + Util.md5(item.getParent() + item.getFilename()) + "_list.jpg" : tmpFolder + Util.md5(item.getParent() + item.getFilename()) + "_grid.jpg";
                     item.setThumbPath(thumbPath);
 
+                    thumbQueue.add(item);
+
                     if (!thumbLoading) {
-                        //loadThumb(item);
-                        thumbQueue.add(item);
                         new LoadThumb().execute();
-                    } else {
-                        thumbQueue.add(item);
                     }
                 }
                 else {
@@ -406,38 +415,29 @@ public class RemoteFiles extends ActionBarActivity {
                 holder.thumb.setImageBitmap(null);
             }
 
-            holder.selector.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (getSelectedElem().length() > 0 || globLayout.equals("list")) {
-                        toggleSelection(position);
-                    } else {
-                        openFile(position);
+            if (globLayout.equals("list")) {
+                holder.icon_area.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        lastSelected = position;
+                        list.setItemChecked(position, !isItemSelected(position));
                     }
-                }
-            });
-
-            holder.selector.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    longClicked = true;
-                    toggleSelection(position);
-                    return true;
-                }
-            });
+                });
+            }
 
             return convertView;
         }
 
         class ViewHolder {
+            RelativeLayout wrapper;
             ImageView icon;
             ImageView thumb;
-            ImageView check;
             TextView name;
             TextView size;
             TextView owner;
             TextView separator;
-            RelativeLayout selector;
+            RelativeLayout checked;
+            RelativeLayout icon_area;
         }
 
         public void setData(ArrayList<Item> arg1) {
@@ -473,7 +473,7 @@ public class RemoteFiles extends ActionBarActivity {
             DisplayMetrics displaymetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 
-            size = (globLayout.equals("list")) ? Helper.dpToPx(100) + "" : Integer.toString(displaymetrics.widthPixels / 2);
+            size = (globLayout.equals("list")) ? Util.dpToPx(100) + "" : Integer.toString(displaymetrics.widthPixels / 2);
             String file = item.getJSON().toString();
             filepath = item.getThumbPath();
 
@@ -492,7 +492,7 @@ public class RemoteFiles extends ActionBarActivity {
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
             if (value != null) {
-                Bitmap bmp = Helper.getThumb(filepath, Integer.valueOf(size));
+                Bitmap bmp = Util.getThumb(filepath, Integer.valueOf(size));
 
                 thumbLoading = false;
                 if (bmp != null && list != null) {
@@ -516,7 +516,7 @@ public class RemoteFiles extends ActionBarActivity {
 
     public void openFile(int position) {
         Item item = items.get(position);
-        if(mode.equals("trash")) {
+        if(viewmode.equals("trash")) {
             return;
         }
         else if(item.is("folder")) {
@@ -531,12 +531,12 @@ public class RemoteFiles extends ActionBarActivity {
         else if(item.is("audio") && mPlayerService != null) {
             Toast.makeText(e, "Loading audio...", Toast.LENGTH_SHORT).show();
             audioFilename = item.getFilename();
-            items.get(position).setSelected(true);
+
             try {
-                URI uri = new URI(Connection.getServer() + "api/files/read?target=[" + URLEncoder.encode(items.get(position).getJSON().toString()) + "]&token=" + Connection.token);
+                URI uri = new URI(Connection.getServer() + "api/files/read?target=[" + URLEncoder.encode(items.get(position).getJSON().toString(), "UTF-8") + "]&token=" + Connection.token);
                 mPlayerService.initPlay(uri.toASCIIString());
                 showAudioPlayer();
-            } catch (URISyntaxException e) {
+            } catch (URISyntaxException | UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
         }
@@ -555,9 +555,9 @@ public class RemoteFiles extends ActionBarActivity {
     public void showAudioPlayer() {
         player.setVisibility(View.VISIBLE);
         audioTitle.setText(audioFilename);
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)hoverButtons.getLayoutParams();
-        params.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        hoverButtons.setLayoutParams(params);
+        //RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)hoverButtons.getLayoutParams();
+        //params.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        //hoverButtons.setLayoutParams(params);
 
         if (!audioUpdateRunning) {
             startUpdateLoop();
@@ -566,9 +566,9 @@ public class RemoteFiles extends ActionBarActivity {
 
     public void hideAudioPlayer() {
         player.setVisibility(View.GONE);
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)hoverButtons.getLayoutParams();
-        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        hoverButtons.setLayoutParams(params);
+        //RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)hoverButtons.getLayoutParams();
+        //params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        //hoverButtons.setLayoutParams(params);
     }
 
     public void startUpdateLoop() {
@@ -615,8 +615,8 @@ public class RemoteFiles extends ActionBarActivity {
                 HashMap<String, String> img = new HashMap<>();
                 img.put("file", item.getJSON().toString());
                 img.put("filename", item.getFilename());
-                img.put("path", tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + ext);
-                String thumbPath = (globLayout.equals("list")) ? tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + "_list.jpg" : tmpFolder + Helper.md5(item.getParent() + item.getFilename()) + "_grid.jpg";
+                img.put("path", tmpFolder + Util.md5(item.getParent() + item.getFilename()) + ext);
+                String thumbPath = (globLayout.equals("list")) ? tmpFolder + Util.md5(item.getParent() + item.getFilename()) + "_list.jpg" : tmpFolder + Util.md5(item.getParent() + item.getFilename()) + "_grid.jpg";
                 img.put("thumbPath", thumbPath);
 
                 images.add(img);
@@ -626,23 +626,14 @@ public class RemoteFiles extends ActionBarActivity {
         return images;
     }
 
-    public void toggleSelection(int position) {
-        items.get(position).toggleSelection();
-
-        invalidateOptionsMenu();
-
-        if(list != null) {
-            newAdapter.notifyDataSetChanged();
-        }
+    public static boolean isItemSelected(int pos) {
+        SparseBooleanArray checked = list.getCheckedItemPositions();
+        return checked.get(pos);
     }
 
     private void selectAll() {
-        for(Item item : items) {
-            item.setSelected(true);
-        }
-        invalidateOptionsMenu();
-        if(list != null) {
-            newAdapter.notifyDataSetChanged();
+        for (int i = 0; i < items.size(); i++) {
+            list.setItemChecked(i, true);
         }
     }
 
@@ -651,19 +642,30 @@ public class RemoteFiles extends ActionBarActivity {
      */
 
     private void unselectAll() {
-        for(Item item : items) {
-            item.setSelected(false);
-        }
-        invalidateOptionsMenu();
-        if(list != null) {
-            newAdapter.notifyDataSetChanged();
+        for (int i = 0; i < list.getCount(); i++) {
+            list.setItemChecked(i, false);
         }
     }
 
-    public JSONObject getSelected() {
-        for(Item item : items) {
-            if(item.isSelected()) {
-                return item.getJSON();
+    private JSONArray getAllSelected() {
+        JSONArray arr = new JSONArray();
+        SparseBooleanArray checked = list.getCheckedItemPositions();
+
+        for (int i = 0; i < list.getCount(); i++) {
+            if (checked.get(i)) {
+                arr.put(items.get(i).getJSON());
+            }
+        }
+
+        return arr;
+    }
+
+    public JSONObject getFirstSelected() {
+        SparseBooleanArray checked = list.getCheckedItemPositions();
+
+        for (int i = 0; i < list.getCount(); i++) {
+            if (checked.get(i)) {
+                return items.get(i).getJSON();
             }
         }
         return null;
@@ -701,6 +703,9 @@ public class RemoteFiles extends ActionBarActivity {
     	}
     	 @Override
          protected void onPostExecute(HashMap<String, String> value) {
+             header_user.setText(username);
+             header_server.setText(Connection.getServer());
+
              if(value.get("status").equals("ok")) {
                  try {
                      hierarchy = new ArrayList<>();
@@ -718,6 +723,7 @@ public class RemoteFiles extends ActionBarActivity {
 
                  new ListContent().execute();
                  new GetVersion().execute();
+                 new GetPermissions().execute();
              }
              else {
                  if (sc.length == 0) {
@@ -742,6 +748,31 @@ public class RemoteFiles extends ActionBarActivity {
     	 }
     }
 
+    private void unhideDrawerItem(int id) {
+        Menu navMenu = mNavigationView.getMenu();
+        navMenu.findItem(id).setVisible(true);
+    }
+
+    private class GetPermissions extends AsyncTask<Integer, String, HashMap<String, String>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected HashMap<String, String> doInBackground(Integer... pos) {
+            Connection multipart = new Connection("users", "admin", null);
+
+            return multipart.finish();
+        }
+        @Override
+        protected void onPostExecute(HashMap<String, String> value) {
+            if(value.get("status").equals("ok") && value.get("msg").equals("true")) {
+                unhideDrawerItem(R.id.navigation_view_item_server);
+            }
+        }
+    }
+
     private class GetVersion extends AsyncTask<Integer, String, HashMap<String, String>> {
         @Override
         protected void onPreExecute() {
@@ -761,7 +792,7 @@ public class RemoteFiles extends ActionBarActivity {
             if(value.get("status").equals("ok")) {
                 try {
                     JSONObject job = new JSONObject(value.get("msg"));
-                    String latest = job.getString("server");
+                    String latest = job.getString("recent");
                     if (latest.length() > 0 && !latest.equals("null")) {
                         Toast.makeText(e, "Server update available: " + latest, Toast.LENGTH_SHORT).show();
                     }
@@ -785,15 +816,15 @@ public class RemoteFiles extends ActionBarActivity {
     }
 
     public void onBackPressed() {
-        if(getSelectedElem().length() != 0) {
+        if(getAllSelected().length() != 0) {
             unselectAll();
         }
         else if (hierarchy.size() > 1) {
             hierarchy.remove(hierarchy.size() - 1);
             new ListContent().execute();
         }
-        else if(mode.equals("trash")) {
-            mode = "files";
+        else if(viewmode.equals("trash")) {
+            viewmode = "files";
             new ListContent().execute();
         }
         else {
@@ -801,54 +832,17 @@ public class RemoteFiles extends ActionBarActivity {
         }
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-
-        switch(item.getItemId()) {
-            case 0:
-                showRename(items.get(info.position).getFilename());
-                return true;
-
-            case 1:
-                new Delete().execute(info.position);
-                return true;
-
-            case 2:
-                showShare();
-                return true;
-
-            case 3:
-                new Unshare().execute(info.position);
-                return true;
-
-            case 4:
-                new Zip().execute(info.position);
-                return true;
-
-            case 5:
-                download();
-                return true;
-
-            case 6:
-                new Restore().execute();
-                return true;
-
-            default:
-                return super.onContextItemSelected(item);
-        }
-    }
-
-    private void download() {
+    private void download(String target) {
         Download dl = new Download();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            dl.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            dl.execute();
+            dl.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, target);
+        }
+        else {
+            dl.execute(target);
         }
     }
 
-    private void showShare() {
+    private void showShare(final String target) {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(e);
         View shareView = View.inflate(this, R.layout.share_dialog, null);
         final EditText shareUser = (EditText) shareView.findViewById(R.id.shareUser);
@@ -878,7 +872,7 @@ public class RemoteFiles extends ActionBarActivity {
                 if (shareUser.getText().toString().isEmpty() && !sharePublic.isChecked()) {
                     Toast.makeText(e, "Enter a username", Toast.LENGTH_SHORT).show();
                 } else {
-                    new Share(shareUser.getText().toString(), shareWrite.isChecked(), sharePublic.isChecked()).execute();
+                    new Share(shareUser.getText().toString(), shareWrite.isChecked(), sharePublic.isChecked()).execute(target);
                     dialog2.dismiss();
                 }
             }
@@ -944,7 +938,7 @@ public class RemoteFiles extends ActionBarActivity {
         showVirtualKeyboard();
     }
 
-    private void showRename(final String filename) {
+    private void showRename(final String filename, final String target) {
         AlertDialog.Builder alert = new AlertDialog.Builder(e);
 
         alert.setTitle("Rename");
@@ -958,7 +952,7 @@ public class RemoteFiles extends ActionBarActivity {
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int whichButton) {
             String newFilename = input.getText().toString();
-            new Rename().execute(newFilename);
+            new Rename().execute(newFilename, target);
           }
         });
 
@@ -998,8 +992,8 @@ public class RemoteFiles extends ActionBarActivity {
         @Override
         protected HashMap<String, String> doInBackground(String... names) {
             Connection multipart = new Connection("files", "rename", null);
-            multipart.addFormField("target", getSelected().toString());
             multipart.addFormField("newFilename", names[0]);
+            multipart.addFormField("target", names[1]);
 
             return multipart.finish();
         }
@@ -1039,7 +1033,7 @@ public class RemoteFiles extends ActionBarActivity {
         }
 
         @Override
-        protected HashMap<String, String> doInBackground(String... names) {
+        protected HashMap<String, String> doInBackground(String... target) {
             String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
 
             Connection multipart = new Connection("files", "read", new Connection.ProgressListener() {
@@ -1049,7 +1043,8 @@ public class RemoteFiles extends ActionBarActivity {
                 }
             });
 
-            multipart.addFormField("target", getSelectedElem().toString());
+            multipart.addFormField("target", target[0]);
+            Log.i("target", target[0]);
             multipart.setDownloadPath(path, null);
             return multipart.finish();
         }
@@ -1072,17 +1067,7 @@ public class RemoteFiles extends ActionBarActivity {
         }
   }
 
-    private JSONArray getSelectedElem() {
-        JSONArray arr = new JSONArray();
-        for(Item item : items) {
-            if(item.isSelected()) {
-                arr.put(item.getJSON());
-            }
-        }
-        return arr;
-    }
-
-    private class Delete extends AsyncTask<Integer, String, HashMap<String, String>> {
+    private class Delete extends AsyncTask<String, String, HashMap<String, String>> {
         @Override
            protected void onPreExecute() {
                super.onPreExecute();
@@ -1090,16 +1075,19 @@ public class RemoteFiles extends ActionBarActivity {
         }
 
         @Override
-           protected HashMap<String, String> doInBackground(Integer... pos) {
+           protected HashMap<String, String> doInBackground(String... target) {
             Connection multipart = new Connection("files", "delete", null);
-            multipart.addFormField("target", getSelectedElem().toString());
-            multipart.addFormField("final", Boolean.toString(mode.equals("trash")));
+            multipart.addFormField("target", target[0]);
+            Log.i("target", target[0]);
+            multipart.addFormField("final", Boolean.toString(viewmode.equals("trash")));
 
             return multipart.finish();
         }
+
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
             e.setProgressBarIndeterminateVisibility(false);
+
             if(value.get("status").equals("ok")) {
                 new ListContent().execute();
             }
@@ -1109,7 +1097,7 @@ public class RemoteFiles extends ActionBarActivity {
         }
     }
 
-    private class Share extends AsyncTask<Void, String, HashMap<String, String>> {
+    private class Share extends AsyncTask<String, String, HashMap<String, String>> {
         String shareUser;
         int shareWrite;
         int sharePublic;
@@ -1127,9 +1115,9 @@ public class RemoteFiles extends ActionBarActivity {
         }
 
         @Override
-        protected HashMap<String, String> doInBackground(Void... params) {
+        protected HashMap<String, String> doInBackground(String... target) {
             Connection multipart = new Connection("files", "share", null);
-            multipart.addFormField("target", getSelectedElem().toString());
+            multipart.addFormField("target", target[0]);
             multipart.addFormField("mail", "");
             multipart.addFormField("key", "");
             multipart.addFormField("userto", shareUser);
@@ -1174,7 +1162,7 @@ public class RemoteFiles extends ActionBarActivity {
         }
     }
 
-    private class Unshare extends AsyncTask<Integer, String, HashMap<String, String>> {
+    private class Unshare extends AsyncTask<String, String, HashMap<String, String>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -1182,9 +1170,9 @@ public class RemoteFiles extends ActionBarActivity {
         }
 
         @Override
-        protected HashMap<String, String> doInBackground(Integer... pos) {
+        protected HashMap<String, String> doInBackground(String... target) {
             Connection multipart = new Connection("files", "unshare", null);
-            multipart.addFormField("target", getSelected().toString());
+            multipart.addFormField("target", target[0]);
 
             return multipart.finish();
         }
@@ -1200,7 +1188,7 @@ public class RemoteFiles extends ActionBarActivity {
         }
     }
 
-    private class Zip extends AsyncTask<Integer, String, HashMap<String, String>> {
+    private class Zip extends AsyncTask<String, String, HashMap<String, String>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -1208,10 +1196,10 @@ public class RemoteFiles extends ActionBarActivity {
         }
 
         @Override
-        protected HashMap<String, String> doInBackground(Integer... pos) {
+        protected HashMap<String, String> doInBackground(String... source) {
             Connection multipart = new Connection("files", "zip", null);
             multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).toString());
-            multipart.addFormField("source", getSelectedElem().toString());
+            multipart.addFormField("source", source[0]);
 
             return multipart.finish();
         }
@@ -1227,7 +1215,7 @@ public class RemoteFiles extends ActionBarActivity {
         }
     }
 
-    private class Restore extends AsyncTask<Integer, String, HashMap<String, String>> {
+    private class Restore extends AsyncTask<String, String, HashMap<String, String>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -1235,11 +1223,11 @@ public class RemoteFiles extends ActionBarActivity {
         }
 
         @Override
-        protected HashMap<String, String> doInBackground(Integer... pos) {
+        protected HashMap<String, String> doInBackground(String... source) {
             Connection multipart = new Connection("files", "move", null);
             multipart.addFormField("target", hierarchy.get(0).toString());
             multipart.addFormField("trash", "true");
-            multipart.addFormField("source", getSelectedElem().toString());
+            multipart.addFormField("source", source[0]);
 
             return multipart.finish();
         }
@@ -1379,50 +1367,7 @@ public class RemoteFiles extends ActionBarActivity {
         }
     }
 
-    public void prepareNavigationDrawer() {
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.DrawerLayout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        mDrawerLinear = (LinearLayout) findViewById(R.id.drawer);
-
-        MenuListAdapter mMenuAdapter = new MenuListAdapter(this, titles, null, icons);
-        mDrawerList.setAdapter(mMenuAdapter);
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    mode = "files";
-                    if(hierarchy.size() > 0) {
-                        new ListContent().execute();
-                    }
-                    else {
-                        new Connect().execute();
-                    }
-                }
-                else if (position == 1) {
-                    mode = "sharedbyme";
-                    new ListContent().execute();
-                }
-                else if (position == 2) {
-                    mode = "sharedwithme";
-                    new ListContent().execute();
-                }
-                else if (position == 3) {
-                    openTrash();
-                }
-                else if (position == 4) {
-                    Connection.logout(e);
-                    startActivity(new Intent(getApplicationContext(), org.simpledrive.Login.class));
-                    finish();
-                }
-
-                mDrawerList.setItemChecked(position, true);
-                mDrawerLayout.closeDrawer(mDrawerLinear);
-            }
-        });
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
+    private void setUpDrawer() {
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
             public void onDrawerClosed(View view) {
                 supportInvalidateOptionsMenu();
@@ -1433,14 +1378,95 @@ public class RemoteFiles extends ActionBarActivity {
             }
         };
 
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
-        TextView header_user = (TextView) findViewById(R.id.header_user);
-        header_user.setText(username);
+        header_user = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.navigation_drawer_header_user);
+        header_server = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.navigation_drawer_header_server);
 
-        TextView header_server = (TextView) findViewById(R.id.header_server);
-        header_server.setText(Connection.getServer());
+        mNavigationView
+                .getHeaderView(0)
+                .findViewById(R.id.navigation_drawer_header_clickable)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                    }
+                });
+
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                            @Override
+                            public boolean onNavigationItemSelected(final MenuItem item) {
+                                mDrawerLayout.closeDrawer(GravityCompat.START);
+
+                                switch (item.getItemId()) {
+                                    case R.id.navigation_view_item_files:
+                                        viewmode = "files";
+                                        item.setChecked(true);
+                                        new ListContent().execute();
+                                        break;
+
+                                    case R.id.navigation_view_item_sharedbyme:
+                                        viewmode = "sharedbyme";
+                                        item.setChecked(true);
+                                        clearHierarchy();
+                                        new ListContent().execute();
+                                        break;
+
+                                    case R.id.navigation_view_item_sharedwithme:
+                                        viewmode = "sharedwithme";
+                                        item.setChecked(true);
+                                        clearHierarchy();
+                                        new ListContent().execute();
+                                        break;
+
+                                    case R.id.navigation_view_item_trash:
+                                        item.setChecked(true);
+                                        openTrash();
+                                        break;
+
+                                    case R.id.navigation_view_item_settings:
+                                        startActivity(new Intent(getApplicationContext(), SettingsApp.class));
+                                        break;
+
+                                    case R.id.navigation_view_item_server:
+                                        startActivity(new Intent(getApplicationContext(), SettingsServer.class));
+                                        break;
+
+                                    case R.id.navigation_view_item_logout:
+                                        Connection.logout(e);
+                                        startActivity(new Intent(getApplicationContext(), org.simpledrive.Login.class));
+                                        finish();
+                                        break;
+                                }
+
+                                return true;
+                            }
+            }
+        );
+    }
+
+    private void setUpToolbar() {
+        setSupportActionBar(toolbar);
+
+        final ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    private void setToolbarTitle(final String title) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
+        }
+    }
+
+    private void setToolbarSubtitle(final String subtitle) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setSubtitle(subtitle);
+        }
     }
 
     protected void onCreate(Bundle paramBundle) {
@@ -1449,8 +1475,16 @@ public class RemoteFiles extends ActionBarActivity {
         supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         e = this;
+        settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
 
         setContentView(R.layout.activity_remotefiles);
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        gridSize = displaymetrics.widthPixels / grids;
+
+        tmp_grid = (GridView) findViewById(R.id.grid);
+        tmp_list = (ListView) findViewById(R.id.list);
 
         bPlay = (ImageButton) e.findViewById(R.id.bPlay);
         bPlay.setOnClickListener(new View.OnClickListener() {
@@ -1497,83 +1531,55 @@ public class RemoteFiles extends ActionBarActivity {
             }
         });
 
-        hoverButtons = (RelativeLayout) findViewById(R.id.hover_buttons);
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(toolbar != null) {
-            setSupportActionBar(toolbar);
-            toolbar.setNavigationIcon(R.drawable.ic_menu);
-
-            /*if (Build.VERSION.SDK_INT >= 19) {
-                // Increase size of toolbar by 24dp and add padding because of translucent statusbar
-                // If enabled, uncomment windowTranslucentStatus in styles.xml
-                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
-                lp.height = Helper.dpToPx(80);
-                toolbar.setLayoutParams(lp);
-                toolbar.setPadding(0, Helper.dpToPx(24), 0, 0);
-            }*/
-        }
-
         info = (TextView) findViewById(R.id.info);
 
         Intent intent = new Intent();
         intent.setClass(this, AudioService.class);
         getApplicationContext().bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
 
-        bUpload = ((ImageButton) findViewById(R.id.bUpload));
-        bCreateFolder = ((ImageButton) findViewById(R.id.bCreateFolder));
-        bCreateFile = ((ImageButton) findViewById(R.id.bCreateFile));
-        final ImageButton toggleButton = ((ImageButton) findViewById(R.id.bAdd));
-        final ImageButton bOK = ((ImageButton) findViewById(R.id.bOK));
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab_upload = (FloatingActionButton) findViewById(R.id.fab_upload);
+        fab_file = (FloatingActionButton) findViewById(R.id.fab_file);
+        fab_folder = (FloatingActionButton) findViewById(R.id.fab_folder);
 
-        bUpload.setOnClickListener(new View.OnClickListener() {
+        fab_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bCreateFolder.setVisibility(View.GONE);
-                bCreateFile.setVisibility(View.GONE);
-                bUpload.setVisibility(View.GONE);
-                Intent result = new Intent(RemoteFiles.this, LocalFiles.class);
+                fab_folder.setVisibility(View.GONE);
+                fab_file.setVisibility(View.GONE);
+                fab_upload.setVisibility(View.GONE);
+                Intent result = new Intent(RemoteFiles.this, FileSelector.class);
                 startActivityForResult(result, 1);
             }
         });
 
-        bCreateFolder.setOnClickListener(new View.OnClickListener() {
+        fab_folder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showCreate("folder");
             }
         });
-        bCreateFile.setOnClickListener(new View.OnClickListener() {
+        fab_file.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showCreate("file");
             }
         });
 
-        toggleButton.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (bCreateFolder.getVisibility() == View.GONE) {
-                    bCreateFolder.setVisibility(View.VISIBLE);
-                    bCreateFile.setVisibility(View.VISIBLE);
-                    bUpload.setVisibility(View.VISIBLE);
+                if (fab_folder.getVisibility() == View.GONE) {
+                    fab_folder.setVisibility(View.VISIBLE);
+                    fab_file.setVisibility(View.VISIBLE);
+                    fab_upload.setVisibility(View.VISIBLE);
                 } else {
-                    bCreateFolder.setVisibility(View.GONE);
-                    bCreateFile.setVisibility(View.GONE);
-                    bUpload.setVisibility(View.GONE);
+                    fab_folder.setVisibility(View.GONE);
+                    fab_file.setVisibility(View.GONE);
+                    fab_upload.setVisibility(View.GONE);
                 }
             }
         });
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            toggleButton.setBackgroundResource(R.drawable.action_button_ripple);
-            bUpload.setBackgroundResource(R.drawable.action_button_ripple);
-            bCreateFolder.setBackgroundResource(R.drawable.action_button_ripple);
-            bCreateFile.setBackgroundResource(R.drawable.action_button_ripple);
-            bOK.setBackgroundResource(R.drawable.action_button_ripple);
-        }
-
-        toggleButton.setVisibility(View.VISIBLE);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -1583,28 +1589,171 @@ public class RemoteFiles extends ActionBarActivity {
                 if (hierarchy.size() > 0) {
                     new ListContent().execute();
 
-                } else {
+                }
+                else {
                     new Connect().execute();
                 }
             }
         });
 
         mSwipeRefreshLayout.setColorSchemeResources(R.color.darkgreen, R.color.darkgreen, R.color.darkgreen, R.color.darkgreen);
-        mSwipeRefreshLayout.setProgressViewOffset(true, Helper.dpToPx(56), Helper.dpToPx(56) + 100);
+        mSwipeRefreshLayout.setProgressViewOffset(true, Util.dpToPx(56), Util.dpToPx(56) + 100);
+    }
 
-        settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
+    protected void onPause() {
+        super.onPause();
+        appVisible = false;
+        unselectAll();
+    }
+
+    protected void onResume() {
+        super.onResume();
+        appVisible = true;
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.DrawerLayout);
+        mNavigationView = (NavigationView) findViewById(R.id.activity_main_navigation_view);
+
+        setUpToolbar();
+        setUpDrawer();
+
+        // Prepare audio player
+        if(mPlayerService.isPlaying()) {
+            showAudioPlayer();
+        }
+        else {
+            hideAudioPlayer();
+        }
+
+        loadthumbs = (settings.getString("loadthumb", "").length() == 0) ? false : Boolean.valueOf(settings.getString("loadthumb", ""));
         globLayout = (settings.getString("view", "").length() == 0) ? "list" : settings.getString("view", "");
         setView(globLayout);
+        setUpList();
+
+        mSwipeRefreshLayout.setEnabled(true);
+
+        // Create image cache folder
+        File tmp = new File(tmpFolder);
+        if (!tmp.exists()) {
+            tmp.mkdir();
+        }
+
+        new Connect().execute();
+    }
+
+    public void setUpList() {
+        list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+
+        list.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+            private int nr = 0;
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+                unselectAll();
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                nr = 0;
+                MenuInflater inflater = getMenuInflater();
+                inflater.inflate(R.menu.remote_files_context, menu);
+                mContextMenu = menu;
+
+                unselectAll();
+                return true;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.selectall:
+                        selectAll();
+                        break;
+
+                    case R.id.rename:
+                        showRename(items.get(lastSelected).getFilename(), getFirstSelected().toString());
+                        mode.finish();
+                        break;
+
+                    case R.id.delete:
+                        new Delete().execute(getAllSelected().toString());
+                        mode.finish();
+                        break;
+
+                    case R.id.restore:
+                        new Restore().execute(getAllSelected().toString());
+                        mode.finish();
+                        break;
+
+                    case R.id.download:
+                        download(getAllSelected().toString());
+                        mode.finish();
+                        break;
+
+                    case R.id.zip:
+                        new Zip().execute(getAllSelected().toString());
+                        mode.finish();
+                        break;
+
+                    case R.id.share:
+                        showShare(getFirstSelected().toString());
+                        mode.finish();
+                        break;
+
+                    case R.id.unshare:
+                        new Unshare().execute(getFirstSelected().toString());
+                        mode.finish();
+                        break;
+                }
+                return false;
+            }
+
+            @Override
+            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+                if (longClicked) {
+                    longClicked = false;
+                    return;
+                }
+
+                boolean trash = viewmode.equals("trash");
+                nr = (checked) ? ++nr : --nr;
+
+                mContextMenu.findItem(R.id.restore).setVisible(trash);
+                mContextMenu.findItem(R.id.selectall).setVisible(items.size() > 0);
+                mContextMenu.findItem(R.id.download).setVisible(!trash);
+                mContextMenu.findItem(R.id.unshare).setVisible(!trash);
+                mContextMenu.findItem(R.id.zip).setVisible(!trash);
+                mContextMenu.findItem(R.id.rename).setVisible(!trash);
+                mContextMenu.findItem(R.id.share).setVisible(!trash && nr == 1);
+
+                lastSelected = position;
+                newAdapter.notifyDataSetChanged();
+                mode.setTitle(list.getCheckedItemCount() + " selected");
+            }
+        });
+
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                if (lastSelected > -1) {
+                    for (int i = Util.getMin(lastSelected, position); i < Util.getMax(lastSelected, position); i++) {
+                        list.setItemChecked(i, isItemSelected(i));
+                    }
+                }
+                lastSelected = position;
+                return true;
+            }
+        });
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (getSelectedElem().length() > 0 && !longClicked) {
-                    toggleSelection(position);
-                } else if (!longClicked) {
-                    openFile(position);
-                }
-                longClicked = false;
+                openFile(position);
             }
         });
 
@@ -1620,36 +1769,6 @@ public class RemoteFiles extends ActionBarActivity {
                 mSwipeRefreshLayout.setEnabled(enable);
             }
         });
-
-        mSwipeRefreshLayout.setEnabled(true);
-
-        // Create image cache folder
-        File tmp = new File(tmpFolder);
-        if (!tmp.exists()) {
-            tmp.mkdir();
-        }
-
-        new Connect().execute();
-    }
-
-    protected void onPause() {
-        super.onPause();
-        appVisible = false;
-    }
-
-    protected void onResume() {
-        super.onResume();
-        appVisible = true;
-
-        prepareNavigationDrawer();
-
-        // Prepare audio player
-        if(mPlayerService.isPlaying()) {
-            showAudioPlayer();
-        }
-        else {
-            hideAudioPlayer();
-        }
     }
 
     public void setView(String view) {
@@ -1658,55 +1777,17 @@ public class RemoteFiles extends ActionBarActivity {
 
         if(globLayout.equals("list")) {
             list = (ListView) findViewById(R.id.list);
-            GridView tmp_grid = (GridView) findViewById(R.id.grid);
             tmp_grid.setVisibility(View.GONE);
-        } else {
+        }
+        else {
             list = (GridView) findViewById(R.id.grid);
-            ListView tmp_list = (ListView) findViewById(R.id.list);
             tmp_list.setVisibility(View.GONE);
         }
         list.setVisibility(View.VISIBLE);
 
-        if(mMenu != null) {
+        if(mToolbarMenu != null) {
             invalidateOptionsMenu();
         }
-
-        registerForContextMenu(list);
-    }
-
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-
-        if(!items.get(info.position).isSelected()) {
-            unselectAll();
-        }
-        items.get(info.position).setSelected(true);
-        if(list != null) {
-            if(newAdapter != null) {
-                newAdapter.notifyDataSetChanged();
-            }
-        }
-
-        menu.add(0, 1, 1, "Delete");
-
-        if(!(mode.equals("trash"))) {
-            if(getSelectedElem().length() == 1) {
-                menu.add(0, 0, 0, "Rename");
-
-                if(items.get(info.position).getHash().equals("null") && items.get(info.position).getOwner().equals("")) {
-                    menu.add(0, 2, 2, "Share");
-                } else if (!items.get(info.position).getHash().equals("null")) {
-                    menu.add(0, 3, 3, "Unshare");
-                }
-            }
-
-            menu.add(0, 4, 4, "Zip");
-            menu.add(0, 5, 5, "Download");
-        } else {
-            menu.add(0, 6, 6, "Restore");
-        }
-        menu.setHeaderTitle("Options");
     }
 
     protected void onDestroy() {
@@ -1716,42 +1797,32 @@ public class RemoteFiles extends ActionBarActivity {
             Intent localIntent = new Intent(this, RemoteFiles.class);
             localIntent.setAction("org.simpledrive.action.startbackground");
             startService(localIntent);
-        } else if (mBound) {
+        }
+        else if (mBound) {
             getApplicationContext().unbindService(mServiceConnection);
         }
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        mMenu = menu;
+        mToolbarMenu = menu;
+
         if(globLayout.equals("list")) {
             menu.findItem(R.id.toggle_view).setIcon(R.drawable.ic_grid);
+            menu.findItem(R.id.toggle_view).setTitle("Grid view");
         } else {
             menu.findItem(R.id.toggle_view).setIcon(R.drawable.ic_list);
+            menu.findItem(R.id.toggle_view).setTitle("List view");
         }
 
-        if(getSelectedElem().length() > 0) {
-            menu.findItem(R.id.toggle_view).setVisible(false);
-            menu.findItem(R.id.delete).setVisible(true);
-            menu.findItem(R.id.download).setVisible(true);
-
-            if(getSelectedElem().length() == 1) {
-                menu.findItem(R.id.share).setVisible(true);
-            } else {
-                menu.findItem(R.id.share).setVisible(false);
-            }
-        } else {
-            menu.findItem(R.id.toggle_view).setVisible(true);
-            menu.findItem(R.id.delete).setVisible(false);
-            menu.findItem(R.id.share).setVisible(false);
-            menu.findItem(R.id.download).setVisible(false);
-        }
+        menu.findItem(R.id.emptytrash).setVisible(viewmode.equals("trash") && getAllSelected().length() > 0);
+        menu.findItem(R.id.selectall).setVisible(items.size() > 0);
         return super.onPrepareOptionsMenu(menu);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.remote_files, menu);
+        inflater.inflate(R.menu.remote_files_toolbar, menu);
         return true;
     }
 
@@ -1761,71 +1832,55 @@ public class RemoteFiles extends ActionBarActivity {
                 return super.onOptionsItemSelected(paramMenuItem);
 
             case android.R.id.home:
-                mDrawerLayout.openDrawer(mDrawerLinear);
+                mDrawerLayout.openDrawer(GravityCompat.START);
                 break;
 
             case R.id.selectall:
                 selectAll();
                 break;
 
-            case R.id.logout:
-                Connection.logout(e);
-                startActivity(new Intent(getApplicationContext(), org.simpledrive.Login.class));
-                finish();
-                break;
+            case R.id.emptytrash:
+                new android.support.v7.app.AlertDialog.Builder(this)
+                        .setTitle("Empty trash")
+                        .setMessage("Are you sure you want to delete all files in this folder?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                selectAll();
+                                new Delete().execute(getAllSelected().toString());
+                            }
 
-            case R.id.clearcache:
-                clearCache();
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
                 break;
 
             case R.id.toggle_view:
                 String next_view = (globLayout.equals("grid")) ? "list" : "grid";
                 setView(next_view);
                 int layout = (globLayout.equals("list")) ? R.layout.listview : R.layout.gridview;
-                newAdapter = new NewFileAdapter(e, layout);
+                newAdapter = new NewFileAdapter(e, layout, 2);
                 newAdapter.setData(items);
+                setUpList();
                 list.setAdapter(newAdapter);
-                break;
-
-            case R.id.delete:
-                new Delete().execute();
-                break;
-
-            case R.id.download:
-                download();
-                break;
-
-            case R.id.share:
-                showShare();
                 break;
         }
 
         return true;
     }
 
-    public void clearCache() {
-        File tmp = new File(tmpFolder);
-        try {
-            if(tmp.exists()) {
-                FileUtils.cleanDirectory(tmp);
-            }
-        } catch (IOException exp) {
-            exp.printStackTrace();
-            Toast.makeText(e, "Error clearing cache", Toast.LENGTH_SHORT).show();
-        }
-
-        if(tmp.list().length == 0) {
-            Toast.makeText(e, "Cache cleared", Toast.LENGTH_SHORT).show();
+    public void clearHierarchy() {
+        if (hierarchy.size() > 0) {
+            JSONObject first = hierarchy.get(0);
+            hierarchy = new ArrayList<>();
+            hierarchy.add(first);
         }
     }
 
     public void openTrash() {
-        if(hierarchy.size() > 0) {
-            mode = "trash";
-            JSONObject first = hierarchy.get(0);
-            hierarchy = new ArrayList<>();
-            hierarchy.add(first);
-            new ListContent().execute();
-        }
+        clearHierarchy();
+        viewmode = "trash";
+        new ListContent().execute();
     }
 }
