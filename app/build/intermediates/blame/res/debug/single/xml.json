@@ -1,5 +1,13 @@
 [
     {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/debug/xml/settings_app.xml",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/xml/settings_app.xml"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/debug/xml/settings_server.xml",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/xml/settings_server.xml"
+    },
+    {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/debug/xml/authenticator.xml",
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/xml/authenticator.xml"
     }

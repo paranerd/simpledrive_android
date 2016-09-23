@@ -8,26 +8,25 @@ package android.support.v7.recyclerview;
 
 public final class R {
 	public static final class attr {
-		public static final int layoutManager = 0x7f010034;
-		public static final int reverseLayout = 0x7f010036;
-		public static final int spanCount = 0x7f010035;
-		public static final int stackFromEnd = 0x7f010037;
+		public static final int layoutManager = 0x7f0100de;
+		public static final int reverseLayout = 0x7f0100e0;
+		public static final int spanCount = 0x7f0100df;
+		public static final int stackFromEnd = 0x7f0100e1;
 	}
 	public static final class dimen {
-		public static final int item_touch_helper_max_drag_scroll_per_frame = 0x7f0a0032;
-		public static final int item_touch_helper_swipe_escape_max_velocity = 0x7f0a0033;
-		public static final int item_touch_helper_swipe_escape_velocity = 0x7f0a0034;
+		public static final int item_touch_helper_max_drag_scroll_per_frame = 0x7f090067;
+		public static final int item_touch_helper_swipe_escape_max_velocity = 0x7f090068;
+		public static final int item_touch_helper_swipe_escape_velocity = 0x7f090069;
 	}
 	public static final class id {
-		public static final int item_touch_helper_previous_elevation = 0x7f0d0015;
+		public static final int item_touch_helper_previous_elevation = 0x7f0e0015;
 	}
 	public static final class styleable {
-		public static final int[] RecyclerView = { 0x010100c4, 0x010100f1, 0x7f010034, 0x7f010035, 0x7f010036, 0x7f010037 };
-		public static final int RecyclerView_android_descendantFocusability = 1;
+		public static final int[] RecyclerView = { 0x010100c4, 0x7f0100de, 0x7f0100df, 0x7f0100e0, 0x7f0100e1 };
 		public static final int RecyclerView_android_orientation = 0;
-		public static final int RecyclerView_layoutManager = 2;
-		public static final int RecyclerView_reverseLayout = 4;
-		public static final int RecyclerView_spanCount = 3;
-		public static final int RecyclerView_stackFromEnd = 5;
+		public static final int RecyclerView_layoutManager = 1;
+		public static final int RecyclerView_reverseLayout = 3;
+		public static final int RecyclerView_spanCount = 2;
+		public static final int RecyclerView_stackFromEnd = 4;
 	}
 }

@@ -7,9 +7,9 @@
                     "startLine": 2,
                     "startColumn": 4,
                     "startOffset": 55,
-                    "endLine": 13,
+                    "endLine": 11,
                     "endColumn": 12,
-                    "endOffset": 689
+                    "endOffset": 622
                 },
                 "from": {
                     "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/values-v19/styles.xml",
@@ -17,72 +17,72 @@
                         "startLine": 3,
                         "startColumn": 4,
                         "startOffset": 100,
-                        "endLine": 14,
+                        "endLine": 12,
                         "endColumn": 12,
-                        "endOffset": 734
+                        "endOffset": 667
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 14,
+                    "startLine": 12,
                     "startColumn": 4,
-                    "startOffset": 694,
-                    "endLine": 16,
+                    "startOffset": 627,
+                    "endLine": 14,
                     "endColumn": 12,
-                    "endOffset": 818
+                    "endOffset": 751
                 },
                 "from": {
                     "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/values-v19/styles.xml",
                     "position": {
-                        "startLine": 16,
+                        "startLine": 14,
                         "startColumn": 4,
-                        "startOffset": 740,
-                        "endLine": 18,
+                        "startOffset": 673,
+                        "endLine": 16,
                         "endColumn": 12,
-                        "endOffset": 864
+                        "endOffset": 797
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 17,
+                    "startLine": 15,
                     "startColumn": 4,
-                    "startOffset": 823,
-                    "endLine": 19,
+                    "startOffset": 756,
+                    "endLine": 17,
                     "endColumn": 12,
-                    "endOffset": 981
+                    "endOffset": 914
                 },
                 "from": {
                     "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/values-v19/styles.xml",
                     "position": {
-                        "startLine": 25,
+                        "startLine": 23,
                         "startColumn": 4,
-                        "startOffset": 1099,
-                        "endLine": 27,
+                        "startOffset": 1032,
+                        "endLine": 25,
                         "endColumn": 12,
-                        "endOffset": 1257
+                        "endOffset": 1190
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 20,
+                    "startLine": 18,
                     "startColumn": 4,
-                    "startOffset": 986,
-                    "endLine": 23,
+                    "startOffset": 919,
+                    "endLine": 21,
                     "endColumn": 12,
-                    "endOffset": 1209
+                    "endOffset": 1142
                 },
                 "from": {
                     "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/values-v19/styles.xml",
                     "position": {
-                        "startLine": 20,
+                        "startLine": 18,
                         "startColumn": 4,
-                        "startOffset": 870,
-                        "endLine": 23,
+                        "startOffset": 803,
+                        "endLine": 21,
                         "endColumn": 12,
-                        "endOffset": 1093
+                        "endOffset": 1026
                     }
                 }
             }

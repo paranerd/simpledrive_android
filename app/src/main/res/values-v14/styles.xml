@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- inherit from the material theme -->
-    <style name="MainTheme" parent="Theme.AppCompat.Light">
+    <style name="MainTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Main theme colors -->
         <!--   your app branding color for the app bar -->
         <item name="android:colorPrimary">@color/darkgreen</item>

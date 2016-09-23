@@ -20,7 +20,6 @@ public class Item {
 	private boolean selected = false;
 
 	public Item(JSONObject json, String filename, String parent, String path, String size, String edit, String type, String owner, String hash, Bitmap icon, Bitmap thumb) {
-	//public Item(String filename, String size, String edit, String path, Bitmap thumb, String type) {
 		this.json = json;
 		this.filename = filename;
 		this.parent = parent;
@@ -80,13 +79,13 @@ public class Item {
 		return this.thumbPath;
 	}
 
-	public boolean isSelected() {
+	/*public boolean isSelected() {
 		return this.selected;
 	}
 
 	public void setSelected(boolean value) {
 		this.selected = value;
-	}
+	}*/
 
 	public void toggleSelection() {
 		this.selected = !this.selected;

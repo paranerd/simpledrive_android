@@ -2,16 +2,17 @@
 <android.support.v7.widget.Toolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="56dp"
-    app:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:layout_height="?attr/actionBarSize"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
     app:titleTextAppearance="@style/ToolbarTitle"
     app:subtitleTextAppearance="@style/ToolbarSubtitle"
     app:contentInsetLeft="72dp"
     app:contentInsetStart="72dp"
     android:background="@color/darkgreen"
-    android:elevation="4dp"
-    android:navigationIcon="@drawable/ic_image"
-    android:fontFamily="sans-serif-light">
+    android:navigationIcon="@drawable/ic_menu"
+    android:fontFamily="sans-serif-light"
+    tools:layout_marginTop="24dp">
 </android.support.v7.widget.Toolbar>

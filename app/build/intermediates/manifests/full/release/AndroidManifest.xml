@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.simpledrive"
-    android:versionCode="65"
-    android:versionName="3.10.0" >
+    android:versionCode="66"
+    android:versionName="4.0.0" >
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -49,7 +49,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.simpledrive.LocalFiles"
+            android:name="org.simpledrive.FileSelector"
             android:label="@string/app_name" />
         <activity
             android:name="org.simpledrive.Login"
@@ -78,6 +78,21 @@
         <activity
             android:name="org.simpledrive.Editor"
             android:label="Editor"
+            android:theme="@style/MainTheme" >
+        </activity>
+        <activity
+            android:name="org.simpledrive.settings.SettingsApp"
+            android:label="Settings"
+            android:theme="@style/MainTheme" >
+        </activity>
+        <activity
+            android:name="org.simpledrive.settings.SettingsServer"
+            android:label="Server"
+            android:theme="@style/MainTheme" >
+        </activity>
+        <activity
+            android:name="org.simpledrive.settings.ServerLog"
+            android:label="Log"
             android:theme="@style/MainTheme" >
         </activity>
 
