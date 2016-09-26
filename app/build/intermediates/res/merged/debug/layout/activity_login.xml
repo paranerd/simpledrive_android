@@ -15,13 +15,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Private. Secure. Simple"
-        android:textColor="@color/grey"
+        android:textColor="@color/grey3"
         android:gravity="center"
         android:fontFamily="sans-serif-light"
         android:textSize="18.0sp"/>
     
     <EditText
-        android:textColor="@color/darkgrey"
+        android:textColor="@color/grey6"
         android:gravity="center"
         android:id="@id/txtServer"
         android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
         android:inputType="textUri" />
     
     <EditText
-        android:textColor="@color/darkgrey"
+        android:textColor="@color/grey6"
         android:gravity="center"
         android:id="@id/txtUsername"
         android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
         android:nextFocusDown="@id/txtPassword"/>
     
     <EditText
-        android:textColor="@color/darkgrey"
+        android:textColor="@color/grey6"
         android:gravity="center"
         android:id="@id/txtPassword"
         android:layout_width="wrap_content"

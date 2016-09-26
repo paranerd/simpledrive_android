@@ -4,6 +4,10 @@
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/xml/settings_app.xml"
     },
     {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/debug/xml/settings_userdetails.xml",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/xml/settings_userdetails.xml"
+    },
+    {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/debug/xml/settings_server.xml",
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/xml/settings_server.xml"
     },

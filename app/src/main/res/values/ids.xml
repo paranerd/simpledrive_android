@@ -29,10 +29,4 @@
     <item type="id" name="newfolder">false</item>
     <item type="id" name="logout">false</item>
     <item type="id" name="owner">false</item>
-    <item type="id" name="locallist">false</item>
-    <item type="id" name="local_empty_list_item">false</item>
-    <item type="id" name="bCheck">false</item>
-    <item type="id" name="bAdd">false</item>
-    <item type="id" name="bCreate">false</item>
-    <item type="id" name="bUpload">false</item>
 </resources>

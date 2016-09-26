@@ -31,22 +31,16 @@
     <color name="background_material_dark">@color/material_grey_850</color>
     <color name="background_material_light">@color/material_grey_50</color>
     <color name="black">#ff000000</color>
-    <color name="blue">#ff0000ff</color>
     <color name="bright_foreground_disabled_material_dark">#80ffffff</color>
     <color name="bright_foreground_disabled_material_light">#80000000</color>
     <color name="bright_foreground_inverse_material_dark">@color/bright_foreground_material_light</color>
     <color name="bright_foreground_inverse_material_light">@color/bright_foreground_material_dark</color>
     <color name="bright_foreground_material_dark">@android:color/white</color>
     <color name="bright_foreground_material_light">@android:color/black</color>
-    <color name="brightergreen">#ff02d35f</color>
-    <color name="brightgrey">#ffe3e3e3</color>
     <color name="button_material_dark">#ff5a595b</color>
     <color name="button_material_light">#ffd6d7d7</color>
     <color name="darkergreen">#ff29774c</color>
-    <color name="darkergrey">#ff636363</color>
     <color name="darkgreen">#ff2e8b57</color>
-    <color name="darkgrey">#ff545454</color>
-    <color name="darkwhite">#ffeeeeee</color>
     <color name="design_fab_shadow_end_color">@android:color/transparent</color>
     <color name="design_fab_shadow_mid_color">#14000000</color>
     <color name="design_fab_shadow_start_color">#44000000</color>
@@ -63,11 +57,13 @@
     <color name="dim_foreground_material_light">#ff323232</color>
     <color name="foreground_material_dark">@android:color/white</color>
     <color name="foreground_material_light">@android:color/black</color>
-    <color name="green">#ff00ff00</color>
-    <color name="grey">#ffb3b3b3</color>
+    <color name="grey1">#fffafafa</color>
+    <color name="grey2">#ffe3e3e3</color>
+    <color name="grey3">#ffb3b3b3</color>
+    <color name="grey4">#ff636363</color>
+    <color name="grey5">#33d3d3d3</color>
+    <color name="grey6">#ff545454</color>
     <color name="halfblack">#33000000</color>
-    <color name="halfgrey">#33d3d3d3</color>
-    <color name="halfred">#33ff0000</color>
     <color name="highlighted_text_material_dark">#6680cbc4</color>
     <color name="highlighted_text_material_light">#66009688</color>
     <color name="hint_foreground_material_dark">@color/bright_foreground_disabled_material_dark</color>
@@ -94,7 +90,6 @@
     <color name="primary_text_default_material_light">#de000000</color>
     <color name="primary_text_disabled_material_dark">#4Dffffff</color>
     <color name="primary_text_disabled_material_light">#39000000</color>
-    <color name="purple">#FFFFBB33</color>
     <color name="red">#ffff0000</color>
     <color name="ripple_material_dark">#33ffffff</color>
     <color name="ripple_material_light">#1f000000</color>
@@ -278,10 +273,6 @@
     <item name="action_menu_presenter" type="id"/>
     <item name="audioimg" type="id">false</item>
     <item name="audiopath" type="id">false</item>
-    <item name="bAdd" type="id">false</item>
-    <item name="bCheck" type="id">false</item>
-    <item name="bCreate" type="id">false</item>
-    <item name="bUpload" type="id">false</item>
     <item name="btnLogin" type="id">false</item>
     <item name="empty_list_item" type="id">false</item>
     <item name="fd_Icon1" type="id">false</item>
@@ -292,8 +283,6 @@
     <item name="innerlayout" type="id">false</item>
     <item name="item_touch_helper_previous_elevation" type="id"/>
     <item name="list" type="id">false</item>
-    <item name="local_empty_list_item" type="id">false</item>
-    <item name="locallist" type="id">false</item>
     <item name="logout" type="id">false</item>
     <item name="name" type="id">false</item>
     <item name="newfolder" type="id">false</item>

@@ -256,10 +256,10 @@
                     "position": {
                         "startLine": 23,
                         "startColumn": 4,
-                        "startOffset": 1032,
+                        "startOffset": 1028,
                         "endLine": 25,
                         "endColumn": 12,
-                        "endOffset": 1190
+                        "endOffset": 1186
                     }
                 }
             },
@@ -270,7 +270,7 @@
                     "startOffset": 2713,
                     "endLine": 47,
                     "endColumn": 12,
-                    "endOffset": 2936
+                    "endOffset": 2932
                 },
                 "from": {
                     "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/values-v14/styles.xml",
@@ -280,7 +280,7 @@
                         "startOffset": 803,
                         "endLine": 21,
                         "endColumn": 12,
-                        "endOffset": 1026
+                        "endOffset": 1022
                     }
                 }
             }

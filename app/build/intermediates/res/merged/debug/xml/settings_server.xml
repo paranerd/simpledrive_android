@@ -23,7 +23,7 @@
             android:dialogTitle="Set upload limit" />
 
         <Preference
-            android:id="@+id/users"
+            android:id="@+id/showusers"
             android:key="users"
             android:title="Users"
             android:summary="Manage user accounts" />
