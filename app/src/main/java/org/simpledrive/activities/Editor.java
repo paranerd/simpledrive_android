@@ -1,4 +1,4 @@
-package org.simpledrive;
+package org.simpledrive.activities;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -7,19 +7,19 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import org.simpledrive.R;
+
 import java.util.HashMap;
 
-import simpledrive.lib.Connection;
+import org.simpledrive.helper.Connection;
 
 public class Editor extends ActionBarActivity {
 

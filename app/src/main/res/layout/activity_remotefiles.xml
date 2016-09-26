@@ -20,7 +20,7 @@
             android:layout_height="match_parent" >
 
             <RelativeLayout
-                android:background="#f2f2f2"
+                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 xmlns:android="http://schemas.android.com/apk/res/android">
@@ -213,6 +213,7 @@
         app:elevation="16dp"
         app:headerLayout="@layout/navigation_drawer_header"
         app:menu="@menu/navigation_drawer_body"
+        android:background="@color/white"
         app:itemIconTint="@color/drawer_list"
         app:itemTextColor="@color/drawer_list"
         app:itemBackground="@drawable/item_selector">

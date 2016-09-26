@@ -1,0 +1,35 @@
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="server"
+        android:title="General"
+        android:shouldDisableView="true">
+
+        <Preference
+            android:id="@+id/server_username"
+            android:key="server_username"
+            android:title="Username" />
+
+        <Preference
+            android:id="@+id/server_storage_used"
+            android:key="server_storage_used"
+            android:title="Storage used"
+            android:summary="Loading..."/>
+
+        <EditTextPreference
+            android:id="@+id/server_storage_max"
+            android:key="server_storage_max"
+            android:title="Storage total"
+            android:summary="Loading..."
+            android:dialogTitle="Set storage max" />
+
+        <CheckBoxPreference
+            android:id="@+id/server_admin"
+            android:key="server_admin"
+            android:title="Admin"
+            android:summary=""
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

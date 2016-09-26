@@ -24,7 +24,7 @@
 
         <EditText
             android:id="@+id/editor"
-            android:textColor="@color/darkgrey"
+            android:textColor="@color/grey6"
             android:background="#00000000"
             android:gravity="start"
             android:layout_width="match_parent"

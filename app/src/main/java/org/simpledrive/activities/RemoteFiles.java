@@ -1,11 +1,11 @@
-package org.simpledrive;
+package org.simpledrive.activities;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.SearchManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.ComponentName;
@@ -31,29 +31,25 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -64,8 +60,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.simpledrive.settings.SettingsApp;
-import org.simpledrive.settings.SettingsServer;
+import org.simpledrive.R;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -74,16 +69,16 @@ import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import simpledrive.lib.AudioService;
-import simpledrive.lib.AudioService.LocalBinder;
-import simpledrive.lib.Connection;
-import simpledrive.lib.Util;
-import simpledrive.lib.Item;
+import org.simpledrive.helper.AudioService;
+import org.simpledrive.helper.AudioService.LocalBinder;
+import org.simpledrive.helper.Connection;
+import org.simpledrive.adapters.FileAdapter;
+import org.simpledrive.helper.Item;
+import org.simpledrive.helper.Util;
 
 public class RemoteFiles extends AppCompatActivity {
     // General
@@ -95,8 +90,8 @@ public class RemoteFiles extends AppCompatActivity {
     private SharedPreferences settings;
     private boolean longClicked = false;
     private static int loginAttempts = 0;
-    private ArrayList<Item> thumbQueue = new ArrayList<>();
-    private boolean thumbLoading = false;
+    //private ArrayList<Item> thumbQueue = new ArrayList<>();
+    //private boolean thumbLoading = false;
     private boolean loadthumbs = false;
     private int lastSelected = 0;
     private static int grids = 3;
@@ -134,17 +129,17 @@ public class RemoteFiles extends AppCompatActivity {
     private NavigationView mNavigationView;
     private GridView tmp_grid;
     private ListView tmp_list;
-
     private FloatingActionButton fab;
     private FloatingActionButton fab_file;
     private FloatingActionButton fab_folder;
     private FloatingActionButton fab_upload;
+    private SearchView searchView = null;
 
     // Files
     private static ArrayList<Item> items = new ArrayList<>();
-    private static ArrayList<JSONObject> hierarchy = new ArrayList<>();
-    private Integer firstFilePos;
-    private NewFileAdapter newAdapter;
+    private static ArrayList<Item> filteredItems = new ArrayList<>();
+    private static ArrayList<Item> hierarchy = new ArrayList<>();
+    private FileAdapter newAdapter;
     private int sortOrder = 1;
 
     ServiceConnection mServiceConnection = new ServiceConnection(){
@@ -164,8 +159,9 @@ public class RemoteFiles extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            thumbQueue.clear();
-            thumbLoading = false;
+            if (newAdapter != null) {
+                newAdapter.cancelThumbLoad();
+            }
 
             mSwipeRefreshLayout.setRefreshing(true);
     	}
@@ -173,7 +169,7 @@ public class RemoteFiles extends AppCompatActivity {
     	@Override
         protected HashMap<String, String> doInBackground(String... args) {
             Connection multipart = new Connection("files", "list", null);
-            multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).toString());
+            multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).getJSON().toString());
             multipart.addFormField("mode", viewmode);
 
             return multipart.finish();
@@ -186,12 +182,12 @@ public class RemoteFiles extends AppCompatActivity {
                 String msg = (value == null) ? getResources().getString(R.string.unknown_error) : value.get("msg");
                 info.setVisibility(View.VISIBLE);
                 info.setText(msg);
-                //Toast.makeText(e, msg, Toast.LENGTH_SHORT).show();
                 new Connect().execute();
             }
             else {
                 loginAttempts = 0;
-                displayFiles(value.get("msg"));
+                extractFiles(value.get("msg"));
+                displayFiles();
             }
         }
     }
@@ -200,7 +196,7 @@ public class RemoteFiles extends AppCompatActivity {
      * Extract JSONArray from server-data, convert to ArrayList and display
      * @param rawJSON The raw JSON-Data from the server
      */
-    private void displayFiles(String rawJSON) {
+    private void extractFiles(String rawJSON) {
         // Reset anything related to listing files
         fab_file.setVisibility(View.GONE);
         fab_folder.setVisibility(View.GONE);
@@ -208,6 +204,7 @@ public class RemoteFiles extends AppCompatActivity {
 
         int thumbSize = (globLayout.equals("list")) ? Util.dpToPx(40) : gridSize;
         items = new ArrayList<>();
+        filteredItems = new ArrayList<>();
 
         try {
             JSONArray jar = new JSONArray(rawJSON);
@@ -257,48 +254,29 @@ public class RemoteFiles extends AppCompatActivity {
                 }
 
 
-                Item item = new Item(obj, filename, parent, null, size, obj.getString("edit"), type, owner, obj.getString("hash"), icon, thumb);
+                Item item = new Item(obj, filename, parent, null, size, obj.getString("edit"), type, owner, icon, thumb);
                 items.add(item);
+                filteredItems.add(item);
             }
-
-            sortByName();
-
-            firstFilePos = items.size();
-
-            for(int i = 0; i < items.size(); i++) {
-                if (!items.get(i).is("folder")) {
-                    firstFilePos = i;
-                    break;
-                }
-            }
-
-            // Show current directory in toolbar
-            String title;
-            JSONObject hier = hierarchy.get(hierarchy.size() - 1);
-            if(hier.has("filename")) {
-                title = hier.getString("filename");
-            }
-            else if (viewmode.equals("sharedbyme")) {
-                title = "My shares";
-            }
-            else if (viewmode.equals("sharedwithme")) {
-                title = "Shared with me";
-            }
-            else if(viewmode.equals("trash")) {
-                title = "Trash";
-            }
-            else {
-                title = "Homefolder";
-            }
-
-            setToolbarTitle(title);
-            setToolbarSubtitle("Folders: " + firstFilePos + ", Files: " + (items.size() - firstFilePos));
         } catch (JSONException exp) {
             exp.printStackTrace();
             Toast.makeText(e, R.string.unknown_error, Toast.LENGTH_SHORT).show();
         }
+    }
 
-        if (items.size() == 0) {
+    private void displayFiles() {
+        Util.sortFilesByName(filteredItems, sortOrder);
+
+        int firstFilePos = filteredItems.size();
+
+        for(int i = 0; i < filteredItems.size(); i++) {
+            if (!filteredItems.get(i).is("folder")) {
+                firstFilePos = i;
+                break;
+            }
+        }
+
+        if (filteredItems.size() == 0) {
             info.setVisibility(View.VISIBLE);
             info.setText(R.string.empty);
         }
@@ -307,39 +285,57 @@ public class RemoteFiles extends AppCompatActivity {
         }
 
         int layout = (globLayout.equals("list")) ? R.layout.listview : R.layout.gridview;
-        newAdapter = new NewFileAdapter(e, layout, 1);
-        newAdapter.setData(items);
+        //newAdapter = new FileAdapter(e, layout);
+        newAdapter = new FileAdapter(e, layout, list, gridSize, loadthumbs, firstFilePos, tmpFolder);
+        newAdapter.setData(filteredItems);
         list.setAdapter(newAdapter);
 
-        invalidateOptionsMenu();
+        // Show current directory in toolbar
+        String title;
+        Item thisFolder = hierarchy.get(hierarchy.size() - 1);
+        if (!thisFolder.getFilename().equals("")) {
+            title = thisFolder.getFilename();
+        }
+        else if (viewmode.equals("sharedbyme")) {
+            title = "My shares";
+        }
+        else if (viewmode.equals("sharedwithme")) {
+            title = "Shared with me";
+        }
+        else if(viewmode.equals("trash")) {
+            title = "Trash";
+        }
+        else {
+            title = "Homefolder";
+        }
+
+        setToolbarTitle(title);
+        setToolbarSubtitle("Folders: " + firstFilePos + ", Files: " + (filteredItems.size() - firstFilePos));
+
         unselectAll();
     }
 
-    private void sortByName() {
-        Collections.sort(items, new Comparator<Item>() {
-            @Override
-            public int compare(Item item1, Item item2) {
-                if(item1.is("folder") && !item2.is("folder")) {
-                    return -1;
+    private void filter(String needle) {
+        if (items.size() > 0) {
+            filteredItems = new ArrayList<>();
+
+            for (Item item : items) {
+                if (item.getFilename().toLowerCase().contains(needle)) {
+                    filteredItems.add(item);
                 }
-                if(!item1.is("folder") && item2.is("folder")) {
-                    return 1;
-                }
-                return sortOrder * (item1.getFilename().toLowerCase().compareTo(item2.getFilename().toLowerCase()));
             }
-        });
+            displayFiles();
+        }
     }
 
-    public class NewFileAdapter extends ArrayAdapter<Item> {
+    /*public class FileAdapter extends ArrayAdapter<Item> {
         private LayoutInflater layoutInflater;
         private int layout;
-        private int t;
 
-        public NewFileAdapter(Activity mActivity, int textViewResourceId, int test) {
+        public FileAdapter(Activity mActivity, int textViewResourceId) {
             super(mActivity, textViewResourceId);
             layoutInflater = LayoutInflater.from(mActivity);
             layout = textViewResourceId;
-            test = test;
         }
 
         @Override
@@ -388,12 +384,12 @@ public class RemoteFiles extends AppCompatActivity {
             if (isItemSelected(position)) {
                 holder.checked.setVisibility(View.VISIBLE);
                 if(globLayout.equals("grid") && item.is("image")) {
-                    holder.checked.setBackgroundColor(getResources().getColor(R.color.transparentgreen));
+                    holder.checked.setBackgroundColor(ContextCompat.getColor(e, R.color.transparentgreen));
                 }
             }
             else {
                 holder.checked.setVisibility(View.INVISIBLE);
-                holder.checked.setBackgroundColor(getResources().getColor(R.color.transparent));
+                holder.checked.setBackgroundColor(ContextCompat.getColor(e, R.color.transparent));
             }
 
             if(item.is("image")) {
@@ -510,17 +506,17 @@ public class RemoteFiles extends AppCompatActivity {
                 } else {
                     bmp.compress(Bitmap.CompressFormat.JPEG, 85, fos);
                 }*/
-            }
-        }
-    }
+            //}
+        //}
+    //}
 
     public void openFile(int position) {
-        Item item = items.get(position);
+        Item item = filteredItems.get(position);
         if(viewmode.equals("trash")) {
             return;
         }
         else if(item.is("folder")) {
-            hierarchy.add(item.getJSON());
+            hierarchy.add(item);
             new ListContent().execute();
         }
         else if(item.is("image")) {
@@ -533,7 +529,7 @@ public class RemoteFiles extends AppCompatActivity {
             audioFilename = item.getFilename();
 
             try {
-                URI uri = new URI(Connection.getServer() + "api/files/read?target=[" + URLEncoder.encode(items.get(position).getJSON().toString(), "UTF-8") + "]&token=" + Connection.token);
+                URI uri = new URI(Connection.getServer() + "api/files/read?target=[" + URLEncoder.encode(filteredItems.get(position).getJSON().toString(), "UTF-8") + "]&token=" + Connection.token);
                 mPlayerService.initPlay(uri.toASCIIString());
                 showAudioPlayer();
             } catch (URISyntaxException | UnsupportedEncodingException e) {
@@ -542,8 +538,8 @@ public class RemoteFiles extends AppCompatActivity {
         }
         else if (item.is("text")) {
             Intent i = new Intent(e.getApplicationContext(), Editor.class);
-            i.putExtra("file", items.get(position).getJSON().toString());
-            i.putExtra("filename", items.get(position).getFilename());
+            i.putExtra("file", filteredItems.get(position).getJSON().toString());
+            i.putExtra("filename", filteredItems.get(position).getFilename());
             e.startActivity(i);
         }
         else {
@@ -552,12 +548,18 @@ public class RemoteFiles extends AppCompatActivity {
         unselectAll();
     }
 
+    public void toggleFAB(boolean hide) {
+        int visible = (hide) ? View.GONE : View.VISIBLE;
+        fab.setVisibility(visible);
+        fab_file.setVisibility(View.GONE);
+        fab_folder.setVisibility(View.GONE);
+        fab_upload.setVisibility(View.GONE);
+    }
+
     public void showAudioPlayer() {
         player.setVisibility(View.VISIBLE);
         audioTitle.setText(audioFilename);
-        //RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)hoverButtons.getLayoutParams();
-        //params.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        //hoverButtons.setLayoutParams(params);
+        toggleFAB(true);
 
         if (!audioUpdateRunning) {
             startUpdateLoop();
@@ -566,9 +568,7 @@ public class RemoteFiles extends AppCompatActivity {
 
     public void hideAudioPlayer() {
         player.setVisibility(View.GONE);
-        //RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)hoverButtons.getLayoutParams();
-        //params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        //hoverButtons.setLayoutParams(params);
+        toggleFAB(false);
     }
 
     public void startUpdateLoop() {
@@ -609,7 +609,7 @@ public class RemoteFiles extends AppCompatActivity {
 
     public static ArrayList<HashMap<String, String>> getAllImages() {
         ArrayList<HashMap<String, String>> images = new ArrayList<>();
-        for(Item item : items) {
+        for(Item item : filteredItems) {
             if(item.is("image")) {
                 String ext = "." + FilenameUtils.getExtension(item.getFilename());
                 HashMap<String, String> img = new HashMap<>();
@@ -632,7 +632,7 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     private void selectAll() {
-        for (int i = 0; i < items.size(); i++) {
+        for (int i = 0; i < filteredItems.size(); i++) {
             list.setItemChecked(i, true);
         }
     }
@@ -653,7 +653,7 @@ public class RemoteFiles extends AppCompatActivity {
 
         for (int i = 0; i < list.getCount(); i++) {
             if (checked.get(i)) {
-                arr.put(items.get(i).getJSON());
+                arr.put(filteredItems.get(i).getJSON());
             }
         }
 
@@ -665,7 +665,7 @@ public class RemoteFiles extends AppCompatActivity {
 
         for (int i = 0; i < list.getCount(); i++) {
             if (checked.get(i)) {
-                return items.get(i).getJSON();
+                return filteredItems.get(i).getJSON();
             }
         }
         return null;
@@ -710,9 +710,11 @@ public class RemoteFiles extends AppCompatActivity {
                  try {
                      hierarchy = new ArrayList<>();
 
-                     JSONObject currDir = new JSONObject();
-                     currDir.put("path", "");
-                     currDir.put("rootshare", "");
+                     JSONObject currDirJSON = new JSONObject();
+                     currDirJSON.put("path", "");
+                     currDirJSON.put("rootshare", "");
+
+                     Item currDir = new Item(currDirJSON, "", "");
                      hierarchy.add(currDir);
 
                      Connection.setToken(value.get("msg"));
@@ -794,7 +796,7 @@ public class RemoteFiles extends AppCompatActivity {
                     JSONObject job = new JSONObject(value.get("msg"));
                     String latest = job.getString("recent");
                     if (latest.length() > 0 && !latest.equals("null")) {
-                        Toast.makeText(e, "Server update available: " + latest, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(e, "Server update available", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e1) {
                     e1.printStackTrace();
@@ -844,7 +846,7 @@ public class RemoteFiles extends AppCompatActivity {
 
     private void showShare(final String target) {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(e);
-        View shareView = View.inflate(this, R.layout.share_dialog, null);
+        View shareView = View.inflate(this, R.layout.dialog_share, null);
         final EditText shareUser = (EditText) shareView.findViewById(R.id.shareUser);
         final CheckBox shareWrite = (CheckBox) shareView.findViewById(R.id.shareWrite);
         final CheckBox sharePublic = (CheckBox) shareView.findViewById(R.id.sharePublic);
@@ -892,7 +894,7 @@ public class RemoteFiles extends AppCompatActivity {
         @Override
         protected HashMap<String, String> doInBackground(String... pos) {
             Connection multipart = new Connection("files", "create", null);
-            multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).toString());
+            multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).getJSON().toString());
             multipart.addFormField("filename", pos[0]);
             multipart.addFormField("type", pos[1]);
 
@@ -1044,7 +1046,6 @@ public class RemoteFiles extends AppCompatActivity {
             });
 
             multipart.addFormField("target", target[0]);
-            Log.i("target", target[0]);
             multipart.setDownloadPath(path, null);
             return multipart.finish();
         }
@@ -1078,7 +1079,6 @@ public class RemoteFiles extends AppCompatActivity {
            protected HashMap<String, String> doInBackground(String... target) {
             Connection multipart = new Connection("files", "delete", null);
             multipart.addFormField("target", target[0]);
-            Log.i("target", target[0]);
             multipart.addFormField("final", Boolean.toString(viewmode.equals("trash")));
 
             return multipart.finish();
@@ -1198,7 +1198,7 @@ public class RemoteFiles extends AppCompatActivity {
         @Override
         protected HashMap<String, String> doInBackground(String... source) {
             Connection multipart = new Connection("files", "zip", null);
-            multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).toString());
+            multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).getJSON().toString());
             multipart.addFormField("source", source[0]);
 
             return multipart.finish();
@@ -1225,7 +1225,7 @@ public class RemoteFiles extends AppCompatActivity {
         @Override
         protected HashMap<String, String> doInBackground(String... source) {
             Connection multipart = new Connection("files", "move", null);
-            multipart.addFormField("target", hierarchy.get(0).toString());
+            multipart.addFormField("target", hierarchy.get(0).getJSON().toString());
             multipart.addFormField("trash", "true");
             multipart.addFormField("source", source[0]);
 
@@ -1350,13 +1350,13 @@ public class RemoteFiles extends AppCompatActivity {
         for(String path : paths) {
             File file = new File(path);
             if(file.isDirectory()) {
-                upload_add_recursive(file.getParent(), file, hierarchy.get(hierarchy.size() - 1).toString());
+                upload_add_recursive(file.getParent(), file, hierarchy.get(hierarchy.size() - 1).getJSON().toString());
             } else {
                 HashMap<String, String> ul_elem = new HashMap<>();
                 ul_elem.put("filename", file.getName());
                 ul_elem.put("relative", "");
                 ul_elem.put("path", path);
-                ul_elem.put("target", hierarchy.get(hierarchy.size() - 1).toString());
+                ul_elem.put("target", hierarchy.get(hierarchy.size() - 1).getJSON().toString());
                 uploadQueue.add(ul_elem);
                 uploadTotal++;
             }
@@ -1395,53 +1395,53 @@ public class RemoteFiles extends AppCompatActivity {
                 });
 
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-                            @Override
-                            public boolean onNavigationItemSelected(final MenuItem item) {
-                                mDrawerLayout.closeDrawer(GravityCompat.START);
+            @Override
+            public boolean onNavigationItemSelected(final MenuItem item) {
+                mDrawerLayout.closeDrawer(GravityCompat.START);
 
-                                switch (item.getItemId()) {
-                                    case R.id.navigation_view_item_files:
-                                        viewmode = "files";
-                                        item.setChecked(true);
-                                        new ListContent().execute();
-                                        break;
+                switch (item.getItemId()) {
+                    case R.id.navigation_view_item_files:
+                        viewmode = "files";
+                        item.setChecked(true);
+                        new ListContent().execute();
+                        break;
 
-                                    case R.id.navigation_view_item_sharedbyme:
-                                        viewmode = "sharedbyme";
-                                        item.setChecked(true);
-                                        clearHierarchy();
-                                        new ListContent().execute();
-                                        break;
+                    case R.id.navigation_view_item_sharedbyme:
+                        viewmode = "sharedbyme";
+                        item.setChecked(true);
+                        clearHierarchy();
+                        new ListContent().execute();
+                        break;
 
-                                    case R.id.navigation_view_item_sharedwithme:
-                                        viewmode = "sharedwithme";
-                                        item.setChecked(true);
-                                        clearHierarchy();
-                                        new ListContent().execute();
-                                        break;
+                    case R.id.navigation_view_item_sharedwithme:
+                        viewmode = "sharedwithme";
+                        item.setChecked(true);
+                        clearHierarchy();
+                        new ListContent().execute();
+                        break;
 
-                                    case R.id.navigation_view_item_trash:
-                                        item.setChecked(true);
-                                        openTrash();
-                                        break;
+                    case R.id.navigation_view_item_trash:
+                        item.setChecked(true);
+                        openTrash();
+                        break;
 
-                                    case R.id.navigation_view_item_settings:
-                                        startActivity(new Intent(getApplicationContext(), SettingsApp.class));
-                                        break;
+                    case R.id.navigation_view_item_settings:
+                        startActivity(new Intent(getApplicationContext(), AppSettings.class));
+                        break;
 
-                                    case R.id.navigation_view_item_server:
-                                        startActivity(new Intent(getApplicationContext(), SettingsServer.class));
-                                        break;
+                    case R.id.navigation_view_item_server:
+                        startActivity(new Intent(getApplicationContext(), ServerSettings.class));
+                        break;
 
-                                    case R.id.navigation_view_item_logout:
-                                        Connection.logout(e);
-                                        startActivity(new Intent(getApplicationContext(), org.simpledrive.Login.class));
-                                        finish();
-                                        break;
-                                }
+                    case R.id.navigation_view_item_logout:
+                        Connection.logout(e);
+                        startActivity(new Intent(getApplicationContext(), Login.class));
+                        finish();
+                        break;
+                }
 
-                                return true;
-                            }
+                return true;
+            }
             }
         );
     }
@@ -1491,7 +1491,7 @@ public class RemoteFiles extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mPlayerService.togglePlay();
-                if (mPlayerService.isPlaying()) {
+                if (AudioService.isPlaying()) {
                     bPlay.setBackgroundResource(R.drawable.ic_pause);
                 }
                 else {
@@ -1598,18 +1598,8 @@ public class RemoteFiles extends AppCompatActivity {
 
         mSwipeRefreshLayout.setColorSchemeResources(R.color.darkgreen, R.color.darkgreen, R.color.darkgreen, R.color.darkgreen);
         mSwipeRefreshLayout.setProgressViewOffset(true, Util.dpToPx(56), Util.dpToPx(56) + 100);
-    }
 
-    protected void onPause() {
-        super.onPause();
-        appVisible = false;
-        unselectAll();
-    }
-
-    protected void onResume() {
-        super.onResume();
-        appVisible = true;
-
+        // onResume begin
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.DrawerLayout);
         mNavigationView = (NavigationView) findViewById(R.id.activity_main_navigation_view);
@@ -1618,7 +1608,7 @@ public class RemoteFiles extends AppCompatActivity {
         setUpDrawer();
 
         // Prepare audio player
-        if(mPlayerService.isPlaying()) {
+        if(AudioService.isPlaying()) {
             showAudioPlayer();
         }
         else {
@@ -1641,6 +1631,17 @@ public class RemoteFiles extends AppCompatActivity {
         new Connect().execute();
     }
 
+    protected void onPause() {
+        super.onPause();
+        appVisible = false;
+        unselectAll();
+    }
+
+    protected void onResume() {
+        super.onResume();
+        appVisible = true;
+    }
+
     public void setUpList() {
         list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 
@@ -1654,6 +1655,7 @@ public class RemoteFiles extends AppCompatActivity {
 
             @Override
             public void onDestroyActionMode(ActionMode mode) {
+                toggleFAB(false);
                 unselectAll();
             }
 
@@ -1664,6 +1666,7 @@ public class RemoteFiles extends AppCompatActivity {
                 inflater.inflate(R.menu.remote_files_context, menu);
                 mContextMenu = menu;
 
+                toggleFAB(true);
                 unselectAll();
                 return true;
             }
@@ -1676,7 +1679,7 @@ public class RemoteFiles extends AppCompatActivity {
                         break;
 
                     case R.id.rename:
-                        showRename(items.get(lastSelected).getFilename(), getFirstSelected().toString());
+                        showRename(filteredItems.get(lastSelected).getFilename(), getFirstSelected().toString());
                         mode.finish();
                         break;
 
@@ -1724,7 +1727,7 @@ public class RemoteFiles extends AppCompatActivity {
                 nr = (checked) ? ++nr : --nr;
 
                 mContextMenu.findItem(R.id.restore).setVisible(trash);
-                mContextMenu.findItem(R.id.selectall).setVisible(items.size() > 0);
+                mContextMenu.findItem(R.id.selectall).setVisible(filteredItems.size() > 0);
                 mContextMenu.findItem(R.id.download).setVisible(!trash);
                 mContextMenu.findItem(R.id.unshare).setVisible(!trash);
                 mContextMenu.findItem(R.id.zip).setVisible(!trash);
@@ -1793,7 +1796,7 @@ public class RemoteFiles extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        if (mBound && mPlayerService.isPlaying()) {
+        if (mBound && AudioService.isPlaying()) {
             Intent localIntent = new Intent(this, RemoteFiles.class);
             localIntent.setAction("org.simpledrive.action.startbackground");
             startService(localIntent);
@@ -1815,14 +1818,39 @@ public class RemoteFiles extends AppCompatActivity {
             menu.findItem(R.id.toggle_view).setTitle("List view");
         }
 
-        menu.findItem(R.id.emptytrash).setVisible(viewmode.equals("trash") && getAllSelected().length() > 0);
-        menu.findItem(R.id.selectall).setVisible(items.size() > 0);
+        menu.findItem(R.id.emptytrash).setVisible(viewmode.equals("trash") && filteredItems.size() > 0);
+        menu.findItem(R.id.selectall).setVisible(filteredItems.size() > 0);
         return super.onPrepareOptionsMenu(menu);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.remote_files_toolbar, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchManager searchManager = (SearchManager) e.getSystemService(Context.SEARCH_SERVICE);
+
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(e.getComponentName()));
+
+            SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    filter(newText);
+                    return true;
+                }
+
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    filter(query);
+                    return true;
+                }
+            };
+            searchView.setOnQueryTextListener(queryTextListener);
+        }
         return true;
     }
 
@@ -1849,6 +1877,7 @@ public class RemoteFiles extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 selectAll();
                                 new Delete().execute(getAllSelected().toString());
+                                unselectAll();
                             }
 
                         })
@@ -1860,8 +1889,9 @@ public class RemoteFiles extends AppCompatActivity {
                 String next_view = (globLayout.equals("grid")) ? "list" : "grid";
                 setView(next_view);
                 int layout = (globLayout.equals("list")) ? R.layout.listview : R.layout.gridview;
-                newAdapter = new NewFileAdapter(e, layout, 2);
-                newAdapter.setData(items);
+                //newAdapter = new FileAdapter(e, layout);
+                newAdapter = new FileAdapter(e, layout, list, gridSize, loadthumbs, 0, tmpFolder);
+                newAdapter.setData(filteredItems);
                 setUpList();
                 list.setAdapter(newAdapter);
                 break;
@@ -1872,7 +1902,7 @@ public class RemoteFiles extends AppCompatActivity {
 
     public void clearHierarchy() {
         if (hierarchy.size() > 0) {
-            JSONObject first = hierarchy.get(0);
+            Item first = hierarchy.get(0);
             hierarchy = new ArrayList<>();
             hierarchy.add(first);
         }

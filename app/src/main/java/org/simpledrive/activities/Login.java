@@ -1,4 +1,4 @@
-package org.simpledrive;
+package org.simpledrive.activities;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -13,9 +13,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.simpledrive.R;
+
 import java.util.HashMap;
 
-import simpledrive.lib.Connection;
+import org.simpledrive.helper.Connection;
 
 public class Login extends Activity {
 

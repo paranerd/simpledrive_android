@@ -1,9 +1,9 @@
-package simpledrive.lib;
+package org.simpledrive.helper;
 
 import java.io.IOException;
 
 import org.simpledrive.R;
-import org.simpledrive.RemoteFiles;
+import org.simpledrive.activities.RemoteFiles;
 
 import android.app.Notification;
 import android.app.PendingIntent;

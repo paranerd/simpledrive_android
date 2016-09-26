@@ -1,4 +1,4 @@
-package org.simpledrive;
+package org.simpledrive.helper;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

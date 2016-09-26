@@ -1,4 +1,4 @@
-package simpledrive.lib;
+package org.simpledrive.helper;
 
 import android.graphics.Bitmap;
 
@@ -14,12 +14,19 @@ public class Item {
 	private Bitmap icon;
 	private Bitmap thumb;
 	private String type;
-	private String hash;
 	private String owner;
 	private String thumbPath = null;
-	private boolean selected = false;
+	private Integer scrollPos = 0;
 
-	public Item(JSONObject json, String filename, String parent, String path, String size, String edit, String type, String owner, String hash, Bitmap icon, Bitmap thumb) {
+	// Used for the root element
+	public Item(JSONObject json, String filename, String path) {
+		this.json = json;
+		this.filename = filename;
+		this.path = path;
+	}
+
+	// For all other elements
+	public Item(JSONObject json, String filename, String parent, String path, String size, String edit, String type, String owner, Bitmap icon, Bitmap thumb) {
 		this.json = json;
 		this.filename = filename;
 		this.parent = parent;
@@ -29,10 +36,8 @@ public class Item {
 		this.icon = icon;
 		this.thumb = thumb;
 		this.type = type;
-		this.hash = hash;
 		this.type = type;
 		this.owner = owner;
-		this.selected = false;
 	}
 
 	public boolean is(String type) {
@@ -78,18 +83,6 @@ public class Item {
 	public String getThumbPath() {
 		return this.thumbPath;
 	}
-
-	/*public boolean isSelected() {
-		return this.selected;
-	}
-
-	public void setSelected(boolean value) {
-		this.selected = value;
-	}*/
-
-	public void toggleSelection() {
-		this.selected = !this.selected;
-	}
 	
 	public String getType() {
 		return this.type;
@@ -99,11 +92,15 @@ public class Item {
 		this.thumb = img;
 	}
 
-	public String getHash() {
-		return this.hash;
-	}
-
 	public String getOwner() {
 		return this.owner;
+	}
+
+	public void setScrollPos(int pos) {
+		this.scrollPos = pos;
+	}
+
+	public int getScrollPos() {
+		return this.scrollPos;
 	}
 }

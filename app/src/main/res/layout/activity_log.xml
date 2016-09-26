@@ -71,13 +71,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="66dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/brightgrey">
+                    android:background="@color/grey2">
 
                     <TextView
                         android:id="@+id/page"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/darkgrey"
+                        android:textColor="@color/grey6"
                         android:gravity="center"
                         android:layout_centerVertical="true" />
 

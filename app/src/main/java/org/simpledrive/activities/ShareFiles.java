@@ -1,8 +1,7 @@
-package org.simpledrive;
+package org.simpledrive.activities;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -21,22 +20,17 @@ import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,17 +40,17 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import simpledrive.lib.Connection;
-import simpledrive.lib.Util;
-import simpledrive.lib.Item;
+import org.simpledrive.R;
+import org.simpledrive.helper.Connection;
+import org.simpledrive.adapters.FileAdapter;
+import org.simpledrive.helper.Item;
+import org.simpledrive.helper.Util;
 
-public class ShareFiles extends ActionBarActivity {
+public class ShareFiles extends AppCompatActivity {
     // General
     private static int loginAttemts = 0;
     public static ShareFiles e;
@@ -67,8 +61,7 @@ public class ShareFiles extends ActionBarActivity {
 
     // Files
     private static ArrayList<Item> items = new ArrayList<>();
-    private static ArrayList<JSONObject> hierarchy = new ArrayList<>();
-    private int sortOrder = 1;
+    private static ArrayList<Item> hierarchy = new ArrayList<>();
 
     // Interface
     private static AbsListView list;
@@ -78,10 +71,6 @@ public class ShareFiles extends ActionBarActivity {
     private Toolbar toolbar;
     private GridView tmp_grid;
     private ListView tmp_list;
-    //private ImageButton bUpload;
-    //private ImageButton bCreate;
-    //private ImageButton toggleButton;
-    //private ImageButton bOK;
 
     private FloatingActionButton fab;
     private FloatingActionButton fab_folder;
@@ -204,7 +193,7 @@ public class ShareFiles extends ActionBarActivity {
         @Override
         protected HashMap<String, String> doInBackground(String... args) {
             Connection multipart = new Connection("files", "list", null);
-            multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).toString());
+            multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).getJSON().toString());
             multipart.addFormField("mode", "files");
 
             return multipart.finish();
@@ -215,20 +204,23 @@ public class ShareFiles extends ActionBarActivity {
             pDialog.dismiss();
             mSwipeRefreshLayout.setRefreshing(false);
             if(value.get("status").equals("ok")) {
+                Log.i("status", "ok");
                 loginAttemts = 0;
-                displayFiles(value.get("msg"));
+                extractFiles(value.get("msg"));
+                displayFiles();
             }
             else {
+                Log.i("status", "not ok");
                 new Connect().execute();
             }
         }
     }
 
     /**
-     * Extract JSONArray from server-data and convert to ArrayList
+     * Extract JSONArray from server-data, convert to ArrayList and display
      * @param rawJSON The raw JSON-Data from the server
      */
-    private void displayFiles(String rawJSON) {
+    private void extractFiles(String rawJSON) {
         // Reset anything related to listing files
         items = new ArrayList<>();
 
@@ -246,126 +238,61 @@ public class ShareFiles extends ActionBarActivity {
                 Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
 
                 if(type.equals("folder")) {
-                    Item item = new Item(obj, filename, parent, null, size, obj.getString("edit"), type, owner, obj.getString("hash"), icon, null);
+                    Item item = new Item(obj, filename, parent, null, size, obj.getString("edit"), type, owner, icon, null);
                     items.add(item);
                 }
-            }
-
-            // Show current directory in toolbar
-            String title;
-            JSONObject hier = hierarchy.get(hierarchy.size() - 1);
-            if(hier.has("filename")) {
-                title = hier.getString("filename");
-            }
-            else {
-                title = "Homefolder";
-            }
-
-            if(toolbar != null) {
-                toolbar.setTitle(title);
-                toolbar.setSubtitle("Folders: " + items.size());
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
 
-        sortByName();
+    /**
+     * Extract JSONArray from server-data and convert to ArrayList
+     */
+    private void displayFiles() {
+        Util.sortFilesByName(items, 1);
 
         if (items.size() == 0) {
             info.setVisibility(View.VISIBLE);
             info.setText(R.string.empty);
-        }
-        else {
+        } else {
             info.setVisibility(View.GONE);
         }
 
         int layout = (globLayout.equals("list")) ? R.layout.listview : R.layout.gridview;
-        NewFileAdapter newAdapter = new NewFileAdapter(e, layout);
+        FileAdapter newAdapter = new FileAdapter(e, layout, list, gridSize, false, 0, "");
         newAdapter.setData(items);
         list.setAdapter(newAdapter);
+
+        // Show current directory in toolbar
+        String title;
+        Item thisFolder = hierarchy.get(hierarchy.size() - 1);
+        if (!thisFolder.getFilename().equals("")) {
+            title = thisFolder.getFilename();
+        } else {
+            title = "Homefolder";
+        }
+
+        setToolbarTitle(title);
+        setToolbarSubtitle("Folders: " + items.size());
     }
 
-    private void sortByName() {
-        Collections.sort(items, new Comparator<Item>() {
-            @Override
-            public int compare(Item item1, Item item2) {
-                if (item1.is("folder") && !item2.is("folder")) {
-                    return -1;
-                }
-                if (!item1.is("folder") && item2.is("folder")) {
-                    return 1;
-                }
-                return sortOrder * (item1.getFilename().toLowerCase().compareTo(item2.getFilename().toLowerCase()));
-            }
-        });
+    private void setToolbarTitle(final String title) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
+        }
     }
 
-    public class NewFileAdapter extends ArrayAdapter<Item> {
-        private LayoutInflater layoutInflater;
-        private int layout;
-
-        public NewFileAdapter(Activity mActivity, int textViewResourceId) {
-            super(mActivity, textViewResourceId);
-            layoutInflater = LayoutInflater.from(mActivity);
-            layout = textViewResourceId;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            final Item item = getItem(position);
-
-            if(convertView == null) {
-                convertView = layoutInflater.inflate(layout, null);
-
-                holder = new ViewHolder();
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.thumb = (ImageView) convertView.findViewById(R.id.thumb);
-                holder.name = (TextView) convertView.findViewById(R.id.name);
-                holder.size = (TextView) convertView.findViewById(R.id.size);
-                holder.owner = (TextView) convertView.findViewById(R.id.owner);
-
-                if (globLayout.equals("grid")) {
-                    holder.wrapper = (RelativeLayout) convertView.findViewById(R.id.wrapper);
-                    holder.wrapper.setLayoutParams(new RelativeLayout.LayoutParams(gridSize, gridSize));
-                }
-                convertView.setTag(holder);
-            }
-            else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            holder.name.setText(item.getFilename());
-            holder.size.setText(item.getSize());
-            holder.owner.setText(item.getOwner());
-            holder.name.setGravity(Gravity.CENTER_VERTICAL);
-            holder.icon.setImageBitmap(item.getIcon());
-
-            return convertView;
-        }
-
-        class ViewHolder {
-            RelativeLayout wrapper;
-            ImageView icon;
-            ImageView thumb;
-            TextView name;
-            TextView size;
-            TextView owner;
-        }
-
-        public void setData(ArrayList<Item> arg1) {
-            clear();
-            if(arg1 != null) {
-                for (int i=0; i < arg1.size(); i++) {
-                    add(arg1.get(i));
-                }
-            }
+    private void setToolbarSubtitle(final String subtitle) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setSubtitle(subtitle);
         }
     }
 
     public void openFile(int position) {
         Item item = items.get(position);
-        hierarchy.add(item.getJSON());
+        hierarchy.add(item);
         new ListContent().execute();
     }
 
@@ -407,9 +334,11 @@ public class ShareFiles extends ActionBarActivity {
                 try {
                     hierarchy = new ArrayList<>();
 
-                    JSONObject currDir = new JSONObject();
-                    currDir.put("path", "");
-                    currDir.put("rootshare", 0);
+                    JSONObject currDirJSON = new JSONObject();
+                    currDirJSON.put("path", "");
+                    currDirJSON.put("rootshare", "");
+
+                    Item currDir = new Item(currDirJSON, "", "");
                     hierarchy.add(currDir);
 
                     info.setVisibility(View.VISIBLE);
@@ -423,7 +352,6 @@ public class ShareFiles extends ActionBarActivity {
                 new ListContent().execute();
             } else {
                 loginAttemts = 0;
-                //Toast.makeText(e, R.string.reconnect_error, Toast.LENGTH_SHORT).show();
                 info.setVisibility(View.VISIBLE);
                 info.setText(R.string.reconnect_error);
             }
@@ -450,7 +378,7 @@ public class ShareFiles extends ActionBarActivity {
         @Override
         protected HashMap<String, String> doInBackground(String... pos) {
             Connection multipart = new Connection("files", "create", null);
-            multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).toString());
+            multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).getJSON().toString());
             multipart.addFormField("filename", pos[0]);
             multipart.addFormField("type", pos[1]);
 
@@ -615,20 +543,18 @@ public class ShareFiles extends ActionBarActivity {
         }
     }
 
-    public void upload_handler(ArrayList<String> paths)
-    {
-        for(String path : paths)
-        {
+    public void upload_handler(ArrayList<String> paths) {
+        for(String path : paths) {
             File file = new File(path);
-            if(file.isDirectory())
-            {
-                upload_add_recursive(file.getParent(), file, hierarchy.get(hierarchy.size() - 1).toString());
-            } else {
+            if (file.isDirectory()) {
+                upload_add_recursive(file.getParent(), file, hierarchy.get(hierarchy.size() - 1).getJSON().toString());
+            }
+            else {
                 HashMap<String, String> ul_elem = new HashMap<>();
                 ul_elem.put("filename", file.getName());
                 ul_elem.put("relative", "");
                 ul_elem.put("path", path);
-                ul_elem.put("target", hierarchy.get(hierarchy.size() - 1).toString());
+                ul_elem.put("target", hierarchy.get(hierarchy.size() - 1).getJSON().toString());
                 uploadQueue.add(ul_elem);
                 uploadTotal++;
             }

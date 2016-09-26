@@ -1,4 +1,4 @@
-package org.simpledrive;
+package org.simpledrive.activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -8,7 +8,8 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
@@ -32,18 +33,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import simpledrive.lib.Util;
-import simpledrive.lib.Item;
+import org.simpledrive.R;
+import org.simpledrive.adapters.FileAdapter;
+import org.simpledrive.helper.Util;
+import org.simpledrive.helper.Item;
 
-public class FileSelector extends ActionBarActivity {
+public class FileSelector extends AppCompatActivity {
     // General
-    private static FileSelector act;
+    private static FileSelector e;
     private static LoadThumb thumbLoader;
 
     // Files
-    private static NewFileAdapter mAdapter;
-    private static ArrayList<String> hierarchy = new ArrayList<>();
-    private static ArrayList<Integer> scrollPos = new ArrayList<>();
+    private static FileAdapter mAdapter;
+    private static ArrayList<Item> hierarchy;
     private ArrayList<Item> items = new ArrayList<>();
     private Integer firstFilePos = null;
     private int lastSelected = -1;
@@ -61,23 +63,20 @@ public class FileSelector extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        act = this;
+        e = this;
 
         setContentView(R.layout.activity_fileselector);
-        list = (ListView)findViewById(R.id.locallist);
-        list.setEmptyView(findViewById(R.id.local_empty_list_item));
+        list = (ListView) findViewById(R.id.listview);
 
         info = (TextView) findViewById(R.id.info);
 
-        hierarchy.add(Environment.getExternalStorageDirectory() + "/");
+        hierarchy = new ArrayList<>();
+        Item root = new Item(null, "root", Environment.getExternalStorageDirectory() + "/");
+        hierarchy.add(root);
 
-        mAdapter = new NewFileAdapter(act, R.layout.listview);
-        list.setAdapter(mAdapter);
         list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 
         list.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
-            private int nr = 0;
-
             @Override
             public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
                 return false;
@@ -90,7 +89,6 @@ public class FileSelector extends ActionBarActivity {
 
             @Override
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                nr = 0;
                 MenuInflater inflater = getMenuInflater();
                 inflater.inflate(R.menu.file_selector_context, menu);
                 mContextMenu = menu;
@@ -107,7 +105,7 @@ public class FileSelector extends ActionBarActivity {
                         break;
 
                     case R.id.select:
-                        Toast.makeText(act, "Upload started", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(e, "Upload started", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent();
                         String[] paths = getAllSelected();
                         i.putExtra("paths", paths);
@@ -150,7 +148,7 @@ public class FileSelector extends ActionBarActivity {
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    act.finish();
+                    e.finish();
                 }
             });
         }
@@ -200,7 +198,7 @@ public class FileSelector extends ActionBarActivity {
     }
 
     public void onBackPressed() {
-        if(getAllSelected().length != 0) {
+        if (getAllSelected().length != 0) {
             unselectAll();
 
         } else if (hierarchy.size() > 1) {
@@ -215,16 +213,12 @@ public class FileSelector extends ActionBarActivity {
     }
 
     public void openFile(int position) {
-        if(items.get(position).is("folder")) {
-            for(int i = scrollPos.size() - 1; i >= hierarchy.size() - 1; i--) {
-                scrollPos.remove(i);
-            }
-
-            scrollPos.add(position);
-
-            hierarchy.add(items.get(position).getPath());
+        if (items.get(position).is("folder")) {
+            hierarchy.get(hierarchy.size() - 1).setScrollPos(position);
+            hierarchy.add(items.get(position));
             new ListContent().execute();
-        } else {
+        }
+        else {
             Intent i = new Intent();
 
             String[] paths = new String[] {items.get(position).getPath()};
@@ -259,16 +253,6 @@ public class FileSelector extends ActionBarActivity {
         return l.toArray(new String[l.size()]);
     }
 
-    /*private String[] getSelectedElem() {
-        List<String> list = new ArrayList<>();
-        for(Item item : items) {
-            if(item.isSelected()) {
-                list.add(item.getPath());
-            }
-        }
-        return list.toArray(new String[list.size()]);
-    }*/
-
     private class ListContent extends AsyncTask<String, String, ArrayList<Item>> {
         ProgressDialog pDialog;
 
@@ -292,50 +276,47 @@ public class FileSelector extends ActionBarActivity {
 
         @Override
         protected ArrayList<Item> doInBackground(String... args) {
-
-            String dirPath = hierarchy.get(hierarchy.size() - 1);
+            String dirPath = hierarchy.get(hierarchy.size() - 1).getPath();
             File dir = new File(dirPath);
-
-            ArrayList<Item> directories = new ArrayList<>();
-            ArrayList<Item> files = new ArrayList<>();
 
             File[] elements = dir.listFiles();
             for (File file : elements) {
                 String filename = file.getName();
                 String path = file.getAbsolutePath();
-                String size;
+                String size = (file.isDirectory()) ? ((file.listFiles().length == 1) ? file.listFiles().length + " element" : file.listFiles().length + " elements") : Util.convertSize(file.length() + "");
                 Bitmap icon;
-                String type;
+                String type = (file.isDirectory()) ? "folder" : getMimeType(file);
 
-                if (file.isDirectory()) {
-                    size = (file.listFiles().length == 1) ? file.listFiles().length + " element" : file.listFiles().length + " elements";
-                    type = "folder";
-                    icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
-                    directories.add(new Item(null, filename, null, path, size, null, type, null, null, icon, null));
-                } else {
-                    type = getMimeType(file);
-                    switch (type) {
-                        case "image":
-                            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_image);
-                            break;
-                        case "audio":
-                            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_audio);
-                            break;
-                        case "pdf":
-                            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_pdf);
-                            break;
-                        default:
-                            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown);
-                    }
-                    size = Util.convertSize(file.length() + "");
-                    files.add(new Item(null, filename, null, path, size, null, type, null, null, icon, null));
+                switch (type) {
+                    case "folder":
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
+                        break;
+                    case "image":
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_image);
+                        break;
+                    case "audio":
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_audio);
+                        break;
+                    case "pdf":
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_pdf);
+                        break;
+                    default:
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown);
+                }
+
+                items.add(new Item(null, filename, null, path, size, null, type, null, icon, null));
+            }
+
+            Util.sortFilesByName(items, 1);
+
+            firstFilePos = items.size();
+
+            for(int i = 0; i < items.size(); i++) {
+                if (!items.get(i).is("folder")) {
+                    firstFilePos = i;
+                    break;
                 }
             }
-            directories = Util.sort(directories);
-            files = Util.sort(files);
-            items.addAll(directories);
-            items.addAll(files);
-            firstFilePos = directories.size();
             return null;
         }
 
@@ -343,43 +324,48 @@ public class FileSelector extends ActionBarActivity {
         protected void onPostExecute(ArrayList<Item> value) {
             pDialog.dismiss();
 
-            if (items.size() == 0) {
-                info.setVisibility(View.VISIBLE);
-                info.setText(R.string.empty);
-            }
-            else {
-                info.setVisibility(View.GONE);
-            }
-
-            mAdapter.setData(items);
-            mAdapter.notifyDataSetChanged();
-
-            if(toolbar != null) {
-                File dir = new File(hierarchy.get(hierarchy.size() - 1));
-                toolbar.setTitle(dir.getName());
-                toolbar.setSubtitle("Folders: " + firstFilePos + ", Files: " + (items.size() - firstFilePos));
-            }
-
-            if(hierarchy.size() <= scrollPos.size()) {
-                list.setSelection(scrollPos.get(hierarchy.size() - 1));
-            }
+            displayFiles();
         }
+    }
+
+    public void displayFiles() {
+        if (items.size() == 0) {
+            info.setVisibility(View.VISIBLE);
+            info.setText(R.string.empty);
+        }
+        else {
+            info.setVisibility(View.GONE);
+        }
+
+        setToolbarTitle(hierarchy.get(hierarchy.size() - 1).getFilename());
+        setToolbarSubtitle("Folders: " + firstFilePos + ", Files: " + (items.size() - firstFilePos));
+
+        mAdapter = new FileAdapter(e, R.layout.listview, list, 0, true, firstFilePos, "");
+        mAdapter.setData(items);
+        mAdapter.notifyDataSetChanged();
+
+        list.setAdapter(mAdapter);
+        list.setSelection(hierarchy.get(hierarchy.size() - 1).getScrollPos());
     }
 
     public String getMimeType(File file) {
         String extension = MimeTypeMap.getFileExtensionFromUrl(file.getAbsolutePath());
-        if(extension != null) {
+
+        if (extension != null) {
             MimeTypeMap mime = MimeTypeMap.getSingleton();
             String filetype = mime.getMimeTypeFromExtension(extension);
-            if(filetype != null) {
+
+            if (filetype != null) {
                 String[] content = filetype.split("/");
-                if(content[0].equals("image")) {
+                if (content[0].equals("image")) {
                     return "image";
-                } else if(content[0].equals("audio")) {
+                }
+                else if(content[0].equals("audio")) {
                     return "audio";
                 }
             }
         }
+
         return "unknown";
     }
 
@@ -430,7 +416,7 @@ public class FileSelector extends ActionBarActivity {
             }
             else {
                 holder.checked.setVisibility(View.INVISIBLE);
-                holder.checked.setBackgroundColor(getResources().getColor(R.color.transparent));
+                holder.checked.setBackgroundColor(ContextCompat.getColor(e, R.color.transparent));
             }
 
             if(item.is("image")) {
@@ -443,19 +429,15 @@ public class FileSelector extends ActionBarActivity {
                     holder.thumb.setImageBitmap(item.getThumb());
                 }
             }
+            else {
+                holder.thumb.setImageBitmap(null);
+            }
 
             holder.icon_area.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     lastSelected = position;
                     list.setItemChecked(position, !isItemSelected(position));
-                }
-            });
-
-            holder.icon_area.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    return true;
                 }
             });
 
@@ -482,21 +464,17 @@ public class FileSelector extends ActionBarActivity {
         }
     }
 
-    public class LoadThumb extends AsyncTask<Integer, Bitmap, Bitmap>
-    {
+    public class LoadThumb extends AsyncTask<Integer, Bitmap, Bitmap> {
         private int position;
 
         @Override
-        protected void onPreExecute()
-        {
+        protected void onPreExecute() {
             super.onPreExecute();
         }
 
         @Override
-        protected Bitmap doInBackground(Integer... hm)
-        {
-
-            if(isCancelled()) {
+        protected Bitmap doInBackground(Integer... hm) {
+            if (isCancelled()) {
                 return null;
             }
 
@@ -510,6 +488,18 @@ public class FileSelector extends ActionBarActivity {
         protected void onPostExecute(Bitmap bmp) {
             items.get(position).setThumb(bmp);
             mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void setToolbarTitle(final String title) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
+        }
+    }
+
+    private void setToolbarSubtitle(final String subtitle) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setSubtitle(subtitle);
         }
     }
 }

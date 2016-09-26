@@ -1,4 +1,4 @@
-package org.simpledrive.settings;
+package org.simpledrive.activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -9,7 +9,7 @@ import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
@@ -20,11 +20,11 @@ import org.simpledrive.R;
 import java.io.File;
 import java.io.IOException;
 
-import simpledrive.lib.Util;
+import org.simpledrive.helper.Util;
 
-public class SettingsApp extends ActionBarActivity {
+public class AppSettings extends AppCompatActivity {
 
-    public static SettingsApp e;
+    public static AppSettings e;
     private static final String tmpFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/simpleDrive/";
     public static PrefsFragment prefsFragment;
     public static SharedPreferences settings;
@@ -54,7 +54,7 @@ public class SettingsApp extends ActionBarActivity {
                     finish();
                 }
             });
-            toolbar.setTitle("App Settings");
+            toolbar.setTitle("Settings");
         }
     }
 

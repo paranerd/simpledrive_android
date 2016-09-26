@@ -1,4 +1,4 @@
-package simpledrive.lib;
+package org.simpledrive.helper;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -88,6 +88,22 @@ public class Util {
             @Override
             public int compare(Item o1, Item o2) {
                 return o1.getFilename().toLowerCase().compareTo(o2.getFilename().toLowerCase());
+            }
+        });
+        return list;
+    }
+
+    public static ArrayList<Item> sortFilesByName(ArrayList<Item> list, final int sortOrder) {
+        Collections.sort(list, new Comparator<Item>() {
+            @Override
+            public int compare(Item item1, Item item2) {
+                if(item1.is("folder") && !item2.is("folder")) {
+                    return -1;
+                }
+                if(!item1.is("folder") && item2.is("folder")) {
+                    return 1;
+                }
+                return sortOrder * (item1.getFilename().toLowerCase().compareTo(item2.getFilename().toLowerCase()));
             }
         });
         return list;

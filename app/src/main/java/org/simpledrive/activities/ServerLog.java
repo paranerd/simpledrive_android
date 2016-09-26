@@ -1,4 +1,4 @@
-package org.simpledrive.settings;
+package org.simpledrive.activities;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -10,8 +10,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,22 +34,20 @@ import org.json.JSONObject;
 import org.simpledrive.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 
-import simpledrive.lib.Connection;
-import simpledrive.lib.Util;
-import simpledrive.lib.Item;
+import org.simpledrive.helper.Connection;
+import org.simpledrive.helper.Util;
+import org.simpledrive.helper.Item;
 
-public class ServerLog extends ActionBarActivity {
+public class ServerLog extends AppCompatActivity {
 
     // General
     private ServerLog e;
     private int totalPages = 0;
     private int currentPage = 0;
     private static ArrayList<Item> items = new ArrayList<>();
-    private NewFileAdapter newAdapter;
+    private LogAdapter newAdapter;
     private int sortOrder = 1;
     private JSONArray log;
 
@@ -283,11 +281,9 @@ public class ServerLog extends ActionBarActivity {
                         break;
                 }
 
-                Item item = new Item(obj, filename, null, null, size, obj.getString("date"), type, owner, null, icon, null);
+                Item item = new Item(obj, filename, null, null, size, obj.getString("date"), type, owner, icon, null);
                 items.add(item);
             }
-
-            sortByName();
         } catch (JSONException exp) {
             exp.printStackTrace();
             Toast.makeText(e, R.string.unknown_error, Toast.LENGTH_SHORT).show();
@@ -305,32 +301,17 @@ public class ServerLog extends ActionBarActivity {
         }
 
         int layout = R.layout.listview;
-        newAdapter = new NewFileAdapter(e, layout);
+        newAdapter = new LogAdapter(e, layout);
         newAdapter.setData(items);
         list.setAdapter(newAdapter);
         invalidateOptionsMenu();
     }
 
-    private void sortByName() {
-        Collections.sort(items, new Comparator<Item>() {
-            @Override
-            public int compare(Item item1, Item item2) {
-                if(item1.is("folder") && !item2.is("folder")) {
-                    return -1;
-                }
-                if(!item1.is("folder") && item2.is("folder")) {
-                    return 1;
-                }
-                return sortOrder * (item1.getFilename().toLowerCase().compareTo(item2.getFilename().toLowerCase()));
-            }
-        });
-    }
-
-    public class NewFileAdapter extends ArrayAdapter<Item> {
+    public class LogAdapter extends ArrayAdapter<Item> {
         private LayoutInflater layoutInflater;
         private int layout;
 
-        public NewFileAdapter(Activity mActivity, int textViewResourceId) {
+        public LogAdapter(Activity mActivity, int textViewResourceId) {
             super(mActivity, textViewResourceId);
             layoutInflater = LayoutInflater.from(mActivity);
             layout = textViewResourceId;
@@ -374,7 +355,7 @@ public class ServerLog extends ActionBarActivity {
             }
 
             Drawable drawable = ContextCompat.getDrawable(ServerLog.this, R.drawable.circle_drawable);
-            drawable.setColorFilter(getResources().getColor(color), PorterDuff.Mode.SRC_ATOP);
+            drawable.setColorFilter(ContextCompat.getColor(e, color), PorterDuff.Mode.SRC_ATOP);
 
             holder.icon_circle.setBackground(drawable);
 

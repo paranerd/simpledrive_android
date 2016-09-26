@@ -1,4 +1,4 @@
-package org.simpledrive;
+package org.simpledrive.activities;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
@@ -25,7 +24,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import simpledrive.lib.Connection;
+import org.simpledrive.helper.ExtendedViewPager;
+import org.simpledrive.R;
+import org.simpledrive.helper.TouchImageView;
+import org.simpledrive.helper.Connection;
 
 public class ImageViewer extends ActionBarActivity {
     public static ExtendedViewPager mViewPager;

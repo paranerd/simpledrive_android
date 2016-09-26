@@ -1,4 +1,4 @@
-package simpledrive.lib;
+package org.simpledrive.helper;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
