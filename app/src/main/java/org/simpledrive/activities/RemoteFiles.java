@@ -77,7 +77,7 @@ import org.simpledrive.helper.AudioService;
 import org.simpledrive.helper.AudioService.LocalBinder;
 import org.simpledrive.helper.Connection;
 import org.simpledrive.adapters.FileAdapter;
-import org.simpledrive.helper.Item;
+import org.simpledrive.helper.FileItem;
 import org.simpledrive.helper.Util;
 
 public class RemoteFiles extends AppCompatActivity {
@@ -90,8 +90,6 @@ public class RemoteFiles extends AppCompatActivity {
     private SharedPreferences settings;
     private boolean longClicked = false;
     private static int loginAttempts = 0;
-    //private ArrayList<Item> thumbQueue = new ArrayList<>();
-    //private boolean thumbLoading = false;
     private boolean loadthumbs = false;
     private int lastSelected = 0;
     private static int grids = 3;
@@ -136,9 +134,9 @@ public class RemoteFiles extends AppCompatActivity {
     private SearchView searchView = null;
 
     // Files
-    private static ArrayList<Item> items = new ArrayList<>();
-    private static ArrayList<Item> filteredItems = new ArrayList<>();
-    private static ArrayList<Item> hierarchy = new ArrayList<>();
+    private static ArrayList<FileItem> items = new ArrayList<>();
+    private static ArrayList<FileItem> filteredItems = new ArrayList<>();
+    private static ArrayList<FileItem> hierarchy = new ArrayList<>();
     private FileAdapter newAdapter;
     private int sortOrder = 1;
 
@@ -239,11 +237,14 @@ public class RemoteFiles extends AppCompatActivity {
                 }
 
                 Bitmap thumb = null;
+                String thumbPath = "";
+                String imgPath = "";
 
                 if (type.equals("image")) {
-                    String ext = FilenameUtils.getExtension(filename);
-                    String imgPath = tmpFolder + Util.md5(parent + filename) + ext;
-                    String thumbPath = (globLayout.equals("list")) ? tmpFolder + Util.md5(parent + filename) + "_list.jpg" : tmpFolder + Util.md5(parent + filename) + "_grid.jpg";
+                    String ext = "." + FilenameUtils.getExtension(filename);
+                    imgPath = tmpFolder + Util.md5(parent + filename) + ext;
+                    thumbPath = tmpFolder + Util.md5 (parent + filename) + "_" + globLayout + ".jpg";
+
 
                     if (new File(imgPath).exists()) {
                         thumb = Util.getThumb(imgPath, thumbSize);
@@ -254,7 +255,7 @@ public class RemoteFiles extends AppCompatActivity {
                 }
 
 
-                Item item = new Item(obj, filename, parent, null, size, obj.getString("edit"), type, owner, icon, thumb);
+                FileItem item = new FileItem(obj, filename, parent, null, size, obj.getString("edit"), type, owner, icon, thumb, thumbPath, imgPath);
                 items.add(item);
                 filteredItems.add(item);
             }
@@ -284,15 +285,14 @@ public class RemoteFiles extends AppCompatActivity {
             info.setVisibility(View.GONE);
         }
 
-        int layout = (globLayout.equals("list")) ? R.layout.listview : R.layout.gridview;
-        //newAdapter = new FileAdapter(e, layout);
-        newAdapter = new FileAdapter(e, layout, list, gridSize, loadthumbs, firstFilePos, tmpFolder);
+        int layout = (globLayout.equals("list")) ? R.layout.filelist : R.layout.filegrid;
+        newAdapter = new FileAdapter(e, layout, list, gridSize, loadthumbs, firstFilePos);
         newAdapter.setData(filteredItems);
         list.setAdapter(newAdapter);
 
         // Show current directory in toolbar
         String title;
-        Item thisFolder = hierarchy.get(hierarchy.size() - 1);
+        FileItem thisFolder = hierarchy.get(hierarchy.size() - 1);
         if (!thisFolder.getFilename().equals("")) {
             title = thisFolder.getFilename();
         }
@@ -319,7 +319,7 @@ public class RemoteFiles extends AppCompatActivity {
         if (items.size() > 0) {
             filteredItems = new ArrayList<>();
 
-            for (Item item : items) {
+            for (FileItem item : items) {
                 if (item.getFilename().toLowerCase().contains(needle)) {
                     filteredItems.add(item);
                 }
@@ -328,190 +328,8 @@ public class RemoteFiles extends AppCompatActivity {
         }
     }
 
-    /*public class FileAdapter extends ArrayAdapter<Item> {
-        private LayoutInflater layoutInflater;
-        private int layout;
-
-        public FileAdapter(Activity mActivity, int textViewResourceId) {
-            super(mActivity, textViewResourceId);
-            layoutInflater = LayoutInflater.from(mActivity);
-            layout = textViewResourceId;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            final Item item = getItem(position);
-
-            if(convertView == null) {
-                convertView = layoutInflater.inflate(layout, null);
-
-                holder = new ViewHolder();
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.thumb = (ImageView) convertView.findViewById(R.id.thumb);
-                holder.checked = (RelativeLayout) convertView.findViewById(R.id.checked);
-                holder.icon_area = (RelativeLayout) convertView.findViewById(R.id.icon_area);
-                holder.name = (TextView) convertView.findViewById(R.id.name);
-                holder.size = (TextView) convertView.findViewById(R.id.size);
-                holder.owner = (TextView) convertView.findViewById(R.id.owner);
-
-                if (globLayout.equals("grid")) {
-                    holder.wrapper = (RelativeLayout) convertView.findViewById(R.id.wrapper);
-                    holder.wrapper.setLayoutParams(new RelativeLayout.LayoutParams(gridSize, gridSize));
-                }
-                else {
-                    holder.separator = (TextView) convertView.findViewById(R.id.separator);
-                }
-                convertView.setTag(holder);
-            }
-            else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            holder.owner.setText(item.getOwner());
-            holder.name.setText(item.getFilename());
-            holder.size.setText(item.getSize());
-            holder.icon.setImageBitmap(item.getIcon());
-
-            if(globLayout.equals("list")) {
-                int visibility = (position == 0 || (firstFilePos != null && position == firstFilePos)) ? View.VISIBLE : View.GONE;
-                holder.separator.setVisibility(visibility);
-
-                String text = (firstFilePos != null && position == firstFilePos) ? "Files" : "Folders";
-                holder.separator.setText(text);
-            }
-
-            if (isItemSelected(position)) {
-                holder.checked.setVisibility(View.VISIBLE);
-                if(globLayout.equals("grid") && item.is("image")) {
-                    holder.checked.setBackgroundColor(ContextCompat.getColor(e, R.color.transparentgreen));
-                }
-            }
-            else {
-                holder.checked.setVisibility(View.INVISIBLE);
-                holder.checked.setBackgroundColor(ContextCompat.getColor(e, R.color.transparent));
-            }
-
-            if(item.is("image")) {
-                if (item.getThumb() == null && loadthumbs) {
-                    String thumbPath = (globLayout.equals("list")) ? tmpFolder + Util.md5(item.getParent() + item.getFilename()) + "_list.jpg" : tmpFolder + Util.md5(item.getParent() + item.getFilename()) + "_grid.jpg";
-                    item.setThumbPath(thumbPath);
-
-                    thumbQueue.add(item);
-
-                    if (!thumbLoading) {
-                        new LoadThumb().execute();
-                    }
-                }
-                else {
-                    holder.thumb.setImageBitmap(item.getThumb());
-                }
-            }
-            else {
-                holder.thumb.setImageBitmap(null);
-            }
-
-            if (globLayout.equals("list")) {
-                holder.icon_area.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        lastSelected = position;
-                        list.setItemChecked(position, !isItemSelected(position));
-                    }
-                });
-            }
-
-            return convertView;
-        }
-
-        class ViewHolder {
-            RelativeLayout wrapper;
-            ImageView icon;
-            ImageView thumb;
-            TextView name;
-            TextView size;
-            TextView owner;
-            TextView separator;
-            RelativeLayout checked;
-            RelativeLayout icon_area;
-        }
-
-        public void setData(ArrayList<Item> arg1) {
-            clear();
-            if(arg1 != null) {
-                for (int i=0; i < arg1.size(); i++) {
-                    add(arg1.get(i));
-                }
-            }
-        }
-    }
-
-    private class LoadThumb extends AsyncTask<String, Integer, HashMap<String, String>> {
-        Item item;
-        String size;
-        String filepath;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            thumbLoading = true;
-        }
-
-        @Override
-        protected HashMap<String, String> doInBackground(String... info) {
-            if (thumbQueue.size() > 0) {
-                item = thumbQueue.remove(0);
-            }
-            else {
-                return null;
-            }
-
-            DisplayMetrics displaymetrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-
-            size = (globLayout.equals("list")) ? Util.dpToPx(100) + "" : Integer.toString(displaymetrics.widthPixels / 2);
-            String file = item.getJSON().toString();
-            filepath = item.getThumbPath();
-
-            File thumb = new File(filepath);
-
-            Connection multipart = new Connection("files", "read", null);
-
-            multipart.addFormField("target", "[" + file + "]");
-            multipart.addFormField("width", size);
-            multipart.addFormField("height", size);
-            multipart.addFormField("type", "thumb");
-            multipart.setDownloadPath(thumb.getParent(), thumb.getName());
-            return multipart.finish();
-        }
-
-        @Override
-        protected void onPostExecute(HashMap<String, String> value) {
-            if (value != null) {
-                Bitmap bmp = Util.getThumb(filepath, Integer.valueOf(size));
-
-                thumbLoading = false;
-                if (bmp != null && list != null) {
-                    // Update adapter to display thumb
-                    item.setThumb(bmp);
-                    newAdapter.notifyDataSetChanged();
-                }
-
-                if (thumbQueue.size() > 0) {
-                    new LoadThumb().execute();
-                }
-
-                /*if(filename.substring(filename.length() - 3).equals("png")) {
-                    bmp.compress(Bitmap.CompressFormat.PNG, 85, fos);
-                } else {
-                    bmp.compress(Bitmap.CompressFormat.JPEG, 85, fos);
-                }*/
-            //}
-        //}
-    //}
-
     public void openFile(int position) {
-        Item item = filteredItems.get(position);
+        FileItem item = filteredItems.get(position);
         if(viewmode.equals("trash")) {
             return;
         }
@@ -598,28 +416,21 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     public int getCurrentImage(String filename) {
-        ArrayList<HashMap<String, String>> allImages = getAllImages();
+        ArrayList<FileItem> allImages = getAllImages();
         for(int i = 0; i < allImages.size(); i++) {
-            if(filename.equals(allImages.get(i).get("filename"))) {
+            if(filename.equals(allImages.get(i).getFilename())) {
                 return i;
             }
         }
         return 0;
     }
 
-    public static ArrayList<HashMap<String, String>> getAllImages() {
-        ArrayList<HashMap<String, String>> images = new ArrayList<>();
-        for(Item item : filteredItems) {
-            if(item.is("image")) {
-                String ext = "." + FilenameUtils.getExtension(item.getFilename());
-                HashMap<String, String> img = new HashMap<>();
-                img.put("file", item.getJSON().toString());
-                img.put("filename", item.getFilename());
-                img.put("path", tmpFolder + Util.md5(item.getParent() + item.getFilename()) + ext);
-                String thumbPath = (globLayout.equals("list")) ? tmpFolder + Util.md5(item.getParent() + item.getFilename()) + "_list.jpg" : tmpFolder + Util.md5(item.getParent() + item.getFilename()) + "_grid.jpg";
-                img.put("thumbPath", thumbPath);
+    public static ArrayList<FileItem> getAllImages() {
+        ArrayList<FileItem> images = new ArrayList<>();
 
-                images.add(img);
+        for (FileItem item : filteredItems) {
+            if (item.is("image")) {
+                images.add(item);
             }
         }
 
@@ -714,7 +525,7 @@ public class RemoteFiles extends AppCompatActivity {
                      currDirJSON.put("path", "");
                      currDirJSON.put("rootshare", "");
 
-                     Item currDir = new Item(currDirJSON, "", "");
+                     FileItem currDir = new FileItem(currDirJSON, "", "");
                      hierarchy.add(currDir);
 
                      Connection.setToken(value.get("msg"));
@@ -1533,10 +1344,6 @@ public class RemoteFiles extends AppCompatActivity {
 
         info = (TextView) findViewById(R.id.info);
 
-        Intent intent = new Intent();
-        intent.setClass(this, AudioService.class);
-        getApplicationContext().bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
-
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab_upload = (FloatingActionButton) findViewById(R.id.fab_upload);
         fab_file = (FloatingActionButton) findViewById(R.id.fab_file);
@@ -1598,16 +1405,17 @@ public class RemoteFiles extends AppCompatActivity {
 
         mSwipeRefreshLayout.setColorSchemeResources(R.color.darkgreen, R.color.darkgreen, R.color.darkgreen, R.color.darkgreen);
         mSwipeRefreshLayout.setProgressViewOffset(true, Util.dpToPx(56), Util.dpToPx(56) + 100);
+        mSwipeRefreshLayout.setEnabled(true);
 
-        // onResume begin
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.DrawerLayout);
         mNavigationView = (NavigationView) findViewById(R.id.activity_main_navigation_view);
 
-        setUpToolbar();
-        setUpDrawer();
-
         // Prepare audio player
+        Intent intent = new Intent();
+        intent.setClass(this, AudioService.class);
+        getApplicationContext().bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
+
         if(AudioService.isPlaying()) {
             showAudioPlayer();
         }
@@ -1616,19 +1424,24 @@ public class RemoteFiles extends AppCompatActivity {
         }
 
         loadthumbs = (settings.getString("loadthumb", "").length() == 0) ? false : Boolean.valueOf(settings.getString("loadthumb", ""));
-        globLayout = (settings.getString("view", "").length() == 0) ? "list" : settings.getString("view", "");
+        globLayout = (settings.getString("view", "").length() == 0 || settings.getString("view", "").equals("list")) ? "list" : "grid";
         setView(globLayout);
+
+        setUpToolbar();
+        setUpDrawer();
         setUpList();
 
-        mSwipeRefreshLayout.setEnabled(true);
+        createTmpFolder();
 
+        new Connect().execute();
+    }
+
+    private void createTmpFolder() {
         // Create image cache folder
         File tmp = new File(tmpFolder);
         if (!tmp.exists()) {
             tmp.mkdir();
         }
-
-        new Connect().execute();
     }
 
     protected void onPause() {
@@ -1888,9 +1701,9 @@ public class RemoteFiles extends AppCompatActivity {
             case R.id.toggle_view:
                 String next_view = (globLayout.equals("grid")) ? "list" : "grid";
                 setView(next_view);
-                int layout = (globLayout.equals("list")) ? R.layout.listview : R.layout.gridview;
+                int layout = (globLayout.equals("list")) ? R.layout.filelist : R.layout.filegrid;
                 //newAdapter = new FileAdapter(e, layout);
-                newAdapter = new FileAdapter(e, layout, list, gridSize, loadthumbs, 0, tmpFolder);
+                newAdapter = new FileAdapter(e, layout, list, gridSize, loadthumbs, 0);
                 newAdapter.setData(filteredItems);
                 setUpList();
                 list.setAdapter(newAdapter);
@@ -1902,7 +1715,7 @@ public class RemoteFiles extends AppCompatActivity {
 
     public void clearHierarchy() {
         if (hierarchy.size() > 0) {
-            Item first = hierarchy.get(0);
+            FileItem first = hierarchy.get(0);
             hierarchy = new ArrayList<>();
             hierarchy.add(first);
         }

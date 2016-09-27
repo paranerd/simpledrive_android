@@ -5,9 +5,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -26,10 +27,11 @@ import java.util.HashMap;
 
 import org.simpledrive.helper.ExtendedViewPager;
 import org.simpledrive.R;
+import org.simpledrive.helper.FileItem;
 import org.simpledrive.helper.TouchImageView;
 import org.simpledrive.helper.Connection;
 
-public class ImageViewer extends ActionBarActivity {
+public class ImageViewer extends AppCompatActivity {
     public static ExtendedViewPager mViewPager;
     private static boolean titleVisible = true;
     private static Toolbar toolbar;
@@ -37,8 +39,7 @@ public class ImageViewer extends ActionBarActivity {
     private int width;
     private int height;
     private AsyncTask loader;
-
-    public static ArrayList<HashMap<String, String>> images;
+    public static ArrayList<FileItem> images;
 
     @Override
     public void onDestroy() {
@@ -64,7 +65,7 @@ public class ImageViewer extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar != null) {
             setSupportActionBar(toolbar);
-            toolbar.setBackgroundColor(getResources().getColor(R.color.halfblack));
+            toolbar.setBackgroundColor(ContextCompat.getColor(e, R.color.halfblack));
             toolbar.setTitleTextColor(Color.parseColor("#eeeeee"));
             toolbar.setNavigationIcon(R.drawable.ic_arrow);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -87,7 +88,7 @@ public class ImageViewer extends ActionBarActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if(toolbar != null) {
-                    toolbar.setTitle(images.get(position).get("filename"));
+                    toolbar.setTitle(images.get(position).getFilename());
                 }
             }
 
@@ -121,10 +122,7 @@ public class ImageViewer extends ActionBarActivity {
 
         float screen_width = displaymetrics.widthPixels;
         float screen_height = displaymetrics.heightPixels;
-
-        float shrink_to = 1;
-
-        shrink_to = (img_height > screen_height || img_width > screen_width) ? Math.min(screen_height, screen_width / img_width) : 1;
+        float shrink_to = (img_height > screen_height || img_width > screen_width) ? Math.min(screen_height, screen_width / img_width) : 1;
 
         dim[0] = Math.round(img_width * shrink_to);
         dim[1] = Math.round(img_height * shrink_to);
@@ -140,9 +138,9 @@ public class ImageViewer extends ActionBarActivity {
 
         @Override
         public View instantiateItem(ViewGroup container, final int position) {
-            String imgPath = images.get(position).get("path");
-            String thumbPath = images.get(position).get("thumbPath");
-            TouchImageView img = new TouchImageView(container.getContext());;
+            String imgPath = images.get(position).getImgPath();
+            String thumbPath = images.get(position).getThumbPath();
+            TouchImageView img = new TouchImageView(container.getContext());
             WebView wv = null;
 
             img.setCustomOnClickListener(new View.OnClickListener() {
@@ -152,7 +150,7 @@ public class ImageViewer extends ActionBarActivity {
                 }
             });
 
-            if(new File(imgPath).exists()) {
+            if (new File(imgPath).exists()) {
                 // Load image
                 String ext = "." + FilenameUtils.getExtension(imgPath);
 
@@ -187,20 +185,20 @@ public class ImageViewer extends ActionBarActivity {
                     Bitmap bmp = BitmapFactory.decodeFile(imgPath);
                     img.setImageBitmap(bmp);
                 }
-            } else if(new File(thumbPath).exists()) {
+            }
+            else if(new File(thumbPath).exists()) {
                 // Load thumbnail and get image in background
                 Bitmap bmp = BitmapFactory.decodeFile(thumbPath);
                 img.setImageBitmap(bmp);
-                //loadImage(thumbPath, img, images.get(position).get("file"), images.get(position).get("filename"), imgPath);
-                loader = new LoadImage(thumbPath, img, images.get(position).get("file"), images.get(position).get("filename"), imgPath).execute();
-            } else {
+                loader = new LoadImage(thumbPath, img, images.get(position).getJSON().toString(), images.get(position).getFilename(), imgPath).execute();
+            }
+            else {
                 // Set placeholder and get image in background
                 img.setImageResource(R.drawable.ic_image);
-                //loadImage(null, img, images.get(position).get("file"), images.get(position).get("filename"), imgPath);
-                new LoadImage(thumbPath, img, images.get(position).get("file"), images.get(position).get("filename"), imgPath).execute();
+                new LoadImage(thumbPath, img, images.get(position).getJSON().toString(), images.get(position).getFilename(), imgPath).execute();
             }
 
-            if(wv != null) {
+            if (wv != null) {
                 container.addView(wv, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                 return wv;
             }
@@ -223,7 +221,6 @@ public class ImageViewer extends ActionBarActivity {
     private class LoadImage extends AsyncTask<String, Integer, HashMap<String, String>> {
         String thumbPath;
         TouchImageView img;
-        WebView wv;
         String file;
         String filename;
         String path;
@@ -231,14 +228,6 @@ public class ImageViewer extends ActionBarActivity {
         public LoadImage(final String thumbPath, final TouchImageView img, String file, String filename, String path) {
             this.thumbPath = thumbPath;
             this.img = img;
-            this.file = file;
-            this.filename = filename;
-            this.path = path;
-        }
-
-        public LoadImage(final String thumbPath, final WebView wv, String file, String filename, String path) {
-            this.thumbPath = thumbPath;
-            this.wv = wv;
             this.file = file;
             this.filename = filename;
             this.path = path;
@@ -276,10 +265,10 @@ public class ImageViewer extends ActionBarActivity {
                 mViewPager.getAdapter().notifyDataSetChanged();
             }
 
-            if(thumbPath != null) {
+            /*if(thumbPath != null) {
                 // Overrides the thumbnail with the image (may consume too much memory with many - and then bigger - thumbnails to display)
-                //new File(thumbPath).delete();
-            }
+                new File(thumbPath).delete();
+            }*/
         }
     }
 }

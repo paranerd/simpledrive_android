@@ -1,6 +1,5 @@
 package org.simpledrive.activities;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,27 +7,20 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.SparseBooleanArray;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,22 +28,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.simpledrive.R;
+import org.simpledrive.adapters.UserAdapter;
+import org.simpledrive.helper.Connection;
+import org.simpledrive.helper.UserItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import org.simpledrive.helper.Connection;
-import org.simpledrive.helper.Item;
 
 public class Users extends AppCompatActivity {
 
     // General
     private Users e;
-    private static ArrayList<Item> items = new ArrayList<>();
+    private static ArrayList<UserItem> items = new ArrayList<>();
     private UserAdapter newAdapter;
 
-    // Interface
-    private Toolbar toolbar;
     private TextView info;
     private static AbsListView list;
     private Menu mToolbarMenu;
@@ -67,7 +57,7 @@ public class Users extends AppCompatActivity {
         setContentView(R.layout.activity_users);
 
         info = (TextView) findViewById(R.id.info);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         if(toolbar != null) {
             setSupportActionBar(toolbar);
@@ -134,7 +124,6 @@ public class Users extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 new Delete(getFirstSelected()).execute();
-                                //new Delete().execute(getAllSelected().toString());
                             }
 
                         })
@@ -163,7 +152,7 @@ public class Users extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(e.getApplicationContext(), UserDetails.class);
-                i.putExtra("username", items.get(position).getFilename());
+                i.putExtra("username", items.get(position).getUsername());
                 e.startActivity(i);
                 unselectAll();
             }
@@ -178,7 +167,7 @@ public class Users extends AppCompatActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(String... args) {
-            Connection multipart = new Connection("users", "getall", null);
+            Connection multipart = new Connection("users", "get", null);
 
             return multipart.finish();
         }
@@ -203,6 +192,7 @@ public class Users extends AppCompatActivity {
      * @param rawJSON The raw JSON-Data from the server
      */
     private void extractFiles(String rawJSON) {
+        Log.i("json", rawJSON);
         items = new ArrayList<>();
 
         try {
@@ -211,10 +201,10 @@ public class Users extends AppCompatActivity {
             for(int i = 0; i < users.length(); i++){
                 JSONObject obj = users.getJSONObject(i);
 
-                String filename = obj.getString("user");
+                String username = obj.getString("user");
                 String mode = (obj.getString("admin").equals("1")) ? "admin" : "user";
                 Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_account);
-                Item item = new Item(obj, filename, null, null, mode, "", "user", "", icon, null);
+                UserItem item = new UserItem(username, mode, icon);
                 items.add(item);
             }
         } catch (JSONException exp) {
@@ -232,88 +222,11 @@ public class Users extends AppCompatActivity {
             info.setVisibility(View.GONE);
         }
 
-        int layout = R.layout.listview;
-        newAdapter = new UserAdapter(e, layout);
+        int layout = R.layout.userlist;
+        newAdapter = new UserAdapter(e, layout, list);
         newAdapter.setData(items);
         list.setAdapter(newAdapter);
         invalidateOptionsMenu();
-    }
-
-    public class UserAdapter extends ArrayAdapter<Item> {
-        private LayoutInflater layoutInflater;
-        private int layout;
-
-        public UserAdapter (Activity mActivity, int textViewResourceId) {
-            super(mActivity, textViewResourceId);
-            layoutInflater = LayoutInflater.from(mActivity);
-            layout = textViewResourceId;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            final Item item = getItem(position);
-
-            if(convertView == null) {
-                convertView = layoutInflater.inflate(layout, null);
-
-                holder = new ViewHolder();
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.icon_circle = (FrameLayout) convertView.findViewById(R.id.icon_circle);
-                holder.icon_area = (RelativeLayout) convertView.findViewById(R.id.icon_area);
-                holder.checked = (RelativeLayout) convertView.findViewById(R.id.checked);
-                holder.name = (TextView) convertView.findViewById(R.id.name);
-                holder.size = (TextView) convertView.findViewById(R.id.size);
-                holder.owner = (TextView) convertView.findViewById(R.id.owner);
-                convertView.setTag(holder);
-            }
-            else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            holder.name.setText(item.getFilename());
-            holder.size.setText(item.getSize());
-            holder.owner.setText(item.getOwner());
-            holder.icon.setImageBitmap(item.getIcon());
-
-            if (isItemSelected(position)) {
-                holder.checked.setVisibility(View.VISIBLE);
-            }
-            else {
-                holder.checked.setVisibility(View.INVISIBLE);
-                holder.checked.setBackgroundColor(ContextCompat.getColor(e, R.color.transparent));
-            }
-
-            holder.icon_area.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    list.setItemChecked(position, !isItemSelected(position));
-                    newAdapter.notifyDataSetChanged();
-                    invalidateOptionsMenu();
-                }
-            });
-
-            return convertView;
-        }
-
-        class ViewHolder {
-            ImageView icon;
-            TextView name;
-            TextView size;
-            TextView owner;
-            FrameLayout icon_circle;
-            RelativeLayout icon_area;
-            RelativeLayout checked;
-        }
-
-        public void setData(ArrayList<Item> arg1) {
-            clear();
-            if(arg1 != null) {
-                for (int i=0; i < arg1.size(); i++) {
-                    add(arg1.get(i));
-                }
-            }
-        }
     }
 
     /**
@@ -326,17 +239,12 @@ public class Users extends AppCompatActivity {
         }
     }
 
-    public static boolean isItemSelected(int pos) {
-        SparseBooleanArray checked = list.getCheckedItemPositions();
-        return checked.get(pos);
-    }
-
     public String getFirstSelected() {
         SparseBooleanArray checked = list.getCheckedItemPositions();
 
         for (int i = 0; i < list.getCount(); i++) {
             if (checked.get(i)) {
-                return items.get(i).getFilename();
+                return items.get(i).getUsername();
             }
         }
         return null;
@@ -348,7 +256,7 @@ public class Users extends AppCompatActivity {
 
         for (int i = 0; i < list.getCount(); i++) {
             if (checked.get(i)) {
-                arr.put(items.get(i).getJSON());
+                arr.put(items.get(i).getUsername());
             }
         }
 
@@ -420,7 +328,6 @@ public class Users extends AppCompatActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(String... pos) {
-            Log.i("users", "create");
             Connection multipart = new Connection("users", "create", null);
             multipart.addFormField("user", username);
             multipart.addFormField("pass", pass);

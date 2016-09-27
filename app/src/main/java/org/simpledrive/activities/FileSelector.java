@@ -1,6 +1,5 @@
 package org.simpledrive.activities;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,24 +7,18 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,17 +29,16 @@ import java.util.List;
 import org.simpledrive.R;
 import org.simpledrive.adapters.FileAdapter;
 import org.simpledrive.helper.Util;
-import org.simpledrive.helper.Item;
+import org.simpledrive.helper.FileItem;
 
 public class FileSelector extends AppCompatActivity {
     // General
     private static FileSelector e;
-    private static LoadThumb thumbLoader;
 
     // Files
     private static FileAdapter mAdapter;
-    private static ArrayList<Item> hierarchy;
-    private ArrayList<Item> items = new ArrayList<>();
+    private static ArrayList<FileItem> hierarchy;
+    private ArrayList<FileItem> items = new ArrayList<>();
     private Integer firstFilePos = null;
     private int lastSelected = -1;
 
@@ -54,7 +46,6 @@ public class FileSelector extends AppCompatActivity {
     private boolean longClicked = false;
     private TextView info;
     private static ListView list;
-    private Toolbar toolbar;
     private Menu mMenu;
     private Menu mContextMenu;
 
@@ -71,7 +62,7 @@ public class FileSelector extends AppCompatActivity {
         info = (TextView) findViewById(R.id.info);
 
         hierarchy = new ArrayList<>();
-        Item root = new Item(null, "root", Environment.getExternalStorageDirectory() + "/");
+        FileItem root = new FileItem(null, "root", Environment.getExternalStorageDirectory() + "/");
         hierarchy.add(root);
 
         list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
@@ -141,7 +132,7 @@ public class FileSelector extends AppCompatActivity {
             }
         });
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar != null) {
             setSupportActionBar(toolbar);
             toolbar.setNavigationIcon(R.drawable.ic_arrow);
@@ -184,11 +175,6 @@ public class FileSelector extends AppCompatActivity {
         inflater.inflate(R.menu.file_selector_toolbar, menu);
         mMenu = menu;
         return true;
-    }
-
-    public static boolean isItemSelected(int pos) {
-        SparseBooleanArray checked = list.getCheckedItemPositions();
-        return checked.get(pos);
     }
 
     private void selectAll() {
@@ -253,7 +239,7 @@ public class FileSelector extends AppCompatActivity {
         return l.toArray(new String[l.size()]);
     }
 
-    private class ListContent extends AsyncTask<String, String, ArrayList<Item>> {
+    private class ListContent extends AsyncTask<String, String, ArrayList<FileItem>> {
         ProgressDialog pDialog;
 
         @Override
@@ -268,14 +254,13 @@ public class FileSelector extends AppCompatActivity {
             firstFilePos = null;
             items = new ArrayList<>();
 
-            if(thumbLoader != null) {
-                thumbLoader.cancel(true);
-                thumbLoader = null;
+            if (mAdapter != null) {
+                mAdapter.cancelThumbLoad();
             }
         }
 
         @Override
-        protected ArrayList<Item> doInBackground(String... args) {
+        protected ArrayList<FileItem> doInBackground(String... args) {
             String dirPath = hierarchy.get(hierarchy.size() - 1).getPath();
             File dir = new File(dirPath);
 
@@ -304,7 +289,7 @@ public class FileSelector extends AppCompatActivity {
                         icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown);
                 }
 
-                items.add(new Item(null, filename, null, path, size, null, type, null, icon, null));
+                items.add(new FileItem(null, filename, null, path, size, null, type, null, icon, null, "", ""));
             }
 
             Util.sortFilesByName(items, 1);
@@ -321,7 +306,7 @@ public class FileSelector extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<Item> value) {
+        protected void onPostExecute(ArrayList<FileItem> value) {
             pDialog.dismiss();
 
             displayFiles();
@@ -340,7 +325,7 @@ public class FileSelector extends AppCompatActivity {
         setToolbarTitle(hierarchy.get(hierarchy.size() - 1).getFilename());
         setToolbarSubtitle("Folders: " + firstFilePos + ", Files: " + (items.size() - firstFilePos));
 
-        mAdapter = new FileAdapter(e, R.layout.listview, list, 0, true, firstFilePos, "");
+        mAdapter = new FileAdapter(e, R.layout.filelist, list, 0, true, firstFilePos);
         mAdapter.setData(items);
         mAdapter.notifyDataSetChanged();
 
@@ -367,128 +352,6 @@ public class FileSelector extends AppCompatActivity {
         }
 
         return "unknown";
-    }
-
-    public class NewFileAdapter extends ArrayAdapter<Item> {
-        private LayoutInflater layoutInflater;
-        private int layout;
-
-        public NewFileAdapter(Activity mActivity, int textViewResourceId) {
-            super(mActivity, textViewResourceId);
-            layoutInflater = LayoutInflater.from(mActivity);
-            layout = textViewResourceId;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            final Item item = getItem(position);
-
-            if(convertView == null) {
-                convertView = layoutInflater.inflate(layout, null);
-
-                holder = new ViewHolder();
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.thumb = (ImageView) convertView.findViewById(R.id.thumb);
-                holder.checked = (RelativeLayout) convertView.findViewById(R.id.checked);
-                holder.icon_area = (RelativeLayout) convertView.findViewById(R.id.icon_area);
-                holder.name = (TextView) convertView.findViewById(R.id.name);
-                holder.size = (TextView) convertView.findViewById(R.id.size);
-                holder.separator = (TextView) convertView.findViewById(R.id.separator);
-                convertView.setTag(holder);
-            }
-            else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            holder.name.setText(item.getFilename());
-            holder.size.setText(item.getSize());
-            holder.icon.setImageBitmap(item.getIcon());
-
-            int visibility = (position == 0 || (firstFilePos != null && position == firstFilePos)) ? View.VISIBLE : View.GONE;
-            holder.separator.setVisibility(visibility);
-
-            String text = (firstFilePos != null && position == firstFilePos) ? "Files" : "Folders";
-            holder.separator.setText(text);
-
-            if (isItemSelected(position)) {
-                holder.checked.setVisibility(View.VISIBLE);
-            }
-            else {
-                holder.checked.setVisibility(View.INVISIBLE);
-                holder.checked.setBackgroundColor(ContextCompat.getColor(e, R.color.transparent));
-            }
-
-            if(item.is("image")) {
-                if (item.getThumb() == null) {
-                    item.setThumb(BitmapFactory.decodeResource(getResources(), R.drawable.ic_image));
-                    holder.thumb.setImageResource(R.drawable.ic_image);
-                    new LoadThumb().execute(position);
-                }
-                else {
-                    holder.thumb.setImageBitmap(item.getThumb());
-                }
-            }
-            else {
-                holder.thumb.setImageBitmap(null);
-            }
-
-            holder.icon_area.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    lastSelected = position;
-                    list.setItemChecked(position, !isItemSelected(position));
-                }
-            });
-
-            return convertView;
-        }
-
-        class ViewHolder {
-            ImageView icon;
-            ImageView thumb;
-            RelativeLayout checked;
-            RelativeLayout icon_area;
-            TextView name;
-            TextView size;
-            TextView separator;
-        }
-
-        public void setData(ArrayList<Item> arg1) {
-            clear();
-            if(arg1 != null) {
-                for (int i=0; i < arg1.size(); i++) {
-                    add(arg1.get(i));
-                }
-            }
-        }
-    }
-
-    public class LoadThumb extends AsyncTask<Integer, Bitmap, Bitmap> {
-        private int position;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Bitmap doInBackground(Integer... hm) {
-            if (isCancelled()) {
-                return null;
-            }
-
-            position = hm[0];
-            String path = items.get(position).getPath();
-
-            int thumbSize = Util.dpToPx(40);
-            return Util.getThumb(path, thumbSize);
-        }
-        @Override
-        protected void onPostExecute(Bitmap bmp) {
-            items.get(position).setThumb(bmp);
-            mAdapter.notifyDataSetChanged();
-        }
     }
 
     private void setToolbarTitle(final String title) {

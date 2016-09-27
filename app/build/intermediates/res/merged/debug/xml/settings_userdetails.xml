@@ -7,26 +7,26 @@
         android:shouldDisableView="true">
 
         <Preference
-            android:id="@+id/server_username"
-            android:key="server_username"
+            android:id="@+id/username"
+            android:key="username"
             android:title="Username" />
 
         <Preference
-            android:id="@+id/server_storage_used"
-            android:key="server_storage_used"
-            android:title="Storage used"
+            android:id="@+id/user_quota_used"
+            android:key="user_quota_used"
+            android:title="Quota used"
             android:summary="Loading..."/>
 
         <EditTextPreference
-            android:id="@+id/server_storage_max"
-            android:key="server_storage_max"
-            android:title="Storage total"
+            android:id="@+id/user_quota_max"
+            android:key="user_quota_max"
+            android:title="Quota total"
             android:summary="Loading..."
-            android:dialogTitle="Set storage max" />
+            android:dialogTitle="Set quota max" />
 
         <CheckBoxPreference
-            android:id="@+id/server_admin"
-            android:key="server_admin"
+            android:id="@+id/user_admin"
+            android:key="user_admin"
             android:title="Admin"
             android:summary=""
             android:defaultValue="false" />
