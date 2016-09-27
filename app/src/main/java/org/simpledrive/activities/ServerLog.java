@@ -1,28 +1,20 @@
 package org.simpledrive.activities;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,13 +24,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.simpledrive.R;
+import org.simpledrive.adapters.LogAdapter;
+import org.simpledrive.helper.Connection;
+import org.simpledrive.helper.LogItem;
+import org.simpledrive.helper.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import org.simpledrive.helper.Connection;
-import org.simpledrive.helper.Util;
-import org.simpledrive.helper.Item;
 
 public class ServerLog extends AppCompatActivity {
 
@@ -46,17 +38,14 @@ public class ServerLog extends AppCompatActivity {
     private ServerLog e;
     private int totalPages = 0;
     private int currentPage = 0;
-    private static ArrayList<Item> items = new ArrayList<>();
-    private LogAdapter newAdapter;
+    private static ArrayList<LogItem> items = new ArrayList<>();
     private int sortOrder = 1;
-    private JSONArray log;
 
     // Interface
     private ImageView prev;
     private ImageView next;
     private TextView page;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private Toolbar toolbar;
     private TextView info;
     private static AbsListView list;
     private Menu mMenu;
@@ -74,7 +63,7 @@ public class ServerLog extends AppCompatActivity {
         next = (ImageView) findViewById(R.id.next);
         page = (TextView) findViewById(R.id.page);
         info = (TextView) findViewById(R.id.info);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,7 +232,8 @@ public class ServerLog extends AppCompatActivity {
             }
             else {
                 info.setVisibility(View.INVISIBLE);
-                displayLog(value.get("msg"));
+                extractLog(value.get("msg"));
+                displayLog();
             }
         }
     }
@@ -252,21 +242,21 @@ public class ServerLog extends AppCompatActivity {
      * Extract JSONArray from server-data, convert to ArrayList and display
      * @param rawJSON The raw JSON-Data from the server
      */
-    private void displayLog(String rawJSON) {
+    private void extractLog(String rawJSON) {
         items = new ArrayList<>();
 
         try {
             JSONObject j = new JSONObject(rawJSON);
             totalPages = Integer.valueOf(j.getString("total"));
-            log = j.getJSONArray("log");
+            JSONArray log = j.getJSONArray("log");
 
             for(int i = 0; i < log.length(); i++){
                 JSONObject obj = log.getJSONObject(i);
 
-                String filename = obj.getString("msg");
+                String message = obj.getString("msg");
                 String type = obj.getString("type");
-                String size = obj.getString("user");
-                String owner = obj.getString("date");
+                String user = obj.getString("user");
+                String date = obj.getString("date");
                 Bitmap icon;
 
                 switch (type) {
@@ -281,14 +271,16 @@ public class ServerLog extends AppCompatActivity {
                         break;
                 }
 
-                Item item = new Item(obj, filename, null, null, size, obj.getString("date"), type, owner, icon, null);
+                LogItem item = new LogItem(message, user, date, type, icon);
                 items.add(item);
             }
         } catch (JSONException exp) {
             exp.printStackTrace();
             Toast.makeText(e, R.string.unknown_error, Toast.LENGTH_SHORT).show();
         }
+    }
 
+    private void displayLog() {
         if (items.size() == 0) {
             info.setVisibility(View.VISIBLE);
             page.setVisibility(View.INVISIBLE);
@@ -300,83 +292,9 @@ public class ServerLog extends AppCompatActivity {
             page.setText((currentPage + 1) + " / " + totalPages);
         }
 
-        int layout = R.layout.listview;
-        newAdapter = new LogAdapter(e, layout);
+        LogAdapter newAdapter = new LogAdapter(e, R.layout.loglist);
         newAdapter.setData(items);
         list.setAdapter(newAdapter);
         invalidateOptionsMenu();
-    }
-
-    public class LogAdapter extends ArrayAdapter<Item> {
-        private LayoutInflater layoutInflater;
-        private int layout;
-
-        public LogAdapter(Activity mActivity, int textViewResourceId) {
-            super(mActivity, textViewResourceId);
-            layoutInflater = LayoutInflater.from(mActivity);
-            layout = textViewResourceId;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            final Item item = getItem(position);
-
-            if(convertView == null) {
-                convertView = layoutInflater.inflate(layout, null);
-
-                holder = new ViewHolder();
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.icon_circle = (FrameLayout) convertView.findViewById(R.id.icon_circle);
-                holder.name = (TextView) convertView.findViewById(R.id.name);
-                holder.size = (TextView) convertView.findViewById(R.id.size);
-                holder.owner = (TextView) convertView.findViewById(R.id.owner);
-                convertView.setTag(holder);
-            }
-            else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            holder.name.setText(item.getFilename());
-            holder.size.setText(item.getSize());
-            holder.owner.setText(item.getOwner());
-            holder.icon.setImageBitmap(item.getIcon());
-
-            int color;
-
-            if (item.is("0")) {
-                color = R.color.darkgreen;
-            }
-            else if (item.is("1")) {
-                color = R.color.orange;
-            }
-            else {
-                color = R.color.red;
-            }
-
-            Drawable drawable = ContextCompat.getDrawable(ServerLog.this, R.drawable.circle_drawable);
-            drawable.setColorFilter(ContextCompat.getColor(e, color), PorterDuff.Mode.SRC_ATOP);
-
-            holder.icon_circle.setBackground(drawable);
-
-            return convertView;
-        }
-
-        class ViewHolder {
-            ImageView icon;
-            TextView name;
-            TextView size;
-            TextView owner;
-            FrameLayout icon_circle;
-        }
-
-        public void setData(ArrayList<Item> arg1) {
-            clear();
-            if(arg1 != null) {
-                for (int i=0; i < arg1.size(); i++) {
-                    add(arg1.get(i));
-                }
-            }
-        }
     }
 }

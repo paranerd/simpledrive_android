@@ -16,26 +16,25 @@ import android.widget.TextView;
 
 import org.simpledrive.R;
 import org.simpledrive.helper.Connection;
-import org.simpledrive.helper.Item;
+import org.simpledrive.helper.FileItem;
 import org.simpledrive.helper.Util;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class FileAdapter extends ArrayAdapter<Item> {
+public class FileAdapter extends ArrayAdapter<FileItem> {
     private LayoutInflater layoutInflater;
     private int layout;
     private int gridSize;
     private boolean loadthumbs = false;
-    private ArrayList<Item> thumbQueue = new ArrayList<>();
+    private ArrayList<FileItem> thumbQueue = new ArrayList<>();
     private boolean thumbLoading = false;
     private Integer firstFilePos;
     private Activity e;
-    private String tmpFolder;
     private AbsListView list;
 
-    public FileAdapter(Activity mActivity, int textViewResourceId, AbsListView list, int gridSize, boolean loadthumbs, int firstFilePos, String tmpFolder) {
+    public FileAdapter(Activity mActivity, int textViewResourceId, AbsListView list, int gridSize, boolean loadthumbs, int firstFilePos) {
         super(mActivity, textViewResourceId);
         this.layoutInflater = LayoutInflater.from(mActivity);
         this.layout = textViewResourceId;
@@ -43,14 +42,13 @@ public class FileAdapter extends ArrayAdapter<Item> {
         this.loadthumbs = loadthumbs;
         this.firstFilePos = firstFilePos;
         this.e = mActivity;
-        this.tmpFolder = tmpFolder;
         this.list = list;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        final Item item = getItem(position);
+        final FileItem item = getItem(position);
 
         if(convertView == null) {
             convertView = layoutInflater.inflate(layout, null);
@@ -64,7 +62,7 @@ public class FileAdapter extends ArrayAdapter<Item> {
             holder.size = (TextView) convertView.findViewById(R.id.size);
             holder.owner = (TextView) convertView.findViewById(R.id.owner);
 
-            if (layout == R.layout.gridview) {
+            if (layout == R.layout.filegrid) {
                 holder.wrapper = (RelativeLayout) convertView.findViewById(R.id.wrapper);
                 holder.wrapper.setLayoutParams(new RelativeLayout.LayoutParams(gridSize, gridSize));
             }
@@ -82,7 +80,7 @@ public class FileAdapter extends ArrayAdapter<Item> {
         holder.size.setText(item.getSize());
         holder.icon.setImageBitmap(item.getIcon());
 
-        if (layout == R.layout.listview) {
+        if (layout == R.layout.filelist) {
             int visibility = (position == 0 || (firstFilePos != null && position == firstFilePos)) ? View.VISIBLE : View.GONE;
             holder.separator.setVisibility(visibility);
 
@@ -92,7 +90,7 @@ public class FileAdapter extends ArrayAdapter<Item> {
 
         if (list.isItemChecked(position)) {
             holder.checked.setVisibility(View.VISIBLE);
-            if(layout == R.layout.gridview && item.is("image")) {
+            if(layout == R.layout.filegrid && item.is("image")) {
                 holder.checked.setBackgroundColor(ContextCompat.getColor(e, R.color.transparentgreen));
             }
         }
@@ -103,9 +101,6 @@ public class FileAdapter extends ArrayAdapter<Item> {
 
         if (item.is("image")) {
             if (item.getThumb() == null && loadthumbs) {
-                String thumbPath = (layout == R.layout.listview) ? tmpFolder + Util.md5(item.getParent() + item.getFilename()) + "_list.jpg" : tmpFolder + Util.md5(item.getParent() + item.getFilename()) + "_grid.jpg";
-                item.setThumbPath(thumbPath);
-
                 thumbQueue.add(item);
 
                 if (!thumbLoading && e.getClass().getSimpleName().equals("RemoteFiles")) {
@@ -123,7 +118,7 @@ public class FileAdapter extends ArrayAdapter<Item> {
             holder.thumb.setImageBitmap(null);
         }
 
-        if (layout == R.layout.listview) {
+        if (layout == R.layout.filelist) {
             holder.icon_area.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -153,7 +148,7 @@ public class FileAdapter extends ArrayAdapter<Item> {
         thumbLoading = false;
     }
 
-    public void setData(ArrayList<Item> arg1) {
+    public void setData(ArrayList<FileItem> arg1) {
         clear();
         if(arg1 != null) {
             for (int i=0; i < arg1.size(); i++) {
@@ -163,7 +158,7 @@ public class FileAdapter extends ArrayAdapter<Item> {
     }
 
     private class LoadThumb extends AsyncTask<String, Integer, HashMap<String, String>> {
-        Item item;
+        FileItem item;
         String size;
         String filepath;
 
@@ -185,7 +180,7 @@ public class FileAdapter extends ArrayAdapter<Item> {
             DisplayMetrics displaymetrics = new DisplayMetrics();
             e.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 
-            size = (layout == R.layout.listview) ? Util.dpToPx(100) + "" : Integer.toString(displaymetrics.widthPixels / 2);
+            size = (layout == R.layout.filelist) ? Util.dpToPx(100) + "" : Integer.toString(displaymetrics.widthPixels / 2);
             String file = item.getJSON().toString();
             filepath = item.getThumbPath();
 
@@ -227,9 +222,9 @@ public class FileAdapter extends ArrayAdapter<Item> {
     }
 
     public class LocalThumb extends AsyncTask<Integer, Bitmap, Bitmap> {
-        private Item item;
+        private FileItem item;
 
-        public LocalThumb(Item item) {
+        public LocalThumb(FileItem item) {
             this.item = item;
         }
 

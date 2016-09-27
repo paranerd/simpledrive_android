@@ -3,7 +3,6 @@ package org.simpledrive.helper;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -187,7 +186,7 @@ public class Connection {
                 InputStream is = httpConn.getInputStream();
 
                 // Is download pending?
-                if(downloadPath != null) {
+                if (downloadPath != null) {
                     // Retrieve filename from response header
                     String header = httpConn.getHeaderField("Content-Disposition");
 

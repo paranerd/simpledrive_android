@@ -68,7 +68,7 @@ public class UserDetails extends AppCompatActivity {
 
     public static class PrefsFragment extends PreferenceFragment {
 
-        private EditTextPreference storageMax;
+        private EditTextPreference quotaMax;
         private CheckBoxPreference admin;
 
         @Override
@@ -78,7 +78,7 @@ public class UserDetails extends AppCompatActivity {
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.settings_userdetails);
 
-            admin = (CheckBoxPreference) findPreference("server_admin");
+            admin = (CheckBoxPreference) findPreference("user_admin");
             admin.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
@@ -88,17 +88,17 @@ public class UserDetails extends AppCompatActivity {
                 }
             });
 
-            storageMax = (EditTextPreference) findPreference("server_storage_max");
-            storageMax.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            quotaMax = (EditTextPreference) findPreference("user_quota_max");
+            quotaMax.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     String value = Long.toString(Util.stringToByte(o.toString()));
-                    new Update().execute("storage", value);
+                    new Update().execute("quota", value);
                     return false;
                 }
             });
 
-            setSummary("server_username", username);
+            setSummary("username", username);
         }
 
         public void setSummary(String key, String value) {
@@ -136,21 +136,19 @@ public class UserDetails extends AppCompatActivity {
             if(value.get("status").equals("ok")) {
                 try {
                     JSONObject job = new JSONObject(value.get("msg"));
-                    String storage_max = job.getString("mem_total");
                     String admin = job.getString("admin");
 
-                    prefsFragment.setSummary("server_storage_max", Util.convertSize(storage_max));
-                    prefsFragment.setChecked("server_admin", admin.equals("1"));
+                    prefsFragment.setChecked("user_admin", admin.equals("1"));
                 } catch (JSONException e1) {
                     e1.printStackTrace();
                 }
             }
 
-            new GetStorageUsed().execute();
+            new GetQuota().execute();
         }
     }
 
-    private static class GetStorageUsed extends AsyncTask<Integer, String, HashMap<String, String>> {
+    private static class GetQuota extends AsyncTask<Integer, String, HashMap<String, String>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -159,7 +157,7 @@ public class UserDetails extends AppCompatActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(Integer... pos) {
-            Connection multipart = new Connection("users", "freequota", null);
+            Connection multipart = new Connection("users", "quota", null);
             multipart.addFormField("user", username);
             multipart.addFormField("value", "0");
 
@@ -171,9 +169,11 @@ public class UserDetails extends AppCompatActivity {
             if(value.get("status").equals("ok")) {
                 try {
                     JSONObject job = new JSONObject(value.get("msg"));
-                    String storage_used = job.getString("used");
+                    String used = job.getString("used");
+                    String max = job.getString("max");
 
-                    prefsFragment.setSummary("server_storage_used", Util.convertSize(storage_used));
+                    prefsFragment.setSummary("user_quota_max", Util.convertSize(max));
+                    prefsFragment.setSummary("user_quota_used", Util.convertSize(used));
                 } catch (JSONException e1) {
                     e1.printStackTrace();
                 }

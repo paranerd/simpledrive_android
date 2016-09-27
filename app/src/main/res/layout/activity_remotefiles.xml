@@ -83,7 +83,7 @@
                 <RelativeLayout
                     android:id="@+id/audioplayer"
                     android:layout_width="match_parent"
-                    android:layout_height="120dp"
+                    android:layout_height="60dp"
                     android:layout_alignParentBottom="true"
                     android:background="@color/darkergreen"
                     android:visibility="gone">
@@ -102,8 +102,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginTop="26dp"
+                        android:layout_marginLeft="70dp"
+                        android:layout_marginRight="70dp"
+                        android:layout_centerVertical="true"
                         android:max="100"
                         android:progress="0"
                         android:maxHeight="3dip"
@@ -112,8 +113,8 @@
 
                     <ImageButton
                         android:id="@+id/bPrev"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginBottom="15dp"
                         android:layout_alignParentBottom="true"
@@ -123,18 +124,16 @@
 
                     <ImageButton
                         android:id="@+id/bPlay"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         android:layout_marginLeft="16dp"
-                        android:layout_marginBottom="15dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
                         android:background="@drawable/ic_play" />
 
                     <ImageButton
                         android:id="@+id/bNext"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         android:layout_marginLeft="156dp"
                         android:layout_marginBottom="15dp"
                         android:layout_alignParentBottom="true"
@@ -144,12 +143,11 @@
 
                     <ImageButton
                         android:id="@+id/bExit"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         android:layout_marginRight="16dp"
-                        android:layout_marginBottom="15dp"
+                        android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true"
                         android:background="@color/darkergreen"
                         android:src="@drawable/ic_close" />
                 </RelativeLayout>

@@ -47,7 +47,7 @@ import java.util.TimerTask;
 import org.simpledrive.R;
 import org.simpledrive.helper.Connection;
 import org.simpledrive.adapters.FileAdapter;
-import org.simpledrive.helper.Item;
+import org.simpledrive.helper.FileItem;
 import org.simpledrive.helper.Util;
 
 public class ShareFiles extends AppCompatActivity {
@@ -60,15 +60,14 @@ public class ShareFiles extends AppCompatActivity {
     private static int gridSize;
 
     // Files
-    private static ArrayList<Item> items = new ArrayList<>();
-    private static ArrayList<Item> hierarchy = new ArrayList<>();
+    private static ArrayList<FileItem> items = new ArrayList<>();
+    private static ArrayList<FileItem> hierarchy = new ArrayList<>();
 
     // Interface
     private static AbsListView list;
     private TextView info;
     private static String globLayout;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private Toolbar toolbar;
     private GridView tmp_grid;
     private ListView tmp_list;
 
@@ -169,7 +168,7 @@ public class ShareFiles extends AppCompatActivity {
             }
         });
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar != null) {
             setSupportActionBar(toolbar);
         }
@@ -238,7 +237,7 @@ public class ShareFiles extends AppCompatActivity {
                 Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
 
                 if(type.equals("folder")) {
-                    Item item = new Item(obj, filename, parent, null, size, obj.getString("edit"), type, owner, icon, null);
+                    FileItem item = new FileItem(obj, filename, parent, null, size, obj.getString("edit"), type, owner, icon, null, "", "");
                     items.add(item);
                 }
             }
@@ -260,14 +259,14 @@ public class ShareFiles extends AppCompatActivity {
             info.setVisibility(View.GONE);
         }
 
-        int layout = (globLayout.equals("list")) ? R.layout.listview : R.layout.gridview;
-        FileAdapter newAdapter = new FileAdapter(e, layout, list, gridSize, false, 0, "");
+        int layout = (globLayout.equals("list")) ? R.layout.filelist : R.layout.filegrid;
+        FileAdapter newAdapter = new FileAdapter(e, layout, list, gridSize, false, 0);
         newAdapter.setData(items);
         list.setAdapter(newAdapter);
 
         // Show current directory in toolbar
         String title;
-        Item thisFolder = hierarchy.get(hierarchy.size() - 1);
+        FileItem thisFolder = hierarchy.get(hierarchy.size() - 1);
         if (!thisFolder.getFilename().equals("")) {
             title = thisFolder.getFilename();
         } else {
@@ -291,7 +290,7 @@ public class ShareFiles extends AppCompatActivity {
     }
 
     public void openFile(int position) {
-        Item item = items.get(position);
+        FileItem item = items.get(position);
         hierarchy.add(item);
         new ListContent().execute();
     }
@@ -338,7 +337,7 @@ public class ShareFiles extends AppCompatActivity {
                     currDirJSON.put("path", "");
                     currDirJSON.put("rootshare", "");
 
-                    Item currDir = new Item(currDirJSON, "", "");
+                    FileItem currDir = new FileItem(currDirJSON, "", "");
                     hierarchy.add(currDir);
 
                     info.setVisibility(View.VISIBLE);

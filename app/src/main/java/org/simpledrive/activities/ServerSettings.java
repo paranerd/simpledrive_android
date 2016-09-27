@@ -130,12 +130,12 @@ public class ServerSettings extends AppCompatActivity {
                 try {
                     JSONObject job = new JSONObject(value.get("msg"));
                     String version = job.getString("version");
-                    String mem_used = job.getString("mem_used");
-                    String mem_total = job.getString("mem_total");
+                    String storage_used = job.getString("storage_used");
+                    String storage_total = job.getString("storage_total");
                     String upload_max = job.getString("upload_max");
 
                     prefsFragment.setSummary("server_version", version);
-                    prefsFragment.setSummary("server_storage", Util.convertSize(mem_used) + " / " + Util.convertSize(mem_total));
+                    prefsFragment.setSummary("server_storage", Util.convertSize(storage_used) + " / " + Util.convertSize(storage_total));
                     prefsFragment.setSummary("server_upload_max", Util.convertSize(upload_max));
                 } catch (JSONException e1) {
                     e1.printStackTrace();

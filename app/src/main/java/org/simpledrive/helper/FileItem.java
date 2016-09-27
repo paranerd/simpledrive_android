@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 import org.json.JSONObject;
 
-public class Item {
+public class FileItem {
 	private JSONObject json;
 	private String filename;
 	private String parent;
@@ -16,17 +16,18 @@ public class Item {
 	private String type;
 	private String owner;
 	private String thumbPath = null;
+	private String imgPath = null;
 	private Integer scrollPos = 0;
 
 	// Used for the root element
-	public Item(JSONObject json, String filename, String path) {
+	public FileItem(JSONObject json, String filename, String path) {
 		this.json = json;
 		this.filename = filename;
 		this.path = path;
 	}
 
 	// For all other elements
-	public Item(JSONObject json, String filename, String parent, String path, String size, String edit, String type, String owner, Bitmap icon, Bitmap thumb) {
+	public FileItem(JSONObject json, String filename, String parent, String path, String size, String edit, String type, String owner, Bitmap icon, Bitmap thumb, String thumbPath, String imgPath) {
 		this.json = json;
 		this.filename = filename;
 		this.parent = parent;
@@ -38,6 +39,8 @@ public class Item {
 		this.type = type;
 		this.type = type;
 		this.owner = owner;
+		this.thumbPath = thumbPath;
+		this.imgPath = imgPath;
 	}
 
 	public boolean is(String type) {
@@ -76,12 +79,12 @@ public class Item {
 		return this.thumb;
 	}
 
-	public void setThumbPath(String path) {
-		this.thumbPath = path;
-	}
-
 	public String getThumbPath() {
 		return this.thumbPath;
+	}
+
+	public String getImgPath() {
+		return this.imgPath;
 	}
 	
 	public String getType() {
