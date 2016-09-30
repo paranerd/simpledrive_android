@@ -1,10 +1,10 @@
 package org.simpledrive.helper;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONObject;
+import org.simpledrive.authenticator.CustomAuthenticator;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -35,7 +35,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 public class Connection {
-    private final String boundary;
+    private final String boundary = "===" + System.currentTimeMillis() + "===";
     private final String LINE_FEED = "\r\n";
 
     private HttpURLConnection httpConn;
@@ -45,7 +45,7 @@ public class Connection {
     public long bytesTransferred;
     public long total;
 
-    private final ProgressListener listener;
+    private ProgressListener listener;
 
     public static String token;
     private static String server;
@@ -56,16 +56,21 @@ public class Connection {
     private String downloadPath;
     private String downloadFilename;
 
+    public void setListener(final ProgressListener listener) {
+        this.listener = listener;
+    }
+
+    public static void setServer(String s) {
+        server = s;
+    }
+
     /**
      * This constructor initializes a new HTTP POST request
      *
      * @param endpoint The endpoint to connect to
      * @param action The action to execute
      */
-    public Connection(String endpoint, String action, final ProgressListener listener) {
-        boundary = "===" + System.currentTimeMillis() + "===";
-        this.listener = listener;
-
+    public Connection(String endpoint, String action) {
         try {
             URL url = new URL(server + "api/" + endpoint + "/" + action);
             trustCertificate();
@@ -106,8 +111,7 @@ public class Connection {
         forceCookie = true;
     }
 
-    public interface ProgressListener
-    {
+    public interface ProgressListener {
         void transferred(Integer num);
     }
 
@@ -317,22 +321,11 @@ public class Connection {
         token = t;
     }
 
-    public static void setServer(String s) {
-        server = s;
-    }
-
     public static String getServer() {
         return server;
     }
 
-    public static void logout(Context ctx) {
+    public static void logout() {
         cookie = null;
-        AccountManager am = AccountManager.get(ctx);
-        Account aaccount[] = am.getAccounts();
-        for (Account anAaccount : aaccount) {
-            if (anAaccount.type.equals("org.simpledrive")) {
-                am.removeAccount(new Account(anAaccount.name, anAaccount.type), null, null);
-            }
-        }
     }
 }

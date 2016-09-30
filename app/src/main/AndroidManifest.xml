@@ -87,6 +87,12 @@
         </activity>
 
         <activity
+            android:name=".activities.Servers"
+            android:label="Servers"
+            android:theme="@style/MainTheme" >
+        </activity>
+
+        <activity
             android:name=".activities.ServerLog"
             android:label="Log"
             android:theme="@style/MainTheme" >
@@ -101,6 +107,18 @@
         <activity
             android:name=".activities.UserDetails"
             android:label="User Details"
+            android:theme="@style/MainTheme" >
+        </activity>
+
+        <activity
+            android:name=".activities.Unlock"
+            android:label="User Details"
+            android:theme="@style/MainTheme" >
+        </activity>
+
+        <activity
+            android:name=".activities.EnablePIN"
+            android:label="Enable PIN"
             android:theme="@style/MainTheme" >
         </activity>
 

@@ -9,7 +9,7 @@
         <Preference
             android:id="@+id/server_address"
             android:key="server_address"
-            android:title="Address" />
+            android:title="Server" />
 
         <Preference
             android:id="@+id/server_storage"

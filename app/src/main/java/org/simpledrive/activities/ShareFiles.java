@@ -1,11 +1,6 @@
 package org.simpledrive.activities;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.AlertDialog;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,12 +13,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
@@ -45,14 +38,17 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.simpledrive.R;
+import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.Connection;
 import org.simpledrive.adapters.FileAdapter;
 import org.simpledrive.helper.FileItem;
+import org.simpledrive.helper.UploadManager;
 import org.simpledrive.helper.Util;
 
 public class ShareFiles extends AppCompatActivity {
     // General
-    private static int loginAttemts = 0;
+    private static boolean preventLock = false;
+    private static boolean calledForUnlock = false;
     public static ShareFiles e;
     private static String username = "";
     private SharedPreferences settings;
@@ -62,25 +58,20 @@ public class ShareFiles extends AppCompatActivity {
     // Files
     private static ArrayList<FileItem> items = new ArrayList<>();
     private static ArrayList<FileItem> hierarchy = new ArrayList<>();
+    private static FileAdapter newAdapter;
 
     // Interface
     private static AbsListView list;
-    private TextView info;
+    private static TextView info;
     private static String globLayout;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private GridView tmp_grid;
-    private ListView tmp_list;
+    private static SwipeRefreshLayout mSwipeRefreshLayout;
+    private static GridView tmp_grid;
+    private static ListView tmp_list;
 
-    private FloatingActionButton fab;
-    private FloatingActionButton fab_folder;
-    private FloatingActionButton fab_ok;
+    private static FloatingActionButton fab;
+    private static FloatingActionButton fab_folder;
+    private static FloatingActionButton fab_ok;
 
-    // Upload
-    private ArrayList<HashMap<String, String>> uploadQueue = new ArrayList<>();
-    public static int uploadCurrent = 0;
-    public static int uploadTotal = 0;
-    public static int uploadSuccessful = 0;
-    public static boolean uploading = false;
     private static ArrayList<String> uploadsPending;
 
 
@@ -129,7 +120,7 @@ public class ShareFiles extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                upload_handler(uploadsPending);
+                UploadManager.upload_add(e, uploadsPending, hierarchy.get(hierarchy.size() - 1).getJSON().toString(), null);
                 e.finish();
             }
         });
@@ -172,44 +163,67 @@ public class ShareFiles extends AppCompatActivity {
         if(toolbar != null) {
             setSupportActionBar(toolbar);
         }
-
-        new Connect().execute();
     }
 
-    private class ListContent extends AsyncTask<String, String, HashMap<String, String>> {
-        ProgressDialog pDialog;
+    protected void onResume() {
+        super.onResume();
 
+        preventLock = false;
+
+        if (!CustomAuthenticator.enable(e)) {
+            // Not logged in
+            startActivity(new Intent(getApplicationContext(), Login.class));
+            finish();
+        }
+        else if (CustomAuthenticator.isLocked()) {
+            if (calledForUnlock) {
+                calledForUnlock = false;
+                finish();
+                return;
+            }
+            preventLock = true;
+            calledForUnlock = true;
+            startActivity(new Intent(getApplicationContext(), Unlock.class));
+        }
+        else {
+            new Connect().execute();
+        }
+
+        username = CustomAuthenticator.getUsername();
+    }
+
+    protected void onPause() {
+        if (!preventLock) {
+            calledForUnlock = false;
+            CustomAuthenticator.lock();
+        }
+        super.onPause();
+    }
+
+    public static class ListContent extends AsyncTask<String, String, HashMap<String, String>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(ShareFiles.this);
-            pDialog.setMessage("Loading files ...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
+            mSwipeRefreshLayout.setRefreshing(true);
         }
 
         @Override
         protected HashMap<String, String> doInBackground(String... args) {
-            Connection multipart = new Connection("files", "list", null);
-            multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).getJSON().toString());
-            multipart.addFormField("mode", "files");
+            Connection con = new Connection("files", "list");
+            con.addFormField("target", hierarchy.get(hierarchy.size() - 1).getJSON().toString());
+            con.addFormField("mode", "files");
 
-            return multipart.finish();
+            return con.finish();
         }
 
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
-            pDialog.dismiss();
             mSwipeRefreshLayout.setRefreshing(false);
             if(value.get("status").equals("ok")) {
-                Log.i("status", "ok");
-                loginAttemts = 0;
                 extractFiles(value.get("msg"));
                 displayFiles();
             }
             else {
-                Log.i("status", "not ok");
                 new Connect().execute();
             }
         }
@@ -219,7 +233,7 @@ public class ShareFiles extends AppCompatActivity {
      * Extract JSONArray from server-data, convert to ArrayList and display
      * @param rawJSON The raw JSON-Data from the server
      */
-    private void extractFiles(String rawJSON) {
+    private static void extractFiles(String rawJSON) {
         // Reset anything related to listing files
         items = new ArrayList<>();
 
@@ -233,11 +247,12 @@ public class ShareFiles extends AppCompatActivity {
                 String parent = obj.getString("parent");
                 String type = obj.getString("type");
                 String size = (obj.getString("type").equals("folder")) ? "" : Util.convertSize(obj.getString("size"));
+                String hash = obj.getString("hash");
                 String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : ((obj.getString("rootshare").length() == 0) ? "" : "shared");
-                Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
+                Bitmap icon = BitmapFactory.decodeResource(e.getResources(), R.drawable.ic_folder);
 
                 if(type.equals("folder")) {
-                    FileItem item = new FileItem(obj, filename, parent, null, size, obj.getString("edit"), type, owner, icon, null, "", "");
+                    FileItem item = new FileItem(obj, filename, parent, null, size, obj.getString("edit"), type, owner, hash, icon, null, "", "");
                     items.add(item);
                 }
             }
@@ -249,7 +264,7 @@ public class ShareFiles extends AppCompatActivity {
     /**
      * Extract JSONArray from server-data and convert to ArrayList
      */
-    private void displayFiles() {
+    private static void displayFiles() {
         Util.sortFilesByName(items, 1);
 
         if (items.size() == 0) {
@@ -260,7 +275,7 @@ public class ShareFiles extends AppCompatActivity {
         }
 
         int layout = (globLayout.equals("list")) ? R.layout.filelist : R.layout.filegrid;
-        FileAdapter newAdapter = new FileAdapter(e, layout, list, gridSize, false, 0);
+        newAdapter = new FileAdapter(e, layout, list, gridSize, false, 0);
         newAdapter.setData(items);
         list.setAdapter(newAdapter);
 
@@ -277,15 +292,15 @@ public class ShareFiles extends AppCompatActivity {
         setToolbarSubtitle("Folders: " + items.size());
     }
 
-    private void setToolbarTitle(final String title) {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(title);
+    private static void setToolbarTitle(final String title) {
+        if (e.getSupportActionBar() != null) {
+            e.getSupportActionBar().setTitle(title);
         }
     }
 
-    private void setToolbarSubtitle(final String subtitle) {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setSubtitle(subtitle);
+    private static void setToolbarSubtitle(final String subtitle) {
+        if (e.getSupportActionBar() != null) {
+            e.getSupportActionBar().setSubtitle(subtitle);
         }
     }
 
@@ -295,37 +310,21 @@ public class ShareFiles extends AppCompatActivity {
         new ListContent().execute();
     }
 
-    public class Connect extends AsyncTask<String, String, HashMap<String, String>> {
-        Account[] sc;
-        AccountManager accMan = AccountManager.get(ShareFiles.this);
-
+    public static class Connect extends AsyncTask<String, String, HashMap<String, String>> {
         @Override
         protected void onPreExecute() {
-            loginAttemts++;
             super.onPreExecute();
         }
 
         @Override
         protected HashMap<String, String> doInBackground(String... login) {
-            accMan = AccountManager.get(ShareFiles.this);
-            sc = accMan.getAccountsByType("org.simpledrive");
+            Connection.setServer(CustomAuthenticator.getServer());
+            Connection con = new Connection("core", "login");
+            con.addFormField("user", CustomAuthenticator.getUsername());
+            con.addFormField("pass", CustomAuthenticator.getPassword());
+            con.forceSetCookie();
 
-            if (sc.length == 0 || loginAttemts > 2) {
-                HashMap<String, String> map = new HashMap<>();
-                map.put("status", "error");
-                return map;
-            }
-
-            username = sc[0].name;
-
-            Connection.setServer(accMan.getUserData(sc[0], "server"));
-
-            Connection multipart = new Connection("core", "login", null);
-            multipart.addFormField("user", username);
-            multipart.addFormField("pass", accMan.getPassword(sc[0]));
-            multipart.forceSetCookie();
-
-            return multipart.finish();
+            return con.finish();
         }
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
@@ -340,19 +339,26 @@ public class ShareFiles extends AppCompatActivity {
                     FileItem currDir = new FileItem(currDirJSON, "", "");
                     hierarchy.add(currDir);
 
-                    info.setVisibility(View.VISIBLE);
-                    info.setText(R.string.empty);
                     Connection.setToken(value.get("msg"));
-                    accMan.setUserData(sc[0], "token", value.get("msg"));
+                    CustomAuthenticator.updateToken(value.get("msg"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
                 new ListContent().execute();
-            } else {
-                loginAttemts = 0;
+            }
+            else {
+                // No connection
                 info.setVisibility(View.VISIBLE);
                 info.setText(R.string.reconnect_error);
+
+                if (newAdapter != null) {
+                    newAdapter.setData(null);
+                    newAdapter.notifyDataSetChanged();
+                }
+
+                mSwipeRefreshLayout.setRefreshing(false);
+                mSwipeRefreshLayout.setEnabled(true);
             }
         }
     }
@@ -367,34 +373,6 @@ public class ShareFiles extends AppCompatActivity {
         }
     }
 
-    private class NewFile extends AsyncTask<String, String, HashMap<String, String>> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            e.setProgressBarIndeterminateVisibility(true);
-        }
-
-        @Override
-        protected HashMap<String, String> doInBackground(String... pos) {
-            Connection multipart = new Connection("files", "create", null);
-            multipart.addFormField("target", hierarchy.get(hierarchy.size() - 1).getJSON().toString());
-            multipart.addFormField("filename", pos[0]);
-            multipart.addFormField("type", pos[1]);
-
-            return multipart.finish();
-        }
-
-        @Override
-        protected void onPostExecute(HashMap<String, String> value) {
-            if(value.get("status").equals("ok")) {
-                new ListContent().execute();
-            }
-            else {
-                Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
     private void showCreate(final String type) {
         AlertDialog.Builder alert = new AlertDialog.Builder(e);
 
@@ -406,8 +384,7 @@ public class ShareFiles extends AppCompatActivity {
 
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                String newFilename = input.getText().toString();
-                new NewFile().execute(newFilename, type);
+                new Create(e, hierarchy.get(hierarchy.size() - 1).getJSON().toString(), input.getText().toString(), type).execute();
             }
         });
 
@@ -438,130 +415,6 @@ public class ShareFiles extends AppCompatActivity {
                 }
             }
         }, 100);
-    }
-
-    private class Upload extends AsyncTask<String, Integer, HashMap<String, String>> {
-        private NotificationCompat.Builder mBuilder;
-        private NotificationManager mNotifyManager;
-        private int notificationId = 1;
-        private String filename;
-        private int fullCurrent;
-        private int fullTotal;
-        private int fullSuccessful;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            Intent intent = new Intent(e, RemoteFiles.class);
-            PendingIntent pIntent = PendingIntent.getActivity(e, 0, intent, 0);
-
-            uploadCurrent++;
-            fullCurrent = RemoteFiles.uploadCurrent + uploadCurrent;
-            fullTotal = RemoteFiles.uploadTotal + uploadTotal;
-
-            mNotifyManager = (NotificationManager) e.getSystemService(Context.NOTIFICATION_SERVICE);
-            mBuilder = new NotificationCompat.Builder(e);
-            mBuilder.setContentIntent(pIntent)
-                    .setContentTitle("Uploading " + fullCurrent + " of " + fullTotal)
-                    .setOngoing(true)
-                    .setSmallIcon(R.drawable.ic_cloud)
-                    .setProgress(100, 0, false);
-            mNotifyManager.notify(notificationId, mBuilder.build());
-        }
-
-        @Override
-        protected HashMap<String, String> doInBackground(String... path) {
-            HashMap<String, String> ul_elem = uploadQueue.remove(0);
-            filename = ul_elem.get("filename");
-            String filepath = ul_elem.get("path");
-            String relative = ul_elem.get("relative");
-            String target = ul_elem.get("target");
-
-            Connection multipart = new Connection("files", "upload", new Connection.ProgressListener() {
-                @Override
-                public void transferred(Integer num) {
-                    if(num % 5 == 0) {
-                        publishProgress(num);
-                    }
-                }
-            });
-
-            multipart.addFormField("paths", relative);
-            multipart.addFormField("target", target);
-            multipart.addFilePart("0", new File(filepath));
-
-            return multipart.finish();
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-            mBuilder.setProgress(100, values[0], false)
-                    .setContentTitle("Uploading " + fullCurrent + " of " + fullTotal)
-                    .setContentText(filename);
-            mNotifyManager.notify(notificationId, mBuilder.build());
-        }
-
-        @Override
-        protected void onPostExecute(HashMap<String, String> value) {
-            uploadSuccessful = (value == null || !value.get("status").equals("ok")) ? uploadSuccessful : uploadSuccessful + 1;
-            fullSuccessful = RemoteFiles.uploadSuccessful + uploadSuccessful;
-            if(uploadQueue.size() > 0) {
-                new Upload().execute();
-            }
-            else {
-                if(!RemoteFiles.uploading) {
-                    String file = (fullTotal == 1) ? "file" : "files";
-                    mBuilder.setContentTitle("Upload complete")
-                            .setContentText(fullSuccessful + " of " + fullTotal + " " + file + " added")
-                            .setOngoing(false)
-                            .setProgress(0, 0, false);
-                    mNotifyManager.notify(notificationId, mBuilder.build());
-                    uploading = false;
-                }
-            }
-        }
-    }
-
-    public void upload_add_recursive(String orig_path, File dir, String target) {
-        File[] files = dir.listFiles();
-        for (File file : files) {
-            if (file.isDirectory()) {
-                upload_add_recursive(orig_path, file, target);
-            } else {
-                String rel_dir = file.getParent().substring(orig_path.length()) + "/";
-                HashMap<String, String> ul_elem = new HashMap<>();
-                ul_elem.put("filename", file.getName());
-                ul_elem.put("relative", rel_dir);
-                ul_elem.put("path", file.getPath());
-                ul_elem.put("target", target);
-                uploadQueue.add(ul_elem);
-                uploadTotal++;
-            }
-        }
-    }
-
-    public void upload_handler(ArrayList<String> paths) {
-        for(String path : paths) {
-            File file = new File(path);
-            if (file.isDirectory()) {
-                upload_add_recursive(file.getParent(), file, hierarchy.get(hierarchy.size() - 1).getJSON().toString());
-            }
-            else {
-                HashMap<String, String> ul_elem = new HashMap<>();
-                ul_elem.put("filename", file.getName());
-                ul_elem.put("relative", "");
-                ul_elem.put("path", path);
-                ul_elem.put("target", hierarchy.get(hierarchy.size() - 1).getJSON().toString());
-                uploadQueue.add(ul_elem);
-                uploadTotal++;
-            }
-        }
-
-        if(!uploading) {
-            new Upload().execute();
-        }
     }
 
     private String getRealPathFromURI(Uri contentURI) {
@@ -610,6 +463,7 @@ public class ShareFiles extends AppCompatActivity {
         else {
             return null;
         }
+
         return uploads;
     }
 
@@ -617,10 +471,11 @@ public class ShareFiles extends AppCompatActivity {
         globLayout = view;
         settings.edit().putString("view", globLayout).apply();
 
-        if(globLayout.equals("list")) {
+        if (globLayout.equals("list")) {
             list = (ListView) findViewById(R.id.list);
             tmp_grid.setVisibility(View.GONE);
-        } else {
+        }
+        else {
             list = (GridView) findViewById(R.id.grid);
             tmp_list.setVisibility(View.GONE);
         }
@@ -629,8 +484,43 @@ public class ShareFiles extends AppCompatActivity {
         registerForContextMenu(list);
     }
 
-    protected void onDestroy()
-    {
-        super.onDestroy();
+    public static class Create extends AsyncTask<String, String, HashMap<String, String>> {
+        private AppCompatActivity e;
+        private String target;
+        private String filename;
+        private String type;
+
+        public Create(AppCompatActivity act, String target, String filename, String type) {
+            this.e = act;
+            this.target = target;
+            this.type = type;
+            this.filename = filename;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            e.setProgressBarIndeterminateVisibility(true);
+        }
+
+        @Override
+        protected HashMap<String, String> doInBackground(String... params) {
+            Connection con = new Connection("files", "create");
+            con.addFormField("target", target);
+            con.addFormField("filename", filename);
+            con.addFormField("type", type);
+
+            return con.finish();
+        }
+
+        @Override
+        protected void onPostExecute(HashMap<String, String> value) {
+            if(value.get("status").equals("ok")) {
+                new ListContent().execute();
+            }
+            else {
+                Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

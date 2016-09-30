@@ -18,6 +18,7 @@ public class FileItem {
 	private String thumbPath = null;
 	private String imgPath = null;
 	private Integer scrollPos = 0;
+	private String hash;
 
 	// Used for the root element
 	public FileItem(JSONObject json, String filename, String path) {
@@ -27,7 +28,7 @@ public class FileItem {
 	}
 
 	// For all other elements
-	public FileItem(JSONObject json, String filename, String parent, String path, String size, String edit, String type, String owner, Bitmap icon, Bitmap thumb, String thumbPath, String imgPath) {
+	public FileItem(JSONObject json, String filename, String parent, String path, String size, String edit, String type, String owner, String hash, Bitmap icon, Bitmap thumb, String thumbPath, String imgPath) {
 		this.json = json;
 		this.filename = filename;
 		this.parent = parent;
@@ -39,6 +40,7 @@ public class FileItem {
 		this.type = type;
 		this.type = type;
 		this.owner = owner;
+		this.hash = hash;
 		this.thumbPath = thumbPath;
 		this.imgPath = imgPath;
 	}
@@ -97,6 +99,10 @@ public class FileItem {
 
 	public String getOwner() {
 		return this.owner;
+	}
+
+	public String getHash() {
+		return this.hash;
 	}
 
 	public void setScrollPos(int pos) {

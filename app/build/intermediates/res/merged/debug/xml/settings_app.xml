@@ -16,13 +16,20 @@
             android:summary="List"
             android:entryValues="@array/fileviewValues"
             android:title="Fileview"
-            android:dialogTitle="Select fileview" />
+            android:dialogTitle="Select fileview"
+            android:defaultValue="list" />
 
         <CheckBoxPreference
             android:key="loadthumb"
             android:title="Load thumbnails"
             android:summary="Disable to save data"
             android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:id="@+id/pin"
+            android:key="pin"
+            android:title="PIN"
+            android:summary="Disabled" />
 
     </PreferenceCategory>
 

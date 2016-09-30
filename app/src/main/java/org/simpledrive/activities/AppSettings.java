@@ -2,6 +2,7 @@ package org.simpledrive.activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
@@ -11,6 +12,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -20,6 +22,7 @@ import org.simpledrive.R;
 import java.io.File;
 import java.io.IOException;
 
+import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.Util;
 
 public class AppSettings extends AppCompatActivity {
@@ -28,6 +31,8 @@ public class AppSettings extends AppCompatActivity {
     private static final String tmpFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/simpleDrive/";
     public static PrefsFragment prefsFragment;
     public static SharedPreferences settings;
+    public static boolean pinEnabled = false;
+    public static String pinEnabledText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +41,6 @@ public class AppSettings extends AppCompatActivity {
         e = this;
 
         settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
-
-        prefsFragment = new PrefsFragment();
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.content, prefsFragment).commit();
 
         setContentView(R.layout.activity_settings);
 
@@ -56,6 +56,18 @@ public class AppSettings extends AppCompatActivity {
             });
             toolbar.setTitle("Settings");
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        pinEnabled = CustomAuthenticator.hasPIN();
+        pinEnabledText = (pinEnabled) ? "Enabled" : "Disabled";
+
+        prefsFragment = new PrefsFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content, prefsFragment).commit();
     }
 
     public static void clearCache() {
@@ -80,6 +92,7 @@ public class AppSettings extends AppCompatActivity {
         private Preference clearcache;
         private ListPreference fileview;
         private CheckBoxPreference loadthumb;
+        private CheckBoxPreference pin;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -98,6 +111,23 @@ public class AppSettings extends AppCompatActivity {
                     String view = o.toString();
                     settings.edit().putString("view", view).apply();
                     fileview.setSummary(view.substring(0,1).toUpperCase() + view.substring(1));
+                    return true;
+                }
+            });
+
+            pin = (CheckBoxPreference) findPreference("pin");
+            pin.setChecked(pinEnabled);
+            pin.setSummary(pinEnabledText);
+            pin.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    if (o.toString().equals("true")) {
+                        startActivity(new Intent(e.getApplicationContext(), EnablePIN.class));
+                    }
+                    else {
+                        CustomAuthenticator.disablePIN();
+                        pin.setSummary("Disabled");
+                    }
                     return true;
                 }
             });

@@ -148,7 +148,7 @@ public class ServerLog extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.serverlog, menu);
+        inflater.inflate(R.menu.serverlog_toolbar, menu);
         mMenu = menu;
         return true;
     }
@@ -188,7 +188,7 @@ public class ServerLog extends AppCompatActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(String... args) {
-            Connection multipart = new Connection("system", "clearlog", null);
+            Connection multipart = new Connection("system", "clearlog");
 
             return multipart.finish();
         }
@@ -216,7 +216,7 @@ public class ServerLog extends AppCompatActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(String... args) {
-            Connection multipart = new Connection("system", "log", null);
+            Connection multipart = new Connection("system", "log");
             multipart.addFormField("page", Integer.toString(currentPage));
 
             return multipart.finish();

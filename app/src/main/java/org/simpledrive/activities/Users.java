@@ -1,5 +1,6 @@
 package org.simpledrive.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,11 +12,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.view.ActionMode;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -34,9 +36,10 @@ import org.simpledrive.helper.UserItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Users extends AppCompatActivity {
-
     // General
     private Users e;
     private static ArrayList<UserItem> items = new ArrayList<>();
@@ -44,8 +47,10 @@ public class Users extends AppCompatActivity {
 
     private TextView info;
     private static AbsListView list;
-    private Menu mToolbarMenu;
     private FloatingActionButton fab;
+
+    private ActionMode mode;
+    private android.view.ActionMode.Callback modeCallBack;
 
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
@@ -56,7 +61,70 @@ public class Users extends AppCompatActivity {
 
         setContentView(R.layout.activity_users);
 
+        setUpToolbar();
+
         info = (TextView) findViewById(R.id.info);
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCreate();
+            }
+        });
+
+        modeCallBack = new android.view.ActionMode.Callback() {
+            @Override
+            public boolean onCreateActionMode(android.view.ActionMode actionMode, Menu menu) {
+                mode = actionMode;
+                actionMode.setTitle(getFirstSelected());
+                actionMode.getMenuInflater().inflate(R.menu.users_context, menu);
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(android.view.ActionMode actionMode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(android.view.ActionMode actionMode, MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.delete:
+                        new android.support.v7.app.AlertDialog.Builder(e)
+                                .setTitle("Delete" + getFirstSelected())
+                                .setMessage("Are you sure you want to delete this user?")
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        new Delete(getFirstSelected()).execute();
+                                    }
+
+                                })
+                                .setNegativeButton("No", null)
+                                .show();
+                        break;
+                }
+                return false;
+            }
+
+            @Override
+            public void onDestroyActionMode(android.view.ActionMode actionMode) {
+                unselectAll();
+            }
+        };
+    }
+
+    protected void onResume() {
+        super.onResume();
+
+        list = (ListView) findViewById(R.id.list);
+        setUpList();
+
+        new FetchUsers().execute();
+    }
+
+    public void setUpToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         if(toolbar != null) {
@@ -69,70 +137,6 @@ public class Users extends AppCompatActivity {
                 }
             });
         }
-
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showCreate();
-            }
-        });
-    }
-
-    protected void onResume() {
-        super.onResume();
-
-        list = (ListView) findViewById(R.id.list);
-        setUpList();
-
-        if(mToolbarMenu != null) {
-            invalidateOptionsMenu();
-        }
-
-        new FetchUsers().execute();
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        mToolbarMenu = menu;
-
-        menu.findItem(R.id.delete).setVisible(getAllSelected().length() > 0);
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.users_toolbar, menu);
-        return true;
-    }
-
-    public boolean onOptionsItemSelected(MenuItem paramMenuItem) {
-        switch (paramMenuItem.getItemId()) {
-            default:
-                return super.onOptionsItemSelected(paramMenuItem);
-
-            case android.R.id.home:
-                //mDrawerLayout.openDrawer(GravityCompat.START);
-                break;
-
-            case R.id.delete:
-                new android.support.v7.app.AlertDialog.Builder(this)
-                        .setTitle("Delete")
-                        .setMessage("Are you sure you want to delete this user?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                new Delete(getFirstSelected()).execute();
-                            }
-
-                        })
-                        .setNegativeButton("No", null)
-                        .show();
-                break;
-        }
-
-        return true;
     }
 
     public void setUpList() {
@@ -142,8 +146,8 @@ public class Users extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 list.setItemChecked(position, true);
+                startActionMode(modeCallBack);
                 newAdapter.notifyDataSetChanged();
-                invalidateOptionsMenu();
                 return true;
             }
         });
@@ -153,8 +157,8 @@ public class Users extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(e.getApplicationContext(), UserDetails.class);
                 i.putExtra("username", items.get(position).getUsername());
-                e.startActivity(i);
                 unselectAll();
+                e.startActivity(i);
             }
         });
     }
@@ -167,21 +171,21 @@ public class Users extends AppCompatActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(String... args) {
-            Connection multipart = new Connection("users", "get", null);
+            Connection con = new Connection("users", "get");
 
-            return multipart.finish();
+            return con.finish();
         }
 
         @Override
-        protected void onPostExecute(HashMap<String, String> value) {
-            if(value == null || !value.get("status").equals("ok")) {
-                String msg = (value == null) ? getResources().getString(R.string.unknown_error) : value.get("msg");
+        protected void onPostExecute(HashMap<String, String> result) {
+            if(result == null || !result.get("status").equals("ok")) {
+                String msg = (result == null) ? getResources().getString(R.string.unknown_error) : result.get("msg");
                 info.setVisibility(View.VISIBLE);
                 info.setText(msg);
             }
             else {
                 info.setVisibility(View.INVISIBLE);
-                extractFiles(value.get("msg"));
+                extractFiles(result.get("msg"));
                 displayUsers();
             }
         }
@@ -192,7 +196,6 @@ public class Users extends AppCompatActivity {
      * @param rawJSON The raw JSON-Data from the server
      */
     private void extractFiles(String rawJSON) {
-        Log.i("json", rawJSON);
         items = new ArrayList<>();
 
         try {
@@ -226,7 +229,6 @@ public class Users extends AppCompatActivity {
         newAdapter = new UserAdapter(e, layout, list);
         newAdapter.setData(items);
         list.setAdapter(newAdapter);
-        invalidateOptionsMenu();
     }
 
     /**
@@ -237,6 +239,11 @@ public class Users extends AppCompatActivity {
         for (int i = 0; i < list.getCount(); i++) {
             list.setItemChecked(i, false);
         }
+
+        if (mode != null) {
+            mode.finish();
+        }
+        Log.i("te", "st");
     }
 
     public String getFirstSelected() {
@@ -250,20 +257,8 @@ public class Users extends AppCompatActivity {
         return null;
     }
 
-    private JSONArray getAllSelected() {
-        JSONArray arr = new JSONArray();
-        SparseBooleanArray checked = list.getCheckedItemPositions();
-
-        for (int i = 0; i < list.getCount(); i++) {
-            if (checked.get(i)) {
-                arr.put(items.get(i).getUsername());
-            }
-        }
-
-        return arr;
-    }
-
     private void showCreate() {
+        unselectAll();
         final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(e);
         View shareView = View.inflate(this, R.layout.dialog_createuser, null);
         final EditText username = (EditText) shareView.findViewById(R.id.username);
@@ -305,7 +300,7 @@ public class Users extends AppCompatActivity {
         });
 
         username.requestFocus();
-        //showVirtualKeyboard();
+        showVirtualKeyboard();
     }
 
     private class Create extends AsyncTask<String, String, HashMap<String, String>> {
@@ -328,22 +323,22 @@ public class Users extends AppCompatActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(String... pos) {
-            Connection multipart = new Connection("users", "create", null);
-            multipart.addFormField("user", username);
-            multipart.addFormField("pass", pass);
-            multipart.addFormField("admin", Integer.toString(this.admin));
-            multipart.addFormField("mail", "");
+            Connection con = new Connection("users", "create");
+            con.addFormField("user", username);
+            con.addFormField("pass", pass);
+            con.addFormField("admin", Integer.toString(this.admin));
+            con.addFormField("mail", "");
 
-            return multipart.finish();
+            return con.finish();
         }
 
         @Override
-        protected void onPostExecute(HashMap<String, String> value) {
-            if(value.get("status").equals("ok")) {
+        protected void onPostExecute(HashMap<String, String> result) {
+            if (result.get("status").equals("ok")) {
                 new FetchUsers().execute();
             }
             else {
-                Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -362,21 +357,35 @@ public class Users extends AppCompatActivity {
         }
 
         @Override
-        protected HashMap<String, String> doInBackground(String... pos) {
-            Connection multipart = new Connection("users", "delete", null);
-            multipart.addFormField("user", username);
+        protected HashMap<String, String> doInBackground(String... params) {
+            Connection con = new Connection("users", "delete");
+            con.addFormField("user", username);
 
-            return multipart.finish();
+            return con.finish();
         }
 
         @Override
-        protected void onPostExecute(HashMap<String, String> value) {
-            if(value.get("status").equals("ok")) {
+        protected void onPostExecute(HashMap<String, String> result) {
+            if (result.get("status").equals("ok")) {
                 new FetchUsers().execute();
             }
             else {
-                Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void showVirtualKeyboard() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                InputMethodManager m = (InputMethodManager) e.getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                if (m != null) {
+                    m.toggleSoftInput(0, InputMethodManager.SHOW_IMPLICIT);
+                }
+            }
+        }, 100);
     }
 }

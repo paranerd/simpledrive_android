@@ -2,6 +2,7 @@ package org.simpledrive.adapters;
 
 import android.app.Activity;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,9 +71,9 @@ public class UserAdapter extends ArrayAdapter<UserItem> {
         holder.icon_area.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i("icon", "area");
                 list.setItemChecked(position, list.isItemChecked(position));
                 notifyDataSetChanged();
-                e.invalidateOptionsMenu();
             }
         });
 

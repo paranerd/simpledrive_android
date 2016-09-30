@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:2:1-113:12
+ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:2:1-131:12
 	package
 		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:3:5-30
 		INJECTED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml
@@ -44,7 +44,7 @@ ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main
 	android:name
 		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:14:22-77
 application
-ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:16:5-111:19
+ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:16:5-129:19
 MERGED from [com.android.support:design:23.3.0] /home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/design/23.3.0/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:appcompat-v7:23.3.0] /home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-vector-drawable:23.3.0] /home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.3.0/AndroidManifest.xml:7:5-20
@@ -181,36 +181,60 @@ ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main
 		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:86:13-45
 	android:name
 		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:84:13-54
-activity#org.simpledrive.activities.ServerLog
+activity#org.simpledrive.activities.Servers
 ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:89:9-93:20
 	android:label
-		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:91:13-32
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:91:13-36
 	android:theme
 		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:92:13-45
 	android:name
-		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:90:13-49
-activity#org.simpledrive.activities.Users
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:90:13-47
+activity#org.simpledrive.activities.ServerLog
 ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:95:9-99:20
 	android:label
-		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:97:13-34
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:97:13-32
 	android:theme
 		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:98:13-45
 	android:name
-		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:96:13-45
-activity#org.simpledrive.activities.UserDetails
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:96:13-49
+activity#org.simpledrive.activities.Users
 ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:101:9-105:20
 	android:label
-		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:103:13-41
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:103:13-34
 	android:theme
 		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:104:13-45
 	android:name
-		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:102:13-51
-service#org.simpledrive.helper.AudioService
-ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:107:9-110:19
-	android:enabled
-		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:109:13-35
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:102:13-45
+activity#org.simpledrive.activities.UserDetails
+ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:107:9-111:20
+	android:label
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:109:13-41
+	android:theme
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:110:13-45
 	android:name
-		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:108:13-48
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:108:13-51
+activity#org.simpledrive.activities.Unlock
+ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:113:9-117:20
+	android:label
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:115:13-41
+	android:theme
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:116:13-45
+	android:name
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:114:13-46
+activity#org.simpledrive.activities.EnablePIN
+ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:119:9-123:20
+	android:label
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:121:13-39
+	android:theme
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:122:13-45
+	android:name
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:120:13-49
+service#org.simpledrive.helper.AudioService
+ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:125:9-128:19
+	android:enabled
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:127:13-35
+	android:name
+		ADDED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml:126:13-48
 uses-sdk
 INJECTED from /home/paranerd/Dokumente/development/simpledrive_android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:design:23.3.0] /home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/design/23.3.0/AndroidManifest.xml:20:5-43

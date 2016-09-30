@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <menu
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/navigation_drawer_menu">
+
+    <group
+        android:id="@+id/navigation_drawer_group_accounts"
+        android:checkableBehavior="single"
+        android:visible="false">
+    </group>
 
     <group
         android:id="@+id/navigation_drawer_group_one"
@@ -9,22 +16,26 @@
 
         <item
             android:id="@+id/navigation_view_item_files"
+            android:orderInCategory="1"
             android:icon="@drawable/ic_folder"
             android:title="Files"
             android:checked="true"/>
 
         <item
             android:id="@+id/navigation_view_item_sharedbyme"
+            android:orderInCategory="1"
             android:icon="@drawable/ic_user"
             android:title="My Shares"/>
 
         <item
             android:id="@+id/navigation_view_item_sharedwithme"
+            android:orderInCategory="1"
             android:icon="@drawable/ic_share"
             android:title="Shared with me"/>
 
         <item
             android:id="@+id/navigation_view_item_trash"
+            android:orderInCategory="1"
             android:icon="@drawable/ic_trash"
             android:title="Trash"/>
     </group>
@@ -34,17 +45,20 @@
         android:checkableBehavior="none">
         <item
             android:id="@+id/navigation_view_item_settings"
+            android:orderInCategory="2"
             android:icon="@drawable/ic_settings"
             android:title="Settings" />
 
         <item
             android:id="@+id/navigation_view_item_server"
+            android:orderInCategory="2"
             android:icon="@drawable/ic_server"
-            android:title="Manage Server"
+            android:title="Server Settings"
             android:visible="false"/>
 
         <item
             android:id="@+id/navigation_view_item_logout"
+            android:orderInCategory="2"
             android:icon="@drawable/ic_logout"
             android:title="Logout"/>
     </group>
