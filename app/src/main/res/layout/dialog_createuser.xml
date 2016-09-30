@@ -8,8 +8,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:hint="Username"
-        android:text="test"/>
+        android:hint="Username" />
 
     <EditText
         android:id="@+id/pass1"
@@ -17,8 +16,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:hint="Password"
-        android:layout_below="@id/username"
-        android:text="one"/>
+        android:layout_below="@id/username" />
 
     <EditText
         android:id="@+id/pass2"
@@ -26,8 +24,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:hint="Repeat password"
-        android:layout_below="@id/pass1"
-        android:text="one"/>
+        android:layout_below="@id/pass1" />
 
     <CheckBox
         android:id="@+id/admin"

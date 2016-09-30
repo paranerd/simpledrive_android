@@ -9,9 +9,11 @@ import android.util.Log;
 import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 
 public class Util {
     public static Bitmap getThumb(String file, int size) {
@@ -150,5 +152,9 @@ public class Util {
                 length += folderSize(file.getAbsolutePath());
         }
         return length;
+    }
+
+    public static long getTimestamp() {
+        return System.currentTimeMillis();
     }
 }

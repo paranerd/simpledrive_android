@@ -216,4 +216,15 @@
         app:itemTextColor="@color/drawer_list"
         app:itemBackground="@drawable/item_selector">
     </android.support.design.widget.NavigationView>
+
+    <!--<android.support.v7.widget.RecyclerView
+        android:id="@+id/RecyclerView"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+
+        android:background="#ffffff"
+        android:scrollbars="vertical">
+
+    </android.support.v7.widget.RecyclerView>-->
 </android.support.v4.widget.DrawerLayout>

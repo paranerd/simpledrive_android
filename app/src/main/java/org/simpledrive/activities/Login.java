@@ -1,12 +1,10 @@
 package org.simpledrive.activities;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -17,33 +15,47 @@ import org.simpledrive.R;
 
 import java.util.HashMap;
 
+import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.Connection;
 
-public class Login extends Activity {
+public class Login extends AppCompatActivity {
+    // Interface
+    private Button btnLogin;
+    private EditText txtUsername;
+    private EditText txtPassword;
+    private EditText txtServername;
+    private static String username;
+    private static String password;
+    private static String server;
 
-    String username;
-    String password;
-    String server;
+    // General
+    private static Login e;
+    private static ProgressDialog pDialog;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        e = this;
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
 
-        final EditText txtUsername = (EditText) findViewById(R.id.txtUsername);
-        final EditText txtPassword = (EditText) findViewById(R.id.txtPassword);
-        final EditText serverName = (EditText) findViewById(R.id.txtServer);
+        CustomAuthenticator.enable(this);
 
-        Button btnLogin = (Button) findViewById(R.id.btnLogin);
+        txtUsername = (EditText) findViewById(R.id.txtUsername);
+        txtPassword = (EditText) findViewById(R.id.txtPassword);
+        txtServername = (EditText) findViewById(R.id.txtServer);
+
+        btnLogin = (Button) findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
                 username = txtUsername.getText().toString().replaceAll("\\s+", "");
                 password = txtPassword.getText().toString().replaceAll("\\s+", "");
-                server = serverName.getText().toString().replaceAll("\\s+", "");
+                server = txtServername.getText().toString().replaceAll("\\s+", "");
 
                 // Check if server, username, password is filled
                 if (server.length() == 0 || username.length() == 0 || password.length() == 0) {
@@ -74,18 +86,17 @@ public class Login extends Activity {
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
-
-            Connection.setServer(server);
         }
       	
       	@Override
         protected HashMap<String, String> doInBackground(String... login) {
-            Connection multipart = new Connection("core", "login", null);
-            multipart.addFormField("user", username);
-            multipart.addFormField("pass", password);
-            multipart.forceSetCookie();
+            Connection.setServer(server);
+            Connection con = new Connection("core", "login");
+            con.addFormField("user", username);
+            con.addFormField("pass", password);
+            con.forceSetCookie();
 
-            return multipart.finish();
+            return con.finish();
         }
         @Override
         protected void onPostExecute(HashMap<String, String> value) {
@@ -95,25 +106,8 @@ public class Login extends Activity {
                 Toast.makeText(Login.this, "Connection error", Toast.LENGTH_SHORT).show();
             }
             else if (value.get("status").equals("ok")) {
-                Account account = new Account(username, "org.simpledrive");
-                Bundle userdata = new Bundle();
-                userdata.putString("server", server);
-                userdata.putString("pin", "1234");
-                userdata.putString("token", value.get("msg"));
-
-                Connection.setToken(value.get("msg"));
-
-                AccountManager am = AccountManager.get(Login.this);
-                Account aaccount[] = am.getAccounts();
-
-                for (Account anAaccount : aaccount) {
-                    if (anAaccount.type.equals("org.simpledrive")) {
-                        am.removeAccount(new Account(anAaccount.name, anAaccount.type), null, null, null);
-                    }
-                }
-                if(am.addAccountExplicitly(account, password, userdata)) {
-                    Intent i = new Intent(getApplicationContext(), RemoteFiles.class);
-                    startActivity(i);
+                if (CustomAuthenticator.addAccount(username, password, server, value.get("msg"))) {
+                    startActivity(new Intent(getApplicationContext(), RemoteFiles.class));
                     finish();
                 }
                 else {

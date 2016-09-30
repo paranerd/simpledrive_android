@@ -125,17 +125,17 @@ public class UserDetails extends AppCompatActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(Integer... pos) {
-            Connection multipart = new Connection("users", "get", null);
+            Connection multipart = new Connection("users", "get");
             multipart.addFormField("user", username);
 
             return multipart.finish();
         }
         @Override
-        protected void onPostExecute(HashMap<String, String> value) {
+        protected void onPostExecute(HashMap<String, String> result) {
             e.setProgressBarIndeterminateVisibility(false);
-            if(value.get("status").equals("ok")) {
+            if (result.get("status").equals("ok")) {
                 try {
-                    JSONObject job = new JSONObject(value.get("msg"));
+                    JSONObject job = new JSONObject(result.get("msg"));
                     String admin = job.getString("admin");
 
                     prefsFragment.setChecked("user_admin", admin.equals("1"));
@@ -157,18 +157,18 @@ public class UserDetails extends AppCompatActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(Integer... pos) {
-            Connection multipart = new Connection("users", "quota", null);
+            Connection multipart = new Connection("users", "quota");
             multipart.addFormField("user", username);
             multipart.addFormField("value", "0");
 
             return multipart.finish();
         }
         @Override
-        protected void onPostExecute(HashMap<String, String> value) {
+        protected void onPostExecute(HashMap<String, String> result) {
             e.setProgressBarIndeterminateVisibility(false);
-            if(value.get("status").equals("ok")) {
+            if (result.get("status").equals("ok")) {
                 try {
-                    JSONObject job = new JSONObject(value.get("msg"));
+                    JSONObject job = new JSONObject(result.get("msg"));
                     String used = job.getString("used");
                     String max = job.getString("max");
 
@@ -190,7 +190,7 @@ public class UserDetails extends AppCompatActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(String... pos) {
-            Connection multipart = new Connection("users", "update", null);
+            Connection multipart = new Connection("users", "update");
             multipart.addFormField("user", username);
             multipart.addFormField("key", pos[0]);
             multipart.addFormField("value", pos[1]);
@@ -198,13 +198,13 @@ public class UserDetails extends AppCompatActivity {
             return multipart.finish();
         }
         @Override
-        protected void onPostExecute(HashMap<String, String> value) {
+        protected void onPostExecute(HashMap<String, String> result) {
             e.setProgressBarIndeterminateVisibility(false);
-            if(value.get("status").equals("ok")) {
+            if (result.get("status").equals("ok")) {
                 new GetStatus().execute();
             }
             else {
-                Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
             }
         }
     }

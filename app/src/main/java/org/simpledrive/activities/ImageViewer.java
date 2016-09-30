@@ -242,7 +242,7 @@ public class ImageViewer extends AppCompatActivity {
         protected HashMap<String, String> doInBackground(String... info) {
             File thumb = new File(path);
 
-            Connection multipart = new Connection("files", "read", null);
+            Connection multipart = new Connection("files", "read");
             multipart.addFormField("target", "[" + file + "]");
             multipart.addFormField("width", width + "");
             multipart.addFormField("height", height + "");

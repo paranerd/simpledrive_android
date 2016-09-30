@@ -1,8 +1,10 @@
 package org.simpledrive.activities;
 
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -92,6 +94,26 @@ public class Editor extends ActionBarActivity {
         new Load().execute();
     }
 
+    public void onBackPressed() {
+        if (!saved) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Closing Editor")
+                    .setMessage("Discard changes?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+        }
+        else {
+            super.onBackPressed();
+        }
+    }
+
     public void maximizeEditor() {
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -100,7 +122,7 @@ public class Editor extends ActionBarActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.editor, menu);
+        inflater.inflate(R.menu.editor_toolbar, menu);
         mMenu = menu;
         return true;
     }
@@ -141,7 +163,7 @@ public class Editor extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(Integer... pos) {
-            Connection multipart = new Connection("files", "loadtext", null);
+            Connection multipart = new Connection("files", "loadtext");
             multipart.addFormField("target", file);
 
             return multipart.finish();
@@ -172,7 +194,7 @@ public class Editor extends ActionBarActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(Integer... pos) {
-            Connection multipart = new Connection("files", "savetext", null);
+            Connection multipart = new Connection("files", "savetext");
             multipart.addFormField("target", file);
             multipart.addFormField("data", editor.getText().toString());
 

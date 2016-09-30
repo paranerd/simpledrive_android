@@ -62,6 +62,7 @@ public class ServerSettings extends AppCompatActivity {
 
     public static class PrefsFragment extends PreferenceFragment {
 
+        private Preference server;
         private Preference showlog;
         private Preference showusers;
         private EditTextPreference uploadMax;
@@ -72,6 +73,15 @@ public class ServerSettings extends AppCompatActivity {
 
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.settings_server);
+
+            server = findPreference("server_address");
+            server.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    startActivity(new Intent(e.getApplicationContext(), Servers.class));
+                    return false;
+                }
+            });
 
             showlog = findPreference("showlog");
             showlog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -119,7 +129,7 @@ public class ServerSettings extends AppCompatActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(Integer... pos) {
-            Connection multipart = new Connection("system", "status", null);
+            Connection multipart = new Connection("system", "status");
 
             return multipart.finish();
         }
@@ -153,7 +163,7 @@ public class ServerSettings extends AppCompatActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(String... pos) {
-            Connection multipart = new Connection("system", "save", null);
+            Connection multipart = new Connection("system", "save");
             multipart.addFormField("key", "upload");
             multipart.addFormField("value", pos[0]);
 

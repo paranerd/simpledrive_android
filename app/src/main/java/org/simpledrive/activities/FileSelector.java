@@ -40,7 +40,6 @@ public class FileSelector extends AppCompatActivity {
     private static ArrayList<FileItem> hierarchy;
     private ArrayList<FileItem> items = new ArrayList<>();
     private Integer firstFilePos = null;
-    private int lastSelected = -1;
 
     // Interface
     private boolean longClicked = false;
@@ -117,7 +116,6 @@ public class FileSelector extends AppCompatActivity {
                 mContextMenu.findItem(R.id.selectall).setVisible(items.size() > 0);
                 mContextMenu.findItem(R.id.select).setVisible(list.getCheckedItemCount() > 0);
 
-                lastSelected = position;
                 mAdapter.notifyDataSetChanged();
                 mode.setTitle(list.getCheckedItemCount() + " selected");
             }
@@ -289,7 +287,7 @@ public class FileSelector extends AppCompatActivity {
                         icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown);
                 }
 
-                items.add(new FileItem(null, filename, null, path, size, null, type, null, icon, null, "", ""));
+                items.add(new FileItem(null, filename, null, path, size, null, type, null, "", icon, null, "", ""));
             }
 
             Util.sortFilesByName(items, 1);
