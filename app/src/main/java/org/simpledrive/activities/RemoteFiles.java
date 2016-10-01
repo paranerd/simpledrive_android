@@ -182,6 +182,7 @@ public class RemoteFiles extends AppCompatActivity {
     public static void hideAccounts() {
         accountsVisible = false;
         mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_accounts, false);
+        mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_accounts_management, false);
         mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_one, true);
         mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_two, true);
     }
@@ -189,6 +190,7 @@ public class RemoteFiles extends AppCompatActivity {
     public void toggleAccounts() {
         accountsVisible = !accountsVisible;
         mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_accounts, accountsVisible);
+        mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_accounts_management, accountsVisible);
         mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_one, !accountsVisible);
         mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_two, !accountsVisible);
 
@@ -900,7 +902,6 @@ public class RemoteFiles extends AppCompatActivity {
         for (String server : servers) {
             menu.add(R.id.navigation_drawer_group_accounts, 1, 0, server).setIcon(R.drawable.ic_account_circle);
         }
-        menu.add(R.id.navigation_drawer_group_accounts, 0, 0, "Add account").setIcon(R.drawable.ic_add);
 
         hideAccounts();
     }
@@ -1122,12 +1123,17 @@ public class RemoteFiles extends AppCompatActivity {
                                 .show();
                         break;
 
-                    case 0:
-                        Toast.makeText(e, "Add new account", Toast.LENGTH_SHORT).show();
+                    case R.id.navigation_view_item_add_account:
+                        Toast.makeText(e, "Coming soon...", Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case R.id.navigation_view_item_manage_accounts:
+                        Toast.makeText(e, "Coming soon...", Toast.LENGTH_SHORT).show();
                         break;
 
                     case 1:
-                        Toast.makeText(e, "Selected " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                        // selected: item.getTitle()
+                        Toast.makeText(e, "Coming soon...", Toast.LENGTH_SHORT).show();
                 }
 
                 return true;

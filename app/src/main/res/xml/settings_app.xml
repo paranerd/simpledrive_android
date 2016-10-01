@@ -40,7 +40,7 @@
             android:id="@+id/app_version"
             android:key="app_version"
             android:title="App version"
-            android:summary="3.10.0" />
+            android:summary="4.2" />
 
     </PreferenceCategory>
 
