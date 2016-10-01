@@ -92,7 +92,7 @@ public class Users extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.delete:
                         new android.support.v7.app.AlertDialog.Builder(e)
-                                .setTitle("Delete" + getFirstSelected())
+                                .setTitle("Delete " + getFirstSelected())
                                 .setMessage("Are you sure you want to delete this user?")
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     @Override

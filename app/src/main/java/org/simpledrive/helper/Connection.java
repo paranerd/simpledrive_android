@@ -48,7 +48,7 @@ public class Connection {
     private ProgressListener listener;
 
     public static String token;
-    private static String server;
+    //private static String server;
 
     public static String cookie;
     private boolean forceCookie = false;
@@ -60,17 +60,20 @@ public class Connection {
         this.listener = listener;
     }
 
-    public static void setServer(String s) {
+    /*public static void setServer(String s) {
         server = s;
-    }
+    }*/
 
+    public Connection(String endpoint, String action) {
+        this(CustomAuthenticator.getServer(), endpoint, action);
+    }
     /**
      * This constructor initializes a new HTTP POST request
      *
      * @param endpoint The endpoint to connect to
      * @param action The action to execute
      */
-    public Connection(String endpoint, String action) {
+    public Connection(String server, String endpoint, String action) {
         try {
             URL url = new URL(server + "api/" + endpoint + "/" + action);
             trustCertificate();
@@ -321,9 +324,9 @@ public class Connection {
         token = t;
     }
 
-    public static String getServer() {
+    /*public static String getServer() {
         return server;
-    }
+    }*/
 
     public static void logout() {
         cookie = null;

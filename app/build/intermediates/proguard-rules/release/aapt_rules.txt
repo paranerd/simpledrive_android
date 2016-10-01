@@ -98,6 +98,9 @@
 # view res/layout/navigation_drawer_header.xml #generated:10
 -keep class de.hdodenhof.circleimageview.CircleImageView { <init>(...); }
 
+# view AndroidManifest.xml #generated:123
+-keep class org.simpledrive.activities.Accounts { <init>(...); }
+
 # view AndroidManifest.xml #generated:83
 -keep class org.simpledrive.activities.AppSettings { <init>(...); }
 
@@ -143,7 +146,7 @@
 # view AndroidManifest.xml #generated:61
 -keep class org.simpledrive.authenticator.AuthenticationService { <init>(...); }
 
-# view AndroidManifest.xml #generated:124
+# view AndroidManifest.xml #generated:129
 -keep class org.simpledrive.helper.AudioService { <init>(...); }
 
 # view res/layout/activity_imageviewer.xml #generated:11

@@ -8,12 +8,12 @@
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/design/23.3.0/res/layout/design_layout_tab_icon.xml"
     },
     {
-        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/layout/activity_imageviewer.xml",
-        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/layout/activity_imageviewer.xml"
-    },
-    {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/layout/design_navigation_item_header.xml",
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/design/23.3.0/res/layout/design_navigation_item_header.xml"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/layout/activity_imageviewer.xml",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/layout/activity_imageviewer.xml"
     },
     {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/layout/activity_log.xml",

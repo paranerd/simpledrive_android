@@ -211,6 +211,7 @@
         app:elevation="16dp"
         app:headerLayout="@layout/navigation_drawer_header"
         app:menu="@menu/navigation_drawer_body"
+        android:theme="@style/MenuItemAppearance"
         android:background="@color/white"
         app:itemIconTint="@color/drawer_list"
         app:itemTextColor="@color/drawer_list"

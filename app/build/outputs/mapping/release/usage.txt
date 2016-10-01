@@ -5409,12 +5409,17 @@ org.simpledrive.R$string
 org.simpledrive.R$style
 org.simpledrive.R$styleable
 org.simpledrive.R$xml
+org.simpledrive.activities.Accounts$Delete
+org.simpledrive.activities.Accounts$Delete$1
 org.simpledrive.activities.Login:
     private static android.app.ProgressDialog pDialog
-org.simpledrive.activities.RemoteFiles$11:
-    451:452:public boolean onQueryTextChange(java.lang.String)
+org.simpledrive.activities.RemoteFiles$3:
+    310:311:public boolean onQueryTextChange(java.lang.String)
 org.simpledrive.authenticator.CustomAuthenticator:
-    14:14:public CustomAuthenticator()
+    public static final int MAX_UNLOCK_ATTEMPTS
+    public static final int COOLDOWN_ADD
+    15:15:public CustomAuthenticator()
+    118:118:public static java.lang.String getAccountname()
 org.simpledrive.helper.AudioService:
     public static final java.lang.String PLAY_CHANGED
     public static final java.lang.String CHANGE_PLAY

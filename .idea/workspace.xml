@@ -18,33 +18,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8dcbc949-b298-4f6c-967f-03084f604dca" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/instant-run-support/debug/restart-changes.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/reload-dex/debug/classes.dex" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/reload-dex/debug/classes.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/layout/item_row.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_row.xml" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Accounts.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/outputFileStates.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileReleaseJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileReleaseJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileReleaseJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileReleaseJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileReleaseJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileReleaseJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app-release.apk" afterPath="$PROJECT_DIR$/app/app-release.apk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/android/support/design/R$id.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/android/support/design/R$id.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/android/support/design/R$layout.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/android/support/design/R$layout.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/android/support/v7/appcompat/R$id.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/android/support/v7/appcompat/R$id.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/android/support/v7/appcompat/R$layout.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/android/support/v7/appcompat/R$layout.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/BuildConfig.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/BuildConfig.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$id.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$id.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$integer.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$integer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$layout.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$layout.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/Editor.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/Editor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/FileSelector$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/FileSelector$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/FileSelector.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/FileSelector.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/android/support/design/R$style.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/android/support/design/R$style.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/android/support/v7/appcompat/R$style.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/android/support/v7/appcompat/R$style.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$style.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$style.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$styleable.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$styleable.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$xml.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/R$xml.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/Login$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/Login$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/Login$LoginTask.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/Login$LoginTask.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/Login.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/Login.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/RemoteFiles$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/RemoteFiles$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/RemoteFiles$10.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/RemoteFiles$10.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/RemoteFiles$11.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/RemoteFiles$11.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/RemoteFiles$12.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/RemoteFiles$12.class" />
@@ -89,26 +80,32 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/RemoteFiles$Unshare.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/RemoteFiles$Unshare.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/RemoteFiles$Zip.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/RemoteFiles$Zip.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/RemoteFiles.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/RemoteFiles.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ServerLog.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ServerLog.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/Servers$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/Servers$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/Servers.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/Servers.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ServerSettings$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ServerSettings$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ServerSettings$GetStatus.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ServerSettings$GetStatus.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ServerSettings$PrefsFragment$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ServerSettings$PrefsFragment$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ServerSettings$PrefsFragment$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ServerSettings$PrefsFragment$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ServerSettings$PrefsFragment$3.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ServerSettings$PrefsFragment$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ServerSettings$PrefsFragment$4.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ServerSettings$PrefsFragment$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ServerSettings$PrefsFragment.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ServerSettings$PrefsFragment.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ServerSettings$SetUploadLimit.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ServerSettings$SetUploadLimit.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ServerSettings.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ServerSettings.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ShareFiles$Connect.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/ShareFiles$Connect.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/Unlock.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/Unlock.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/Users$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/Users$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/Users.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/activities/Users.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/adapters/LogAdapter.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/adapters/LogAdapter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/adapters/UserAdapter.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/adapters/UserAdapter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/helper/AudioService.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/helper/AudioService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/authenticator/CustomAuthenticator.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/authenticator/CustomAuthenticator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/helper/Connection$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/helper/Connection$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/helper/Connection$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/helper/Connection$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/helper/Connection.class" afterPath="$PROJECT_DIR$/app/build/intermediates/classes/debug/org/simpledrive/helper/Connection.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/android/support/design/R$id.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/android/support/design/R$id.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/android/support/design/R$layout.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/android/support/design/R$layout.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/android/support/v7/appcompat/R$id.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/android/support/v7/appcompat/R$id.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/android/support/v7/appcompat/R$layout.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/android/support/v7/appcompat/R$layout.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/BuildConfig.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/BuildConfig.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/R$id.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/R$id.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/R$integer.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/R$integer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/R$layout.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/R$layout.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/Editor.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/Editor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/FileSelector$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/FileSelector$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/FileSelector.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/FileSelector.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/android/support/design/R$style.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/android/support/design/R$style.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/android/support/v7/appcompat/R$style.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/android/support/v7/appcompat/R$style.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/R$style.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/R$style.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/R$styleable.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/R$styleable.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/R$xml.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/R$xml.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/Login$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/Login$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/Login$LoginTask.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/Login$LoginTask.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/Login.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/Login.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/RemoteFiles$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/RemoteFiles$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/RemoteFiles$10.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/RemoteFiles$10.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/RemoteFiles$11.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/RemoteFiles$11.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/RemoteFiles$12.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/RemoteFiles$12.class" />
@@ -153,14 +150,22 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/RemoteFiles$Unshare.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/RemoteFiles$Unshare.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/RemoteFiles$Zip.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/RemoteFiles$Zip.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/RemoteFiles.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/RemoteFiles.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ServerLog.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ServerLog.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/Servers$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/Servers$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/Servers.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/Servers.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ServerSettings$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ServerSettings$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ServerSettings$GetStatus.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ServerSettings$GetStatus.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ServerSettings$PrefsFragment$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ServerSettings$PrefsFragment$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ServerSettings$PrefsFragment$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ServerSettings$PrefsFragment$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ServerSettings$PrefsFragment$3.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ServerSettings$PrefsFragment$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ServerSettings$PrefsFragment$4.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ServerSettings$PrefsFragment$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ServerSettings$PrefsFragment.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ServerSettings$PrefsFragment.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ServerSettings$SetUploadLimit.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ServerSettings$SetUploadLimit.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ServerSettings.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ServerSettings.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ShareFiles$Connect.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/ShareFiles$Connect.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/Unlock.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/Unlock.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/Users$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/Users$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/Users.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/activities/Users.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/adapters/LogAdapter.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/adapters/LogAdapter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/adapters/UserAdapter.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/adapters/UserAdapter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/helper/AudioService.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/helper/AudioService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/authenticator/CustomAuthenticator.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/authenticator/CustomAuthenticator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/helper/Connection$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/helper/Connection$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/helper/Connection$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/helper/Connection$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/helper/Connection.class" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/debug/org/simpledrive/helper/Connection.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/instant-run-support/debug/classes.zip" afterPath="$PROJECT_DIR$/app/build/intermediates/instant-run-support/debug/classes.zip" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/instant-run-support/debug/resources.zip" afterPath="$PROJECT_DIR$/app/build/intermediates/instant-run-support/debug/resources.zip" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/resources-debug.ap_" afterPath="$PROJECT_DIR$/app/build/intermediates/res/resources-debug.ap_" />
@@ -169,18 +174,15 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_6/classes.dex" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_6/classes.dex" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_7/classes.dex" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_7/classes.dex" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_8/classes.dex" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_8/classes.dex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_9/classes.dex" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_9/classes.dex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/android/support/design/R$id.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/android/support/design/R$id.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/android/support/design/R$layout.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/android/support/design/R$layout.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/android/support/v7/appcompat/R$id.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/android/support/v7/appcompat/R$id.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/android/support/v7/appcompat/R$layout.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/android/support/v7/appcompat/R$layout.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/BuildConfig.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/BuildConfig.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/R$id.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/R$id.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/R$integer.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/R$integer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/R$layout.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/R$layout.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/Editor.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/Editor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/FileSelector$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/FileSelector$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/FileSelector.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/FileSelector.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/android/support/design/R$style.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/android/support/design/R$style.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/android/support/v7/appcompat/R$style.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/android/support/v7/appcompat/R$style.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/R$style.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/R$style.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/R$styleable.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/R$styleable.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/R$xml.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/R$xml.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/Login$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/Login$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/Login$LoginTask.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/Login$LoginTask.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/Login.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/Login.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/RemoteFiles$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/RemoteFiles$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/RemoteFiles$10.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/RemoteFiles$10.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/RemoteFiles$11.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/RemoteFiles$11.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/RemoteFiles$12.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/RemoteFiles$12.class" />
@@ -225,24 +227,25 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/RemoteFiles$Unshare.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/RemoteFiles$Unshare.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/RemoteFiles$Zip.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/RemoteFiles$Zip.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/RemoteFiles.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/RemoteFiles.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ServerLog.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ServerLog.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/Servers$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/Servers$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/Servers.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/Servers.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ServerSettings$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ServerSettings$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ServerSettings$GetStatus.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ServerSettings$GetStatus.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ServerSettings$PrefsFragment$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ServerSettings$PrefsFragment$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ServerSettings$PrefsFragment$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ServerSettings$PrefsFragment$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ServerSettings$PrefsFragment$3.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ServerSettings$PrefsFragment$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ServerSettings$PrefsFragment$4.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ServerSettings$PrefsFragment$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ServerSettings$PrefsFragment.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ServerSettings$PrefsFragment.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ServerSettings$SetUploadLimit.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ServerSettings$SetUploadLimit.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ServerSettings.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ServerSettings.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ShareFiles$Connect.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/ShareFiles$Connect.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/Unlock.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/Unlock.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/Users$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/Users$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/Users.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/activities/Users.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/adapters/LogAdapter.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/adapters/LogAdapter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/adapters/UserAdapter.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/adapters/UserAdapter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/helper/AudioService.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/helper/AudioService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/android/support/design/R$id$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/android/support/design/R$id$override.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/android/support/design/R$layout$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/android/support/design/R$layout$override.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/android/support/v7/appcompat/R$id$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/android/support/v7/appcompat/R$id$override.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/android/support/v7/appcompat/R$layout$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/android/support/v7/appcompat/R$layout$override.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/authenticator/CustomAuthenticator.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/authenticator/CustomAuthenticator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/helper/Connection$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/helper/Connection$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/helper/Connection$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/helper/Connection$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/helper/Connection.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/1/5/main/org/simpledrive/helper/Connection.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/com/android/tools/fd/runtime/AppPatchesLoaderImpl.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/com/android/tools/fd/runtime/AppPatchesLoaderImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/R$id$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/R$id$override.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/R$layout$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/R$layout$override.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/Editor$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/Editor$override.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/FileSelector$1$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/FileSelector$1$override.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/FileSelector$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/FileSelector$override.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/R$style$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/R$style$override.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$1$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$1$override.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$10$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$10$override.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$11$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$11$override.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$12$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$12$override.class" />
@@ -258,6 +261,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$21$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$21$override.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$22$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$22$override.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$23$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$23$override.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$24$1$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$24$1$override.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$24$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$24$override.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$25$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$25$override.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$26$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$26$override.class" />
@@ -286,26 +290,21 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$Unshare$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$Unshare$override.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$Zip$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$Zip$override.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/RemoteFiles$override.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/ServerLog$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/ServerLog$override.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/Servers$2$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/Servers$2$override.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/Servers$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/Servers$override.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/Users$2$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/Users$2$override.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/Users$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/Users$override.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/adapters/LogAdapter$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/adapters/LogAdapter$override.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/adapters/UserAdapter$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/adapters/UserAdapter$override.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/helper/AudioService$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/helper/AudioService$override.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_4/android/support/v7/appcompat/R$id.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_4/android/support/v7/appcompat/R$id.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_4/android/support/v7/appcompat/R$layout.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_4/android/support/v7/appcompat/R$layout.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_5/org/simpledrive/helper/AudioService.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_5/org/simpledrive/helper/AudioService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_6/org/simpledrive/BuildConfig.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_6/org/simpledrive/BuildConfig.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_6/org/simpledrive/R$id.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_6/org/simpledrive/R$id.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_6/org/simpledrive/R$integer.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_6/org/simpledrive/R$integer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_6/org/simpledrive/R$layout.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_6/org/simpledrive/R$layout.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_7/android/support/design/R$id.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_7/android/support/design/R$id.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_7/android/support/design/R$layout.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_7/android/support/design/R$layout.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/Editor.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/Editor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/FileSelector$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/FileSelector$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/FileSelector.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/FileSelector.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/authenticator/CustomAuthenticator$override.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/authenticator/CustomAuthenticator$override.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_4/android/support/v7/appcompat/R$style.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_4/android/support/v7/appcompat/R$style.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_4/org/simpledrive/authenticator/CustomAuthenticator.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_4/org/simpledrive/authenticator/CustomAuthenticator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_5/org/simpledrive/helper/Connection$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_5/org/simpledrive/helper/Connection$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_5/org/simpledrive/helper/Connection$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_5/org/simpledrive/helper/Connection$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_5/org/simpledrive/helper/Connection.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_5/org/simpledrive/helper/Connection.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_6/org/simpledrive/R$style.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_6/org/simpledrive/R$style.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_6/org/simpledrive/R$styleable.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_6/org/simpledrive/R$styleable.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_6/org/simpledrive/R$xml.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_6/org/simpledrive/R$xml.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_7/android/support/design/R$style.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_7/android/support/design/R$style.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/Login$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/Login$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/Login$LoginTask.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/Login$LoginTask.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/Login.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/Login.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/RemoteFiles$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/RemoteFiles$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/RemoteFiles$10.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/RemoteFiles$10.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/RemoteFiles$11.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/RemoteFiles$11.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/RemoteFiles$12.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/RemoteFiles$12.class" />
@@ -350,29 +349,33 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/RemoteFiles$Unshare.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/RemoteFiles$Unshare.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/RemoteFiles$Zip.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/RemoteFiles$Zip.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/RemoteFiles.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/RemoteFiles.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ServerLog.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ServerLog.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/Servers$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/Servers$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/Servers.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/Servers.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ServerSettings$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ServerSettings$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ServerSettings$GetStatus.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ServerSettings$GetStatus.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ServerSettings$PrefsFragment$1.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ServerSettings$PrefsFragment$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ServerSettings$PrefsFragment$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ServerSettings$PrefsFragment$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ServerSettings$PrefsFragment$3.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ServerSettings$PrefsFragment$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ServerSettings$PrefsFragment$4.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ServerSettings$PrefsFragment$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ServerSettings$PrefsFragment.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ServerSettings$PrefsFragment.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ServerSettings$SetUploadLimit.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ServerSettings$SetUploadLimit.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ServerSettings.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ServerSettings.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ShareFiles$Connect.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/ShareFiles$Connect.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/Unlock.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/Unlock.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/Users$2.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/Users$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/Users.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/org/simpledrive/activities/Users.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_9/org/simpledrive/adapters/LogAdapter.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_9/org/simpledrive/adapters/LogAdapter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_9/org/simpledrive/adapters/UserAdapter.class" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_9/org/simpledrive/adapters/UserAdapter.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/outputs/apk/app-debug-unaligned.apk" afterPath="$PROJECT_DIR$/app/build/outputs/apk/app-debug-unaligned.apk" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/outputs/apk/app-debug.apk" afterPath="$PROJECT_DIR$/app/build/outputs/apk/app-debug.apk" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/generated/source/buildConfig/debug/org/simpledrive/BuildConfig.java" afterPath="$PROJECT_DIR$/app/build/generated/source/buildConfig/debug/org/simpledrive/BuildConfig.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/generated/source/r/debug/android/support/design/R.java" afterPath="$PROJECT_DIR$/app/build/generated/source/r/debug/android/support/design/R.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/generated/source/r/debug/android/support/v7/appcompat/R.java" afterPath="$PROJECT_DIR$/app/build/generated/source/r/debug/android/support/v7/appcompat/R.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/generated/source/r/debug/org/simpledrive/R.java" afterPath="$PROJECT_DIR$/app/build/generated/source/r/debug/org/simpledrive/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/single/layout.json" afterPath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/single/layout.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/multi/values.json" afterPath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/multi/values.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/bundles/debug/instant-run/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/bundles/debug/instant-run/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/merger.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/instant-run-support/debug/coldswap.marker" afterPath="$PROJECT_DIR$/app/build/intermediates/instant-run-support/debug/coldswap.marker" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/instant-run-support/debug/manifest.crc" afterPath="$PROJECT_DIR$/app/build/intermediates/instant-run-support/debug/manifest.crc" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/instant-run-support/debug/reload-changes.txt" afterPath="$PROJECT_DIR$/app/build/intermediates/instant-run-support/debug/reload-changes.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/manifests/full/debug/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/manifests/full/debug/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/menu/navigation_drawer_body.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/menu/navigation_drawer_body.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/xml/settings_app.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/xml/settings_app.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/layout/activity_remotefiles.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/layout/activity_remotefiles.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/layout/navigation_drawer_header.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/layout/navigation_drawer_header.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/values/values.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/values/values.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/restart-dex/debug/build-info.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/restart-dex/debug/build-info.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/symbols/debug/R.txt" afterPath="$PROJECT_DIR$/app/build/intermediates/symbols/debug/R.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_4/buildId.txt" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_4/buildId.txt" />
@@ -380,12 +383,18 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_6/buildId.txt" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_6/buildId.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_7/buildId.txt" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_7/buildId.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/buildId.txt" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_8/buildId.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_9/buildId.txt" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/instantRunSlicer/debug/folders/1/5/slice_9/buildId.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/outputs/logs/manifest-merger-debug-report.txt" afterPath="$PROJECT_DIR$/app/build/outputs/logs/manifest-merger-debug-report.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Login.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Login.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/RemoteFiles.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/RemoteFiles.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/navigation_drawer_body.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/navigation_drawer_body.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/xml/settings_app.xml" afterPath="$PROJECT_DIR$/app/src/main/res/xml/settings_app.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/ServerSettings.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/ServerSettings.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/ShareFiles.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/ShareFiles.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Users.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Users.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/authenticator/CustomAuthenticator.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/authenticator/CustomAuthenticator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/helper/Connection.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/simpledrive/helper/Connection.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_remotefiles.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_remotefiles.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/navigation_drawer_header.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/navigation_drawer_header.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
     </list>
     <ignored path="simpledrive_android.iws" />
@@ -418,55 +427,57 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/RemoteFiles.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="1135" column="55" selection-start-line="1135" selection-start-column="55" selection-end-line="1135" selection-end-column="55" />
+              <caret line="201" column="34" selection-start-line="201" selection-start-column="34" selection-end-line="201" selection-end-column="34" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#7880#8290#0" expanded="true" />
-                <element signature="e#8289#8290#0" expanded="true" />
-                <element signature="e#8385#8543#0" expanded="true" />
-                <element signature="e#8542#8543#0" expanded="true" />
-                <element signature="e#9663#10105#0" expanded="true" />
-                <element signature="e#10104#10105#0" expanded="true" />
-                <element signature="e#10147#10301#0" expanded="true" />
-                <element signature="e#10300#10301#0" expanded="true" />
-                <element signature="e#10340#10492#0" expanded="true" />
-                <element signature="e#10491#10492#0" expanded="true" />
-                <element signature="e#10527#11096#0" expanded="true" />
-                <element signature="e#11095#11096#0" expanded="true" />
-                <element signature="e#14304#14515#0" expanded="true" />
-                <element signature="e#14514#14515#0" expanded="true" />
-                <element signature="e#17687#18120#0" expanded="true" />
-                <element signature="e#18119#18120#0" expanded="true" />
-                <element signature="e#19716#19766#0" expanded="true" />
-                <element signature="e#23529#23551#0" expanded="true" />
-                <element signature="e#24098#24112#0" expanded="true" />
-                <element signature="e#32149#32173#0" expanded="true" />
-                <element signature="e#37722#37742#0" expanded="true" />
-                <element signature="e#37744#37765#0" expanded="true" />
-                <element signature="e#37940#37941#0" expanded="true" />
-                <element signature="e#38002#38003#0" expanded="true" />
-                <element signature="e#38644#38908#0" expanded="true" />
-                <element signature="e#38907#38908#0" expanded="true" />
-                <element signature="e#38970#42419#0" expanded="true" />
-                <element signature="e#41089#41665#0" expanded="true" />
-                <element signature="e#41664#41665#0" expanded="true" />
-                <element signature="e#42418#42419#0" expanded="true" />
-                <element signature="e#43443#43444#0" expanded="true" />
-                <element signature="e#43487#43488#0" expanded="true" />
-                <element signature="e#47038#47565#0" expanded="true" />
-                <element signature="e#47564#47565#0" expanded="true" />
-                <element signature="e#47605#47821#0" expanded="true" />
-                <element signature="e#47820#47821#0" expanded="true" />
-                <element signature="e#53072#53965#0" expanded="true" />
-                <element signature="e#53964#53965#0" expanded="true" />
-                <element signature="e#53991#54621#0" expanded="true" />
-                <element signature="e#54620#54621#0" expanded="true" />
-                <element signature="e#58763#58764#0" expanded="true" />
-                <element signature="e#58807#58808#0" expanded="true" />
-                <element signature="e#59681#59682#0" expanded="true" />
-                <element signature="e#59725#59726#0" expanded="true" />
-                <element signature="e#63773#63963#0" expanded="true" />
-                <element signature="e#63962#63963#0" expanded="true" />
+                <element signature="e#8685#8896#0" expanded="true" />
+                <element signature="e#8895#8896#0" expanded="true" />
+                <element signature="e#12143#12576#0" expanded="true" />
+                <element signature="e#12575#12576#0" expanded="true" />
+                <element signature="e#13458#13868#0" expanded="true" />
+                <element signature="e#13867#13868#0" expanded="true" />
+                <element signature="e#13963#14121#0" expanded="true" />
+                <element signature="e#14120#14121#0" expanded="true" />
+                <element signature="e#15241#15683#0" expanded="true" />
+                <element signature="e#15682#15683#0" expanded="true" />
+                <element signature="e#15725#15879#0" expanded="true" />
+                <element signature="e#15878#15879#0" expanded="true" />
+                <element signature="e#15918#16070#0" expanded="true" />
+                <element signature="e#16069#16070#0" expanded="true" />
+                <element signature="e#16105#16674#0" expanded="true" />
+                <element signature="e#16673#16674#0" expanded="true" />
+                <element signature="e#18539#18589#0" expanded="true" />
+                <element signature="e#22352#22374#0" expanded="true" />
+                <element signature="e#22921#22935#0" expanded="true" />
+                <element signature="e#31121#31145#0" expanded="true" />
+                <element signature="e#36930#36950#0" expanded="true" />
+                <element signature="e#36952#36973#0" expanded="true" />
+                <element signature="e#37180#37181#0" expanded="true" />
+                <element signature="e#37242#37243#0" expanded="true" />
+                <element signature="e#37884#38074#0" expanded="true" />
+                <element signature="e#38073#38074#0" expanded="true" />
+                <element signature="e#38136#41527#0" expanded="true" />
+                <element signature="e#40252#40579#0" expanded="true" />
+                <element signature="e#40578#40579#0" expanded="true" />
+                <element signature="e#41526#41527#0" expanded="true" />
+                <element signature="e#42551#42552#0" expanded="true" />
+                <element signature="e#42595#42596#0" expanded="true" />
+                <element signature="e#46146#46673#0" expanded="true" />
+                <element signature="e#46672#46673#0" expanded="true" />
+                <element signature="e#46713#46929#0" expanded="true" />
+                <element signature="e#46928#46929#0" expanded="true" />
+                <element signature="e#52180#53073#0" expanded="true" />
+                <element signature="e#53072#53073#0" expanded="true" />
+                <element signature="e#53099#53729#0" expanded="true" />
+                <element signature="e#53728#53729#0" expanded="true" />
+                <element signature="e#57871#57872#0" expanded="true" />
+                <element signature="e#57915#57916#0" expanded="true" />
+                <element signature="e#58789#58790#0" expanded="true" />
+                <element signature="e#58833#58834#0" expanded="true" />
+                <element signature="e#62881#63071#0" expanded="true" />
+                <element signature="e#63070#63071#0" expanded="true" />
+                <element signature="e#65220#65733#0" expanded="true" />
+                <element signature="e#65732#65733#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -475,32 +486,31 @@
       <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.19014084">
-              <caret line="6" column="31" selection-start-line="6" selection-start-column="31" selection-end-line="6" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.09507042">
+              <caret line="3" column="27" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="navigation_drawer_header.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/navigation_drawer_header.xml">
+      <file leaf-file-name="Accounts.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Accounts.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.586206">
-              <caret line="47" column="32" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="navigation_drawer_body.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/navigation_drawer_body.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-18.0">
-              <caret line="27" column="42" selection-start-line="27" selection-start-column="42" selection-end-line="27" selection-end-column="42" />
-              <folding />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="151" column="78" selection-start-line="151" selection-start-column="78" selection-end-line="151" selection-end-column="78" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1836#2045#0" expanded="true" />
+                <element signature="e#2044#2045#0" expanded="true" />
+                <element signature="e#3131#3505#0" expanded="true" />
+                <element signature="e#3504#3505#0" expanded="true" />
+                <element signature="e#4317#4481#0" expanded="true" />
+                <element signature="e#4480#4481#0" expanded="true" />
+                <element signature="e#6497#6616#0" expanded="true" />
+                <element signature="e#6615#6616#0" expanded="true" />
+                <element signature="e#7439#7574#0" expanded="true" />
+                <element signature="e#7573#7574#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -509,42 +519,58 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/authenticator/CustomAuthenticator.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="170" column="23" selection-start-line="170" selection-start-column="23" selection-end-line="170" selection-end-column="23" />
+              <caret line="231" column="57" selection-start-line="231" selection-start-column="57" selection-end-line="231" selection-end-column="57" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#3662#3663#0" expanded="true" />
+                <element signature="e#3720#3721#0" expanded="true" />
+                <element signature="e#3762#3763#0" expanded="true" />
+                <element signature="e#3831#3832#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Login.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Login.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="94" column="49" selection-start-line="94" selection-start-column="49" selection-end-line="94" selection-end-column="49" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="settings_app.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/settings_app.xml">
+      <file leaf-file-name="Connection.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/helper/Connection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.0">
-              <caret line="42" column="36" selection-start-line="42" selection-start-column="36" selection-end-line="42" selection-end-column="36" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="326" column="6" selection-start-line="326" selection-start-column="6" selection-end-line="326" selection-end-column="6" />
+              <folding>
+                <element signature="e#3766#3767#0" expanded="true" />
+                <element signature="e#3800#3801#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ShareFiles.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/ShareFiles.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="321" column="42" selection-start-line="321" selection-start-column="42" selection-end-line="321" selection-end-column="42" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="item_selector.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/item_selector.xml">
+      <file leaf-file-name="ServerSettings.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/ServerSettings.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.6666665">
-              <caret line="7" column="50" selection-start-line="7" selection-start-column="50" selection-end-line="7" selection-end-column="50" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="115" column="72" selection-start-line="115" selection-start-column="72" selection-end-line="115" selection-end-column="72" />
               <folding />
             </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="activity_remotefiles.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_remotefiles.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.1034484">
-              <caret line="211" column="58" selection-start-line="211" selection-start-column="58" selection-end-line="211" selection-end-column="58" />
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
           </provider>
         </entry>
       </file>
@@ -557,8 +583,8 @@
         <option value="layoutResourceFile" />
         <option value="resourceFile" />
         <option value="Interface" />
-        <option value="Class" />
         <option value="layoutResourceFile_vertical" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -2210,8 +2236,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/userview.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/filelist.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/userlist.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/xml/settings_userdetails.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/remote_files_toolbar.xml" />
@@ -2242,24 +2266,26 @@
         <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/helper/ServerActions.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/UserDetails.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/xml/settings_server.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/ServerSettings.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Servers.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Users.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/helper/Connection.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/ShareFiles.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Login.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/helper/UploadManager.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/navigation_drawer_header.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/header.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/adapters/DrawerAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/drawer_list_item.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/item_row.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_remotefiles.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/navigation_drawer_header2.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/authenticator/CustomAuthenticator.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/menu/navigation_drawer_body.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/RemoteFiles.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/xml/settings_app.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/menu/navigation_drawer_body.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Users.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_remotefiles.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/navigation_drawer_header.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Accounts.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/authenticator/CustomAuthenticator.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Login.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/helper/Connection.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/ShareFiles.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/ServerSettings.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/RemoteFiles.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
       </list>
     </option>
@@ -2318,60 +2344,6 @@
               <option name="myItemId" value="res" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="xml" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="simpledrive_android" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="values" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="simpledrive_android" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="simpledrive_android" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="menu" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -2388,24 +2360,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="layout" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="simpledrive_android" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="drawable" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2518,7 +2472,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="android.sdk.path" value="$USER_HOME$/Android/Sdk" />
-    <property name="device.picker.selection" value="192.168.178.27:5555" />
+    <property name="device.picker.selection" value="0da4eafd" />
     <property name="last_opened_file_path" value="$USER_HOME$/Downloads/MaterialNavigationDrawer-master/MaterialNavigationDrawer" />
     <property name="ExportApk.ApkPath" value="$PROJECT_DIR$/app" />
     <property name="ExportApk.Flavors" value="" />
@@ -2894,16 +2848,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/filelist.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.362069">
-          <caret line="39" column="35" selection-start-line="39" selection-start-column="35" selection-end-line="39" selection-end-column="35" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/unlock_button.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-8.637931">
@@ -2932,14 +2876,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.0">
           <caret line="9" column="36" selection-start-line="9" selection-start-column="36" selection-end-line="9" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/adapters/UserAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="75" column="39" selection-start-line="75" selection-start-column="39" selection-end-line="75" selection-end-column="39" />
           <folding />
         </state>
       </provider>
@@ -2982,18 +2918,6 @@
       </provider>
       <provider selected="true" editor-type-id="android-designer">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/EnablePIN.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.064516">
-          <caret line="93" column="29" selection-start-line="93" selection-start-column="24" selection-end-line="93" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#3283#3284#0" expanded="false" />
-            <element signature="e#3315#3316#0" expanded="false" />
-          </folding>
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_unlock.xml">
@@ -3042,16 +2966,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/FileSelector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="246" column="36" selection-start-line="246" selection-start-column="32" selection-end-line="246" selection-end-column="36" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/authenticator/AccountAuthenticator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -3084,25 +2998,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/ServerSettings.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="80" column="79" selection-start-line="80" selection-start-column="79" selection-end-line="80" selection-end-column="79" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Users.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="173" column="60" selection-start-line="173" selection-start-column="60" selection-end-line="173" selection-end-column="60" />
-          <folding>
-            <element signature="e#3885#3886#0" expanded="false" />
-            <element signature="e#3930#3931#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/helper/FileItem.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -3122,48 +3017,6 @@
             <element signature="imports" expanded="false" />
             <element signature="e#3512#3513#0" expanded="false" />
             <element signature="e#3557#3558#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/ShareFiles.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="320" column="66" selection-start-line="320" selection-start-column="66" selection-end-line="320" selection-end-column="66" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Login.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="92" column="41" selection-start-line="92" selection-start-column="41" selection-end-line="92" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/helper/Connection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="113" column="29" selection-start-line="113" selection-start-column="21" selection-end-line="113" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1682#1683#0" expanded="false" />
-            <element signature="e#1722#1723#0" expanded="false" />
-            <element signature="e#1768#1769#0" expanded="false" />
-            <element signature="e#1794#1795#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Unlock.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.8436975">
-          <caret line="97" column="5" selection-start-line="97" selection-start-column="5" selection-end-line="97" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3214,105 +3067,11 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_remotefiles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.1034484">
-          <caret line="211" column="58" selection-start-line="211" selection-start-column="58" selection-end-line="211" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/arrays.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3802817">
           <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/authenticator/CustomAuthenticator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="170" column="23" selection-start-line="170" selection-start-column="23" selection-end-line="170" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/navigation_drawer_header.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.586206">
-          <caret line="47" column="32" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/navigation_drawer_body.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.0">
-          <caret line="27" column="42" selection-start-line="27" selection-start-column="42" selection-end-line="27" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/RemoteFiles.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1135" column="55" selection-start-line="1135" selection-start-column="55" selection-end-line="1135" selection-end-column="55" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#7880#8290#0" expanded="true" />
-            <element signature="e#8289#8290#0" expanded="true" />
-            <element signature="e#8385#8543#0" expanded="true" />
-            <element signature="e#8542#8543#0" expanded="true" />
-            <element signature="e#9663#10105#0" expanded="true" />
-            <element signature="e#10104#10105#0" expanded="true" />
-            <element signature="e#10147#10301#0" expanded="true" />
-            <element signature="e#10300#10301#0" expanded="true" />
-            <element signature="e#10340#10492#0" expanded="true" />
-            <element signature="e#10491#10492#0" expanded="true" />
-            <element signature="e#10527#11096#0" expanded="true" />
-            <element signature="e#11095#11096#0" expanded="true" />
-            <element signature="e#14304#14515#0" expanded="true" />
-            <element signature="e#14514#14515#0" expanded="true" />
-            <element signature="e#17687#18120#0" expanded="true" />
-            <element signature="e#18119#18120#0" expanded="true" />
-            <element signature="e#19716#19766#0" expanded="true" />
-            <element signature="e#23529#23551#0" expanded="true" />
-            <element signature="e#24098#24112#0" expanded="true" />
-            <element signature="e#32149#32173#0" expanded="true" />
-            <element signature="e#37722#37742#0" expanded="true" />
-            <element signature="e#37744#37765#0" expanded="true" />
-            <element signature="e#37940#37941#0" expanded="true" />
-            <element signature="e#38002#38003#0" expanded="true" />
-            <element signature="e#38644#38908#0" expanded="true" />
-            <element signature="e#38907#38908#0" expanded="true" />
-            <element signature="e#38970#42419#0" expanded="true" />
-            <element signature="e#41089#41665#0" expanded="true" />
-            <element signature="e#41664#41665#0" expanded="true" />
-            <element signature="e#42418#42419#0" expanded="true" />
-            <element signature="e#43443#43444#0" expanded="true" />
-            <element signature="e#43487#43488#0" expanded="true" />
-            <element signature="e#47038#47565#0" expanded="true" />
-            <element signature="e#47564#47565#0" expanded="true" />
-            <element signature="e#47605#47821#0" expanded="true" />
-            <element signature="e#47820#47821#0" expanded="true" />
-            <element signature="e#53072#53965#0" expanded="true" />
-            <element signature="e#53964#53965#0" expanded="true" />
-            <element signature="e#53991#54621#0" expanded="true" />
-            <element signature="e#54620#54621#0" expanded="true" />
-            <element signature="e#58763#58764#0" expanded="true" />
-            <element signature="e#58807#58808#0" expanded="true" />
-            <element signature="e#59681#59682#0" expanded="true" />
-            <element signature="e#59725#59726#0" expanded="true" />
-            <element signature="e#63773#63963#0" expanded="true" />
-            <element signature="e#63962#63963#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3324,10 +3083,226 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/filelist.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.4310346">
+          <caret line="104" column="12" selection-start-line="104" selection-start-column="12" selection-end-line="104" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.16728625">
+          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="86" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/navigation_drawer_body.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.0">
+          <caret line="15" column="32" selection-start-line="15" selection-start-column="32" selection-end-line="15" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/adapters/UserAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="75" column="39" selection-start-line="75" selection-start-column="39" selection-end-line="75" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Users.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="375" column="5" selection-start-line="345" selection-start-column="4" selection-end-line="375" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_remotefiles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.5">
+          <caret line="211" column="19" selection-start-line="211" selection-start-column="19" selection-end-line="211" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/FileSelector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="101" column="24" selection-start-line="101" selection-start-column="24" selection-end-line="102" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/EnablePIN.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="93" column="29" selection-start-line="93" selection-start-column="24" selection-end-line="93" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Unlock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="97" column="5" selection-start-line="97" selection-start-column="5" selection-end-line="97" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/navigation_drawer_header.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.586207">
+          <caret line="45" column="43" selection-start-line="45" selection-start-column="43" selection-end-line="45" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Accounts.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="151" column="78" selection-start-line="151" selection-start-column="78" selection-end-line="151" selection-end-column="78" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1836#2045#0" expanded="true" />
+            <element signature="e#2044#2045#0" expanded="true" />
+            <element signature="e#3131#3505#0" expanded="true" />
+            <element signature="e#3504#3505#0" expanded="true" />
+            <element signature="e#4317#4481#0" expanded="true" />
+            <element signature="e#4480#4481#0" expanded="true" />
+            <element signature="e#6497#6616#0" expanded="true" />
+            <element signature="e#6615#6616#0" expanded="true" />
+            <element signature="e#7439#7574#0" expanded="true" />
+            <element signature="e#7573#7574#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/authenticator/CustomAuthenticator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="231" column="57" selection-start-line="231" selection-start-column="57" selection-end-line="231" selection-end-column="57" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3662#3663#0" expanded="true" />
+            <element signature="e#3720#3721#0" expanded="true" />
+            <element signature="e#3762#3763#0" expanded="true" />
+            <element signature="e#3831#3832#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/ShareFiles.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="321" column="42" selection-start-line="321" selection-start-column="42" selection-end-line="321" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/ServerSettings.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="115" column="72" selection-start-line="115" selection-start-column="72" selection-end-line="115" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Login.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="94" column="49" selection-start-line="94" selection-start-column="49" selection-end-line="94" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/helper/Connection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="326" column="6" selection-start-line="326" selection-start-column="6" selection-end-line="326" selection-end-column="6" />
+          <folding>
+            <element signature="e#3766#3767#0" expanded="true" />
+            <element signature="e#3800#3801#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/RemoteFiles.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="201" column="34" selection-start-line="201" selection-start-column="34" selection-end-line="201" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#8685#8896#0" expanded="true" />
+            <element signature="e#8895#8896#0" expanded="true" />
+            <element signature="e#12143#12576#0" expanded="true" />
+            <element signature="e#12575#12576#0" expanded="true" />
+            <element signature="e#13458#13868#0" expanded="true" />
+            <element signature="e#13867#13868#0" expanded="true" />
+            <element signature="e#13963#14121#0" expanded="true" />
+            <element signature="e#14120#14121#0" expanded="true" />
+            <element signature="e#15241#15683#0" expanded="true" />
+            <element signature="e#15682#15683#0" expanded="true" />
+            <element signature="e#15725#15879#0" expanded="true" />
+            <element signature="e#15878#15879#0" expanded="true" />
+            <element signature="e#15918#16070#0" expanded="true" />
+            <element signature="e#16069#16070#0" expanded="true" />
+            <element signature="e#16105#16674#0" expanded="true" />
+            <element signature="e#16673#16674#0" expanded="true" />
+            <element signature="e#18539#18589#0" expanded="true" />
+            <element signature="e#22352#22374#0" expanded="true" />
+            <element signature="e#22921#22935#0" expanded="true" />
+            <element signature="e#31121#31145#0" expanded="true" />
+            <element signature="e#36930#36950#0" expanded="true" />
+            <element signature="e#36952#36973#0" expanded="true" />
+            <element signature="e#37180#37181#0" expanded="true" />
+            <element signature="e#37242#37243#0" expanded="true" />
+            <element signature="e#37884#38074#0" expanded="true" />
+            <element signature="e#38073#38074#0" expanded="true" />
+            <element signature="e#38136#41527#0" expanded="true" />
+            <element signature="e#40252#40579#0" expanded="true" />
+            <element signature="e#40578#40579#0" expanded="true" />
+            <element signature="e#41526#41527#0" expanded="true" />
+            <element signature="e#42551#42552#0" expanded="true" />
+            <element signature="e#42595#42596#0" expanded="true" />
+            <element signature="e#46146#46673#0" expanded="true" />
+            <element signature="e#46672#46673#0" expanded="true" />
+            <element signature="e#46713#46929#0" expanded="true" />
+            <element signature="e#46928#46929#0" expanded="true" />
+            <element signature="e#52180#53073#0" expanded="true" />
+            <element signature="e#53072#53073#0" expanded="true" />
+            <element signature="e#53099#53729#0" expanded="true" />
+            <element signature="e#53728#53729#0" expanded="true" />
+            <element signature="e#57871#57872#0" expanded="true" />
+            <element signature="e#57915#57916#0" expanded="true" />
+            <element signature="e#58789#58790#0" expanded="true" />
+            <element signature="e#58833#58834#0" expanded="true" />
+            <element signature="e#62881#63071#0" expanded="true" />
+            <element signature="e#63070#63071#0" expanded="true" />
+            <element signature="e#65220#65733#0" expanded="true" />
+            <element signature="e#65732#65733#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19014084">
-          <caret line="6" column="31" selection-start-line="6" selection-start-column="31" selection-end-line="6" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.09507042">
+          <caret line="3" column="27" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
           <folding />
         </state>
       </provider>

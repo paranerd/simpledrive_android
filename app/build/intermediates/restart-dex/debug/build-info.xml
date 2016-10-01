@@ -4,29 +4,47 @@
     api-level="23"
     density="xxhdpi"
     format="7"
-    timestamp="26732257601240" >
+    timestamp="51063132937661" >
 
     <task
         name="javac"
-        duration="1528" />
+        duration="256" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="10" />
+        duration="111" />
     <task
         name="verifier"
-        duration="1" />
+        duration="13" />
 
     <artifact
-        location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/outputs/apk/app-debug.apk"
-        type="MAIN" />
+        location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_8/classes.dex"
+        type="DEX" />
 
-    <build timestamp="26732257601240" >
+    <build timestamp="42853009322012" >
         <artifact
             location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/outputs/apk/app-debug.apk"
             type="MAIN" />
+    </build>
+    <build timestamp="49189782388471" >
+        <artifact
+            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/resources-debug.ap_"
+            type="RESOURCES" />
+    </build>
+    <build timestamp="50851893976825" >
+        <artifact
+            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_4/classes.dex"
+            type="DEX" />
+        <artifact
+            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_5/classes.dex"
+            type="DEX" />
+    </build>
+    <build timestamp="51063132937661" >
+        <artifact
+            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_8/classes.dex"
+            type="DEX" />
     </build>
 
 </instant-run>

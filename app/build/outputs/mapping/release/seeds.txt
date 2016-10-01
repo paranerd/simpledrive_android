@@ -4768,6 +4768,7 @@ org.simpledrive.R$style: int Base_Widget_Design_TabLayout
 org.simpledrive.R$style: int LoginTheme
 org.simpledrive.R$style: int MainTheme
 org.simpledrive.R$style: int MainThemeFullscreen
+org.simpledrive.R$style: int MenuItemAppearance
 org.simpledrive.R$style: int Platform_AppCompat
 org.simpledrive.R$style: int Platform_AppCompat_Light
 org.simpledrive.R$style: int Platform_ThemeOverlay_AppCompat
@@ -5421,6 +5422,8 @@ org.simpledrive.R$xml: int authenticator
 org.simpledrive.R$xml: int settings_app
 org.simpledrive.R$xml: int settings_server
 org.simpledrive.R$xml: int settings_userdetails
+org.simpledrive.activities.Accounts
+org.simpledrive.activities.Accounts: Accounts()
 org.simpledrive.activities.AppSettings
 org.simpledrive.activities.AppSettings: AppSettings()
 org.simpledrive.activities.Editor

@@ -3,4 +3,5 @@
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar" />
     <style name="AppTheme" parent="@style/AppBaseTheme" />
     <style name="LoginTheme" parent="@android:style/Theme.Holo.Light.NoActionBar" />
+    <style name="MenuItemAppearance"><item name="android:ellipsize">end</item></style>
 </resources>

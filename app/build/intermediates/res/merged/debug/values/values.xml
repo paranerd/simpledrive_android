@@ -1325,6 +1325,7 @@
         <item name="tabSelectedTextColor">?android:textColorPrimary</item>
     </style>
     <style name="LoginTheme" parent="@android:style/Theme.Holo.Light.NoActionBar"/>
+    <style name="MenuItemAppearance"><item name="android:ellipsize">end</item></style>
     <style name="Platform.AppCompat" parent="android:Theme">
         <item name="android:windowNoTitle">true</item>
 

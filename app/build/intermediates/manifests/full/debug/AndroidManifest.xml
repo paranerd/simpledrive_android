@@ -120,6 +120,11 @@
             android:label="Enable PIN"
             android:theme="@style/MainTheme" >
         </activity>
+        <activity
+            android:name="org.simpledrive.activities.Accounts"
+            android:label="Accounts"
+            android:theme="@style/MainTheme" >
+        </activity>
 
         <service
             android:name="org.simpledrive.helper.AudioService"

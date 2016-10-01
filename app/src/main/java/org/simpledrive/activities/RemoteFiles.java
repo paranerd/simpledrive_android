@@ -45,7 +45,6 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -61,6 +60,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.simpledrive.R;
+import org.simpledrive.adapters.FileAdapter;
+import org.simpledrive.authenticator.CustomAuthenticator;
+import org.simpledrive.helper.AudioService;
+import org.simpledrive.helper.AudioService.LocalBinder;
+import org.simpledrive.helper.Connection;
+import org.simpledrive.helper.FileItem;
+import org.simpledrive.helper.UploadManager;
+import org.simpledrive.helper.Util;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -72,15 +79,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import org.simpledrive.authenticator.CustomAuthenticator;
-import org.simpledrive.helper.AudioService;
-import org.simpledrive.helper.AudioService.LocalBinder;
-import org.simpledrive.helper.Connection;
-import org.simpledrive.adapters.FileAdapter;
-import org.simpledrive.helper.FileItem;
-import org.simpledrive.helper.UploadManager;
-import org.simpledrive.helper.Util;
 
 public class RemoteFiles extends AppCompatActivity {
     // General
@@ -96,7 +94,7 @@ public class RemoteFiles extends AppCompatActivity {
     private static int lastSelected = 0;
     private static int grids = 3;
     private static int gridSize;
-    private static boolean preventFileRefresh = false;
+    private static boolean forceFullLoad = true;
     private static boolean preventLock = false;
     private static boolean calledForUnlock = false;
 
@@ -160,15 +158,14 @@ public class RemoteFiles extends AppCompatActivity {
 
         e = this;
 
-        settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
-
         setContentView(R.layout.activity_remotefiles);
+
+        settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
+        globLayout = (settings.getString("view", "").length() == 0 || settings.getString("view", "").equals("list")) ? "list" : "grid";
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         gridSize = displaymetrics.widthPixels / grids;
-
-        globLayout = (settings.getString("view", "").length() == 0 || settings.getString("view", "").equals("list")) ? "list" : "grid";
 
         setUpInterface();
         setView(globLayout);
@@ -179,150 +176,9 @@ public class RemoteFiles extends AppCompatActivity {
         createTmpFolder();
     }
 
-    public static void hideAccounts() {
-        accountsVisible = false;
-        mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_accounts, false);
-        mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_accounts_management, false);
-        mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_one, true);
-        mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_two, true);
-    }
-
-    public void toggleAccounts() {
-        accountsVisible = !accountsVisible;
-        mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_accounts, accountsVisible);
-        mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_accounts_management, accountsVisible);
-        mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_one, !accountsVisible);
-        mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_two, !accountsVisible);
-
-        if (accountsVisible) {
-            header_indicator.setText("\u25B2");
-        }
-        else {
-            header_indicator.setText("\u25BC");
-        }
-    }
-
-    private void setUpInterface() {
-        tmp_grid = (GridView) findViewById(R.id.grid);
-        tmp_list = (ListView) findViewById(R.id.list);
-
-        bPlay = (ImageButton) e.findViewById(R.id.bPlay);
-        bPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mPlayerService.togglePlay();
-                if (AudioService.isPlaying()) {
-                    bPlay.setBackgroundResource(R.drawable.ic_pause);
-                }
-                else {
-                    bPlay.setBackgroundResource(R.drawable.ic_play);
-                }
-            }
-        });
-
-        bExit = (ImageButton) e.findViewById(R.id.bExit);
-        bExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mPlayerService.stop();
-            }
-        });
-
-        player = (RelativeLayout) findViewById(R.id.audioplayer);
-        audioTitle = (TextView) e.findViewById(R.id.audio_title);
-
-        seek = (SeekBar) findViewById(R.id.seekBar1);
-        seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (AudioService.isPlaying() && fromUser) {
-                    mPlayerService.seekTo(progress);
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
-        info = (TextView) findViewById(R.id.info);
-
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab_upload = (FloatingActionButton) findViewById(R.id.fab_upload);
-        fab_file = (FloatingActionButton) findViewById(R.id.fab_file);
-        fab_folder = (FloatingActionButton) findViewById(R.id.fab_folder);
-
-        fab_upload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fab_folder.setVisibility(View.GONE);
-                fab_file.setVisibility(View.GONE);
-                fab_upload.setVisibility(View.GONE);
-                preventLock = true;
-                Intent result = new Intent(RemoteFiles.this, FileSelector.class);
-                startActivityForResult(result, 1);
-            }
-        });
-
-        fab_folder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showCreate("folder");
-            }
-        });
-        fab_file.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showCreate("file");
-            }
-        });
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (fab_folder.getVisibility() == View.GONE) {
-                    fab_folder.setVisibility(View.VISIBLE);
-                    fab_file.setVisibility(View.VISIBLE);
-                    fab_upload.setVisibility(View.VISIBLE);
-                } else {
-                    fab_folder.setVisibility(View.GONE);
-                    fab_file.setVisibility(View.GONE);
-                    fab_upload.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loginAttempts = 0;
-                if (hierarchy.size() > 0) {
-                    new ListContent().execute();
-
-                }
-                else {
-                    new Connect().execute();
-                }
-            }
-        });
-
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.darkgreen, R.color.darkgreen, R.color.darkgreen, R.color.darkgreen);
-        mSwipeRefreshLayout.setProgressViewOffset(true, Util.dpToPx(56), Util.dpToPx(56) + 100);
-        mSwipeRefreshLayout.setEnabled(true);
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.DrawerLayout);
-        mNavigationView = (NavigationView) findViewById(R.id.activity_main_navigation_view);
-    }
-
     protected void onResume() {
         super.onResume();
+
         preventLock = false;
         appVisible = true;
         loadthumbs = (settings.getString("loadthumb", "").length() == 0) ? false : Boolean.valueOf(settings.getString("loadthumb", ""));
@@ -342,12 +198,12 @@ public class RemoteFiles extends AppCompatActivity {
             calledForUnlock = true;
             startActivity(new Intent(e.getApplicationContext(), Unlock.class));
         }
-        else if (!preventFileRefresh) {
-            preventFileRefresh = true;
-            populateAccounts();
+        else if (forceFullLoad) {
+            forceFullLoad = false;
             new Connect().execute();
         }
 
+        populateAccounts();
         username = CustomAuthenticator.getUsername();
         header_user.setText(username);
         header_server.setText(CustomAuthenticator.getServer());
@@ -365,7 +221,7 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     protected void onDestroy() {
-        preventFileRefresh = false;
+        forceFullLoad = true;
         super.onDestroy();
 
         if (mBound && AudioService.isPlaying()) {
@@ -392,6 +248,9 @@ public class RemoteFiles extends AppCompatActivity {
                     }
                 });
             }
+        }
+        else if (requestCode == 5) {
+            // Do something
         }
     }
 
@@ -506,6 +365,124 @@ public class RemoteFiles extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    private void setUpInterface() {
+        tmp_grid = (GridView) findViewById(R.id.grid);
+        tmp_list = (ListView) findViewById(R.id.list);
+
+        bPlay = (ImageButton) e.findViewById(R.id.bPlay);
+        bPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPlayerService.togglePlay();
+                if (AudioService.isPlaying()) {
+                    bPlay.setBackgroundResource(R.drawable.ic_pause);
+                }
+                else {
+                    bPlay.setBackgroundResource(R.drawable.ic_play);
+                }
+            }
+        });
+
+        bExit = (ImageButton) e.findViewById(R.id.bExit);
+        bExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPlayerService.stop();
+            }
+        });
+
+        player = (RelativeLayout) findViewById(R.id.audioplayer);
+        audioTitle = (TextView) e.findViewById(R.id.audio_title);
+
+        seek = (SeekBar) findViewById(R.id.seekBar1);
+        seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (AudioService.isPlaying() && fromUser) {
+                    mPlayerService.seekTo(progress);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        info = (TextView) findViewById(R.id.info);
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab_upload = (FloatingActionButton) findViewById(R.id.fab_upload);
+        fab_file = (FloatingActionButton) findViewById(R.id.fab_file);
+        fab_folder = (FloatingActionButton) findViewById(R.id.fab_folder);
+
+        fab_upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fab_folder.setVisibility(View.GONE);
+                fab_file.setVisibility(View.GONE);
+                fab_upload.setVisibility(View.GONE);
+                preventLock = true;
+                Intent result = new Intent(RemoteFiles.this, FileSelector.class);
+                startActivityForResult(result, 1);
+            }
+        });
+
+        fab_folder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCreate("folder");
+            }
+        });
+        fab_file.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCreate("file");
+            }
+        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (fab_folder.getVisibility() == View.GONE) {
+                    fab_folder.setVisibility(View.VISIBLE);
+                    fab_file.setVisibility(View.VISIBLE);
+                    fab_upload.setVisibility(View.VISIBLE);
+                } else {
+                    fab_folder.setVisibility(View.GONE);
+                    fab_file.setVisibility(View.GONE);
+                    fab_upload.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loginAttempts = 0;
+                if (hierarchy.size() > 0 && CustomAuthenticator.isActive(e, username)) {
+                    Log.i("is", "ok");
+                    new ListContent().execute();
+
+                }
+                else {
+                    Log.i("is", "not");
+                    new Connect().execute();
+                }
+            }
+        });
+
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.darkgreen, R.color.darkgreen, R.color.darkgreen, R.color.darkgreen);
+        mSwipeRefreshLayout.setProgressViewOffset(true, Util.dpToPx(56), Util.dpToPx(56) + 100);
+        mSwipeRefreshLayout.setEnabled(true);
     }
 
     public static class ListContent extends AsyncTask<String, String, HashMap<String, String>> {
@@ -704,7 +681,8 @@ public class RemoteFiles extends AppCompatActivity {
             audioFilename = item.getFilename();
 
             try {
-                URI uri = new URI(Connection.getServer() + "api/files/read?target=[" + URLEncoder.encode(filteredItems.get(position).getJSON().toString(), "UTF-8") + "]&token=" + Connection.token);
+                URI uri = new URI(CustomAuthenticator.getServer() + "api/files/read?target=[" + URLEncoder.encode(filteredItems.get(position).getJSON().toString(), "UTF-8") + "]&token=" + Connection.token);
+                //URI uri = new URI(Connection.getServer() + "api/files/read?target=[" + URLEncoder.encode(filteredItems.get(position).getJSON().toString(), "UTF-8") + "]&token=" + Connection.token);
                 mPlayerService.initPlay(uri.toASCIIString());
                 showAudioPlayer();
             } catch (URISyntaxException | UnsupportedEncodingException e) {
@@ -848,8 +826,7 @@ public class RemoteFiles extends AppCompatActivity {
     	
     	@Override
         protected HashMap<String, String> doInBackground(String... login) {
-            Log.i("server", CustomAuthenticator.getServer());
-            Connection.setServer(CustomAuthenticator.getServer());
+            //Connection.setServer(CustomAuthenticator.getServer());
             Connection con = new Connection("core", "login");
             con.addFormField("user", CustomAuthenticator.getUsername());
             con.addFormField("pass", CustomAuthenticator.getPassword());
@@ -897,7 +874,8 @@ public class RemoteFiles extends AppCompatActivity {
 
     public static void populateAccounts() {
         Menu menu = mNavigationView.getMenu();
-        ArrayList<String> servers = CustomAuthenticator.getAllAccounts();
+        ArrayList<String> servers = CustomAuthenticator.getAllAccounts(false);
+        menu.removeGroup(R.id.navigation_drawer_group_accounts);
 
         for (String server : servers) {
             menu.add(R.id.navigation_drawer_group_accounts, 1, 0, server).setIcon(R.drawable.ic_account_circle);
@@ -1032,9 +1010,13 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     private void setUpDrawer() {
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.DrawerLayout);
+        mNavigationView = (NavigationView) findViewById(R.id.activity_main_navigation_view);
+
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
             public void onDrawerClosed(View view) {
                 supportInvalidateOptionsMenu();
+                hideAccounts();
             }
 
             public void onDrawerOpened(View drawerView) {
@@ -1055,7 +1037,6 @@ public class RemoteFiles extends AppCompatActivity {
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //mDrawerLayout.closeDrawer(GravityCompat.START);
                         toggleAccounts();
                     }
                 });
@@ -1095,7 +1076,7 @@ public class RemoteFiles extends AppCompatActivity {
 
                     case R.id.navigation_view_item_settings:
                         preventLock = true;
-                        preventFileRefresh = false;
+                        forceFullLoad = true;
                         startActivity(new Intent(getApplicationContext(), AppSettings.class));
                         break;
 
@@ -1108,32 +1089,32 @@ public class RemoteFiles extends AppCompatActivity {
                         new android.support.v7.app.AlertDialog.Builder(e)
                                 .setTitle("Logout")
                                 .setMessage("Are you sure you want to logout?")
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-                                {
+                                .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Connection.logout();
-                                        CustomAuthenticator.removeAccount();
-                                        startActivity(new Intent(getApplicationContext(), Login.class));
-                                        finish();
+                                        logout(item.getTitle().toString());
                                     }
 
                                 })
-                                .setNegativeButton("No", null)
+                                .setNegativeButton("Cancel", null)
                                 .show();
                         break;
 
                     case R.id.navigation_view_item_add_account:
-                        Toast.makeText(e, "Coming soon...", Toast.LENGTH_SHORT).show();
+                        forceFullLoad = true;
+                        startActivityForResult(new Intent(getApplicationContext(), Login.class), 5);
                         break;
 
                     case R.id.navigation_view_item_manage_accounts:
-                        Toast.makeText(e, "Coming soon...", Toast.LENGTH_SHORT).show();
+                        forceFullLoad = true;
+                        startActivity(new Intent(getApplicationContext(), Accounts.class));
                         break;
 
                     case 1:
-                        // selected: item.getTitle()
-                        Toast.makeText(e, "Coming soon...", Toast.LENGTH_SHORT).show();
+                        CustomAuthenticator.setActiveAccount(item.getTitle().toString());
+                        forceFullLoad = true;
+                        finish();
+                        startActivity(getIntent());
                 }
 
                 return true;
@@ -1745,5 +1726,49 @@ public class RemoteFiles extends AppCompatActivity {
                     .setProgress(0,0,false);
             mNotifyManager.notify(notificationId, mBuilder.build());
         }
+    }
+
+    public static void hideAccounts() {
+        accountsVisible = false;
+        header_indicator.setText("\u25BC");
+        mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_accounts, false);
+        mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_accounts_management, false);
+        mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_one, true);
+        mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_two, true);
+    }
+
+    public void toggleAccounts() {
+        accountsVisible = !accountsVisible;
+        mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_accounts, accountsVisible);
+        mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_accounts_management, accountsVisible);
+        mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_one, !accountsVisible);
+        mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_two, !accountsVisible);
+
+        if (accountsVisible) {
+            header_indicator.setText("\u25B2");
+        }
+        else {
+            header_indicator.setText("\u25BC");
+        }
+    }
+
+    private void logout(final String accountName) {
+        Connection.logout();
+        CustomAuthenticator.removeAccount("");
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                if (CustomAuthenticator.getAllAccounts(true).size() == 0) {
+                    startActivity(new Intent(getApplicationContext(), Login.class));
+                    finish();
+                }
+                else {
+                    CustomAuthenticator.setActiveAccount(accountName);
+                    forceFullLoad = true;
+                    finish();
+                    startActivity(getIntent());
+                }
+            }
+        }, 500);
     }
 }
