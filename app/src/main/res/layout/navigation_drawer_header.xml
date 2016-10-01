@@ -33,7 +33,9 @@
             android:gravity="left"
             android:layout_above="@+id/navigation_drawer_header_server"
             android:textSize="14sp"
-            android:fontFamily="sans-serif-medium" />
+            android:singleLine="true"
+            android:fontFamily="sans-serif-medium"
+            android:text="Username"/>
 
         <TextView
             android:id="@+id/navigation_drawer_header_server"
@@ -41,12 +43,14 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:layout_marginBottom="8dp"
-            android:textColor="@color/white"
+            android:textColor="@color/grey2"
             android:layout_alignParentBottom="true"
             android:layout_alignLeft="@+id/navigation_drawer_header_user"
             android:layout_alignStart="@+id/navigation_drawer_header_user"
             android:textSize="14sp"
-            android:fontFamily="sans-serif" />
+            android:singleLine="true"
+            android:fontFamily="sans-serif"
+            android:text="Server"/>
 
         <TextView
             android:id="@+id/navigation_drawer_header_account_indicator"

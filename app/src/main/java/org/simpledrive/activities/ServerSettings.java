@@ -20,6 +20,7 @@ import org.simpledrive.R;
 
 import java.util.HashMap;
 
+import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.Connection;
 import org.simpledrive.helper.Util;
 
@@ -111,7 +112,8 @@ public class ServerSettings extends AppCompatActivity {
                 }
             });
 
-            setSummary("server_address", Connection.getServer());
+            //setSummary("server_address", Connection.getServer());
+            setSummary("server_address", CustomAuthenticator.getServer());
         }
 
         public void setSummary(String key, String value) {
