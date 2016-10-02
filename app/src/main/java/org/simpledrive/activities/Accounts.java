@@ -170,9 +170,8 @@ public class Accounts extends AppCompatActivity {
     }
 
     /**
-     * Removes all selected Elements
+     * Removes selection from all elements
      */
-
     private void unselectAll() {
         for (int i = 0; i < list.getCount(); i++) {
             list.setItemChecked(i, false);
@@ -202,44 +201,10 @@ public class Accounts extends AppCompatActivity {
                 public void run() {
                     getAccounts();
                 }
-            }, 500);
+            }, 100);
         }
         else {
             Toast.makeText(e, "Error deleting account", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private class Delete extends AsyncTask<String, String, Boolean> {
-        private String account;
-
-        public Delete(String account) {
-            this.account = account;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            e.setProgressBarIndeterminateVisibility(true);
-        }
-
-        @Override
-        protected Boolean doInBackground(String... params) {
-            return CustomAuthenticator.removeAccount(account);
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            if (result) {
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        getAccounts();
-                    }
-                }, 1000);
-            }
-            else {
-                Toast.makeText(e, "Error removing account", Toast.LENGTH_SHORT).show();
-            }
         }
     }
 }

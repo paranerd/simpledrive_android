@@ -318,7 +318,6 @@ public class ShareFiles extends AppCompatActivity {
 
         @Override
         protected HashMap<String, String> doInBackground(String... login) {
-            //Connection.setServer(CustomAuthenticator.getServer());
             Connection con = new Connection("core", "login");
             con.addFormField("user", CustomAuthenticator.getUsername());
             con.addFormField("pass", CustomAuthenticator.getPassword());
@@ -339,7 +338,6 @@ public class ShareFiles extends AppCompatActivity {
                     FileItem currDir = new FileItem(currDirJSON, "", "");
                     hierarchy.add(currDir);
 
-                    Connection.setToken(value.get("msg"));
                     CustomAuthenticator.updateToken(value.get("msg"));
                 } catch (JSONException e) {
                     e.printStackTrace();

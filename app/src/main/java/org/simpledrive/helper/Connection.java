@@ -47,9 +47,6 @@ public class Connection {
 
     private ProgressListener listener;
 
-    public static String token;
-    //private static String server;
-
     public static String cookie;
     private boolean forceCookie = false;
 
@@ -59,10 +56,6 @@ public class Connection {
     public void setListener(final ProgressListener listener) {
         this.listener = listener;
     }
-
-    /*public static void setServer(String s) {
-        server = s;
-    }*/
 
     public Connection(String endpoint, String action) {
         this(CustomAuthenticator.getServer(), endpoint, action);
@@ -173,7 +166,7 @@ public class Connection {
         String status;
         String msg;
 
-        addFormField("token", token);
+        addFormField("token", CustomAuthenticator.getToken());
 
         try {
             if(writer != null) {
@@ -319,14 +312,6 @@ public class Connection {
             }
         });
     }
-
-    public static void setToken(String t) {
-        token = t;
-    }
-
-    /*public static String getServer() {
-        return server;
-    }*/
 
     public static void logout() {
         cookie = null;

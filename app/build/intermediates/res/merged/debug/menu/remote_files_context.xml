@@ -22,18 +22,18 @@
     </item>-->
 
     <item
-        android:id="@+id/download"
-        android:orderInCategory="300"
-        android:title="Download"
-        android:icon="@drawable/ic_download"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/delete"
         android:orderInCategory="300"
         android:title="Delete"
         android:icon="@drawable/ic_trash"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/download"
+        android:orderInCategory="300"
+        android:title="Download"
+        android:icon="@drawable/ic_download"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/restore"
@@ -47,6 +47,20 @@
         android:orderInCategory="300"
         android:title="Rename"
         android:icon="@drawable/ic_edit"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/copy"
+        android:orderInCategory="300"
+        android:title="Copy"
+        android:icon="@drawable/ic_copy"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/cut"
+        android:orderInCategory="300"
+        android:title="Cut"
+        android:icon="@drawable/ic_cut"
         app:showAsAction="ifRoom" />
 
     <item
