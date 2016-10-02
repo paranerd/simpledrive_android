@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
@@ -31,7 +30,6 @@ public class Login extends AppCompatActivity {
 
     // General
     private static Login e;
-    private static ProgressDialog pDialog;
 
 
     @Override
@@ -91,7 +89,6 @@ public class Login extends AppCompatActivity {
       	
       	@Override
         protected HashMap<String, String> doInBackground(String... login) {
-            //Connection.setServer(server);
             Connection con = new Connection(server, "core", "login");
             con.addFormField("user", username);
             con.addFormField("pass", password);

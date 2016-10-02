@@ -128,6 +128,8 @@ public class RemoteFiles extends AppCompatActivity {
     private static FloatingActionButton fab_file;
     private static FloatingActionButton fab_folder;
     private static FloatingActionButton fab_upload;
+    private static FloatingActionButton fab_paste;
+    private static FloatingActionButton fab_paste_cancel;
     private static SearchView searchView = null;
     private static boolean accountsVisible = false;
 
@@ -137,6 +139,8 @@ public class RemoteFiles extends AppCompatActivity {
     private static ArrayList<FileItem> hierarchy = new ArrayList<>();
     private static FileAdapter newAdapter;
     private static int sortOrder = 1;
+    private static JSONArray clipboard = new JSONArray();
+    private static boolean deleteAfterCopy = false;
 
     ServiceConnection mServiceConnection = new ServiceConnection(){
 		public void onServiceDisconnected(ComponentName name) {
@@ -198,7 +202,7 @@ public class RemoteFiles extends AppCompatActivity {
             calledForUnlock = true;
             startActivity(new Intent(e.getApplicationContext(), Unlock.class));
         }
-        else if (forceFullLoad) {
+        else if (forceFullLoad || CustomAuthenticator.activeAccountChanged) {
             forceFullLoad = false;
             new Connect().execute();
         }
@@ -422,6 +426,8 @@ public class RemoteFiles extends AppCompatActivity {
         fab_upload = (FloatingActionButton) findViewById(R.id.fab_upload);
         fab_file = (FloatingActionButton) findViewById(R.id.fab_file);
         fab_folder = (FloatingActionButton) findViewById(R.id.fab_folder);
+        fab_paste = (FloatingActionButton) findViewById(R.id.fab_paste);
+        fab_paste_cancel = (FloatingActionButton) findViewById(R.id.fab_paste_cancel);
 
         fab_upload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -441,6 +447,7 @@ public class RemoteFiles extends AppCompatActivity {
                 showCreate("folder");
             }
         });
+
         fab_file.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -463,18 +470,30 @@ public class RemoteFiles extends AppCompatActivity {
             }
         });
 
+        fab_paste.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Paste(clipboard.toString(), hierarchy.get(hierarchy.size() - 1).getJSON().toString(), deleteAfterCopy).execute();
+            }
+        });
+
+        fab_paste_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancelClipboard();
+            }
+        });
+
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 loginAttempts = 0;
-                if (hierarchy.size() > 0 && CustomAuthenticator.isActive(e, username)) {
-                    Log.i("is", "ok");
+                if (hierarchy.size() > 0 && CustomAuthenticator.isActive(username)) {
                     new ListContent().execute();
 
                 }
                 else {
-                    Log.i("is", "not");
                     new Connect().execute();
                 }
             }
@@ -483,6 +502,27 @@ public class RemoteFiles extends AppCompatActivity {
         mSwipeRefreshLayout.setColorSchemeResources(R.color.darkgreen, R.color.darkgreen, R.color.darkgreen, R.color.darkgreen);
         mSwipeRefreshLayout.setProgressViewOffset(true, Util.dpToPx(56), Util.dpToPx(56) + 100);
         mSwipeRefreshLayout.setEnabled(true);
+    }
+
+    private static void cancelClipboard() {
+        clipboard = new JSONArray();
+        hidePaste();
+    }
+
+    private static void showPaste() {
+        fab.setVisibility(View.GONE);
+        fab_file.setVisibility(View.GONE);
+        fab_folder.setVisibility(View.GONE);
+
+        fab_paste.setVisibility(View.VISIBLE);
+        fab_paste_cancel.setVisibility(View.VISIBLE);
+    }
+
+    private static void hidePaste() {
+        fab.setVisibility(View.VISIBLE);
+
+        fab_paste.setVisibility(View.GONE);
+        fab_paste_cancel.setVisibility(View.GONE);
     }
 
     public static class ListContent extends AsyncTask<String, String, HashMap<String, String>> {
@@ -681,8 +721,7 @@ public class RemoteFiles extends AppCompatActivity {
             audioFilename = item.getFilename();
 
             try {
-                URI uri = new URI(CustomAuthenticator.getServer() + "api/files/read?target=[" + URLEncoder.encode(filteredItems.get(position).getJSON().toString(), "UTF-8") + "]&token=" + Connection.token);
-                //URI uri = new URI(Connection.getServer() + "api/files/read?target=[" + URLEncoder.encode(filteredItems.get(position).getJSON().toString(), "UTF-8") + "]&token=" + Connection.token);
+                URI uri = new URI(CustomAuthenticator.getServer() + "api/files/read?target=[" + URLEncoder.encode(filteredItems.get(position).getJSON().toString(), "UTF-8") + "]&token=" + CustomAuthenticator.getToken());
                 mPlayerService.initPlay(uri.toASCIIString());
                 showAudioPlayer();
             } catch (URISyntaxException | UnsupportedEncodingException e) {
@@ -703,11 +742,13 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     public void toggleFAB(boolean hide) {
-        int visible = (hide) ? View.GONE : View.VISIBLE;
-        fab.setVisibility(visible);
-        fab_file.setVisibility(View.GONE);
-        fab_folder.setVisibility(View.GONE);
-        fab_upload.setVisibility(View.GONE);
+        if (clipboard.length() == 0) {
+            int visible = (hide) ? View.GONE : View.VISIBLE;
+            fab.setVisibility(visible);
+            fab_file.setVisibility(View.GONE);
+            fab_folder.setVisibility(View.GONE);
+            fab_upload.setVisibility(View.GONE);
+        }
     }
 
     public void showAudioPlayer() {
@@ -785,7 +826,7 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     /**
-     * Removes all selected Elements
+     * Removes selection from all elements
      */
     private static void unselectAll() {
         for (int i = 0; i < list.getCount(); i++) {
@@ -1092,7 +1133,7 @@ public class RemoteFiles extends AppCompatActivity {
                                 .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        logout(item.getTitle().toString());
+                                        logout();
                                     }
 
                                 })
@@ -1111,7 +1152,8 @@ public class RemoteFiles extends AppCompatActivity {
                         break;
 
                     case 1:
-                        CustomAuthenticator.setActiveAccount(item.getTitle().toString());
+                        //CustomAuthenticator.setActiveAccount(item.getTitle().toString());
+                        CustomAuthenticator.setActive(item.getTitle().toString());
                         forceFullLoad = true;
                         finish();
                         startActivity(getIntent());
@@ -1195,6 +1237,42 @@ public class RemoteFiles extends AppCompatActivity {
                         mode.finish();
                         break;
 
+                    case R.id.copy:
+                        if (deleteAfterCopy) {
+                            clipboard = new JSONArray();
+                        }
+
+                        deleteAfterCopy = false;
+
+                        for (int i = 0; i < filteredItems.size(); i++) {
+                            if (list.isItemChecked(i)) {
+                                clipboard.put(filteredItems.get(i).getJSON());
+                            }
+                        }
+
+                        Toast.makeText(e, clipboard.length() + " files to copy", Toast.LENGTH_SHORT).show();
+                        showPaste();
+                        mode.finish();
+                        break;
+
+                    case R.id.cut:
+                        if (!deleteAfterCopy) {
+                            clipboard = new JSONArray();
+                        }
+
+                        deleteAfterCopy = true;
+
+                        for (int i = 0; i < filteredItems.size(); i++) {
+                            if (list.isItemChecked(i)) {
+                                clipboard.put(filteredItems.get(i).getJSON());
+                            }
+                        }
+
+                        Toast.makeText(e, clipboard.length() + " files to cut", Toast.LENGTH_SHORT).show();
+                        showPaste();
+                        mode.finish();
+                        break;
+
                     case R.id.download:
                         download(getAllSelected());
                         mode.finish();
@@ -1230,6 +1308,7 @@ public class RemoteFiles extends AppCompatActivity {
                 mContextMenu.findItem(R.id.restore).setVisible(trash);
                 mContextMenu.findItem(R.id.selectall).setVisible(filteredItems.size() > 0);
                 mContextMenu.findItem(R.id.download).setVisible(!trash);
+                mContextMenu.findItem(R.id.copy).setVisible(!trash);
                 mContextMenu.findItem(R.id.zip).setVisible(!trash);
                 mContextMenu.findItem(R.id.rename).setVisible(!trash && list.getCheckedItemCount() == 1);
                 mContextMenu.findItem(R.id.share).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).getHash().length() == 0 && filteredItems.get(position).getOwner().equals(""));
@@ -1586,6 +1665,47 @@ public class RemoteFiles extends AppCompatActivity {
         }
     }
 
+    public static class Paste extends AsyncTask<String, String, HashMap<String, String>> {
+        private String source;
+        private String target;
+        private String action;
+
+        public Paste(String source, String target, boolean cut) {
+            this.source= source;
+            this.target = target;
+            this.action = (cut) ? "move" : "copy";
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected HashMap<String, String> doInBackground(String... params) {
+            Connection con = new Connection("files", this.action);
+            con.addFormField("target", target);
+            con.addFormField("source", source);
+            con.addFormField("trash", "false");
+
+            return con.finish();
+        }
+
+        @Override
+        protected void onPostExecute(HashMap<String, String> result) {
+            e.setProgressBarIndeterminateVisibility(false);
+
+            if(result.get("status").equals("ok")) {
+                clipboard = new JSONArray();
+                hidePaste();
+                new ListContent().execute();
+            }
+            else {
+                Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     public static class GetPermissions extends AsyncTask<Integer, String, HashMap<String, String>> {
         @Override
         protected void onPreExecute() {
@@ -1752,23 +1872,22 @@ public class RemoteFiles extends AppCompatActivity {
         }
     }
 
-    private void logout(final String accountName) {
+    private void logout() {
         Connection.logout();
-        CustomAuthenticator.removeAccount("");
+        CustomAuthenticator.logout();
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
+                finish();
                 if (CustomAuthenticator.getAllAccounts(true).size() == 0) {
                     startActivity(new Intent(getApplicationContext(), Login.class));
-                    finish();
                 }
                 else {
-                    CustomAuthenticator.setActiveAccount(accountName);
                     forceFullLoad = true;
-                    finish();
                     startActivity(getIntent());
                 }
             }
-        }, 500);
+        }, 100);
     }
 }
