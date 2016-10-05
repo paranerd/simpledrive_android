@@ -12,13 +12,13 @@
 
     <item android:id="@+id/selectall"
         android:orderInCategory="1"
-        android:title="Select all"
+        android:title="Select All"
         android:icon="@drawable/ic_select_all"
         app:showAsAction="never" />
 
     <item android:id="@+id/emptytrash"
         android:orderInCategory="1"
-        android:title="Select all"
+        android:title="Empty Trash"
         android:icon="@drawable/ic_trash"
         app:showAsAction="never"
         android:visible="false"/>

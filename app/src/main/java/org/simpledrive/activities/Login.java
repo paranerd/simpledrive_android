@@ -114,6 +114,9 @@ public class Login extends AppCompatActivity {
                     }
                     finish();
                 }
+                else if (CustomAuthenticator.accountExists(username, server)) {
+                    Toast.makeText(Login.this, "Account already exists", Toast.LENGTH_SHORT).show();
+                }
                 else {
                     Toast.makeText(Login.this, "Error logging in", Toast.LENGTH_SHORT).show();
                 }

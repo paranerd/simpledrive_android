@@ -1,7 +1,10 @@
 package org.simpledrive.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -10,6 +13,8 @@ import android.widget.TextView;
 
 import org.simpledrive.R;
 import org.simpledrive.authenticator.CustomAuthenticator;
+import org.simpledrive.helper.Connection;
+import org.w3c.dom.Text;
 
 public class Unlock extends AppCompatActivity implements View.OnClickListener{
     // Interface
@@ -26,6 +31,7 @@ public class Unlock extends AppCompatActivity implements View.OnClickListener{
     private Button eight;
     private Button nine;
     private Button zero;
+    private TextView logout;
 
     // General
     private String enteredPin = "";
@@ -52,6 +58,8 @@ public class Unlock extends AppCompatActivity implements View.OnClickListener{
         nine = (Button) findViewById(R.id.unlock_nine);
         zero = (Button) findViewById(R.id.unlock_zero);
 
+        logout = (TextView) findViewById(R.id.unlock_logout);
+
         clear.setOnClickListener(this);
 
         one.setOnClickListener(this);
@@ -64,6 +72,9 @@ public class Unlock extends AppCompatActivity implements View.OnClickListener{
         eight.setOnClickListener(this);
         nine.setOnClickListener(this);
         zero.setOnClickListener(this);
+
+        logout.setVisibility(View.VISIBLE);
+        logout.setOnClickListener(this);
 
         setError(true);
     }
@@ -114,52 +125,32 @@ public class Unlock extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
+        if (view.getTag() != null) {
+            enteredPin += view.getTag().toString();
+            updatePIN();
+            return;
+        }
+
         switch (view.getId()) {
-            case R.id.unlock_one:
-                enteredPin += "1";
-                break;
-
-            case R.id.unlock_two:
-                enteredPin += "2";
-                break;
-
-            case R.id.unlock_three:
-                enteredPin += "3";
-                break;
-
-            case R.id.unlock_four:
-                enteredPin += "4";
-                break;
-
-            case R.id.unlock_five:
-                enteredPin += "5";
-                break;
-
-            case R.id.unlock_six:
-                enteredPin += "6";
-                break;
-
-            case R.id.unlock_seven:
-                enteredPin += "7";
-                break;
-
-            case R.id.unlock_eight:
-                enteredPin += "8";
-                break;
-
-            case R.id.unlock_nine:
-                enteredPin += "9";
-                break;
-
-            case R.id.unlock_zero:
-                enteredPin += "0";
-                break;
-
             case R.id.unlock_clear_pin:
                 resetPINText();
                 break;
-        }
 
-        updatePIN();
+            case R.id.unlock_logout:
+                Connection.logout();
+                CustomAuthenticator.logout();
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        finish();
+                        if (CustomAuthenticator.getAllAccounts(true).size() == 0) {
+                            startActivity(new Intent(getApplicationContext(), Login.class));
+                        }
+
+                    }
+                }, 100);
+                break;
+        }
     }
 }

@@ -183,7 +183,7 @@ public class ShareFiles extends AppCompatActivity {
             }
             preventLock = true;
             calledForUnlock = true;
-            startActivity(new Intent(getApplicationContext(), Unlock.class));
+            startActivityForResult(new Intent(getApplicationContext(), Unlock.class), 5);
         }
         else {
             new Connect().execute();

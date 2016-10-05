@@ -112,47 +112,12 @@ public class EnablePIN extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void onClick(View view) {
+        if (view.getTag() != null) {
+            enteredPin += view.getTag().toString();
+            updatePIN();
+            return;
+        }
         switch (view.getId()) {
-            case R.id.unlock_one:
-                enteredPin += "1";
-                break;
-
-            case R.id.unlock_two:
-                enteredPin += "2";
-                break;
-
-            case R.id.unlock_three:
-                enteredPin += "3";
-                break;
-
-            case R.id.unlock_four:
-                enteredPin += "4";
-                break;
-
-            case R.id.unlock_five:
-                enteredPin += "5";
-                break;
-
-            case R.id.unlock_six:
-                enteredPin += "6";
-                break;
-
-            case R.id.unlock_seven:
-                enteredPin += "7";
-                break;
-
-            case R.id.unlock_eight:
-                enteredPin += "8";
-                break;
-
-            case R.id.unlock_nine:
-                enteredPin += "9";
-                break;
-
-            case R.id.unlock_zero:
-                enteredPin += "0";
-                break;
-
             case R.id.unlock_clear_pin:
                 resetPIN(false);
                 break;

@@ -29,6 +29,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -109,6 +110,9 @@ public class RemoteFiles extends AppCompatActivity {
     private static AbsListView list;
     private static String globLayout;
     private static Toolbar toolbar;
+    private static Toolbar toolbarBottom;
+    private static ActionMenuView amvMenu;
+    private static Menu bottomContextMenu;
     private static TextView info;
     private static SwipeRefreshLayout mSwipeRefreshLayout;
     private static Menu mToolbarMenu;
@@ -132,6 +136,8 @@ public class RemoteFiles extends AppCompatActivity {
     private static FloatingActionButton fab_paste_cancel;
     private static SearchView searchView = null;
     private static boolean accountsVisible = false;
+    private static ActionMode actionMode;
+    private static boolean bottomToolbarEnabled = false;
 
     // Files
     private static ArrayList<FileItem> items = new ArrayList<>();
@@ -171,12 +177,12 @@ public class RemoteFiles extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         gridSize = displaymetrics.widthPixels / grids;
 
-        setUpInterface();
+        initInterface();
         setView(globLayout);
-        setUpToolbar();
-        setUpDrawer();
-        setUpList();
-        setUpAudioPlayer();
+        initToolbar();
+        initDrawer();
+        initList();
+        initAudioPlayer();
         createTmpFolder();
     }
 
@@ -186,6 +192,7 @@ public class RemoteFiles extends AppCompatActivity {
         preventLock = false;
         appVisible = true;
         loadthumbs = (settings.getString("loadthumb", "").length() == 0) ? false : Boolean.valueOf(settings.getString("loadthumb", ""));
+        bottomToolbarEnabled = (settings.getString("bottomtoolbar", "").length() == 0) ? false : Boolean.valueOf(settings.getString("bottomtoolbar", ""));
 
         if (!CustomAuthenticator.enable(e)) {
             // Not logged in
@@ -200,17 +207,46 @@ public class RemoteFiles extends AppCompatActivity {
             }
             preventLock = true;
             calledForUnlock = true;
-            startActivity(new Intent(e.getApplicationContext(), Unlock.class));
+            startActivityForResult(new Intent(e.getApplicationContext(), Unlock.class), 5);
         }
         else if (forceFullLoad || CustomAuthenticator.activeAccountChanged) {
             forceFullLoad = false;
             new Connect().execute();
         }
 
-        populateAccounts();
+        updateNavigationDrawer();
         username = CustomAuthenticator.getUsername();
         header_user.setText(username);
         header_server.setText(CustomAuthenticator.getServer());
+    }
+
+    private void updateNavigationDrawer() {
+        // Populate accounts
+        Menu menu = mNavigationView.getMenu();
+        ArrayList<String> servers = CustomAuthenticator.getAllAccounts(false);
+        menu.removeGroup(R.id.navigation_drawer_group_accounts);
+
+        for (String server : servers) {
+            menu.add(R.id.navigation_drawer_group_accounts, 1, 0, server).setIcon(R.drawable.ic_account_circle);
+        }
+
+        hideAccounts();
+
+        // Highlight current view
+        switch (viewmode) {
+            case "trash":
+                mNavigationView.setCheckedItem(R.id.navigation_view_item_trash);
+                break;
+            case "sharedbyme":
+                mNavigationView.setCheckedItem(R.id.navigation_view_item_sharedbyme);
+                break;
+            case "sharedwithme":
+                mNavigationView.setCheckedItem(R.id.navigation_view_item_sharedwithme);
+                break;
+            default:
+                mNavigationView.setCheckedItem(R.id.navigation_view_item_files);
+                break;
+        }
     }
 
     protected void onPause() {
@@ -363,7 +399,7 @@ public class RemoteFiles extends AppCompatActivity {
                 int layout = (globLayout.equals("list")) ? R.layout.filelist : R.layout.filegrid;
                 newAdapter = new FileAdapter(e, layout, list, gridSize, loadthumbs, 0);
                 newAdapter.setData(filteredItems);
-                setUpList();
+                initList();
                 list.setAdapter(newAdapter);
                 break;
         }
@@ -371,7 +407,10 @@ public class RemoteFiles extends AppCompatActivity {
         return true;
     }
 
-    private void setUpInterface() {
+    private void initInterface() {
+        toolbarBottom = (Toolbar) findViewById(R.id.toolbar_bottom);
+        amvMenu = (ActionMenuView) toolbarBottom.findViewById(R.id.amvMenu);
+
         tmp_grid = (GridView) findViewById(R.id.grid);
         tmp_list = (ListView) findViewById(R.id.list);
 
@@ -480,7 +519,8 @@ public class RemoteFiles extends AppCompatActivity {
         fab_paste_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cancelClipboard();
+                clipboard = new JSONArray();
+                hidePaste();
             }
         });
 
@@ -502,11 +542,6 @@ public class RemoteFiles extends AppCompatActivity {
         mSwipeRefreshLayout.setColorSchemeResources(R.color.darkgreen, R.color.darkgreen, R.color.darkgreen, R.color.darkgreen);
         mSwipeRefreshLayout.setProgressViewOffset(true, Util.dpToPx(56), Util.dpToPx(56) + 100);
         mSwipeRefreshLayout.setEnabled(true);
-    }
-
-    private static void cancelClipboard() {
-        clipboard = new JSONArray();
-        hidePaste();
     }
 
     private static void showPaste() {
@@ -751,6 +786,16 @@ public class RemoteFiles extends AppCompatActivity {
         }
     }
 
+    public void showBottomToolbar() {
+        toolbarBottom.setVisibility(View.VISIBLE);
+        toggleFAB(true);
+    }
+
+    private void hideBottomToolbar() {
+        toolbarBottom.setVisibility(View.GONE);
+        toggleFAB(false);
+    }
+
     public void showAudioPlayer() {
         player.setVisibility(View.VISIBLE);
         audioTitle.setText(audioFilename);
@@ -913,18 +958,6 @@ public class RemoteFiles extends AppCompatActivity {
     	 }
     }
 
-    public static void populateAccounts() {
-        Menu menu = mNavigationView.getMenu();
-        ArrayList<String> servers = CustomAuthenticator.getAllAccounts(false);
-        menu.removeGroup(R.id.navigation_drawer_group_accounts);
-
-        for (String server : servers) {
-            menu.add(R.id.navigation_drawer_group_accounts, 1, 0, server).setIcon(R.drawable.ic_account_circle);
-        }
-
-        hideAccounts();
-    }
-
     public static void unhideDrawerItem(int id) {
         Menu navMenu = mNavigationView.getMenu();
         navMenu.findItem(id).setVisible(true);
@@ -1050,7 +1083,7 @@ public class RemoteFiles extends AppCompatActivity {
   	    }, 100);
     }
 
-    private void setUpDrawer() {
+    private void initDrawer() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.DrawerLayout);
         mNavigationView = (NavigationView) findViewById(R.id.activity_main_navigation_view);
 
@@ -1165,7 +1198,7 @@ public class RemoteFiles extends AppCompatActivity {
         );
     }
 
-    private void setUpToolbar() {
+    private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -1175,6 +1208,93 @@ public class RemoteFiles extends AppCompatActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        amvMenu.setOnMenuItemClickListener(new ActionMenuView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.selectall:
+                        selectAll();
+                        break;
+
+                    case R.id.rename:
+                        showRename(filteredItems.get(lastSelected).getFilename(), getFirstSelected());
+                        actionMode.finish();
+                        break;
+
+                    case R.id.delete:
+                        new Delete(getAllSelected(), viewmode.equals("trash")).execute();
+                        actionMode.finish();
+                        break;
+
+                    case R.id.restore:
+                        new Restore(e, hierarchy.get(0).getJSON().toString(), getAllSelected()).execute();
+                        actionMode.finish();
+                        break;
+
+                    case R.id.copy:
+                        if (deleteAfterCopy) {
+                            clipboard = new JSONArray();
+                        }
+
+                        deleteAfterCopy = false;
+
+                        for (int i = 0; i < filteredItems.size(); i++) {
+                            if (list.isItemChecked(i)) {
+                                clipboard.put(filteredItems.get(i).getJSON());
+                            }
+                        }
+
+                        Toast.makeText(e, clipboard.length() + " files to copy", Toast.LENGTH_SHORT).show();
+                        showPaste();
+                        actionMode.finish();
+                        break;
+
+                    case R.id.cut:
+                        if (!deleteAfterCopy) {
+                            clipboard = new JSONArray();
+                        }
+
+                        deleteAfterCopy = true;
+
+                        for (int i = 0; i < filteredItems.size(); i++) {
+                            if (list.isItemChecked(i)) {
+                                clipboard.put(filteredItems.get(i).getJSON());
+                            }
+                        }
+
+                        Toast.makeText(e, clipboard.length() + " files to cut", Toast.LENGTH_SHORT).show();
+                        showPaste();
+                        actionMode.finish();
+                        break;
+
+                    case R.id.download:
+                        download(getAllSelected());
+                        actionMode.finish();
+                        break;
+
+                    case R.id.zip:
+                        new Zip(e, hierarchy.get(hierarchy.size() - 1).getJSON().toString(), getAllSelected()).execute();
+                        actionMode.finish();
+                        break;
+
+                    case R.id.share:
+                        showShare(getFirstSelected());
+                        actionMode.finish();
+                        break;
+
+                    case R.id.unshare:
+                        new Unshare(e, getFirstSelected()).execute();
+                        actionMode.finish();
+                        break;
+                }
+                return onOptionsItemSelected(menuItem);
+            }
+        });
+        // Inflate a menu to be displayed in the toolbar
+        MenuInflater inflater = getMenuInflater();
+        bottomContextMenu = amvMenu.getMenu();
+        inflater.inflate(R.menu.remote_files_toolbar_bottom, bottomContextMenu);
     }
 
     private static void setToolbarTitle(final String title) {
@@ -1189,7 +1309,7 @@ public class RemoteFiles extends AppCompatActivity {
         }
     }
 
-    public void setUpList() {
+    public void initList() {
         list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 
         list.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
@@ -1202,13 +1322,23 @@ public class RemoteFiles extends AppCompatActivity {
             public void onDestroyActionMode(ActionMode mode) {
                 toggleFAB(false);
                 unselectAll();
+
+                if (bottomToolbarEnabled) {
+                    hideBottomToolbar();
+                }
             }
 
             @Override
-            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            public boolean onCreateActionMode(ActionMode am, Menu menu) {
+                actionMode = am;
+
                 MenuInflater inflater = getMenuInflater();
                 inflater.inflate(R.menu.remote_files_context, menu);
                 mContextMenu = menu;
+
+                if (bottomToolbarEnabled) {
+                    showBottomToolbar();
+                }
 
                 toggleFAB(true);
                 unselectAll();
@@ -1304,15 +1434,29 @@ public class RemoteFiles extends AppCompatActivity {
                 }
 
                 boolean trash = viewmode.equals("trash");
-
-                mContextMenu.findItem(R.id.restore).setVisible(trash);
                 mContextMenu.findItem(R.id.selectall).setVisible(filteredItems.size() > 0);
-                mContextMenu.findItem(R.id.download).setVisible(!trash);
-                mContextMenu.findItem(R.id.copy).setVisible(!trash);
-                mContextMenu.findItem(R.id.zip).setVisible(!trash);
-                mContextMenu.findItem(R.id.rename).setVisible(!trash && list.getCheckedItemCount() == 1);
-                mContextMenu.findItem(R.id.share).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).getHash().length() == 0 && filteredItems.get(position).getOwner().equals(""));
-                mContextMenu.findItem(R.id.unshare).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).getHash().length() > 0);
+
+                if (bottomToolbarEnabled) {
+                    bottomContextMenu.findItem(R.id.restore).setVisible(trash);
+                    bottomContextMenu.findItem(R.id.download).setVisible(!trash);
+                    bottomContextMenu.findItem(R.id.copy).setVisible(!trash);
+                    bottomContextMenu.findItem(R.id.cut).setVisible(!trash);
+                    bottomContextMenu.findItem(R.id.zip).setVisible(!trash);
+                    bottomContextMenu.findItem(R.id.rename).setVisible(!trash && list.getCheckedItemCount() == 1);
+                    bottomContextMenu.findItem(R.id.share).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).getHash().length() == 0 && filteredItems.get(position).getOwner().equals(""));
+                    bottomContextMenu.findItem(R.id.unshare).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).getHash().length() > 0);
+                }
+                else {
+                    mContextMenu.findItem(R.id.restore).setVisible(trash);
+                    mContextMenu.findItem(R.id.download).setVisible(!trash);
+                    mContextMenu.findItem(R.id.delete).setVisible(true);
+                    mContextMenu.findItem(R.id.copy).setVisible(!trash);
+                    mContextMenu.findItem(R.id.cut).setVisible(!trash);
+                    mContextMenu.findItem(R.id.zip).setVisible(!trash);
+                    mContextMenu.findItem(R.id.rename).setVisible(!trash && list.getCheckedItemCount() == 1);
+                    mContextMenu.findItem(R.id.share).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).getHash().length() == 0 && filteredItems.get(position).getOwner().equals(""));
+                    mContextMenu.findItem(R.id.unshare).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).getHash().length() > 0);
+                }
 
                 lastSelected = position;
                 newAdapter.notifyDataSetChanged();
@@ -1395,7 +1539,7 @@ public class RemoteFiles extends AppCompatActivity {
         }
     }
 
-    private void setUpAudioPlayer() {
+    private void initAudioPlayer() {
         // Prepare audio player
         Intent intent = new Intent();
         intent.setClass(this, AudioService.class);

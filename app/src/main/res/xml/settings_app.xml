@@ -26,6 +26,12 @@
             android:defaultValue="false"/>
 
         <CheckBoxPreference
+            android:key="context"
+            android:title="Enable bottom context menu"
+            android:summary="Disabled"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
             android:id="@+id/pin"
             android:key="pin"
             android:title="PIN"
@@ -40,7 +46,7 @@
             android:id="@+id/app_version"
             android:key="app_version"
             android:title="App version"
-            android:summary="4.2" />
+            android:summary="" />
 
     </PreferenceCategory>
 

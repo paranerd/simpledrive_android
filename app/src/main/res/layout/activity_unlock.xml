@@ -82,6 +82,7 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:tag="1"
                     android:id="@+id/unlock_one"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -93,6 +94,7 @@
                     android:text="1"/>
 
                 <Button
+                    android:tag="2"
                     android:id="@+id/unlock_two"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -104,6 +106,7 @@
                     android:text="2"/>
 
                 <Button
+                    android:tag="3"
                     android:id="@+id/unlock_three"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -121,6 +124,7 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:tag="4"
                     android:id="@+id/unlock_four"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -132,6 +136,7 @@
                     android:text="4"/>
 
                 <Button
+                    android:tag="5"
                     android:id="@+id/unlock_five"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -143,6 +148,7 @@
                     android:text="5"/>
 
                 <Button
+                    android:tag="6"
                     android:id="@+id/unlock_six"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -160,6 +166,7 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:tag="7"
                     android:id="@+id/unlock_seven"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -171,6 +178,7 @@
                     android:text="7"/>
 
                 <Button
+                    android:tag="8"
                     android:id="@+id/unlock_eight"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -182,6 +190,7 @@
                     android:text="8"/>
 
                 <Button
+                    android:tag="9"
                     android:id="@+id/unlock_nine"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -206,6 +215,7 @@
                     android:visibility="invisible"/>
 
                 <Button
+                    android:tag="0"
                     android:id="@+id/unlock_zero"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -224,6 +234,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/unlock_logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -231,7 +242,8 @@
                 android:gravity="center_horizontal"
                 android:textSize="16sp"
                 android:fontFamily="sans-serif"
-                android:text="Sign out" />
+                android:text="Sign out"
+                android:visibility="gone" />
         </LinearLayout>
     </RelativeLayout>
 </ScrollView>
