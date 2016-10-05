@@ -394,13 +394,18 @@ public class RemoteFiles extends AppCompatActivity {
                 break;
 
             case R.id.toggle_view:
-                String next_view = (globLayout.equals("grid")) ? "list" : "grid";
+                globLayout = (globLayout.equals("grid")) ? "list" : "grid";
+                setView(globLayout);
+                initList();
+                displayFiles();
+
+                /*String next_view = (globLayout.equals("grid")) ? "list" : "grid";
                 setView(next_view);
                 int layout = (globLayout.equals("list")) ? R.layout.filelist : R.layout.filegrid;
                 newAdapter = new FileAdapter(e, layout, list, gridSize, loadthumbs, 0);
                 newAdapter.setData(filteredItems);
                 initList();
-                list.setAdapter(newAdapter);
+                list.setAdapter(newAdapter);*/
                 break;
         }
 

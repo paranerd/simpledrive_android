@@ -33,6 +33,7 @@
                     android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_below="@+id/toolbar"
                     android:layout_above="@+id/footer"
                     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -64,7 +65,6 @@
                         android:verticalSpacing="1dp"
                         android:layout_marginLeft="1dp"
                         android:layout_marginRight="1dp"
-                        android:layout_marginTop="60dp"
                         />
 
                     <RelativeLayout
@@ -176,7 +176,8 @@
                         android:id="@+id/audioplayer"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
-                        android:background="@color/darkergreen">
+                        android:background="@color/darkergreen"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/audio_title"
