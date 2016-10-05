@@ -12,6 +12,10 @@
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/menu/editor_toolbar.xml"
     },
     {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/debug/menu/remote_files_toolbar_bottom.xml",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/menu/remote_files_toolbar_bottom.xml"
+    },
+    {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/debug/menu/file_selector_toolbar.xml",
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/menu/file_selector_toolbar.xml"
     },

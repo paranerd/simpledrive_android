@@ -30,7 +30,7 @@ public class CustomAuthenticator {
     private static final String KEY_LOCKED = "locked";
     private static final String KEY_ACTIVE = "active";
     private static final String TRUE = "1";
-    private static final String FALSE = "1";
+    private static final String FALSE = "0";
 
     private static void refresh() {
         am = AccountManager.get(ctx);
@@ -50,6 +50,17 @@ public class CustomAuthenticator {
 
         activeAccountChanged = true;
         return aaccount.length > 0;
+    }
+
+    public static boolean accountExists(String username, String server) {
+        refresh();
+        for (Account a : aaccount) {
+            if (a.name.equals(username + "@" + server)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static boolean addAccount(String username, String password, String server, String token) {

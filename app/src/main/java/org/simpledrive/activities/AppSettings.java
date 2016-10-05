@@ -4,6 +4,8 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.CheckBoxPreference;
@@ -93,6 +95,8 @@ public class AppSettings extends AppCompatActivity {
         private ListPreference fileview;
         private CheckBoxPreference loadthumb;
         private CheckBoxPreference pin;
+        private CheckBoxPreference contextMenu;
+        private Preference version;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -132,6 +136,19 @@ public class AppSettings extends AppCompatActivity {
                 }
             });
 
+            boolean bottomToolbar = (settings.getString("bottomtoolbar", "").length() == 0) ? false : Boolean.valueOf(settings.getString("bottomtoolbar", ""));
+            contextMenu = (CheckBoxPreference) findPreference("context");
+            contextMenu.setChecked(bottomToolbar);
+            contextMenu.setSummary("");
+            contextMenu.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    String bottomToolbar = o.toString();
+                    settings.edit().putString("bottomtoolbar", bottomToolbar).apply();
+                    return true;
+                }
+            });
+
             clearcache = findPreference("clearcache");
             clearcache.setSummary("Size: " + Util.convertSize("" + Util.folderSize(tmpFolder)));
             clearcache.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -153,6 +170,15 @@ public class AppSettings extends AppCompatActivity {
                     return true;
                 }
             });
+
+            version = findPreference("app_version");
+            PackageInfo pInfo;
+            try {
+                pInfo = e.getPackageManager().getPackageInfo(e.getPackageName(), 0);
+                version.setSummary(pInfo.versionName + "(" + pInfo.versionCode + ")");
+            } catch (PackageManager.NameNotFoundException e1) {
+                e1.printStackTrace();
+            }
         }
 
         public void setSummary(String key, String value) {
