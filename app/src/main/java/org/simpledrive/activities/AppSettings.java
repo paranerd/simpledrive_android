@@ -175,7 +175,7 @@ public class AppSettings extends AppCompatActivity {
             PackageInfo pInfo;
             try {
                 pInfo = e.getPackageManager().getPackageInfo(e.getPackageName(), 0);
-                version.setSummary(pInfo.versionName + "(" + pInfo.versionCode + ")");
+                version.setSummary(pInfo.versionName + " (" + pInfo.versionCode + ")");
             } catch (PackageManager.NameNotFoundException e1) {
                 e1.printStackTrace();
             }
