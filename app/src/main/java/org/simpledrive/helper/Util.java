@@ -3,17 +3,16 @@ package org.simpledrive.helper;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
 import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 
 public class Util {
     public static Bitmap getThumb(String file, int size) {
@@ -156,5 +155,20 @@ public class Util {
 
     public static long getTimestamp() {
         return System.currentTimeMillis();
+    }
+
+    public static int[] scaleImage(AppCompatActivity ctx, int img_width, int img_height) {
+        int[] dim = new int[2];
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        ctx.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+
+        float screen_width = displaymetrics.widthPixels;
+        float screen_height = displaymetrics.heightPixels;
+        float shrink_to = (img_height > screen_height || img_width > screen_width) ? Math.min(screen_height, screen_width / img_width) : 1;
+
+        dim[0] = Math.round(img_width * shrink_to);
+        dim[1] = Math.round(img_height * shrink_to);
+
+        return dim;
     }
 }

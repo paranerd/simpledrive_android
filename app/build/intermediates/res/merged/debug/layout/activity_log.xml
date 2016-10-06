@@ -17,6 +17,7 @@
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <RelativeLayout
                 android:background="#f2f2f2"
                 android:layout_width="match_parent"
@@ -45,31 +46,12 @@
                     android:layout_height="match_parent"
                     android:textColor="#ffb3b3b3"
                     android:layout_below="@+id/toolbar"
-                    android:layout_above="@+id/audioplayer"
                     android:choiceMode="singleChoice" />
-
-                <RelativeLayout
-                    android:id="@id/innerlayout"
-                    android:background="#cc000000"
-                    android:visibility="gone"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
-
-                    <TextView
-                        android:textSize="20.0sp"
-                        android:textColor="#ffeeeeee"
-                        android:gravity="center"
-                        android:id="@id/overlay"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:text="Swipe Left"
-                        android:layout_centerHorizontal="true" />
-                </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/logbottom"
                     android:layout_width="match_parent"
-                    android:layout_height="66dp"
+                    android:layout_height="?attr/actionBarSize"
                     android:layout_alignParentBottom="true"
                     android:background="@color/grey2">
 

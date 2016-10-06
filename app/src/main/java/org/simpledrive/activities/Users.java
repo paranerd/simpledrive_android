@@ -97,7 +97,7 @@ public class Users extends AppCompatActivity {
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        new Delete(getFirstSelected()).execute();
+                                        delete(getFirstSelected());
                                     }
 
                                 })
@@ -120,8 +120,7 @@ public class Users extends AppCompatActivity {
 
         list = (ListView) findViewById(R.id.list);
         setUpList();
-
-        new FetchUsers().execute();
+        fetchUsers();
     }
 
     public void setUpToolbar() {
@@ -163,32 +162,34 @@ public class Users extends AppCompatActivity {
         });
     }
 
-    private class FetchUsers extends AsyncTask<String, String, HashMap<String, String>> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected HashMap<String, String> doInBackground(String... args) {
-            Connection con = new Connection("users", "get");
-
-            return con.finish();
-        }
-
-        @Override
-        protected void onPostExecute(HashMap<String, String> result) {
-            if(result == null || !result.get("status").equals("ok")) {
-                String msg = (result == null) ? getResources().getString(R.string.unknown_error) : result.get("msg");
-                info.setVisibility(View.VISIBLE);
-                info.setText(msg);
+    private void fetchUsers() {
+        new AsyncTask<Void, Void, HashMap<String, String>>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
             }
-            else {
-                info.setVisibility(View.INVISIBLE);
-                extractFiles(result.get("msg"));
-                displayUsers();
+
+            @Override
+            protected HashMap<String, String> doInBackground(Void... args) {
+                Connection con = new Connection("users", "get");
+
+                return con.finish();
             }
-        }
+
+            @Override
+            protected void onPostExecute(HashMap<String, String> result) {
+                if(result == null || !result.get("status").equals("ok")) {
+                    String msg = (result == null) ? getResources().getString(R.string.unknown_error) : result.get("msg");
+                    info.setVisibility(View.VISIBLE);
+                    info.setText(msg);
+                }
+                else {
+                    info.setVisibility(View.INVISIBLE);
+                    extractFiles(result.get("msg"));
+                    displayUsers();
+                }
+            }
+        }.execute();
     }
 
     /**
@@ -293,7 +294,7 @@ public class Users extends AppCompatActivity {
                     Toast.makeText(e, "Passwords don't match", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    new Create(username.getText().toString(), pass1.getText().toString(), admin.isChecked()).execute();
+                    create(username.getText().toString(), pass1.getText().toString(), admin.isChecked());
                     dialog2.dismiss();
                 }
             }
@@ -303,76 +304,64 @@ public class Users extends AppCompatActivity {
         showVirtualKeyboard();
     }
 
-    private class Create extends AsyncTask<String, String, HashMap<String, String>> {
-        private String username;
-        private String pass;
-        private int admin;
-
-        public Create(String username, String pass, boolean admin) {
-            Log.i(username, pass);
-            this.username = username;
-            this.pass = pass;
-            this.admin = (admin) ? 1 : 0;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            e.setProgressBarIndeterminateVisibility(true);
-        }
-
-        @Override
-        protected HashMap<String, String> doInBackground(String... pos) {
-            Connection con = new Connection("users", "create");
-            con.addFormField("user", username);
-            con.addFormField("pass", pass);
-            con.addFormField("admin", Integer.toString(this.admin));
-            con.addFormField("mail", "");
-
-            return con.finish();
-        }
-
-        @Override
-        protected void onPostExecute(HashMap<String, String> result) {
-            if (result.get("status").equals("ok")) {
-                new FetchUsers().execute();
+    private void create(final String username, final String pass, final boolean admin) {
+        new AsyncTask<Void, Void, HashMap<String, String>>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                e.setProgressBarIndeterminateVisibility(true);
             }
-            else {
-                Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+
+            @Override
+            protected HashMap<String, String> doInBackground(Void... pos) {
+                String a = (admin) ? "1" : "0";
+                Connection con = new Connection("users", "create");
+                con.addFormField("user", username);
+                con.addFormField("pass", pass);
+                con.addFormField("admin", a);
+                con.addFormField("mail", "");
+
+                return con.finish();
             }
-        }
+
+            @Override
+            protected void onPostExecute(HashMap<String, String> result) {
+                if (result.get("status").equals("ok")) {
+                    fetchUsers();
+                }
+                else {
+                    Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
     }
 
-    private class Delete extends AsyncTask<String, String, HashMap<String, String>> {
-        private String username;
-
-        public Delete(String username) {
-            this.username = username;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            e.setProgressBarIndeterminateVisibility(true);
-        }
-
-        @Override
-        protected HashMap<String, String> doInBackground(String... params) {
-            Connection con = new Connection("users", "delete");
-            con.addFormField("user", username);
-
-            return con.finish();
-        }
-
-        @Override
-        protected void onPostExecute(HashMap<String, String> result) {
-            if (result.get("status").equals("ok")) {
-                new FetchUsers().execute();
+    private void delete(final String username) {
+        new AsyncTask<Void, Void, HashMap<String, String>>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                e.setProgressBarIndeterminateVisibility(true);
             }
-            else {
-                Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+
+            @Override
+            protected HashMap<String, String> doInBackground(Void... params) {
+                Connection con = new Connection("users", "delete");
+                con.addFormField("user", username);
+
+                return con.finish();
             }
-        }
+
+            @Override
+            protected void onPostExecute(HashMap<String, String> result) {
+                if (result.get("status").equals("ok")) {
+                    fetchUsers();
+                }
+                else {
+                    Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
     }
 
     private void showVirtualKeyboard() {

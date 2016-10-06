@@ -1,8 +1,5 @@
 package org.simpledrive.helper;
 
-import android.content.Context;
-import android.util.Log;
-
 import org.json.JSONObject;
 import org.simpledrive.authenticator.CustomAuthenticator;
 
@@ -53,13 +50,10 @@ public class Connection {
     private String downloadPath;
     private String downloadFilename;
 
-    public void setListener(final ProgressListener listener) {
-        this.listener = listener;
-    }
-
     public Connection(String endpoint, String action) {
         this(CustomAuthenticator.getServer(), endpoint, action);
     }
+
     /**
      * This constructor initializes a new HTTP POST request
      *
@@ -84,6 +78,10 @@ public class Connection {
         } catch (NoSuchAlgorithmException | IOException | KeyManagementException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setListener(final ProgressListener listener) {
+        this.listener = listener;
     }
 
     /**

@@ -62,8 +62,7 @@ public class UserDetails extends AppCompatActivity {
         }
 
         setToolbarTitle(username);
-
-        new GetStatus().execute();
+        getStatus(username);
     }
 
     public static class PrefsFragment extends PreferenceFragment {
@@ -83,7 +82,7 @@ public class UserDetails extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     String admin = (o.toString().equals("true")) ? "1" : "0";
-                    new Update().execute("admin", admin);
+                    update(username, "admin", admin);
                     return false;
                 }
             });
@@ -93,7 +92,7 @@ public class UserDetails extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     String value = Long.toString(Util.stringToByte(o.toString()));
-                    new Update().execute("quota", value);
+                    update(username, "quota", value);
                     return false;
                 }
             });
@@ -116,97 +115,103 @@ public class UserDetails extends AppCompatActivity {
         }
     }
 
-    private static class GetStatus extends AsyncTask<Integer, String, HashMap<String, String>> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            e.setProgressBarIndeterminateVisibility(true);
-        }
-
-        @Override
-        protected HashMap<String, String> doInBackground(Integer... pos) {
-            Connection multipart = new Connection("users", "get");
-            multipart.addFormField("user", username);
-
-            return multipart.finish();
-        }
-        @Override
-        protected void onPostExecute(HashMap<String, String> result) {
-            e.setProgressBarIndeterminateVisibility(false);
-            if (result.get("status").equals("ok")) {
-                try {
-                    JSONObject job = new JSONObject(result.get("msg"));
-                    String admin = job.getString("admin");
-
-                    prefsFragment.setChecked("user_admin", admin.equals("1"));
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
+    private static void getStatus(final String username) {
+        new AsyncTask<Void, Void, HashMap<String, String>>() {
+            protected void onPreExecute() {
+                super.onPreExecute();
+                e.setProgressBarIndeterminateVisibility(true);
             }
 
-            new GetQuota().execute();
-        }
+            @Override
+            protected HashMap<String, String> doInBackground(Void... pos) {
+                Connection multipart = new Connection("users", "get");
+                multipart.addFormField("user", username);
+
+                return multipart.finish();
+            }
+            @Override
+            protected void onPostExecute(HashMap<String, String> result) {
+                e.setProgressBarIndeterminateVisibility(false);
+                if (result.get("status").equals("ok")) {
+                    try {
+                        JSONObject job = new JSONObject(result.get("msg"));
+                        String admin = job.getString("admin");
+
+                        prefsFragment.setChecked("user_admin", admin.equals("1"));
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+
+                getQuota(username);
+            }
+        }.execute();
     }
 
-    private static class GetQuota extends AsyncTask<Integer, String, HashMap<String, String>> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            e.setProgressBarIndeterminateVisibility(true);
-        }
+    private static void getQuota(final String username) {
+        new AsyncTask<Void, Void, HashMap<String, String>>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                e.setProgressBarIndeterminateVisibility(true);
+            }
 
-        @Override
-        protected HashMap<String, String> doInBackground(Integer... pos) {
-            Connection multipart = new Connection("users", "quota");
-            multipart.addFormField("user", username);
-            multipart.addFormField("value", "0");
+            @Override
+            protected HashMap<String, String> doInBackground(Void... pos) {
+                Connection multipart = new Connection("users", "quota");
+                multipart.addFormField("user", username);
+                multipart.addFormField("value", "0");
 
-            return multipart.finish();
-        }
-        @Override
-        protected void onPostExecute(HashMap<String, String> result) {
-            e.setProgressBarIndeterminateVisibility(false);
-            if (result.get("status").equals("ok")) {
-                try {
-                    JSONObject job = new JSONObject(result.get("msg"));
-                    String used = job.getString("used");
-                    String max = job.getString("max");
+                return multipart.finish();
+            }
+            @Override
+            protected void onPostExecute(HashMap<String, String> result) {
+                e.setProgressBarIndeterminateVisibility(false);
+                if (result.get("status").equals("ok")) {
+                    try {
+                        JSONObject job = new JSONObject(result.get("msg"));
+                        String used = job.getString("used");
+                        String max = job.getString("max");
 
-                    prefsFragment.setSummary("user_quota_max", Util.convertSize(max));
-                    prefsFragment.setSummary("user_quota_used", Util.convertSize(used));
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
+                        prefsFragment.setSummary("user_quota_max", Util.convertSize(max));
+                        prefsFragment.setSummary("user_quota_used", Util.convertSize(used));
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
                 }
             }
-        }
+        }.execute();
     }
 
-    private static class Update extends AsyncTask<String, String, HashMap<String, String>> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            e.setProgressBarIndeterminateVisibility(true);
-        }
-
-        @Override
-        protected HashMap<String, String> doInBackground(String... pos) {
-            Connection multipart = new Connection("users", "update");
-            multipart.addFormField("user", username);
-            multipart.addFormField("key", pos[0]);
-            multipart.addFormField("value", pos[1]);
-
-            return multipart.finish();
-        }
-        @Override
-        protected void onPostExecute(HashMap<String, String> result) {
-            e.setProgressBarIndeterminateVisibility(false);
-            if (result.get("status").equals("ok")) {
-                new GetStatus().execute();
+    private static void update(final String username, final String key, final String value) {
+        new AsyncTask<Void, Void, HashMap<String, String>>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                e.setProgressBarIndeterminateVisibility(true);
             }
-            else {
-                Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+
+            @Override
+            protected HashMap<String, String> doInBackground(Void... pos) {
+                Connection multipart = new Connection("users", "update");
+                multipart.addFormField("user", username);
+                multipart.addFormField("key", key);
+                multipart.addFormField("value", value);
+
+                return multipart.finish();
             }
-        }
+
+            @Override
+            protected void onPostExecute(HashMap<String, String> result) {
+                e.setProgressBarIndeterminateVisibility(false);
+                if (result.get("status").equals("ok")) {
+                    e.getStatus(username);
+                }
+                else {
+                    Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
     }
 
     private void setToolbarTitle(final String title) {

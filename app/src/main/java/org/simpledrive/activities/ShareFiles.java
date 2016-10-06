@@ -31,7 +31,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
@@ -129,7 +128,7 @@ public class ShareFiles extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new ListContent().execute();
+                fetchFiles();
             }
         });
         mSwipeRefreshLayout.setColorSchemeResources(R.color.darkgreen, R.color.darkgreen, R.color.darkgreen, R.color.darkgreen);
@@ -186,7 +185,7 @@ public class ShareFiles extends AppCompatActivity {
             startActivityForResult(new Intent(getApplicationContext(), Unlock.class), 5);
         }
         else {
-            new Connect().execute();
+            connect();
         }
 
         username = CustomAuthenticator.getUsername();
@@ -200,33 +199,35 @@ public class ShareFiles extends AppCompatActivity {
         super.onPause();
     }
 
-    public static class ListContent extends AsyncTask<String, String, HashMap<String, String>> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mSwipeRefreshLayout.setRefreshing(true);
-        }
-
-        @Override
-        protected HashMap<String, String> doInBackground(String... args) {
-            Connection con = new Connection("files", "list");
-            con.addFormField("target", hierarchy.get(hierarchy.size() - 1).getJSON().toString());
-            con.addFormField("mode", "files");
-
-            return con.finish();
-        }
-
-        @Override
-        protected void onPostExecute(HashMap<String, String> value) {
-            mSwipeRefreshLayout.setRefreshing(false);
-            if(value.get("status").equals("ok")) {
-                extractFiles(value.get("msg"));
-                displayFiles();
+    private static void fetchFiles() {
+        new AsyncTask<Void, Void, HashMap<String, String>>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                mSwipeRefreshLayout.setRefreshing(true);
             }
-            else {
-                new Connect().execute();
+
+            @Override
+            protected HashMap<String, String> doInBackground(Void... args) {
+                Connection con = new Connection("files", "list");
+                con.addFormField("target", hierarchy.get(hierarchy.size() - 1).getJSON().toString());
+                con.addFormField("mode", "files");
+
+                return con.finish();
             }
-        }
+
+            @Override
+            protected void onPostExecute(HashMap<String, String> result) {
+                mSwipeRefreshLayout.setRefreshing(false);
+                if (result.get("status").equals("ok")) {
+                    extractFiles(result.get("msg"));
+                    displayFiles();
+                }
+                else {
+                    connect();
+                }
+            }
+        }.execute();
     }
 
     /**
@@ -307,64 +308,66 @@ public class ShareFiles extends AppCompatActivity {
     public void openFile(int position) {
         FileItem item = items.get(position);
         hierarchy.add(item);
-        new ListContent().execute();
+        fetchFiles();
     }
 
-    public static class Connect extends AsyncTask<String, String, HashMap<String, String>> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected HashMap<String, String> doInBackground(String... login) {
-            Connection con = new Connection("core", "login");
-            con.addFormField("user", CustomAuthenticator.getUsername());
-            con.addFormField("pass", CustomAuthenticator.getPassword());
-            con.forceSetCookie();
-
-            return con.finish();
-        }
-        @Override
-        protected void onPostExecute(HashMap<String, String> value) {
-            if(value.get("status").equals("ok")) {
-                try {
-                    hierarchy = new ArrayList<>();
-
-                    JSONObject currDirJSON = new JSONObject();
-                    currDirJSON.put("path", "");
-                    currDirJSON.put("rootshare", "");
-
-                    FileItem currDir = new FileItem(currDirJSON, "", "");
-                    hierarchy.add(currDir);
-
-                    CustomAuthenticator.updateToken(value.get("msg"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                new ListContent().execute();
+    private static void connect() {
+        new AsyncTask<Void, Void, HashMap<String, String>>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
             }
-            else {
-                // No connection
-                info.setVisibility(View.VISIBLE);
-                info.setText(R.string.reconnect_error);
 
-                if (newAdapter != null) {
-                    newAdapter.setData(null);
-                    newAdapter.notifyDataSetChanged();
-                }
+            @Override
+            protected HashMap<String, String> doInBackground(Void... params) {
+                Connection con = new Connection("core", "login");
+                con.addFormField("user", CustomAuthenticator.getUsername());
+                con.addFormField("pass", CustomAuthenticator.getPassword());
+                con.forceSetCookie();
 
-                mSwipeRefreshLayout.setRefreshing(false);
-                mSwipeRefreshLayout.setEnabled(true);
+                return con.finish();
             }
-        }
+            @Override
+            protected void onPostExecute(HashMap<String, String> result) {
+                if (result.get("status").equals("ok")) {
+                    try {
+                        hierarchy = new ArrayList<>();
+
+                        JSONObject currDirJSON = new JSONObject();
+                        currDirJSON.put("path", "");
+                        currDirJSON.put("rootshare", "");
+
+                        FileItem currDir = new FileItem(currDirJSON, "", "");
+                        hierarchy.add(currDir);
+
+                        CustomAuthenticator.updateToken(result.get("msg"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    fetchFiles();
+                }
+                else {
+                    // No connection
+                    info.setVisibility(View.VISIBLE);
+                    info.setText(R.string.connection_error);
+
+                    if (newAdapter != null) {
+                        newAdapter.setData(null);
+                        newAdapter.notifyDataSetChanged();
+                    }
+
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    mSwipeRefreshLayout.setEnabled(true);
+                }
+            }
+        }.execute();
     }
 
     public void onBackPressed() {
         if (hierarchy.size() > 1) {
             hierarchy.remove(hierarchy.size() - 1);
-            new ListContent().execute();
+            fetchFiles();
         }
         else {
             super.onBackPressed();
@@ -382,7 +385,7 @@ public class ShareFiles extends AppCompatActivity {
 
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                new Create(e, hierarchy.get(hierarchy.size() - 1).getJSON().toString(), input.getText().toString(), type).execute();
+                create(hierarchy.get(hierarchy.size() - 1).getJSON().toString(), input.getText().toString(), type);
             }
         });
 
@@ -482,43 +485,33 @@ public class ShareFiles extends AppCompatActivity {
         registerForContextMenu(list);
     }
 
-    public static class Create extends AsyncTask<String, String, HashMap<String, String>> {
-        private AppCompatActivity e;
-        private String target;
-        private String filename;
-        private String type;
-
-        public Create(AppCompatActivity act, String target, String filename, String type) {
-            this.e = act;
-            this.target = target;
-            this.type = type;
-            this.filename = filename;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            e.setProgressBarIndeterminateVisibility(true);
-        }
-
-        @Override
-        protected HashMap<String, String> doInBackground(String... params) {
-            Connection con = new Connection("files", "create");
-            con.addFormField("target", target);
-            con.addFormField("filename", filename);
-            con.addFormField("type", type);
-
-            return con.finish();
-        }
-
-        @Override
-        protected void onPostExecute(HashMap<String, String> value) {
-            if(value.get("status").equals("ok")) {
-                new ListContent().execute();
+    private static void create(final String target, final String filename, final String type) {
+        new AsyncTask<Void, Void, HashMap<String, String>>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                e.setProgressBarIndeterminateVisibility(true);
             }
-            else {
-                Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
+
+            @Override
+            protected HashMap<String, String> doInBackground(Void... params) {
+                Connection con = new Connection("files", "create");
+                con.addFormField("target", target);
+                con.addFormField("filename", filename);
+                con.addFormField("type", type);
+
+                return con.finish();
             }
-        }
+
+            @Override
+            protected void onPostExecute(HashMap<String, String> result) {
+                if (result.get("status").equals("ok")) {
+                    fetchFiles();
+                }
+                else {
+                    Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
     }
 }

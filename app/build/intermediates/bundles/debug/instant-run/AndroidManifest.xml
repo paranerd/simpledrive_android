@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.simpledrive"
-    android:versionCode="71"
-    android:versionName="5.1" >
+    android:versionCode="73"
+    android:versionName="5.1.2" >
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -89,11 +89,6 @@
         <activity
             android:name="org.simpledrive.activities.ServerSettings"
             android:label="Server"
-            android:theme="@style/MainTheme" >
-        </activity>
-        <activity
-            android:name="org.simpledrive.activities.Servers"
-            android:label="Servers"
             android:theme="@style/MainTheme" >
         </activity>
         <activity

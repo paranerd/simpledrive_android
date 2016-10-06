@@ -74,7 +74,7 @@ public class EnablePIN extends AppCompatActivity implements View.OnClickListener
     private void updatePIN() {
         String text = "";
         for (int i = 0; i < enteredPin.length(); i++) {
-            text += "*";
+            text += "\u25CF";
         }
         pin.setText(text);
 

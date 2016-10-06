@@ -67,24 +67,6 @@
                         android:layout_marginRight="1dp"
                         />
 
-                    <RelativeLayout
-                        android:id="@id/innerlayout"
-                        android:background="#cc000000"
-                        android:visibility="gone"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent">
-
-                        <TextView
-                            android:textSize="20.0sp"
-                            android:textColor="#ffeeeeee"
-                            android:gravity="center"
-                            android:id="@id/overlay"
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:text="Swipe Left"
-                            android:layout_centerHorizontal="true" />
-                    </RelativeLayout>
-
                     <android.support.design.widget.FloatingActionButton
                         android:id="@+id/fab"
                         android:layout_width="wrap_content"
@@ -103,13 +85,12 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom|end"
                         android:layout_marginRight="16dp"
-                        android:layout_marginBottom="96dp"
+                        android:layout_marginBottom="88dp"
                         android:elevation="7dp"
                         app:backgroundTint="@color/darkgreen"
                         android:src="@drawable/ic_upload"
                         android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true"
-                        android:visibility="gone"/>
+                        android:layout_alignParentBottom="true" />
 
                     <android.support.design.widget.FloatingActionButton
                         android:id="@+id/fab_file"
@@ -117,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom|end"
                         android:layout_marginBottom="16dp"
-                        android:layout_marginRight="176dp"
+                        android:layout_marginRight="156dp"
                         android:elevation="7dp"
                         app:backgroundTint="@color/darkgreen"
                         android:src="@drawable/ic_unknown"
@@ -131,7 +112,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom|end"
                         android:layout_marginBottom="16dp"
-                        android:layout_marginRight="96dp"
+                        android:layout_marginRight="88dp"
                         android:elevation="7dp"
                         app:backgroundTint="@color/darkgreen"
                         android:src="@drawable/ic_folder"
@@ -158,7 +139,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom|end"
                         android:layout_marginBottom="16dp"
-                        android:layout_marginLeft="96dp"
+                        android:layout_marginLeft="88dp"
                         android:elevation="7dp"
                         app:backgroundTint="@color/darkgreen"
                         android:src="@drawable/ic_close"

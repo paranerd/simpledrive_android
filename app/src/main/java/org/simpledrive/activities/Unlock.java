@@ -76,13 +76,13 @@ public class Unlock extends AppCompatActivity implements View.OnClickListener{
         logout.setVisibility(View.VISIBLE);
         logout.setOnClickListener(this);
 
-        setError(true);
+        showError();
     }
 
     private void updatePIN() {
         String text = "";
         for (int i = 0; i < enteredPin.length(); i++) {
-            text += "*";
+            text += "\u25CF";
         }
         pin.setText(text);
 
@@ -91,21 +91,16 @@ public class Unlock extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
-    private void setError(boolean justCheck) {
-        String errorMsg = "";
-        Long cooldown = CustomAuthenticator.getCooldown();
-        Long remainingUnlockAttempts = CustomAuthenticator.getRemainingUnlockAttempts();
+    private void showError() {
+        long cooldown = CustomAuthenticator.getCooldown();
+        long remainingUnlockAttempts = CustomAuthenticator.getRemainingUnlockAttempts();
 
         if (cooldown > 0) {
-            errorMsg = "Locked for " + (cooldown / 1000) + " second(s).";
+            error.setText("Locked for " + cooldown + " second(s).");
         }
-        else if (remainingUnlockAttempts < CustomAuthenticator.MAX_UNLOCK_ATTEMPTS) {
-            errorMsg = "Incorrect PIN, " + remainingUnlockAttempts + " attempt(s) remaining";
+        else if (CustomAuthenticator.MAX_UNLOCK_ATTEMPTS - remainingUnlockAttempts > 0 && remainingUnlockAttempts > 0) {
+            error.setText("Incorrect PIN, " + remainingUnlockAttempts + " attempt(s) remaining");
         }
-        else if (!justCheck) {
-            errorMsg = "Incorrect PIN";
-        }
-        error.setText(errorMsg);
     }
 
     private void resetPINText() {
@@ -119,7 +114,7 @@ public class Unlock extends AppCompatActivity implements View.OnClickListener{
             return;
         }
 
-        setError(false);
+        showError();
         resetPINText();
     }
 

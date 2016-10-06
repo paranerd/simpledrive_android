@@ -3,8 +3,8 @@ package org.simpledrive.activities;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,7 +23,7 @@ import java.util.HashMap;
 
 import org.simpledrive.helper.Connection;
 
-public class Editor extends ActionBarActivity {
+public class Editor extends AppCompatActivity {
 
     // General
     public static Editor e;
@@ -90,8 +90,7 @@ public class Editor extends ActionBarActivity {
         });
 
         maximizeEditor();
-
-        new Load().execute();
+        load(file);
     }
 
     public void onBackPressed() {
@@ -148,72 +147,86 @@ public class Editor extends ActionBarActivity {
                 if(toolbar != null) {
                     toolbar.setSubtitle("Saving...");
                 }
-                new Save().execute();
+                save(file, editor.getText().toString());
                 break;
         }
         return true;
     }
 
-    private class Load extends AsyncTask<Integer, String, HashMap<String, String>> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            e.setProgressBarIndeterminateVisibility(true);
-        }
+    private void load(final String target) {
+        new AsyncTask<Void, Void, HashMap<String, String>>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                e.setProgressBarIndeterminateVisibility(true);
+            }
 
-        @Override
-        protected HashMap<String, String> doInBackground(Integer... pos) {
-            Connection multipart = new Connection("files", "loadtext");
-            multipart.addFormField("target", file);
+            @Override
+            protected HashMap<String, String> doInBackground(Void... pos) {
+                Connection multipart = new Connection("files", "loadtext");
+                multipart.addFormField("target", target);
 
-            return multipart.finish();
-        }
-        @Override
-        protected void onPostExecute(HashMap<String, String> value) {
-            e.setProgressBarIndeterminateVisibility(false);
-            if(value.get("status").equals("ok")) {
-                editor.setText(value.get("msg"));
-                saved = true;
-                if(toolbar != null) {
-                    toolbar.setTitle(filename);
-                    toolbar.setSubtitle("Saved.");
+                return multipart.finish();
+            }
+            @Override
+            protected void onPostExecute(HashMap<String, String> value) {
+                e.setProgressBarIndeterminateVisibility(false);
+                if(value.get("status").equals("ok")) {
+                    editor.setText(value.get("msg"));
+                    saved = true;
+                    setToolbarTitle(filename);
+                    setToolbarSubtitle("Saved.");
+                }
+                else {
+                    Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
                 }
             }
-            else {
-                Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
+        }.execute();
+    }
+
+    private void save(final String target, final String data) {
+        new AsyncTask<Void, Void, HashMap<String, String>>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                e.setProgressBarIndeterminateVisibility(true);
             }
+
+            @Override
+            protected HashMap<String, String> doInBackground(Void... pos) {
+                Connection multipart = new Connection("files", "savetext");
+                multipart.addFormField("target", target);
+                multipart.addFormField("data", data);
+
+                return multipart.finish();
+            }
+            @Override
+            protected void onPostExecute(HashMap<String, String> value) {
+                e.setProgressBarIndeterminateVisibility(false);
+                if(value.get("status").equals("ok")) {
+                    saved = true;
+                    if(toolbar != null) {
+                        toolbar.setTitle(filename);
+                        toolbar.setSubtitle("Saved.");
+                    }
+                    invalidateOptionsMenu();
+                }
+                else {
+                    Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
+    }
+
+    private static void setToolbarTitle(final String title) {
+        if (e.getSupportActionBar() != null) {
+            e.getSupportActionBar().setTitle(title);
         }
     }
 
-    private class Save extends AsyncTask<Integer, String, HashMap<String, String>> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            e.setProgressBarIndeterminateVisibility(true);
-        }
-
-        @Override
-        protected HashMap<String, String> doInBackground(Integer... pos) {
-            Connection multipart = new Connection("files", "savetext");
-            multipart.addFormField("target", file);
-            multipart.addFormField("data", editor.getText().toString());
-
-            return multipart.finish();
-        }
-        @Override
-        protected void onPostExecute(HashMap<String, String> value) {
-            e.setProgressBarIndeterminateVisibility(false);
-            if(value.get("status").equals("ok")) {
-                saved = true;
-                if(toolbar != null) {
-                    toolbar.setTitle(filename);
-                    toolbar.setSubtitle("Saved.");
-                }
-                invalidateOptionsMenu();
-            }
-            else {
-                Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
-            }
+    private static void setToolbarSubtitle(final String subtitle) {
+        if (e.getSupportActionBar() != null) {
+            e.getSupportActionBar().setSubtitle(subtitle);
         }
     }
 }
