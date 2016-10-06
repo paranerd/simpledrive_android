@@ -11,12 +11,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.simpledrive.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.Connection;
+import org.simpledrive.helper.FileItem;
 
 public class Login extends AppCompatActivity {
     // Interface
@@ -28,15 +32,9 @@ public class Login extends AppCompatActivity {
     private static String password;
     private static String server;
 
-    // General
-    private static Login e;
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        e = this;
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
@@ -58,7 +56,7 @@ public class Login extends AppCompatActivity {
 
                 // Check if server, username, password is filled
                 if (server.length() == 0 || username.length() == 0 || password.length() == 0) {
-                    Toast.makeText(getApplicationContext(), "No blank fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.no_blank_fields, Toast.LENGTH_SHORT).show();
                 }
                 else {
                     if (server.length() > 3 && !server.substring(0, 4).matches("http")) {
@@ -68,62 +66,63 @@ public class Login extends AppCompatActivity {
                     if (!server.substring(server.length() - 1).equals("/")) {
                         server += "/";
                     }
-                    new LoginTask().execute();
+
+                    login();
                 }
             }
         });
     }
 
-    public class LoginTask extends AsyncTask<String, String, HashMap<String, String>> {
-      	private ProgressDialog pDialog;
-
-      	@Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(Login.this);
-            pDialog.setMessage("Login ...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.show();
-        }
-      	
-      	@Override
-        protected HashMap<String, String> doInBackground(String... login) {
-            Connection con = new Connection(server, "core", "login");
-            con.addFormField("user", username);
-            con.addFormField("pass", password);
-            con.forceSetCookie();
-
-            return con.finish();
-        }
-        @Override
-        protected void onPostExecute(HashMap<String, String> value) {
-            pDialog.dismiss();
-
-            if(value == null) {
-                Toast.makeText(Login.this, "Connection error", Toast.LENGTH_SHORT).show();
+    public void login() {
+        final ProgressDialog pDialog = new ProgressDialog(Login.this);
+        new AsyncTask<Void, Void, HashMap<String, String>>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                pDialog.setMessage("Login...");
+                pDialog.setIndeterminate(false);
+                pDialog.setCancelable(true);
+                pDialog.show();
             }
-            else if (value.get("status").equals("ok")) {
-                if (CustomAuthenticator.addAccount(username, password, server, value.get("msg"))) {
-                    Intent i = new Intent(getApplicationContext(), RemoteFiles.class);
-                    if (getCallingActivity() != null) {
-                        setResult(RESULT_OK, i);
+
+            @Override
+            protected HashMap<String, String> doInBackground(Void... login) {
+                Connection con = new Connection(server, "core", "login");
+                con.addFormField("user", username);
+                con.addFormField("pass", password);
+                con.forceSetCookie();
+
+                return con.finish();
+            }
+            @Override
+            protected void onPostExecute(HashMap<String, String> value) {
+                pDialog.dismiss();
+
+                if(value == null) {
+                    Toast.makeText(Login.this, R.string.connection_error, Toast.LENGTH_SHORT).show();
+                }
+                else if (value.get("status").equals("ok")) {
+                    if (CustomAuthenticator.addAccount(username, password, server, value.get("msg"))) {
+                        Intent i = new Intent(getApplicationContext(), RemoteFiles.class);
+                        if (getCallingActivity() != null) {
+                            setResult(RESULT_OK, i);
+                        }
+                        else {
+                            startActivity(i);
+                        }
+                        finish();
+                    }
+                    else if (CustomAuthenticator.accountExists(username, server)) {
+                        Toast.makeText(Login.this, R.string.account_exists, Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        startActivity(i);
+                        Toast.makeText(Login.this, R.string.login_error, Toast.LENGTH_SHORT).show();
                     }
-                    finish();
-                }
-                else if (CustomAuthenticator.accountExists(username, server)) {
-                    Toast.makeText(Login.this, "Account already exists", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(Login.this, "Error logging in", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, value.get("msg"), Toast.LENGTH_SHORT).show();
                 }
             }
-            else {
-                Toast.makeText(Login.this, value.get("msg"), Toast.LENGTH_SHORT).show();
-            }
-        }
+        }.execute();
     }
 }

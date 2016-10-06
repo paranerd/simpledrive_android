@@ -142,7 +142,7 @@ public class FileSelector extends AppCompatActivity {
             });
         }
 
-        new ListContent().execute();
+        fetchFiles();
     }
 
     @Override
@@ -187,7 +187,7 @@ public class FileSelector extends AppCompatActivity {
 
         } else if (hierarchy.size() > 1) {
             hierarchy.remove(hierarchy.size() - 1);
-            new ListContent().execute();
+            fetchFiles();
 
         } else {
             Intent returnIntent = new Intent();
@@ -200,7 +200,7 @@ public class FileSelector extends AppCompatActivity {
         if (items.get(position).is("folder")) {
             hierarchy.get(hierarchy.size() - 1).setScrollPos(position);
             hierarchy.add(items.get(position));
-            new ListContent().execute();
+            fetchFiles();
         }
         else {
             Intent i = new Intent();
@@ -237,78 +237,80 @@ public class FileSelector extends AppCompatActivity {
         return l.toArray(new String[l.size()]);
     }
 
-    private class ListContent extends AsyncTask<String, String, ArrayList<FileItem>> {
-        ProgressDialog pDialog;
+    private void fetchFiles() {
+        new AsyncTask<Void, Void, ArrayList<FileItem>>() {
+            ProgressDialog pDialog;
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(FileSelector.this);
-            pDialog.setMessage("Loading files ...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                pDialog = new ProgressDialog(FileSelector.this);
+                pDialog.setMessage("Loading files ...");
+                pDialog.setIndeterminate(false);
+                pDialog.setCancelable(false);
+                pDialog.show();
 
-            firstFilePos = null;
-            items = new ArrayList<>();
+                firstFilePos = null;
+                items = new ArrayList<>();
 
-            if (mAdapter != null) {
-                mAdapter.cancelThumbLoad();
-            }
-        }
-
-        @Override
-        protected ArrayList<FileItem> doInBackground(String... args) {
-            String dirPath = hierarchy.get(hierarchy.size() - 1).getPath();
-            File dir = new File(dirPath);
-
-            File[] elements = dir.listFiles();
-            for (File file : elements) {
-                String filename = file.getName();
-                String path = file.getAbsolutePath();
-                String size = (file.isDirectory()) ? ((file.listFiles().length == 1) ? file.listFiles().length + " element" : file.listFiles().length + " elements") : Util.convertSize(file.length() + "");
-                Bitmap icon;
-                String type = (file.isDirectory()) ? "folder" : getMimeType(file);
-
-                switch (type) {
-                    case "folder":
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
-                        break;
-                    case "image":
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_image);
-                        break;
-                    case "audio":
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_audio);
-                        break;
-                    case "pdf":
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_pdf);
-                        break;
-                    default:
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown);
-                }
-
-                items.add(new FileItem(null, filename, null, path, size, null, type, null, "", icon, null, "", ""));
-            }
-
-            Util.sortFilesByName(items, 1);
-
-            firstFilePos = items.size();
-
-            for(int i = 0; i < items.size(); i++) {
-                if (!items.get(i).is("folder")) {
-                    firstFilePos = i;
-                    break;
+                if (mAdapter != null) {
+                    mAdapter.cancelThumbLoad();
                 }
             }
-            return null;
-        }
 
-        @Override
-        protected void onPostExecute(ArrayList<FileItem> value) {
-            pDialog.dismiss();
+            @Override
+            protected ArrayList<FileItem> doInBackground(Void... args) {
+                String dirPath = hierarchy.get(hierarchy.size() - 1).getPath();
+                File dir = new File(dirPath);
 
-            displayFiles();
-        }
+                File[] elements = dir.listFiles();
+                for (File file : elements) {
+                    String filename = file.getName();
+                    String path = file.getAbsolutePath();
+                    String size = (file.isDirectory()) ? ((file.listFiles().length == 1) ? file.listFiles().length + " element" : file.listFiles().length + " elements") : Util.convertSize(file.length() + "");
+                    Bitmap icon;
+                    String type = (file.isDirectory()) ? "folder" : getMimeType(file);
+
+                    switch (type) {
+                        case "folder":
+                            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
+                            break;
+                        case "image":
+                            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_image);
+                            break;
+                        case "audio":
+                            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_audio);
+                            break;
+                        case "pdf":
+                            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_pdf);
+                            break;
+                        default:
+                            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown);
+                    }
+
+                    items.add(new FileItem(null, filename, null, path, size, null, type, null, "", icon, null, "", ""));
+                }
+
+                Util.sortFilesByName(items, 1);
+
+                firstFilePos = items.size();
+
+                for(int i = 0; i < items.size(); i++) {
+                    if (!items.get(i).is("folder")) {
+                        firstFilePos = i;
+                        break;
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList<FileItem> value) {
+                pDialog.dismiss();
+
+                displayFiles();
+            }
+        }.execute();
     }
 
     public void displayFiles() {

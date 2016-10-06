@@ -58,12 +58,11 @@ public class ServerSettings extends AppCompatActivity {
             toolbar.setTitle("Server Settings");
         }
 
-        new GetStatus().execute();
+        getStatus();
     }
 
     public static class PrefsFragment extends PreferenceFragment {
 
-        private Preference server;
         private Preference showlog;
         private Preference showusers;
         private EditTextPreference uploadMax;
@@ -74,15 +73,6 @@ public class ServerSettings extends AppCompatActivity {
 
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.settings_server);
-
-            server = findPreference("server_address");
-            server.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    startActivity(new Intent(e.getApplicationContext(), Servers.class));
-                    return false;
-                }
-            });
 
             showlog = findPreference("showlog");
             showlog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -107,12 +97,11 @@ public class ServerSettings extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     String value = Long.toString(Util.stringToByte(o.toString()));
-                    new SetUploadLimit().execute(value);
+                    setUploadLimit(value);
                     return false;
                 }
             });
 
-            //setSummary("server_address", Connection.getServer());
             setSummary("server_address", CustomAuthenticator.getServer());
         }
 
@@ -122,64 +111,68 @@ public class ServerSettings extends AppCompatActivity {
         }
     }
 
-    private static class GetStatus extends AsyncTask<Integer, String, HashMap<String, String>> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            e.setProgressBarIndeterminateVisibility(true);
-        }
+    private static void getStatus() {
+        new AsyncTask<Void, Void, HashMap<String, String>>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                e.setProgressBarIndeterminateVisibility(true);
+            }
 
-        @Override
-        protected HashMap<String, String> doInBackground(Integer... pos) {
-            Connection multipart = new Connection("system", "status");
+            @Override
+            protected HashMap<String, String> doInBackground(Void... pos) {
+                Connection multipart = new Connection("system", "status");
 
-            return multipart.finish();
-        }
-        @Override
-        protected void onPostExecute(HashMap<String, String> value) {
-            e.setProgressBarIndeterminateVisibility(false);
-            if(value.get("status").equals("ok")) {
-                try {
-                    JSONObject job = new JSONObject(value.get("msg"));
-                    String version = job.getString("version");
-                    String storage_used = job.getString("storage_used");
-                    String storage_total = job.getString("storage_total");
-                    String upload_max = job.getString("upload_max");
+                return multipart.finish();
+            }
+            @Override
+            protected void onPostExecute(HashMap<String, String> result) {
+                e.setProgressBarIndeterminateVisibility(false);
+                if (result.get("status").equals("ok")) {
+                    try {
+                        JSONObject job = new JSONObject(result.get("msg"));
+                        String version = job.getString("version");
+                        String storage_used = job.getString("storage_used");
+                        String storage_total = job.getString("storage_total");
+                        String upload_max = job.getString("upload_max");
 
-                    prefsFragment.setSummary("server_version", version);
-                    prefsFragment.setSummary("server_storage", Util.convertSize(storage_used) + " / " + Util.convertSize(storage_total));
-                    prefsFragment.setSummary("server_upload_max", Util.convertSize(upload_max));
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
+                        prefsFragment.setSummary("server_version", version);
+                        prefsFragment.setSummary("server_storage", Util.convertSize(storage_used) + " / " + Util.convertSize(storage_total));
+                        prefsFragment.setSummary("server_upload_max", Util.convertSize(upload_max));
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
                 }
             }
-        }
+        }.execute();
     }
 
-    private static class SetUploadLimit extends AsyncTask<String, String, HashMap<String, String>> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            e.setProgressBarIndeterminateVisibility(true);
-        }
-
-        @Override
-        protected HashMap<String, String> doInBackground(String... pos) {
-            Connection multipart = new Connection("system", "save");
-            multipart.addFormField("key", "upload");
-            multipart.addFormField("value", pos[0]);
-
-            return multipart.finish();
-        }
-        @Override
-        protected void onPostExecute(HashMap<String, String> value) {
-            e.setProgressBarIndeterminateVisibility(false);
-            if(value.get("status").equals("ok")) {
-                new GetStatus().execute();
+    private static void setUploadLimit(final String value) {
+        new AsyncTask<Void, Void, HashMap<String, String>>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                e.setProgressBarIndeterminateVisibility(true);
             }
-            else {
-                Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
+
+            @Override
+            protected HashMap<String, String> doInBackground(Void... pos) {
+                Connection multipart = new Connection("system", "save");
+                multipart.addFormField("key", "upload");
+                multipart.addFormField("value", value);
+
+                return multipart.finish();
             }
-        }
+            @Override
+            protected void onPostExecute(HashMap<String, String> result) {
+                e.setProgressBarIndeterminateVisibility(false);
+                if(result.get("status").equals("ok")) {
+                    getStatus();
+                }
+                else {
+                    Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
     }
 }

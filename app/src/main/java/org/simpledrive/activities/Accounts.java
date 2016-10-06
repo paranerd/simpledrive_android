@@ -4,13 +4,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -26,11 +24,9 @@ import android.widget.Toast;
 import org.simpledrive.R;
 import org.simpledrive.adapters.UserAdapter;
 import org.simpledrive.authenticator.CustomAuthenticator;
-import org.simpledrive.helper.Connection;
 import org.simpledrive.helper.UserItem;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Accounts extends AppCompatActivity {
     // General

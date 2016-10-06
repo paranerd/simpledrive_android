@@ -70,7 +70,7 @@ public class ServerLog extends AppCompatActivity {
             public void onClick(View view) {
                 if (currentPage > 0) {
                     currentPage--;
-                    new FetchLog().execute();
+                    fetchLog(currentPage);
                 }
             }
         });
@@ -80,7 +80,7 @@ public class ServerLog extends AppCompatActivity {
             public void onClick(View view) {
                 if (currentPage < totalPages - 1) {
                     currentPage++;
-                    new FetchLog().execute();
+                    fetchLog(currentPage);
                 }
             }
         });
@@ -110,7 +110,7 @@ public class ServerLog extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new FetchLog().execute();
+                fetchLog(currentPage);
             }
         });
 
@@ -132,17 +132,12 @@ public class ServerLog extends AppCompatActivity {
 
         mSwipeRefreshLayout.setEnabled(true);
 
-        new FetchLog().execute();
+        fetchLog(currentPage);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (items.size() > 0) {
-            mMenu.findItem(R.id.clearlog).setVisible(true);
-        }
-        else {
-            mMenu.findItem(R.id.clearlog).setVisible(false);
-        }
+        mMenu.findItem(R.id.clearlog).setVisible(items.size() > 0);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -162,80 +157,80 @@ public class ServerLog extends AppCompatActivity {
                 new AlertDialog.Builder(this)
                         .setTitle("Clear log")
                         .setMessage("Are you sure you want to delete all log entries?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                        .setPositiveButton("Clear", new DialogInterface.OnClickListener()
                         {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                new ClearLog().execute();
+                                clearLog();
                             }
 
                         })
-                        .setNegativeButton("No", null)
+                        .setNegativeButton("Cancel", null)
                         .show();
                 break;
         }
         return true;
     }
 
-    private class ClearLog extends AsyncTask<String, String, HashMap<String, String>> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            Toast.makeText(e, "Clearing log...", Toast.LENGTH_SHORT).show();
-            mSwipeRefreshLayout.setRefreshing(true);
-        }
-
-        @Override
-        protected HashMap<String, String> doInBackground(String... args) {
-            Connection multipart = new Connection("system", "clearlog");
-
-            return multipart.finish();
-        }
-
-        @Override
-        protected void onPostExecute(HashMap<String, String> value) {
-            mSwipeRefreshLayout.setRefreshing(false);
-            if(value == null || !value.get("status").equals("ok")) {
-                String msg = (value == null) ? getResources().getString(R.string.unknown_error) : value.get("msg");
-                Toast.makeText(e, msg, Toast.LENGTH_SHORT).show();
+    private void clearLog() {
+        new AsyncTask<Void, Void, HashMap<String, String>>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                mSwipeRefreshLayout.setRefreshing(true);
+                Toast.makeText(e, "Clearing log...", Toast.LENGTH_SHORT).show();
             }
-            else {
-                new FetchLog().execute();
+
+            @Override
+            protected HashMap<String, String> doInBackground(Void... args) {
+                Connection multipart = new Connection("system", "clearlog");
+                return multipart.finish();
             }
-        }
+
+            @Override
+            protected void onPostExecute(HashMap<String, String> result) {
+                mSwipeRefreshLayout.setRefreshing(false);
+                if(!result.get("status").equals("ok")) {
+                    Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    fetchLog(currentPage);
+                }
+            }
+        }.execute();
     }
 
-    private class FetchLog extends AsyncTask<String, String, HashMap<String, String>> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+    private void fetchLog(final int page) {
+        new AsyncTask<Void, Void, HashMap<String, String>>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
 
-            mSwipeRefreshLayout.setRefreshing(true);
-        }
-
-        @Override
-        protected HashMap<String, String> doInBackground(String... args) {
-            Connection multipart = new Connection("system", "log");
-            multipart.addFormField("page", Integer.toString(currentPage));
-
-            return multipart.finish();
-        }
-
-        @Override
-        protected void onPostExecute(HashMap<String, String> value) {
-            mSwipeRefreshLayout.setRefreshing(false);
-            if(value == null || !value.get("status").equals("ok")) {
-                String msg = (value == null) ? getResources().getString(R.string.unknown_error) : value.get("msg");
-                info.setVisibility(View.VISIBLE);
-                info.setText(msg);
+                mSwipeRefreshLayout.setRefreshing(true);
             }
-            else {
-                info.setVisibility(View.INVISIBLE);
-                extractLog(value.get("msg"));
-                displayLog();
+
+            @Override
+            protected HashMap<String, String> doInBackground(Void... args) {
+                Connection multipart = new Connection("system", "log");
+                multipart.addFormField("page", Integer.toString(page));
+
+                return multipart.finish();
             }
-        }
+
+            @Override
+            protected void onPostExecute(HashMap<String, String> result) {
+                mSwipeRefreshLayout.setRefreshing(false);
+                if(!result.get("status").equals("ok")) {
+                    info.setVisibility(View.VISIBLE);
+                    info.setText(result.get("msg"));
+                }
+                else {
+                    info.setVisibility(View.INVISIBLE);
+                    extractLog(result.get("msg"));
+                    displayLog();
+                }
+            }
+        }.execute();
     }
 
     /**

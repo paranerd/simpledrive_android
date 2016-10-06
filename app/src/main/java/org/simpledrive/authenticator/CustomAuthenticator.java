@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 
 import org.simpledrive.helper.Util;
 
@@ -21,6 +22,7 @@ public class CustomAuthenticator {
     // Constants
     public static final int MAX_UNLOCK_ATTEMPTS = 3;
     public static final int COOLDOWN_ADD = 5000;
+    private static final String ACCOUNT_TYPE = "org.simpledrive";
     private static final String KEY_USER = "user";
     private static final String KEY_TOKEN = "token";
     private static final String KEY_SERVER = "server";
@@ -34,7 +36,7 @@ public class CustomAuthenticator {
 
     private static void refresh() {
         am = AccountManager.get(ctx);
-        aaccount = am.getAccountsByType("org.simpledrive");
+        aaccount = am.getAccountsByType(ACCOUNT_TYPE);
     }
 
     public static boolean enable(Context context) {
@@ -65,7 +67,7 @@ public class CustomAuthenticator {
 
     public static boolean addAccount(String username, String password, String server, String token) {
         final String accountName = username + "@" + server;
-        final Account account = new Account(accountName, "org.simpledrive");
+        final Account account = new Account(accountName, ACCOUNT_TYPE);
         Bundle userdata = new Bundle();
         userdata.putString(KEY_USER, username);
         userdata.putString(KEY_SERVER, server);
@@ -193,7 +195,7 @@ public class CustomAuthenticator {
         if (getActiveAccount() != null) {
             Long unlockAttempts = Long.parseLong(am.getUserData(getActiveAccount(), KEY_UNLOCK_ATTEMPTS));
             Long lastUnlockAttempt = Long.parseLong(am.getUserData(getActiveAccount(), KEY_LAST_UNLOCK_ATTEMPT));
-            return (lastUnlockAttempt + (unlockAttempts - (MAX_UNLOCK_ATTEMPTS - 1)) * COOLDOWN_ADD) - Util.getTimestamp();
+            return (long) Math.ceil(((lastUnlockAttempt + (unlockAttempts - (MAX_UNLOCK_ATTEMPTS - 1)) * COOLDOWN_ADD) - Util.getTimestamp()) / 1000.0);
         }
         return 0;
     }
