@@ -1,0 +1,35 @@
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="server"
+        android:title="General"
+        android:shouldDisableView="true">
+
+        <Preference
+            android:id="@+id/username"
+            android:key="username"
+            android:title="Username" />
+
+        <Preference
+            android:id="@+id/user_quota_used"
+            android:key="user_quota_used"
+            android:title="Quota used"
+            android:summary="Loading..."/>
+
+        <EditTextPreference
+            android:id="@+id/user_quota_max"
+            android:key="user_quota_max"
+            android:title="Quota total"
+            android:summary="Loading..."
+            android:dialogTitle="Set quota max" />
+
+        <CheckBoxPreference
+            android:id="@+id/user_admin"
+            android:key="user_admin"
+            android:title="Admin"
+            android:summary=""
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

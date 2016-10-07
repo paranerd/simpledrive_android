@@ -2,6 +2,7 @@ package org.simpledrive.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -47,6 +48,11 @@ public class Accounts extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         e = this;
+
+        SharedPreferences settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
+
+        int theme = (settings.getString("darktheme", "").length() == 0 || !Boolean.valueOf(settings.getString("darktheme", ""))) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        e.setTheme(theme);
 
         setContentView(R.layout.activity_users);
 
