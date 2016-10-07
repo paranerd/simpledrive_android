@@ -87,6 +87,7 @@ public class RemoteFiles extends AppCompatActivity {
     private static String username = "";
     private static String viewmode = "files";
     private static final String TMP_FOLDER = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/simpleDrive/";
+    private static int FORCE_RELOAD = 5;
     private static SharedPreferences settings;
     private static boolean longClicked = false;
     private static int loginAttempts = 0;
@@ -166,11 +167,15 @@ public class RemoteFiles extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         e = this;
-
-        setContentView(R.layout.activity_remotefiles);
+        forceFullLoad = true;
 
         settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
+
+        int theme = (settings.getString("darktheme", "").length() == 0 || !Boolean.valueOf(settings.getString("darktheme", ""))) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        e.setTheme(theme);
+
         globLayout = (settings.getString("view", "").length() == 0 || settings.getString("view", "").equals("list")) ? "list" : "grid";
+        setContentView(R.layout.activity_remotefiles);
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -206,7 +211,7 @@ public class RemoteFiles extends AppCompatActivity {
             }
             preventLock = true;
             calledForUnlock = true;
-            startActivityForResult(new Intent(e.getApplicationContext(), Unlock.class), 5);
+            startActivityForResult(new Intent(e.getApplicationContext(), Unlock.class), 4);
         }
         else if (forceFullLoad || CustomAuthenticator.activeAccountChanged) {
             forceFullLoad = false;
@@ -260,7 +265,6 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     protected void onDestroy() {
-        forceFullLoad = true;
         super.onDestroy();
 
         if (mBound && AudioService.isPlaying()) {
@@ -288,8 +292,9 @@ public class RemoteFiles extends AppCompatActivity {
                 });
             }
         }
-        else if (requestCode == 5) {
-            // Do something
+        else if (requestCode == FORCE_RELOAD) {
+            finish();
+            startActivity(getIntent());
         }
     }
 
@@ -1131,8 +1136,7 @@ public class RemoteFiles extends AppCompatActivity {
 
                     case R.id.navigation_view_item_settings:
                         preventLock = true;
-                        forceFullLoad = true;
-                        startActivity(new Intent(getApplicationContext(), AppSettings.class));
+                        startActivityForResult(new Intent(getApplicationContext(), AppSettings.class), FORCE_RELOAD);
                         break;
 
                     case R.id.navigation_view_item_server:
@@ -1156,19 +1160,15 @@ public class RemoteFiles extends AppCompatActivity {
                         break;
 
                     case R.id.navigation_view_item_add_account:
-                        forceFullLoad = true;
-                        startActivityForResult(new Intent(getApplicationContext(), Login.class), 5);
+                        startActivityForResult(new Intent(getApplicationContext(), Login.class), FORCE_RELOAD);
                         break;
 
                     case R.id.navigation_view_item_manage_accounts:
-                        forceFullLoad = true;
-                        startActivity(new Intent(getApplicationContext(), Accounts.class));
+                        startActivityForResult(new Intent(getApplicationContext(), Accounts.class), FORCE_RELOAD);
                         break;
 
                     case 1:
-                        //CustomAuthenticator.setActiveAccount(item.getTitle().toString());
                         CustomAuthenticator.setActive(item.getTitle().toString());
-                        forceFullLoad = true;
                         finish();
                         startActivity(getIntent());
                 }
@@ -1847,7 +1847,7 @@ public class RemoteFiles extends AppCompatActivity {
                 .setContentIntent(pIntent)
                 .setOngoing(true)
                 .setSmallIcon(R.drawable.ic_cloud)
-                .setProgress(100, 0, false);;
+                .setProgress(100, 0, false);
         final NotificationManager mNotifyManager = (NotificationManager) e.getSystemService(Context.NOTIFICATION_SERVICE);
         final int notificationId = 2;
 
@@ -1939,7 +1939,6 @@ public class RemoteFiles extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(), Login.class));
                 }
                 else {
-                    forceFullLoad = true;
                     startActivity(getIntent());
                 }
             }

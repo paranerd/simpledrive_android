@@ -21,10 +21,11 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/MainTheme" >
+        android:theme="@style/MainTheme.Light" >
         <activity
             android:name="org.simpledrive.activities.RemoteFiles"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/MainTheme.Light" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -79,17 +80,17 @@
         <activity
             android:name="org.simpledrive.activities.Editor"
             android:label="Editor"
-            android:theme="@style/MainTheme" >
+            android:theme="@style/MainTheme.Light" >
         </activity>
         <activity
             android:name="org.simpledrive.activities.AppSettings"
             android:label="Settings"
-            android:theme="@style/MainTheme" >
+            android:theme="@style/MainTheme.Light" >
         </activity>
         <activity
             android:name="org.simpledrive.activities.ServerSettings"
             android:label="Server"
-            android:theme="@style/MainTheme" >
+            android:theme="@style/MainTheme.Light" >
         </activity>
         <activity
             android:name="org.simpledrive.activities.ServerLog"
@@ -99,27 +100,27 @@
         <activity
             android:name="org.simpledrive.activities.Users"
             android:label="Users"
-            android:theme="@style/MainTheme" >
+            android:theme="@style/MainTheme.Light" >
         </activity>
         <activity
             android:name="org.simpledrive.activities.UserDetails"
             android:label="User Details"
-            android:theme="@style/MainTheme" >
+            android:theme="@style/MainTheme.Light" >
         </activity>
         <activity
             android:name="org.simpledrive.activities.Unlock"
             android:label="User Details"
-            android:theme="@style/MainTheme" >
+            android:theme="@style/MainTheme.Light" >
         </activity>
         <activity
             android:name="org.simpledrive.activities.EnablePIN"
             android:label="Enable PIN"
-            android:theme="@style/MainTheme" >
+            android:theme="@style/MainTheme.Light" >
         </activity>
         <activity
             android:name="org.simpledrive.activities.Accounts"
             android:label="Accounts"
-            android:theme="@style/MainTheme" >
+            android:theme="@style/MainTheme.Light" >
         </activity>
 
         <service

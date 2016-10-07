@@ -63,6 +63,7 @@
     <color name="grey4">#ff636363</color>
     <color name="grey5">#33d3d3d3</color>
     <color name="grey6">#ff545454</color>
+    <color name="grey7">#ff333333</color>
     <color name="halfblack">#33000000</color>
     <color name="highlighted_text_material_dark">#6680cbc4</color>
     <color name="highlighted_text_material_light">#66009688</color>
@@ -360,7 +361,9 @@
         <item name="android:windowEnterAnimation">@anim/design_bottom_sheet_slide_in</item>
         <item name="android:windowExitAnimation">@anim/design_bottom_sheet_slide_out</item>
     </style>
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">@color/accent_material_light</item>
+    </style>
     <style name="AppTheme" parent="@style/AppBaseTheme"/>
     <style name="Base.AlertDialog.AppCompat" parent="android:Widget">
         <item name="android:layout">@layout/abc_alert_dialog_material</item>

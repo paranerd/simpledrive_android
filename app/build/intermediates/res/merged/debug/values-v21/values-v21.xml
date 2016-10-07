@@ -222,6 +222,24 @@
         <item name="android:actionModeBackground">@color/darkgreen</item>
         <item name="android:actionModeCloseDrawable">@drawable/ic_arrow</item>
     </style>
+    <style name="MainTheme.Dark" parent="MainTheme">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/grey3</item>
+        <item name="android:colorBackground">@color/grey7</item>
+        <item name="android:colorMultiSelectHighlight">@color/grey6</item>
+        <item name="android:colorFocusedHighlight">@color/grey5</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:textColorHighlight">?android:colorPrimary</item>
+    </style>
+    <style name="MainTheme.Light" parent="MainTheme">
+        <item name="android:textColorPrimary">@color/grey6</item>
+        <item name="android:textColorSecondary">@color/grey3</item>
+        <item name="android:colorBackground">@color/white</item>
+        <item name="android:colorMultiSelectHighlight">@color/lightgreen</item>
+        <item name="android:colorFocusedHighlight">@color/grey1</item>
+        <item name="android:navigationBarColor">@color/grey4</item>
+        <item name="android:textColorHighlight">?android:colorPrimary</item>
+    </style>
     <style name="MainThemeFullscreen" parent="MainTheme">
         <item name="android:windowFullscreen">true</item>
     </style>

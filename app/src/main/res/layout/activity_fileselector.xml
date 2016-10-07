@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:background="#fff0f0f0"
+<RelativeLayout
+    android:background="?android:colorBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android" >
@@ -11,7 +12,7 @@
     <TextView
         android:id="@+id/info"
         android:textSize="20.0sp"
-        android:textColor="#ffb3b3b3"
+        android:textColor="?android:textColorSecondary"
         android:gravity="center"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -22,7 +23,6 @@
         android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#ffb3b3b3"
         android:layout_marginTop="56dp"
         android:choiceMode="multipleChoiceModal"
         android:layout_alignParentTop="true" />

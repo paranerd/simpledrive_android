@@ -50,7 +50,7 @@
             <TextView
                 android:id="@+id/message"
                 android:textSize="16.0sp"
-                android:textColor="@color/grey6"
+                android:textColor="?android:textColorPrimary"
                 android:ellipsize="middle"
                 android:gravity="top"
                 android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
             <TextView
                 android:id="@+id/user"
                 android:textSize="13.0sp"
-                android:textColor="#ffaaaaaa"
+                android:textColor="?android:textColorSecondary"
                 android:layout_marginBottom="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
             <TextView
                 android:id="@+id/date"
                 android:textSize="12.0sp"
-                android:textColor="#ff2e8b57"
+                android:textColor="?android:textColorSecondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
