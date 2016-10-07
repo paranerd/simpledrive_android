@@ -30,7 +30,7 @@
 
                 <RelativeLayout
                     android:id="@+id/content"
-                    android:background="@color/white"
+                    android:background="?android:colorBackground"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/toolbar"
@@ -40,7 +40,7 @@
                     <TextView
                         android:id="@+id/info"
                         android:textSize="20.0sp"
-                        android:textColor="#ffb3b3b3"
+                        android:textColor="?android:textColorSecondary"
                         android:gravity="center"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
@@ -53,19 +53,13 @@
                         android:id="@id/list"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textColor="#ffb3b3b3"
                         android:choiceMode="multipleChoiceModal" />
 
                     <GridView
                         android:id="@+id/grid"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:numColumns="3"
-                        android:horizontalSpacing="1dp"
-                        android:verticalSpacing="1dp"
-                        android:layout_marginLeft="1dp"
-                        android:layout_marginRight="1dp"
-                        />
+                        android:numColumns="3" />
 
                     <android.support.design.widget.FloatingActionButton
                         android:id="@+id/fab"
@@ -74,7 +68,7 @@
                         android:elevation="7dp"
                         android:layout_gravity="bottom|end"
                         android:layout_margin="16dp"
-                        app:backgroundTint="@color/darkgreen"
+                        app:backgroundTint="?android:colorPrimary"
                         android:src="@drawable/ic_add"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"/>
@@ -87,10 +81,11 @@
                         android:layout_marginRight="16dp"
                         android:layout_marginBottom="88dp"
                         android:elevation="7dp"
-                        app:backgroundTint="@color/darkgreen"
+                        app:backgroundTint="?android:attr/colorPrimary"
                         android:src="@drawable/ic_upload"
                         android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true" />
+                        android:layout_alignParentBottom="true"
+                        android:visibility="gone"/>
 
                     <android.support.design.widget.FloatingActionButton
                         android:id="@+id/fab_file"
@@ -100,7 +95,7 @@
                         android:layout_marginBottom="16dp"
                         android:layout_marginRight="156dp"
                         android:elevation="7dp"
-                        app:backgroundTint="@color/darkgreen"
+                        app:backgroundTint="?android:attr/colorPrimary"
                         android:src="@drawable/ic_unknown"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
@@ -114,7 +109,7 @@
                         android:layout_marginBottom="16dp"
                         android:layout_marginRight="88dp"
                         android:elevation="7dp"
-                        app:backgroundTint="@color/darkgreen"
+                        app:backgroundTint="?android:attr/colorPrimary"
                         android:src="@drawable/ic_folder"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
@@ -127,7 +122,7 @@
                         android:layout_gravity="bottom|end"
                         android:layout_margin="16dp"
                         android:elevation="7dp"
-                        app:backgroundTint="@color/darkgreen"
+                        app:backgroundTint="?android:attr/colorPrimary"
                         android:src="@drawable/ic_paste"
                         android:visibility="gone"
                         android:layout_alignParentLeft="true"
@@ -141,7 +136,7 @@
                         android:layout_marginBottom="16dp"
                         android:layout_marginLeft="88dp"
                         android:elevation="7dp"
-                        app:backgroundTint="@color/darkgreen"
+                        app:backgroundTint="?android:attr/colorPrimary"
                         android:src="@drawable/ic_close"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentBottom="true"
@@ -190,7 +185,7 @@
                             android:layout_marginLeft="16dp"
                             android:layout_marginBottom="15dp"
                             android:layout_alignParentBottom="true"
-                            android:background="@color/darkgreen"
+                            android:background="?android:attr/colorPrimary"
                             android:src="@drawable/ic_upload"
                             android:visibility="gone"/>
 
@@ -209,7 +204,7 @@
                             android:layout_marginLeft="156dp"
                             android:layout_marginBottom="15dp"
                             android:layout_alignParentBottom="true"
-                            android:background="@color/darkgreen"
+                            android:background="?android:attr/colorPrimary"
                             android:src="@drawable/ic_upload"
                             android:visibility="gone"/>
 
@@ -228,7 +223,7 @@
                         android:id="@+id/toolbar_bottom"
                         android:layout_height="?attr/actionBarSize"
                         android:layout_width="match_parent"
-                        android:background="@color/darkgreen"
+                        android:background="?android:attr/colorPrimary"
                         app:contentInsetStart="0dp"
                         app:contentInsetEnd="0dp"
                         app:contentInsetLeft="0dp"
@@ -257,7 +252,7 @@
         app:headerLayout="@layout/navigation_drawer_header"
         app:menu="@menu/navigation_drawer_body"
         android:theme="@style/MenuItemAppearance"
-        android:background="@color/white"
+        android:background="?android:colorBackground"
         app:itemIconTint="@color/drawer_list"
         app:itemTextColor="@color/drawer_list"
         app:itemBackground="@drawable/item_selector">

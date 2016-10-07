@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar" />
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="colorAccent">@color/accent_material_light</item>
+    </style>
     <style name="AppTheme" parent="@style/AppBaseTheme" />
     <style name="LoginTheme" parent="@android:style/Theme.Holo.Light.NoActionBar" />
     <style name="MenuItemAppearance"><item name="android:ellipsize">end</item></style>

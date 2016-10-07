@@ -20,6 +20,12 @@
             android:defaultValue="list" />
 
         <CheckBoxPreference
+            android:key="darktheme"
+            android:title="Use dark theme"
+            android:summary=""
+            android:defaultValue="false" />
+
+        <CheckBoxPreference
             android:key="loadthumb"
             android:title="Load thumbnails"
             android:summary="Disable to save data"

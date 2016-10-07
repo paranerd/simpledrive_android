@@ -40,19 +40,27 @@ public class AppSettings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         e = this;
-
         settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
 
-        setContentView(R.layout.activity_settings);
+        int theme = (settings.getString("darktheme", "").length() == 0 || !Boolean.valueOf(settings.getString("darktheme", ""))) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        e.setTheme(theme);
+        e.setContentView(R.layout.activity_settings);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        initToolbar();
+    }
+
+    private static void initToolbar() {
+        Toolbar toolbar = (Toolbar) e.findViewById(R.id.toolbar);
         if(toolbar != null) {
-            setSupportActionBar(toolbar);
+            e.setSupportActionBar(toolbar);
             toolbar.setNavigationIcon(R.drawable.ic_arrow);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finish();
+                    //e.finish();
+                    Intent i = new Intent();
+                    e.setResult(RESULT_OK, i);
+                    e.finish();
                 }
             });
             toolbar.setTitle("Settings");
@@ -93,6 +101,7 @@ public class AppSettings extends AppCompatActivity {
         private Preference clearcache;
         private ListPreference fileview;
         private CheckBoxPreference loadthumb;
+        private CheckBoxPreference darktheme;
         private CheckBoxPreference pin;
         private CheckBoxPreference contextMenu;
         private Preference version;
@@ -164,8 +173,20 @@ public class AppSettings extends AppCompatActivity {
             loadthumb.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    String load = o.toString();
-                    settings.edit().putString("loadthumb", load).apply();
+                    settings.edit().putString("loadthumb", o.toString()).apply();
+                    return true;
+                }
+            });
+
+            final boolean useDarkTheme = (settings.getString("darktheme", "").length() == 0) ? false : Boolean.valueOf(settings.getString("darktheme", ""));
+            darktheme = (CheckBoxPreference) findPreference("darktheme");
+            darktheme.setChecked(useDarkTheme);
+            darktheme.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    settings.edit().putString("darktheme", o.toString()).apply();
+                    e.finish();
+                    startActivity(e.getIntent());
                     return true;
                 }
             });

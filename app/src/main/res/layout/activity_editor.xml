@@ -2,7 +2,7 @@
 <LinearLayout
     android:gravity="center"
     android:orientation="vertical"
-    android:background="#fff0f0f0"
+    android:background="?android:colorBackground"
     android:focusable="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,11 +12,6 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
 
-    <!--<CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:button="@drawable/checkbox_selector"/>-->
-
     <ScrollView
         android:id="@+id/editorscroll"
         android:layout_width="match_parent"
@@ -24,8 +19,8 @@
 
         <EditText
             android:id="@+id/editor"
-            android:textColor="@color/grey6"
-            android:background="#00000000"
+            android:textColor="?android:textColorPrimary"
+            android:background="@color/transparent"
             android:gravity="start"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
