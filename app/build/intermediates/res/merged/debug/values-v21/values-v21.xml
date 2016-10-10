@@ -208,30 +208,40 @@
     <style name="Base.Widget.AppCompat.TextView.SpinnerItem" parent="android:Widget.Material.TextView.SpinnerItem"/>
     <style name="Base.Widget.AppCompat.Toolbar.Button.Navigation" parent="android:Widget.Material.Toolbar.Button.Navigation">
     </style>
-    <style name="MainTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Main theme colors -->
-        <!--   your app branding color for the app bar -->
-        <item name="android:colorPrimary">@color/darkgreen</item>
-        <!--   darker variant for the status bar and contextual app bars -->
-        <item name="android:colorPrimaryDark">@color/darkergreen</item>
-        <!--   theme UI controls like checkboxes and text fields -->
-        <item name="android:colorAccent">@color/darkgreen</item>
+    <style name="MainTheme.Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="windowActionBar">true</item>
         <!-- Contextual action bar -->
         <item name="windowActionModeOverlay">true</item>
+
+        <item name="colorAccent">@color/darkgreen</item>
+        <item name="android:colorAccent">@color/darkgreen</item>
+        <item name="android:colorPrimary">@color/darkgreen</item>
+        <item name="android:colorPrimaryDark">@color/darkergreen</item>
+        <!-- Contextual action bar -->
         <item name="android:actionModeBackground">@color/darkgreen</item>
         <item name="android:actionModeCloseDrawable">@drawable/ic_arrow</item>
-    </style>
-    <style name="MainTheme.Dark" parent="MainTheme">
+
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/grey3</item>
         <item name="android:colorBackground">@color/grey7</item>
         <item name="android:colorMultiSelectHighlight">@color/grey6</item>
-        <item name="android:colorFocusedHighlight">@color/grey5</item>
+        <item name="android:colorFocusedHighlight">@color/grey8</item>
         <item name="android:navigationBarColor">@color/white</item>
         <item name="android:textColorHighlight">?android:colorPrimary</item>
     </style>
-    <style name="MainTheme.Light" parent="MainTheme">
+    <style name="MainTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">true</item>
+        <!-- Contextual action bar -->
+        <item name="windowActionModeOverlay">true</item>
+
+        <item name="colorAccent">@color/darkgreen</item>
+        <item name="android:colorAccent">@color/darkgreen</item>
+        <item name="android:colorPrimary">@color/darkgreen</item>
+        <item name="android:colorPrimaryDark">@color/darkergreen</item>
+        <!-- Contextual action bar -->
+        <item name="android:actionModeBackground">@color/darkgreen</item>
+        <item name="android:actionModeCloseDrawable">@drawable/ic_arrow</item>
+
         <item name="android:textColorPrimary">@color/grey6</item>
         <item name="android:textColorSecondary">@color/grey3</item>
         <item name="android:colorBackground">@color/white</item>
@@ -240,9 +250,10 @@
         <item name="android:navigationBarColor">@color/grey4</item>
         <item name="android:textColorHighlight">?android:colorPrimary</item>
     </style>
-    <style name="MainThemeFullscreen" parent="MainTheme">
+    <style name="MainThemeFullscreen" parent="MainTheme.Light">
         <item name="android:windowFullscreen">true</item>
     </style>
+    <style name="MenuItemAppearance"><item name="android:ellipsize">end</item></style>
     <style name="Platform.AppCompat" parent="android:Theme.Material">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>

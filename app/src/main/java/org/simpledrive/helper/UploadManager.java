@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import org.simpledrive.R;
@@ -23,11 +24,11 @@ public class UploadManager {
     public static ArrayList<HashMap<String, String>> uploadQueue = new ArrayList<>();
     private static AppCompatActivity e;
 
-    public static void upload_add_recursive(String orig_path, File dir, String target) {
+    private static void addRecursive(String orig_path, File dir, String target) {
         File[] files = dir.listFiles();
         for (File file : files) {
             if (file.isDirectory()) {
-                upload_add_recursive(orig_path, file, target);
+                addRecursive(orig_path, file, target);
             }
             else {
                 String rel_dir = file.getParent().substring(orig_path.length()) + "/";
@@ -42,11 +43,11 @@ public class UploadManager {
         }
     }
 
-    public static void upload_add(AppCompatActivity act, ArrayList<String> paths, String target, Upload.TaskListener listener) {
-        for(String path : paths) {
+    public static void addUpload(AppCompatActivity act, ArrayList<String> paths, String target, Upload.TaskListener listener) {
+        for (String path : paths) {
             File file = new File(path);
-            if(file.isDirectory()) {
-                upload_add_recursive(file.getParent(), file, target);
+            if (file.isDirectory()) {
+                addRecursive(file.getParent(), file, target);
             }
             else {
                 HashMap<String, String> ul_elem = new HashMap<>();
@@ -59,13 +60,13 @@ public class UploadManager {
             }
         }
 
-        if(!uploading) {
+        if (!uploading) {
             e = act;
             new Upload(listener).execute();
         }
     }
 
-    public static class Upload extends AsyncTask<String, Integer, HashMap<String, String>> {
+    public static class Upload extends AsyncTask<String, Integer, Connection.Response> {
         private NotificationCompat.Builder mBuilder;
         private NotificationManager mNotifyManager;
         private int notificationId = 1;
@@ -97,12 +98,13 @@ public class UploadManager {
                     .setContentTitle("Uploading " + uploadCurrent + " of " + uploadTotal)
                     .setOngoing(true)
                     .setSmallIcon(R.drawable.ic_cloud)
+                    .setColor(ContextCompat.getColor(e, R.color.darkgreen))
                     .setProgress(100, 0, false);
             mNotifyManager.notify(notificationId, mBuilder.build());
         }
 
         @Override
-        protected HashMap<String, String> doInBackground(String... path) {
+        protected Connection.Response doInBackground(String... path) {
             HashMap<String, String> ul_elem = uploadQueue.remove(0);
             filename = ul_elem.get("filename");
             String filepath = ul_elem.get("path");
@@ -134,9 +136,9 @@ public class UploadManager {
         }
 
         @Override
-        protected void onPostExecute(HashMap<String, String> value) {
-            uploadSuccessful = (value == null || !value.get("status").equals("ok")) ? uploadSuccessful : uploadSuccessful + 1;
-            if(uploadQueue.size() > 0) {
+        protected void onPostExecute(Connection.Response res) {
+            uploadSuccessful = (!res.successful()) ? uploadSuccessful : uploadSuccessful + 1;
+            if (uploadQueue.size() > 0) {
                 new Upload(taskListener).execute();
             }
             else {

@@ -49,7 +49,7 @@ public class ServerSettings extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(toolbar != null) {
+        if (toolbar != null) {
             setSupportActionBar(toolbar);
             toolbar.setNavigationIcon(R.drawable.ic_arrow);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -115,7 +115,7 @@ public class ServerSettings extends AppCompatActivity {
     }
 
     private static void getStatus() {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -123,17 +123,17 @@ public class ServerSettings extends AppCompatActivity {
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... pos) {
+            protected Connection.Response doInBackground(Void... pos) {
                 Connection multipart = new Connection("system", "status");
 
                 return multipart.finish();
             }
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
+            protected void onPostExecute(Connection.Response res) {
                 e.setProgressBarIndeterminateVisibility(false);
-                if (result.get("status").equals("ok")) {
+                if (res.successful()) {
                     try {
-                        JSONObject job = new JSONObject(result.get("msg"));
+                        JSONObject job = new JSONObject(res.getMessage());
                         String version = job.getString("version");
                         String storage_used = job.getString("storage_used");
                         String storage_total = job.getString("storage_total");
@@ -151,7 +151,7 @@ public class ServerSettings extends AppCompatActivity {
     }
 
     private static void setUploadLimit(final String value) {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -159,7 +159,7 @@ public class ServerSettings extends AppCompatActivity {
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... pos) {
+            protected Connection.Response doInBackground(Void... pos) {
                 Connection multipart = new Connection("system", "save");
                 multipart.addFormField("key", "upload");
                 multipart.addFormField("value", value);
@@ -167,13 +167,13 @@ public class ServerSettings extends AppCompatActivity {
                 return multipart.finish();
             }
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
+            protected void onPostExecute(Connection.Response res) {
                 e.setProgressBarIndeterminateVisibility(false);
-                if(result.get("status").equals("ok")) {
+                if (res.successful()) {
                     getStatus();
                 }
                 else {
-                    Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();

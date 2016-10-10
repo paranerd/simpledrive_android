@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="fileviews">
+    <string-array name="listLayouts">
         <item name="list">List</item>
         <item name="grid">Grid</item>
     </string-array>
-    <string-array name="fileviewValues">
+    <string-array name="listLayoutValues">
         <item name="list">list</item>
         <item name="grid">grid</item>
     </string-array>

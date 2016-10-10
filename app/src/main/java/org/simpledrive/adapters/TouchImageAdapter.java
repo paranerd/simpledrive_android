@@ -138,7 +138,7 @@ public class TouchImageAdapter extends PagerAdapter {
         doLoad = false;
     }
 
-    private class LoadImage extends AsyncTask<String, Integer, HashMap<String, String>> {
+    private class LoadImage extends AsyncTask<String, Integer, Connection.Response> {
         String thumbPath;
         TouchImageView img;
         String file;
@@ -159,7 +159,7 @@ public class TouchImageAdapter extends PagerAdapter {
         }
 
         @Override
-        protected HashMap<String, String> doInBackground(String... info) {
+        protected Connection.Response doInBackground(String... info) {
             if (!doLoad) {
                 return null;
             }
@@ -176,7 +176,7 @@ public class TouchImageAdapter extends PagerAdapter {
         }
 
         @Override
-        protected void onPostExecute(HashMap<String, String> value) {
+        protected void onPostExecute(Connection.Response res) {
             if(!doLoad) {
                 return;
             }

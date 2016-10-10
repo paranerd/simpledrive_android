@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.simpledrive"
-    android:versionCode="74"
-    android:versionName="5.2.0" >
+    android:versionCode="76"
+    android:versionName="5.2.2" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -31,7 +31,8 @@
 
         <activity
             android:name=".activities.ShareFiles"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/MainTheme.Light">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -46,12 +47,13 @@
 
         <activity
             android:label="@string/app_name"
-            android:name=".activities.FileSelector"/>
+            android:name=".activities.FileSelector"
+            android:theme="@style/MainTheme.Light"/>
 
         <activity
             android:name=".activities.Login"
             android:label="Login"
-            android:theme="@style/MainTheme"
+            android:theme="@style/MainTheme.Light"
             android:windowSoftInputMode="stateAlwaysVisible" >
         </activity>
 
@@ -90,7 +92,7 @@
         <activity
             android:name=".activities.ServerLog"
             android:label="Log"
-            android:theme="@style/MainTheme" >
+            android:theme="@style/MainTheme.Light" >
         </activity>
 
         <activity

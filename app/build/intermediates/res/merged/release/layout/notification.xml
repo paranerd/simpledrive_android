@@ -25,17 +25,20 @@
         android:id="@id/notifbutton"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginRight="10.0dp"
+        android:layout_marginRight="10dp"
         android:layout_toLeftOf="@id/notifexit" />
 
     <TextView
-        android:textSize="17.0dip"
-        android:textColor="#ff000000"
-        android:gravity="center_vertical"
         android:id="@id/notiftitle"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:ellipsize="middle"
+        android:textSize="17sp"
+        android:textColor="@color/black"
+        android:gravity="center_vertical|start"
         android:singleLine="true"
-        android:layout_marginLeft="64dp"
-        style="Custom Notification Title" />
+        android:layout_toLeftOf="@id/notifbutton"
+        android:layout_toRightOf="@id/notifimage"
+        style="Custom Notification Title"
+        android:text="longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglong"/>
 </RelativeLayout>

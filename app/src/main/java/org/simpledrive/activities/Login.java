@@ -75,7 +75,7 @@ public class Login extends AppCompatActivity {
 
     public void login() {
         final ProgressDialog pDialog = new ProgressDialog(Login.this);
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -86,7 +86,7 @@ public class Login extends AppCompatActivity {
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... login) {
+            protected Connection.Response doInBackground(Void... login) {
                 Connection con = new Connection(server, "core", "login");
                 con.addFormField("user", username);
                 con.addFormField("pass", password);
@@ -95,14 +95,14 @@ public class Login extends AppCompatActivity {
                 return con.finish();
             }
             @Override
-            protected void onPostExecute(HashMap<String, String> value) {
+            protected void onPostExecute(Connection.Response res) {
                 pDialog.dismiss();
 
-                if(value == null) {
+                if (res== null) {
                     Toast.makeText(Login.this, R.string.connection_error, Toast.LENGTH_SHORT).show();
                 }
-                else if (value.get("status").equals("ok")) {
-                    if (CustomAuthenticator.addAccount(username, password, server, value.get("msg"))) {
+                else if (res.successful()) {
+                    if (CustomAuthenticator.addAccount(username, password, server, res.getMessage())) {
                         Intent i = new Intent(getApplicationContext(), RemoteFiles.class);
                         if (getCallingActivity() != null) {
                             setResult(RESULT_OK, i);
@@ -120,7 +120,7 @@ public class Login extends AppCompatActivity {
                     }
                 }
                 else {
-                    Toast.makeText(Login.this, value.get("msg"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();

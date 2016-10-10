@@ -119,25 +119,25 @@ public class UserDetails extends AppCompatActivity {
     }
 
     private static void getStatus(final String username) {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             protected void onPreExecute() {
                 super.onPreExecute();
                 e.setProgressBarIndeterminateVisibility(true);
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... pos) {
+            protected Connection.Response doInBackground(Void... pos) {
                 Connection multipart = new Connection("users", "get");
                 multipart.addFormField("user", username);
 
                 return multipart.finish();
             }
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
+            protected void onPostExecute(Connection.Response res) {
                 e.setProgressBarIndeterminateVisibility(false);
-                if (result.get("status").equals("ok")) {
+                if (res.successful()) {
                     try {
-                        JSONObject job = new JSONObject(result.get("msg"));
+                        JSONObject job = new JSONObject(res.getMessage());
                         String admin = job.getString("admin");
 
                         prefsFragment.setChecked("user_admin", admin.equals("1"));
@@ -152,7 +152,7 @@ public class UserDetails extends AppCompatActivity {
     }
 
     private static void getQuota(final String username) {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -160,7 +160,7 @@ public class UserDetails extends AppCompatActivity {
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... pos) {
+            protected Connection.Response doInBackground(Void... pos) {
                 Connection multipart = new Connection("users", "quota");
                 multipart.addFormField("user", username);
                 multipart.addFormField("value", "0");
@@ -168,11 +168,11 @@ public class UserDetails extends AppCompatActivity {
                 return multipart.finish();
             }
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
+            protected void onPostExecute(Connection.Response res) {
                 e.setProgressBarIndeterminateVisibility(false);
-                if (result.get("status").equals("ok")) {
+                if (res.successful()) {
                     try {
-                        JSONObject job = new JSONObject(result.get("msg"));
+                        JSONObject job = new JSONObject(res.getMessage());
                         String used = job.getString("used");
                         String max = job.getString("max");
 
@@ -187,7 +187,7 @@ public class UserDetails extends AppCompatActivity {
     }
 
     private static void update(final String username, final String key, final String value) {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -195,7 +195,7 @@ public class UserDetails extends AppCompatActivity {
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... pos) {
+            protected Connection.Response doInBackground(Void... pos) {
                 Connection multipart = new Connection("users", "update");
                 multipart.addFormField("user", username);
                 multipart.addFormField("key", key);
@@ -205,13 +205,13 @@ public class UserDetails extends AppCompatActivity {
             }
 
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
+            protected void onPostExecute(Connection.Response res) {
                 e.setProgressBarIndeterminateVisibility(false);
-                if (result.get("status").equals("ok")) {
+                if (res.successful()) {
                     e.getStatus(username);
                 }
                 else {
-                    Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();

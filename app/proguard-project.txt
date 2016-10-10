@@ -26,3 +26,4 @@
 
 -keep public class * extends org.apache.http.**
 -keep public class org.apache.http.** { *; }
+-keep class android.support.v7.widget.SearchView { *; }

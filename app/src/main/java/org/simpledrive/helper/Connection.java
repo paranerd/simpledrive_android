@@ -1,5 +1,7 @@
 package org.simpledrive.helper;
 
+import android.util.Log;
+
 import org.json.JSONObject;
 import org.simpledrive.authenticator.CustomAuthenticator;
 
@@ -91,7 +93,7 @@ public class Connection {
      * @param value field value
      */
     public void addFormField(String name, String value) {
-        if(writer != null) {
+        if (writer != null) {
             writer.append(LINE_FEED).append("--").append(boundary).append(LINE_FEED);
             writer.append("Content-Disposition: form-data; name=\"").append(name).append("\"").append(LINE_FEED);
             writer.append("Content-Type: text/plain; charset=UTF-8").append(LINE_FEED);
@@ -140,7 +142,7 @@ public class Connection {
                 outputStream.write(buffer, 0, bytesRead);
                 bytesTransferred += bytesRead;
                 int percent = (int) ((bytesTransferred / (float) total) * 100);
-                if(percent % 5 == 0 && listener != null) {
+                if (percent % 5 == 0 && listener != null) {
                     listener.transferred(percent);
                 }
             }
@@ -160,14 +162,11 @@ public class Connection {
      * @return a list of Strings as response in case the server returned
      * status OK, otherwise an exception is thrown.
      */
-    public HashMap<String, String> finish() {
-        String status;
-        String msg;
-
+    public Response finish() {
         addFormField("token", CustomAuthenticator.getToken());
 
         try {
-            if(writer != null) {
+            if (writer != null) {
                 writer.append(LINE_FEED).flush();
                 writer.append("--").append(boundary).append("--").append(LINE_FEED);
                 writer.close();
@@ -179,73 +178,49 @@ public class Connection {
                 cookie = cookieList.get(0).toString();
             }
 
-            if (httpConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                // Open input stream from the HTTP connection
+            if (downloadPath != null && httpConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                // Handle download
                 InputStream is = httpConn.getInputStream();
+                // Retrieve filename from response header
+                String header = httpConn.getHeaderField("Content-Disposition");
 
-                // Is download pending?
-                if (downloadPath != null) {
-                    // Retrieve filename from response header
-                    String header = httpConn.getHeaderField("Content-Disposition");
-
-                    if (header != null && downloadFilename == null) {
-                        downloadFilename = header.substring(header.lastIndexOf("filename=") + 9);
-                        downloadFilename = URLDecoder.decode(downloadFilename, "UTF-8");
-                    }
-
-                    if(downloadFilename == null) {
-                        HashMap<String, String> map = new HashMap<>();
-                        map.put("status", "error");
-                        map.put("msg", "Empty filename");
-                        return map;
-                    }
-
-                    String saveFilePath = downloadPath + File.separator + downloadFilename;
-
-                    // Open an output stream to save into file
-                    FileOutputStream outputStream = new FileOutputStream(saveFilePath);
-
-                    total = httpConn.getContentLength();
-
-                    int bytesRead;
-                    byte[] buffer = new byte[4096];
-                    while ((bytesRead = is.read(buffer)) != -1) {
-                        outputStream.write(buffer, 0, bytesRead);
-                        bytesTransferred += bytesRead;
-                        int percent = (int) ((bytesTransferred / (float) total) * 100);
-                        if(percent % 5 == 0 && listener != null) {
-                            listener.transferred(percent);
-                        }
-                    }
-
-                    outputStream.close();
-                    status = "ok";
-                    msg = "ok";
+                if (header != null && downloadFilename == null) {
+                    downloadFilename = header.substring(header.lastIndexOf("filename=") + 9);
+                    downloadFilename = URLDecoder.decode(downloadFilename, "UTF-8");
                 }
-                // Receive answer from server
-                else {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-                    StringBuilder sb = new StringBuilder();
-                    String line;
 
-                    while ((line = reader.readLine()) != null) {
-                        sb.append(line).append("\n");
+                if (downloadFilename == null) {
+                    return new Response(false, "Empty filename");
+                }
+
+                String saveFilePath = downloadPath + File.separator + downloadFilename;
+
+                // Open an output stream to save into file
+                FileOutputStream outputStream = new FileOutputStream(saveFilePath);
+
+                total = httpConn.getContentLength();
+
+                int bytesRead;
+                byte[] buffer = new byte[4096];
+                while ((bytesRead = is.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                    bytesTransferred += bytesRead;
+                    int percent = (int) ((bytesTransferred / (float) total) * 100);
+                    if (percent % 5 == 0 && listener != null) {
+                        listener.transferred(percent);
                     }
-
-                    reader.close();
-                    String result = sb.toString();
-
-                    JSONObject obj = new JSONObject(result);
-                    status = "ok";
-                    msg = obj.getString("msg");
                 }
 
                 // Cleanup
+                outputStream.close();
                 is.close();
                 httpConn.disconnect();
+                return new Response(true, "");
             }
             else {
-                InputStream is = httpConn.getErrorStream();
+                // Receive answer from server
+                boolean success = httpConn.getResponseCode() == HttpURLConnection.HTTP_OK;
+                InputStream is = (success) ? httpConn.getInputStream() : httpConn.getErrorStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
                 StringBuilder sb = new StringBuilder();
                 String line;
@@ -254,26 +229,19 @@ public class Connection {
                     sb.append(line).append("\n");
                 }
 
-                reader.close();
                 String result = sb.toString();
-
                 JSONObject obj = new JSONObject(result);
-                status = "error";
-                msg = obj.getString("msg");
-                //msg = (httpConn.getResponseCode() == 404) ? "Connection error" : httpConn.getResponseMessage();
+
+                // Cleanup
+                reader.close();
                 is.close();
                 httpConn.disconnect();
+                return new Response(success, obj.getString("msg"));
             }
         } catch (Exception e) {
             e.printStackTrace();
-            status = "error";
-            msg = "Connection error";
+            return new Response(false, "Connection error");
         }
-
-        HashMap<String, String> map = new HashMap<>();
-        map.put("status", status);
-        map.put("msg", msg);
-        return map;
     }
 
     public void trustCertificate () throws KeyManagementException, NoSuchAlgorithmException {
@@ -282,13 +250,11 @@ public class Connection {
         TrustManager[] trustAllCerts = new TrustManager[] {
                 new X509TrustManager() {
                     @Override
-                    public void checkClientTrusted(X509Certificate[] arg0,
-                                                   String arg1) throws CertificateException {
+                    public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
                         System.out.println ( "checkClientTrusted()" );
                     }
                     @Override
-                    public void checkServerTrusted(X509Certificate[] arg0,
-                                                   String arg1) throws CertificateException {
+                    public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
                         System.out.println ( "checkServerTrusted()" );
 
                     }
@@ -313,5 +279,23 @@ public class Connection {
 
     public static void logout() {
         cookie = null;
+    }
+
+    public class Response {
+        private boolean success;
+        private String msg;
+
+        public Response(boolean success, String message) {
+            this.success = success;
+            this.msg = message;
+        }
+
+        public boolean successful() {
+            return this.success;
+        }
+
+        public String getMessage() {
+            return this.msg;
+        }
     }
 }

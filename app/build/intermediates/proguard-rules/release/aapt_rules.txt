@@ -20,7 +20,7 @@
 # view res/layout/activity_users.xml #generated:47
 -keep class android.support.design.widget.FloatingActionButton { <init>(...); }
 
-# view res/layout/activity_remotefiles.xml #generated:245
+# view res/layout/activity_remotefiles.xml #generated:260
 -keep class android.support.design.widget.NavigationView { <init>(...); }
 
 # view res/layout/design_layout_snackbar.xml #generated:18
@@ -64,7 +64,7 @@
 -keep class android.support.v7.widget.ActionBarOverlayLayout { <init>(...); }
 
 # view res/layout/abc_action_menu_layout.xml #generated:17
-# view res/layout/activity_remotefiles.xml #generated:235
+# view res/layout/activity_remotefiles.xml #generated:250
 # view res/layout/toolbar_bottom.xml #generated:13
 -keep class android.support.v7.widget.ActionMenuView { <init>(...); }
 
@@ -91,7 +91,7 @@
 -keep class android.support.v7.widget.SearchView$SearchAutoComplete { <init>(...); }
 
 # view res/layout/abc_screen_toolbar.xml #generated:36
-# view res/layout/activity_remotefiles.xml #generated:222
+# view res/layout/activity_remotefiles.xml #generated:237
 # view res/layout/toolbar.xml #generated:2
 # view res/layout/toolbar_bottom.xml #generated:1
 # view v21/res/layout-v21/toolbar.xml #generated:2
@@ -104,52 +104,52 @@
 # view res/layout/navigation_drawer_header.xml #generated:10
 -keep class de.hdodenhof.circleimageview.CircleImageView { <init>(...); }
 
-# view AndroidManifest.xml #generated:119
+# view AndroidManifest.xml #generated:121
 -keep class org.simpledrive.activities.Accounts { <init>(...); }
 
-# view AndroidManifest.xml #generated:84
+# view AndroidManifest.xml #generated:86
 -keep class org.simpledrive.activities.AppSettings { <init>(...); }
 
-# view AndroidManifest.xml #generated:79
+# view AndroidManifest.xml #generated:81
 -keep class org.simpledrive.activities.Editor { <init>(...); }
 
-# view AndroidManifest.xml #generated:114
+# view AndroidManifest.xml #generated:116
 -keep class org.simpledrive.activities.EnablePIN { <init>(...); }
 
-# view AndroidManifest.xml #generated:52
+# view AndroidManifest.xml #generated:53
 -keep class org.simpledrive.activities.FileSelector { <init>(...); }
 
-# view AndroidManifest.xml #generated:74
+# view AndroidManifest.xml #generated:76
 -keep class org.simpledrive.activities.ImageViewer { <init>(...); }
 
-# view AndroidManifest.xml #generated:55
+# view AndroidManifest.xml #generated:57
 -keep class org.simpledrive.activities.Login { <init>(...); }
 
 # view AndroidManifest.xml #generated:24
 -keep class org.simpledrive.activities.RemoteFiles { <init>(...); }
 
-# view AndroidManifest.xml #generated:94
+# view AndroidManifest.xml #generated:96
 -keep class org.simpledrive.activities.ServerLog { <init>(...); }
 
-# view AndroidManifest.xml #generated:89
+# view AndroidManifest.xml #generated:91
 -keep class org.simpledrive.activities.ServerSettings { <init>(...); }
 
 # view AndroidManifest.xml #generated:34
 -keep class org.simpledrive.activities.ShareFiles { <init>(...); }
 
-# view AndroidManifest.xml #generated:109
+# view AndroidManifest.xml #generated:111
 -keep class org.simpledrive.activities.Unlock { <init>(...); }
 
-# view AndroidManifest.xml #generated:104
+# view AndroidManifest.xml #generated:106
 -keep class org.simpledrive.activities.UserDetails { <init>(...); }
 
-# view AndroidManifest.xml #generated:99
+# view AndroidManifest.xml #generated:101
 -keep class org.simpledrive.activities.Users { <init>(...); }
 
-# view AndroidManifest.xml #generated:62
+# view AndroidManifest.xml #generated:64
 -keep class org.simpledrive.authenticator.AuthenticationService { <init>(...); }
 
-# view AndroidManifest.xml #generated:125
+# view AndroidManifest.xml #generated:127
 -keep class org.simpledrive.helper.AudioService { <init>(...); }
 
 # view res/layout/activity_imageviewer.xml #generated:11

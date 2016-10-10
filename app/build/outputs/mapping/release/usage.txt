@@ -1001,7 +1001,6 @@ android.support.v4.app.NotificationCompat$Builder:
     1459:1460:public android.support.v4.app.NotificationCompat$Builder addAction(int,java.lang.CharSequence,android.app.PendingIntent)
     1478:1479:public android.support.v4.app.NotificationCompat$Builder addAction(android.support.v4.app.NotificationCompat$Action)
     1491:1497:public android.support.v4.app.NotificationCompat$Builder setStyle(android.support.v4.app.NotificationCompat$Style)
-    1508:1509:public android.support.v4.app.NotificationCompat$Builder setColor(int)
     1520:1521:public android.support.v4.app.NotificationCompat$Builder setVisibility(int)
     1533:1534:public android.support.v4.app.NotificationCompat$Builder setPublicVersion(android.app.Notification)
     1542:1543:public android.support.v4.app.NotificationCompat$Builder extend(android.support.v4.app.NotificationCompat$Extender)
@@ -4570,20 +4569,6 @@ android.support.v7.widget.LayoutState:
     static final int INVALID_LAYOUT
     static final int ITEM_DIRECTION_HEAD
     static final int ITEM_DIRECTION_TAIL
-android.support.v7.widget.LinearLayoutCompat:
-    public static final int HORIZONTAL
-    public static final int VERTICAL
-    public static final int SHOW_DIVIDER_NONE
-    public static final int SHOW_DIVIDER_BEGINNING
-    public static final int SHOW_DIVIDER_MIDDLE
-    public static final int SHOW_DIVIDER_END
-    private static final int VERTICAL_GRAVITY_COUNT
-    private static final int INDEX_CENTER_VERTICAL
-    private static final int INDEX_TOP
-    private static final int INDEX_BOTTOM
-    private static final int INDEX_FILL
-    375:375:public boolean isBaselineAligned()
-    398:398:public boolean isMeasureWithLargestChildEnabled()
 android.support.v7.widget.LinearLayoutCompat$DividerMode
 android.support.v7.widget.LinearLayoutCompat$LayoutParams:
     1769:1806:public LinearLayoutCompat$LayoutParams(int,int,float)
@@ -4898,83 +4883,6 @@ android.support.v7.widget.ScrollingTabContainerView:
     346:353:public void removeTabAt(int)
     356:363:public void removeAllTabs()
 android.support.v7.widget.ScrollingTabContainerView$VisibilityAnimListener
-android.support.v7.widget.SearchView:
-    private static final boolean DBG
-    private static final java.lang.String LOG_TAG
-    private static final java.lang.String IME_OPTION_NO_MICROPHONE
-    private final android.view.View mSearchPlate
-    private final android.view.View mDropDownAnchor
-    private java.lang.CharSequence mOldQueryText
-    private final android.support.v7.widget.AppCompatDrawableManager mDrawableManager
-    private final android.view.View$OnClickListener mOnClickListener
-    android.view.View$OnKeyListener mTextKeyListener
-    private final android.widget.TextView$OnEditorActionListener mOnEditorActionListener
-    private final android.widget.AdapterView$OnItemClickListener mOnItemClickListener
-    private final android.widget.AdapterView$OnItemSelectedListener mOnItemSelectedListener
-    private android.text.TextWatcher mTextWatcher
-    270:271:public SearchView(android.content.Context)
-    274:275:public SearchView(android.content.Context,android.util.AttributeSet)
-    172:1674:public SearchView(android.content.Context,android.util.AttributeSet,int)
-    389:396:private void addOnLayoutChangeListenerToDropDownAnchorSDK11()
-    399:406:private void addOnLayoutChangeListenerToDropDownAnchorBase()
-    660:660:public boolean isIconfiedByDefault()
-    710:710:public boolean isSubmitButtonEnabled()
-    740:740:public boolean isQueryRefinementEnabled()
-    903:914:private void updateFocusedState()
-    1011:1050:private boolean onSuggestionsKey(android.view.View,int,android.view.KeyEvent)
-    1142:1153:private void onTextChanged(java.lang.CharSequence)
-    1205:1224:private void onVoiceClicked()
-    1327:1348:private void adjustDropDownSizeAndPosition()
-    1351:1358:private boolean onItemClicked(int,int,java.lang.String)
-    1362:1367:private boolean onItemSelected(int)
-    1404:1424:private void rewriteQueryFromSuggestion(int)
-    1437:1447:private boolean launchSuggestion(int,int,java.lang.String)
-    1454:1464:private void launchIntent(android.content.Intent)
-    1530:1534:private android.content.Intent createVoiceWebSearchIntent(android.content.Intent,android.app.SearchableInfo)
-    1546:1602:private android.content.Intent createVoiceAppSearchIntent(android.content.Intent,android.app.SearchableInfo)
-    1621:1657:private android.content.Intent createIntentFromSuggestion(android.database.Cursor,int,java.lang.String)
-    103:103:static synthetic void access$000(android.support.v7.widget.SearchView)
-    103:103:static synthetic android.support.v4.widget.CursorAdapter access$100(android.support.v7.widget.SearchView)
-    103:103:static synthetic android.view.View$OnFocusChangeListener access$200(android.support.v7.widget.SearchView)
-    103:103:static synthetic void access$300(android.support.v7.widget.SearchView)
-    103:103:static synthetic android.widget.ImageView access$400(android.support.v7.widget.SearchView)
-    103:103:static synthetic void access$500(android.support.v7.widget.SearchView)
-    103:103:static synthetic android.widget.ImageView access$600(android.support.v7.widget.SearchView)
-    103:103:static synthetic void access$700(android.support.v7.widget.SearchView)
-    103:103:static synthetic android.widget.ImageView access$800(android.support.v7.widget.SearchView)
-    103:103:static synthetic void access$900(android.support.v7.widget.SearchView)
-    103:103:static synthetic android.widget.ImageView access$1000(android.support.v7.widget.SearchView)
-    103:103:static synthetic void access$1100(android.support.v7.widget.SearchView)
-    103:103:static synthetic android.support.v7.widget.SearchView$SearchAutoComplete access$1200(android.support.v7.widget.SearchView)
-    103:103:static synthetic void access$1300(android.support.v7.widget.SearchView)
-    103:103:static synthetic android.app.SearchableInfo access$1400(android.support.v7.widget.SearchView)
-    103:103:static synthetic boolean access$1500(android.support.v7.widget.SearchView,android.view.View,int,android.view.KeyEvent)
-    103:103:static synthetic void access$1700(android.support.v7.widget.SearchView,int,java.lang.String,java.lang.String)
-    103:103:static synthetic boolean access$1800(android.support.v7.widget.SearchView,int,int,java.lang.String)
-    103:103:static synthetic boolean access$1900(android.support.v7.widget.SearchView,int)
-    103:103:static synthetic void access$2000(android.support.v7.widget.SearchView,java.lang.CharSequence)
-android.support.v7.widget.SearchView$1
-android.support.v7.widget.SearchView$10
-android.support.v7.widget.SearchView$11
-android.support.v7.widget.SearchView$12
-android.support.v7.widget.SearchView$2
-android.support.v7.widget.SearchView$3
-android.support.v7.widget.SearchView$4
-android.support.v7.widget.SearchView$5
-android.support.v7.widget.SearchView$6
-android.support.v7.widget.SearchView$7
-android.support.v7.widget.SearchView$8
-android.support.v7.widget.SearchView$9
-android.support.v7.widget.SearchView$AutoCompleteTextViewReflector:
-    1870:1880:void showSoftInputUnchecked(android.view.inputmethod.InputMethodManager,android.view.View,int)
-android.support.v7.widget.SearchView$OnQueryTextListener:
-    public abstract boolean onQueryTextChange(java.lang.String)
-android.support.v7.widget.SearchView$OnSuggestionListener:
-    public abstract boolean onSuggestionSelect(int)
-    public abstract boolean onSuggestionClick(int)
-android.support.v7.widget.SearchView$SearchAutoComplete:
-    1723:1723:private boolean isEmpty()
-    1691:1691:static synthetic boolean access$1600(android.support.v7.widget.SearchView$SearchAutoComplete)
 android.support.v7.widget.ShareActionProvider
 android.support.v7.widget.ShareActionProvider$1
 android.support.v7.widget.ShareActionProvider$OnShareTargetSelectedListener
@@ -5410,8 +5318,6 @@ org.simpledrive.R$string
 org.simpledrive.R$style
 org.simpledrive.R$styleable
 org.simpledrive.R$xml
-org.simpledrive.activities.RemoteFiles$3:
-    354:355:public boolean onQueryTextChange(java.lang.String)
 org.simpledrive.authenticator.CustomAuthenticator:
     public static final int MAX_UNLOCK_ATTEMPTS
     public static final int COOLDOWN_ADD
@@ -5431,6 +5337,9 @@ org.simpledrive.helper.AudioService:
     public static final java.lang.String PLAY_CHANGED
     public static final java.lang.String CHANGE_PLAY
     public static final java.lang.String STOP
+org.simpledrive.helper.DownloadManager:
+    private static final int notificationId
+    19:19:public DownloadManager()
 org.simpledrive.helper.FileItem:
     65:65:public java.lang.String getLastEdit()
     73:73:public java.lang.String getParent()
@@ -5446,7 +5355,7 @@ org.simpledrive.helper.TouchImageView:
 org.simpledrive.helper.TouchImageView$DoubleTapZoom:
     private static final float ZOOM_TIME
 org.simpledrive.helper.UploadManager:
-    18:18:public UploadManager()
+    19:19:public UploadManager()
 org.simpledrive.helper.Util:
     17:17:public Util()
     137:140:public static int pxToDp(int)

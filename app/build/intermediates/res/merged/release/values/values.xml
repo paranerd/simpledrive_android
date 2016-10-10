@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="fileviewValues">
+    <string-array name="listLayoutValues">
         <item name="list">list</item>
         <item name="grid">grid</item>
     </string-array>
-    <string-array name="fileviews">
+    <string-array name="listLayouts">
         <item name="list">List</item>
         <item name="grid">Grid</item>
     </string-array>
@@ -64,6 +64,7 @@
     <color name="grey5">#33d3d3d3</color>
     <color name="grey6">#ff545454</color>
     <color name="grey7">#ff333333</color>
+    <color name="grey8">#ff2f2f2f</color>
     <color name="halfblack">#33000000</color>
     <color name="highlighted_text_material_dark">#6680cbc4</color>
     <color name="highlighted_text_material_light">#66009688</color>
@@ -361,10 +362,6 @@
         <item name="android:windowEnterAnimation">@anim/design_bottom_sheet_slide_in</item>
         <item name="android:windowExitAnimation">@anim/design_bottom_sheet_slide_out</item>
     </style>
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorAccent">@color/accent_material_light</item>
-    </style>
-    <style name="AppTheme" parent="@style/AppBaseTheme"/>
     <style name="Base.AlertDialog.AppCompat" parent="android:Widget">
         <item name="android:layout">@layout/abc_alert_dialog_material</item>
         <item name="listLayout">@layout/abc_select_dialog_material</item>
@@ -1330,7 +1327,40 @@
         <item name="tabTextAppearance">@style/TextAppearance.Design.Tab</item>
         <item name="tabSelectedTextColor">?android:textColorPrimary</item>
     </style>
-    <style name="LoginTheme" parent="@android:style/Theme.Holo.Light.NoActionBar"/>
+    <style name="MainTheme.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">@color/darkgreen</item>
+        <item name="android:colorAccent">@color/darkgreen</item>
+        <item name="android:colorPrimary">@color/darkgreen</item>
+        <item name="android:colorPrimaryDark">@color/darkergreen</item>
+        <!-- Contextual action bar -->
+        <item name="android:actionModeBackground">@color/darkgreen</item>
+        <item name="android:actionModeCloseDrawable">@drawable/ic_arrow</item>
+
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/grey3</item>
+        <item name="android:colorBackground">@color/grey7</item>
+        <item name="android:colorMultiSelectHighlight">@color/grey6</item>
+        <item name="android:colorFocusedHighlight">@color/grey8</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:textColorHighlight">?android:colorPrimary</item>
+    </style>
+    <style name="MainTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">@color/darkgreen</item>
+        <item name="android:colorAccent">@color/darkgreen</item>
+        <item name="android:colorPrimary">@color/darkgreen</item>
+        <item name="android:colorPrimaryDark">@color/darkergreen</item>
+        <!-- Contextual action bar -->
+        <item name="android:actionModeBackground">@color/darkgreen</item>
+        <item name="android:actionModeCloseDrawable">@drawable/ic_arrow</item>
+
+        <item name="android:textColorPrimary">@color/grey6</item>
+        <item name="android:textColorSecondary">@color/grey3</item>
+        <item name="android:colorBackground">@color/white</item>
+        <item name="android:colorMultiSelectHighlight">@color/lightgreen</item>
+        <item name="android:colorFocusedHighlight">@color/grey1</item>
+        <item name="android:navigationBarColor">@color/grey4</item>
+        <item name="android:textColorHighlight">?android:colorPrimary</item>
+    </style>
     <style name="MenuItemAppearance"><item name="android:ellipsize">end</item></style>
     <style name="Platform.AppCompat" parent="android:Theme">
         <item name="android:windowNoTitle">true</item>

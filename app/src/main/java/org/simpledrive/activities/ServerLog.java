@@ -179,7 +179,7 @@ public class ServerLog extends AppCompatActivity {
     }
 
     private void clearLog() {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -188,26 +188,26 @@ public class ServerLog extends AppCompatActivity {
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... args) {
+            protected Connection.Response doInBackground(Void... args) {
                 Connection multipart = new Connection("system", "clearlog");
                 return multipart.finish();
             }
 
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
+            protected void onPostExecute(Connection.Response res) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                if(!result.get("status").equals("ok")) {
-                    Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+                if (res.successful()) {
+                    fetchLog(currentPage);
                 }
                 else {
-                    fetchLog(currentPage);
+                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();
     }
 
     private void fetchLog(final int page) {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -216,7 +216,7 @@ public class ServerLog extends AppCompatActivity {
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... args) {
+            protected Connection.Response doInBackground(Void... args) {
                 Connection multipart = new Connection("system", "log");
                 multipart.addFormField("page", Integer.toString(page));
 
@@ -224,16 +224,16 @@ public class ServerLog extends AppCompatActivity {
             }
 
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
+            protected void onPostExecute(Connection.Response res) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                if(!result.get("status").equals("ok")) {
-                    info.setVisibility(View.VISIBLE);
-                    info.setText(result.get("msg"));
+                if (res.successful()) {
+                    info.setVisibility(View.INVISIBLE);
+                    extractLog(res.getMessage());
+                    displayLog();
                 }
                 else {
-                    info.setVisibility(View.INVISIBLE);
-                    extractLog(result.get("msg"));
-                    displayLog();
+                    info.setVisibility(View.VISIBLE);
+                    info.setText(res.getMessage());
                 }
             }
         }.execute();

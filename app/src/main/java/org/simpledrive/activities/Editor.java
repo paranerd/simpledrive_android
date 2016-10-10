@@ -160,7 +160,7 @@ public class Editor extends AppCompatActivity {
     }
 
     private void load(final String target) {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -168,30 +168,30 @@ public class Editor extends AppCompatActivity {
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... pos) {
+            protected Connection.Response doInBackground(Void... pos) {
                 Connection multipart = new Connection("files", "loadtext");
                 multipart.addFormField("target", target);
 
                 return multipart.finish();
             }
             @Override
-            protected void onPostExecute(HashMap<String, String> value) {
+            protected void onPostExecute(Connection.Response res) {
                 e.setProgressBarIndeterminateVisibility(false);
-                if(value.get("status").equals("ok")) {
-                    editor.setText(value.get("msg"));
+                if (res.successful()) {
+                    editor.setText(res.getMessage());
                     saved = true;
                     setToolbarTitle(filename);
                     setToolbarSubtitle("Saved.");
                 }
                 else {
-                    Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();
     }
 
     private void save(final String target, final String data) {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -199,7 +199,7 @@ public class Editor extends AppCompatActivity {
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... pos) {
+            protected Connection.Response doInBackground(Void... pos) {
                 Connection multipart = new Connection("files", "savetext");
                 multipart.addFormField("target", target);
                 multipart.addFormField("data", data);
@@ -207,9 +207,9 @@ public class Editor extends AppCompatActivity {
                 return multipart.finish();
             }
             @Override
-            protected void onPostExecute(HashMap<String, String> value) {
+            protected void onPostExecute(Connection.Response res) {
                 e.setProgressBarIndeterminateVisibility(false);
-                if(value.get("status").equals("ok")) {
+                if (res.successful()) {
                     saved = true;
                     if(toolbar != null) {
                         toolbar.setTitle(filename);
@@ -218,7 +218,7 @@ public class Editor extends AppCompatActivity {
                     invalidateOptionsMenu();
                 }
                 else {
-                    Toast.makeText(e, value.get("msg"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();

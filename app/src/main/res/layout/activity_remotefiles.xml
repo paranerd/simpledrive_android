@@ -81,7 +81,7 @@
                         android:layout_marginRight="16dp"
                         android:layout_marginBottom="88dp"
                         android:elevation="7dp"
-                        app:backgroundTint="?android:attr/colorPrimary"
+                        app:backgroundTint="?android:colorPrimary"
                         android:src="@drawable/ic_upload"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
@@ -95,7 +95,7 @@
                         android:layout_marginBottom="16dp"
                         android:layout_marginRight="156dp"
                         android:elevation="7dp"
-                        app:backgroundTint="?android:attr/colorPrimary"
+                        app:backgroundTint="?android:colorPrimary"
                         android:src="@drawable/ic_unknown"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
@@ -109,7 +109,7 @@
                         android:layout_marginBottom="16dp"
                         android:layout_marginRight="88dp"
                         android:elevation="7dp"
-                        app:backgroundTint="?android:attr/colorPrimary"
+                        app:backgroundTint="?android:colorPrimary"
                         android:src="@drawable/ic_folder"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
@@ -122,7 +122,7 @@
                         android:layout_gravity="bottom|end"
                         android:layout_margin="16dp"
                         android:elevation="7dp"
-                        app:backgroundTint="?android:attr/colorPrimary"
+                        app:backgroundTint="?android:colorPrimary"
                         android:src="@drawable/ic_paste"
                         android:visibility="gone"
                         android:layout_alignParentLeft="true"
@@ -136,7 +136,7 @@
                         android:layout_marginBottom="16dp"
                         android:layout_marginLeft="88dp"
                         android:elevation="7dp"
-                        app:backgroundTint="?android:attr/colorPrimary"
+                        app:backgroundTint="?android:colorPrimary"
                         android:src="@drawable/ic_close"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentBottom="true"
@@ -153,7 +153,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
                         android:background="@color/darkergreen"
-                        android:visibility="gone">
+                        >
 
                         <TextView
                             android:id="@+id/audio_title"
@@ -185,17 +185,25 @@
                             android:layout_marginLeft="16dp"
                             android:layout_marginBottom="15dp"
                             android:layout_alignParentBottom="true"
-                            android:background="?android:attr/colorPrimary"
+                            android:background="?android:colorPrimary"
                             android:src="@drawable/ic_upload"
                             android:visibility="gone"/>
 
-                        <ImageButton
-                            android:id="@+id/bPlay"
+                        <FrameLayout
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:layout_marginLeft="16dp"
+                            android:layout_marginLeft="16dip"
                             android:layout_centerVertical="true"
-                            android:background="@drawable/ic_play" />
+                            android:layout_gravity="center">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/bPlay"
+                                android:layout_centerVertical="true"
+                                android:scaleType="center"
+                                android:src="@drawable/ic_play"/>
+                        </FrameLayout>
 
                         <ImageButton
                             android:id="@+id/bNext"
@@ -204,26 +212,33 @@
                             android:layout_marginLeft="156dp"
                             android:layout_marginBottom="15dp"
                             android:layout_alignParentBottom="true"
-                            android:background="?android:attr/colorPrimary"
+                            android:background="?android:colorPrimary"
                             android:src="@drawable/ic_upload"
                             android:visibility="gone"/>
 
-                        <ImageButton
-                            android:id="@+id/bExit"
+                        <FrameLayout
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:layout_marginRight="16dp"
-                            android:layout_centerVertical="true"
+                            android:layout_marginRight="16dip"
                             android:layout_alignParentRight="true"
-                            android:background="@color/darkergreen"
-                            android:src="@drawable/ic_close" />
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/bExit"
+                                android:layout_centerVertical="true"
+                                android:scaleType="center"
+                                android:src="@drawable/ic_close"/>
+                        </FrameLayout>
                     </RelativeLayout>
 
                     <android.support.v7.widget.Toolbar
                         android:id="@+id/toolbar_bottom"
                         android:layout_height="?attr/actionBarSize"
                         android:layout_width="match_parent"
-                        android:background="?android:attr/colorPrimary"
+                        android:background="?android:colorPrimary"
                         app:contentInsetStart="0dp"
                         app:contentInsetEnd="0dp"
                         app:contentInsetLeft="0dp"
