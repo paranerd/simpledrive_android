@@ -11,12 +11,12 @@
             android:summary="Size: calculating..." />
 
         <ListPreference
-            android:key="fileview"
-            android:entries="@array/fileviews"
+            android:key="listlayout"
+            android:entries="@array/listLayouts"
             android:summary="List"
-            android:entryValues="@array/fileviewValues"
-            android:title="Fileview"
-            android:dialogTitle="Select fileview"
+            android:entryValues="@array/listLayoutValues"
+            android:title="List Layout"
+            android:dialogTitle="Select List Layout"
             android:defaultValue="list" />
 
         <CheckBoxPreference

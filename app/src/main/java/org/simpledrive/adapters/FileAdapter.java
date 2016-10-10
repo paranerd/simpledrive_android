@@ -157,7 +157,7 @@ public class FileAdapter extends ArrayAdapter<FileItem> {
         }
     }
 
-    private class LoadThumb extends AsyncTask<String, Integer, HashMap<String, String>> {
+    private class LoadThumb extends AsyncTask<String, Integer, Connection.Response> {
         FileItem item;
         String size;
         String filepath;
@@ -169,7 +169,7 @@ public class FileAdapter extends ArrayAdapter<FileItem> {
         }
 
         @Override
-        protected HashMap<String, String> doInBackground(String... info) {
+        protected Connection.Response doInBackground(String... info) {
             if (thumbQueue.size() > 0) {
                 item = thumbQueue.remove(0);
             }
@@ -197,8 +197,8 @@ public class FileAdapter extends ArrayAdapter<FileItem> {
         }
 
         @Override
-        protected void onPostExecute(HashMap<String, String> value) {
-            if (value != null) {
+        protected void onPostExecute(Connection.Response res) {
+            if (res != null) {
                 Bitmap bmp = Util.getThumb(filepath, Integer.valueOf(size));
 
                 thumbLoading = false;

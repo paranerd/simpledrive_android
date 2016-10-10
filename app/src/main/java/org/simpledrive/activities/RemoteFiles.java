@@ -1,8 +1,6 @@
 package org.simpledrive.activities;
 
 import android.app.AlertDialog;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -15,14 +13,12 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -35,6 +31,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -49,6 +46,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -65,6 +63,7 @@ import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.AudioService;
 import org.simpledrive.helper.AudioService.LocalBinder;
 import org.simpledrive.helper.Connection;
+import org.simpledrive.helper.DownloadManager;
 import org.simpledrive.helper.FileItem;
 import org.simpledrive.helper.UploadManager;
 import org.simpledrive.helper.Util;
@@ -108,7 +107,8 @@ public class RemoteFiles extends AppCompatActivity {
 
     // Interface
     private static AbsListView list;
-    private static String globLayout;
+    private static int listLayout;
+    private static int theme;
     private static Toolbar toolbar;
     private static Toolbar toolbarBottom;
     private static ActionMenuView amvMenu;
@@ -120,7 +120,8 @@ public class RemoteFiles extends AppCompatActivity {
     public static TextView audioTitle;
     public static RelativeLayout player;
     public static SeekBar seek;
-    public static ImageButton bPlay, bExit;
+    public static ImageView bExit;
+    public static ImageView bPlay;
     public static TextView header_user;
     public static TextView header_server;
     public static TextView header_indicator;
@@ -171,10 +172,10 @@ public class RemoteFiles extends AppCompatActivity {
 
         settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
 
-        int theme = (settings.getString("darktheme", "").length() == 0 || !Boolean.valueOf(settings.getString("darktheme", ""))) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        theme = (settings.getString("darktheme", "").length() == 0 || !Boolean.valueOf(settings.getString("darktheme", ""))) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         e.setTheme(theme);
 
-        globLayout = (settings.getString("view", "").length() == 0 || settings.getString("view", "").equals("list")) ? "list" : "grid";
+        listLayout = (settings.getString("listlayout", "").length() == 0 || settings.getString("listlayout", "").equals("list")) ? R.layout.filelist : R.layout.filegrid;
         setContentView(R.layout.activity_remotefiles);
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
@@ -182,7 +183,7 @@ public class RemoteFiles extends AppCompatActivity {
         gridSize = displaymetrics.widthPixels / grids;
 
         initInterface();
-        setView(globLayout);
+        setListLayout(listLayout);
         initToolbar();
         initDrawer();
         initList();
@@ -284,7 +285,7 @@ public class RemoteFiles extends AppCompatActivity {
 
                 String[] paths = data.getStringArrayExtra("paths");
                 Collections.addAll(ul_paths, paths);
-                UploadManager.upload_add(e, ul_paths, hierarchy.get(hierarchy.size() - 1).getJSON().toString(), new UploadManager.Upload.TaskListener() {
+                UploadManager.addUpload(e, ul_paths, hierarchy.get(hierarchy.size() - 1).getJSON().toString(), new UploadManager.Upload.TaskListener() {
                     @Override
                     public void onFinished() {
                         fetchFiles();
@@ -309,7 +310,7 @@ public class RemoteFiles extends AppCompatActivity {
             hierarchy.remove(hierarchy.size() - 1);
             fetchFiles();
         }
-        else if(viewmode.equals("trash")) {
+        else if (viewmode.equals("trash")) {
             viewmode = "files";
             fetchFiles();
         }
@@ -322,7 +323,7 @@ public class RemoteFiles extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         mToolbarMenu = menu;
 
-        if(globLayout.equals("list")) {
+        if (listLayout == R.layout.filelist) {
             menu.findItem(R.id.toggle_view).setIcon(R.drawable.ic_grid);
             menu.findItem(R.id.toggle_view).setTitle("Grid view");
         } else {
@@ -398,8 +399,8 @@ public class RemoteFiles extends AppCompatActivity {
                 break;
 
             case R.id.toggle_view:
-                globLayout = (globLayout.equals("grid")) ? "list" : "grid";
-                setView(globLayout);
+                listLayout = (listLayout == R.layout.filegrid) ? R.layout.filelist : R.layout.filegrid;
+                setListLayout(listLayout);
                 initList();
                 displayFiles();
                 break;
@@ -415,21 +416,15 @@ public class RemoteFiles extends AppCompatActivity {
         tmp_grid = (GridView) findViewById(R.id.grid);
         tmp_list = (ListView) findViewById(R.id.list);
 
-        bPlay = (ImageButton) e.findViewById(R.id.bPlay);
+        bPlay = (ImageView) e.findViewById(R.id.bPlay);
         bPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mPlayerService.togglePlay();
-                if (AudioService.isPlaying()) {
-                    bPlay.setBackgroundResource(R.drawable.ic_pause);
-                }
-                else {
-                    bPlay.setBackgroundResource(R.drawable.ic_play);
-                }
             }
         });
 
-        bExit = (ImageButton) e.findViewById(R.id.bExit);
+        bExit = (ImageView) e.findViewById(R.id.bExit);
         bExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -561,7 +556,7 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     public static void fetchFiles() {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -573,7 +568,7 @@ public class RemoteFiles extends AppCompatActivity {
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... args) {
+            protected Connection.Response doInBackground(Void... args) {
                 Connection con = new Connection("files", "list");
                 con.addFormField("target", hierarchy.get(hierarchy.size() - 1).getJSON().toString());
                 con.addFormField("mode", viewmode);
@@ -582,17 +577,21 @@ public class RemoteFiles extends AppCompatActivity {
             }
 
             @Override
-            protected void onPostExecute(HashMap<String, String> value) {
+            protected void onPostExecute(Connection.Response res) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                if (value == null || !value.get("status").equals("ok")) {
-                    String msg = (value == null) ? e.getResources().getString(R.string.unknown_error) : value.get("msg");
+                if (res.successful()) {
+                    loginAttempts = 0;
+                    extractFiles(res.getMessage());
+                    displayFiles();
+                }
+                else {
+                    String msg = res.getMessage();
                     info.setVisibility(View.VISIBLE);
                     info.setText(msg);
-                    connect();
-                } else {
-                    loginAttempts = 0;
-                    extractFiles(value.get("msg"));
-                    displayFiles();
+
+                    if (loginAttempts < 2) {
+                        connect();
+                    }
                 }
             }
         }.execute();
@@ -608,14 +607,14 @@ public class RemoteFiles extends AppCompatActivity {
         fab_folder.setVisibility(View.GONE);
         fab_upload.setVisibility(View.GONE);
 
-        int thumbSize = (globLayout.equals("list")) ? Util.dpToPx(40) : gridSize;
+        int thumbSize = (listLayout == R.layout.filelist) ? Util.dpToPx(40) : gridSize;
         items = new ArrayList<>();
         filteredItems = new ArrayList<>();
 
         try {
             JSONArray jar = new JSONArray(rawJSON);
 
-            for(int i = 0; i < jar.length(); i++){
+            for (int i = 0; i < jar.length(); i++){
                 JSONObject obj = jar.getJSONObject(i);
 
                 String filename = (viewmode.equals("trash")) ? obj.getString("filename").substring(0, obj.getString("filename").lastIndexOf("_trash")) : obj.getString("filename");
@@ -651,7 +650,8 @@ public class RemoteFiles extends AppCompatActivity {
                 if (type.equals("image")) {
                     String ext = "." + FilenameUtils.getExtension(filename);
                     imgPath = TMP_FOLDER + Util.md5(parent + filename) + ext;
-                    thumbPath = TMP_FOLDER + Util.md5 (parent + filename) + "_" + globLayout + ".jpg";
+                    String thumbType = (listLayout == R.layout.filelist) ? "list" : "grid";
+                    thumbPath = TMP_FOLDER + Util.md5 (parent + filename) + "_" + thumbType + ".jpg";
 
 
                     if (new File(imgPath).exists()) {
@@ -694,8 +694,7 @@ public class RemoteFiles extends AppCompatActivity {
             info.setVisibility(View.GONE);
         }
 
-        int layout = (globLayout.equals("list")) ? R.layout.filelist : R.layout.filegrid;
-        newAdapter = new FileAdapter(e, layout, list, gridSize, loadthumbs, firstFilePos);
+        newAdapter = new FileAdapter(e, listLayout, list, gridSize, loadthumbs, firstFilePos);
         newAdapter.setData(filteredItems);
         list.setAdapter(newAdapter);
 
@@ -711,7 +710,7 @@ public class RemoteFiles extends AppCompatActivity {
         else if (viewmode.equals("sharedwithme")) {
             title = "Shared with me";
         }
-        else if(viewmode.equals("trash")) {
+        else if (viewmode.equals("trash")) {
             title = "Trash";
         }
         else {
@@ -739,20 +738,20 @@ public class RemoteFiles extends AppCompatActivity {
 
     public void openFile(int position) {
         FileItem item = filteredItems.get(position);
-        if(viewmode.equals("trash")) {
+        if (viewmode.equals("trash")) {
             return;
         }
-        else if(item.is("folder")) {
+        else if (item.is("folder")) {
             hierarchy.add(item);
             fetchFiles();
         }
-        else if(item.is("image")) {
+        else if (item.is("image")) {
             preventLock = true;
             Intent i = new Intent(e.getApplicationContext(), ImageViewer.class);
             i.putExtra("position", getCurrentImage(item.getFilename()));
             e.startActivity(i);
         }
-        else if(item.is("audio") && mPlayerService != null) {
+        else if (item.is("audio") && mPlayerService != null) {
             Toast.makeText(e, "Loading audio...", Toast.LENGTH_SHORT).show();
             audioFilename = item.getFilename();
 
@@ -811,17 +810,17 @@ public class RemoteFiles extends AppCompatActivity {
             @Override
             public void run() {
                 audioUpdateRunning = true;
-                if(AudioService.isPlaying()) {
+                if (AudioService.isPlaying()) {
                     int pos = mPlayerService.getCurrentPosition();
 
                     seek.setProgress(pos);
-                    bPlay.setBackgroundResource(R.drawable.ic_pause);
+                    bPlay.setImageResource(R.drawable.ic_pause);
                 }
                 else {
-                    bPlay.setBackgroundResource(R.drawable.ic_play);
+                    bPlay.setImageResource(R.drawable.ic_play);
                 }
 
-                if(AudioService.isActive() && appVisible) {
+                if (AudioService.isActive() && appVisible) {
                     mHandler.postDelayed(this, 1000);
                 }
                 else {
@@ -834,8 +833,8 @@ public class RemoteFiles extends AppCompatActivity {
 
     public int getCurrentImage(String filename) {
         ArrayList<FileItem> allImages = getAllImages();
-        for(int i = 0; i < allImages.size(); i++) {
-            if(filename.equals(allImages.get(i).getFilename())) {
+        for (int i = 0; i < allImages.size(); i++) {
+            if (filename.equals(allImages.get(i).getFilename())) {
                 return i;
             }
         }
@@ -899,7 +898,7 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     public static void connect() {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 loginAttempts++;
@@ -907,17 +906,16 @@ public class RemoteFiles extends AppCompatActivity {
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... login) {
+            protected Connection.Response doInBackground(Void... login) {
                 Connection con = new Connection("core", "login");
                 con.addFormField("user", CustomAuthenticator.getUsername());
                 con.addFormField("pass", CustomAuthenticator.getPassword());
                 con.forceSetCookie();
-
                 return con.finish();
             }
             @Override
-            protected void onPostExecute(HashMap<String, String> value) {
-                if(value.get("status").equals("ok")) {
+            protected void onPostExecute(Connection.Response res) {
+                if (res.successful()) {
                     try {
                         hierarchy = new ArrayList<>();
 
@@ -928,7 +926,7 @@ public class RemoteFiles extends AppCompatActivity {
                         FileItem currDir = new FileItem(currDirJSON, "", "");
                         hierarchy.add(currDir);
 
-                        CustomAuthenticator.updateToken(value.get("msg"));
+                        CustomAuthenticator.updateToken(res.getMessage());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -940,7 +938,7 @@ public class RemoteFiles extends AppCompatActivity {
                 else {
                     // No connection
                     info.setVisibility(View.VISIBLE);
-                    info.setText(R.string.connection_error);
+                    info.setText(res.getMessage());
 
                     if (newAdapter != null) {
                         newAdapter.setData(null);
@@ -961,7 +959,7 @@ public class RemoteFiles extends AppCompatActivity {
 
     private void showShare(final String target) {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(e);
-        View shareView = View.inflate(this, R.layout.dialog_share, null);
+        final View shareView = View.inflate(this, R.layout.dialog_share, null);
         final EditText shareUser = (EditText) shareView.findViewById(R.id.shareUser);
         final CheckBox shareWrite = (CheckBox) shareView.findViewById(R.id.shareWrite);
         final CheckBox sharePublic = (CheckBox) shareView.findViewById(R.id.sharePublic);
@@ -1181,6 +1179,9 @@ public class RemoteFiles extends AppCompatActivity {
 
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null && theme == R.style.MainTheme_Dark) {
+            toolbar.setPopupTheme(R.style.MainTheme_Dark);
+        }
         setSupportActionBar(toolbar);
 
         final ActionBar actionBar = getSupportActionBar();
@@ -1250,7 +1251,7 @@ public class RemoteFiles extends AppCompatActivity {
                         break;
 
                     case R.id.download:
-                        download(getAllSelected());
+                        DownloadManager.addDownload(e, getAllSelected());
                         actionMode.finish();
                         break;
 
@@ -1385,7 +1386,7 @@ public class RemoteFiles extends AppCompatActivity {
                         break;
 
                     case R.id.download:
-                        download(getAllSelected());
+                        DownloadManager.addDownload(e, getAllSelected());
                         mode.finish();
                         break;
 
@@ -1479,11 +1480,12 @@ public class RemoteFiles extends AppCompatActivity {
         });
     }
 
-    public void setView(String view) {
-        globLayout = view;
-        settings.edit().putString("view", globLayout).apply();
+    public void setListLayout(int layout) {
+        listLayout = layout;
+        String layoutString = (listLayout == R.layout.filegrid) ? "grid" : "list";
+        settings.edit().putString("listlayout", layoutString).apply();
 
-        if(globLayout.equals("list")) {
+        if (listLayout == R.layout.filelist) {
             list = (ListView) findViewById(R.id.list);
             tmp_grid.setVisibility(View.GONE);
         }
@@ -1493,7 +1495,7 @@ public class RemoteFiles extends AppCompatActivity {
         }
         list.setVisibility(View.VISIBLE);
 
-        if(mToolbarMenu != null) {
+        if (mToolbarMenu != null) {
             invalidateOptionsMenu();
         }
     }
@@ -1526,7 +1528,7 @@ public class RemoteFiles extends AppCompatActivity {
         intent.setClass(this, AudioService.class);
         getApplicationContext().bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
 
-        if(AudioService.isPlaying()) {
+        if (AudioService.isPlaying()) {
             showAudioPlayer();
         }
         else {
@@ -1535,7 +1537,7 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     private static void create(final String target, final String filename, final String type) {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -1543,7 +1545,7 @@ public class RemoteFiles extends AppCompatActivity {
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... params) {
+            protected Connection.Response doInBackground(Void... params) {
                 Connection con = new Connection("files", "create");
                 con.addFormField("target", target);
                 con.addFormField("filename", filename);
@@ -1552,19 +1554,19 @@ public class RemoteFiles extends AppCompatActivity {
             }
 
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
-                if (result.get("status").equals("ok")) {
+            protected void onPostExecute(Connection.Response res) {
+                if (res.successful()) {
                     fetchFiles();
                 }
                 else {
-                    Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();
     }
 
     private static void share(final String target, final String userfrom, final String userto, final boolean shareWrite, final boolean sharePublic) {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -1572,7 +1574,7 @@ public class RemoteFiles extends AppCompatActivity {
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... params) {
+            protected Connection.Response doInBackground(Void... params) {
                 String w = (shareWrite) ? "1" : "0";
                 String p = (sharePublic) ? "1" : "0";
 
@@ -1587,18 +1589,18 @@ public class RemoteFiles extends AppCompatActivity {
                 return con.finish();
             }
             @Override
-            protected void onPostExecute(final HashMap<String, String> result) {
+            protected void onPostExecute(final Connection.Response res) {
                 e.setProgressBarIndeterminateVisibility(false);
-                if (result.get("status").equals("ok")) {
+                if (res.successful()) {
                     fetchFiles();
 
-                    if(sharePublic) {
+                    if (sharePublic) {
                         final android.support.v7.app.AlertDialog.Builder dialog = new android.support.v7.app.AlertDialog.Builder(e);
 
-                        dialog.setMessage("Send link?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        dialog.setMessage("Send link?").setPositiveButton("Send", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                String htmlBody = userfrom + " wants to share a file with you.<br>Access it via the following link:<br><br>" + result;
+                                String htmlBody = userfrom + " wants to share a file with you.<br>Access it via the following link:<br><br>" + res.getMessage();
                                 Spanned shareBody = Html.fromHtml(htmlBody);
                                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                                 sharingIntent.setType("text/plain");
@@ -1606,11 +1608,11 @@ public class RemoteFiles extends AppCompatActivity {
                                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
                                 e.startActivity(Intent.createChooser(sharingIntent, "Send via"));
                             }
-                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 ClipboardManager clipboard = (ClipboardManager) e.getSystemService(RemoteFiles.CLIPBOARD_SERVICE);
-                                ClipData clip = ClipData.newPlainText("label", result.get("msg"));
+                                ClipData clip = ClipData.newPlainText("label", res.getMessage());
                                 clipboard.setPrimaryClip(clip);
                                 Toast.makeText(e, "Link copied to clipboard", Toast.LENGTH_SHORT).show();
                                 dialog.cancel();
@@ -1618,14 +1620,14 @@ public class RemoteFiles extends AppCompatActivity {
                         }).show();
                     }
                 } else {
-                    Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();
     }
 
     private static void unshare(final String target) {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -1633,27 +1635,27 @@ public class RemoteFiles extends AppCompatActivity {
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... params) {
+            protected Connection.Response doInBackground(Void... params) {
                 Connection con = new Connection("files", "unshare");
                 con.addFormField("target", target);
 
                 return con.finish();
             }
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
+            protected void onPostExecute(Connection.Response res) {
                 e.setProgressBarIndeterminateVisibility(false);
-                if (result.get("status").equals("ok")) {
+                if (res.successful()) {
                     fetchFiles();
                 }
                 else {
-                    Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();
     }
 
     private static void zip(final String target, final String source) {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -1661,7 +1663,7 @@ public class RemoteFiles extends AppCompatActivity {
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... params) {
+            protected Connection.Response doInBackground(Void... params) {
                 Connection con = new Connection("files", "zip");
                 con.addFormField("target", target);
                 con.addFormField("source", source);
@@ -1669,9 +1671,9 @@ public class RemoteFiles extends AppCompatActivity {
                 return con.finish();
             }
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
+            protected void onPostExecute(Connection.Response res) {
                 e.setProgressBarIndeterminateVisibility(false);
-                if (result.get("status").equals("ok")) {
+                if (res.successful()) {
                     fetchFiles();
                 }
                 else {
@@ -1682,7 +1684,7 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     private static void restore(final String target, final String source) {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -1690,7 +1692,7 @@ public class RemoteFiles extends AppCompatActivity {
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... params) {
+            protected Connection.Response doInBackground(Void... params) {
                 Connection con = new Connection("files", "move");
                 con.addFormField("target", target);
                 con.addFormField("trash", "true");
@@ -1699,22 +1701,22 @@ public class RemoteFiles extends AppCompatActivity {
                 return con.finish();
             }
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
+            protected void onPostExecute(Connection.Response res) {
                 e.setProgressBarIndeterminateVisibility(false);
-                if (result.get("status").equals("ok")) {
+                if (res.successful()) {
                     fetchFiles();
                 }
                 else {
-                    Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();
     }
 
     private static void delete(final String target, final boolean fullyDelete) {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
-            protected HashMap<String, String> doInBackground(Void... params) {
+            protected Connection.Response doInBackground(Void... params) {
                 Connection con = new Connection("files", "delete");
                 con.addFormField("target", target);
                 con.addFormField("final", Boolean.toString(fullyDelete));
@@ -1723,23 +1725,23 @@ public class RemoteFiles extends AppCompatActivity {
             }
 
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
+            protected void onPostExecute(Connection.Response res) {
                 e.setProgressBarIndeterminateVisibility(false);
 
-                if(result.get("status").equals("ok")) {
+                if (res.successful()) {
                     fetchFiles();
                 }
                 else {
-                    Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();
     }
 
     private static void paste(final String source, final String target, final boolean cut) {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
-            protected HashMap<String, String> doInBackground(Void... params) {
+            protected Connection.Response doInBackground(Void... params) {
                 String action = (cut) ? "move" : "copy";
                 Connection con = new Connection("files", action);
                 con.addFormField("target", target);
@@ -1750,32 +1752,31 @@ public class RemoteFiles extends AppCompatActivity {
             }
 
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
+            protected void onPostExecute(Connection.Response res) {
                 e.setProgressBarIndeterminateVisibility(false);
 
-                if(result.get("status").equals("ok")) {
+                if (res.successful()) {
                     clipboard = new JSONArray();
                     hidePaste();
                     fetchFiles();
                 }
                 else {
-                    Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();
     }
 
     private static void getPermissions() {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
-            protected HashMap<String, String> doInBackground(Void... pos) {
+            protected Connection.Response doInBackground(Void... pos) {
                 Connection con = new Connection("users", "admin");
-
                 return con.finish();
             }
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
-                if (result.get("status").equals("ok") && result.get("msg").equals("true")) {
+            protected void onPostExecute(Connection.Response res) {
+                if (res.successful() && res.getMessage().equals("true")) {
                     unhideDrawerItem(R.id.navigation_view_item_server);
                 }
             }
@@ -1783,18 +1784,18 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     private static void getVersion() {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
-            protected HashMap<String, String> doInBackground(Void... pos) {
+            protected Connection.Response doInBackground(Void... pos) {
                 Connection con = new Connection("system", "version");
 
                 return con.finish();
             }
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
-                if (result.get("status").equals("ok")) {
+            protected void onPostExecute(Connection.Response res) {
+                if (res.successful()) {
                     try {
-                        JSONObject job = new JSONObject(result.get("msg"));
+                        JSONObject job = new JSONObject(res.getMessage());
                         String latest = job.getString("recent");
                         if (latest.length() > 0 && !latest.equals("null")) {
                             Toast.makeText(e, "Server update available", Toast.LENGTH_SHORT).show();
@@ -1808,7 +1809,7 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     private static void rename(final String target, final String filename) {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -1816,7 +1817,7 @@ public class RemoteFiles extends AppCompatActivity {
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... names) {
+            protected Connection.Response doInBackground(Void... names) {
                 Connection con = new Connection("files", "rename");
                 con.addFormField("target", target);
                 con.addFormField("newFilename", filename);
@@ -1825,82 +1826,16 @@ public class RemoteFiles extends AppCompatActivity {
             }
 
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
+            protected void onPostExecute(Connection.Response res) {
                 e.setProgressBarIndeterminate(false);
-                if (result.get("status").equals("ok")) {
+                if (res.successful()) {
                     fetchFiles();
                 }
                 else {
-                    Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();
-    }
-
-    private static void download(final String target) {
-        Intent intent = new Intent(e, RemoteFiles.class);
-        PendingIntent pIntent = PendingIntent.getActivity(e, 0, intent, 0);
-
-        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(e)
-                .setContentTitle("Downloading...")
-                .setContentText("Download in progress")
-                .setContentIntent(pIntent)
-                .setOngoing(true)
-                .setSmallIcon(R.drawable.ic_cloud)
-                .setProgress(100, 0, false);
-        final NotificationManager mNotifyManager = (NotificationManager) e.getSystemService(Context.NOTIFICATION_SERVICE);
-        final int notificationId = 2;
-
-        AsyncTask<Void, Integer, HashMap<String, String>> dl = new AsyncTask<Void, Integer, HashMap<String, String>>() {
-
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-
-                mNotifyManager.notify(notificationId, mBuilder.build());
-            }
-
-            @Override
-            protected HashMap<String, String> doInBackground(Void... params) {
-                String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
-
-                Connection con = new Connection("files", "read");
-                con.setListener(new Connection.ProgressListener() {
-                    @Override
-                    public void transferred(Integer num) {
-                        publishProgress(num);
-                    }
-                });
-
-                con.addFormField("target", target);
-                con.setDownloadPath(path, null);
-                return con.finish();
-            }
-
-            @Override
-            protected void onProgressUpdate(Integer... values) {
-                super.onProgressUpdate(values);
-
-                mBuilder.setProgress(100, values[0], false);
-                mNotifyManager.notify(notificationId, mBuilder.build());
-            }
-
-            @Override
-            protected void onPostExecute(HashMap<String, String> result) {
-                mBuilder.setContentTitle("Download complete")
-                        .setOngoing(false)
-                        .setContentText("")
-                        .setProgress(0,0,false);
-                mNotifyManager.notify(notificationId, mBuilder.build());
-            }
-        };
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            dl.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        }
-        else {
-            dl.execute();
-        }
     }
 
     public static void hideAccounts() {

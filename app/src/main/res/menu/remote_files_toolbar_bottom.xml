@@ -44,11 +44,13 @@
         app:showAsAction="always">
 
         <menu>
+
             <item
                 android:id="@+id/restore"
                 android:orderInCategory="300"
                 android:title="Restore"
-                app:showAsAction="ifRoom" />
+                android:icon="@drawable/ic_undo"
+                app:showAsAction="always" />
 
             <item
                 android:id="@+id/cut"

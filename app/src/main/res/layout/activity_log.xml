@@ -52,13 +52,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/grey2">
+                    android:background="?android:colorPrimary">
 
                     <TextView
                         android:id="@+id/page"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/grey6"
+                        android:textColor="@color/white"
                         android:gravity="center"
                         android:layout_centerVertical="true" />
 

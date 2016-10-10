@@ -113,15 +113,15 @@ public class AppSettings extends AppCompatActivity {
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.settings_app);
 
-            String currentView = (settings.getString("view", "").length() == 0) ? "list" : settings.getString("view", "");
+            String currentView = (settings.getString("listlayout", "").length() == 0 || settings.getString("listlayout", "").equals("list")) ? "list" : "grid";
 
-            fileview = (ListPreference) findPreference("fileview");
+            fileview = (ListPreference) findPreference("listlayout");
             fileview.setSummary(currentView.substring(0,1).toUpperCase() + currentView.substring(1));
             fileview.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     String view = o.toString();
-                    settings.edit().putString("view", view).apply();
+                    settings.edit().putString("listlayout", view).apply();
                     fileview.setSummary(view.substring(0,1).toUpperCase() + view.substring(1));
                     return true;
                 }

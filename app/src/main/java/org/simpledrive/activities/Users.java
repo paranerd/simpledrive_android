@@ -169,30 +169,29 @@ public class Users extends AppCompatActivity {
     }
 
     private void fetchUsers() {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... args) {
+            protected Connection.Response doInBackground(Void... args) {
                 Connection con = new Connection("users", "get");
 
                 return con.finish();
             }
 
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
-                if(result == null || !result.get("status").equals("ok")) {
-                    String msg = (result == null) ? getResources().getString(R.string.unknown_error) : result.get("msg");
-                    info.setVisibility(View.VISIBLE);
-                    info.setText(msg);
+            protected void onPostExecute(Connection.Response res) {
+                if (res.successful()) {
+                    info.setVisibility(View.INVISIBLE);
+                    extractFiles(res.getMessage());
+                    displayUsers();
                 }
                 else {
-                    info.setVisibility(View.INVISIBLE);
-                    extractFiles(result.get("msg"));
-                    displayUsers();
+                    info.setVisibility(View.VISIBLE);
+                    info.setText(res.getMessage());
                 }
             }
         }.execute();
@@ -311,7 +310,7 @@ public class Users extends AppCompatActivity {
     }
 
     private void create(final String username, final String pass, final boolean admin) {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -319,7 +318,7 @@ public class Users extends AppCompatActivity {
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... pos) {
+            protected Connection.Response doInBackground(Void... pos) {
                 String a = (admin) ? "1" : "0";
                 Connection con = new Connection("users", "create");
                 con.addFormField("user", username);
@@ -331,19 +330,19 @@ public class Users extends AppCompatActivity {
             }
 
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
-                if (result.get("status").equals("ok")) {
+            protected void onPostExecute(Connection.Response res) {
+                if (res.successful()) {
                     fetchUsers();
                 }
                 else {
-                    Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();
     }
 
     private void delete(final String username) {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -351,7 +350,7 @@ public class Users extends AppCompatActivity {
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... params) {
+            protected Connection.Response doInBackground(Void... params) {
                 Connection con = new Connection("users", "delete");
                 con.addFormField("user", username);
 
@@ -359,12 +358,12 @@ public class Users extends AppCompatActivity {
             }
 
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
-                if (result.get("status").equals("ok")) {
+            protected void onPostExecute(Connection.Response res) {
+                if (res.successful()) {
                     fetchUsers();
                 }
                 else {
-                    Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();

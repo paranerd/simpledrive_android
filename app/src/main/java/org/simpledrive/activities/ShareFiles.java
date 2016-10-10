@@ -53,6 +53,7 @@ public class ShareFiles extends AppCompatActivity {
     private SharedPreferences settings;
     private static int grids = 3;
     private static int gridSize;
+    private static int loginAttempts = 0;
 
     // Files
     private static ArrayList<FileItem> items = new ArrayList<>();
@@ -62,7 +63,7 @@ public class ShareFiles extends AppCompatActivity {
     // Interface
     private static AbsListView list;
     private static TextView info;
-    private static String globLayout;
+    private static int listLayout;
     private static SwipeRefreshLayout mSwipeRefreshLayout;
     private static GridView tmp_grid;
     private static ListView tmp_list;
@@ -78,6 +79,11 @@ public class ShareFiles extends AppCompatActivity {
         super.onCreate(paramBundle);
 
         e = this;
+
+        settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
+
+        int theme = (settings.getString("darktheme", "").length() == 0 || !Boolean.valueOf(settings.getString("darktheme", ""))) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        e.setTheme(theme);
 
         setContentView(R.layout.activity_sharefiles);
 
@@ -119,7 +125,7 @@ public class ShareFiles extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                UploadManager.upload_add(e, uploadsPending, hierarchy.get(hierarchy.size() - 1).getJSON().toString(), null);
+                UploadManager.addUpload(e, uploadsPending, hierarchy.get(hierarchy.size() - 1).getJSON().toString(), null);
                 e.finish();
             }
         });
@@ -128,15 +134,15 @@ public class ShareFiles extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                loginAttempts = 0;
                 fetchFiles();
             }
         });
         mSwipeRefreshLayout.setColorSchemeResources(R.color.darkgreen, R.color.darkgreen, R.color.darkgreen, R.color.darkgreen);
         mSwipeRefreshLayout.setProgressViewOffset(false, Util.dpToPx(56), Util.dpToPx(56) + 100);
 
-        settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
-        globLayout = (settings.getString("view", "").length() == 0) ? "list" : settings.getString("view", "");
-        setView(globLayout);
+        listLayout = (settings.getString("listlayout", "").length() == 0 || settings.getString("listlayout", "").equals("list")) ? R.layout.filelist : R.layout.filegrid;
+        setListLayout(listLayout);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -200,7 +206,7 @@ public class ShareFiles extends AppCompatActivity {
     }
 
     private static void fetchFiles() {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -208,7 +214,7 @@ public class ShareFiles extends AppCompatActivity {
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... args) {
+            protected Connection.Response doInBackground(Void... args) {
                 Connection con = new Connection("files", "list");
                 con.addFormField("target", hierarchy.get(hierarchy.size() - 1).getJSON().toString());
                 con.addFormField("mode", "files");
@@ -217,14 +223,17 @@ public class ShareFiles extends AppCompatActivity {
             }
 
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
+            protected void onPostExecute(Connection.Response res) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                if (result.get("status").equals("ok")) {
-                    extractFiles(result.get("msg"));
+                if (res.successful()) {
+                    loginAttempts = 0;
+                    extractFiles(res.getMessage());
                     displayFiles();
                 }
                 else {
-                    connect();
+                    if (loginAttempts < 2) {
+                        connect();
+                    }
                 }
             }
         }.execute();
@@ -247,7 +256,7 @@ public class ShareFiles extends AppCompatActivity {
                 String filename = obj.getString("filename");
                 String parent = obj.getString("parent");
                 String type = obj.getString("type");
-                String size = (obj.getString("type").equals("folder")) ? "" : Util.convertSize(obj.getString("size"));
+                String size = (obj.getString("type").equals("folder")) ? ((obj.getString("size").equals("1")) ? obj.getString("size") + " element" : obj.getString("size") + " elements") : Util.convertSize(obj.getString("size"));
                 String hash = obj.getString("hash");
                 String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : ((obj.getString("rootshare").length() == 0) ? "" : "shared");
                 Bitmap icon = BitmapFactory.decodeResource(e.getResources(), R.drawable.ic_folder);
@@ -275,8 +284,7 @@ public class ShareFiles extends AppCompatActivity {
             info.setVisibility(View.GONE);
         }
 
-        int layout = (globLayout.equals("list")) ? R.layout.filelist : R.layout.filegrid;
-        newAdapter = new FileAdapter(e, layout, list, gridSize, false, 0);
+        newAdapter = new FileAdapter(e, listLayout, list, gridSize, false, 0);
         newAdapter.setData(items);
         list.setAdapter(newAdapter);
 
@@ -312,14 +320,15 @@ public class ShareFiles extends AppCompatActivity {
     }
 
     private static void connect() {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
+                loginAttempts++;
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... params) {
+            protected Connection.Response doInBackground(Void... params) {
                 Connection con = new Connection("core", "login");
                 con.addFormField("user", CustomAuthenticator.getUsername());
                 con.addFormField("pass", CustomAuthenticator.getPassword());
@@ -328,8 +337,8 @@ public class ShareFiles extends AppCompatActivity {
                 return con.finish();
             }
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
-                if (result.get("status").equals("ok")) {
+            protected void onPostExecute(Connection.Response res) {
+                if (res.successful()) {
                     try {
                         hierarchy = new ArrayList<>();
 
@@ -340,7 +349,7 @@ public class ShareFiles extends AppCompatActivity {
                         FileItem currDir = new FileItem(currDirJSON, "", "");
                         hierarchy.add(currDir);
 
-                        CustomAuthenticator.updateToken(result.get("msg"));
+                        CustomAuthenticator.updateToken(res.getMessage());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -468,11 +477,8 @@ public class ShareFiles extends AppCompatActivity {
         return uploads;
     }
 
-    public void setView(String view) {
-        globLayout = view;
-        settings.edit().putString("view", globLayout).apply();
-
-        if (globLayout.equals("list")) {
+    public void setListLayout(int layout) {
+        if (listLayout == R.layout.filelist) {
             list = (ListView) findViewById(R.id.list);
             tmp_grid.setVisibility(View.GONE);
         }
@@ -486,7 +492,7 @@ public class ShareFiles extends AppCompatActivity {
     }
 
     private static void create(final String target, final String filename, final String type) {
-        new AsyncTask<Void, Void, HashMap<String, String>>() {
+        new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -494,7 +500,7 @@ public class ShareFiles extends AppCompatActivity {
             }
 
             @Override
-            protected HashMap<String, String> doInBackground(Void... params) {
+            protected Connection.Response doInBackground(Void... params) {
                 Connection con = new Connection("files", "create");
                 con.addFormField("target", target);
                 con.addFormField("filename", filename);
@@ -504,12 +510,12 @@ public class ShareFiles extends AppCompatActivity {
             }
 
             @Override
-            protected void onPostExecute(HashMap<String, String> result) {
-                if (result.get("status").equals("ok")) {
+            protected void onPostExecute(Connection.Response res) {
+                if (res.successful()) {
                     fetchFiles();
                 }
                 else {
-                    Toast.makeText(e, result.get("msg"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();
