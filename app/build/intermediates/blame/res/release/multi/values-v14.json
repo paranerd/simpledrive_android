@@ -28,50 +28,8 @@
                     "startLine": 7,
                     "startColumn": 4,
                     "startOffset": 331,
-                    "endLine": 16,
-                    "endColumn": 12,
-                    "endOffset": 898
-                },
-                "from": {
-                    "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/values-v14/styles.xml",
-                    "position": {
-                        "startLine": 3,
-                        "startColumn": 4,
-                        "startOffset": 100,
-                        "endLine": 12,
-                        "endColumn": 12,
-                        "endOffset": 667
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 17,
-                    "startColumn": 4,
-                    "startOffset": 903,
-                    "endLine": 19,
-                    "endColumn": 12,
-                    "endOffset": 1027
-                },
-                "from": {
-                    "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/values-v14/styles.xml",
-                    "position": {
-                        "startLine": 14,
-                        "startColumn": 4,
-                        "startOffset": 673,
-                        "endLine": 16,
-                        "endColumn": 12,
-                        "endOffset": 797
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 20,
-                    "startColumn": 4,
-                    "startOffset": 1032,
                     "endColumn": 70,
-                    "endOffset": 1098
+                    "endOffset": 397
                 },
                 "from": {
                     "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/values-v14/values-v14.xml",
@@ -86,11 +44,11 @@
             },
             {
                 "to": {
-                    "startLine": 21,
+                    "startLine": 8,
                     "startColumn": 4,
-                    "startOffset": 1103,
+                    "startOffset": 402,
                     "endColumn": 82,
-                    "endOffset": 1181
+                    "endOffset": 480
                 },
                 "from": {
                     "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/values-v14/values-v14.xml",
@@ -105,12 +63,12 @@
             },
             {
                 "to": {
-                    "startLine": 22,
+                    "startLine": 9,
                     "startColumn": 4,
-                    "startOffset": 1186,
-                    "endLine": 27,
+                    "startOffset": 485,
+                    "endLine": 14,
                     "endColumn": 12,
-                    "endOffset": 1591
+                    "endOffset": 890
                 },
                 "from": {
                     "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/values-v14/values-v14.xml",
@@ -126,12 +84,12 @@
             },
             {
                 "to": {
-                    "startLine": 28,
+                    "startLine": 15,
                     "startColumn": 4,
-                    "startOffset": 1596,
-                    "endLine": 33,
+                    "startOffset": 895,
+                    "endLine": 20,
                     "endColumn": 12,
-                    "endOffset": 2013
+                    "endOffset": 1312
                 },
                 "from": {
                     "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/values-v14/values-v14.xml",
@@ -147,11 +105,11 @@
             },
             {
                 "to": {
-                    "startLine": 34,
+                    "startLine": 21,
                     "startColumn": 4,
-                    "startOffset": 2018,
+                    "startOffset": 1317,
                     "endColumn": 119,
-                    "endOffset": 2133
+                    "endOffset": 1432
                 },
                 "from": {
                     "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/values-v14/values-v14.xml",
@@ -166,11 +124,11 @@
             },
             {
                 "to": {
-                    "startLine": 35,
+                    "startLine": 22,
                     "startColumn": 4,
-                    "startOffset": 2138,
+                    "startOffset": 1437,
                     "endColumn": 62,
-                    "endOffset": 2196
+                    "endOffset": 1495
                 },
                 "from": {
                     "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/values-v14/values-v14.xml",
@@ -185,12 +143,12 @@
             },
             {
                 "to": {
-                    "startLine": 36,
+                    "startLine": 23,
                     "startColumn": 4,
-                    "startOffset": 2201,
-                    "endLine": 38,
+                    "startOffset": 1500,
+                    "endLine": 25,
                     "endColumn": 12,
-                    "endOffset": 2350
+                    "endOffset": 1649
                 },
                 "from": {
                     "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/values-v14/values-v14.xml",
@@ -206,11 +164,11 @@
             },
             {
                 "to": {
-                    "startLine": 39,
+                    "startLine": 26,
                     "startColumn": 4,
-                    "startOffset": 2355,
+                    "startOffset": 1654,
                     "endColumn": 62,
-                    "endOffset": 2413
+                    "endOffset": 1712
                 },
                 "from": {
                     "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/values-v14/values-v14.xml",
@@ -225,11 +183,11 @@
             },
             {
                 "to": {
-                    "startLine": 40,
+                    "startLine": 27,
                     "startColumn": 4,
-                    "startOffset": 2418,
+                    "startOffset": 1717,
                     "endColumn": 131,
-                    "endOffset": 2545
+                    "endOffset": 1844
                 },
                 "from": {
                     "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/values-v14/values-v14.xml",
@@ -239,48 +197,6 @@
                         "startOffset": 1717,
                         "endColumn": 131,
                         "endOffset": 1844
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 41,
-                    "startColumn": 4,
-                    "startOffset": 2550,
-                    "endLine": 43,
-                    "endColumn": 12,
-                    "endOffset": 2708
-                },
-                "from": {
-                    "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/values-v14/styles.xml",
-                    "position": {
-                        "startLine": 23,
-                        "startColumn": 4,
-                        "startOffset": 1028,
-                        "endLine": 25,
-                        "endColumn": 12,
-                        "endOffset": 1186
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 44,
-                    "startColumn": 4,
-                    "startOffset": 2713,
-                    "endLine": 47,
-                    "endColumn": 12,
-                    "endOffset": 2932
-                },
-                "from": {
-                    "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/values-v14/styles.xml",
-                    "position": {
-                        "startLine": 18,
-                        "startColumn": 4,
-                        "startOffset": 803,
-                        "endLine": 21,
-                        "endColumn": 12,
-                        "endOffset": 1022
                     }
                 }
             }

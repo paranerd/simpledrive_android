@@ -1,9 +1,14 @@
 package org.simpledrive.helper;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
 
 import org.simpledrive.R;
 import org.simpledrive.activities.RemoteFiles;
+import org.simpledrive.authenticator.CustomAuthenticator;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -26,7 +31,8 @@ public class AudioService extends Service {
 
 	private MediaPlayer mediaPlayer;
 	private static boolean playPause, prepared = false;
-	int notificationId = 3;
+	private int notificationId = 3;
+	public static FileItem currentPlaying;
 
 	private AudioBCReceiver receiver;
 	private static boolean active;
@@ -136,13 +142,16 @@ public class AudioService extends Service {
 		}
 	}
 
-	public void initPlay(String url) {
+	public void initPlay(FileItem item) {
+		currentPlaying = item;
 		active = true;
 		prepared = false;
+
 		try {
+			URI uri = new URI(CustomAuthenticator.getServer() + "api/files/read?target=[" + URLEncoder.encode(item.getJSON().toString(), "UTF-8") + "]&token=" + CustomAuthenticator.getToken());
 			mediaPlayer.reset();
-			mediaPlayer.setDataSource(url);
-		} catch (IllegalArgumentException | IOException | IllegalStateException | SecurityException e) {
+			mediaPlayer.setDataSource(uri.toASCIIString());
+		} catch (IllegalArgumentException | IOException | IllegalStateException | SecurityException | URISyntaxException e) {
 			e.printStackTrace();
 		}
 		mediaPlayer.prepareAsync();
@@ -207,7 +216,7 @@ public class AudioService extends Service {
 		else {
 			remoteView.setImageViewResource(R.id.notifbutton, R.drawable.ic_play_black);
 		}
-		remoteView.setTextViewText(R.id.notiftitle, RemoteFiles.audioFilename);
+		remoteView.setTextViewText(R.id.notiftitle, currentPlaying.getFilename());
 		remoteView.setOnClickPendingIntent(R.id.notifbutton, pChange);
 		remoteView.setOnClickPendingIntent(R.id.notifexit, pStop);
 

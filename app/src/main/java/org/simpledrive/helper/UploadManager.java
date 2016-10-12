@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -17,12 +18,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class UploadManager {
-    public static int uploadCurrent = 0;
-    public static int uploadTotal = 0;
-    public static int uploadSuccessful = 0;
-    public static boolean uploading = false;
-    public static ArrayList<HashMap<String, String>> uploadQueue = new ArrayList<>();
+    private static int uploadCurrent = 0;
+    private static int uploadTotal = 0;
+    private static int uploadSuccessful = 0;
+    private static boolean uploading = false;
+    private static int NOTIFICATION_ID = 1;
+    private static ArrayList<HashMap<String, String>> uploadQueue = new ArrayList<>();
     private static AppCompatActivity e;
+    private static SharedPreferences settings;
+
+    public static boolean isRunning() {
+        return uploading;
+    }
 
     private static void addRecursive(String orig_path, File dir, String target) {
         File[] files = dir.listFiles();
@@ -43,7 +50,7 @@ public class UploadManager {
         }
     }
 
-    public static void addUpload(AppCompatActivity act, ArrayList<String> paths, String target, Upload.TaskListener listener) {
+    public static void addUpload(AppCompatActivity act, ArrayList<String> paths, String target, String photosync, TaskListener listener) {
         for (String path : paths) {
             File file = new File(path);
             if (file.isDirectory()) {
@@ -55,6 +62,7 @@ public class UploadManager {
                 ul_elem.put("relative", "");
                 ul_elem.put("path", path);
                 ul_elem.put("target", target);
+                ul_elem.put("photosync", photosync);
                 uploadQueue.add(ul_elem);
                 uploadTotal++;
             }
@@ -62,98 +70,96 @@ public class UploadManager {
 
         if (!uploading) {
             e = act;
-            new Upload(listener).execute();
+            settings = e.getSharedPreferences("org.simpledrive.shared_pref", 0);
+            uploading = true;
+            upload(listener);
         }
     }
 
-    public static class Upload extends AsyncTask<String, Integer, Connection.Response> {
-        private NotificationCompat.Builder mBuilder;
-        private NotificationManager mNotifyManager;
-        private int notificationId = 1;
-        private String filename;
+    public interface TaskListener {
+        void onFinished();
+    }
 
-        public interface TaskListener {
-            void onFinished();
-        }
+    private static void upload(final TaskListener taskListener) {
+        new AsyncTask<String, Integer, Connection.Response>() {
+            private NotificationCompat.Builder mBuilder;
+            private NotificationManager mNotifyManager;
+            private String filename;
+            private HashMap<String, String> ul_elem;
 
-        private final TaskListener taskListener;
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
 
-        public Upload(TaskListener listener) {
-            this.taskListener = listener;
-        }
+                Intent intent = new Intent(e, RemoteFiles.class);
+                PendingIntent pIntent = PendingIntent.getActivity(e, 0, intent, 0);
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+                uploadCurrent++;
 
-            Intent intent = new Intent(e, RemoteFiles.class);
-            PendingIntent pIntent = PendingIntent.getActivity(e, 0, intent, 0);
-
-            uploading = true;
-            uploadCurrent++;
-
-            mNotifyManager = (NotificationManager) e.getSystemService(Context.NOTIFICATION_SERVICE);
-            mBuilder = new NotificationCompat.Builder(e);
-            mBuilder.setContentIntent(pIntent)
-                    .setContentTitle("Uploading " + uploadCurrent + " of " + uploadTotal)
-                    .setOngoing(true)
-                    .setSmallIcon(R.drawable.ic_cloud)
-                    .setColor(ContextCompat.getColor(e, R.color.darkgreen))
-                    .setProgress(100, 0, false);
-            mNotifyManager.notify(notificationId, mBuilder.build());
-        }
-
-        @Override
-        protected Connection.Response doInBackground(String... path) {
-            HashMap<String, String> ul_elem = uploadQueue.remove(0);
-            filename = ul_elem.get("filename");
-            String filepath = ul_elem.get("path");
-            String relative = ul_elem.get("relative");
-            String target = ul_elem.get("target");
-
-            Connection con = new Connection("files", "upload");
-            con.setListener(new Connection.ProgressListener() {
-                @Override
-                public void transferred(Integer num) {
-                    publishProgress(num);
-                }
-            });
-
-            con.addFormField("paths", relative);
-            con.addFormField("target", target);
-            con.addFilePart("0", new File(filepath));
-
-            return con.finish();
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-            mBuilder.setProgress(100, values[0], false)
-                    .setContentTitle("Uploading " + uploadCurrent + " of " + uploadTotal)
-                    .setContentText(filename);
-            mNotifyManager.notify(notificationId, mBuilder.build());
-        }
-
-        @Override
-        protected void onPostExecute(Connection.Response res) {
-            uploadSuccessful = (!res.successful()) ? uploadSuccessful : uploadSuccessful + 1;
-            if (uploadQueue.size() > 0) {
-                new Upload(taskListener).execute();
+                mNotifyManager = (NotificationManager) e.getSystemService(Context.NOTIFICATION_SERVICE);
+                mBuilder = new NotificationCompat.Builder(e);
+                mBuilder.setContentIntent(pIntent)
+                        .setContentTitle("Uploading " + uploadCurrent + " of " + uploadTotal)
+                        .setOngoing(true)
+                        .setSmallIcon(R.drawable.ic_cloud)
+                        .setColor(ContextCompat.getColor(e, R.color.darkgreen))
+                        .setProgress(100, 0, false);
+                mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
             }
-            else {
-                String file = (uploadTotal == 1) ? "file" : "files";
-                mBuilder.setContentTitle("Upload complete")
-                        .setContentText(uploadSuccessful + " of " + uploadTotal + " " + file + " added")
-                        .setOngoing(false)
-                        .setProgress(0, 0, false);
-                mNotifyManager.notify(notificationId, mBuilder.build());
-                uploading = false;
 
-                if (taskListener != null) {
-                    taskListener.onFinished();
+            @Override
+            protected Connection.Response doInBackground(String... path) {
+                ul_elem = uploadQueue.remove(0);
+                filename = ul_elem.get("filename");
+
+                Connection con = new Connection("files", "upload");
+                con.setListener(new Connection.ProgressListener() {
+                    @Override
+                    public void transferred(Integer num) {
+                        publishProgress(num);
+                    }
+                });
+
+                con.addFormField("target", ul_elem.get("target"));
+                con.addFormField("paths", ul_elem.get("relative"));
+                con.addFilePart("0", new File(ul_elem.get("path")));
+
+                return con.finish();
+            }
+
+            @Override
+            protected void onProgressUpdate(Integer... values) {
+                super.onProgressUpdate(values);
+                mBuilder.setProgress(100, values[0], false)
+                        .setContentTitle("Uploading " + uploadCurrent + " of " + uploadTotal)
+                        .setContentText(filename);
+                mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
+            }
+
+            @Override
+            protected void onPostExecute(Connection.Response res) {
+                uploadSuccessful = (!res.successful()) ? uploadSuccessful : uploadSuccessful + 1;
+                if (ul_elem.get("photosync").equals("1")) {
+                    settings.edit().putLong("lastPhotoSync", Util.getTimestamp()).apply();
+                }
+
+                if (uploadQueue.size() > 0) {
+                    upload(taskListener);
+                }
+                else {
+                    String file = (uploadTotal == 1) ? "file" : "files";
+                    mBuilder.setContentTitle("Upload complete")
+                            .setContentText(uploadSuccessful + " of " + uploadTotal + " " + file + " added")
+                            .setOngoing(false)
+                            .setProgress(0, 0, false);
+                    mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
+                    uploading = false;
+
+                    if (taskListener != null) {
+                        taskListener.onFinished();
+                    }
                 }
             }
-        }
+        }.execute();
     }
 }

@@ -5318,6 +5318,8 @@ org.simpledrive.R$string
 org.simpledrive.R$style
 org.simpledrive.R$styleable
 org.simpledrive.R$xml
+org.simpledrive.activities.AppSettings:
+    private static android.preference.CheckBoxPreference darktheme
 org.simpledrive.authenticator.CustomAuthenticator:
     public static final int MAX_UNLOCK_ATTEMPTS
     public static final int COOLDOWN_ADD
@@ -5332,18 +5334,18 @@ org.simpledrive.authenticator.CustomAuthenticator:
     private static final java.lang.String KEY_ACTIVE
     private static final java.lang.String TRUE
     private static final java.lang.String FALSE
-    14:14:public CustomAuthenticator()
+    15:15:public CustomAuthenticator()
 org.simpledrive.helper.AudioService:
     public static final java.lang.String PLAY_CHANGED
     public static final java.lang.String CHANGE_PLAY
     public static final java.lang.String STOP
 org.simpledrive.helper.DownloadManager:
-    private static final int notificationId
-    19:19:public DownloadManager()
+    private static final int NOTIFICATION_ID
+    18:18:public DownloadManager()
 org.simpledrive.helper.FileItem:
-    65:65:public java.lang.String getLastEdit()
-    73:73:public java.lang.String getParent()
-    93:93:public java.lang.String getType()
+    63:63:public java.lang.String getLastEdit()
+    71:71:public java.lang.String getParent()
+    91:91:public java.lang.String getType()
 org.simpledrive.helper.TouchImageView:
     private static final java.lang.String DEBUG
     private static final float SUPER_MIN_MULTIPLIER
@@ -5355,7 +5357,7 @@ org.simpledrive.helper.TouchImageView:
 org.simpledrive.helper.TouchImageView$DoubleTapZoom:
     private static final float ZOOM_TIME
 org.simpledrive.helper.UploadManager:
-    19:19:public UploadManager()
+    20:20:public UploadManager()
 org.simpledrive.helper.Util:
     17:17:public Util()
     137:140:public static int pxToDp(int)

@@ -32,7 +32,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -46,44 +45,42 @@ import org.simpledrive.helper.Util;
 
 public class ShareFiles extends AppCompatActivity {
     // General
-    private static boolean preventLock = false;
-    private static boolean calledForUnlock = false;
-    public static ShareFiles e;
-    private static String username = "";
-    private SharedPreferences settings;
-    private static int grids = 3;
-    private static int gridSize;
-    private static int loginAttempts = 0;
+    private ShareFiles e;
+    private boolean preventLock = false;
+    private boolean calledForUnlock = false;
+    private String username = "";
+    private int grids = 3;
+    private int gridSize;
+    private int loginAttempts = 0;
 
     // Files
-    private static ArrayList<FileItem> items = new ArrayList<>();
-    private static ArrayList<FileItem> hierarchy = new ArrayList<>();
-    private static FileAdapter newAdapter;
+    private ArrayList<FileItem> items = new ArrayList<>();
+    private ArrayList<FileItem> hierarchy = new ArrayList<>();
+    private FileAdapter newAdapter;
 
     // Interface
-    private static AbsListView list;
-    private static TextView info;
-    private static int listLayout;
-    private static SwipeRefreshLayout mSwipeRefreshLayout;
-    private static GridView tmp_grid;
-    private static ListView tmp_list;
+    private AbsListView list;
+    private TextView info;
+    private int listLayout;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private GridView tmp_grid;
+    private ListView tmp_list;
 
-    private static FloatingActionButton fab;
-    private static FloatingActionButton fab_folder;
-    private static FloatingActionButton fab_ok;
+    private FloatingActionButton fab;
+    private FloatingActionButton fab_folder;
+    private FloatingActionButton fab_ok;
 
-    private static ArrayList<String> uploadsPending;
-
+    private ArrayList<String> uploadsPending;
 
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
 
         e = this;
 
-        settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
+        SharedPreferences settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
 
-        int theme = (settings.getString("darktheme", "").length() == 0 || !Boolean.valueOf(settings.getString("darktheme", ""))) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
-        e.setTheme(theme);
+        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        setTheme(theme);
 
         setContentView(R.layout.activity_sharefiles);
 
@@ -125,7 +122,7 @@ public class ShareFiles extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                UploadManager.addUpload(e, uploadsPending, hierarchy.get(hierarchy.size() - 1).getJSON().toString(), null);
+                UploadManager.addUpload(e, uploadsPending, hierarchy.get(hierarchy.size() - 1).getJSON().toString(), "0", null);
                 e.finish();
             }
         });
@@ -142,7 +139,7 @@ public class ShareFiles extends AppCompatActivity {
         mSwipeRefreshLayout.setProgressViewOffset(false, Util.dpToPx(56), Util.dpToPx(56) + 100);
 
         listLayout = (settings.getString("listlayout", "").length() == 0 || settings.getString("listlayout", "").equals("list")) ? R.layout.filelist : R.layout.filegrid;
-        setListLayout(listLayout);
+        setListLayout();
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -175,7 +172,7 @@ public class ShareFiles extends AppCompatActivity {
 
         preventLock = false;
 
-        if (!CustomAuthenticator.enable(e)) {
+        if (!CustomAuthenticator.enable(this)) {
             // Not logged in
             startActivity(new Intent(getApplicationContext(), Login.class));
             finish();
@@ -205,7 +202,7 @@ public class ShareFiles extends AppCompatActivity {
         super.onPause();
     }
 
-    private static void fetchFiles() {
+    private void fetchFiles() {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
@@ -243,7 +240,7 @@ public class ShareFiles extends AppCompatActivity {
      * Extract JSONArray from server-data, convert to ArrayList and display
      * @param rawJSON The raw JSON-Data from the server
      */
-    private static void extractFiles(String rawJSON) {
+    private void extractFiles(String rawJSON) {
         // Reset anything related to listing files
         items = new ArrayList<>();
 
@@ -259,7 +256,7 @@ public class ShareFiles extends AppCompatActivity {
                 String size = (obj.getString("type").equals("folder")) ? ((obj.getString("size").equals("1")) ? obj.getString("size") + " element" : obj.getString("size") + " elements") : Util.convertSize(obj.getString("size"));
                 String hash = obj.getString("hash");
                 String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : ((obj.getString("rootshare").length() == 0) ? "" : "shared");
-                Bitmap icon = BitmapFactory.decodeResource(e.getResources(), R.drawable.ic_folder);
+                Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
 
                 if(type.equals("folder")) {
                     FileItem item = new FileItem(obj, filename, parent, null, size, obj.getString("edit"), type, owner, hash, icon, null, "", "");
@@ -274,7 +271,7 @@ public class ShareFiles extends AppCompatActivity {
     /**
      * Extract JSONArray from server-data and convert to ArrayList
      */
-    private static void displayFiles() {
+    private void displayFiles() {
         Util.sortFilesByName(items, 1);
 
         if (items.size() == 0) {
@@ -284,7 +281,7 @@ public class ShareFiles extends AppCompatActivity {
             info.setVisibility(View.GONE);
         }
 
-        newAdapter = new FileAdapter(e, listLayout, list, gridSize, false, 0);
+        newAdapter = new FileAdapter(this, listLayout, list, gridSize, false, 0);
         newAdapter.setData(items);
         list.setAdapter(newAdapter);
 
@@ -301,25 +298,25 @@ public class ShareFiles extends AppCompatActivity {
         setToolbarSubtitle("Folders: " + items.size());
     }
 
-    private static void setToolbarTitle(final String title) {
-        if (e.getSupportActionBar() != null) {
-            e.getSupportActionBar().setTitle(title);
+    private void setToolbarTitle(final String title) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
         }
     }
 
-    private static void setToolbarSubtitle(final String subtitle) {
-        if (e.getSupportActionBar() != null) {
-            e.getSupportActionBar().setSubtitle(subtitle);
+    private void setToolbarSubtitle(final String subtitle) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setSubtitle(subtitle);
         }
     }
 
-    public void openFile(int position) {
+    private void openFile(int position) {
         FileItem item = items.get(position);
         hierarchy.add(item);
         fetchFiles();
     }
 
-    private static void connect() {
+    private void connect() {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
@@ -346,7 +343,7 @@ public class ShareFiles extends AppCompatActivity {
                         currDirJSON.put("path", "");
                         currDirJSON.put("rootshare", "");
 
-                        FileItem currDir = new FileItem(currDirJSON, "", "");
+                        FileItem currDir = new FileItem(currDirJSON, "", "", null);
                         hierarchy.add(currDir);
 
                         CustomAuthenticator.updateToken(res.getMessage());
@@ -384,12 +381,12 @@ public class ShareFiles extends AppCompatActivity {
     }
 
     private void showCreate(final String type) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(e);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
         alert.setTitle("New " + type.substring(0,1).toUpperCase() + type.substring(1));
 
         // Set an EditText view to get user input
-        final EditText input = new EditText(e);
+        final EditText input = new EditText(this);
         alert.setView(input);
 
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -417,7 +414,7 @@ public class ShareFiles extends AppCompatActivity {
             @Override
             public void run()
             {
-                InputMethodManager m = (InputMethodManager) e.getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager m = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
                 if (m != null)
                 {
@@ -477,7 +474,7 @@ public class ShareFiles extends AppCompatActivity {
         return uploads;
     }
 
-    public void setListLayout(int layout) {
+    private void setListLayout() {
         if (listLayout == R.layout.filelist) {
             list = (ListView) findViewById(R.id.list);
             tmp_grid.setVisibility(View.GONE);
@@ -491,12 +488,11 @@ public class ShareFiles extends AppCompatActivity {
         registerForContextMenu(list);
     }
 
-    private static void create(final String target, final String filename, final String type) {
+    private void create(final String target, final String filename, final String type) {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                e.setProgressBarIndeterminateVisibility(true);
             }
 
             @Override

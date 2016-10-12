@@ -45,7 +45,6 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -69,85 +68,79 @@ import org.simpledrive.helper.UploadManager;
 import org.simpledrive.helper.Util;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class RemoteFiles extends AppCompatActivity {
     // General
-    public static boolean appVisible;
-    public static RemoteFiles e;
-    private static String username = "";
-    private static String viewmode = "files";
-    private static final String TMP_FOLDER = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/simpleDrive/";
-    private static int FORCE_RELOAD = 5;
-    private static SharedPreferences settings;
-    private static boolean longClicked = false;
-    private static int loginAttempts = 0;
-    private static boolean loadthumbs = false;
-    private static int lastSelected = 0;
-    private static int grids = 3;
-    private static int gridSize;
-    private static boolean forceFullLoad = true;
-    private static boolean preventLock = false;
-    private static boolean calledForUnlock = false;
+    private boolean appVisible;
+    private RemoteFiles e;
+    private String username = "";
+    private String viewmode = "files";
+    private final String CACHE_FOLDER = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/simpleDrive/";
+    private int FORCE_RELOAD = 5;
+    private SharedPreferences settings;
+    private int loginAttempts = 0;
+    private boolean loadthumbs = false;
+    private int lastSelected = 0;
+    private int grids = 3;
+    private int gridSize;
+    private boolean forceFullLoad = true;
+    private boolean preventLock = false;
+    private boolean calledForUnlock = false;
+    private boolean isAdmin = false;
 
     // Audio
-    public static String audioFilename;
-    private static AudioService mPlayerService;
-    private static boolean mBound = false;
-    private static final Handler mHandler = new Handler();
-    private static boolean audioUpdateRunning = false;
+    private AudioService mPlayerService;
+    private boolean mBound = false;
+    private final Handler mHandler = new Handler();
+    private boolean audioUpdateRunning = false;
 
     // Interface
-    private static AbsListView list;
-    private static int listLayout;
-    private static int theme;
-    private static Toolbar toolbar;
-    private static Toolbar toolbarBottom;
-    private static ActionMenuView amvMenu;
-    private static Menu bottomContextMenu;
-    private static TextView info;
-    private static SwipeRefreshLayout mSwipeRefreshLayout;
-    private static Menu mToolbarMenu;
-    private static Menu mContextMenu;
-    public static TextView audioTitle;
-    public static RelativeLayout player;
-    public static SeekBar seek;
-    public static ImageView bExit;
-    public static ImageView bPlay;
-    public static TextView header_user;
-    public static TextView header_server;
-    public static TextView header_indicator;
-    private static DrawerLayout mDrawerLayout;
-    private static NavigationView mNavigationView;
-    private static GridView tmp_grid;
-    private static ListView tmp_list;
-    private static FloatingActionButton fab;
-    private static FloatingActionButton fab_file;
-    private static FloatingActionButton fab_folder;
-    private static FloatingActionButton fab_upload;
-    private static FloatingActionButton fab_paste;
-    private static FloatingActionButton fab_paste_cancel;
-    private static SearchView searchView = null;
-    private static boolean accountsVisible = false;
-    private static ActionMode actionMode;
-    private static boolean bottomToolbarEnabled = false;
+    private AbsListView list;
+    private int listLayout;
+    private int theme;
+    private Toolbar toolbar;
+    private Toolbar toolbarBottom;
+    private ActionMenuView amvMenu;
+    private Menu bottomContextMenu;
+    private TextView info;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private Menu mToolbarMenu;
+    private Menu mContextMenu;
+    private TextView audioTitle;
+    private RelativeLayout player;
+    private SeekBar seek;
+    private ImageView bExit;
+    private ImageView bPlay;
+    private TextView header_user;
+    private TextView header_server;
+    private TextView header_indicator;
+    private DrawerLayout mDrawerLayout;
+    private NavigationView mNavigationView;
+    private GridView tmp_grid;
+    private ListView tmp_list;
+    private FloatingActionButton fab;
+    private FloatingActionButton fab_file;
+    private FloatingActionButton fab_folder;
+    private FloatingActionButton fab_upload;
+    private FloatingActionButton fab_paste;
+    private FloatingActionButton fab_paste_cancel;
+    private SearchView searchView = null;
+    private boolean accountsVisible = false;
+    private ActionMode actionMode;
+    private boolean bottomToolbarEnabled = false;
 
     // Files
-    private static ArrayList<FileItem> items = new ArrayList<>();
+    private ArrayList<FileItem> items = new ArrayList<>();
     private static ArrayList<FileItem> filteredItems = new ArrayList<>();
-    private static ArrayList<FileItem> hierarchy = new ArrayList<>();
-    private static FileAdapter newAdapter;
-    private static int sortOrder = 1;
-    private static JSONArray clipboard = new JSONArray();
-    private static boolean deleteAfterCopy = false;
+    private ArrayList<FileItem> hierarchy = new ArrayList<>();
+    private FileAdapter newAdapter;
+    private int sortOrder = 1;
+    private JSONArray clipboard = new JSONArray();
+    private boolean deleteAfterCopy = false;
 
     ServiceConnection mServiceConnection = new ServiceConnection(){
 		public void onServiceDisconnected(ComponentName name) {
@@ -172,10 +165,10 @@ public class RemoteFiles extends AppCompatActivity {
 
         settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
 
-        theme = (settings.getString("darktheme", "").length() == 0 || !Boolean.valueOf(settings.getString("darktheme", ""))) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
-        e.setTheme(theme);
+        theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        setTheme(theme);
 
-        listLayout = (settings.getString("listlayout", "").length() == 0 || settings.getString("listlayout", "").equals("list")) ? R.layout.filelist : R.layout.filegrid;
+        listLayout = (settings.getString("listlayout", "list").equals("list")) ? R.layout.filelist : R.layout.filegrid;
         setContentView(R.layout.activity_remotefiles);
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
@@ -188,7 +181,7 @@ public class RemoteFiles extends AppCompatActivity {
         initDrawer();
         initList();
         initAudioPlayer();
-        createTmpFolder();
+        createCache();
     }
 
     protected void onResume() {
@@ -196,10 +189,10 @@ public class RemoteFiles extends AppCompatActivity {
 
         preventLock = false;
         appVisible = true;
-        loadthumbs = (settings.getString("loadthumb", "").length() == 0) ? false : Boolean.valueOf(settings.getString("loadthumb", ""));
-        bottomToolbarEnabled = (settings.getString("bottomtoolbar", "").length() == 0) ? false : Boolean.valueOf(settings.getString("bottomtoolbar", ""));
+        loadthumbs = settings.getBoolean("loadthumb", false);
+        bottomToolbarEnabled = settings.getBoolean("bottomtoolbar", false);
 
-        if (!CustomAuthenticator.enable(e)) {
+        if (!CustomAuthenticator.enable(this)) {
             // Not logged in
             startActivity(new Intent(getApplicationContext(), Login.class));
             finish();
@@ -212,7 +205,7 @@ public class RemoteFiles extends AppCompatActivity {
             }
             preventLock = true;
             calledForUnlock = true;
-            startActivityForResult(new Intent(e.getApplicationContext(), Unlock.class), 4);
+            startActivityForResult(new Intent(getApplicationContext(), Unlock.class), 4);
         }
         else if (forceFullLoad || CustomAuthenticator.activeAccountChanged) {
             forceFullLoad = false;
@@ -236,6 +229,10 @@ public class RemoteFiles extends AppCompatActivity {
         }
 
         hideAccounts();
+    }
+
+    private void changeViewmode(String vm) {
+        viewmode = vm;
 
         // Highlight current view
         switch (viewmode) {
@@ -252,6 +249,9 @@ public class RemoteFiles extends AppCompatActivity {
                 mNavigationView.setCheckedItem(R.id.navigation_view_item_files);
                 break;
         }
+
+        clearHierarchy();
+        fetchFiles();
     }
 
     protected void onPause() {
@@ -285,12 +285,13 @@ public class RemoteFiles extends AppCompatActivity {
 
                 String[] paths = data.getStringArrayExtra("paths");
                 Collections.addAll(ul_paths, paths);
-                UploadManager.addUpload(e, ul_paths, hierarchy.get(hierarchy.size() - 1).getJSON().toString(), new UploadManager.Upload.TaskListener() {
+                UploadManager.addUpload(this, ul_paths, hierarchy.get(hierarchy.size() - 1).getJSON().toString(), "0", new UploadManager.TaskListener() {
                     @Override
                     public void onFinished() {
                         fetchFiles();
                     }
                 });
+                Toast.makeText(e, "Upload started", Toast.LENGTH_SHORT).show();
             }
         }
         else if (requestCode == FORCE_RELOAD) {
@@ -311,8 +312,7 @@ public class RemoteFiles extends AppCompatActivity {
             fetchFiles();
         }
         else if (viewmode.equals("trash")) {
-            viewmode = "files";
-            fetchFiles();
+            changeViewmode("files");
         }
         else {
             super.onBackPressed();
@@ -341,13 +341,13 @@ public class RemoteFiles extends AppCompatActivity {
         inflater.inflate(R.menu.remote_files_toolbar, menu);
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchManager searchManager = (SearchManager) e.getSystemService(Context.SEARCH_SERVICE);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
         if (searchItem != null) {
             searchView = (SearchView) searchItem.getActionView();
         }
         if (searchView != null) {
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(e.getComponentName()));
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
             SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
                 @Override
@@ -411,12 +411,12 @@ public class RemoteFiles extends AppCompatActivity {
 
     private void initInterface() {
         toolbarBottom = (Toolbar) findViewById(R.id.toolbar_bottom);
-        amvMenu = (ActionMenuView) toolbarBottom.findViewById(R.id.amvMenu);
+        amvMenu = (ActionMenuView) (toolbarBottom != null ? toolbarBottom.findViewById(R.id.amvMenu) : null);
 
         tmp_grid = (GridView) findViewById(R.id.grid);
         tmp_list = (ListView) findViewById(R.id.list);
 
-        bPlay = (ImageView) e.findViewById(R.id.bPlay);
+        bPlay = (ImageView) findViewById(R.id.bPlay);
         bPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -424,7 +424,7 @@ public class RemoteFiles extends AppCompatActivity {
             }
         });
 
-        bExit = (ImageView) e.findViewById(R.id.bExit);
+        bExit = (ImageView) findViewById(R.id.bExit);
         bExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -433,7 +433,7 @@ public class RemoteFiles extends AppCompatActivity {
         });
 
         player = (RelativeLayout) findViewById(R.id.audioplayer);
-        audioTitle = (TextView) e.findViewById(R.id.audio_title);
+        audioTitle = (TextView) findViewById(R.id.audio_title);
 
         seek = (SeekBar) findViewById(R.id.seekBar1);
         seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -471,8 +471,9 @@ public class RemoteFiles extends AppCompatActivity {
                 fab_file.setVisibility(View.GONE);
                 fab_upload.setVisibility(View.GONE);
                 preventLock = true;
-                Intent result = new Intent(RemoteFiles.this, FileSelector.class);
-                startActivityForResult(result, 1);
+                Intent i = new Intent(e, FileSelector.class);
+                i.putExtra("mode", "multi");
+                startActivityForResult(i, 1);
             }
         });
 
@@ -539,7 +540,7 @@ public class RemoteFiles extends AppCompatActivity {
         mSwipeRefreshLayout.setEnabled(true);
     }
 
-    private static void showPaste() {
+    private void showPaste() {
         fab.setVisibility(View.GONE);
         fab_file.setVisibility(View.GONE);
         fab_folder.setVisibility(View.GONE);
@@ -548,14 +549,14 @@ public class RemoteFiles extends AppCompatActivity {
         fab_paste_cancel.setVisibility(View.VISIBLE);
     }
 
-    private static void hidePaste() {
+    private void hidePaste() {
         fab.setVisibility(View.VISIBLE);
 
         fab_paste.setVisibility(View.GONE);
         fab_paste_cancel.setVisibility(View.GONE);
     }
 
-    public static void fetchFiles() {
+    private void fetchFiles() {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
@@ -601,7 +602,7 @@ public class RemoteFiles extends AppCompatActivity {
      * Extract JSONArray from server-data, convert to ArrayList and display
      * @param rawJSON The raw JSON-Data from the server
      */
-    private static void extractFiles(String rawJSON) {
+    private void extractFiles(String rawJSON) {
         // Reset anything related to listing files
         fab_file.setVisibility(View.GONE);
         fab_folder.setVisibility(View.GONE);
@@ -627,19 +628,19 @@ public class RemoteFiles extends AppCompatActivity {
 
                 switch (type) {
                     case "folder":
-                        icon = BitmapFactory.decodeResource(e.getResources(), R.drawable.ic_folder);
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
                         break;
                     case "audio":
-                        icon = BitmapFactory.decodeResource(e.getResources(), R.drawable.ic_audio);
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_audio);
                         break;
                     case "pdf":
-                        icon = BitmapFactory.decodeResource(e.getResources(), R.drawable.ic_pdf);
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_pdf);
                         break;
                     case "image":
-                        icon = BitmapFactory.decodeResource(e.getResources(), R.drawable.ic_image);
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_image);
                         break;
                     default:
-                        icon = BitmapFactory.decodeResource(e.getResources(), R.drawable.ic_unknown);
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown);
                         break;
                 }
 
@@ -649,9 +650,9 @@ public class RemoteFiles extends AppCompatActivity {
 
                 if (type.equals("image")) {
                     String ext = "." + FilenameUtils.getExtension(filename);
-                    imgPath = TMP_FOLDER + Util.md5(parent + filename) + ext;
+                    imgPath = CACHE_FOLDER + Util.md5(parent + filename) + ext;
                     String thumbType = (listLayout == R.layout.filelist) ? "list" : "grid";
-                    thumbPath = TMP_FOLDER + Util.md5 (parent + filename) + "_" + thumbType + ".jpg";
+                    thumbPath = CACHE_FOLDER + Util.md5 (parent + filename) + "_" + thumbType + ".jpg";
 
 
                     if (new File(imgPath).exists()) {
@@ -669,11 +670,11 @@ public class RemoteFiles extends AppCompatActivity {
             }
         } catch (JSONException exp) {
             exp.printStackTrace();
-            Toast.makeText(e, R.string.unknown_error, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.unknown_error, Toast.LENGTH_SHORT).show();
         }
     }
 
-    private static void displayFiles() {
+    private void displayFiles() {
         Util.sortFilesByName(filteredItems, sortOrder);
         Util.sortFilesByName(items, sortOrder);
 
@@ -694,7 +695,7 @@ public class RemoteFiles extends AppCompatActivity {
             info.setVisibility(View.GONE);
         }
 
-        newAdapter = new FileAdapter(e, listLayout, list, gridSize, loadthumbs, firstFilePos);
+        newAdapter = new FileAdapter(this, listLayout, list, gridSize, loadthumbs, firstFilePos);
         newAdapter.setData(filteredItems);
         list.setAdapter(newAdapter);
 
@@ -736,7 +737,7 @@ public class RemoteFiles extends AppCompatActivity {
         }
     }
 
-    public void openFile(int position) {
+    private void openFile(int position) {
         FileItem item = filteredItems.get(position);
         if (viewmode.equals("trash")) {
             return;
@@ -747,36 +748,29 @@ public class RemoteFiles extends AppCompatActivity {
         }
         else if (item.is("image")) {
             preventLock = true;
-            Intent i = new Intent(e.getApplicationContext(), ImageViewer.class);
-            i.putExtra("position", getCurrentImage(item.getFilename()));
-            e.startActivity(i);
+            Intent i = new Intent(getApplicationContext(), ImageViewer.class);
+            i.putExtra("position", getImagePosition(item));
+            startActivity(i);
         }
         else if (item.is("audio") && mPlayerService != null) {
-            Toast.makeText(e, "Loading audio...", Toast.LENGTH_SHORT).show();
-            audioFilename = item.getFilename();
-
-            try {
-                URI uri = new URI(CustomAuthenticator.getServer() + "api/files/read?target=[" + URLEncoder.encode(filteredItems.get(position).getJSON().toString(), "UTF-8") + "]&token=" + CustomAuthenticator.getToken());
-                mPlayerService.initPlay(uri.toASCIIString());
-                showAudioPlayer();
-            } catch (URISyntaxException | UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+            mPlayerService.initPlay(item);
+            showAudioPlayer();
+            Toast.makeText(this, "Loading audio...", Toast.LENGTH_SHORT).show();
         }
         else if (item.is("text")) {
             preventLock = true;
-            Intent i = new Intent(e.getApplicationContext(), Editor.class);
+            Intent i = new Intent(getApplicationContext(), Editor.class);
             i.putExtra("file", filteredItems.get(position).getJSON().toString());
             i.putExtra("filename", filteredItems.get(position).getFilename());
-            e.startActivity(i);
+            startActivity(i);
         }
         else {
-            Toast.makeText(e, "Can not open file", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Can not open file", Toast.LENGTH_SHORT).show();
         }
         unselectAll();
     }
 
-    public void toggleFAB(boolean hide) {
+    private void toggleFAB(boolean hide) {
         int visible = (hide) ? View.GONE : View.VISIBLE;
         fab.setVisibility(visible);
         fab_file.setVisibility(View.GONE);
@@ -784,7 +778,7 @@ public class RemoteFiles extends AppCompatActivity {
         fab_upload.setVisibility(View.GONE);
     }
 
-    public void showBottomToolbar() {
+    private void showBottomToolbar() {
         toolbarBottom.setVisibility(View.VISIBLE);
     }
 
@@ -792,49 +786,45 @@ public class RemoteFiles extends AppCompatActivity {
         toolbarBottom.setVisibility(View.GONE);
     }
 
-    public void showAudioPlayer() {
+    private void showAudioPlayer() {
         player.setVisibility(View.VISIBLE);
-        audioTitle.setText(audioFilename);
+        audioTitle.setText(AudioService.currentPlaying.getFilename());
 
         if (!audioUpdateRunning) {
-            startUpdateLoop();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    audioUpdateRunning = true;
+                    if (AudioService.isPlaying()) {
+                        int pos = mPlayerService.getCurrentPosition();
+
+                        seek.setProgress(pos);
+                        bPlay.setImageResource(R.drawable.ic_pause);
+                    }
+                    else {
+                        bPlay.setImageResource(R.drawable.ic_play);
+                    }
+
+                    if (AudioService.isActive() && appVisible) {
+                        mHandler.postDelayed(this, 1000);
+                    }
+                    else {
+                        audioUpdateRunning = false;
+                        hideAudioPlayer();
+                    }
+                }
+            });
         }
     }
 
-    public void hideAudioPlayer() {
+    private void hideAudioPlayer() {
         player.setVisibility(View.GONE);
     }
 
-    public void startUpdateLoop() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                audioUpdateRunning = true;
-                if (AudioService.isPlaying()) {
-                    int pos = mPlayerService.getCurrentPosition();
-
-                    seek.setProgress(pos);
-                    bPlay.setImageResource(R.drawable.ic_pause);
-                }
-                else {
-                    bPlay.setImageResource(R.drawable.ic_play);
-                }
-
-                if (AudioService.isActive() && appVisible) {
-                    mHandler.postDelayed(this, 1000);
-                }
-                else {
-                    audioUpdateRunning = false;
-                    hideAudioPlayer();
-                }
-            }
-        });
-    }
-
-    public int getCurrentImage(String filename) {
+    private int getImagePosition(FileItem item) {
         ArrayList<FileItem> allImages = getAllImages();
         for (int i = 0; i < allImages.size(); i++) {
-            if (filename.equals(allImages.get(i).getFilename())) {
+            if (item == allImages.get(i)) {
                 return i;
             }
         }
@@ -853,7 +843,7 @@ public class RemoteFiles extends AppCompatActivity {
         return images;
     }
 
-    public static boolean isItemSelected(int pos) {
+    private boolean isItemSelected(int pos) {
         SparseBooleanArray checked = list.getCheckedItemPositions();
         return checked.get(pos);
     }
@@ -867,13 +857,13 @@ public class RemoteFiles extends AppCompatActivity {
     /**
      * Removes selection from all elements
      */
-    private static void unselectAll() {
+    private void unselectAll() {
         for (int i = 0; i < list.getCount(); i++) {
             list.setItemChecked(i, false);
         }
     }
 
-    private static String getAllSelected() {
+    private String getAllSelected() {
         JSONArray arr = new JSONArray();
         SparseBooleanArray checked = list.getCheckedItemPositions();
 
@@ -886,7 +876,7 @@ public class RemoteFiles extends AppCompatActivity {
         return arr.toString();
     }
 
-    public static String getFirstSelected() {
+    private String getFirstSelected() {
         SparseBooleanArray checked = list.getCheckedItemPositions();
 
         for (int i = 0; i < list.getCount(); i++) {
@@ -897,7 +887,7 @@ public class RemoteFiles extends AppCompatActivity {
         return "";
     }
 
-    public static void connect() {
+    private void connect() {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
@@ -923,7 +913,7 @@ public class RemoteFiles extends AppCompatActivity {
                         currDirJSON.put("path", "");
                         currDirJSON.put("rootshare", "");
 
-                        FileItem currDir = new FileItem(currDirJSON, "", "");
+                        FileItem currDir = new FileItem(currDirJSON, "", "", null);
                         hierarchy.add(currDir);
 
                         CustomAuthenticator.updateToken(res.getMessage());
@@ -934,6 +924,7 @@ public class RemoteFiles extends AppCompatActivity {
                     fetchFiles();
                     getVersion();
                     getPermissions();
+                    checkForPendingUploads();
                 }
                 else {
                     // No connection
@@ -952,13 +943,46 @@ public class RemoteFiles extends AppCompatActivity {
         }.execute();
     }
 
-    public static void unhideDrawerItem(int id) {
+    private void checkForPendingUploads() {
+        String currentPhotosyncStatus = settings.getString("photosync", "disabled");
+        String photosyncFolder = settings.getString("photosyncFolder", "");
+        long lastPhotoSync = settings.getLong("lastPhotoSync", 0);
+        final ArrayList<String> pending = new ArrayList<>();
+
+        if (!currentPhotosyncStatus.equals("disabled") && !photosyncFolder.equals("")) {
+            File dir = new File(photosyncFolder);
+
+            File[] elements = dir.listFiles();
+            for (File file : elements) {
+                if (!file.isDirectory() && file.lastModified() > lastPhotoSync) {
+                    pending.add(file.getAbsolutePath());
+                }
+            }
+        }
+
+        if (pending.size() > 0) {
+            new android.support.v7.app.AlertDialog.Builder(e)
+                    .setTitle("Uploads pending")
+                    .setMessage("Upload " + pending.size() + (pending.size() == 1 ? " file?" : " files?"))
+                    .setPositiveButton("Upload", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            UploadManager.addUpload(e, pending, hierarchy.get(hierarchy.size() - 1).getJSON().toString(), "1", null);
+                        }
+
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+        }
+    }
+
+    private void unhideDrawerItem(int id) {
         Menu navMenu = mNavigationView.getMenu();
         navMenu.findItem(id).setVisible(true);
     }
 
     private void showShare(final String target) {
-        final AlertDialog.Builder dialog = new AlertDialog.Builder(e);
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         final View shareView = View.inflate(this, R.layout.dialog_share, null);
         final EditText shareUser = (EditText) shareView.findViewById(R.id.shareUser);
         final CheckBox shareWrite = (CheckBox) shareView.findViewById(R.id.shareWrite);
@@ -998,12 +1022,12 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     private void showCreate(final String type) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(e);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
         alert.setTitle("New " + type.substring(0,1).toUpperCase() + type.substring(1));
 
         // Set an EditText view to get user input
-        final EditText input = new EditText(e);
+        final EditText input = new EditText(this);
         alert.setView(input);
 
         alert.setPositiveButton("Create", new DialogInterface.OnClickListener() {
@@ -1025,19 +1049,19 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     private void showRename(final String filename, final String target) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(e);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
         alert.setTitle("Rename");
 
         // Set an EditText view to get user input
-        final EditText input = new EditText(e);
+        final EditText input = new EditText(this);
         alert.setView(input);
         String fn_without_ext = (filename.lastIndexOf('.') != -1) ? filename.substring(0, filename.lastIndexOf('.')) : filename;
         input.setText(fn_without_ext);
 
         alert.setPositiveButton("Rename", new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int whichButton) {
-            rename(input.getText().toString(), target);
+            rename(target, input.getText().toString());
           }
         });
 
@@ -1058,7 +1082,7 @@ public class RemoteFiles extends AppCompatActivity {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                InputMethodManager m = (InputMethodManager) e.getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager m = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
                 if (m != null) {
                     m.toggleSoftInput(0, InputMethodManager.SHOW_IMPLICIT);
@@ -1108,28 +1132,19 @@ public class RemoteFiles extends AppCompatActivity {
 
                 switch (item.getItemId()) {
                     case R.id.navigation_view_item_files:
-                        viewmode = "files";
-                        item.setChecked(true);
-                        fetchFiles();
+                        changeViewmode("files");
                         break;
 
                     case R.id.navigation_view_item_sharedbyme:
-                        viewmode = "sharedbyme";
-                        item.setChecked(true);
-                        clearHierarchy();
-                        fetchFiles();
+                        changeViewmode("sharedbyme");
                         break;
 
                     case R.id.navigation_view_item_sharedwithme:
-                        viewmode = "sharedwithme";
-                        item.setChecked(true);
-                        clearHierarchy();
-                        fetchFiles();
+                        changeViewmode("sharedwithme");
                         break;
 
                     case R.id.navigation_view_item_trash:
-                        item.setChecked(true);
-                        openTrash();
+                        changeViewmode("trash");
                         break;
 
                     case R.id.navigation_view_item_settings:
@@ -1166,9 +1181,14 @@ public class RemoteFiles extends AppCompatActivity {
                         break;
 
                     case 1:
-                        CustomAuthenticator.setActive(item.getTitle().toString());
-                        finish();
-                        startActivity(getIntent());
+                        if (DownloadManager.isRunning() || UploadManager.isRunning()) {
+                            Toast.makeText(e, "Up-/Download running", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            CustomAuthenticator.setActive(item.getTitle().toString());
+                            finish();
+                            startActivity(getIntent());
+                        }
                 }
 
                 return true;
@@ -1179,8 +1199,8 @@ public class RemoteFiles extends AppCompatActivity {
 
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (toolbar != null && theme == R.style.MainTheme_Dark) {
-            toolbar.setPopupTheme(R.style.MainTheme_Dark);
+        if (toolbar != null) {
+            toolbar.setPopupTheme(theme);
         }
         setSupportActionBar(toolbar);
 
@@ -1194,82 +1214,7 @@ public class RemoteFiles extends AppCompatActivity {
         amvMenu.setOnMenuItemClickListener(new ActionMenuView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.selectall:
-                        selectAll();
-                        break;
-
-                    case R.id.rename:
-                        showRename(filteredItems.get(lastSelected).getFilename(), getFirstSelected());
-                        actionMode.finish();
-                        break;
-
-                    case R.id.delete:
-                        delete(getAllSelected(), viewmode.equals("trash"));
-                        actionMode.finish();
-                        break;
-
-                    case R.id.restore:
-                        restore(hierarchy.get(0).getJSON().toString(), getAllSelected());
-                        actionMode.finish();
-                        break;
-
-                    case R.id.copy:
-                        if (deleteAfterCopy) {
-                            clipboard = new JSONArray();
-                        }
-
-                        deleteAfterCopy = false;
-
-                        for (int i = 0; i < filteredItems.size(); i++) {
-                            if (list.isItemChecked(i)) {
-                                clipboard.put(filteredItems.get(i).getJSON());
-                            }
-                        }
-
-                        Toast.makeText(e, clipboard.length() + " files to copy", Toast.LENGTH_SHORT).show();
-                        showPaste();
-                        actionMode.finish();
-                        break;
-
-                    case R.id.cut:
-                        if (!deleteAfterCopy) {
-                            clipboard = new JSONArray();
-                        }
-
-                        deleteAfterCopy = true;
-
-                        for (int i = 0; i < filteredItems.size(); i++) {
-                            if (list.isItemChecked(i)) {
-                                clipboard.put(filteredItems.get(i).getJSON());
-                            }
-                        }
-
-                        Toast.makeText(e, clipboard.length() + " files to cut", Toast.LENGTH_SHORT).show();
-                        showPaste();
-                        actionMode.finish();
-                        break;
-
-                    case R.id.download:
-                        DownloadManager.addDownload(e, getAllSelected());
-                        actionMode.finish();
-                        break;
-
-                    case R.id.zip:
-                        zip(hierarchy.get(hierarchy.size() - 1).getJSON().toString(), getAllSelected());
-                        actionMode.finish();
-                        break;
-
-                    case R.id.share:
-                        showShare(getFirstSelected());
-                        actionMode.finish();
-                        break;
-
-                    case R.id.unshare:
-                        unshare(getFirstSelected());
-                        actionMode.finish();
-                        break;
-                }
+                executeContextAction(menuItem.getItemId());
                 return onOptionsItemSelected(menuItem);
             }
         });
@@ -1279,21 +1224,98 @@ public class RemoteFiles extends AppCompatActivity {
         inflater.inflate(R.menu.remote_files_toolbar_bottom, bottomContextMenu);
     }
 
-    private static void setToolbarTitle(final String title) {
-        if (e.getSupportActionBar() != null) {
-            e.getSupportActionBar().setTitle(title);
+    private void executeContextAction(int id) {
+        switch (id) {
+            case R.id.selectall:
+                selectAll();
+                break;
+
+            case R.id.rename:
+                showRename(filteredItems.get(lastSelected).getFilename(), getFirstSelected());
+                actionMode.finish();
+                break;
+
+            case R.id.delete:
+                delete(getAllSelected(), viewmode.equals("trash"));
+                actionMode.finish();
+                break;
+
+            case R.id.restore:
+                restore(getAllSelected());
+                actionMode.finish();
+                break;
+
+            case R.id.copy:
+                if (deleteAfterCopy) {
+                    clipboard = new JSONArray();
+                }
+
+                deleteAfterCopy = false;
+
+                for (int i = 0; i < filteredItems.size(); i++) {
+                    if (list.isItemChecked(i)) {
+                        clipboard.put(filteredItems.get(i).getJSON());
+                    }
+                }
+
+                Toast.makeText(this, clipboard.length() + " files to copy", Toast.LENGTH_SHORT).show();
+                showPaste();
+                actionMode.finish();
+                break;
+
+            case R.id.cut:
+                if (!deleteAfterCopy) {
+                    clipboard = new JSONArray();
+                }
+
+                deleteAfterCopy = true;
+
+                for (int i = 0; i < filteredItems.size(); i++) {
+                    if (list.isItemChecked(i)) {
+                        clipboard.put(filteredItems.get(i).getJSON());
+                    }
+                }
+
+                Toast.makeText(this, clipboard.length() + " files to cut", Toast.LENGTH_SHORT).show();
+                showPaste();
+                actionMode.finish();
+                break;
+
+            case R.id.download:
+                DownloadManager.addDownload(this, getAllSelected());
+                actionMode.finish();
+                break;
+
+            case R.id.zip:
+                zip(hierarchy.get(hierarchy.size() - 1).getJSON().toString(), getAllSelected());
+                actionMode.finish();
+                break;
+
+            case R.id.share:
+                showShare(getFirstSelected());
+                actionMode.finish();
+                break;
+
+            case R.id.unshare:
+                unshare(getFirstSelected());
+                actionMode.finish();
+                break;
         }
     }
 
-    private static void setToolbarSubtitle(final String subtitle) {
-        if (e.getSupportActionBar() != null) {
-            e.getSupportActionBar().setSubtitle(subtitle);
+    private void setToolbarTitle(final String title) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
         }
     }
 
-    public void initList() {
-        list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+    private void setToolbarSubtitle(final String subtitle) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setSubtitle(subtitle);
+        }
+    }
 
+    private void initList() {
         list.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
             public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
@@ -1329,92 +1351,12 @@ public class RemoteFiles extends AppCompatActivity {
 
             @Override
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.selectall:
-                        selectAll();
-                        break;
-
-                    case R.id.rename:
-                        showRename(filteredItems.get(lastSelected).getFilename(), getFirstSelected());
-                        mode.finish();
-                        break;
-
-                    case R.id.delete:
-                        delete(getAllSelected(), viewmode.equals("trash"));
-                        mode.finish();
-                        break;
-
-                    case R.id.restore:
-                        restore(hierarchy.get(0).getJSON().toString(), getAllSelected());
-                        mode.finish();
-                        break;
-
-                    case R.id.copy:
-                        if (deleteAfterCopy) {
-                            clipboard = new JSONArray();
-                        }
-
-                        deleteAfterCopy = false;
-
-                        for (int i = 0; i < filteredItems.size(); i++) {
-                            if (list.isItemChecked(i)) {
-                                clipboard.put(filteredItems.get(i).getJSON());
-                            }
-                        }
-
-                        Toast.makeText(e, clipboard.length() + " files to copy", Toast.LENGTH_SHORT).show();
-                        showPaste();
-                        mode.finish();
-                        break;
-
-                    case R.id.cut:
-                        if (!deleteAfterCopy) {
-                            clipboard = new JSONArray();
-                        }
-
-                        deleteAfterCopy = true;
-
-                        for (int i = 0; i < filteredItems.size(); i++) {
-                            if (list.isItemChecked(i)) {
-                                clipboard.put(filteredItems.get(i).getJSON());
-                            }
-                        }
-
-                        Toast.makeText(e, clipboard.length() + " files to cut", Toast.LENGTH_SHORT).show();
-                        showPaste();
-                        mode.finish();
-                        break;
-
-                    case R.id.download:
-                        DownloadManager.addDownload(e, getAllSelected());
-                        mode.finish();
-                        break;
-
-                    case R.id.zip:
-                        zip(hierarchy.get(hierarchy.size() - 1).getJSON().toString(), getAllSelected());
-                        mode.finish();
-                        break;
-
-                    case R.id.share:
-                        showShare(getFirstSelected());
-                        mode.finish();
-                        break;
-
-                    case R.id.unshare:
-                        unshare(getFirstSelected());
-                        mode.finish();
-                        break;
-                }
+                executeContextAction(item.getItemId());
                 return false;
             }
 
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
-                if (longClicked) {
-                    longClicked = false;
-                    return;
-                }
-
                 boolean trash = viewmode.equals("trash");
                 mContextMenu.findItem(R.id.selectall).setVisible(filteredItems.size() > 0);
 
@@ -1480,7 +1422,7 @@ public class RemoteFiles extends AppCompatActivity {
         });
     }
 
-    public void setListLayout(int layout) {
+    private void setListLayout(int layout) {
         listLayout = layout;
         String layoutString = (listLayout == R.layout.filegrid) ? "grid" : "list";
         settings.edit().putString("listlayout", layoutString).apply();
@@ -1500,7 +1442,7 @@ public class RemoteFiles extends AppCompatActivity {
         }
     }
 
-    public void clearHierarchy() {
+    private void clearHierarchy() {
         if (hierarchy.size() > 0) {
             FileItem first = hierarchy.get(0);
             hierarchy = new ArrayList<>();
@@ -1508,17 +1450,11 @@ public class RemoteFiles extends AppCompatActivity {
         }
     }
 
-    public void openTrash() {
-        clearHierarchy();
-        viewmode = "trash";
-        fetchFiles();
-    }
-
-    private void createTmpFolder() {
+    private void createCache() {
         // Create image cache folder
-        File tmp = new File(TMP_FOLDER);
-        if (!tmp.exists()) {
-            tmp.mkdir();
+        File cache = new File(CACHE_FOLDER);
+        if (!cache.exists() && !cache.mkdir()) {
+            Toast.makeText(e, "Unable to create cache", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1536,12 +1472,11 @@ public class RemoteFiles extends AppCompatActivity {
         }
     }
 
-    private static void create(final String target, final String filename, final String type) {
+    private void create(final String target, final String filename, final String type) {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                e.setProgressBarIndeterminateVisibility(true);
             }
 
             @Override
@@ -1565,12 +1500,11 @@ public class RemoteFiles extends AppCompatActivity {
         }.execute();
     }
 
-    private static void share(final String target, final String userfrom, final String userto, final boolean shareWrite, final boolean sharePublic) {
+    private void share(final String target, final String userfrom, final String userto, final boolean shareWrite, final boolean sharePublic) {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                e.setProgressBarIndeterminateVisibility(true);
             }
 
             @Override
@@ -1590,7 +1524,6 @@ public class RemoteFiles extends AppCompatActivity {
             }
             @Override
             protected void onPostExecute(final Connection.Response res) {
-                e.setProgressBarIndeterminateVisibility(false);
                 if (res.successful()) {
                     fetchFiles();
 
@@ -1606,12 +1539,12 @@ public class RemoteFiles extends AppCompatActivity {
                                 sharingIntent.setType("text/plain");
                                 sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "simpleDrive share link");
                                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-                                e.startActivity(Intent.createChooser(sharingIntent, "Send via"));
+                                startActivity(Intent.createChooser(sharingIntent, "Send via"));
                             }
                         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                ClipboardManager clipboard = (ClipboardManager) e.getSystemService(RemoteFiles.CLIPBOARD_SERVICE);
+                                ClipboardManager clipboard = (ClipboardManager) getSystemService(RemoteFiles.CLIPBOARD_SERVICE);
                                 ClipData clip = ClipData.newPlainText("label", res.getMessage());
                                 clipboard.setPrimaryClip(clip);
                                 Toast.makeText(e, "Link copied to clipboard", Toast.LENGTH_SHORT).show();
@@ -1626,12 +1559,11 @@ public class RemoteFiles extends AppCompatActivity {
         }.execute();
     }
 
-    private static void unshare(final String target) {
+    private void unshare(final String target) {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                e.setProgressBarIndeterminateVisibility(true);
             }
 
             @Override
@@ -1643,7 +1575,6 @@ public class RemoteFiles extends AppCompatActivity {
             }
             @Override
             protected void onPostExecute(Connection.Response res) {
-                e.setProgressBarIndeterminateVisibility(false);
                 if (res.successful()) {
                     fetchFiles();
                 }
@@ -1654,12 +1585,11 @@ public class RemoteFiles extends AppCompatActivity {
         }.execute();
     }
 
-    private static void zip(final String target, final String source) {
+    private void zip(final String target, final String source) {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                e.setProgressBarIndeterminateVisibility(true);
             }
 
             @Override
@@ -1672,7 +1602,6 @@ public class RemoteFiles extends AppCompatActivity {
             }
             @Override
             protected void onPostExecute(Connection.Response res) {
-                e.setProgressBarIndeterminateVisibility(false);
                 if (res.successful()) {
                     fetchFiles();
                 }
@@ -1683,26 +1612,22 @@ public class RemoteFiles extends AppCompatActivity {
         }.execute();
     }
 
-    private static void restore(final String target, final String source) {
+    private void restore(final String target) {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                e.setProgressBarIndeterminateVisibility(true);
             }
 
             @Override
             protected Connection.Response doInBackground(Void... params) {
-                Connection con = new Connection("files", "move");
+                Connection con = new Connection("files", "restore");
                 con.addFormField("target", target);
-                con.addFormField("trash", "true");
-                con.addFormField("source", source);
 
                 return con.finish();
             }
             @Override
             protected void onPostExecute(Connection.Response res) {
-                e.setProgressBarIndeterminateVisibility(false);
                 if (res.successful()) {
                     fetchFiles();
                 }
@@ -1713,7 +1638,7 @@ public class RemoteFiles extends AppCompatActivity {
         }.execute();
     }
 
-    private static void delete(final String target, final boolean fullyDelete) {
+    private void delete(final String target, final boolean fullyDelete) {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected Connection.Response doInBackground(Void... params) {
@@ -1726,8 +1651,6 @@ public class RemoteFiles extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Connection.Response res) {
-                e.setProgressBarIndeterminateVisibility(false);
-
                 if (res.successful()) {
                     fetchFiles();
                 }
@@ -1738,7 +1661,7 @@ public class RemoteFiles extends AppCompatActivity {
         }.execute();
     }
 
-    private static void paste(final String source, final String target, final boolean cut) {
+    private void paste(final String source, final String target, final boolean cut) {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected Connection.Response doInBackground(Void... params) {
@@ -1753,8 +1676,6 @@ public class RemoteFiles extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Connection.Response res) {
-                e.setProgressBarIndeterminateVisibility(false);
-
                 if (res.successful()) {
                     clipboard = new JSONArray();
                     hidePaste();
@@ -1767,7 +1688,7 @@ public class RemoteFiles extends AppCompatActivity {
         }.execute();
     }
 
-    private static void getPermissions() {
+    private void getPermissions() {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected Connection.Response doInBackground(Void... pos) {
@@ -1777,13 +1698,16 @@ public class RemoteFiles extends AppCompatActivity {
             @Override
             protected void onPostExecute(Connection.Response res) {
                 if (res.successful() && res.getMessage().equals("true")) {
+                    isAdmin = true;
                     unhideDrawerItem(R.id.navigation_view_item_server);
+                }
+                else {
                 }
             }
         }.execute();
     }
 
-    private static void getVersion() {
+    private void getVersion() {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected Connection.Response doInBackground(Void... pos) {
@@ -1808,12 +1732,11 @@ public class RemoteFiles extends AppCompatActivity {
         }.execute();
     }
 
-    private static void rename(final String target, final String filename) {
+    private void rename(final String target, final String filename) {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                e.setProgressBarIndeterminateVisibility(true);
             }
 
             @Override
@@ -1827,7 +1750,7 @@ public class RemoteFiles extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Connection.Response res) {
-                e.setProgressBarIndeterminate(false);
+                setProgressBarIndeterminate(false);
                 if (res.successful()) {
                     fetchFiles();
                 }
@@ -1838,16 +1761,17 @@ public class RemoteFiles extends AppCompatActivity {
         }.execute();
     }
 
-    public static void hideAccounts() {
+    private void hideAccounts() {
         accountsVisible = false;
         header_indicator.setText("\u25BC");
         mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_accounts, false);
         mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_accounts_management, false);
         mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_one, true);
         mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_two, true);
+        mNavigationView.getMenu().findItem(R.id.navigation_view_item_server).setVisible(isAdmin);
     }
 
-    public void toggleAccounts() {
+    private void toggleAccounts() {
         accountsVisible = !accountsVisible;
         mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_accounts, accountsVisible);
         mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_accounts_management, accountsVisible);
@@ -1859,6 +1783,7 @@ public class RemoteFiles extends AppCompatActivity {
         }
         else {
             header_indicator.setText("\u25BC");
+            mNavigationView.getMenu().findItem(R.id.navigation_view_item_server).setVisible(isAdmin);
         }
     }
 

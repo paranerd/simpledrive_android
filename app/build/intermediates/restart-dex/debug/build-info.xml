@@ -4,53 +4,44 @@
     api-level="23"
     density="xxhdpi"
     format="7"
-    timestamp="25954172313936" >
+    timestamp="78380590745337" >
 
     <task
         name="javac"
-        duration="108" />
+        duration="0" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="16" />
+        duration="0" />
     <task
         name="verifier"
-        duration="2" />
+        duration="0" />
 
     <artifact
-        location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_8/classes.dex"
-        type="DEX" />
+        location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/resources-debug.ap_"
+        type="RESOURCES" />
 
-    <build timestamp="23752596143923" >
+    <build timestamp="71567565245920" >
         <artifact
             location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/outputs/apk/app-debug.apk"
             type="MAIN" />
     </build>
-    <build timestamp="25340258202848" >
-        <artifact
-            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_1/classes.dex"
-            type="DEX" />
-        <artifact
-            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_7/classes.dex"
-            type="DEX" />
+    <build timestamp="76936707580415" >
         <artifact
             location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_6/classes.dex"
             type="DEX" />
-        <artifact
-            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_4/classes.dex"
-            type="DEX" />
     </build>
-    <build timestamp="25888974383085" >
-        <artifact
-            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/resources-debug.ap_"
-            type="RESOURCES" />
-    </build>
-    <build timestamp="25954172313936" >
+    <build timestamp="77370638848077" >
         <artifact
             location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_8/classes.dex"
             type="DEX" />
+    </build>
+    <build timestamp="78380590745337" >
+        <artifact
+            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/resources-debug.ap_"
+            type="RESOURCES" />
     </build>
 
 </instant-run>

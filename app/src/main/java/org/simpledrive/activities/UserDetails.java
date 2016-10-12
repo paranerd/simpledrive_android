@@ -18,8 +18,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.simpledrive.R;
 
-import java.util.HashMap;
-
 import org.simpledrive.helper.Connection;
 import org.simpledrive.helper.Util;
 
@@ -42,8 +40,8 @@ public class UserDetails extends AppCompatActivity {
 
         settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
 
-        int theme = (settings.getString("darktheme", "").length() == 0 || !Boolean.valueOf(settings.getString("darktheme", ""))) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
-        e.setTheme(theme);
+        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        setTheme(theme);
 
         prefsFragment = new PrefsFragment();
         FragmentManager fragmentManager = getFragmentManager();
@@ -85,7 +83,7 @@ public class UserDetails extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     String admin = (o.toString().equals("true")) ? "1" : "0";
-                    update(username, "admin", admin);
+                    e.update(username, "admin", admin);
                     return false;
                 }
             });
@@ -95,7 +93,7 @@ public class UserDetails extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     String value = Long.toString(Util.stringToByte(o.toString()));
-                    update(username, "quota", value);
+                    e.update(username, "quota", value);
                     return false;
                 }
             });
@@ -118,11 +116,10 @@ public class UserDetails extends AppCompatActivity {
         }
     }
 
-    private static void getStatus(final String username) {
+    private void getStatus(final String username) {
         new AsyncTask<Void, Void, Connection.Response>() {
             protected void onPreExecute() {
                 super.onPreExecute();
-                e.setProgressBarIndeterminateVisibility(true);
             }
 
             @Override
@@ -134,7 +131,6 @@ public class UserDetails extends AppCompatActivity {
             }
             @Override
             protected void onPostExecute(Connection.Response res) {
-                e.setProgressBarIndeterminateVisibility(false);
                 if (res.successful()) {
                     try {
                         JSONObject job = new JSONObject(res.getMessage());
@@ -151,12 +147,11 @@ public class UserDetails extends AppCompatActivity {
         }.execute();
     }
 
-    private static void getQuota(final String username) {
+    private void getQuota(final String username) {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                e.setProgressBarIndeterminateVisibility(true);
             }
 
             @Override
@@ -169,7 +164,6 @@ public class UserDetails extends AppCompatActivity {
             }
             @Override
             protected void onPostExecute(Connection.Response res) {
-                e.setProgressBarIndeterminateVisibility(false);
                 if (res.successful()) {
                     try {
                         JSONObject job = new JSONObject(res.getMessage());
@@ -186,12 +180,11 @@ public class UserDetails extends AppCompatActivity {
         }.execute();
     }
 
-    private static void update(final String username, final String key, final String value) {
+    private void update(final String username, final String key, final String value) {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                e.setProgressBarIndeterminateVisibility(true);
             }
 
             @Override
@@ -206,7 +199,6 @@ public class UserDetails extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Connection.Response res) {
-                e.setProgressBarIndeterminateVisibility(false);
                 if (res.successful()) {
                     e.getStatus(username);
                 }

@@ -15,22 +15,23 @@ import org.simpledrive.adapters.TouchImageAdapter;
 import org.simpledrive.helper.ExtendedViewPager;
 import org.simpledrive.helper.FileItem;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class ImageViewer extends AppCompatActivity {
-    public static ExtendedViewPager mViewPager;
-    public static TouchImageAdapter mAdapter;
-    private static boolean titleVisible = true;
-    private static Toolbar toolbar;
+    private ExtendedViewPager mViewPager;
+    private TouchImageAdapter mAdapter;
+    private boolean titleVisible = true;
+    private Toolbar toolbar;
     private ImageViewer e;
-    public static ArrayList<FileItem> images;
+    private ArrayList<FileItem> images;
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
         if (mAdapter != null) {
-            mAdapter.cancel();
+            mAdapter.cancelThumbLoad();
         }
     }
 
@@ -39,8 +40,9 @@ public class ImageViewer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_imageviewer);
 
-        images = RemoteFiles.getAllImages();
         e = this;
+
+        images = RemoteFiles.getAllImages();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar != null) {
@@ -56,13 +58,10 @@ public class ImageViewer extends AppCompatActivity {
             });
         }
 
-        Bundle extras = getIntent().getExtras();
-        final int pos = extras.getInt("position");
-
         mViewPager = (ExtendedViewPager) findViewById(R.id.view_pager);
         mAdapter = new TouchImageAdapter(e, images);
         mViewPager.setAdapter(mAdapter);
-        mViewPager.setCurrentItem(pos);
+        mViewPager.setCurrentItem(getIntent().getExtras().getInt("position"));
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -84,7 +83,7 @@ public class ImageViewer extends AppCompatActivity {
         });
     }
 
-    public static void toggleToolbar() {
+    public void toggleToolbar() {
         if(titleVisible && toolbar != null) {
             toolbar.animate().translationY(-toolbar.getBottom()).setInterpolator(new AccelerateInterpolator()).start();
             titleVisible = false;

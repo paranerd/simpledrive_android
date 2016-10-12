@@ -36,18 +36,17 @@ import org.simpledrive.helper.Connection;
 import org.simpledrive.helper.UserItem;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Users extends AppCompatActivity {
     // General
     private Users e;
-    private static ArrayList<UserItem> items = new ArrayList<>();
+    private ArrayList<UserItem> items = new ArrayList<>();
     private UserAdapter newAdapter;
 
     private TextView info;
-    private static AbsListView list;
+    private AbsListView list;
     private FloatingActionButton fab;
 
     private ActionMode mode;
@@ -62,8 +61,8 @@ public class Users extends AppCompatActivity {
 
         SharedPreferences settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
 
-        int theme = (settings.getString("darktheme", "").length() == 0 || !Boolean.valueOf(settings.getString("darktheme", ""))) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
-        e.setTheme(theme);
+        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        setTheme(theme);
 
         setContentView(R.layout.activity_users);
 
@@ -129,7 +128,7 @@ public class Users extends AppCompatActivity {
         fetchUsers();
     }
 
-    public void setUpToolbar() {
+    private void setUpToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         if(toolbar != null) {
@@ -144,7 +143,7 @@ public class Users extends AppCompatActivity {
         }
     }
 
-    public void setUpList() {
+    private void setUpList() {
         list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -160,10 +159,10 @@ public class Users extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(e.getApplicationContext(), UserDetails.class);
+                Intent i = new Intent(getApplicationContext(), UserDetails.class);
                 i.putExtra("username", items.get(position).getUsername());
                 unselectAll();
-                e.startActivity(i);
+                startActivity(i);
             }
         });
     }
@@ -218,7 +217,7 @@ public class Users extends AppCompatActivity {
             }
         } catch (JSONException exp) {
             exp.printStackTrace();
-            Toast.makeText(e, R.string.unknown_error, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.unknown_error, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -232,7 +231,7 @@ public class Users extends AppCompatActivity {
         }
 
         int layout = R.layout.userlist;
-        newAdapter = new UserAdapter(e, layout, list);
+        newAdapter = new UserAdapter(this, layout, list);
         newAdapter.setData(items);
         list.setAdapter(newAdapter);
     }
@@ -252,7 +251,7 @@ public class Users extends AppCompatActivity {
         Log.i("te", "st");
     }
 
-    public String getFirstSelected() {
+    private String getFirstSelected() {
         SparseBooleanArray checked = list.getCheckedItemPositions();
 
         for (int i = 0; i < list.getCount(); i++) {
@@ -265,7 +264,7 @@ public class Users extends AppCompatActivity {
 
     private void showCreate() {
         unselectAll();
-        final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(e);
+        final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
         View shareView = View.inflate(this, R.layout.dialog_createuser, null);
         final EditText username = (EditText) shareView.findViewById(R.id.username);
         final EditText pass1 = (EditText) shareView.findViewById(R.id.pass1);
@@ -314,7 +313,6 @@ public class Users extends AppCompatActivity {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                e.setProgressBarIndeterminateVisibility(true);
             }
 
             @Override
@@ -346,7 +344,6 @@ public class Users extends AppCompatActivity {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                e.setProgressBarIndeterminateVisibility(true);
             }
 
             @Override
@@ -374,7 +371,7 @@ public class Users extends AppCompatActivity {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                InputMethodManager m = (InputMethodManager) e.getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager m = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
                 if (m != null) {
                     m.toggleSoftInput(0, InputMethodManager.SHOW_IMPLICIT);

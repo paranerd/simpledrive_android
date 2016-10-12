@@ -8,6 +8,24 @@
         <item name="list">List</item>
         <item name="grid">Grid</item>
     </string-array>
+    <string-array name="photosyncTypes">
+        <item name="disabled">Disabled</item>
+        <item name="auto">Auto</item>
+        <item name="manual">Manual</item>
+    </string-array>
+    <string-array name="photosyncValues">
+        <item name="disabled">disabled</item>
+        <item name="auto">auto</item>
+        <item name="manual">manual</item>
+    </string-array>
+    <string-array name="themeValues">
+        <item name="light">light</item>
+        <item name="dark">dark</item>
+    </string-array>
+    <string-array name="themes">
+        <item name="light">Light</item>
+        <item name="dark">Dark</item>
+    </string-array>
     <attr format="reference" name="drawerArrowStyle"/>
     <attr format="dimension" name="height"/>
     <attr format="boolean" name="isLightTheme"/>
@@ -1361,6 +1379,9 @@
         <item name="android:navigationBarColor">@color/grey4</item>
         <item name="android:textColorHighlight">?android:colorPrimary</item>
     </style>
+    <style name="MainThemeFullscreen" parent="MainTheme.Light">
+        <item name="android:windowFullscreen">true</item>
+    </style>
     <style name="MenuItemAppearance"><item name="android:ellipsize">end</item></style>
     <style name="Platform.AppCompat" parent="android:Theme">
         <item name="android:windowNoTitle">true</item>
@@ -1653,6 +1674,13 @@
     <style name="ThemeOverlay.AppCompat.Dark" parent="Base.ThemeOverlay.AppCompat.Dark"/>
     <style name="ThemeOverlay.AppCompat.Dark.ActionBar" parent="Base.ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="ThemeOverlay.AppCompat.Light" parent="Base.ThemeOverlay.AppCompat.Light"/>
+    <style name="ToolbarSubtitle" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="ToolbarTitle" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
     <style name="Widget.AppCompat.ActionBar" parent="Base.Widget.AppCompat.ActionBar">
     </style>
     <style name="Widget.AppCompat.ActionBar.Solid" parent="Base.Widget.AppCompat.ActionBar.Solid">

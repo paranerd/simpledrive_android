@@ -11,16 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.simpledrive.R;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.Connection;
-import org.simpledrive.helper.FileItem;
 
 public class Login extends AppCompatActivity {
     // Interface
@@ -28,9 +22,6 @@ public class Login extends AppCompatActivity {
     private EditText txtUsername;
     private EditText txtPassword;
     private EditText txtServername;
-    private static String username;
-    private static String password;
-    private static String server;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,9 +41,9 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                username = txtUsername.getText().toString().replaceAll("\\s+", "");
-                password = txtPassword.getText().toString().replaceAll("\\s+", "");
-                server = txtServername.getText().toString().replaceAll("\\s+", "");
+                String username = txtUsername.getText().toString().replaceAll("\\s+", "");
+                String password = txtPassword.getText().toString().replaceAll("\\s+", "");
+                String server = txtServername.getText().toString().replaceAll("\\s+", "");
 
                 // Check if server, username, password is filled
                 if (server.length() == 0 || username.length() == 0 || password.length() == 0) {
@@ -67,13 +58,13 @@ public class Login extends AppCompatActivity {
                         server += "/";
                     }
 
-                    login();
+                    login(server, username, password);
                 }
             }
         });
     }
 
-    public void login() {
+    private void login(final String server, final String username, final String password) {
         final ProgressDialog pDialog = new ProgressDialog(Login.this);
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override

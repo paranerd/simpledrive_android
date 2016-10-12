@@ -31,16 +31,13 @@ import org.simpledrive.helper.LogItem;
 import org.simpledrive.helper.Util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ServerLog extends AppCompatActivity {
-
     // General
     private ServerLog e;
     private int totalPages = 0;
     private int currentPage = 0;
-    private static ArrayList<LogItem> items = new ArrayList<>();
-    private int sortOrder = 1;
+    private ArrayList<LogItem> items = new ArrayList<>();
 
     // Interface
     private ImageView prev;
@@ -48,7 +45,7 @@ public class ServerLog extends AppCompatActivity {
     private TextView page;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private TextView info;
-    private static AbsListView list;
+    private AbsListView list;
     private Menu mMenu;
 
     protected void onCreate(Bundle paramBundle) {
@@ -60,8 +57,8 @@ public class ServerLog extends AppCompatActivity {
 
         SharedPreferences settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
 
-        int theme = (settings.getString("darktheme", "").length() == 0 || !Boolean.valueOf(settings.getString("darktheme", ""))) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
-        e.setTheme(theme);
+        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        setTheme(theme);
 
         setContentView(R.layout.activity_log);
 
@@ -91,7 +88,7 @@ public class ServerLog extends AppCompatActivity {
             }
         });
 
-        if(toolbar != null) {
+        if (toolbar != null) {
             setSupportActionBar(toolbar);
             toolbar.setNavigationIcon(R.drawable.ic_arrow);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -108,7 +105,7 @@ public class ServerLog extends AppCompatActivity {
 
         list = (ListView) findViewById(R.id.list);
 
-        if(mMenu != null) {
+        if (mMenu != null) {
             invalidateOptionsMenu();
         }
 
@@ -277,7 +274,7 @@ public class ServerLog extends AppCompatActivity {
             }
         } catch (JSONException exp) {
             exp.printStackTrace();
-            Toast.makeText(e, R.string.unknown_error, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.unknown_error, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -293,7 +290,7 @@ public class ServerLog extends AppCompatActivity {
             page.setText((currentPage + 1) + " / " + totalPages);
         }
 
-        LogAdapter newAdapter = new LogAdapter(e, R.layout.loglist);
+        LogAdapter newAdapter = new LogAdapter(this, R.layout.loglist);
         newAdapter.setData(items);
         list.setAdapter(newAdapter);
         invalidateOptionsMenu();

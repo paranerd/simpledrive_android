@@ -21,10 +21,8 @@ public class FileItem {
 	private String hash;
 
 	// Used for the root element
-	public FileItem(JSONObject json, String filename, String path) {
-		this.json = json;
-		this.filename = filename;
-		this.path = path;
+	public FileItem(JSONObject json, String filename, String path, Bitmap icon) {
+		this(json, filename, "", path, "", "", "folder", "", "", icon, null, "", "");
 	}
 
 	// For all other elements

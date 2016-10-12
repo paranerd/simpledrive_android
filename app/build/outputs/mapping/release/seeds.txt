@@ -3790,6 +3790,10 @@ org.simpledrive.R$anim: int design_snackbar_in
 org.simpledrive.R$anim: int design_snackbar_out
 org.simpledrive.R$array: int listLayoutValues
 org.simpledrive.R$array: int listLayouts
+org.simpledrive.R$array: int photosyncTypes
+org.simpledrive.R$array: int photosyncValues
+org.simpledrive.R$array: int themeValues
+org.simpledrive.R$array: int themes
 org.simpledrive.R$attr: int actionBarDivider
 org.simpledrive.R$attr: int actionBarItemBackground
 org.simpledrive.R$attr: int actionBarPopupTheme
@@ -4452,7 +4456,6 @@ org.simpledrive.R$id: int admin
 org.simpledrive.R$id: int alertTitle
 org.simpledrive.R$id: int always
 org.simpledrive.R$id: int amvMenu
-org.simpledrive.R$id: int app_version
 org.simpledrive.R$id: int audio_title
 org.simpledrive.R$id: int audioimg
 org.simpledrive.R$id: int audiopath
@@ -4969,7 +4972,6 @@ org.simpledrive.R$style: int Base_Widget_AppCompat_TextView_SpinnerItem
 org.simpledrive.R$style: int Base_Widget_AppCompat_Toolbar
 org.simpledrive.R$style: int Base_Widget_AppCompat_Toolbar_Button_Navigation
 org.simpledrive.R$style: int Base_Widget_Design_TabLayout
-org.simpledrive.R$style: int MainTheme
 org.simpledrive.R$style: int MainTheme_Dark
 org.simpledrive.R$style: int MainTheme_Light
 org.simpledrive.R$style: int MainThemeFullscreen

@@ -26,13 +26,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TouchImageAdapter extends PagerAdapter {
-    private AppCompatActivity e;
-    int displayHeight;
-    int displayWidth;
-    ArrayList<FileItem> images;
-    boolean doLoad = true;
+    private ImageViewer e;
+    private int displayHeight;
+    private int displayWidth;
+    private ArrayList<FileItem> images;
+    private boolean doLoad = true;
 
-    public TouchImageAdapter(AppCompatActivity act, ArrayList<FileItem> img) {
+    public TouchImageAdapter(ImageViewer act, ArrayList<FileItem> img) {
         super();
         this.e = act;
         this.images = img;
@@ -58,7 +58,7 @@ public class TouchImageAdapter extends PagerAdapter {
         img.setCustomOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ImageViewer.toggleToolbar();
+                e.toggleToolbar();
             }
         });
 
@@ -72,7 +72,7 @@ public class TouchImageAdapter extends PagerAdapter {
                 wv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ImageViewer.toggleToolbar();
+                        e.toggleToolbar();
                     }
                 });
 
@@ -134,7 +134,7 @@ public class TouchImageAdapter extends PagerAdapter {
         return view == object;
     }
 
-    public void cancel() {
+    public void cancelThumbLoad() {
         doLoad = false;
     }
 

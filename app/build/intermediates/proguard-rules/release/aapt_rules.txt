@@ -7,20 +7,20 @@
 # view res/layout/design_bottom_sheet_dialog.xml #generated:17
 -keep class android.support.design.widget.CoordinatorLayout { <init>(...); }
 
-# view res/layout/activity_remotefiles.xml #generated:104
-# view res/layout/activity_remotefiles.xml #generated:118
-# view res/layout/activity_remotefiles.xml #generated:131
-# view res/layout/activity_remotefiles.xml #generated:64
-# view res/layout/activity_remotefiles.xml #generated:76
-# view res/layout/activity_remotefiles.xml #generated:90
+# view res/layout/activity_remotefiles.xml #generated:105
+# view res/layout/activity_remotefiles.xml #generated:119
+# view res/layout/activity_remotefiles.xml #generated:132
+# view res/layout/activity_remotefiles.xml #generated:65
+# view res/layout/activity_remotefiles.xml #generated:77
+# view res/layout/activity_remotefiles.xml #generated:91
 # view res/layout/activity_sharefiles.xml #generated:55
 # view res/layout/activity_sharefiles.xml #generated:65
 # view res/layout/activity_sharefiles.xml #generated:76
 # view res/layout/activity_sharefiles.xml #generated:88
-# view res/layout/activity_users.xml #generated:47
+# view res/layout/activity_users.xml #generated:46
 -keep class android.support.design.widget.FloatingActionButton { <init>(...); }
 
-# view res/layout/activity_remotefiles.xml #generated:260
+# view res/layout/activity_remotefiles.xml #generated:261
 -keep class android.support.design.widget.NavigationView { <init>(...); }
 
 # view res/layout/design_layout_snackbar.xml #generated:18
@@ -64,7 +64,7 @@
 -keep class android.support.v7.widget.ActionBarOverlayLayout { <init>(...); }
 
 # view res/layout/abc_action_menu_layout.xml #generated:17
-# view res/layout/activity_remotefiles.xml #generated:250
+# view res/layout/activity_remotefiles.xml #generated:251
 # view res/layout/toolbar_bottom.xml #generated:13
 -keep class android.support.v7.widget.ActionMenuView { <init>(...); }
 
@@ -91,7 +91,7 @@
 -keep class android.support.v7.widget.SearchView$SearchAutoComplete { <init>(...); }
 
 # view res/layout/abc_screen_toolbar.xml #generated:36
-# view res/layout/activity_remotefiles.xml #generated:237
+# view res/layout/activity_remotefiles.xml #generated:238
 # view res/layout/toolbar.xml #generated:2
 # view res/layout/toolbar_bottom.xml #generated:1
 # view v21/res/layout-v21/toolbar.xml #generated:2

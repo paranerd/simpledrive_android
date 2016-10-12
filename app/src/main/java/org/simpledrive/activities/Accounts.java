@@ -32,10 +32,9 @@ import java.util.ArrayList;
 public class Accounts extends AppCompatActivity {
     // General
     private Accounts e;
-    private static ArrayList<UserItem> items = new ArrayList<>();
+    private ArrayList<UserItem> items = new ArrayList<>();
     private UserAdapter newAdapter;
 
-    private TextView info;
     private static AbsListView list;
     private FloatingActionButton fab;
 
@@ -51,14 +50,12 @@ public class Accounts extends AppCompatActivity {
 
         SharedPreferences settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
 
-        int theme = (settings.getString("darktheme", "").length() == 0 || !Boolean.valueOf(settings.getString("darktheme", ""))) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
-        e.setTheme(theme);
+        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        setTheme(theme);
 
         setContentView(R.layout.activity_users);
 
         setUpToolbar();
-
-        info = (TextView) findViewById(R.id.info);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +117,7 @@ public class Accounts extends AppCompatActivity {
         getAccounts();
     }
 
-    public void setUpToolbar() {
+    private void setUpToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         if(toolbar != null) {
@@ -135,7 +132,7 @@ public class Accounts extends AppCompatActivity {
         }
     }
 
-    public void setUpList() {
+    private void setUpList() {
         list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -184,7 +181,7 @@ public class Accounts extends AppCompatActivity {
         }
     }
 
-    public String getFirstSelected() {
+    private String getFirstSelected() {
         SparseBooleanArray checked = list.getCheckedItemPositions();
 
         for (int i = 0; i < list.getCount(); i++) {

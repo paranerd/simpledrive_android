@@ -212,12 +212,12 @@
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/layout/abc_screen_simple_overlay_action_mode.xml"
     },
     {
-        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/layout/abc_expanded_menu_layout.xml",
-        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/layout/abc_expanded_menu_layout.xml"
-    },
-    {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/layout/filegrid.xml",
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/layout/filegrid.xml"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/layout/abc_expanded_menu_layout.xml",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res/layout/abc_expanded_menu_layout.xml"
     },
     {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/layout/abc_popup_menu_item_layout.xml",
