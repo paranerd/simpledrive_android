@@ -5,8 +5,9 @@ import android.accounts.AccountManager;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 
+import org.simpledrive.helper.DownloadManager;
+import org.simpledrive.helper.UploadManager;
 import org.simpledrive.helper.Util;
 
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ public class CustomAuthenticator {
         userdata.putString(KEY_UNLOCK_ATTEMPTS, "0");
         userdata.putString(KEY_LAST_UNLOCK_ATTEMPT, "0");
         userdata.putString(KEY_PIN, "");
-        userdata.putString(KEY_ACTIVE, TRUE);
+        userdata.putString(KEY_ACTIVE, FALSE);
         userdata.putString(KEY_LOCKED, FALSE);
 
         if (am.addAccountExplicitly(account, password, userdata)) {
@@ -123,6 +124,10 @@ public class CustomAuthenticator {
     }
 
     public static void setActive(String accountName) {
+        if (DownloadManager.isRunning() || UploadManager.isRunning()) {
+            return;
+        }
+
         refresh();
         lock();
 

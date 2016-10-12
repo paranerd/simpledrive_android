@@ -2,28 +2,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="General">
-
-        <Preference
-            android:id="@+id/clearcache"
-            android:key="clearcache"
-            android:title="Clear cache"
-            android:summary="Size: calculating..." />
+        android:title="Interface">
 
         <ListPreference
             android:key="listlayout"
-            android:entries="@array/listLayouts"
-            android:summary="List"
-            android:entryValues="@array/listLayoutValues"
             android:title="List Layout"
+            android:summary="List"
+            android:entries="@array/listLayouts"
+            android:entryValues="@array/listLayoutValues"
             android:dialogTitle="Select List Layout"
             android:defaultValue="list" />
 
-        <CheckBoxPreference
-            android:key="darktheme"
-            android:title="Use dark theme"
+        <ListPreference
+            android:key="colortheme"
+            android:title="Theme"
             android:summary=""
-            android:defaultValue="false" />
+            android:entries="@array/themes"
+            android:entryValues="@array/themeValues"
+            android:dialogTitle="Choose"
+            android:defaultValue="light" />
 
         <CheckBoxPreference
             android:key="loadthumb"
@@ -36,21 +33,37 @@
             android:title="Enable bottom context menu"
             android:summary="Disabled"
             android:defaultValue="false"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="General">
+
+        <Preference
+            android:id="@+id/clearcache"
+            android:key="clearcache"
+            android:title="Clear cache"
+            android:summary="Size: calculating..." />
+
+        <ListPreference
+            android:key="photosync"
+            android:title="Photo Sync"
+            android:summary=""
+            android:entries="@array/photosyncTypes"
+            android:entryValues="@array/photosyncValues"
+            android:dialogTitle="Choose"
+            android:defaultValue="disabled" />
 
         <CheckBoxPreference
-            android:id="@+id/pin"
             android:key="pin"
             android:title="PIN"
             android:summary="Disabled" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="Info">
 
         <Preference
-            android:id="@+id/app_version"
-            android:key="app_version"
+            android:key="appversion"
             android:title="App version"
             android:summary="" />
 

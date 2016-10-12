@@ -11,6 +11,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -18,14 +19,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.simpledrive.R;
 
-import java.util.HashMap;
-
 import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.Connection;
 import org.simpledrive.helper.Util;
 
 public class ServerSettings extends AppCompatActivity {
-
+    // General
     public static ServerSettings e;
     public static PrefsFragment prefsFragment;
     public static SharedPreferences settings;
@@ -38,8 +37,8 @@ public class ServerSettings extends AppCompatActivity {
 
         settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
 
-        int theme = (settings.getString("darktheme", "").length() == 0 || !Boolean.valueOf(settings.getString("darktheme", ""))) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
-        e.setTheme(theme);
+        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        setTheme(theme);
 
         prefsFragment = new PrefsFragment();
         FragmentManager fragmentManager = getFragmentManager();
@@ -68,7 +67,7 @@ public class ServerSettings extends AppCompatActivity {
 
         private Preference showlog;
         private Preference showusers;
-        private EditTextPreference uploadMax;
+        private EditTextPreference uploadLimit;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -95,12 +94,12 @@ public class ServerSettings extends AppCompatActivity {
                 }
             });
 
-            uploadMax = (EditTextPreference) findPreference("server_upload_max");
-            uploadMax.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            uploadLimit = (EditTextPreference) findPreference("server_upload_max");
+            uploadLimit.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     String value = Long.toString(Util.stringToByte(o.toString()));
-                    setUploadLimit(value);
+                    e.setUploadLimit(value);
                     return false;
                 }
             });
@@ -114,12 +113,11 @@ public class ServerSettings extends AppCompatActivity {
         }
     }
 
-    private static void getStatus() {
+    private void getStatus() {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                e.setProgressBarIndeterminateVisibility(true);
             }
 
             @Override
@@ -130,7 +128,6 @@ public class ServerSettings extends AppCompatActivity {
             }
             @Override
             protected void onPostExecute(Connection.Response res) {
-                e.setProgressBarIndeterminateVisibility(false);
                 if (res.successful()) {
                     try {
                         JSONObject job = new JSONObject(res.getMessage());
@@ -150,12 +147,11 @@ public class ServerSettings extends AppCompatActivity {
         }.execute();
     }
 
-    private static void setUploadLimit(final String value) {
+    private void setUploadLimit(final String value) {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                e.setProgressBarIndeterminateVisibility(true);
             }
 
             @Override
@@ -168,9 +164,8 @@ public class ServerSettings extends AppCompatActivity {
             }
             @Override
             protected void onPostExecute(Connection.Response res) {
-                e.setProgressBarIndeterminateVisibility(false);
                 if (res.successful()) {
-                    getStatus();
+                    e.getStatus();
                 }
                 else {
                     Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();

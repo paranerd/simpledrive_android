@@ -6,10 +6,12 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -21,9 +23,10 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,21 +37,22 @@ import org.simpledrive.helper.FileItem;
 
 public class FileSelector extends AppCompatActivity {
     // General
-    private static FileSelector e;
+    private FileSelector e;
+    private String choiceMode;
+    private int selectedPos;
 
     // Files
-    private static FileAdapter mAdapter;
-    private static ArrayList<FileItem> hierarchy;
+    private FileAdapter mAdapter;
+    private ArrayList<FileItem> hierarchy;
     private ArrayList<FileItem> items = new ArrayList<>();
     private Integer firstFilePos = null;
 
     // Interface
     private boolean longClicked = false;
     private TextView info;
-    private static ListView list;
+    private ListView list;
     private Menu mMenu;
     private Menu mContextMenu;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,17 +62,21 @@ public class FileSelector extends AppCompatActivity {
 
         SharedPreferences settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
 
-        int theme = (settings.getString("darktheme", "").length() == 0 || !Boolean.valueOf(settings.getString("darktheme", ""))) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
-        e.setTheme(theme);
+        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        setTheme(theme);
 
         setContentView(R.layout.activity_fileselector);
-        list = (ListView) findViewById(R.id.listview);
 
+        list = (ListView) findViewById(R.id.listview);
         info = (TextView) findViewById(R.id.info);
 
-        hierarchy = new ArrayList<>();
-        FileItem root = new FileItem(null, "root", Environment.getExternalStorageDirectory() + "/");
-        hierarchy.add(root);
+        Bundle extras = getIntent().getExtras();
+        choiceMode = extras.getString("mode", "single");
+
+        //hierarchy = new ArrayList<>();
+        //FileItem root = new FileItem(null, "root", Environment.getExternalStorageDirectory() + "/", null);
+        //hierarchy.add(root);
+        initHierarchy();
 
         list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 
@@ -101,7 +109,6 @@ public class FileSelector extends AppCompatActivity {
                         break;
 
                     case R.id.select:
-                        Toast.makeText(e, "Upload started", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent();
                         String[] paths = getAllSelected();
                         i.putExtra("paths", paths);
@@ -114,6 +121,12 @@ public class FileSelector extends AppCompatActivity {
 
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+                if (choiceMode.equals("single") && selectedPos != position && checked) {
+                    selectedPos = position;
+                    unselectAll();
+                    list.setItemChecked(position, true);
+                }
+
                 if (longClicked) {
                     longClicked = false;
                     return;
@@ -147,8 +160,6 @@ public class FileSelector extends AppCompatActivity {
                 }
             });
         }
-
-        fetchFiles();
     }
 
     @Override
@@ -202,7 +213,7 @@ public class FileSelector extends AppCompatActivity {
         }
     }
 
-    public void openFile(int position) {
+    private void openFile(int position) {
         if (items.get(position).is("folder")) {
             hierarchy.get(hierarchy.size() - 1).setScrollPos(position);
             hierarchy.add(items.get(position));
@@ -243,6 +254,13 @@ public class FileSelector extends AppCompatActivity {
         return l.toArray(new String[l.size()]);
     }
 
+    private void initHierarchy() {
+        hierarchy = new ArrayList<>();
+        hierarchy.add(new FileItem(null, "", "", null));
+        hierarchy.add(new FileItem(null, "root", Environment.getExternalStorageDirectory() + "/", null));
+        fetchFiles();
+    }
+
     private void fetchFiles() {
         new AsyncTask<Void, Void, ArrayList<FileItem>>() {
             ProgressDialog pDialog;
@@ -266,42 +284,56 @@ public class FileSelector extends AppCompatActivity {
 
             @Override
             protected ArrayList<FileItem> doInBackground(Void... args) {
-                String dirPath = hierarchy.get(hierarchy.size() - 1).getPath();
-                File dir = new File(dirPath);
-
-                File[] elements = dir.listFiles();
-                for (File file : elements) {
-                    String filename = file.getName();
-                    String path = file.getAbsolutePath();
-                    String size = (file.isDirectory()) ? ((file.listFiles().length == 1) ? file.listFiles().length + " element" : file.listFiles().length + " elements") : Util.convertSize(file.length() + "");
-                    Bitmap icon;
-                    String type = (file.isDirectory()) ? "folder" : getMimeType(file);
-
-                    switch (type) {
-                        case "folder":
-                            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
-                            break;
-                        case "image":
-                            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_image);
-                            break;
-                        case "audio":
-                            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_audio);
-                            break;
-                        case "pdf":
-                            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_pdf);
-                            break;
-                        default:
-                            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown);
+                if (hierarchy.size() <= 1) {
+                    File[] dirs = getExternalFilesDirs(null);
+                    for (File d : dirs) {
+                        File f = d.getParentFile().getParentFile().getParentFile().getParentFile();
+                        Log.i("debug", "x.absPath: " + f.getAbsolutePath());
+                        items.add(new FileItem(null, f.getName(), f.getAbsolutePath(), BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder)));
                     }
+                }
+                else {
+                    String dirPath = hierarchy.get(hierarchy.size() - 1).getPath();
+                    Log.i("debug", "dirPath: " + dirPath);
+                    File dir = new File(dirPath);
 
-                    items.add(new FileItem(null, filename, null, path, size, null, type, null, "", icon, null, "", ""));
+                    File[] elements = dir.listFiles();
+                    for (File file : elements) {
+                        if (!file.canRead()) {
+                            continue;
+                        }
+                        String filename = file.getName();
+                        String path = file.getAbsolutePath();
+                        String size = (file.isDirectory()) ? ((file.listFiles().length == 1) ? file.listFiles().length + " element" : file.listFiles().length + " elements") : Util.convertSize(file.length() + "");
+                        Bitmap icon;
+                        String type = (file.isDirectory()) ? "folder" : getMimeType(file);
+
+                        switch (type) {
+                            case "folder":
+                                icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
+                                break;
+                            case "image":
+                                icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_image);
+                                break;
+                            case "audio":
+                                icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_audio);
+                                break;
+                            case "pdf":
+                                icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_pdf);
+                                break;
+                            default:
+                                icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown);
+                        }
+
+                        items.add(new FileItem(null, filename, null, path, size, null, type, null, "", icon, null, "", ""));
+                    }
                 }
 
                 Util.sortFilesByName(items, 1);
 
                 firstFilePos = items.size();
 
-                for(int i = 0; i < items.size(); i++) {
+                for (int i = 0; i < items.size(); i++) {
                     if (!items.get(i).is("folder")) {
                         firstFilePos = i;
                         break;
@@ -319,7 +351,7 @@ public class FileSelector extends AppCompatActivity {
         }.execute();
     }
 
-    public void displayFiles() {
+    private void displayFiles() {
         if (items.size() == 0) {
             info.setVisibility(View.VISIBLE);
             info.setText(R.string.empty);
@@ -328,7 +360,7 @@ public class FileSelector extends AppCompatActivity {
             info.setVisibility(View.GONE);
         }
 
-        setToolbarTitle(hierarchy.get(hierarchy.size() - 1).getFilename());
+        setToolbarTitle(hierarchy.size() == 1 ? "Select" : hierarchy.get(hierarchy.size() - 1).getFilename());
         setToolbarSubtitle("Folders: " + firstFilePos + ", Files: " + (items.size() - firstFilePos));
 
         mAdapter = new FileAdapter(e, R.layout.filelist, list, 0, true, firstFilePos);
@@ -339,7 +371,7 @@ public class FileSelector extends AppCompatActivity {
         list.setSelection(hierarchy.get(hierarchy.size() - 1).getScrollPos());
     }
 
-    public String getMimeType(File file) {
+    private String getMimeType(File file) {
         String extension = MimeTypeMap.getFileExtensionFromUrl(file.getAbsolutePath());
 
         if (extension != null) {
@@ -353,6 +385,12 @@ public class FileSelector extends AppCompatActivity {
                 }
                 else if(content[0].equals("audio")) {
                     return "audio";
+                }
+                else if(content[1].equals("pdf")) {
+                    return "pdf";
+                }
+                else if(content[1].equals("zip")) {
+                    return "archive";
                 }
             }
         }

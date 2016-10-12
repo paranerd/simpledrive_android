@@ -37,4 +37,17 @@
     </style>
 
     <style name="MenuItemAppearance"><item name="android:ellipsize">end</item></style>
+
+    <style name="MainThemeFullscreen" parent="MainTheme.Light">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="ToolbarTitle" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="ToolbarSubtitle" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>

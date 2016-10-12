@@ -2,6 +2,7 @@ package org.simpledrive.activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -14,6 +15,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -34,6 +36,19 @@ public class AppSettings extends AppCompatActivity {
     public static SharedPreferences settings;
     public static boolean pinEnabled = false;
     public static String pinEnabledText;
+    private static String photosyncStatus;
+    private static String currentPhotosyncStatus;
+
+    // Interface
+    private static Preference clearcache;
+    private static ListPreference fileview;
+    private static ListPreference theme;
+    private static ListPreference photosync;
+    private static CheckBoxPreference loadthumb;
+    private static CheckBoxPreference darktheme;
+    private static CheckBoxPreference pin;
+    private static CheckBoxPreference contextMenu;
+    private static Preference version;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,25 +57,24 @@ public class AppSettings extends AppCompatActivity {
         e = this;
         settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
 
-        int theme = (settings.getString("darktheme", "").length() == 0 || !Boolean.valueOf(settings.getString("darktheme", ""))) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
-        e.setTheme(theme);
-        e.setContentView(R.layout.activity_settings);
+        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        setTheme(theme);
+        setContentView(R.layout.activity_settings);
 
         initToolbar();
     }
 
-    private static void initToolbar() {
-        Toolbar toolbar = (Toolbar) e.findViewById(R.id.toolbar);
+    private void initToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar != null) {
-            e.setSupportActionBar(toolbar);
+            setSupportActionBar(toolbar);
             toolbar.setNavigationIcon(R.drawable.ic_arrow);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //e.finish();
                     Intent i = new Intent();
-                    e.setResult(RESULT_OK, i);
-                    e.finish();
+                    setResult(RESULT_OK, i);
+                    finish();
                 }
             });
             toolbar.setTitle("Settings");
@@ -72,6 +86,7 @@ public class AppSettings extends AppCompatActivity {
         super.onResume();
         pinEnabled = CustomAuthenticator.hasPIN();
         pinEnabledText = (pinEnabled) ? "Enabled" : "Disabled";
+        currentPhotosyncStatus = settings.getString("photosync", "disabled");
 
         prefsFragment = new PrefsFragment();
         FragmentManager fragmentManager = getFragmentManager();
@@ -79,7 +94,7 @@ public class AppSettings extends AppCompatActivity {
         fragmentTransaction.replace(R.id.content, prefsFragment).commit();
     }
 
-    public static void clearCache() {
+    public void clearCache() {
         File tmp = new File(tmpFolder);
         try {
             if(tmp.exists()) {
@@ -87,24 +102,16 @@ public class AppSettings extends AppCompatActivity {
             }
         } catch (IOException exp) {
             exp.printStackTrace();
-            Toast.makeText(e, "Error clearing cache", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error clearing cache", Toast.LENGTH_SHORT).show();
         }
 
         if(tmp.list().length == 0) {
-            Toast.makeText(e, "Cache cleared", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Cache cleared", Toast.LENGTH_SHORT).show();
             prefsFragment.setSummary("clearcache", "Empty");
         }
     }
 
     public static class PrefsFragment extends PreferenceFragment {
-
-        private Preference clearcache;
-        private ListPreference fileview;
-        private CheckBoxPreference loadthumb;
-        private CheckBoxPreference darktheme;
-        private CheckBoxPreference pin;
-        private CheckBoxPreference contextMenu;
-        private Preference version;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -113,8 +120,7 @@ public class AppSettings extends AppCompatActivity {
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.settings_app);
 
-            String currentView = (settings.getString("listlayout", "").length() == 0 || settings.getString("listlayout", "").equals("list")) ? "list" : "grid";
-
+            String currentView = (settings.getString("listlayout", "list").equals("list")) ? "list": "grid";
             fileview = (ListPreference) findPreference("listlayout");
             fileview.setSummary(currentView.substring(0,1).toUpperCase() + currentView.substring(1));
             fileview.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -127,13 +133,34 @@ public class AppSettings extends AppCompatActivity {
                 }
             });
 
+            photosync = (ListPreference) findPreference("photosync");
+            photosync.setValue(currentPhotosyncStatus);
+            photosync.setSummary(currentPhotosyncStatus.substring(0,1).toUpperCase() + currentPhotosyncStatus.substring(1));
+            photosync.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    photosyncStatus = o.toString();
+
+                    if (photosyncStatus.equals("auto") || photosyncStatus.equals("manual")) {
+                        Intent i = new Intent(e, FileSelector.class);
+                        i.putExtra("mode", "single");
+                        startActivityForResult(i, 1);
+                    }
+                    else {
+                        settings.edit().putString("photosync", photosyncStatus).apply();
+                        photosync.setSummary(photosyncStatus.substring(0,1).toUpperCase() + photosyncStatus.substring(1));
+                    }
+                    return true;
+                }
+            });
+
             pin = (CheckBoxPreference) findPreference("pin");
             pin.setChecked(pinEnabled);
             pin.setSummary(pinEnabledText);
             pin.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    if (o.toString().equals("true")) {
+                    if (Boolean.parseBoolean(o.toString())) {
                         startActivity(new Intent(e.getApplicationContext(), EnablePIN.class));
                     }
                     else {
@@ -144,15 +171,14 @@ public class AppSettings extends AppCompatActivity {
                 }
             });
 
-            boolean bottomToolbar = (settings.getString("bottomtoolbar", "").length() == 0) ? false : Boolean.valueOf(settings.getString("bottomtoolbar", ""));
+            boolean bottomToolbar = settings.getBoolean("bottomtoolbar", false);
             contextMenu = (CheckBoxPreference) findPreference("context");
             contextMenu.setChecked(bottomToolbar);
             contextMenu.setSummary("");
             contextMenu.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    String bottomToolbar = o.toString();
-                    settings.edit().putString("bottomtoolbar", bottomToolbar).apply();
+                    settings.edit().putBoolean("bottomtoolbar", Boolean.parseBoolean(o.toString())).apply();
                     return true;
                 }
             });
@@ -162,36 +188,48 @@ public class AppSettings extends AppCompatActivity {
             clearcache.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    clearCache();
+                    new android.support.v7.app.AlertDialog.Builder(e)
+                            .setTitle("Clear Cache")
+                            .setMessage("Are you sure you want to clear cache?")
+                            .setPositiveButton("Clear", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    e.clearCache();
+                                }
+
+                            })
+                            .setNegativeButton("Cancel", null)
+                            .show();
                     return false;
                 }
             });
 
-            boolean load = (settings.getString("loadthumb", "").length() == 0) ? false : Boolean.valueOf(settings.getString("loadthumb", ""));
+            boolean load = settings.getBoolean("loadthumb", false);
             loadthumb = (CheckBoxPreference) findPreference("loadthumb");
             loadthumb.setChecked(load);
             loadthumb.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    settings.edit().putString("loadthumb", o.toString()).apply();
+                    settings.edit().putBoolean("loadthumb", Boolean.parseBoolean(o.toString())).apply();
                     return true;
                 }
             });
 
-            final boolean useDarkTheme = (settings.getString("darktheme", "").length() == 0) ? false : Boolean.valueOf(settings.getString("darktheme", ""));
-            darktheme = (CheckBoxPreference) findPreference("darktheme");
-            darktheme.setChecked(useDarkTheme);
-            darktheme.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            final String currentTheme = settings.getString("colortheme", "light");
+            theme = (ListPreference) findPreference("colortheme");
+            theme.setValue(currentTheme);
+            theme.setSummary(currentTheme.substring(0,1).toUpperCase() + currentTheme.substring(1));
+            theme.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    settings.edit().putString("darktheme", o.toString()).apply();
+                    settings.edit().putString("colortheme", o.toString()).apply();
                     e.finish();
                     startActivity(e.getIntent());
                     return true;
                 }
             });
 
-            version = findPreference("app_version");
+            version = findPreference("appversion");
             PackageInfo pInfo;
             try {
                 pInfo = e.getPackageManager().getPackageInfo(e.getPackageName(), 0);
@@ -204,6 +242,17 @@ public class AppSettings extends AppCompatActivity {
         public void setSummary(String key, String value) {
             Preference pref = findPreference(key);
             pref.setSummary(value);
+        }
+
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            if (requestCode == 1) {
+                if (resultCode == RESULT_OK) {
+                    String[] paths = data.getStringArrayExtra("paths");
+                    settings.edit().putString("photosync", photosyncStatus).apply();
+                    settings.edit().putString("photosyncFolder", paths[0]).apply();
+                    photosync.setSummary(photosyncStatus.substring(0,1).toUpperCase() + photosyncStatus.substring(1));
+                }
+            }
         }
     }
 }

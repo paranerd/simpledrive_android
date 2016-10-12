@@ -25,9 +25,8 @@ import java.util.HashMap;
 import org.simpledrive.helper.Connection;
 
 public class Editor extends AppCompatActivity {
-
     // General
-    public static Editor e;
+    public Editor e;
 
     // Editor
     private String file;
@@ -47,8 +46,8 @@ public class Editor extends AppCompatActivity {
         e = this;
 
         SharedPreferences settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
-        int theme = (settings.getString("darktheme", "").length() == 0 || !Boolean.valueOf(settings.getString("darktheme", ""))) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
-        e.setTheme(theme);
+        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        setTheme(theme);
 
         setContentView(R.layout.activity_editor);
 
@@ -164,7 +163,6 @@ public class Editor extends AppCompatActivity {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                e.setProgressBarIndeterminateVisibility(true);
             }
 
             @Override
@@ -176,7 +174,6 @@ public class Editor extends AppCompatActivity {
             }
             @Override
             protected void onPostExecute(Connection.Response res) {
-                e.setProgressBarIndeterminateVisibility(false);
                 if (res.successful()) {
                     editor.setText(res.getMessage());
                     saved = true;
@@ -195,7 +192,6 @@ public class Editor extends AppCompatActivity {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                e.setProgressBarIndeterminateVisibility(true);
             }
 
             @Override
@@ -208,7 +204,6 @@ public class Editor extends AppCompatActivity {
             }
             @Override
             protected void onPostExecute(Connection.Response res) {
-                e.setProgressBarIndeterminateVisibility(false);
                 if (res.successful()) {
                     saved = true;
                     if(toolbar != null) {
@@ -224,15 +219,15 @@ public class Editor extends AppCompatActivity {
         }.execute();
     }
 
-    private static void setToolbarTitle(final String title) {
-        if (e.getSupportActionBar() != null) {
-            e.getSupportActionBar().setTitle(title);
+    private void setToolbarTitle(final String title) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
         }
     }
 
-    private static void setToolbarSubtitle(final String subtitle) {
-        if (e.getSupportActionBar() != null) {
-            e.getSupportActionBar().setSubtitle(subtitle);
+    private void setToolbarSubtitle(final String subtitle) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setSubtitle(subtitle);
         }
     }
 }

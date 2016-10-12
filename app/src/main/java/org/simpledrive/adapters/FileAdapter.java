@@ -20,10 +20,10 @@ import org.simpledrive.helper.FileItem;
 import org.simpledrive.helper.Util;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class FileAdapter extends ArrayAdapter<FileItem> {
+public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable {
     private LayoutInflater layoutInflater;
     private int layout;
     private int gridSize;
@@ -107,7 +107,7 @@ public class FileAdapter extends ArrayAdapter<FileItem> {
                     new LoadThumb().execute();
                 }
                 else if (!thumbLoading && e.getClass().getSimpleName().equals("FileSelector")) {
-                    new LocalThumb(item).execute();
+                    new LocalThumb().execute();
                 }
             }
             else {
@@ -224,10 +224,6 @@ public class FileAdapter extends ArrayAdapter<FileItem> {
     public class LocalThumb extends AsyncTask<Integer, Bitmap, Bitmap> {
         private FileItem item;
 
-        public LocalThumb(FileItem item) {
-            this.item = item;
-        }
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -235,7 +231,10 @@ public class FileAdapter extends ArrayAdapter<FileItem> {
 
         @Override
         protected Bitmap doInBackground(Integer... hm) {
-            if (isCancelled()) {
+            if (thumbQueue.size() > 0) {
+                item = thumbQueue.remove(0);
+            }
+            else {
                 return null;
             }
 
@@ -246,8 +245,10 @@ public class FileAdapter extends ArrayAdapter<FileItem> {
         }
         @Override
         protected void onPostExecute(Bitmap bmp) {
-            item.setThumb(bmp);
-            notifyDataSetChanged();
+            if (bmp != null) {
+                item.setThumb(bmp);
+                notifyDataSetChanged();
+            }
         }
     }
 }
