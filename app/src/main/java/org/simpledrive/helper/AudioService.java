@@ -1,7 +1,6 @@
 package org.simpledrive.helper;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
@@ -31,7 +30,7 @@ public class AudioService extends Service {
 
 	private MediaPlayer mediaPlayer;
 	private static boolean playPause, prepared = false;
-	private int notificationId = 3;
+	private final int NOFITICATION_ID = 3;
 	public static FileItem currentPlaying;
 
 	private AudioBCReceiver receiver;
@@ -228,7 +227,7 @@ public class AudioService extends Service {
 
 		Notification noti = mBuilder.build();
 
-		startForeground(notificationId, noti);
+		startForeground(NOFITICATION_ID, noti);
 	}
 
 	public class AudioBCReceiver extends BroadcastReceiver {

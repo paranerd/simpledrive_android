@@ -1,6 +1,5 @@
 package org.simpledrive.activities;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.ClipData;
@@ -19,10 +18,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -35,14 +33,12 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -164,8 +160,6 @@ public class RemoteFiles extends AppCompatActivity {
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
 
-        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-
         e = this;
         forceFullLoad = true;
 
@@ -191,7 +185,7 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,  String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case REQUEST_CACHE: {
                 // If request is cancelled, the result arrays are empty.
@@ -1741,8 +1735,6 @@ public class RemoteFiles extends AppCompatActivity {
                     isAdmin = true;
                     unhideDrawerItem(R.id.navigation_view_item_server);
                 }
-                else {
-                }
             }
         }.execute();
     }
@@ -1790,7 +1782,6 @@ public class RemoteFiles extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Connection.Response res) {
-                setProgressBarIndeterminate(false);
                 if (res.successful()) {
                     fetchFiles();
                 }

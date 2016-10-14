@@ -52,21 +52,19 @@ public class UploadManager {
     public static void addUpload(AppCompatActivity act, ArrayList<String> paths, String target, String photosync, TaskListener listener) {
         for (String path : paths) {
             File file = new File(path);
-            if (!file.canRead()) {
-                continue;
-            }
-            else if (file.isDirectory()) {
-                addRecursive(file.getParent(), file, target);
-            }
-            else {
-                HashMap<String, String> ul_elem = new HashMap<>();
-                ul_elem.put("filename", file.getName());
-                ul_elem.put("relative", "");
-                ul_elem.put("path", path);
-                ul_elem.put("target", target);
-                ul_elem.put("photosync", photosync);
-                uploadQueue.add(ul_elem);
-                uploadTotal++;
+            if (file.canRead()) {
+                if (file.isDirectory()) {
+                    addRecursive(file.getParent(), file, target);
+                } else {
+                    HashMap<String, String> ul_elem = new HashMap<>();
+                    ul_elem.put("filename", file.getName());
+                    ul_elem.put("relative", "");
+                    ul_elem.put("path", path);
+                    ul_elem.put("target", target);
+                    ul_elem.put("photosync", photosync);
+                    uploadQueue.add(ul_elem);
+                    uploadTotal++;
+                }
             }
         }
 
@@ -120,7 +118,6 @@ public class UploadManager {
                         publishProgress(num);
                     }
                 });
-
                 con.addFormField("target", ul_elem.get("target"));
                 con.addFormField("paths", ul_elem.get("relative"));
                 con.addFilePart("0", new File(ul_elem.get("path")));

@@ -11,13 +11,12 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -44,18 +43,16 @@ public class Users extends AppCompatActivity {
     private Users e;
     private ArrayList<UserItem> items = new ArrayList<>();
     private UserAdapter newAdapter;
+    private int selectedPos;
 
+    // Interface
     private TextView info;
     private AbsListView list;
     private FloatingActionButton fab;
-
-    private ActionMode mode;
-    private android.view.ActionMode.Callback modeCallBack;
+    private Menu mContextMenu;
 
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
-
-        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         e = this;
 
@@ -77,47 +74,6 @@ public class Users extends AppCompatActivity {
                 showCreate();
             }
         });
-
-        modeCallBack = new android.view.ActionMode.Callback() {
-            @Override
-            public boolean onCreateActionMode(android.view.ActionMode actionMode, Menu menu) {
-                mode = actionMode;
-                actionMode.setTitle(getFirstSelected());
-                actionMode.getMenuInflater().inflate(R.menu.users_context, menu);
-                return true;
-            }
-
-            @Override
-            public boolean onPrepareActionMode(android.view.ActionMode actionMode, Menu menu) {
-                return false;
-            }
-
-            @Override
-            public boolean onActionItemClicked(android.view.ActionMode actionMode, MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.delete:
-                        new android.support.v7.app.AlertDialog.Builder(e)
-                                .setTitle("Delete " + getFirstSelected())
-                                .setMessage("Are you sure you want to delete this user?")
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        delete(getFirstSelected());
-                                    }
-
-                                })
-                                .setNegativeButton("No", null)
-                                .show();
-                        break;
-                }
-                return false;
-            }
-
-            @Override
-            public void onDestroyActionMode(android.view.ActionMode actionMode) {
-                unselectAll();
-            }
-        };
     }
 
     protected void onResume() {
@@ -144,19 +100,67 @@ public class Users extends AppCompatActivity {
     }
 
     private void setUpList() {
-        list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        list.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                list.setItemChecked(position, true);
-                startActionMode(modeCallBack);
-                newAdapter.notifyDataSetChanged();
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+                unselectAll();
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                MenuInflater inflater = getMenuInflater();
+                inflater.inflate(R.menu.users_context, menu);
+                mContextMenu = menu;
+
+                unselectAll();
                 return true;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.delete:
+                        new android.support.v7.app.AlertDialog.Builder(e)
+                                .setTitle("Delete " + getFirstSelected())
+                                .setMessage("Are you sure you want to delete this user?")
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        delete(getFirstSelected());
+                                    }
+
+                                })
+                                .setNegativeButton("No", null)
+                                .show();
+                        break;
+                }
+                return false;
+            }
+
+            @Override
+            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+                if (selectedPos != position && checked) {
+                    selectedPos = position;
+                    unselectAll();
+                    list.setItemChecked(position, true);
+                }
+
+                mContextMenu.findItem(R.id.delete).setVisible(true);
+
+                newAdapter.notifyDataSetChanged();
+                mode.setTitle(list.getCheckedItemCount() + " selected");
             }
         });
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(getApplicationContext(), UserDetails.class);
@@ -244,11 +248,6 @@ public class Users extends AppCompatActivity {
         for (int i = 0; i < list.getCount(); i++) {
             list.setItemChecked(i, false);
         }
-
-        if (mode != null) {
-            mode.finish();
-        }
-        Log.i("te", "st");
     }
 
     private String getFirstSelected() {

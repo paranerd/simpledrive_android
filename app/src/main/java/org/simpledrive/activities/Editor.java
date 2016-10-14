@@ -15,12 +15,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import org.simpledrive.R;
-
-import java.util.HashMap;
 
 import org.simpledrive.helper.Connection;
 
@@ -37,7 +34,6 @@ public class Editor extends AppCompatActivity {
     private Menu mMenu;
     private Toolbar toolbar;
     private EditText editor;
-    private ScrollView scroller;
 
     @Override
     protected void onCreate(Bundle paramBundle) {
@@ -53,7 +49,6 @@ public class Editor extends AppCompatActivity {
 
         editor = (EditText) findViewById(R.id.editor);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        scroller = (ScrollView) findViewById(R.id.editorscroll);
 
         Bundle extras = getIntent().getExtras();
         file = extras.getString("file");

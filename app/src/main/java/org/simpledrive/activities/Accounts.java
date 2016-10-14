@@ -13,13 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.simpledrive.R;
@@ -34,17 +32,16 @@ public class Accounts extends AppCompatActivity {
     private Accounts e;
     private ArrayList<UserItem> items = new ArrayList<>();
     private UserAdapter newAdapter;
+    private int selectedPos;
 
+    // Interface
     private static AbsListView list;
     private FloatingActionButton fab;
+    private Menu mContextMenu;
 
-    private ActionMode mode;
-    private android.view.ActionMode.Callback modeCallBack;
 
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
-
-        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         e = this;
 
@@ -64,48 +61,6 @@ public class Accounts extends AppCompatActivity {
                 startActivityForResult(new Intent(getApplicationContext(), Login.class), 5);
             }
         });
-
-        modeCallBack = new android.view.ActionMode.Callback() {
-            @Override
-            public boolean onCreateActionMode(android.view.ActionMode actionMode, Menu menu) {
-                mode = actionMode;
-                actionMode.setTitle(getFirstSelected());
-                actionMode.getMenuInflater().inflate(R.menu.users_context, menu);
-                return true;
-            }
-
-            @Override
-            public boolean onPrepareActionMode(android.view.ActionMode actionMode, Menu menu) {
-                return false;
-            }
-
-            @Override
-            public boolean onActionItemClicked(android.view.ActionMode actionMode, final MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.delete:
-                        new android.support.v7.app.AlertDialog.Builder(e)
-                                .setTitle("Remove " + getFirstSelected())
-                                .setMessage("Are you sure you want to remove this account?")
-                                .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        remove(getFirstSelected());
-                                        mode.finish();
-                                    }
-
-                                })
-                                .setNegativeButton("Cancel", null)
-                                .show();
-                        break;
-                }
-                return false;
-            }
-
-            @Override
-            public void onDestroyActionMode(android.view.ActionMode actionMode) {
-                unselectAll();
-            }
-        };
     }
 
     protected void onResume() {
@@ -133,15 +88,63 @@ public class Accounts extends AppCompatActivity {
     }
 
     private void setUpList() {
-        list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        list.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                list.setItemChecked(position, true);
-                startActionMode(modeCallBack);
-                newAdapter.notifyDataSetChanged();
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+                unselectAll();
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                MenuInflater inflater = getMenuInflater();
+                inflater.inflate(R.menu.users_context, menu);
+                mContextMenu = menu;
+
+                unselectAll();
                 return true;
+            }
+
+            @Override
+            public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.delete:
+                        new android.support.v7.app.AlertDialog.Builder(e)
+                                .setTitle("Remove " + getFirstSelected())
+                                .setMessage("Are you sure you want to remove this account?")
+                                .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        remove(getFirstSelected());
+                                        mode.finish();
+                                    }
+
+                                })
+                                .setNegativeButton("Cancel", null)
+                                .show();
+                        break;
+                }
+                return false;
+            }
+
+            @Override
+            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+                if (selectedPos != position && checked) {
+                    selectedPos = position;
+                    unselectAll();
+                    list.setItemChecked(position, true);
+                }
+
+                mContextMenu.findItem(R.id.delete).setVisible(true);
+
+                newAdapter.notifyDataSetChanged();
+                mode.setTitle(list.getCheckedItemCount() + " selected");
             }
         });
     }
@@ -174,10 +177,6 @@ public class Accounts extends AppCompatActivity {
     private void unselectAll() {
         for (int i = 0; i < list.getCount(); i++) {
             list.setItemChecked(i, false);
-        }
-
-        if (mode != null) {
-            mode.finish();
         }
     }
 
