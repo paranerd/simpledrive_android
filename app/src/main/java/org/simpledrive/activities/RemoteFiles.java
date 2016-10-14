@@ -1,5 +1,6 @@
 package org.simpledrive.activities;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.ClipData;
@@ -10,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -19,6 +21,8 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -64,6 +68,7 @@ import org.simpledrive.helper.AudioService.LocalBinder;
 import org.simpledrive.helper.Connection;
 import org.simpledrive.helper.DownloadManager;
 import org.simpledrive.helper.FileItem;
+import org.simpledrive.helper.PermissionManager;
 import org.simpledrive.helper.UploadManager;
 import org.simpledrive.helper.Util;
 
@@ -91,6 +96,7 @@ public class RemoteFiles extends AppCompatActivity {
     private boolean preventLock = false;
     private boolean calledForUnlock = false;
     private boolean isAdmin = false;
+    private final int REQUEST_CACHE = 6;
 
     // Audio
     private AudioService mPlayerService;
@@ -184,13 +190,27 @@ public class RemoteFiles extends AppCompatActivity {
         createCache();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,  String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CACHE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0) {
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        createCache();
+                    }
+                    else {
+                        loadthumbs = false;
+                        Toast.makeText(e, "Could not create cache", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                break;
+            }
+        }
+    }
+
     protected void onResume() {
         super.onResume();
-
-        preventLock = false;
-        appVisible = true;
-        loadthumbs = settings.getBoolean("loadthumb", false);
-        bottomToolbarEnabled = settings.getBoolean("bottomtoolbar", false);
 
         if (!CustomAuthenticator.enable(this)) {
             // Not logged in
@@ -212,10 +232,12 @@ public class RemoteFiles extends AppCompatActivity {
             connect();
         }
 
-        updateNavigationDrawer();
         username = CustomAuthenticator.getUsername();
-        header_user.setText(username);
-        header_server.setText(CustomAuthenticator.getServer());
+        preventLock = false;
+        appVisible = true;
+        loadthumbs = settings.getBoolean("loadthumb", false);
+        bottomToolbarEnabled = settings.getBoolean("bottomtoolbar", false);
+        updateNavigationDrawer();
     }
 
     private void updateNavigationDrawer() {
@@ -229,6 +251,10 @@ public class RemoteFiles extends AppCompatActivity {
         }
 
         hideAccounts();
+
+        // Show user info
+        header_user.setText(username);
+        header_server.setText(CustomAuthenticator.getServer());
     }
 
     private void changeViewmode(String vm) {
@@ -255,7 +281,7 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     protected void onPause() {
-        if (!preventLock) {
+        if (appVisible && !preventLock) {
             calledForUnlock = false;
             CustomAuthenticator.lock();
         }
@@ -472,7 +498,8 @@ public class RemoteFiles extends AppCompatActivity {
                 fab_upload.setVisibility(View.GONE);
                 preventLock = true;
                 Intent i = new Intent(e, FileSelector.class);
-                i.putExtra("mode", "multi");
+                i.putExtra("multi", true);
+                i.putExtra("foldersonly", false);
                 startActivityForResult(i, 1);
             }
         });
@@ -944,12 +971,11 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     private void checkForPendingUploads() {
-        String currentPhotosyncStatus = settings.getString("photosync", "disabled");
-        String photosyncFolder = settings.getString("photosyncFolder", "");
+        String photosyncFolder = settings.getString("photosync", "");
         long lastPhotoSync = settings.getLong("lastPhotoSync", 0);
         final ArrayList<String> pending = new ArrayList<>();
 
-        if (!currentPhotosyncStatus.equals("disabled") && !photosyncFolder.equals("")) {
+        if (!photosyncFolder.equals("")) {
             File dir = new File(photosyncFolder);
 
             File[] elements = dir.listFiles();
@@ -1451,11 +1477,25 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     private void createCache() {
-        // Create image cache folder
-        File cache = new File(CACHE_FOLDER);
-        if (!cache.exists() && !cache.mkdir()) {
-            Toast.makeText(e, "Unable to create cache", Toast.LENGTH_SHORT).show();
-        }
+        PermissionManager pm = new PermissionManager(e, REQUEST_CACHE);
+        pm.wantStorage();
+        pm.request("Access files", "Need access to files to create cache folder.", new PermissionManager.TaskListener() {
+            @Override
+            public void onPositive() {
+                // Create image cache folder
+                File cache = new File(CACHE_FOLDER);
+                if (!cache.exists() && !cache.mkdir()) {
+                    loadthumbs = false;
+                    Toast.makeText(e, "Could not create cache", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onNegative() {
+                loadthumbs = false;
+                Toast.makeText(e, "Could not create cache", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initAudioPlayer() {

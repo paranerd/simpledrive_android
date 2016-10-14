@@ -44,14 +44,11 @@
             android:title="Clear cache"
             android:summary="Size: calculating..." />
 
-        <ListPreference
-            android:key="photosync"
+        <CheckBoxPreference
+            android:key="photosync1"
             android:title="Photo Sync"
             android:summary=""
-            android:entries="@array/photosyncTypes"
-            android:entryValues="@array/photosyncValues"
-            android:dialogTitle="Choose"
-            android:defaultValue="disabled" />
+            android:defaultValue="false" />
 
         <CheckBoxPreference
             android:key="pin"

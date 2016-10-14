@@ -1,8 +1,2 @@
-CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/AppSettings$PrefsFragment$7$override.class
-CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/AppSettings$PrefsFragment$3$override.class
-CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/AppSettings$PrefsFragment$5$1$override.class
 CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/com/android/tools/fd/runtime/AppPatchesLoaderImpl.class
-CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/AppSettings$PrefsFragment$4$override.class
-CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/AppSettings$PrefsFragment$5$override.class
-CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/AppSettings$PrefsFragment$6$override.class
 CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/AppSettings$PrefsFragment$override.class

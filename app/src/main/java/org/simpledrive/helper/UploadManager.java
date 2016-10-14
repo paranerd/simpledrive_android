@@ -21,14 +21,13 @@ public class UploadManager {
     private static int uploadCurrent = 0;
     private static int uploadTotal = 0;
     private static int uploadSuccessful = 0;
-    private static boolean uploading = false;
     private static int NOTIFICATION_ID = 1;
     private static ArrayList<HashMap<String, String>> uploadQueue = new ArrayList<>();
     private static AppCompatActivity e;
     private static SharedPreferences settings;
 
     public static boolean isRunning() {
-        return uploading;
+        return uploadQueue.size() > 0;
     }
 
     private static void addRecursive(String orig_path, File dir, String target) {
@@ -53,7 +52,10 @@ public class UploadManager {
     public static void addUpload(AppCompatActivity act, ArrayList<String> paths, String target, String photosync, TaskListener listener) {
         for (String path : paths) {
             File file = new File(path);
-            if (file.isDirectory()) {
+            if (!file.canRead()) {
+                continue;
+            }
+            else if (file.isDirectory()) {
                 addRecursive(file.getParent(), file, target);
             }
             else {
@@ -68,10 +70,9 @@ public class UploadManager {
             }
         }
 
-        if (!uploading) {
+        if (uploadQueue.size() > 0 && uploadQueue.size() == paths.size()) {
             e = act;
             settings = e.getSharedPreferences("org.simpledrive.shared_pref", 0);
-            uploading = true;
             upload(listener);
         }
     }
@@ -153,7 +154,6 @@ public class UploadManager {
                             .setOngoing(false)
                             .setProgress(0, 0, false);
                     mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
-                    uploading = false;
 
                     if (taskListener != null) {
                         taskListener.onFinished();

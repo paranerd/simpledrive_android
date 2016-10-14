@@ -4,44 +4,41 @@
     api-level="23"
     density="xxhdpi"
     format="7"
-    timestamp="78380590745337" >
+    timestamp="3203693361055" >
 
     <task
         name="javac"
-        duration="0" />
+        duration="472" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="0" />
+        duration="7" />
     <task
         name="verifier"
         duration="0" />
 
     <artifact
-        location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/resources-debug.ap_"
-        type="RESOURCES" />
+        location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_8/classes.dex"
+        type="DEX" />
 
-    <build timestamp="71567565245920" >
+    <build
+        timestamp="1391030011936"
+        verifier="COMPATIBLE" >
         <artifact
-            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/outputs/apk/app-debug.apk"
-            type="MAIN" />
+            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/reload-dex/debug/classes.dex"
+            type="RELOAD_DEX" />
     </build>
-    <build timestamp="76936707580415" >
-        <artifact
-            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_6/classes.dex"
-            type="DEX" />
-    </build>
-    <build timestamp="77370638848077" >
+    <build timestamp="3203693361055" >
         <artifact
             location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_8/classes.dex"
             type="DEX" />
     </build>
-    <build timestamp="78380590745337" >
+    <build timestamp="18636639991598" >
         <artifact
-            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/resources-debug.ap_"
-            type="RESOURCES" />
+            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/outputs/apk/app-debug.apk"
+            type="MAIN" />
     </build>
 
 </instant-run>

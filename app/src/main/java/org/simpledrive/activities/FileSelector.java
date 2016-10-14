@@ -1,14 +1,18 @@
 package org.simpledrive.activities;
 
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,23 +27,25 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.simpledrive.R;
 import org.simpledrive.adapters.FileAdapter;
+import org.simpledrive.helper.PermissionManager;
 import org.simpledrive.helper.Util;
 import org.simpledrive.helper.FileItem;
 
 public class FileSelector extends AppCompatActivity {
     // General
-    private FileSelector e;
-    private String choiceMode;
+    private static FileSelector e;
+    private boolean multi;
+    private boolean foldersonly;
     private int selectedPos;
+    private final int REQUEST_STORAGE = 6;
 
     // Files
     private FileAdapter mAdapter;
@@ -71,13 +77,34 @@ public class FileSelector extends AppCompatActivity {
         info = (TextView) findViewById(R.id.info);
 
         Bundle extras = getIntent().getExtras();
-        choiceMode = extras.getString("mode", "single");
+        multi = extras.getBoolean("multi", false);
+        foldersonly = extras.getBoolean("foldersonly", false);
 
-        //hierarchy = new ArrayList<>();
-        //FileItem root = new FileItem(null, "root", Environment.getExternalStorageDirectory() + "/", null);
-        //hierarchy.add(root);
-        initHierarchy();
+        initList();
+        initToolbar();
+        checkPermission();
+    }
 
+    public void checkPermission() {
+        PermissionManager pm = new PermissionManager(e, REQUEST_STORAGE);
+        pm.wantStorage();
+        pm.request("Access files", "Need access to files to do that.", new PermissionManager.TaskListener() {
+            @Override
+            public void onPositive() {
+                initHierarchy();
+            }
+
+            @Override
+            public void onNegative() {
+                Toast.makeText(e, "No access to files", Toast.LENGTH_SHORT).show();
+                Intent returnIntent = new Intent();
+                e.setResult(RESULT_CANCELED, returnIntent);
+                e.finish();
+            }
+        });
+    }
+
+    private void initList() {
         list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 
         list.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
@@ -121,7 +148,7 @@ public class FileSelector extends AppCompatActivity {
 
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
-                if (choiceMode.equals("single") && selectedPos != position && checked) {
+                if (!multi && selectedPos != position && checked) {
                     selectedPos = position;
                     unselectAll();
                     list.setItemChecked(position, true);
@@ -148,9 +175,11 @@ public class FileSelector extends AppCompatActivity {
                 longClicked = false;
             }
         });
+    }
 
+    private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(toolbar != null) {
+        if (toolbar != null) {
             setSupportActionBar(toolbar);
             toolbar.setNavigationIcon(R.drawable.ic_arrow);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -161,6 +190,26 @@ public class FileSelector extends AppCompatActivity {
             });
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,  String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0) {
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        initHierarchy();
+                    }
+                    else {
+                        Intent returnIntent = new Intent();
+                        setResult(RESULT_CANCELED, returnIntent);
+                        finish();
+                    }
+                }
+            break;
+        }
+    }
+}
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -288,18 +337,16 @@ public class FileSelector extends AppCompatActivity {
                     File[] dirs = getExternalFilesDirs(null);
                     for (File d : dirs) {
                         File f = d.getParentFile().getParentFile().getParentFile().getParentFile();
-                        Log.i("debug", "x.absPath: " + f.getAbsolutePath());
                         items.add(new FileItem(null, f.getName(), f.getAbsolutePath(), BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder)));
                     }
                 }
                 else {
                     String dirPath = hierarchy.get(hierarchy.size() - 1).getPath();
-                    Log.i("debug", "dirPath: " + dirPath);
                     File dir = new File(dirPath);
 
                     File[] elements = dir.listFiles();
                     for (File file : elements) {
-                        if (!file.canRead()) {
+                        if (!file.canRead() || (!file.isDirectory() && foldersonly)) {
                             continue;
                         }
                         String filename = file.getName();

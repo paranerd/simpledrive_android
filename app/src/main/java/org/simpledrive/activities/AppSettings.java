@@ -26,29 +26,26 @@ import java.io.File;
 import java.io.IOException;
 
 import org.simpledrive.authenticator.CustomAuthenticator;
+import org.simpledrive.helper.PermissionManager;
 import org.simpledrive.helper.Util;
 
 public class AppSettings extends AppCompatActivity {
-
+    // General
     public static AppSettings e;
-    private static final String tmpFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/simpleDrive/";
+    private static final String CACHE_FOLDER = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/simpleDrive/";
     public static PrefsFragment prefsFragment;
     public static SharedPreferences settings;
     public static boolean pinEnabled = false;
     public static String pinEnabledText;
-    private static String photosyncStatus;
-    private static String currentPhotosyncStatus;
+    public static boolean photosyncEnabled = false;
+    private static String photosyncText;
+    private static boolean cacheEnabled = false;
+    private static final int REQUEST_STORAGE = 6;
 
     // Interface
-    private static Preference clearcache;
     private static ListPreference fileview;
-    private static ListPreference theme;
-    private static ListPreference photosync;
-    private static CheckBoxPreference loadthumb;
-    private static CheckBoxPreference darktheme;
+    private static CheckBoxPreference photosync;
     private static CheckBoxPreference pin;
-    private static CheckBoxPreference contextMenu;
-    private static Preference version;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +83,9 @@ public class AppSettings extends AppCompatActivity {
         super.onResume();
         pinEnabled = CustomAuthenticator.hasPIN();
         pinEnabledText = (pinEnabled) ? "Enabled" : "Disabled";
-        currentPhotosyncStatus = settings.getString("photosync", "disabled");
+        photosyncEnabled = !settings.getString("photosync", "").equals("");
+        photosyncText = settings.getString("photosync", "");
+        cacheEnabled = new File(CACHE_FOLDER).canRead();
 
         prefsFragment = new PrefsFragment();
         FragmentManager fragmentManager = getFragmentManager();
@@ -95,7 +94,7 @@ public class AppSettings extends AppCompatActivity {
     }
 
     public void clearCache() {
-        File tmp = new File(tmpFolder);
+        File tmp = new File(CACHE_FOLDER);
         try {
             if(tmp.exists()) {
                 FileUtils.cleanDirectory(tmp);
@@ -112,7 +111,6 @@ public class AppSettings extends AppCompatActivity {
     }
 
     public static class PrefsFragment extends PreferenceFragment {
-
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -133,22 +131,36 @@ public class AppSettings extends AppCompatActivity {
                 }
             });
 
-            photosync = (ListPreference) findPreference("photosync");
-            photosync.setValue(currentPhotosyncStatus);
-            photosync.setSummary(currentPhotosyncStatus.substring(0,1).toUpperCase() + currentPhotosyncStatus.substring(1));
+            photosync = (CheckBoxPreference) findPreference("photosync1");
+            photosync.setChecked(photosyncEnabled);
+            photosync.setSummary(photosyncText);
             photosync.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    photosyncStatus = o.toString();
+                    if (Boolean.parseBoolean(o.toString())) {
+                        PermissionManager pm = new PermissionManager(e, REQUEST_STORAGE);
+                        pm.wantStorage();
+                        pm.request("Access files", "Need access to files to create cache folder.", new PermissionManager.TaskListener() {
+                            @Override
+                            public void onPositive() {
+                                Intent i = new Intent(e, FileSelector.class);
+                                i.putExtra("multi", false);
+                                i.putExtra("foldersonly", true);
+                                e.startActivityForResult(i, 1);
+                            }
 
-                    if (photosyncStatus.equals("auto") || photosyncStatus.equals("manual")) {
-                        Intent i = new Intent(e, FileSelector.class);
-                        i.putExtra("mode", "single");
-                        startActivityForResult(i, 1);
+                            @Override
+                            public void onNegative() {
+                                settings.edit().putString("photosync", "").apply();
+                                photosync.setChecked(false);
+                                photosync.setSummary("");
+                                Toast.makeText(e, "No access to files", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                     else {
-                        settings.edit().putString("photosync", photosyncStatus).apply();
-                        photosync.setSummary(photosyncStatus.substring(0,1).toUpperCase() + photosyncStatus.substring(1));
+                        settings.edit().putString("photosync", "").apply();
+                        photosync.setSummary("");
                     }
                     return true;
                 }
@@ -172,7 +184,7 @@ public class AppSettings extends AppCompatActivity {
             });
 
             boolean bottomToolbar = settings.getBoolean("bottomtoolbar", false);
-            contextMenu = (CheckBoxPreference) findPreference("context");
+            CheckBoxPreference contextMenu = (CheckBoxPreference) findPreference("context");
             contextMenu.setChecked(bottomToolbar);
             contextMenu.setSummary("");
             contextMenu.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -183,29 +195,31 @@ public class AppSettings extends AppCompatActivity {
                 }
             });
 
-            clearcache = findPreference("clearcache");
-            clearcache.setSummary("Size: " + Util.convertSize("" + Util.folderSize(tmpFolder)));
+            Preference clearcache = findPreference("clearcache");
+            clearcache.setSummary((cacheEnabled) ? "Size: " + Util.convertSize("" + Util.folderSize(CACHE_FOLDER)) : "No access to cache");
             clearcache.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    new android.support.v7.app.AlertDialog.Builder(e)
-                            .setTitle("Clear Cache")
-                            .setMessage("Are you sure you want to clear cache?")
-                            .setPositiveButton("Clear", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    e.clearCache();
-                                }
+                    if (cacheEnabled) {
+                        new android.support.v7.app.AlertDialog.Builder(e)
+                                .setTitle("Clear Cache")
+                                .setMessage("Are you sure you want to clear cache?")
+                                .setPositiveButton("Clear", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        e.clearCache();
+                                    }
 
-                            })
-                            .setNegativeButton("Cancel", null)
-                            .show();
+                                })
+                                .setNegativeButton("Cancel", null)
+                                .show();
+                    }
                     return false;
                 }
             });
 
             boolean load = settings.getBoolean("loadthumb", false);
-            loadthumb = (CheckBoxPreference) findPreference("loadthumb");
+            CheckBoxPreference loadthumb = (CheckBoxPreference) findPreference("loadthumb");
             loadthumb.setChecked(load);
             loadthumb.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
@@ -216,7 +230,7 @@ public class AppSettings extends AppCompatActivity {
             });
 
             final String currentTheme = settings.getString("colortheme", "light");
-            theme = (ListPreference) findPreference("colortheme");
+            ListPreference theme = (ListPreference) findPreference("colortheme");
             theme.setValue(currentTheme);
             theme.setSummary(currentTheme.substring(0,1).toUpperCase() + currentTheme.substring(1));
             theme.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -229,7 +243,7 @@ public class AppSettings extends AppCompatActivity {
                 }
             });
 
-            version = findPreference("appversion");
+            Preference version = findPreference("appversion");
             PackageInfo pInfo;
             try {
                 pInfo = e.getPackageManager().getPackageInfo(e.getPackageName(), 0);
@@ -243,15 +257,38 @@ public class AppSettings extends AppCompatActivity {
             Preference pref = findPreference(key);
             pref.setSummary(value);
         }
+    }
 
-        public void onActivityResult(int requestCode, int resultCode, Intent data) {
-            if (requestCode == 1) {
-                if (resultCode == RESULT_OK) {
-                    String[] paths = data.getStringArrayExtra("paths");
-                    settings.edit().putString("photosync", photosyncStatus).apply();
-                    settings.edit().putString("photosyncFolder", paths[0]).apply();
-                    photosync.setSummary(photosyncStatus.substring(0,1).toUpperCase() + photosyncStatus.substring(1));
+    @Override
+    public void onRequestPermissionsResult(int requestCode,  String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0) {
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        Intent i = new Intent(e, FileSelector.class);
+                        i.putExtra("multi", false);
+                        i.putExtra("foldersonly", true);
+                        e.startActivityForResult(i, 1);
+                    }
+                    else {
+                        settings.edit().putString("photosync", "").apply();
+                        photosync.setChecked(false);
+                        photosync.setSummary("");
+                        Toast.makeText(e, "No access to files", Toast.LENGTH_SHORT).show();
+                    }
                 }
+                break;
+            }
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                String[] paths = data.getStringArrayExtra("paths");
+                settings.edit().putString("photosync", paths[0]).apply();
+                photosync.setSummary(paths[0]);
             }
         }
     }
