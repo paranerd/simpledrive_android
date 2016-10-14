@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 
 import org.simpledrive.helper.DownloadManager;
 import org.simpledrive.helper.UploadManager;

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="MainTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="navDrawerItem">@color/orange</item>
         <item name="colorAccent">@color/darkgreen</item>
         <item name="android:colorAccent">@color/darkgreen</item>
         <item name="android:colorPrimary">@color/darkgreen</item>
@@ -11,14 +12,15 @@
 
         <item name="android:textColorPrimary">@color/grey6</item>
         <item name="android:textColorSecondary">@color/grey3</item>
+        <item name="android:textColorTertiary">@color/grey4</item>
         <item name="android:colorBackground">@color/white</item>
         <item name="android:colorMultiSelectHighlight">@color/lightgreen</item>
         <item name="android:colorFocusedHighlight">@color/grey1</item>
-        <item name="android:navigationBarColor">@color/grey4</item>
         <item name="android:textColorHighlight">?android:colorPrimary</item>
     </style>
 
     <style name="MainTheme.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="navDrawerItem">@color/orange</item>
         <item name="colorAccent">@color/darkgreen</item>
         <item name="android:colorAccent">@color/darkgreen</item>
         <item name="android:colorPrimary">@color/darkgreen</item>
@@ -29,10 +31,10 @@
 
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/grey3</item>
+        <item name="android:textColorTertiary">@color/white</item>
         <item name="android:colorBackground">@color/grey7</item>
         <item name="android:colorMultiSelectHighlight">@color/grey6</item>
         <item name="android:colorFocusedHighlight">@color/grey8</item>
-        <item name="android:navigationBarColor">@color/white</item>
         <item name="android:textColorHighlight">?android:colorPrimary</item>
     </style>
 

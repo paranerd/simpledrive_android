@@ -1,8 +1,11 @@
 package org.simpledrive.helper;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -170,5 +173,33 @@ public class Util {
         dim[1] = Math.round(img_height * shrink_to);
 
         return dim;
+    }
+
+    public static void requestStorageAccess(final String permission, final String[] permissions, final AppCompatActivity e, final int requestCode, final int cancelCode) {
+        // Should we show an explanation?
+        if (ActivityCompat.shouldShowRequestPermissionRationale(e, permission)) {
+            new android.support.v7.app.AlertDialog.Builder(e)
+                    .setTitle("Access files")
+                    .setMessage("Need access to files to do that.")
+                    .setPositiveButton("Allow", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions(e, permissions, requestCode);
+                        }
+
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent returnIntent = new Intent();
+                            e.setResult(cancelCode, returnIntent);
+                            e.finish();
+                        }
+                    })
+                    .show();
+        }
+        else {
+            ActivityCompat.requestPermissions(e, permissions, requestCode);
+        }
     }
 }

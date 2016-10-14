@@ -9,17 +9,6 @@
         <item name="grid">grid</item>
     </string-array>
 
-    <string-array name="photosyncTypes">
-        <item name="disabled">Disabled</item>
-        <item name="auto">Auto</item>
-        <item name="manual">Manual</item>
-    </string-array>
-    <string-array name="photosyncValues">
-        <item name="disabled">disabled</item>
-        <item name="auto">auto</item>
-        <item name="manual">manual</item>
-    </string-array>
-
     <string-array name="themes">
         <item name="light">Light</item>
         <item name="dark">Dark</item>

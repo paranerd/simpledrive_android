@@ -1,7 +1,5 @@
 package org.simpledrive.helper;
 
-import android.util.Log;
-
 import org.json.JSONObject;
 import org.simpledrive.authenticator.CustomAuthenticator;
 
@@ -23,7 +21,6 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.net.ssl.HostnameVerifier;
@@ -178,9 +175,16 @@ public class Connection {
                 cookie = cookieList.get(0).toString();
             }
 
+            // Handle download
             if (downloadPath != null && httpConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                // Handle download
+                // Can't access directory
+                if (!new File(downloadPath).canRead()) {
+                    httpConn.disconnect();
+                    return new Response(false, "Could not access download folder");
+                }
+
                 InputStream is = httpConn.getInputStream();
+
                 // Retrieve filename from response header
                 String header = httpConn.getHeaderField("Content-Disposition");
 
@@ -190,6 +194,8 @@ public class Connection {
                 }
 
                 if (downloadFilename == null) {
+                    is.close();
+                    httpConn.disconnect();
                     return new Response(false, "Empty filename");
                 }
 
@@ -217,8 +223,8 @@ public class Connection {
                 httpConn.disconnect();
                 return new Response(true, "");
             }
+            // Receive answer from server
             else {
-                // Receive answer from server
                 boolean success = httpConn.getResponseCode() == HttpURLConnection.HTTP_OK;
                 InputStream is = (success) ? httpConn.getInputStream() : httpConn.getErrorStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
@@ -240,6 +246,7 @@ public class Connection {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            httpConn.disconnect();
             return new Response(false, "Connection error");
         }
     }
