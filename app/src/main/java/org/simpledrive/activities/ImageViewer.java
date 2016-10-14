@@ -15,7 +15,6 @@ import org.simpledrive.adapters.TouchImageAdapter;
 import org.simpledrive.helper.ExtendedViewPager;
 import org.simpledrive.helper.FileItem;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class ImageViewer extends AppCompatActivity {

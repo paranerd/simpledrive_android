@@ -74,7 +74,6 @@ public class DownloadManager {
                         publishProgress(num);
                     }
                 });
-
                 con.addFormField("target", downloadQueue.remove(0));
                 con.setDownloadPath(downloadPath, null);
                 return con.finish();

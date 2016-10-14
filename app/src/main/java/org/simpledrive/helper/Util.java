@@ -174,32 +174,4 @@ public class Util {
 
         return dim;
     }
-
-    public static void requestStorageAccess(final String permission, final String[] permissions, final AppCompatActivity e, final int requestCode, final int cancelCode) {
-        // Should we show an explanation?
-        if (ActivityCompat.shouldShowRequestPermissionRationale(e, permission)) {
-            new android.support.v7.app.AlertDialog.Builder(e)
-                    .setTitle("Access files")
-                    .setMessage("Need access to files to do that.")
-                    .setPositiveButton("Allow", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(e, permissions, requestCode);
-                        }
-
-                    })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Intent returnIntent = new Intent();
-                            e.setResult(cancelCode, returnIntent);
-                            e.finish();
-                        }
-                    })
-                    .show();
-        }
-        else {
-            ActivityCompat.requestPermissions(e, permissions, requestCode);
-        }
-    }
 }

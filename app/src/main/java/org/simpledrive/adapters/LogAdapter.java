@@ -56,14 +56,16 @@ public class LogAdapter extends ArrayAdapter<LogItem> {
 
         int color;
 
-        if (item.getType().equals("0")) {
-            color = R.color.darkgreen;
-        }
-        else if (item.getType().equals("1")) {
-            color = R.color.orange;
-        }
-        else {
-            color = R.color.red;
+        switch (item.getType()) {
+            case "0":
+                color = R.color.darkgreen;
+                break;
+            case "1":
+                color = R.color.orange;
+                break;
+            default:
+                color = R.color.red;
+                break;
         }
 
         Drawable drawable = ContextCompat.getDrawable(e, R.drawable.circle_drawable);

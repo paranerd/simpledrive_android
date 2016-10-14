@@ -71,7 +71,6 @@ public class UserAdapter extends ArrayAdapter<UserItem> {
         holder.icon_area.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("icon", "area");
                 list.setItemChecked(position, list.isItemChecked(position));
                 notifyDataSetChanged();
             }

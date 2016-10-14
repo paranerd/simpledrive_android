@@ -13,9 +13,9 @@ import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -260,7 +260,7 @@ public class AppSettings extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,  String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case REQUEST_STORAGE: {
                 // If request is cancelled, the result arrays are empty.
