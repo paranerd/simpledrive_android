@@ -140,12 +140,12 @@
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_select_all.png"
     },
     {
-        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi-v4/abc_switch_track_mtrl_alpha.9.png",
-        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.0.0-alpha2/res/drawable-xxhdpi-v4/abc_switch_track_mtrl_alpha.9.png"
-    },
-    {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi-v4/abc_list_selector_disabled_holo_light.9.png",
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.0.0-alpha2/res/drawable-xxhdpi-v4/abc_list_selector_disabled_holo_light.9.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi-v4/abc_switch_track_mtrl_alpha.9.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.0.0-alpha2/res/drawable-xxhdpi-v4/abc_switch_track_mtrl_alpha.9.png"
     },
     {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi-v4/ic_error.png",
@@ -156,12 +156,12 @@
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.0.0-alpha2/res/drawable-xxhdpi-v4/abc_scrubber_track_mtrl_alpha.9.png"
     },
     {
-        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi-v4/ic_grid.png",
-        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_grid.png"
-    },
-    {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi-v4/ic_server.png",
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_server.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi-v4/ic_grid.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_grid.png"
     },
     {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi-v4/abc_ic_star_half_black_36dp.png",
@@ -236,16 +236,16 @@
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_close.png"
     },
     {
-        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi-v4/ic_info.png",
-        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_info.png"
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi-v4/abc_list_divider_mtrl_alpha.9.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.0.0-alpha2/res/drawable-xxhdpi-v4/abc_list_divider_mtrl_alpha.9.png"
     },
     {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi-v4/abc_ic_star_black_48dp.png",
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.0.0-alpha2/res/drawable-xxhdpi-v4/abc_ic_star_black_48dp.png"
     },
     {
-        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi-v4/abc_list_divider_mtrl_alpha.9.png",
-        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.0.0-alpha2/res/drawable-xxhdpi-v4/abc_list_divider_mtrl_alpha.9.png"
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi-v4/ic_info.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_info.png"
     },
     {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi-v4/ic_upload.png",
@@ -256,16 +256,16 @@
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.0.0-alpha2/res/drawable-xxhdpi-v4/abc_list_focused_holo.9.png"
     },
     {
-        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi-v4/ic_submenu.png",
-        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_submenu.png"
-    },
-    {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi-v4/ic_pdf.png",
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_pdf.png"
     },
     {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi-v4/ic_trash.png",
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_trash.png"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi-v4/ic_submenu.png",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_submenu.png"
     },
     {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi-v4/abc_ic_star_half_black_48dp.png",

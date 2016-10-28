@@ -16531,11 +16531,13 @@ org.simpledrive.activities.UserDetails -> org.simpledrive.activities.UserDetails
     void onCreate(android.os.Bundle) -> onCreate
     void getStatus(java.lang.String) -> a
     void getQuota(java.lang.String) -> b
-    void update(java.lang.String,java.lang.String,java.lang.String) -> a
+    void setAdmin(java.lang.String,java.lang.String) -> a
+    void setQuota(java.lang.String,java.lang.String) -> b
     void setToolbarTitle(java.lang.String) -> c
-    void access$000(org.simpledrive.activities.UserDetails,java.lang.String,java.lang.String,java.lang.String) -> a
-    void access$100(org.simpledrive.activities.UserDetails,java.lang.String) -> a
-    void access$200(org.simpledrive.activities.UserDetails,java.lang.String) -> b
+    void access$000(org.simpledrive.activities.UserDetails,java.lang.String,java.lang.String) -> a
+    void access$100(org.simpledrive.activities.UserDetails,java.lang.String,java.lang.String) -> b
+    void access$200(org.simpledrive.activities.UserDetails,java.lang.String) -> a
+    void access$300(org.simpledrive.activities.UserDetails,java.lang.String) -> b
 org.simpledrive.activities.UserDetails$1 -> org.simpledrive.activities.dd:
     org.simpledrive.activities.UserDetails this$0 -> a
     void <init>(org.simpledrive.activities.UserDetails) -> <init>
@@ -16560,27 +16562,36 @@ org.simpledrive.activities.UserDetails$3 -> org.simpledrive.activities.df:
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.activities.UserDetails$4 -> org.simpledrive.activities.dg:
     java.lang.String val$username -> a
-    java.lang.String val$key -> b
-    java.lang.String val$value -> c
-    org.simpledrive.activities.UserDetails this$0 -> d
-    void <init>(org.simpledrive.activities.UserDetails,java.lang.String,java.lang.String,java.lang.String) -> <init>
+    java.lang.String val$enable -> b
+    org.simpledrive.activities.UserDetails this$0 -> c
+    void <init>(org.simpledrive.activities.UserDetails,java.lang.String,java.lang.String) -> <init>
     void onPreExecute() -> onPreExecute
     org.simpledrive.helper.Connection$Response doInBackground(java.lang.Void[]) -> a
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.activities.UserDetails$PrefsFragment -> org.simpledrive.activities.dh:
+org.simpledrive.activities.UserDetails$5 -> org.simpledrive.activities.dh:
+    java.lang.String val$username -> a
+    java.lang.String val$value -> b
+    org.simpledrive.activities.UserDetails this$0 -> c
+    void <init>(org.simpledrive.activities.UserDetails,java.lang.String,java.lang.String) -> <init>
+    void onPreExecute() -> onPreExecute
+    org.simpledrive.helper.Connection$Response doInBackground(java.lang.Void[]) -> a
+    void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
+    void onPostExecute(java.lang.Object) -> onPostExecute
+    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+org.simpledrive.activities.UserDetails$PrefsFragment -> org.simpledrive.activities.di:
     android.preference.EditTextPreference quotaMax -> a
     android.preference.CheckBoxPreference admin -> b
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
     void setSummary(java.lang.String,java.lang.String) -> a
     void setChecked(java.lang.String,boolean) -> a
-org.simpledrive.activities.UserDetails$PrefsFragment$1 -> org.simpledrive.activities.di:
+org.simpledrive.activities.UserDetails$PrefsFragment$1 -> org.simpledrive.activities.dj:
     org.simpledrive.activities.UserDetails$PrefsFragment this$0 -> a
     void <init>(org.simpledrive.activities.UserDetails$PrefsFragment) -> <init>
     boolean onPreferenceChange(android.preference.Preference,java.lang.Object) -> onPreferenceChange
-org.simpledrive.activities.UserDetails$PrefsFragment$2 -> org.simpledrive.activities.dj:
+org.simpledrive.activities.UserDetails$PrefsFragment$2 -> org.simpledrive.activities.dk:
     org.simpledrive.activities.UserDetails$PrefsFragment this$0 -> a
     void <init>(org.simpledrive.activities.UserDetails$PrefsFragment) -> <init>
     boolean onPreferenceChange(android.preference.Preference,java.lang.Object) -> onPreferenceChange
@@ -16624,11 +16635,11 @@ org.simpledrive.activities.Users -> org.simpledrive.activities.Users:
     void access$1200(org.simpledrive.activities.Users) -> k
     void access$1300(org.simpledrive.activities.Users,java.lang.String,java.lang.String,boolean) -> a
     void access$1400(org.simpledrive.activities.Users) -> l
-org.simpledrive.activities.Users$1 -> org.simpledrive.activities.dk:
+org.simpledrive.activities.Users$1 -> org.simpledrive.activities.dl:
     org.simpledrive.activities.Users this$0 -> a
     void <init>(org.simpledrive.activities.Users) -> <init>
     void onClick(android.view.View) -> onClick
-org.simpledrive.activities.Users$10 -> org.simpledrive.activities.dl:
+org.simpledrive.activities.Users$10 -> org.simpledrive.activities.dm:
     java.lang.String val$username -> a
     org.simpledrive.activities.Users this$0 -> b
     void <init>(org.simpledrive.activities.Users,java.lang.String) -> <init>
@@ -16637,15 +16648,15 @@ org.simpledrive.activities.Users$10 -> org.simpledrive.activities.dl:
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.activities.Users$11 -> org.simpledrive.activities.dm:
+org.simpledrive.activities.Users$11 -> org.simpledrive.activities.dn:
     org.simpledrive.activities.Users this$0 -> a
     void <init>(org.simpledrive.activities.Users) -> <init>
     void run() -> run
-org.simpledrive.activities.Users$2 -> org.simpledrive.activities.dn:
+org.simpledrive.activities.Users$2 -> org.simpledrive.activities.do:
     org.simpledrive.activities.Users this$0 -> a
     void <init>(org.simpledrive.activities.Users) -> <init>
     void onClick(android.view.View) -> onClick
-org.simpledrive.activities.Users$3 -> org.simpledrive.activities.do:
+org.simpledrive.activities.Users$3 -> org.simpledrive.activities.dp:
     org.simpledrive.activities.Users this$0 -> a
     void <init>(org.simpledrive.activities.Users) -> <init>
     boolean onPrepareActionMode(android.view.ActionMode,android.view.Menu) -> onPrepareActionMode
@@ -16653,15 +16664,15 @@ org.simpledrive.activities.Users$3 -> org.simpledrive.activities.do:
     boolean onCreateActionMode(android.view.ActionMode,android.view.Menu) -> onCreateActionMode
     boolean onActionItemClicked(android.view.ActionMode,android.view.MenuItem) -> onActionItemClicked
     void onItemCheckedStateChanged(android.view.ActionMode,int,long,boolean) -> onItemCheckedStateChanged
-org.simpledrive.activities.Users$3$1 -> org.simpledrive.activities.dp:
+org.simpledrive.activities.Users$3$1 -> org.simpledrive.activities.dq:
     org.simpledrive.activities.Users$3 this$1 -> a
     void <init>(org.simpledrive.activities.Users$3) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.activities.Users$4 -> org.simpledrive.activities.dq:
+org.simpledrive.activities.Users$4 -> org.simpledrive.activities.dr:
     org.simpledrive.activities.Users this$0 -> a
     void <init>(org.simpledrive.activities.Users) -> <init>
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-org.simpledrive.activities.Users$5 -> org.simpledrive.activities.dr:
+org.simpledrive.activities.Users$5 -> org.simpledrive.activities.ds:
     org.simpledrive.activities.Users this$0 -> a
     void <init>(org.simpledrive.activities.Users) -> <init>
     void onPreExecute() -> onPreExecute
@@ -16669,15 +16680,15 @@ org.simpledrive.activities.Users$5 -> org.simpledrive.activities.dr:
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.activities.Users$6 -> org.simpledrive.activities.ds:
+org.simpledrive.activities.Users$6 -> org.simpledrive.activities.dt:
     org.simpledrive.activities.Users this$0 -> a
     void <init>(org.simpledrive.activities.Users) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.activities.Users$7 -> org.simpledrive.activities.dt:
+org.simpledrive.activities.Users$7 -> org.simpledrive.activities.du:
     org.simpledrive.activities.Users this$0 -> a
     void <init>(org.simpledrive.activities.Users) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.activities.Users$8 -> org.simpledrive.activities.du:
+org.simpledrive.activities.Users$8 -> org.simpledrive.activities.dv:
     android.widget.EditText val$username -> a
     android.widget.EditText val$pass1 -> b
     android.widget.EditText val$pass2 -> c
@@ -16686,7 +16697,7 @@ org.simpledrive.activities.Users$8 -> org.simpledrive.activities.du:
     org.simpledrive.activities.Users this$0 -> f
     void <init>(org.simpledrive.activities.Users,android.widget.EditText,android.widget.EditText,android.widget.EditText,android.widget.CheckBox,android.app.AlertDialog) -> <init>
     void onClick(android.view.View) -> onClick
-org.simpledrive.activities.Users$9 -> org.simpledrive.activities.dv:
+org.simpledrive.activities.Users$9 -> org.simpledrive.activities.dw:
     boolean val$admin -> a
     java.lang.String val$username -> b
     java.lang.String val$pass -> c
@@ -17014,7 +17025,7 @@ org.simpledrive.helper.ExtendedViewPager -> org.simpledrive.helper.ExtendedViewP
     void <init>(android.content.Context,android.util.AttributeSet) -> <init>
     boolean canScroll(android.view.View,boolean,int,int,int) -> a
 org.simpledrive.helper.FileItem -> org.simpledrive.helper.n:
-    org.json.JSONObject json -> a
+    java.lang.String id -> a
     java.lang.String filename -> b
     java.lang.String parent -> c
     java.lang.String size -> d
@@ -17027,11 +17038,12 @@ org.simpledrive.helper.FileItem -> org.simpledrive.helper.n:
     java.lang.String thumbPath -> k
     java.lang.String imgPath -> l
     java.lang.Integer scrollPos -> m
-    java.lang.String hash -> n
-    void <init>(org.json.JSONObject,java.lang.String,java.lang.String,android.graphics.Bitmap) -> <init>
-    void <init>(org.json.JSONObject,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,android.graphics.Bitmap,android.graphics.Bitmap,java.lang.String,java.lang.String) -> <init>
+    boolean selfshared -> n
+    boolean shared -> o
+    void <init>(java.lang.String,java.lang.String,java.lang.String,android.graphics.Bitmap) -> <init>
+    void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,boolean,boolean,android.graphics.Bitmap,android.graphics.Bitmap,java.lang.String,java.lang.String) -> <init>
     boolean is(java.lang.String) -> a
-    org.json.JSONObject getJSON() -> a
+    java.lang.String getID() -> a
     java.lang.String getFilename() -> b
     java.lang.String getSize() -> c
     java.lang.String getPath() -> d
@@ -17041,7 +17053,7 @@ org.simpledrive.helper.FileItem -> org.simpledrive.helper.n:
     java.lang.String getImgPath() -> h
     void setThumb(android.graphics.Bitmap) -> a
     java.lang.String getOwner() -> i
-    java.lang.String getHash() -> j
+    boolean shared() -> j
     void setScrollPos(int) -> a
     int getScrollPos() -> k
 org.simpledrive.helper.LogItem -> org.simpledrive.helper.o:

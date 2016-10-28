@@ -2,43 +2,39 @@
 <instant-run
     abi="armeabi-v7a,armeabi"
     api-level="23"
-    density="xxhdpi"
+    density="hdpi"
     format="7"
-    timestamp="8352167672298" >
+    timestamp="52914827877632"
+    verifier="FIELD_TYPE_CHANGE" >
 
     <task
         name="javac"
-        duration="505" />
+        duration="1336" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="356" />
+        duration="32" />
     <task
         name="verifier"
-        duration="27" />
+        duration="12" />
 
     <artifact
         location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_8/classes.dex"
         type="DEX" />
 
-    <build
-        timestamp="6419176468238"
-        verifier="COMPATIBLE" >
-        <artifact
-            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/reload-dex/debug/classes.dex"
-            type="RELOAD_DEX" />
-    </build>
-    <build timestamp="8352167672298" >
-        <artifact
-            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_8/classes.dex"
-            type="DEX" />
-    </build>
-    <build timestamp="18636639991598" >
+    <build timestamp="52688319030648" >
         <artifact
             location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/outputs/apk/app-debug.apk"
             type="MAIN" />
+    </build>
+    <build
+        timestamp="52914827877632"
+        verifier="FIELD_TYPE_CHANGE" >
+        <artifact
+            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_8/classes.dex"
+            type="DEX" />
     </build>
 
 </instant-run>

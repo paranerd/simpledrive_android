@@ -5345,6 +5345,7 @@ org.simpledrive.helper.FileItem:
     63:63:public java.lang.String getLastEdit()
     71:71:public java.lang.String getParent()
     91:91:public java.lang.String getType()
+    103:103:public boolean selfshared()
 org.simpledrive.helper.TouchImageView:
     private static final java.lang.String DEBUG
     private static final float SUPER_MIN_MULTIPLIER
@@ -5358,5 +5359,5 @@ org.simpledrive.helper.TouchImageView$DoubleTapZoom:
 org.simpledrive.helper.UploadManager:
     20:20:public UploadManager()
 org.simpledrive.helper.Util:
-    20:20:public Util()
-    140:143:public static int pxToDp(int)
+    17:17:public Util()
+    137:140:public static int pxToDp(int)

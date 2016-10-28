@@ -368,7 +368,7 @@ public class FileSelector extends AppCompatActivity {
                                 icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown);
                         }
 
-                        items.add(new FileItem(null, filename, null, path, size, null, type, null, "", icon, null, "", ""));
+                        items.add(new FileItem(null, filename, null, path, size, null, type, null, false, false, icon, null, "", ""));
                     }
                 }
 

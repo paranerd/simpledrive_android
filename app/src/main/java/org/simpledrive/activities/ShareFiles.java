@@ -122,7 +122,7 @@ public class ShareFiles extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                UploadManager.addUpload(e, uploadsPending, hierarchy.get(hierarchy.size() - 1).getJSON().toString(), "0", null);
+                UploadManager.addUpload(e, uploadsPending, hierarchy.get(hierarchy.size() - 1).getID(), "0", null);
                 e.finish();
             }
         });
@@ -213,7 +213,7 @@ public class ShareFiles extends AppCompatActivity {
             @Override
             protected Connection.Response doInBackground(Void... args) {
                 Connection con = new Connection("files", "list");
-                con.addFormField("target", hierarchy.get(hierarchy.size() - 1).getJSON().toString());
+                con.addFormField("target", hierarchy.get(hierarchy.size() - 1).getID());
                 con.addFormField("mode", "files");
 
                 return con.finish();
@@ -245,21 +245,32 @@ public class ShareFiles extends AppCompatActivity {
         items = new ArrayList<>();
 
         try {
-            JSONArray jar = new JSONArray(rawJSON);
+            JSONObject job = new JSONObject(rawJSON);
+            JSONArray files = new JSONArray(job.getJSONArray("files"));
+            JSONArray h = new JSONArray(job.getJSONArray("hierarchy"));
 
-            for(int i = 0; i < jar.length(); i++){
-                JSONObject obj = jar.getJSONObject(i);
+            // Populate hierarchy
+            hierarchy = new ArrayList<>();
+            for (int i = 0; i < h.length(); i++) {
+                JSONObject obj = h.getJSONObject(i);
+                hierarchy.add(new FileItem(obj.getString("id"), obj.getString("filename"), obj.getString("path"), null));
+            }
 
+            for (int i = 0; i < files.length(); i++){
+                JSONObject obj = files.getJSONObject(i);
+
+                String id = obj.getString("id");
                 String filename = obj.getString("filename");
                 String parent = obj.getString("parent");
                 String type = obj.getString("type");
                 String size = (obj.getString("type").equals("folder")) ? ((obj.getString("size").equals("1")) ? obj.getString("size") + " element" : obj.getString("size") + " elements") : Util.convertSize(obj.getString("size"));
-                String hash = obj.getString("hash");
-                String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : ((obj.getString("rootshare").length() == 0) ? "" : "shared");
+                boolean selfshared = Boolean.parseBoolean(obj.getString("selfshared"));
+                boolean shared = Boolean.parseBoolean(obj.getString("shared"));
+                String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : ((shared) ? "shared" : "");
                 Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
 
                 if(type.equals("folder")) {
-                    FileItem item = new FileItem(obj, filename, parent, null, size, obj.getString("edit"), type, owner, hash, icon, null, "", "");
+                    FileItem item = new FileItem(id, filename, parent, null, size, obj.getString("edit"), type, owner, selfshared, shared, icon, null, "", "");
                     items.add(item);
                 }
             }
@@ -336,20 +347,12 @@ public class ShareFiles extends AppCompatActivity {
             @Override
             protected void onPostExecute(Connection.Response res) {
                 if (res.successful()) {
-                    try {
-                        hierarchy = new ArrayList<>();
+                    hierarchy = new ArrayList<>();
 
-                        JSONObject currDirJSON = new JSONObject();
-                        currDirJSON.put("path", "");
-                        currDirJSON.put("rootshare", "");
+                    FileItem currDir = new FileItem("0", "", "", null);
+                    hierarchy.add(currDir);
 
-                        FileItem currDir = new FileItem(currDirJSON, "", "", null);
-                        hierarchy.add(currDir);
-
-                        CustomAuthenticator.updateToken(res.getMessage());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    CustomAuthenticator.updateToken(res.getMessage());
 
                     fetchFiles();
                 }
@@ -391,7 +394,7 @@ public class ShareFiles extends AppCompatActivity {
 
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                create(hierarchy.get(hierarchy.size() - 1).getJSON().toString(), input.getText().toString(), type);
+                create(hierarchy.get(hierarchy.size() - 1).getID(), input.getText().toString(), type);
             }
         });
 

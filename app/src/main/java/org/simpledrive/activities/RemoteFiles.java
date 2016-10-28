@@ -33,6 +33,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -305,7 +306,7 @@ public class RemoteFiles extends AppCompatActivity {
 
                 String[] paths = data.getStringArrayExtra("paths");
                 Collections.addAll(ul_paths, paths);
-                UploadManager.addUpload(this, ul_paths, hierarchy.get(hierarchy.size() - 1).getJSON().toString(), "0", new UploadManager.TaskListener() {
+                UploadManager.addUpload(this, ul_paths, hierarchy.get(hierarchy.size() - 1).getID(), "0", new UploadManager.TaskListener() {
                     @Override
                     public void onFinished() {
                         fetchFiles();
@@ -530,7 +531,7 @@ public class RemoteFiles extends AppCompatActivity {
         fab_paste.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paste(clipboard.toString(), hierarchy.get(hierarchy.size() - 1).getJSON().toString(), deleteAfterCopy);
+                paste(clipboard.toString(), hierarchy.get(hierarchy.size() - 1).getID(), deleteAfterCopy);
             }
         });
 
@@ -592,7 +593,7 @@ public class RemoteFiles extends AppCompatActivity {
             @Override
             protected Connection.Response doInBackground(Void... args) {
                 Connection con = new Connection("files", "list");
-                con.addFormField("target", hierarchy.get(hierarchy.size() - 1).getJSON().toString());
+                con.addFormField("target", hierarchy.get(hierarchy.size() - 1).getID());
                 con.addFormField("mode", viewmode);
 
                 return con.finish();
@@ -634,17 +635,27 @@ public class RemoteFiles extends AppCompatActivity {
         filteredItems = new ArrayList<>();
 
         try {
-            JSONArray jar = new JSONArray(rawJSON);
+            JSONObject job = new JSONObject(rawJSON);
+            JSONArray files = new JSONArray(job.getString("files"));
+            JSONArray h = new JSONArray(job.getString("hierarchy"));
 
-            for (int i = 0; i < jar.length(); i++){
-                JSONObject obj = jar.getJSONObject(i);
+            // Populate hierarchy
+            hierarchy = new ArrayList<>();
+            for (int i = 0; i < h.length(); i++) {
+                JSONObject obj = h.getJSONObject(i);
+                hierarchy.add(new FileItem(obj.getString("id"), obj.getString("filename"), "", null));
+            }
 
-                String filename = (viewmode.equals("trash")) ? obj.getString("filename").substring(0, obj.getString("filename").lastIndexOf("_trash")) : obj.getString("filename");
-                String parent = obj.getString("parent");
+            for (int i = 0; i < files.length(); i++){
+                JSONObject obj = files.getJSONObject(i);
+
+                String id = obj.getString("id");
+                String filename = obj.getString ("filename");
                 String type = obj.getString("type");
                 String size = (obj.getString("type").equals("folder")) ? ((obj.getString("size").equals("1")) ? obj.getString("size") + " element" : obj.getString("size") + " elements") : Util.convertSize(obj.getString("size"));
-                String hash = obj.getString("hash");
-                String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : ((obj.getString("rootshare").length() == 0) ? "" : "shared");
+                boolean selfshared = Boolean.parseBoolean(obj.getString("selfshared"));
+                boolean shared = Boolean.parseBoolean(obj.getString("shared"));
+                String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : ((shared) ? "shared" : "");
                 Bitmap icon;
 
                 switch (type) {
@@ -671,9 +682,10 @@ public class RemoteFiles extends AppCompatActivity {
 
                 if (type.equals("image")) {
                     String ext = "." + FilenameUtils.getExtension(filename);
-                    imgPath = CACHE_FOLDER + Util.md5(parent + filename) + ext;
+                    Log.i("debug", "id: " + id);
+                    imgPath = CACHE_FOLDER + Util.md5(id) + ext;
                     String thumbType = (listLayout == R.layout.filelist) ? "list" : "grid";
-                    thumbPath = CACHE_FOLDER + Util.md5 (parent + filename) + "_" + thumbType + ".jpg";
+                    thumbPath = CACHE_FOLDER + Util.md5(id) + "_" + thumbType + ".jpg";
 
 
                     if (new File(imgPath).exists()) {
@@ -685,11 +697,12 @@ public class RemoteFiles extends AppCompatActivity {
                 }
 
 
-                FileItem item = new FileItem(obj, filename, parent, null, size, obj.getString("edit"), type, owner, hash, icon, thumb, thumbPath, imgPath);
+                FileItem item = new FileItem(id, filename, "", null, size, obj.getString("edit"), type, owner, selfshared, shared, icon, thumb, thumbPath, imgPath);
                 items.add(item);
                 filteredItems.add(item);
             }
         } catch (JSONException exp) {
+
             exp.printStackTrace();
             Toast.makeText(this, R.string.unknown_error, Toast.LENGTH_SHORT).show();
         }
@@ -723,7 +736,7 @@ public class RemoteFiles extends AppCompatActivity {
         // Show current directory in toolbar
         String title;
         FileItem thisFolder = hierarchy.get(hierarchy.size() - 1);
-        if (!thisFolder.getFilename().equals("")) {
+        if (!thisFolder.getID().equals("0")) {
             title = thisFolder.getFilename();
         }
         else if (viewmode.equals("sharedbyme")) {
@@ -781,7 +794,7 @@ public class RemoteFiles extends AppCompatActivity {
         else if (item.is("text")) {
             preventLock = true;
             Intent i = new Intent(getApplicationContext(), Editor.class);
-            i.putExtra("file", filteredItems.get(position).getJSON().toString());
+            i.putExtra("file", filteredItems.get(position).getID());
             i.putExtra("filename", filteredItems.get(position).getFilename());
             startActivity(i);
         }
@@ -890,7 +903,7 @@ public class RemoteFiles extends AppCompatActivity {
 
         for (int i = 0; i < list.getCount(); i++) {
             if (checked.get(i)) {
-                arr.put(filteredItems.get(i).getJSON());
+                arr.put(filteredItems.get(i).getID());
             }
         }
 
@@ -902,7 +915,7 @@ public class RemoteFiles extends AppCompatActivity {
 
         for (int i = 0; i < list.getCount(); i++) {
             if (checked.get(i)) {
-                return filteredItems.get(i).getJSON().toString();
+                return filteredItems.get(i).getID();
             }
         }
         return "";
@@ -927,21 +940,12 @@ public class RemoteFiles extends AppCompatActivity {
             @Override
             protected void onPostExecute(Connection.Response res) {
                 if (res.successful()) {
-                    try {
-                        hierarchy = new ArrayList<>();
+                    hierarchy = new ArrayList<>();
 
-                        JSONObject currDirJSON = new JSONObject();
-                        currDirJSON.put("path", "");
-                        currDirJSON.put("rootshare", "");
+                    FileItem currDir = new FileItem("0", "", "", null);
+                    hierarchy.add(currDir);
 
-                        FileItem currDir = new FileItem(currDirJSON, "", "", null);
-                        hierarchy.add(currDir);
-
-                        CustomAuthenticator.updateToken(res.getMessage());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
+                    CustomAuthenticator.updateToken(res.getMessage());
                     fetchFiles();
                     getVersion();
                     getPermissions();
@@ -987,7 +991,7 @@ public class RemoteFiles extends AppCompatActivity {
                     .setPositiveButton("Upload", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            UploadManager.addUpload(e, pending, hierarchy.get(hierarchy.size() - 1).getJSON().toString(), "1", null);
+                            UploadManager.addUpload(e, pending, hierarchy.get(hierarchy.size() - 1).getID(), "1", null);
                         }
 
                     })
@@ -1052,7 +1056,7 @@ public class RemoteFiles extends AppCompatActivity {
 
         alert.setPositiveButton("Create", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                create(hierarchy.get(hierarchy.size() - 1).getJSON().toString(), input.getText().toString(), type);
+                create(hierarchy.get(hierarchy.size() - 1).getID(), input.getText().toString(), type);
             }
         });
 
@@ -1274,7 +1278,7 @@ public class RemoteFiles extends AppCompatActivity {
 
                 for (int i = 0; i < filteredItems.size(); i++) {
                     if (list.isItemChecked(i)) {
-                        clipboard.put(filteredItems.get(i).getJSON());
+                        clipboard.put(filteredItems.get(i).getID());
                     }
                 }
 
@@ -1292,7 +1296,7 @@ public class RemoteFiles extends AppCompatActivity {
 
                 for (int i = 0; i < filteredItems.size(); i++) {
                     if (list.isItemChecked(i)) {
-                        clipboard.put(filteredItems.get(i).getJSON());
+                        clipboard.put(filteredItems.get(i).getID());
                     }
                 }
 
@@ -1307,7 +1311,7 @@ public class RemoteFiles extends AppCompatActivity {
                 break;
 
             case R.id.zip:
-                zip(hierarchy.get(hierarchy.size() - 1).getJSON().toString(), getAllSelected());
+                zip(hierarchy.get(hierarchy.size() - 1).getID(), getAllSelected());
                 actionMode.finish();
                 break;
 
@@ -1387,8 +1391,8 @@ public class RemoteFiles extends AppCompatActivity {
                     bottomContextMenu.findItem(R.id.cut).setVisible(!trash);
                     bottomContextMenu.findItem(R.id.zip).setVisible(!trash);
                     bottomContextMenu.findItem(R.id.rename).setVisible(!trash && list.getCheckedItemCount() == 1);
-                    bottomContextMenu.findItem(R.id.share).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).getHash().length() == 0 && filteredItems.get(position).getOwner().equals(""));
-                    bottomContextMenu.findItem(R.id.unshare).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).getHash().length() > 0);
+                    bottomContextMenu.findItem(R.id.share).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).shared() && filteredItems.get(position).getOwner().equals(""));
+                    bottomContextMenu.findItem(R.id.unshare).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).shared());
                 }
                 else {
                     mContextMenu.findItem(R.id.restore).setVisible(trash);
@@ -1398,8 +1402,8 @@ public class RemoteFiles extends AppCompatActivity {
                     mContextMenu.findItem(R.id.cut).setVisible(!trash);
                     mContextMenu.findItem(R.id.zip).setVisible(!trash);
                     mContextMenu.findItem(R.id.rename).setVisible(!trash && list.getCheckedItemCount() == 1);
-                    mContextMenu.findItem(R.id.share).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).getHash().length() == 0 && filteredItems.get(position).getOwner().equals(""));
-                    mContextMenu.findItem(R.id.unshare).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).getHash().length() > 0);
+                    mContextMenu.findItem(R.id.share).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).shared() && filteredItems.get(position).getOwner().equals(""));
+                    mContextMenu.findItem(R.id.unshare).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).shared());
                 }
 
                 lastSelected = position;

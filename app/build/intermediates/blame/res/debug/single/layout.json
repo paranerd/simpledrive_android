@@ -200,12 +200,12 @@
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/layout/filelist.xml"
     },
     {
-        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/debug/layout/abc_select_dialog_material.xml",
-        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.0.0-alpha2/res/layout/abc_select_dialog_material.xml"
-    },
-    {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/debug/layout/select_dialog_singlechoice_material.xml",
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.0.0-alpha2/res/layout/select_dialog_singlechoice_material.xml"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/debug/layout/abc_select_dialog_material.xml",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.0.0-alpha2/res/layout/abc_select_dialog_material.xml"
     },
     {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/debug/layout/abc_list_menu_item_checkbox.xml",
@@ -244,12 +244,12 @@
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/layout/activity_remotefiles.xml"
     },
     {
-        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/debug/layout/activity_imageviewer.xml",
-        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/layout/activity_imageviewer.xml"
-    },
-    {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/debug/layout/abc_popup_menu_header_item_layout.xml",
         "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.0.0-alpha2/res/layout/abc_popup_menu_header_item_layout.xml"
+    },
+    {
+        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/debug/layout/activity_imageviewer.xml",
+        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/layout/activity_imageviewer.xml"
     },
     {
         "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/debug/layout/notification_template_part_time.xml",
