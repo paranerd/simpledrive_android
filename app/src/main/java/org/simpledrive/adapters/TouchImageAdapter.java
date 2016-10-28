@@ -107,12 +107,12 @@ public class TouchImageAdapter extends PagerAdapter {
             // Load thumbnail and get image in background
             Bitmap bmp = BitmapFactory.decodeFile(thumbPath);
             img.setImageBitmap(bmp);
-            new LoadImage(thumbPath, img, images.get(position).getJSON().toString(), images.get(position).getFilename(), imgPath).execute();
+            new LoadImage(thumbPath, img, images.get(position).getID(), images.get(position).getFilename(), imgPath).execute();
         }
         else {
             // Set placeholder and get image in background
             img.setImageResource(R.drawable.ic_image);
-            new LoadImage(thumbPath, img, images.get(position).getJSON().toString(), images.get(position).getFilename(), imgPath).execute();
+            new LoadImage(thumbPath, img, images.get(position).getID(), images.get(position).getFilename(), imgPath).execute();
         }
 
         if (wv != null) {

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -181,17 +182,18 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
             e.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 
             size = (layout == R.layout.filelist) ? Util.dpToPx(100) + "" : Integer.toString(displaymetrics.widthPixels / 2);
-            String file = item.getJSON().toString();
+            String file = item.getID();
             filepath = item.getThumbPath();
+            Log.i("debug", "file: " + file);
+            Log.i("debug", "filepath: " + filepath);
 
             File thumb = new File(filepath);
 
             Connection multipart = new Connection("files", "read");
 
-            multipart.addFormField("target", "[" + file + "]");
+            multipart.addFormField("target", "[\"" + file + "\"]");
             multipart.addFormField("width", size);
             multipart.addFormField("height", size);
-            multipart.addFormField("type", "thumb");
             multipart.setDownloadPath(thumb.getParent(), thumb.getName());
             return multipart.finish();
         }

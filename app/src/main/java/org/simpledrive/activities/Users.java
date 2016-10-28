@@ -180,7 +180,7 @@ public class Users extends AppCompatActivity {
 
             @Override
             protected Connection.Response doInBackground(Void... args) {
-                Connection con = new Connection("users", "get");
+                Connection con = new Connection("users", "getall");
 
                 return con.finish();
             }

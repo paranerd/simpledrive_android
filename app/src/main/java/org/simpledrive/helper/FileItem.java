@@ -2,10 +2,8 @@ package org.simpledrive.helper;
 
 import android.graphics.Bitmap;
 
-import org.json.JSONObject;
-
 public class FileItem {
-	private JSONObject json;
+	private String id;
 	private String filename;
 	private String parent;
 	private String size;
@@ -18,16 +16,17 @@ public class FileItem {
 	private String thumbPath = null;
 	private String imgPath = null;
 	private Integer scrollPos = 0;
-	private String hash;
+	private boolean selfshared;
+	private boolean shared;
 
 	// Used for the root element
-	public FileItem(JSONObject json, String filename, String path, Bitmap icon) {
-		this(json, filename, "", path, "", "", "folder", "", "", icon, null, "", "");
+	public FileItem(String id, String filename, String path, Bitmap icon) {
+		this(id, filename, "", path, "", "", "folder", "", false, false, icon, null, "", "");
 	}
 
 	// For all other elements
-	public FileItem(JSONObject json, String filename, String parent, String path, String size, String edit, String type, String owner, String hash, Bitmap icon, Bitmap thumb, String thumbPath, String imgPath) {
-		this.json = json;
+	public FileItem(String id, String filename, String parent, String path, String size, String edit, String type, String owner, boolean selfshared, boolean shared, Bitmap icon, Bitmap thumb, String thumbPath, String imgPath) {
+		this.id = id;
 		this.filename = filename;
 		this.parent = parent;
 		this.size = size;
@@ -38,7 +37,8 @@ public class FileItem {
 		this.type = type;
 		this.type = type;
 		this.owner = owner;
-		this.hash = hash;
+		this.selfshared = selfshared;
+		this.shared = shared;
 		this.thumbPath = thumbPath;
 		this.imgPath = imgPath;
 	}
@@ -47,8 +47,8 @@ public class FileItem {
 		return this.type.equals(type);
 	}
 
-	public JSONObject getJSON() {
-		return this.json;
+	public String getID() {
+		return this.id;
 	}
 	
 	public String getFilename() {
@@ -99,8 +99,12 @@ public class FileItem {
 		return this.owner;
 	}
 
-	public String getHash() {
-		return this.hash;
+	public boolean selfshared() {
+		return this.selfshared;
+	}
+
+	public boolean shared() {
+		return this.shared;
 	}
 
 	public void setScrollPos(int pos) {

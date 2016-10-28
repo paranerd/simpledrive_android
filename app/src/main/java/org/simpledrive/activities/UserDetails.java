@@ -83,7 +83,7 @@ public class UserDetails extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     String admin = (o.toString().equals("true")) ? "1" : "0";
-                    e.update(username, "admin", admin);
+                    e.setAdmin(username, admin);
                     return false;
                 }
             });
@@ -93,7 +93,7 @@ public class UserDetails extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     String value = Long.toString(Util.stringToByte(o.toString()));
-                    e.update(username, "quota", value);
+                    e.setQuota(username, value);
                     return false;
                 }
             });
@@ -180,7 +180,7 @@ public class UserDetails extends AppCompatActivity {
         }.execute();
     }
 
-    private void update(final String username, final String key, final String value) {
+    private void setAdmin(final String username, final String enable) {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
@@ -189,9 +189,36 @@ public class UserDetails extends AppCompatActivity {
 
             @Override
             protected Connection.Response doInBackground(Void... pos) {
-                Connection multipart = new Connection("users", "update");
+                Connection multipart = new Connection("users", "setadmin");
                 multipart.addFormField("user", username);
-                multipart.addFormField("key", key);
+                multipart.addFormField("enable", enable);
+
+                return multipart.finish();
+            }
+
+            @Override
+            protected void onPostExecute(Connection.Response res) {
+                if (res.successful()) {
+                    e.getStatus(username);
+                }
+                else {
+                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
+    }
+
+    private void setQuota(final String username, final String value) {
+        new AsyncTask<Void, Void, Connection.Response>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected Connection.Response doInBackground(Void... pos) {
+                Connection multipart = new Connection("users", "setquota");
+                multipart.addFormField("user", username);
                 multipart.addFormField("value", value);
 
                 return multipart.finish();

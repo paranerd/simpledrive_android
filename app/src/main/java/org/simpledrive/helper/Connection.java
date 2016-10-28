@@ -1,5 +1,7 @@
 package org.simpledrive.helper;
 
+import android.util.Log;
+
 import org.json.JSONObject;
 import org.simpledrive.authenticator.CustomAuthenticator;
 

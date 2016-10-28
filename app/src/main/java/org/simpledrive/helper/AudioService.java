@@ -147,7 +147,7 @@ public class AudioService extends Service {
 		prepared = false;
 
 		try {
-			URI uri = new URI(CustomAuthenticator.getServer() + "api/files/read?target=[" + URLEncoder.encode(item.getJSON().toString(), "UTF-8") + "]&token=" + CustomAuthenticator.getToken());
+			URI uri = new URI(CustomAuthenticator.getServer() + "api/files/read?target=[" + URLEncoder.encode(item.getID(), "UTF-8") + "]&token=" + CustomAuthenticator.getToken());
 			mediaPlayer.reset();
 			mediaPlayer.setDataSource(uri.toASCIIString());
 		} catch (IllegalArgumentException | IOException | IllegalStateException | SecurityException | URISyntaxException e) {
