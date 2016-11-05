@@ -5345,7 +5345,7 @@ org.simpledrive.helper.FileItem:
     63:63:public java.lang.String getLastEdit()
     71:71:public java.lang.String getParent()
     91:91:public java.lang.String getType()
-    103:103:public boolean selfshared()
+    107:107:public boolean shared()
 org.simpledrive.helper.TouchImageView:
     private static final java.lang.String DEBUG
     private static final float SUPER_MIN_MULTIPLIER

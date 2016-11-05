@@ -17,6 +17,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
@@ -212,7 +213,7 @@ public class ShareFiles extends AppCompatActivity {
 
             @Override
             protected Connection.Response doInBackground(Void... args) {
-                Connection con = new Connection("files", "list");
+                Connection con = new Connection("files", "children");
                 con.addFormField("target", hierarchy.get(hierarchy.size() - 1).getID());
                 con.addFormField("mode", "files");
 
@@ -246,14 +247,14 @@ public class ShareFiles extends AppCompatActivity {
 
         try {
             JSONObject job = new JSONObject(rawJSON);
-            JSONArray files = new JSONArray(job.getJSONArray("files"));
-            JSONArray h = new JSONArray(job.getJSONArray("hierarchy"));
+            JSONArray files = new JSONArray(job.getString("files"));
+            JSONArray h = new JSONArray(job.getString("hierarchy"));
 
             // Populate hierarchy
             hierarchy = new ArrayList<>();
             for (int i = 0; i < h.length(); i++) {
                 JSONObject obj = h.getJSONObject(i);
-                hierarchy.add(new FileItem(obj.getString("id"), obj.getString("filename"), obj.getString("path"), null));
+                hierarchy.add(new FileItem(obj.getString("id"), obj.getString("filename"), "", null));
             }
 
             for (int i = 0; i < files.length(); i++){

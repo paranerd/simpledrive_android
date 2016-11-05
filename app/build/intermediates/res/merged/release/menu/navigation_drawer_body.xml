@@ -40,13 +40,13 @@
             android:checked="true"/>
 
         <item
-            android:id="@+id/navigation_view_item_sharedbyme"
+            android:id="@+id/navigation_view_item_shareout"
             android:orderInCategory="2"
             android:icon="@drawable/ic_user"
             android:title="My Shares"/>
 
         <item
-            android:id="@+id/navigation_view_item_sharedwithme"
+            android:id="@+id/navigation_view_item_sharein"
             android:orderInCategory="2"
             android:icon="@drawable/ic_share"
             android:title="Shared with me"/>

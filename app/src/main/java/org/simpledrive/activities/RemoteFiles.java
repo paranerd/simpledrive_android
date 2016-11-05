@@ -222,17 +222,20 @@ public class RemoteFiles extends AppCompatActivity {
             calledForUnlock = true;
             startActivityForResult(new Intent(getApplicationContext(), Unlock.class), 4);
         }
-        else if (forceFullLoad || CustomAuthenticator.activeAccountChanged) {
-            forceFullLoad = false;
-            connect();
-        }
+        else {
+            if (forceFullLoad || CustomAuthenticator.activeAccountChanged) {
+                forceFullLoad = false;
+                connect();
+            }
 
-        username = CustomAuthenticator.getUsername();
-        preventLock = false;
-        appVisible = true;
-        loadthumbs = settings.getBoolean("loadthumb", false);
-        bottomToolbarEnabled = settings.getBoolean("bottomtoolbar", false);
-        updateNavigationDrawer();
+            calledForUnlock = false;
+            username = CustomAuthenticator.getUsername();
+            preventLock = false;
+            appVisible = true;
+            loadthumbs = settings.getBoolean("loadthumb", false);
+            bottomToolbarEnabled = settings.getBoolean("bottomtoolbar", false);
+            updateNavigationDrawer();
+        }
     }
 
     private void updateNavigationDrawer() {
@@ -260,11 +263,11 @@ public class RemoteFiles extends AppCompatActivity {
             case "trash":
                 mNavigationView.setCheckedItem(R.id.navigation_view_item_trash);
                 break;
-            case "sharedbyme":
-                mNavigationView.setCheckedItem(R.id.navigation_view_item_sharedbyme);
+            case "shareout":
+                mNavigationView.setCheckedItem(R.id.navigation_view_item_shareout);
                 break;
-            case "sharedwithme":
-                mNavigationView.setCheckedItem(R.id.navigation_view_item_sharedwithme);
+            case "sharein":
+                mNavigationView.setCheckedItem(R.id.navigation_view_item_sharein);
                 break;
             default:
                 mNavigationView.setCheckedItem(R.id.navigation_view_item_files);
@@ -277,7 +280,6 @@ public class RemoteFiles extends AppCompatActivity {
 
     protected void onPause() {
         if (appVisible && !preventLock) {
-            calledForUnlock = false;
             CustomAuthenticator.lock();
         }
 
@@ -592,7 +594,7 @@ public class RemoteFiles extends AppCompatActivity {
 
             @Override
             protected Connection.Response doInBackground(Void... args) {
-                Connection con = new Connection("files", "list");
+                Connection con = new Connection("files", "children");
                 con.addFormField("target", hierarchy.get(hierarchy.size() - 1).getID());
                 con.addFormField("mode", viewmode);
 
@@ -671,6 +673,9 @@ public class RemoteFiles extends AppCompatActivity {
                     case "image":
                         icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_image);
                         break;
+                    case "archive":
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_archive);
+                        break;
                     default:
                         icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown);
                         break;
@@ -682,7 +687,6 @@ public class RemoteFiles extends AppCompatActivity {
 
                 if (type.equals("image")) {
                     String ext = "." + FilenameUtils.getExtension(filename);
-                    Log.i("debug", "id: " + id);
                     imgPath = CACHE_FOLDER + Util.md5(id) + ext;
                     String thumbType = (listLayout == R.layout.filelist) ? "list" : "grid";
                     thumbPath = CACHE_FOLDER + Util.md5(id) + "_" + thumbType + ".jpg";
@@ -739,10 +743,10 @@ public class RemoteFiles extends AppCompatActivity {
         if (!thisFolder.getID().equals("0")) {
             title = thisFolder.getFilename();
         }
-        else if (viewmode.equals("sharedbyme")) {
+        else if (viewmode.equals("shareout")) {
             title = "My shares";
         }
-        else if (viewmode.equals("sharedwithme")) {
+        else if (viewmode.equals("sharein")) {
             title = "Shared with me";
         }
         else if (viewmode.equals("trash")) {
@@ -1159,12 +1163,12 @@ public class RemoteFiles extends AppCompatActivity {
                         changeViewmode("files");
                         break;
 
-                    case R.id.navigation_view_item_sharedbyme:
-                        changeViewmode("sharedbyme");
+                    case R.id.navigation_view_item_shareout:
+                        changeViewmode("shareout");
                         break;
 
-                    case R.id.navigation_view_item_sharedwithme:
-                        changeViewmode("sharedwithme");
+                    case R.id.navigation_view_item_sharein:
+                        changeViewmode("sharein");
                         break;
 
                     case R.id.navigation_view_item_trash:
@@ -1391,8 +1395,8 @@ public class RemoteFiles extends AppCompatActivity {
                     bottomContextMenu.findItem(R.id.cut).setVisible(!trash);
                     bottomContextMenu.findItem(R.id.zip).setVisible(!trash);
                     bottomContextMenu.findItem(R.id.rename).setVisible(!trash && list.getCheckedItemCount() == 1);
-                    bottomContextMenu.findItem(R.id.share).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).shared() && filteredItems.get(position).getOwner().equals(""));
-                    bottomContextMenu.findItem(R.id.unshare).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).shared());
+                    bottomContextMenu.findItem(R.id.share).setVisible(!trash && list.getCheckedItemCount() == 1 && !filteredItems.get(position).selfshared());
+                    bottomContextMenu.findItem(R.id.unshare).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).selfshared());
                 }
                 else {
                     mContextMenu.findItem(R.id.restore).setVisible(trash);
@@ -1402,8 +1406,8 @@ public class RemoteFiles extends AppCompatActivity {
                     mContextMenu.findItem(R.id.cut).setVisible(!trash);
                     mContextMenu.findItem(R.id.zip).setVisible(!trash);
                     mContextMenu.findItem(R.id.rename).setVisible(!trash && list.getCheckedItemCount() == 1);
-                    mContextMenu.findItem(R.id.share).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).shared() && filteredItems.get(position).getOwner().equals(""));
-                    mContextMenu.findItem(R.id.unshare).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).shared());
+                    mContextMenu.findItem(R.id.share).setVisible(!trash && list.getCheckedItemCount() == 1 && !filteredItems.get(position).selfshared());
+                    mContextMenu.findItem(R.id.unshare).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).selfshared());
                 }
 
                 lastSelected = position;
@@ -1679,6 +1683,12 @@ public class RemoteFiles extends AppCompatActivity {
     private void delete(final String target, final boolean fullyDelete) {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+
+            @Override
             protected Connection.Response doInBackground(Void... params) {
                 Connection con = new Connection("files", "delete");
                 con.addFormField("target", target);
@@ -1689,6 +1699,7 @@ public class RemoteFiles extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Connection.Response res) {
+                mSwipeRefreshLayout.setRefreshing(false);
                 if (res.successful()) {
                     fetchFiles();
                 }
@@ -1702,6 +1713,12 @@ public class RemoteFiles extends AppCompatActivity {
     private void paste(final String source, final String target, final boolean cut) {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+
+            @Override
             protected Connection.Response doInBackground(Void... params) {
                 String action = (cut) ? "move" : "copy";
                 Connection con = new Connection("files", action);
@@ -1714,6 +1731,7 @@ public class RemoteFiles extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Connection.Response res) {
+                mSwipeRefreshLayout.setRefreshing(false);
                 if (res.successful()) {
                     clipboard = new JSONArray();
                     hidePaste();
@@ -1773,6 +1791,7 @@ public class RemoteFiles extends AppCompatActivity {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
+                mSwipeRefreshLayout.setRefreshing(true);
             }
 
             @Override
@@ -1786,6 +1805,7 @@ public class RemoteFiles extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Connection.Response res) {
+                mSwipeRefreshLayout.setRefreshing(false);
                 if (res.successful()) {
                     fetchFiles();
                 }

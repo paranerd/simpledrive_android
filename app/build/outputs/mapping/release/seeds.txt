@@ -4750,8 +4750,8 @@ org.simpledrive.R$id: int navigation_view_item_logout
 org.simpledrive.R$id: int navigation_view_item_manage_accounts
 org.simpledrive.R$id: int navigation_view_item_server
 org.simpledrive.R$id: int navigation_view_item_settings
-org.simpledrive.R$id: int navigation_view_item_sharedbyme
-org.simpledrive.R$id: int navigation_view_item_sharedwithme
+org.simpledrive.R$id: int navigation_view_item_sharein
+org.simpledrive.R$id: int navigation_view_item_shareout
 org.simpledrive.R$id: int navigation_view_item_trash
 org.simpledrive.R$id: int never
 org.simpledrive.R$id: int newfolder

@@ -817,8 +817,8 @@ int id navigation_view_item_logout 0x7f0e00ff
 int id navigation_view_item_manage_accounts 0x7f0e00f6
 int id navigation_view_item_server 0x7f0e00fe
 int id navigation_view_item_settings 0x7f0e00fd
-int id navigation_view_item_sharedbyme 0x7f0e00f9
-int id navigation_view_item_sharedwithme 0x7f0e00fa
+int id navigation_view_item_sharein 0x7f0e00fa
+int id navigation_view_item_shareout 0x7f0e00f9
 int id navigation_view_item_trash 0x7f0e00fb
 int id never 0x7f0e0055
 int id newfolder 0x7f0e0015

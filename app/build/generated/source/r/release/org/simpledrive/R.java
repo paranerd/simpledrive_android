@@ -2715,8 +2715,8 @@ containing a value of this type.
         public static final int navigation_view_item_manage_accounts=0x7f0e00f6;
         public static final int navigation_view_item_server=0x7f0e00fe;
         public static final int navigation_view_item_settings=0x7f0e00fd;
-        public static final int navigation_view_item_sharedbyme=0x7f0e00f9;
-        public static final int navigation_view_item_sharedwithme=0x7f0e00fa;
+        public static final int navigation_view_item_sharein=0x7f0e00fa;
+        public static final int navigation_view_item_shareout=0x7f0e00f9;
         public static final int navigation_view_item_trash=0x7f0e00fb;
         public static final int never=0x7f0e0055;
         public static final int newfolder=0x7f0e0015;

@@ -16181,6 +16181,7 @@ org.simpledrive.activities.RemoteFiles$41 -> org.simpledrive.activities.bq:
     boolean val$fullyDelete -> b
     org.simpledrive.activities.RemoteFiles this$0 -> c
     void <init>(org.simpledrive.activities.RemoteFiles,java.lang.String,boolean) -> <init>
+    void onPreExecute() -> onPreExecute
     org.simpledrive.helper.Connection$Response doInBackground(java.lang.Void[]) -> a
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
@@ -16191,6 +16192,7 @@ org.simpledrive.activities.RemoteFiles$42 -> org.simpledrive.activities.br:
     java.lang.String val$source -> c
     org.simpledrive.activities.RemoteFiles this$0 -> d
     void <init>(org.simpledrive.activities.RemoteFiles,boolean,java.lang.String,java.lang.String) -> <init>
+    void onPreExecute() -> onPreExecute
     org.simpledrive.helper.Connection$Response doInBackground(java.lang.Void[]) -> a
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
@@ -17053,7 +17055,7 @@ org.simpledrive.helper.FileItem -> org.simpledrive.helper.n:
     java.lang.String getImgPath() -> h
     void setThumb(android.graphics.Bitmap) -> a
     java.lang.String getOwner() -> i
-    boolean shared() -> j
+    boolean selfshared() -> j
     void setScrollPos(int) -> a
     int getScrollPos() -> k
 org.simpledrive.helper.LogItem -> org.simpledrive.helper.o:

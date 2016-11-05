@@ -155,8 +155,7 @@ public class ServerSettings extends AppCompatActivity {
 
             @Override
             protected Connection.Response doInBackground(Void... pos) {
-                Connection multipart = new Connection("system", "save");
-                multipart.addFormField("key", "upload");
+                Connection multipart = new Connection("system", "uploadlimit");
                 multipart.addFormField("value", value);
 
                 return multipart.finish();

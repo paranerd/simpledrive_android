@@ -89,7 +89,7 @@ public class Login extends AppCompatActivity {
             protected void onPostExecute(Connection.Response res) {
                 pDialog.dismiss();
 
-                if (res== null) {
+                if (res == null) {
                     Toast.makeText(Login.this, R.string.connection_error, Toast.LENGTH_SHORT).show();
                 }
                 else if (res.successful()) {

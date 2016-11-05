@@ -67,7 +67,7 @@ public class DownloadManager {
 
             @Override
             protected Connection.Response doInBackground(String... params) {
-                Connection con = new Connection("files", "read");
+                Connection con = new Connection("files", "get");
                 con.setListener(new Connection.ProgressListener() {
                     @Override
                     public void transferred(Integer num) {

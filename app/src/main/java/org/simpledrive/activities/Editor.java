@@ -17,6 +17,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.simpledrive.R;
 
 import org.simpledrive.helper.Connection;
@@ -170,10 +173,18 @@ public class Editor extends AppCompatActivity {
             @Override
             protected void onPostExecute(Connection.Response res) {
                 if (res.successful()) {
-                    editor.setText(res.getMessage());
-                    saved = true;
-                    setToolbarTitle(filename);
-                    setToolbarSubtitle("Saved.");
+                    try {
+                        JSONObject job = new JSONObject(res.getMessage());
+                        String filename = job.getString("filename");
+                        String content = job.getString("content");
+
+                        editor.setText(content);
+                        saved = true;
+                        setToolbarTitle(filename);
+                        setToolbarSubtitle("Saved.");
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
                 }
                 else {
                     Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
