@@ -166,11 +166,10 @@ public class TouchImageAdapter extends PagerAdapter {
 
             File thumb = new File(path);
 
-            Connection multipart = new Connection("files", "read");
+            Connection multipart = new Connection("files", "get");
             multipart.addFormField("target", "[" + file + "]");
             multipart.addFormField("width", displayWidth + "");
             multipart.addFormField("height", displayHeight + "");
-            multipart.addFormField("type", "img");
             multipart.setDownloadPath(thumb.getParent(), thumb.getName());
             return multipart.finish();
         }
