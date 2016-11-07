@@ -213,7 +213,7 @@ public class Users extends AppCompatActivity {
             for(int i = 0; i < users.length(); i++){
                 JSONObject obj = users.getJSONObject(i);
 
-                String username = obj.getString("user");
+                String username = obj.getString("username");
                 String mode = (obj.getString("admin").equals("1")) ? "admin" : "user";
                 Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_account);
                 UserItem item = new UserItem(username, mode, icon);
