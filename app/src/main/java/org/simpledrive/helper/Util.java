@@ -63,7 +63,6 @@ public class Util {
         }
 
         String dim = (s.length() > 2) ? s.substring(s.length() - 2).toUpperCase() : s.toUpperCase();
-        Log.i("value of", String.valueOf(s));
         s = s.replaceAll("\\D+","");
 
         if (s.length() == 0) {
