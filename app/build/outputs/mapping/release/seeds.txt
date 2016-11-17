@@ -4323,6 +4323,7 @@ org.simpledrive.R$color: int foreground_material_light
 org.simpledrive.R$color: int grey1
 org.simpledrive.R$color: int grey2
 org.simpledrive.R$color: int grey3
+org.simpledrive.R$color: int grey3transparent
 org.simpledrive.R$color: int grey4
 org.simpledrive.R$color: int grey5
 org.simpledrive.R$color: int grey6
@@ -4334,6 +4335,8 @@ org.simpledrive.R$color: int highlighted_text_material_light
 org.simpledrive.R$color: int hint_foreground_material_dark
 org.simpledrive.R$color: int hint_foreground_material_light
 org.simpledrive.R$color: int lightgreen
+org.simpledrive.R$color: int loginoverlay
+org.simpledrive.R$color: int logintext
 org.simpledrive.R$color: int material_blue_grey_800
 org.simpledrive.R$color: int material_blue_grey_900
 org.simpledrive.R$color: int material_blue_grey_950
@@ -4559,8 +4562,11 @@ org.simpledrive.R$drawable: int abc_textfield_default_mtrl_alpha
 org.simpledrive.R$drawable: int abc_textfield_search_activated_mtrl_alpha
 org.simpledrive.R$drawable: int abc_textfield_search_default_mtrl_alpha
 org.simpledrive.R$drawable: int abc_textfield_search_material
+org.simpledrive.R$drawable: int blackforest
+org.simpledrive.R$drawable: int button_bg
 org.simpledrive.R$drawable: int checkbox_selector
 org.simpledrive.R$drawable: int circle_drawable
+org.simpledrive.R$drawable: int custom_edittext
 org.simpledrive.R$drawable: int design_fab_background
 org.simpledrive.R$drawable: int design_snackbar_background
 org.simpledrive.R$drawable: int ic_account
@@ -4608,6 +4614,7 @@ org.simpledrive.R$drawable: int ic_warning
 org.simpledrive.R$drawable: int item_selector
 org.simpledrive.R$drawable: int notification_template_icon_bg
 org.simpledrive.R$drawable: int progressbar
+org.simpledrive.R$drawable: int rounded_button
 org.simpledrive.R$drawable: int unlock_button
 org.simpledrive.R$id: int DrawerLayout
 org.simpledrive.R$id: int TextView01
@@ -5176,6 +5183,7 @@ org.simpledrive.R$style: int Base_Widget_AppCompat_Toolbar_Button_Navigation
 org.simpledrive.R$style: int Base_Widget_Design_TabLayout
 org.simpledrive.R$style: int MainTheme_Dark
 org.simpledrive.R$style: int MainTheme_Light
+org.simpledrive.R$style: int MainTheme_Login
 org.simpledrive.R$style: int MainThemeFullscreen
 org.simpledrive.R$style: int MenuItemAppearance
 org.simpledrive.R$style: int Platform_AppCompat

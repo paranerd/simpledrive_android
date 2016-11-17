@@ -263,6 +263,9 @@
         <item name="android:colorFocusedHighlight">@color/grey1</item>
         <item name="android:textColorHighlight">?android:colorPrimary</item>
     </style>
+    <style name="MainTheme.Login" parent="MainTheme.Light">
+        <item name="android:colorPrimaryDark">#ff303030</item>
+    </style>
     <style name="MainThemeFullscreen" parent="MainTheme.Light">
         <item name="android:windowFullscreen">true</item>
     </style>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.simpledrive"
-    android:versionCode="82"
-    android:versionName="5.5.1" >
+    android:versionCode="83"
+    android:versionName="5.6.0" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -52,8 +52,8 @@
         <activity
             android:name=".activities.Login"
             android:label="Login"
-            android:theme="@style/MainTheme.Light"
-            android:windowSoftInputMode="stateAlwaysVisible" >
+            android:theme="@style/MainThemeFullscreen"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
 
         <service android:name=".authenticator.AuthenticationService">

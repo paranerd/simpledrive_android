@@ -4,32 +4,44 @@
     api-level="23"
     density="xxhdpi"
     format="7"
-    timestamp="2491228569143"
-    verifier="COMPATIBLE" >
+    timestamp="134861352958" >
 
     <task
         name="javac"
-        duration="189" />
+        duration="4386" />
     <task
         name="instant-run-dex"
-        duration="922" />
+        duration="0" />
     <task
         name="instant-run-transform"
-        duration="40" />
+        duration="1138" />
     <task
         name="verifier"
-        duration="4" />
+        duration="211" />
 
     <artifact
-        location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/reload-dex/debug/classes.dex"
-        type="RELOAD_DEX" />
+        location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/outputs/apk/app-debug.apk"
+        type="MAIN" />
 
-    <build timestamp="2194910057727" >
+    <build timestamp="4644660963134" >
         <artifact
-            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/outputs/apk/app-debug.apk"
-            type="MAIN" />
-    </build>
-    <build timestamp="101909840702151" >
+            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/resources-debug.ap_"
+            type="RESOURCES" />
+        <artifact
+            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_7/classes.dex"
+            type="DEX" />
+        <artifact
+            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_4/classes.dex"
+            type="DEX" />
+        <artifact
+            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_6/classes.dex"
+            type="DEX" />
+        <artifact
+            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_9/classes.dex"
+            type="DEX" />
+        <artifact
+            location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_5/classes.dex"
+            type="DEX" />
         <artifact
             location="/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_8/classes.dex"
             type="DEX" />

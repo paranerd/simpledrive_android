@@ -7,11 +7,14 @@
     <color name="grey1">#fffafafa</color>
     <color name="grey2">#ffe3e3e3</color>
     <color name="grey3">#ffb3b3b3</color>
+    <color name="grey3transparent">#aab3b3b3</color>
     <color name="grey4">#ff636363</color>
     <color name="grey5">#33d3d3d3</color>
     <color name="grey6">#ff545454</color>
     <color name="grey7">#ff333333</color>
     <color name="grey8">#ff2f2f2f</color>
+    <color name="logintext">#ccc</color>
+    <color name="loginoverlay">#aa303030</color>
     <color name="lightgreen">#ffb4d7bf</color>
     <color name="darkgreen">#ff2e8b57</color>
     <color name="darkergreen">#ff29774c</color>

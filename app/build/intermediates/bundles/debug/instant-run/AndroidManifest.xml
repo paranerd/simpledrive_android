@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.simpledrive"
-    android:versionCode="80"
-    android:versionName="5.4.2" >
+    android:versionCode="82"
+    android:versionName="5.5.1" >
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -58,8 +58,8 @@
         <activity
             android:name="org.simpledrive.activities.Login"
             android:label="Login"
-            android:theme="@style/MainTheme.Light"
-            android:windowSoftInputMode="stateAlwaysVisible" >
+            android:theme="@style/MainThemeFullscreen"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
 
         <service android:name="org.simpledrive.authenticator.AuthenticationService" >

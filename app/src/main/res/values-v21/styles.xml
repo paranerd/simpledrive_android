@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="MainTheme.Login" parent="MainTheme.Light">
+        <item name="android:colorPrimaryDark">#ff303030</item>
+    </style>
     <style name="MainTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="navDrawerItem">@color/orange</item>
         <item name="windowActionBar">true</item>
