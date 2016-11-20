@@ -16916,6 +16916,7 @@ org.simpledrive.helper.AudioService -> org.simpledrive.helper.AudioService:
     void buildNotification() -> h
     boolean access$002(boolean) -> a
     boolean access$102(boolean) -> b
+    boolean access$000() -> i
     android.media.MediaPlayer access$200(org.simpledrive.helper.AudioService) -> a
     boolean access$302(boolean) -> c
     void <clinit>() -> <clinit>

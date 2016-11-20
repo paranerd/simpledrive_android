@@ -147,7 +147,7 @@ public class AudioService extends Service {
 		prepared = false;
 
 		try {
-			URI uri = new URI(CustomAuthenticator.getServer() + "api/files/get?target=[" + URLEncoder.encode(item.getID(), "UTF-8") + "]&token=" + CustomAuthenticator.getToken());
+			URI uri = new URI(CustomAuthenticator.getServer() + "api/files/get?target=[" + URLEncoder.encode('"' + item.getID() + '"', "UTF-8") + "]&token=" + CustomAuthenticator.getToken());
 			mediaPlayer.reset();
 			mediaPlayer.setDataSource(uri.toASCIIString());
 		} catch (IllegalArgumentException | IOException | IllegalStateException | SecurityException | URISyntaxException e) {
@@ -168,8 +168,10 @@ public class AudioService extends Service {
 			@Override
 			public void onCompletion(MediaPlayer mp) {
 				playPause = false;
-				mediaPlayer.pause();
-				mediaPlayer.seekTo(0);
+				if (prepared) {
+					mediaPlayer.pause();
+					mediaPlayer.seekTo(0);
+				}
 				sendBroadcast(STOP);
 			}
 		});
