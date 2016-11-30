@@ -124,7 +124,7 @@ public class UserDetails extends AppCompatActivity {
 
             @Override
             protected Connection.Response doInBackground(Void... pos) {
-                Connection multipart = new Connection("users", "get");
+                Connection multipart = new Connection("user", "get");
                 multipart.addFormField("user", username);
 
                 return multipart.finish();
@@ -156,7 +156,7 @@ public class UserDetails extends AppCompatActivity {
 
             @Override
             protected Connection.Response doInBackground(Void... pos) {
-                Connection multipart = new Connection("users", "quota");
+                Connection multipart = new Connection("user", "quota");
                 multipart.addFormField("user", username);
                 multipart.addFormField("value", "0");
 
@@ -189,7 +189,7 @@ public class UserDetails extends AppCompatActivity {
 
             @Override
             protected Connection.Response doInBackground(Void... pos) {
-                Connection multipart = new Connection("users", "setadmin");
+                Connection multipart = new Connection("user", "setadmin");
                 multipart.addFormField("user", username);
                 multipart.addFormField("enable", enable);
 
@@ -217,7 +217,7 @@ public class UserDetails extends AppCompatActivity {
 
             @Override
             protected Connection.Response doInBackground(Void... pos) {
-                Connection multipart = new Connection("users", "setquota");
+                Connection multipart = new Connection("user", "setquota");
                 multipart.addFormField("user", username);
                 multipart.addFormField("value", value);
 

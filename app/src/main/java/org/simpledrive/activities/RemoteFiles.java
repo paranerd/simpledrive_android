@@ -1748,7 +1748,7 @@ public class RemoteFiles extends AppCompatActivity {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected Connection.Response doInBackground(Void... pos) {
-                Connection con = new Connection("users", "admin");
+                Connection con = new Connection("user", "admin");
                 return con.finish();
             }
             @Override
