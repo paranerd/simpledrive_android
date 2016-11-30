@@ -16961,8 +16961,8 @@ org.simpledrive.helper.Connection -> org.simpledrive.helper.f:
     void setDownloadPath(java.lang.String,java.lang.String) -> b
     void addFilePart(java.lang.String,java.io.File) -> a
     org.simpledrive.helper.Connection$Response finish() -> b
-    void trustCertificate() -> c
-    void logout() -> d
+    void trustCertificate(java.lang.String) -> a
+    void logout() -> c
 org.simpledrive.helper.Connection$1 -> org.simpledrive.helper.g:
     org.simpledrive.helper.Connection this$0 -> a
     void <init>(org.simpledrive.helper.Connection) -> <init>
@@ -16970,8 +16970,9 @@ org.simpledrive.helper.Connection$1 -> org.simpledrive.helper.g:
     void checkServerTrusted(java.security.cert.X509Certificate[],java.lang.String) -> checkServerTrusted
     java.security.cert.X509Certificate[] getAcceptedIssuers() -> getAcceptedIssuers
 org.simpledrive.helper.Connection$2 -> org.simpledrive.helper.h:
-    org.simpledrive.helper.Connection this$0 -> a
-    void <init>(org.simpledrive.helper.Connection) -> <init>
+    java.lang.String val$server -> a
+    org.simpledrive.helper.Connection this$0 -> b
+    void <init>(org.simpledrive.helper.Connection,java.lang.String) -> <init>
     boolean verify(java.lang.String,javax.net.ssl.SSLSession) -> verify
 org.simpledrive.helper.Connection$ProgressListener -> org.simpledrive.helper.i:
     void transferred(java.lang.Integer) -> a
