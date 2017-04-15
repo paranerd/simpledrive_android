@@ -1,0 +1,6 @@
+./.git*
+./build/*
+./app/app-release.apk
+./app/build/*
+./.gradle*
+./.idea*
