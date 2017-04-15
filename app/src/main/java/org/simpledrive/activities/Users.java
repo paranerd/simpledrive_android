@@ -180,7 +180,7 @@ public class Users extends AppCompatActivity {
 
             @Override
             protected Connection.Response doInBackground(Void... args) {
-                Connection con = new Connection("users", "getall");
+                Connection con = new Connection("user", "getall");
 
                 return con.finish();
             }
@@ -317,7 +317,7 @@ public class Users extends AppCompatActivity {
             @Override
             protected Connection.Response doInBackground(Void... pos) {
                 String a = (admin) ? "1" : "0";
-                Connection con = new Connection("users", "create");
+                Connection con = new Connection("user", "create");
                 con.addFormField("user", username);
                 con.addFormField("pass", pass);
                 con.addFormField("admin", a);
@@ -347,7 +347,7 @@ public class Users extends AppCompatActivity {
 
             @Override
             protected Connection.Response doInBackground(Void... params) {
-                Connection con = new Connection("users", "delete");
+                Connection con = new Connection("user", "delete");
                 con.addFormField("user", username);
 
                 return con.finish();
