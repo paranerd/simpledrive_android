@@ -1,4 +1,10 @@
-CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/helper/Connection$Response$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/UserDetails$PrefsFragment$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/UserDetails$5$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/UserDetails$4$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/UserDetails$PrefsFragment$1$override.class
 CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/com/android/tools/fd/runtime/AppPatchesLoaderImpl.class
-CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/helper/Connection$2$override.class
-CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/helper/Connection$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/UserDetails$2$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/UserDetails$PrefsFragment$2$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/UserDetails$3$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/UserDetails$override.class
+CHANGED,/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/org/simpledrive/activities/UserDetails$1$override.class
