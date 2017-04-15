@@ -64,7 +64,7 @@ public class Connection {
     public Connection(String server, String endpoint, String action) {
         try {
             URL url = new URL(server + "api/" + endpoint + "/" + action);
-            trustCertificate();
+            trustCertificate(server);
             httpConn = (server.startsWith("https")) ? (HttpsURLConnection) url.openConnection() : (HttpURLConnection) url.openConnection();
             httpConn.setUseCaches(false);
             httpConn.setDoOutput(true);
@@ -238,6 +238,7 @@ public class Connection {
                 }
 
                 String result = sb.toString();
+                Log.i("debug", result);
                 JSONObject obj = new JSONObject(result);
 
                 // Cleanup
@@ -253,7 +254,7 @@ public class Connection {
         }
     }
 
-    public void trustCertificate () throws KeyManagementException, NoSuchAlgorithmException {
+    public void trustCertificate (final String server) throws KeyManagementException, NoSuchAlgorithmException {
         System.setProperty("https.protocols", "SSLv3");
 
         TrustManager[] trustAllCerts = new TrustManager[] {
@@ -281,7 +282,8 @@ public class Connection {
 
             @Override
             public boolean verify(String arg0, SSLSession arg1) {
-                return true;
+                String thisServer = "https://" + arg0;
+                return (server.startsWith(thisServer) && !server.startsWith(thisServer + "."));
             }
         });
     }
