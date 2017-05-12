@@ -1,0 +1,7 @@
+#Fri May 12 20:10:22 CEST 2017
+base.0=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_f7e59204bba1841e13326dcbffe1c21a393491dc
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_37f3d002f7135d89544464a18e017392e51aa4ec/classes.dex
+base.1=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_37f3d002f7135d89544464a18e017392e51aa4ec
+file.0=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_f7e59204bba1841e13326dcbffe1c21a393491dc/classes.dex

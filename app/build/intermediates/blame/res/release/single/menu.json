@@ -1,38 +1,38 @@
 [
     {
-        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/menu/remote_files_context.xml",
-        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/menu/remote_files_context.xml"
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/menu/remote_files_toolbar.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/remote_files_toolbar.xml"
     },
     {
-        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/menu/file_selector_context.xml",
-        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/menu/file_selector_context.xml"
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/menu/remote_files_context.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/remote_files_context.xml"
     },
     {
-        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/menu/remote_files_toolbar.xml",
-        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/menu/remote_files_toolbar.xml"
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/menu/editor_toolbar.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/editor_toolbar.xml"
     },
     {
-        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/menu/remote_files_toolbar_bottom.xml",
-        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/menu/remote_files_toolbar_bottom.xml"
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/menu/file_selector_toolbar.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/file_selector_toolbar.xml"
     },
     {
-        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/menu/serverlog_toolbar.xml",
-        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/menu/serverlog_toolbar.xml"
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/menu/remote_files_toolbar_bottom.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/remote_files_toolbar_bottom.xml"
     },
     {
-        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/menu/users_context.xml",
-        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/menu/users_context.xml"
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/menu/serverlog_toolbar.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/serverlog_toolbar.xml"
     },
     {
-        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/menu/navigation_drawer_body.xml",
-        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/menu/navigation_drawer_body.xml"
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/menu/file_selector_context.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/file_selector_context.xml"
     },
     {
-        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/menu/file_selector_toolbar.xml",
-        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/menu/file_selector_toolbar.xml"
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/menu/users_context.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/users_context.xml"
     },
     {
-        "merged": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/release/menu/editor_toolbar.xml",
-        "source": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/menu/editor_toolbar.xml"
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/menu/navigation_drawer_body.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/navigation_drawer_body.xml"
     }
 ]

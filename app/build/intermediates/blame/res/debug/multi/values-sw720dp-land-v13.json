@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/home/paranerd/Dokumente/development/simpledrive_android/app/build/intermediates/res/merged/debug/values-sw720dp-land-v13/values-sw720dp-land-v13.xml",
+        "outputFile": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sw720dp-land-v13/values-sw720dp-land-v13.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 112
                 },
                 "from": {
-                    "file": "/home/paranerd/Dokumente/development/simpledrive_android/app/src/main/res/values-sw720dp-land/dimens.xml",
+                    "file": "/home/paranerd/Development/simpledrive_android/app/src/main/res/values-sw720dp-land/dimens.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,

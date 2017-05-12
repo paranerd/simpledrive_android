@@ -740,7 +740,8 @@ public class RemoteFiles extends AppCompatActivity {
         // Show current directory in toolbar
         String title;
         FileItem thisFolder = hierarchy.get(hierarchy.size() - 1);
-        if (!thisFolder.getID().equals("0")) {
+
+        if (thisFolder.getFilename().length() > 0) {
             title = thisFolder.getFilename();
         }
         else if (viewmode.equals("shareout")) {

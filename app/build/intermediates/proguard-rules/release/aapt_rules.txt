@@ -4,6 +4,9 @@
 # view res/layout/design_navigation_menu.xml #generated:17
 -keep class android.support.design.internal.NavigationMenuView { <init>(...); }
 
+# view res/layout/design_text_input_password_icon.xml #generated:18
+-keep class android.support.design.widget.CheckableImageButton { <init>(...); }
+
 # view res/layout/design_bottom_sheet_dialog.xml #generated:17
 -keep class android.support.design.widget.CoordinatorLayout { <init>(...); }
 
@@ -87,7 +90,7 @@
 # view res/layout/abc_screen_simple.xml #generated:17
 -keep class android.support.v7.widget.FitWindowsLinearLayout { <init>(...); }
 
-# view res/layout/abc_search_view.xml #generated:78
+# view res/layout/abc_search_view.xml #generated:75
 -keep class android.support.v7.widget.SearchView$SearchAutoComplete { <init>(...); }
 
 # view res/layout/abc_screen_toolbar.xml #generated:36
