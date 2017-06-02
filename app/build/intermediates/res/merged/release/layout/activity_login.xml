@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="simpleDrive"
-        android:textColor="@color/darkgreen"
+        android:textColor="@color/white"
         android:gravity="center"
         android:layout_marginTop="0dp"
         android:fontFamily="sans-serif-light"

@@ -8,6 +8,10 @@
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/remote_files_toolbar.xml"
     },
     {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/menu/nav_body.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/nav_body.xml"
+    },
+    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/menu/file_selector_toolbar.xml",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/file_selector_toolbar.xml"
     },
@@ -16,12 +20,16 @@
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/users_context.xml"
     },
     {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/menu/vault_entry_toolbar.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/vault_entry_toolbar.xml"
+    },
+    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/menu/file_selector_context.xml",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/file_selector_context.xml"
     },
     {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/menu/navigation_drawer_body.xml",
-        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/navigation_drawer_body.xml"
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/menu/accounts_context.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/accounts_context.xml"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/menu/editor_toolbar.xml",

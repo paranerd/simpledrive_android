@@ -1717,6 +1717,7 @@ android.support.design.internal.NavigationMenuItemView: void setIcon(android.gra
 android.support.design.internal.NavigationMenuItemView: void setIconTintList(android.content.res.ColorStateList)
 android.support.design.internal.NavigationMenuItemView: void setTextColor(android.content.res.ColorStateList)
 android.support.design.internal.NavigationMenuItemView: void setNeedsEmptyIcon(boolean)
+android.support.design.internal.NavigationMenuPresenter$1: void onClick(android.view.View)
 android.support.design.internal.NavigationMenuView
 android.support.design.internal.NavigationMenuView: NavigationMenuView(android.content.Context)
 android.support.design.internal.NavigationMenuView: NavigationMenuView(android.content.Context,android.util.AttributeSet)
@@ -1748,6 +1749,7 @@ android.support.design.widget.BottomSheetBehavior
 android.support.design.widget.BottomSheetBehavior: BottomSheetBehavior()
 android.support.design.widget.BottomSheetBehavior: BottomSheetBehavior(android.content.Context,android.util.AttributeSet)
 android.support.design.widget.BottomSheetBehavior$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.design.widget.BottomSheetDialog$1: void onClick(android.view.View)
 android.support.design.widget.CheckableImageButton
 android.support.design.widget.CheckableImageButton: CheckableImageButton(android.content.Context)
 android.support.design.widget.CheckableImageButton: CheckableImageButton(android.content.Context,android.util.AttributeSet)
@@ -1860,6 +1862,7 @@ android.support.design.widget.NavigationView: void setCheckedItem(int)
 android.support.design.widget.NavigationView: void setItemTextAppearance(int)
 android.support.design.widget.NavigationView: android.view.MenuInflater getMenuInflater()
 android.support.design.widget.NavigationView$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.design.widget.Snackbar$2: void onClick(android.view.View)
 android.support.design.widget.Snackbar$SnackbarLayout
 android.support.design.widget.Snackbar$SnackbarLayout: Snackbar$SnackbarLayout(android.content.Context)
 android.support.design.widget.Snackbar$SnackbarLayout: Snackbar$SnackbarLayout(android.content.Context,android.util.AttributeSet)
@@ -1914,6 +1917,7 @@ android.support.design.widget.TextInputLayout: java.lang.CharSequence getPasswor
 android.support.design.widget.TextInputLayout: void setPasswordVisibilityToggleEnabled(boolean)
 android.support.design.widget.TextInputLayout: void setPasswordVisibilityToggleTintList(android.content.res.ColorStateList)
 android.support.design.widget.TextInputLayout: void setPasswordVisibilityToggleTintMode(android.graphics.PorterDuff$Mode)
+android.support.design.widget.TextInputLayout$4: void onClick(android.view.View)
 android.support.design.widget.TextInputLayout$SavedState: android.os.Parcelable$Creator CREATOR
 android.support.design.widget.ViewOffsetBehavior: ViewOffsetBehavior()
 android.support.design.widget.ViewOffsetBehavior: ViewOffsetBehavior(android.content.Context,android.util.AttributeSet)
@@ -1977,6 +1981,8 @@ android.support.v4.view.PagerTabStrip: void setBackgroundResource(int)
 android.support.v4.view.PagerTabStrip: void setDrawFullUnderline(boolean)
 android.support.v4.view.PagerTabStrip: boolean getDrawFullUnderline()
 android.support.v4.view.PagerTabStrip: int getMinHeight()
+android.support.v4.view.PagerTabStrip$1: void onClick(android.view.View)
+android.support.v4.view.PagerTabStrip$2: void onClick(android.view.View)
 android.support.v4.view.PagerTitleStrip: void setSingleLineAllCaps(android.widget.TextView)
 android.support.v4.view.PagerTitleStrip: void setTextSpacing(int)
 android.support.v4.view.PagerTitleStrip: int getTextSpacing()
@@ -2069,9 +2075,12 @@ android.support.v4.widget.SwipeRefreshLayout: int getProgressCircleDiameter()
 android.support.v4.widget.SwipeRefreshLayout: void setOnChildScrollUpCallback(android.support.v4.widget.SwipeRefreshLayout$OnChildScrollUpCallback)
 android.support.v4.widget.SwipeRefreshLayout: int getNestedScrollAxes()
 android.support.v4.widget.SwipeRefreshLayout: void setNestedScrollingEnabled(boolean)
+android.support.v7.app.ActionBarDrawerToggle$1: void onClick(android.view.View)
+android.support.v7.app.AlertController$1: void onClick(android.view.View)
 android.support.v7.app.AppCompatActivity: AppCompatActivity()
 android.support.v7.app.AppCompatActivity: void setContentView(android.view.View)
 android.support.v7.app.AppCompatDelegateImplV9$PanelFeatureState$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v7.app.AppCompatViewInflater$DeclaredOnClickListener: void onClick(android.view.View)
 android.support.v7.appcompat.R$anim: int abc_fade_in
 android.support.v7.appcompat.R$anim: int abc_fade_out
 android.support.v7.appcompat.R$anim: int abc_grow_fade_in_from_bottom
@@ -3435,6 +3444,7 @@ android.support.v7.view.menu.ActionMenuItemView: ActionMenuItemView(android.cont
 android.support.v7.view.menu.ActionMenuItemView: ActionMenuItemView(android.content.Context,android.util.AttributeSet)
 android.support.v7.view.menu.ActionMenuItemView: ActionMenuItemView(android.content.Context,android.util.AttributeSet,int)
 android.support.v7.view.menu.ActionMenuItemView: android.support.v7.view.menu.MenuItemImpl getItemData()
+android.support.v7.view.menu.ActionMenuItemView: void onClick(android.view.View)
 android.support.v7.view.menu.ActionMenuItemView: void setItemInvoker(android.support.v7.view.menu.MenuBuilder$ItemInvoker)
 android.support.v7.view.menu.ActionMenuItemView: void setPopupCallback(android.support.v7.view.menu.ActionMenuItemView$PopupCallback)
 android.support.v7.view.menu.ActionMenuItemView: void setCheckable(boolean)
@@ -3457,6 +3467,7 @@ android.support.v7.view.menu.ListMenuItemView: void setChecked(boolean)
 android.support.v7.view.menu.ListMenuItemView: void setSubMenuArrowVisible(boolean)
 android.support.v7.view.menu.ListMenuItemView: void setIcon(android.graphics.drawable.Drawable)
 android.support.v7.view.menu.ListMenuItemView: android.view.LayoutInflater getInflater()
+android.support.v7.view.menu.MenuDialogHelper: void onClick(android.content.DialogInterface,int)
 android.support.v7.widget.AbsActionBarView: AbsActionBarView(android.content.Context)
 android.support.v7.widget.AbsActionBarView: AbsActionBarView(android.content.Context,android.util.AttributeSet)
 android.support.v7.widget.AbsActionBarView: AbsActionBarView(android.content.Context,android.util.AttributeSet,int)
@@ -3488,6 +3499,7 @@ android.support.v7.widget.ActionBarContextView: void setTitleOptional(boolean)
 android.support.v7.widget.ActionBarContextView: void setVisibility(int)
 android.support.v7.widget.ActionBarContextView: int getAnimatedVisibility()
 android.support.v7.widget.ActionBarContextView: int getContentHeight()
+android.support.v7.widget.ActionBarContextView$1: void onClick(android.view.View)
 android.support.v7.widget.ActionBarOverlayLayout
 android.support.v7.widget.ActionBarOverlayLayout: ActionBarOverlayLayout(android.content.Context)
 android.support.v7.widget.ActionBarOverlayLayout: ActionBarOverlayLayout(android.content.Context,android.util.AttributeSet)
@@ -3529,6 +3541,7 @@ android.support.v7.widget.ActivityChooserView: void setOnDismissListener(android
 android.support.v7.widget.ActivityChooserView: void setInitialActivityCount(int)
 android.support.v7.widget.ActivityChooserView: void setDefaultActionButtonContentDescription(int)
 android.support.v7.widget.ActivityChooserView: android.support.v7.widget.ListPopupWindow getListPopupWindow()
+android.support.v7.widget.ActivityChooserView$Callbacks: void onClick(android.view.View)
 android.support.v7.widget.ActivityChooserView$InnerLayout
 android.support.v7.widget.ActivityChooserView$InnerLayout: ActivityChooserView$InnerLayout(android.content.Context,android.util.AttributeSet)
 android.support.v7.widget.AppCompatAutoCompleteTextView: AppCompatAutoCompleteTextView(android.content.Context)
@@ -3783,6 +3796,7 @@ android.support.v7.widget.RecyclerView$SavedState: android.os.Parcelable$Creator
 android.support.v7.widget.ScrollingTabContainerView: void setAllowCollapse(boolean)
 android.support.v7.widget.ScrollingTabContainerView: void setTabSelected(int)
 android.support.v7.widget.ScrollingTabContainerView: void setContentHeight(int)
+android.support.v7.widget.ScrollingTabContainerView$TabClickListener: void onClick(android.view.View)
 android.support.v7.widget.SearchView
 android.support.v7.widget.SearchView: boolean DBG
 android.support.v7.widget.SearchView: java.lang.String LOG_TAG
@@ -3923,6 +3937,7 @@ android.support.v7.widget.SearchView: android.content.Intent createIntentFromSug
 android.support.v7.widget.SearchView: void forceSuggestionQuery()
 android.support.v7.widget.SearchView: boolean isLandscapeMode(android.content.Context)
 android.support.v7.widget.SearchView: void <clinit>()
+android.support.v7.widget.SearchView$7: void onClick(android.view.View)
 android.support.v7.widget.SearchView$SavedState: android.os.Parcelable$Creator CREATOR
 android.support.v7.widget.SearchView$SearchAutoComplete
 android.support.v7.widget.SearchView$SearchAutoComplete: SearchView$SearchAutoComplete(android.content.Context)
@@ -3936,6 +3951,7 @@ android.support.v7.widget.StaggeredGridLayoutManager: StaggeredGridLayoutManager
 android.support.v7.widget.StaggeredGridLayoutManager: StaggeredGridLayoutManager(int,int)
 android.support.v7.widget.StaggeredGridLayoutManager$LazySpanLookup$FullSpanItem: android.os.Parcelable$Creator CREATOR
 android.support.v7.widget.StaggeredGridLayoutManager$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v7.widget.SuggestionsAdapter: void onClick(android.view.View)
 android.support.v7.widget.SwitchCompat: void setSwitchTypeface(android.graphics.Typeface)
 android.support.v7.widget.SwitchCompat: void setSwitchPadding(int)
 android.support.v7.widget.SwitchCompat: int getSwitchPadding()
@@ -4026,7 +4042,9 @@ android.support.v7.widget.Toolbar: int getCurrentContentInsetLeft()
 android.support.v7.widget.Toolbar: int getCurrentContentInsetRight()
 android.support.v7.widget.Toolbar: android.support.v7.widget.DecorToolbar getWrapper()
 android.support.v7.widget.Toolbar: void setCollapsible(boolean)
+android.support.v7.widget.Toolbar$3: void onClick(android.view.View)
 android.support.v7.widget.Toolbar$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v7.widget.ToolbarWidgetWrapper$1: void onClick(android.view.View)
 android.support.v7.widget.ViewStubCompat
 android.support.v7.widget.ViewStubCompat: ViewStubCompat(android.content.Context,android.util.AttributeSet)
 android.support.v7.widget.ViewStubCompat: ViewStubCompat(android.content.Context,android.util.AttributeSet,int)
@@ -4467,7 +4485,9 @@ org.simpledrive.R$color: int drawer_list
 org.simpledrive.R$color: int foreground_material_dark
 org.simpledrive.R$color: int foreground_material_light
 org.simpledrive.R$color: int grey1
+org.simpledrive.R$color: int grey1transparent
 org.simpledrive.R$color: int grey2
+org.simpledrive.R$color: int grey2transparent
 org.simpledrive.R$color: int grey3
 org.simpledrive.R$color: int grey3transparent
 org.simpledrive.R$color: int grey4
@@ -4775,6 +4795,8 @@ org.simpledrive.R$drawable: int ic_upload
 org.simpledrive.R$drawable: int ic_user
 org.simpledrive.R$drawable: int ic_warning
 org.simpledrive.R$drawable: int item_selector
+org.simpledrive.R$drawable: int logo_amazon
+org.simpledrive.R$drawable: int logo_comdirect
 org.simpledrive.R$drawable: int navigation_empty_icon
 org.simpledrive.R$drawable: int notification_template_icon_bg
 org.simpledrive.R$drawable: int progressbar
@@ -4841,7 +4863,6 @@ org.simpledrive.R$id: int copy
 org.simpledrive.R$id: int custom
 org.simpledrive.R$id: int customPanel
 org.simpledrive.R$id: int cut
-org.simpledrive.R$id: int date
 org.simpledrive.R$id: int decor_content_parent
 org.simpledrive.R$id: int default_activity_button
 org.simpledrive.R$id: int delete
@@ -4850,6 +4871,8 @@ org.simpledrive.R$id: int design_menu_item_action_area
 org.simpledrive.R$id: int design_menu_item_action_area_stub
 org.simpledrive.R$id: int design_menu_item_text
 org.simpledrive.R$id: int design_navigation_view
+org.simpledrive.R$id: int detail1
+org.simpledrive.R$id: int detail2
 org.simpledrive.R$id: int disableHome
 org.simpledrive.R$id: int download
 org.simpledrive.R$id: int edit_query
@@ -4883,7 +4906,6 @@ org.simpledrive.R$id: int home
 org.simpledrive.R$id: int homeAsUp
 org.simpledrive.R$id: int icon
 org.simpledrive.R$id: int icon_area
-org.simpledrive.R$id: int icon_circle
 org.simpledrive.R$id: int ifRoom
 org.simpledrive.R$id: int image
 org.simpledrive.R$id: int info
@@ -4900,10 +4922,8 @@ org.simpledrive.R$id: int listview
 org.simpledrive.R$id: int logbottom
 org.simpledrive.R$id: int logout
 org.simpledrive.R$id: int media_actions
-org.simpledrive.R$id: int message
 org.simpledrive.R$id: int middle
 org.simpledrive.R$id: int mini
-org.simpledrive.R$id: int mode
 org.simpledrive.R$id: int multiply
 org.simpledrive.R$id: int name
 org.simpledrive.R$id: int navigation_drawer_group_accounts
@@ -4925,6 +4945,7 @@ org.simpledrive.R$id: int navigation_view_item_settings
 org.simpledrive.R$id: int navigation_view_item_sharein
 org.simpledrive.R$id: int navigation_view_item_shareout
 org.simpledrive.R$id: int navigation_view_item_trash
+org.simpledrive.R$id: int navigation_view_item_vault
 org.simpledrive.R$id: int never
 org.simpledrive.R$id: int newfolder
 org.simpledrive.R$id: int next
@@ -5040,11 +5061,15 @@ org.simpledrive.R$id: int unlock_zero
 org.simpledrive.R$id: int unshare
 org.simpledrive.R$id: int up
 org.simpledrive.R$id: int useLogo
-org.simpledrive.R$id: int user
 org.simpledrive.R$id: int user_admin
 org.simpledrive.R$id: int user_quota_max
 org.simpledrive.R$id: int user_quota_used
 org.simpledrive.R$id: int username
+org.simpledrive.R$id: int vault_category
+org.simpledrive.R$id: int vault_icon
+org.simpledrive.R$id: int vault_save
+org.simpledrive.R$id: int vault_title
+org.simpledrive.R$id: int vault_type
 org.simpledrive.R$id: int view_offset_helper
 org.simpledrive.R$id: int view_pager
 org.simpledrive.R$id: int withText
@@ -5086,6 +5111,7 @@ org.simpledrive.R$layout: int abc_search_view
 org.simpledrive.R$layout: int abc_select_dialog_material
 org.simpledrive.R$layout: int activity_editor
 org.simpledrive.R$layout: int activity_fileselector
+org.simpledrive.R$layout: int activity_iconselector
 org.simpledrive.R$layout: int activity_imageviewer
 org.simpledrive.R$layout: int activity_log
 org.simpledrive.R$layout: int activity_login
@@ -5094,6 +5120,8 @@ org.simpledrive.R$layout: int activity_settings
 org.simpledrive.R$layout: int activity_sharefiles
 org.simpledrive.R$layout: int activity_unlock
 org.simpledrive.R$layout: int activity_users
+org.simpledrive.R$layout: int activity_vault
+org.simpledrive.R$layout: int activity_vaultentry
 org.simpledrive.R$layout: int design_bottom_sheet_dialog
 org.simpledrive.R$layout: int design_layout_snackbar
 org.simpledrive.R$layout: int design_layout_snackbar_include
@@ -5110,10 +5138,9 @@ org.simpledrive.R$layout: int design_text_input_password_icon
 org.simpledrive.R$layout: int dialog_createuser
 org.simpledrive.R$layout: int dialog_share
 org.simpledrive.R$layout: int drawer_list_item
-org.simpledrive.R$layout: int filegrid
-org.simpledrive.R$layout: int filelist
-org.simpledrive.R$layout: int loglist
-org.simpledrive.R$layout: int navigation_drawer_header
+org.simpledrive.R$layout: int gridview
+org.simpledrive.R$layout: int listview_detail
+org.simpledrive.R$layout: int nav_header
 org.simpledrive.R$layout: int notification
 org.simpledrive.R$layout: int notification_media_action
 org.simpledrive.R$layout: int notification_media_cancel_action
@@ -5129,16 +5156,17 @@ org.simpledrive.R$layout: int select_dialog_singlechoice_material
 org.simpledrive.R$layout: int support_simple_spinner_dropdown_item
 org.simpledrive.R$layout: int toolbar
 org.simpledrive.R$layout: int toolbar_bottom
-org.simpledrive.R$layout: int userlist
+org.simpledrive.R$menu: int accounts_context
 org.simpledrive.R$menu: int editor_toolbar
 org.simpledrive.R$menu: int file_selector_context
 org.simpledrive.R$menu: int file_selector_toolbar
-org.simpledrive.R$menu: int navigation_drawer_body
+org.simpledrive.R$menu: int nav_body
 org.simpledrive.R$menu: int remote_files_context
 org.simpledrive.R$menu: int remote_files_toolbar
 org.simpledrive.R$menu: int remote_files_toolbar_bottom
 org.simpledrive.R$menu: int serverlog_toolbar
 org.simpledrive.R$menu: int users_context
+org.simpledrive.R$menu: int vault_entry_toolbar
 org.simpledrive.R$mipmap: int ic_launcher
 org.simpledrive.R$string: int abc_action_bar_home_description
 org.simpledrive.R$string: int abc_action_bar_home_description_format
@@ -6064,34 +6092,101 @@ org.simpledrive.R$xml: int settings_server
 org.simpledrive.R$xml: int settings_userdetails
 org.simpledrive.activities.Accounts
 org.simpledrive.activities.Accounts: Accounts()
+org.simpledrive.activities.Accounts$1: void onClick(android.view.View)
+org.simpledrive.activities.Accounts$2: void onClick(android.view.View)
+org.simpledrive.activities.Accounts$3$1: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.Accounts$4: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.Accounts$5: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.AppSettings
 org.simpledrive.activities.AppSettings: AppSettings()
+org.simpledrive.activities.AppSettings$1: void onClick(android.view.View)
+org.simpledrive.activities.AppSettings$PrefsFragment$5$1: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.Editor
 org.simpledrive.activities.Editor: Editor()
+org.simpledrive.activities.Editor$1: void onClick(android.view.View)
+org.simpledrive.activities.Editor$3: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.EnablePIN
 org.simpledrive.activities.EnablePIN: EnablePIN()
 org.simpledrive.activities.EnablePIN: void onClick(android.view.View)
 org.simpledrive.activities.FileSelector
 org.simpledrive.activities.FileSelector: FileSelector()
+org.simpledrive.activities.FileSelector$4: void onClick(android.view.View)
+org.simpledrive.activities.IconSelector
+org.simpledrive.activities.IconSelector: IconSelector()
+org.simpledrive.activities.IconSelector$2: void onClick(android.view.View)
 org.simpledrive.activities.ImageViewer
 org.simpledrive.activities.ImageViewer: ImageViewer()
+org.simpledrive.activities.ImageViewer$2: void onClick(android.view.View)
 org.simpledrive.activities.Login
 org.simpledrive.activities.Login: Login()
+org.simpledrive.activities.Login$1: void onClick(android.view.View)
 org.simpledrive.activities.RemoteFiles
 org.simpledrive.activities.RemoteFiles: RemoteFiles()
+org.simpledrive.activities.RemoteFiles$10: void onClick(android.view.View)
+org.simpledrive.activities.RemoteFiles$11: void onClick(android.view.View)
+org.simpledrive.activities.RemoteFiles$12: void onClick(android.view.View)
+org.simpledrive.activities.RemoteFiles$13: void onClick(android.view.View)
+org.simpledrive.activities.RemoteFiles$18: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.RemoteFiles$19: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.RemoteFiles$20: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.RemoteFiles$21: void onClick(android.view.View)
+org.simpledrive.activities.RemoteFiles$22: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.RemoteFiles$23: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.RemoteFiles$24: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.RemoteFiles$25: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.RemoteFiles$28: void onClick(android.view.View)
+org.simpledrive.activities.RemoteFiles$29$1: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.RemoteFiles$37$1: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.RemoteFiles$37$2: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.RemoteFiles$4: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.RemoteFiles$5: void onClick(android.view.View)
+org.simpledrive.activities.RemoteFiles$6: void onClick(android.view.View)
+org.simpledrive.activities.RemoteFiles$8: void onClick(android.view.View)
+org.simpledrive.activities.RemoteFiles$9: void onClick(android.view.View)
 org.simpledrive.activities.ServerLog
 org.simpledrive.activities.ServerLog: ServerLog()
+org.simpledrive.activities.ServerLog$1: void onClick(android.view.View)
+org.simpledrive.activities.ServerLog$2: void onClick(android.view.View)
+org.simpledrive.activities.ServerLog$3: void onClick(android.view.View)
+org.simpledrive.activities.ServerLog$6: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.ServerSettings
 org.simpledrive.activities.ServerSettings: ServerSettings()
+org.simpledrive.activities.ServerSettings$1: void onClick(android.view.View)
 org.simpledrive.activities.ShareFiles
 org.simpledrive.activities.ShareFiles: ShareFiles()
+org.simpledrive.activities.ShareFiles$1: void onClick(android.view.View)
+org.simpledrive.activities.ShareFiles$10: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.ShareFiles$2: void onClick(android.view.View)
+org.simpledrive.activities.ShareFiles$3: void onClick(android.view.View)
+org.simpledrive.activities.ShareFiles$9: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.Unlock
 org.simpledrive.activities.Unlock: Unlock()
 org.simpledrive.activities.Unlock: void onClick(android.view.View)
 org.simpledrive.activities.UserDetails
 org.simpledrive.activities.UserDetails: UserDetails()
+org.simpledrive.activities.UserDetails$1: void onClick(android.view.View)
 org.simpledrive.activities.Users
 org.simpledrive.activities.Users: Users()
+org.simpledrive.activities.Users$1: void onClick(android.view.View)
+org.simpledrive.activities.Users$2: void onClick(android.view.View)
+org.simpledrive.activities.Users$3$1: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.Users$6: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.Users$7: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.Users$8: void onClick(android.view.View)
+org.simpledrive.activities.Vault
+org.simpledrive.activities.Vault: Vault()
+org.simpledrive.activities.Vault$1: void onClick(android.view.View)
+org.simpledrive.activities.Vault$2: void onClick(android.view.View)
+org.simpledrive.activities.Vault$3$1: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.VaultEntry
+org.simpledrive.activities.VaultEntry: VaultEntry()
+org.simpledrive.activities.VaultEntry$1: void onClick(android.view.View)
+org.simpledrive.activities.VaultEntry$2: void onClick(android.view.View)
+org.simpledrive.adapters.FileAdapter$1: void onClick(android.view.View)
+org.simpledrive.adapters.TouchImageAdapter$1: void onClick(android.view.View)
+org.simpledrive.adapters.TouchImageAdapter$2: void onClick(android.view.View)
+org.simpledrive.adapters.UserAdapter$1: void onClick(android.view.View)
+org.simpledrive.adapters.VaultAdapter$1: void onClick(android.view.View)
 org.simpledrive.authenticator.AuthenticationService
 org.simpledrive.authenticator.AuthenticationService: AuthenticationService()
 org.simpledrive.helper.AudioService
@@ -6099,6 +6194,12 @@ org.simpledrive.helper.AudioService: AudioService()
 org.simpledrive.helper.ExtendedViewPager
 org.simpledrive.helper.ExtendedViewPager: ExtendedViewPager(android.content.Context)
 org.simpledrive.helper.ExtendedViewPager: ExtendedViewPager(android.content.Context,android.util.AttributeSet)
+org.simpledrive.helper.GridViewItem
+org.simpledrive.helper.GridViewItem: GridViewItem(android.content.Context)
+org.simpledrive.helper.GridViewItem: GridViewItem(android.content.Context,android.util.AttributeSet)
+org.simpledrive.helper.GridViewItem: GridViewItem(android.content.Context,android.util.AttributeSet,int)
+org.simpledrive.helper.PermissionManager$1: void onClick(android.content.DialogInterface,int)
+org.simpledrive.helper.PermissionManager$2: void onClick(android.content.DialogInterface,int)
 org.simpledrive.helper.TouchImageView: void setCustomOnClickListener(android.view.View$OnClickListener)
 org.simpledrive.helper.TouchImageView: void setOnTouchListener(android.view.View$OnTouchListener)
 org.simpledrive.helper.TouchImageView: void setOnTouchImageViewListener(org.simpledrive.helper.TouchImageView$OnTouchImageViewListener)

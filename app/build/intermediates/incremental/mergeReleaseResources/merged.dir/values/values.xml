@@ -63,8 +63,10 @@
     <color name="dim_foreground_material_light">#ff323232</color>
     <color name="foreground_material_dark">@android:color/white</color>
     <color name="foreground_material_light">@android:color/black</color>
-    <color name="grey1">#fffafafa</color>
+    <color name="grey1">#fff5f5f5</color>
+    <color name="grey1transparent">#aaf5f5f5</color>
     <color name="grey2">#ffe3e3e3</color>
+    <color name="grey2transparent">#aae3e3e3</color>
     <color name="grey3">#ffb3b3b3</color>
     <color name="grey3transparent">#aab3b3b3</color>
     <color name="grey4">#ff636363</color>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="org.simpledrive"
-      android:versionCode="85"
-      android:versionName="5.6.2"
+      android:versionCode="86"
+      android:versionName="5.6.3"
       split="lib_slice_5_apk">
 </manifest>

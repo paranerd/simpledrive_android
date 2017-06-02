@@ -48,12 +48,12 @@
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_settings.png"
     },
     {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi/ic_menu.png",
-        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_menu.png"
-    },
-    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi/ic_cloud.png",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_cloud.png"
+    },
+    {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi/ic_menu.png",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_menu.png"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable-xxhdpi/ic_close_black.png",

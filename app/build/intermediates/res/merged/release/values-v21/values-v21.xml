@@ -222,6 +222,7 @@
     <style name="MainTheme.Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="navDrawerItem">@color/red</item>
         <item name="windowActionBar">true</item>
+
         <!-- Contextual action bar -->
         <item name="windowActionModeOverlay">true</item>
 
@@ -229,21 +230,25 @@
         <item name="android:colorAccent">@color/darkgreen</item>
         <item name="android:colorPrimary">@color/darkgreen</item>
         <item name="android:colorPrimaryDark">@color/darkergreen</item>
+
         <!-- Contextual action bar -->
         <item name="android:actionModeBackground">@color/darkgreen</item>
         <item name="android:actionModeCloseDrawable">@drawable/ic_arrow</item>
 
+        <!-- Text colors -->
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/grey3</item>
         <item name="android:textColorTertiary">@color/white</item>
-        <item name="android:colorBackground">@color/grey7</item>
-        <item name="android:colorMultiSelectHighlight">@color/grey6</item>
-        <item name="android:colorFocusedHighlight">@color/grey8</item>
         <item name="android:textColorHighlight">?android:colorPrimary</item>
+
+        <item name="android:colorBackground">@color/grey7</item>
+        <item name="android:colorMultiSelectHighlight">@color/transparentgreen</item>
+        <item name="android:colorFocusedHighlight">@color/grey8</item>
     </style>
     <style name="MainTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="navDrawerItem">@color/orange</item>
         <item name="windowActionBar">true</item>
+
         <!-- Contextual action bar -->
         <item name="windowActionModeOverlay">true</item>
 
@@ -251,17 +256,20 @@
         <item name="android:colorAccent">@color/darkgreen</item>
         <item name="android:colorPrimary">@color/darkgreen</item>
         <item name="android:colorPrimaryDark">@color/darkergreen</item>
+
         <!-- Contextual action bar -->
         <item name="android:actionModeBackground">@color/darkgreen</item>
         <item name="android:actionModeCloseDrawable">@drawable/ic_arrow</item>
 
+        <!-- Text colors -->
         <item name="android:textColorPrimary">@color/grey6</item>
         <item name="android:textColorSecondary">@color/grey3</item>
         <item name="android:textColorTertiary">@color/grey4</item>
-        <item name="android:colorBackground">@color/white</item>
-        <item name="android:colorMultiSelectHighlight">@color/lightgreen</item>
-        <item name="android:colorFocusedHighlight">@color/grey1</item>
         <item name="android:textColorHighlight">?android:colorPrimary</item>
+
+        <item name="android:colorBackground">@color/white</item>
+        <item name="android:colorMultiSelectHighlight">@color/transparentgreen</item>
+        <item name="android:colorFocusedHighlight">@color/grey1transparent</item>
     </style>
     <style name="MainTheme.Login" parent="MainTheme.Light">
         <item name="android:colorPrimaryDark">#ff303030</item>

@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:2:1-133:12
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:2:1-151:12
 	package
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:3:5-30
 		INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
@@ -44,7 +44,7 @@ ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidMa
 	android:name
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:13:22-77
 application
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:15:5-131:19
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:15:5-149:19
 MERGED from [com.android.support:design:24.2.1] /home/paranerd/.android/build-cache/41ed2336d2f736605e4e12c0e0bfb0727c56f2dc/output/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:percent:24.2.1] /home/paranerd/.android/build-cache/9273f23c9f41c4a01023d2e061deaeee9d3ccd87/output/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:appcompat-v7:24.2.1] /home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/AndroidManifest.xml:25:5-20
@@ -225,12 +225,36 @@ ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidMa
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:124:13-51
 	android:name
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:122:13-48
-service#org.simpledrive.helper.AudioService
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:127:9-130:19
-	android:enabled
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:129:13-35
+activity#org.simpledrive.activities.Vault
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:127:9-131:20
+	android:label
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:129:13-34
+	android:theme
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:130:13-51
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:128:13-48
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:128:13-45
+activity#org.simpledrive.activities.VaultEntry
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:133:9-137:20
+	android:label
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:135:13-40
+	android:theme
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:136:13-51
+	android:name
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:134:13-50
+activity#org.simpledrive.activities.IconSelector
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:139:9-143:20
+	android:label
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:141:13-42
+	android:theme
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:142:13-51
+	android:name
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:140:13-52
+service#org.simpledrive.helper.AudioService
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:145:9-148:19
+	android:enabled
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:147:13-35
+	android:name
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:146:13-48
 uses-sdk
 INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:design:24.2.1] /home/paranerd/.android/build-cache/41ed2336d2f736605e4e12c0e0bfb0727c56f2dc/output/AndroidManifest.xml:20:5-43

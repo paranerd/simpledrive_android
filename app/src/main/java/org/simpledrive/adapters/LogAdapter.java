@@ -1,19 +1,16 @@
 package org.simpledrive.adapters;
 
 import android.app.Activity;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.simpledrive.R;
-import org.simpledrive.helper.LogItem;
+import org.simpledrive.models.LogItem;
 
 import java.util.ArrayList;
 
@@ -39,10 +36,9 @@ public class LogAdapter extends ArrayAdapter<LogItem> {
 
             holder = new ViewHolder();
             holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-            holder.icon_circle = (FrameLayout) convertView.findViewById(R.id.icon_circle);
-            holder.message = (TextView) convertView.findViewById(R.id.message);
-            holder.user = (TextView) convertView.findViewById(R.id.user);
-            holder.date = (TextView) convertView.findViewById(R.id.date);
+            holder.message = (TextView) convertView.findViewById(R.id.title);
+            holder.user = (TextView) convertView.findViewById(R.id.detail1);
+            holder.date = (TextView) convertView.findViewById(R.id.detail2);
             convertView.setTag(holder);
         }
         else {
@@ -68,20 +64,16 @@ public class LogAdapter extends ArrayAdapter<LogItem> {
                 break;
         }
 
-        Drawable drawable = ContextCompat.getDrawable(e, R.drawable.circle_drawable);
-        drawable.setColorFilter(ContextCompat.getColor(e, color), PorterDuff.Mode.SRC_ATOP);
-
-        holder.icon_circle.setBackground(drawable);
+        holder.icon.setColorFilter(ContextCompat.getColor(e, color));
 
         return convertView;
     }
 
-    class ViewHolder {
+    private class ViewHolder {
         ImageView icon;
         TextView message;
         TextView user;
         TextView date;
-        FrameLayout icon_circle;
     }
 
     public void setData(ArrayList<LogItem> arg1) {

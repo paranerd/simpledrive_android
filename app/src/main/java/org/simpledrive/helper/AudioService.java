@@ -8,6 +8,7 @@ import java.net.URLEncoder;
 import org.simpledrive.R;
 import org.simpledrive.activities.RemoteFiles;
 import org.simpledrive.authenticator.CustomAuthenticator;
+import org.simpledrive.models.FileItem;
 
 import android.app.Notification;
 import android.app.PendingIntent;

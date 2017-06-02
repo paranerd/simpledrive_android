@@ -4101,6 +4101,7 @@ android.support.v7.app.AlertDialog$Builder:
     903:904:public android.support.v7.app.AlertDialog$Builder setInverseBackgroundForced(boolean)
     911:912:public android.support.v7.app.AlertDialog$Builder setRecycleOnMeasureEnabled(boolean)
 android.support.v7.app.AppCompatActivity:
+    234:234:public boolean supportRequestWindowFeature(int)
     294:294:public android.support.v7.view.ActionMode startSupportActionMode(android.support.v7.view.ActionMode$Callback)
     302:302:public void setSupportProgressBarVisibility(boolean)
     309:309:public void setSupportProgressBarIndeterminateVisibility(boolean)
@@ -5329,6 +5330,8 @@ org.apache.commons.io.FilenameUtils:
     567:570:public static java.lang.String separatorsToWindows(java.lang.String)
     580:586:public static java.lang.String separatorsToSystem(java.lang.String)
     623:671:public static int getPrefixLength(java.lang.String)
+    689:694:public static int indexOfLastSeparator(java.lang.String)
+    711:716:public static int indexOfExtension(java.lang.String)
     750:760:public static java.lang.String getPrefix(java.lang.String)
     786:786:public static java.lang.String getPath(java.lang.String)
     813:813:public static java.lang.String getPathNoEndSeparator(java.lang.String)
@@ -5338,6 +5341,7 @@ org.apache.commons.io.FilenameUtils:
     906:928:private static java.lang.String doGetFullPath(java.lang.String,boolean)
     949:953:public static java.lang.String getName(java.lang.String)
     974:974:public static java.lang.String getBaseName(java.lang.String)
+    996:1003:public static java.lang.String getExtension(java.lang.String)
     1026:1033:public static java.lang.String removeExtension(java.lang.String)
     1050:1050:public static boolean equals(java.lang.String,java.lang.String)
     1065:1065:public static boolean equalsOnSystem(java.lang.String,java.lang.String)
@@ -5446,14 +5450,14 @@ org.apache.commons.io.output.ThresholdingOutputStream
 org.apache.commons.io.output.WriterOutputStream
 org.apache.commons.io.output.XmlStreamWriter
 org.simpledrive.BuildConfig
-org.simpledrive.R
+org.simpledrive.R:
+    10:10:public R()
 org.simpledrive.R$anim
 org.simpledrive.R$array
 org.simpledrive.R$attr
 org.simpledrive.R$bool
 org.simpledrive.R$color
 org.simpledrive.R$dimen
-org.simpledrive.R$drawable
 org.simpledrive.R$id
 org.simpledrive.R$integer
 org.simpledrive.R$layout
@@ -5467,12 +5471,13 @@ org.simpledrive.activities.AppSettings:
     private static final int REQUEST_STORAGE
 org.simpledrive.authenticator.CustomAuthenticator:
     public static final int MAX_UNLOCK_ATTEMPTS
-    public static final int COOLDOWN_ADD
+    private static final int COOLDOWN_ADD
     private static final java.lang.String ACCOUNT_TYPE
     private static final java.lang.String KEY_USER
     private static final java.lang.String KEY_TOKEN
     private static final java.lang.String KEY_SERVER
     private static final java.lang.String KEY_PIN
+    private static final java.lang.String KEY_NICKNAME
     private static final java.lang.String KEY_UNLOCK_ATTEMPTS
     private static final java.lang.String KEY_LAST_UNLOCK_ATTEMPT
     private static final java.lang.String KEY_LOCKED
@@ -5487,11 +5492,6 @@ org.simpledrive.helper.AudioService:
 org.simpledrive.helper.DownloadManager:
     private static final int NOTIFICATION_ID
     18:18:public DownloadManager()
-org.simpledrive.helper.FileItem:
-    63:63:public java.lang.String getLastEdit()
-    71:71:public java.lang.String getParent()
-    91:91:public java.lang.String getType()
-    107:107:public boolean shared()
 org.simpledrive.helper.TouchImageView:
     private static final java.lang.String DEBUG
     private static final float SUPER_MIN_MULTIPLIER
@@ -5505,5 +5505,14 @@ org.simpledrive.helper.TouchImageView$DoubleTapZoom:
 org.simpledrive.helper.UploadManager:
     20:20:public UploadManager()
 org.simpledrive.helper.Util:
-    17:17:public Util()
-    136:139:public static int pxToDp(int)
+    33:33:public Util()
+    129:142:public static java.lang.String md5(java.lang.String)
+    152:155:public static int pxToDp(int)
+org.simpledrive.models.FileItem:
+    56:56:public java.lang.String getLastEdit()
+org.simpledrive.models.VaultItem:
+    private java.lang.String user
+    private java.lang.String pass
+    39:39:public java.lang.String getIcon()
+    63:63:public java.lang.String getEdit()
+    67:67:public java.lang.String getNote()

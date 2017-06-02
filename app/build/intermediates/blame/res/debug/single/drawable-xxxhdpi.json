@@ -4,12 +4,12 @@
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-xxxhdpi/ic_error.png"
     },
     {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/ic_copy.png",
-        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-xxxhdpi/ic_copy.png"
-    },
-    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/ic_account.png",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-xxxhdpi/ic_account.png"
+    },
+    {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/ic_copy.png",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-xxxhdpi/ic_copy.png"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi/ic_cut.png",

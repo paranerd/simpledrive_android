@@ -1643,30 +1643,30 @@
                     "startLine": 221,
                     "startColumn": 4,
                     "startOffset": 16617,
-                    "endLine": 242,
+                    "endLine": 246,
                     "endColumn": 12,
-                    "endOffset": 17837
+                    "endOffset": 17880
                 },
                 "from": {
                     "file": "/home/paranerd/Development/simpledrive_android/app/src/main/res/values-v21/styles.xml",
                     "position": {
-                        "startLine": 28,
+                        "startLine": 32,
                         "startColumn": 4,
-                        "startOffset": 1432,
-                        "endLine": 49,
+                        "startOffset": 1481,
+                        "endLine": 57,
                         "endColumn": 12,
-                        "endOffset": 2652
+                        "endOffset": 2744
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 243,
+                    "startLine": 247,
                     "startColumn": 4,
-                    "startOffset": 17842,
-                    "endLine": 264,
+                    "startOffset": 17885,
+                    "endLine": 272,
                     "endColumn": 12,
-                    "endOffset": 19077
+                    "endOffset": 19169
                 },
                 "from": {
                     "file": "/home/paranerd/Development/simpledrive_android/app/src/main/res/values-v21/styles.xml",
@@ -1674,20 +1674,20 @@
                         "startLine": 5,
                         "startColumn": 4,
                         "startOffset": 191,
-                        "endLine": 26,
+                        "endLine": 30,
                         "endColumn": 12,
-                        "endOffset": 1426
+                        "endOffset": 1475
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 265,
+                    "startLine": 273,
                     "startColumn": 4,
-                    "startOffset": 19082,
-                    "endLine": 267,
+                    "startOffset": 19174,
+                    "endLine": 275,
                     "endColumn": 12,
-                    "endOffset": 19213
+                    "endOffset": 19305
                 },
                 "from": {
                     "file": "/home/paranerd/Development/simpledrive_android/app/src/main/res/values-v21/styles.xml",
@@ -1703,52 +1703,52 @@
             },
             {
                 "to": {
-                    "startLine": 268,
+                    "startLine": 276,
                     "startColumn": 4,
-                    "startOffset": 19218,
-                    "endLine": 270,
+                    "startOffset": 19310,
+                    "endLine": 278,
                     "endColumn": 12,
-                    "endOffset": 19348
+                    "endOffset": 19440
                 },
                 "from": {
                     "file": "/home/paranerd/Development/simpledrive_android/app/src/main/res/values-v21/styles.xml",
                     "position": {
-                        "startLine": 53,
+                        "startLine": 61,
                         "startColumn": 4,
-                        "startOffset": 2746,
-                        "endLine": 55,
+                        "startOffset": 2838,
+                        "endLine": 63,
                         "endColumn": 12,
-                        "endOffset": 2876
+                        "endOffset": 2968
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 271,
+                    "startLine": 279,
                     "startColumn": 4,
-                    "startOffset": 19353,
+                    "startOffset": 19445,
                     "endColumn": 86,
-                    "endOffset": 19435
+                    "endOffset": 19527
                 },
                 "from": {
                     "file": "/home/paranerd/Development/simpledrive_android/app/src/main/res/values-v21/styles.xml",
                     "position": {
-                        "startLine": 51,
+                        "startLine": 59,
                         "startColumn": 4,
-                        "startOffset": 2658,
+                        "startOffset": 2750,
                         "endColumn": 86,
-                        "endOffset": 2740
+                        "endOffset": 2832
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 272,
+                    "startLine": 280,
                     "startColumn": 4,
-                    "startOffset": 19440,
-                    "endLine": 281,
+                    "startOffset": 19532,
+                    "endLine": 289,
                     "endColumn": 12,
-                    "endOffset": 19948
+                    "endOffset": 20040
                 },
                 "from": {
                     "file": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/values-v21/values-v21.xml",
@@ -1764,12 +1764,12 @@
             },
             {
                 "to": {
-                    "startLine": 282,
+                    "startLine": 290,
                     "startColumn": 4,
-                    "startOffset": 19953,
-                    "endLine": 291,
+                    "startOffset": 20045,
+                    "endLine": 299,
                     "endColumn": 12,
-                    "endOffset": 20473
+                    "endOffset": 20565
                 },
                 "from": {
                     "file": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/values-v21/values-v21.xml",
@@ -1785,12 +1785,12 @@
             },
             {
                 "to": {
-                    "startLine": 292,
+                    "startLine": 300,
                     "startColumn": 4,
-                    "startOffset": 20478,
-                    "endLine": 301,
+                    "startOffset": 20570,
+                    "endLine": 309,
                     "endColumn": 12,
-                    "endOffset": 21153
+                    "endOffset": 21245
                 },
                 "from": {
                     "file": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/values-v21/values-v21.xml",
@@ -1806,11 +1806,11 @@
             },
             {
                 "to": {
-                    "startLine": 302,
+                    "startLine": 310,
                     "startColumn": 4,
-                    "startOffset": 21158,
+                    "startOffset": 21250,
                     "endColumn": 56,
-                    "endOffset": 21210
+                    "endOffset": 21302
                 },
                 "from": {
                     "file": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/values-v21/values-v21.xml",
@@ -1825,11 +1825,11 @@
             },
             {
                 "to": {
-                    "startLine": 303,
+                    "startLine": 311,
                     "startColumn": 4,
-                    "startOffset": 21215,
+                    "startOffset": 21307,
                     "endColumn": 57,
-                    "endOffset": 21268
+                    "endOffset": 21360
                 },
                 "from": {
                     "file": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/values-v21/values-v21.xml",
@@ -1844,54 +1844,54 @@
             },
             {
                 "to": {
-                    "startLine": 304,
+                    "startLine": 312,
                     "startColumn": 4,
-                    "startOffset": 21273,
-                    "endLine": 306,
+                    "startOffset": 21365,
+                    "endLine": 314,
                     "endColumn": 12,
-                    "endOffset": 21431
+                    "endOffset": 21523
                 },
                 "from": {
                     "file": "/home/paranerd/Development/simpledrive_android/app/src/main/res/values-v21/styles.xml",
                     "position": {
-                        "startLine": 62,
+                        "startLine": 70,
                         "startColumn": 4,
-                        "startOffset": 3107,
-                        "endLine": 64,
+                        "startOffset": 3199,
+                        "endLine": 72,
                         "endColumn": 12,
-                        "endOffset": 3265
+                        "endOffset": 3357
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 307,
+                    "startLine": 315,
                     "startColumn": 4,
-                    "startOffset": 21436,
-                    "endLine": 310,
+                    "startOffset": 21528,
+                    "endLine": 318,
                     "endColumn": 12,
-                    "endOffset": 21655
+                    "endOffset": 21747
                 },
                 "from": {
                     "file": "/home/paranerd/Development/simpledrive_android/app/src/main/res/values-v21/styles.xml",
                     "position": {
-                        "startLine": 57,
+                        "startLine": 65,
                         "startColumn": 4,
-                        "startOffset": 2882,
-                        "endLine": 60,
+                        "startOffset": 2974,
+                        "endLine": 68,
                         "endColumn": 12,
-                        "endOffset": 3101
+                        "endOffset": 3193
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 311,
+                    "startLine": 319,
                     "startColumn": 4,
-                    "startOffset": 21660,
-                    "endLine": 313,
+                    "startOffset": 21752,
+                    "endLine": 321,
                     "endColumn": 12,
-                    "endOffset": 21849
+                    "endOffset": 21941
                 },
                 "from": {
                     "file": "/home/paranerd/.android/build-cache/41ed2336d2f736605e4e12c0e0bfb0727c56f2dc/output/res/values-v21/values-v21.xml",

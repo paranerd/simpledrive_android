@@ -10,20 +10,21 @@
 # view res/layout/design_bottom_sheet_dialog.xml #generated:17
 -keep class android.support.design.widget.CoordinatorLayout { <init>(...); }
 
-# view res/layout/activity_remotefiles.xml #generated:105
-# view res/layout/activity_remotefiles.xml #generated:119
-# view res/layout/activity_remotefiles.xml #generated:132
-# view res/layout/activity_remotefiles.xml #generated:65
-# view res/layout/activity_remotefiles.xml #generated:77
-# view res/layout/activity_remotefiles.xml #generated:91
+# view res/layout/activity_remotefiles.xml #generated:109
+# view res/layout/activity_remotefiles.xml #generated:123
+# view res/layout/activity_remotefiles.xml #generated:136
+# view res/layout/activity_remotefiles.xml #generated:69
+# view res/layout/activity_remotefiles.xml #generated:81
+# view res/layout/activity_remotefiles.xml #generated:95
 # view res/layout/activity_sharefiles.xml #generated:55
 # view res/layout/activity_sharefiles.xml #generated:65
 # view res/layout/activity_sharefiles.xml #generated:76
 # view res/layout/activity_sharefiles.xml #generated:88
 # view res/layout/activity_users.xml #generated:46
+# view res/layout/activity_vault.xml #generated:46
 -keep class android.support.design.widget.FloatingActionButton { <init>(...); }
 
-# view res/layout/activity_remotefiles.xml #generated:261
+# view res/layout/activity_remotefiles.xml #generated:265
 -keep class android.support.design.widget.NavigationView { <init>(...); }
 
 # view res/layout/design_layout_snackbar.xml #generated:18
@@ -33,6 +34,7 @@
 # view res/layout/activity_log.xml #generated:2
 # view res/layout/activity_remotefiles.xml #generated:2
 # view res/layout/activity_users.xml #generated:2
+# view res/layout/activity_vault.xml #generated:2
 -keep class android.support.v4.widget.DrawerLayout { <init>(...); }
 
 # view res/layout/abc_alert_dialog_material.xml #generated:75
@@ -67,7 +69,7 @@
 -keep class android.support.v7.widget.ActionBarOverlayLayout { <init>(...); }
 
 # view res/layout/abc_action_menu_layout.xml #generated:17
-# view res/layout/activity_remotefiles.xml #generated:251
+# view res/layout/activity_remotefiles.xml #generated:255
 # view res/layout/toolbar_bottom.xml #generated:13
 -keep class android.support.v7.widget.ActionMenuView { <init>(...); }
 
@@ -94,7 +96,7 @@
 -keep class android.support.v7.widget.SearchView$SearchAutoComplete { <init>(...); }
 
 # view res/layout/abc_screen_toolbar.xml #generated:36
-# view res/layout/activity_remotefiles.xml #generated:238
+# view res/layout/activity_remotefiles.xml #generated:242
 # view res/layout/toolbar.xml #generated:2
 # view res/layout/toolbar_bottom.xml #generated:1
 # view v21/res/layout-v21/toolbar.xml #generated:2
@@ -104,7 +106,7 @@
 # view res/layout/abc_screen_simple_overlay_action_mode.xml #generated:32
 -keep class android.support.v7.widget.ViewStubCompat { <init>(...); }
 
-# view res/layout/navigation_drawer_header.xml #generated:10
+# view res/layout/nav_header.xml #generated:10
 -keep class de.hdodenhof.circleimageview.CircleImageView { <init>(...); }
 
 # view AndroidManifest.xml #generated:121
@@ -121,6 +123,9 @@
 
 # view AndroidManifest.xml #generated:53
 -keep class org.simpledrive.activities.FileSelector { <init>(...); }
+
+# view AndroidManifest.xml #generated:136
+-keep class org.simpledrive.activities.IconSelector { <init>(...); }
 
 # view AndroidManifest.xml #generated:76
 -keep class org.simpledrive.activities.ImageViewer { <init>(...); }
@@ -149,12 +154,35 @@
 # view AndroidManifest.xml #generated:101
 -keep class org.simpledrive.activities.Users { <init>(...); }
 
+# view AndroidManifest.xml #generated:126
+-keep class org.simpledrive.activities.Vault { <init>(...); }
+
+# view AndroidManifest.xml #generated:131
+-keep class org.simpledrive.activities.VaultEntry { <init>(...); }
+
 # view AndroidManifest.xml #generated:64
 -keep class org.simpledrive.authenticator.AuthenticationService { <init>(...); }
 
-# view AndroidManifest.xml #generated:127
+# view AndroidManifest.xml #generated:142
 -keep class org.simpledrive.helper.AudioService { <init>(...); }
 
 # view res/layout/activity_imageviewer.xml #generated:11
 -keep class org.simpledrive.helper.ExtendedViewPager { <init>(...); }
+
+# view res/layout/gridview.xml #generated:2
+-keep class org.simpledrive.helper.GridViewItem { <init>(...); }
+
+# onClick res/layout/activity_unlock.xml #generated:112
+# onClick res/layout/activity_unlock.xml #generated:131
+# onClick res/layout/activity_unlock.xml #generated:144
+# onClick res/layout/activity_unlock.xml #generated:157
+# onClick res/layout/activity_unlock.xml #generated:176
+# onClick res/layout/activity_unlock.xml #generated:189
+# onClick res/layout/activity_unlock.xml #generated:202
+# onClick res/layout/activity_unlock.xml #generated:228
+# onClick res/layout/activity_unlock.xml #generated:248
+# onClick res/layout/activity_unlock.xml #generated:49
+# onClick res/layout/activity_unlock.xml #generated:85
+# onClick res/layout/activity_unlock.xml #generated:99
+-keepclassmembers class * { *** onClick(...); }
 

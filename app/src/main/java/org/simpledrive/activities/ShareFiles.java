@@ -16,8 +16,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
@@ -31,18 +29,17 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.simpledrive.R;
+import org.simpledrive.adapters.FileAdapter;
+import org.simpledrive.authenticator.CustomAuthenticator;
+import org.simpledrive.helper.Connection;
+import org.simpledrive.helper.UploadManager;
+import org.simpledrive.helper.Util;
+import org.simpledrive.models.FileItem;
 
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import org.simpledrive.R;
-import org.simpledrive.authenticator.CustomAuthenticator;
-import org.simpledrive.helper.Connection;
-import org.simpledrive.adapters.FileAdapter;
-import org.simpledrive.helper.FileItem;
-import org.simpledrive.helper.UploadManager;
-import org.simpledrive.helper.Util;
 
 public class ShareFiles extends AppCompatActivity {
     // General
@@ -50,8 +47,6 @@ public class ShareFiles extends AppCompatActivity {
     private boolean preventLock = false;
     private boolean calledForUnlock = false;
     private String username = "";
-    private int grids = 3;
-    private int gridSize;
     private int loginAttempts = 0;
 
     // Files
@@ -84,10 +79,6 @@ public class ShareFiles extends AppCompatActivity {
         setTheme(theme);
 
         setContentView(R.layout.activity_sharefiles);
-
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        gridSize = displaymetrics.widthPixels / grids;
 
         tmp_grid = (GridView) findViewById(R.id.grid);
         tmp_list = (ListView) findViewById(R.id.list);
@@ -139,7 +130,7 @@ public class ShareFiles extends AppCompatActivity {
         mSwipeRefreshLayout.setColorSchemeResources(R.color.darkgreen, R.color.darkgreen, R.color.darkgreen, R.color.darkgreen);
         mSwipeRefreshLayout.setProgressViewOffset(false, Util.dpToPx(56), Util.dpToPx(56) + 100);
 
-        listLayout = (settings.getString("listlayout", "").length() == 0 || settings.getString("listlayout", "").equals("list")) ? R.layout.filelist : R.layout.filegrid;
+        listLayout = (settings.getString("listlayout", "").length() == 0 || settings.getString("listlayout", "").equals("list")) ? R.layout.listview_detail: R.layout.gridview;
         setListLayout();
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -254,7 +245,7 @@ public class ShareFiles extends AppCompatActivity {
             hierarchy = new ArrayList<>();
             for (int i = 0; i < h.length(); i++) {
                 JSONObject obj = h.getJSONObject(i);
-                hierarchy.add(new FileItem(obj.getString("id"), obj.getString("filename"), "", null));
+                hierarchy.add(new FileItem(obj.getString("id"), obj.getString("filename"), ""));
             }
 
             for (int i = 0; i < files.length(); i++){
@@ -262,7 +253,6 @@ public class ShareFiles extends AppCompatActivity {
 
                 String id = obj.getString("id");
                 String filename = obj.getString("filename");
-                String parent = obj.getString("parent");
                 String type = obj.getString("type");
                 String size = (obj.getString("type").equals("folder")) ? ((obj.getString("size").equals("1")) ? obj.getString("size") + " element" : obj.getString("size") + " elements") : Util.convertSize(obj.getString("size"));
                 boolean selfshared = Boolean.parseBoolean(obj.getString("selfshared"));
@@ -271,7 +261,7 @@ public class ShareFiles extends AppCompatActivity {
                 Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
 
                 if(type.equals("folder")) {
-                    FileItem item = new FileItem(id, filename, parent, null, size, obj.getString("edit"), type, owner, selfshared, shared, icon, null, "", "");
+                    FileItem item = new FileItem(id, filename, "", size, obj.getString("edit"), type, owner, selfshared, shared, icon, null);
                     items.add(item);
                 }
             }
@@ -293,7 +283,7 @@ public class ShareFiles extends AppCompatActivity {
             info.setVisibility(View.GONE);
         }
 
-        newAdapter = new FileAdapter(this, listLayout, list, gridSize, false, 0);
+        newAdapter = new FileAdapter(this, listLayout, list, false);
         newAdapter.setData(items);
         list.setAdapter(newAdapter);
 
@@ -350,10 +340,9 @@ public class ShareFiles extends AppCompatActivity {
                 if (res.successful()) {
                     hierarchy = new ArrayList<>();
 
-                    FileItem currDir = new FileItem("0", "", "", null);
-                    hierarchy.add(currDir);
+                    hierarchy.add(new FileItem("0", "", ""));
 
-                    CustomAuthenticator.updateToken(res.getMessage());
+                    CustomAuthenticator.setToken(res.getMessage());
 
                     fetchFiles();
                 }
@@ -479,7 +468,7 @@ public class ShareFiles extends AppCompatActivity {
     }
 
     private void setListLayout() {
-        if (listLayout == R.layout.filelist) {
+        if (listLayout == R.layout.listview_detail) {
             list = (ListView) findViewById(R.id.list);
             tmp_grid.setVisibility(View.GONE);
         }

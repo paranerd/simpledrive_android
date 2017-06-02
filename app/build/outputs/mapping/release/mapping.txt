@@ -8430,7 +8430,6 @@ android.support.v7.app.AppCompatActivity -> android.support.v7.a.f:
     boolean onMenuItemSelected(int,android.view.MenuItem) -> onMenuItemSelected
     void onDestroy() -> onDestroy
     void onTitleChanged(java.lang.CharSequence,int) -> onTitleChanged
-    boolean supportRequestWindowFeature(int) -> c
     void supportInvalidateOptionsMenu() -> c
     void invalidateOptionsMenu() -> invalidateOptionsMenu
     void onSupportActionModeStarted(android.support.v7.view.ActionMode) -> a
@@ -15401,14 +15400,155 @@ org.apache.commons.io.FilenameUtils -> org.a.a.a.b:
     char SYSTEM_SEPARATOR -> b
     char OTHER_SEPARATOR -> c
     boolean isSystemWindows() -> a
-    int indexOfLastSeparator(java.lang.String) -> a
-    int indexOfExtension(java.lang.String) -> b
-    java.lang.String getExtension(java.lang.String) -> c
     void <clinit>() -> <clinit>
+org.simpledrive.R -> org.simpledrive.a:
+org.simpledrive.R$drawable -> org.simpledrive.a$a:
+    int abc_ab_share_pack_mtrl_alpha -> abc_ab_share_pack_mtrl_alpha
+    int abc_action_bar_item_background_material -> abc_action_bar_item_background_material
+    int abc_btn_borderless_material -> abc_btn_borderless_material
+    int abc_btn_check_material -> abc_btn_check_material
+    int abc_btn_check_to_on_mtrl_000 -> abc_btn_check_to_on_mtrl_000
+    int abc_btn_check_to_on_mtrl_015 -> abc_btn_check_to_on_mtrl_015
+    int abc_btn_colored_material -> abc_btn_colored_material
+    int abc_btn_default_mtrl_shape -> abc_btn_default_mtrl_shape
+    int abc_btn_radio_material -> abc_btn_radio_material
+    int abc_btn_radio_to_on_mtrl_000 -> abc_btn_radio_to_on_mtrl_000
+    int abc_btn_radio_to_on_mtrl_015 -> abc_btn_radio_to_on_mtrl_015
+    int abc_btn_switch_to_on_mtrl_00001 -> abc_btn_switch_to_on_mtrl_00001
+    int abc_btn_switch_to_on_mtrl_00012 -> abc_btn_switch_to_on_mtrl_00012
+    int abc_cab_background_internal_bg -> abc_cab_background_internal_bg
+    int abc_cab_background_top_material -> abc_cab_background_top_material
+    int abc_cab_background_top_mtrl_alpha -> abc_cab_background_top_mtrl_alpha
+    int abc_control_background_material -> abc_control_background_material
+    int abc_dialog_material_background -> abc_dialog_material_background
+    int abc_edit_text_material -> abc_edit_text_material
+    int abc_ic_ab_back_material -> abc_ic_ab_back_material
+    int abc_ic_arrow_drop_right_black_24dp -> abc_ic_arrow_drop_right_black_24dp
+    int abc_ic_clear_material -> abc_ic_clear_material
+    int abc_ic_commit_search_api_mtrl_alpha -> abc_ic_commit_search_api_mtrl_alpha
+    int abc_ic_go_search_api_material -> abc_ic_go_search_api_material
+    int abc_ic_menu_copy_mtrl_am_alpha -> abc_ic_menu_copy_mtrl_am_alpha
+    int abc_ic_menu_cut_mtrl_alpha -> abc_ic_menu_cut_mtrl_alpha
+    int abc_ic_menu_overflow_material -> abc_ic_menu_overflow_material
+    int abc_ic_menu_paste_mtrl_am_alpha -> abc_ic_menu_paste_mtrl_am_alpha
+    int abc_ic_menu_selectall_mtrl_alpha -> abc_ic_menu_selectall_mtrl_alpha
+    int abc_ic_menu_share_mtrl_alpha -> abc_ic_menu_share_mtrl_alpha
+    int abc_ic_search_api_material -> abc_ic_search_api_material
+    int abc_ic_star_black_16dp -> abc_ic_star_black_16dp
+    int abc_ic_star_black_36dp -> abc_ic_star_black_36dp
+    int abc_ic_star_black_48dp -> abc_ic_star_black_48dp
+    int abc_ic_star_half_black_16dp -> abc_ic_star_half_black_16dp
+    int abc_ic_star_half_black_36dp -> abc_ic_star_half_black_36dp
+    int abc_ic_star_half_black_48dp -> abc_ic_star_half_black_48dp
+    int abc_ic_voice_search_api_material -> abc_ic_voice_search_api_material
+    int abc_item_background_holo_dark -> abc_item_background_holo_dark
+    int abc_item_background_holo_light -> abc_item_background_holo_light
+    int abc_list_divider_mtrl_alpha -> abc_list_divider_mtrl_alpha
+    int abc_list_focused_holo -> abc_list_focused_holo
+    int abc_list_longpressed_holo -> abc_list_longpressed_holo
+    int abc_list_pressed_holo_dark -> abc_list_pressed_holo_dark
+    int abc_list_pressed_holo_light -> abc_list_pressed_holo_light
+    int abc_list_selector_background_transition_holo_dark -> abc_list_selector_background_transition_holo_dark
+    int abc_list_selector_background_transition_holo_light -> abc_list_selector_background_transition_holo_light
+    int abc_list_selector_disabled_holo_dark -> abc_list_selector_disabled_holo_dark
+    int abc_list_selector_disabled_holo_light -> abc_list_selector_disabled_holo_light
+    int abc_list_selector_holo_dark -> abc_list_selector_holo_dark
+    int abc_list_selector_holo_light -> abc_list_selector_holo_light
+    int abc_menu_hardkey_panel_mtrl_mult -> abc_menu_hardkey_panel_mtrl_mult
+    int abc_popup_background_mtrl_mult -> abc_popup_background_mtrl_mult
+    int abc_ratingbar_indicator_material -> abc_ratingbar_indicator_material
+    int abc_ratingbar_material -> abc_ratingbar_material
+    int abc_ratingbar_small_material -> abc_ratingbar_small_material
+    int abc_scrubber_control_off_mtrl_alpha -> abc_scrubber_control_off_mtrl_alpha
+    int abc_scrubber_control_to_pressed_mtrl_000 -> abc_scrubber_control_to_pressed_mtrl_000
+    int abc_scrubber_control_to_pressed_mtrl_005 -> abc_scrubber_control_to_pressed_mtrl_005
+    int abc_scrubber_primary_mtrl_alpha -> abc_scrubber_primary_mtrl_alpha
+    int abc_scrubber_track_mtrl_alpha -> abc_scrubber_track_mtrl_alpha
+    int abc_seekbar_thumb_material -> abc_seekbar_thumb_material
+    int abc_seekbar_tick_mark_material -> abc_seekbar_tick_mark_material
+    int abc_seekbar_track_material -> abc_seekbar_track_material
+    int abc_spinner_mtrl_am_alpha -> abc_spinner_mtrl_am_alpha
+    int abc_spinner_textfield_background_material -> abc_spinner_textfield_background_material
+    int abc_switch_thumb_material -> abc_switch_thumb_material
+    int abc_switch_track_mtrl_alpha -> abc_switch_track_mtrl_alpha
+    int abc_tab_indicator_material -> abc_tab_indicator_material
+    int abc_tab_indicator_mtrl_alpha -> abc_tab_indicator_mtrl_alpha
+    int abc_text_cursor_material -> abc_text_cursor_material
+    int abc_text_select_handle_left_mtrl_dark -> abc_text_select_handle_left_mtrl_dark
+    int abc_text_select_handle_left_mtrl_light -> abc_text_select_handle_left_mtrl_light
+    int abc_text_select_handle_middle_mtrl_dark -> abc_text_select_handle_middle_mtrl_dark
+    int abc_text_select_handle_middle_mtrl_light -> abc_text_select_handle_middle_mtrl_light
+    int abc_text_select_handle_right_mtrl_dark -> abc_text_select_handle_right_mtrl_dark
+    int abc_text_select_handle_right_mtrl_light -> abc_text_select_handle_right_mtrl_light
+    int abc_textfield_activated_mtrl_alpha -> abc_textfield_activated_mtrl_alpha
+    int abc_textfield_default_mtrl_alpha -> abc_textfield_default_mtrl_alpha
+    int abc_textfield_search_activated_mtrl_alpha -> abc_textfield_search_activated_mtrl_alpha
+    int abc_textfield_search_default_mtrl_alpha -> abc_textfield_search_default_mtrl_alpha
+    int abc_textfield_search_material -> abc_textfield_search_material
+    int abc_vector_test -> abc_vector_test
+    int blackforest -> blackforest
+    int button_bg -> button_bg
+    int checkbox_selector -> checkbox_selector
+    int circle_drawable -> circle_drawable
+    int custom_edittext -> custom_edittext
+    int design_fab_background -> design_fab_background
+    int design_ic_visibility -> design_ic_visibility
+    int design_snackbar_background -> design_snackbar_background
+    int ic_account -> ic_account
+    int ic_account_circle -> ic_account_circle
+    int ic_add -> ic_add
+    int ic_archive -> ic_archive
+    int ic_arrow -> ic_arrow
+    int ic_arrow_right -> ic_arrow_right
+    int ic_audio -> ic_audio
+    int ic_check -> ic_check
+    int ic_close -> ic_close
+    int ic_close_black -> ic_close_black
+    int ic_cloud -> ic_cloud
+    int ic_copy -> ic_copy
+    int ic_cut -> ic_cut
+    int ic_download -> ic_download
+    int ic_edit -> ic_edit
+    int ic_error -> ic_error
+    int ic_folder -> ic_folder
+    int ic_grid -> ic_grid
+    int ic_image -> ic_image
+    int ic_info -> ic_info
+    int ic_list -> ic_list
+    int ic_logout -> ic_logout
+    int ic_menu -> ic_menu
+    int ic_paste -> ic_paste
+    int ic_pause -> ic_pause
+    int ic_pause_black -> ic_pause_black
+    int ic_pdf -> ic_pdf
+    int ic_play -> ic_play
+    int ic_play_black -> ic_play_black
+    int ic_play_circle -> ic_play_circle
+    int ic_search -> ic_search
+    int ic_select_all -> ic_select_all
+    int ic_server -> ic_server
+    int ic_settings -> ic_settings
+    int ic_share -> ic_share
+    int ic_submenu -> ic_submenu
+    int ic_trash -> ic_trash
+    int ic_undo -> ic_undo
+    int ic_unknown -> ic_unknown
+    int ic_upload -> ic_upload
+    int ic_user -> ic_user
+    int ic_warning -> ic_warning
+    int item_selector -> item_selector
+    int logo_amazon -> logo_amazon
+    int logo_comdirect -> logo_comdirect
+    int navigation_empty_icon -> navigation_empty_icon
+    int notification_template_icon_bg -> notification_template_icon_bg
+    int progressbar -> progressbar
+    int rounded_button -> rounded_button
+    int unlock_button -> unlock_button
+    void <init>() -> <init>
 org.simpledrive.activities.Accounts -> org.simpledrive.activities.Accounts:
     org.simpledrive.activities.Accounts e -> n
     java.util.ArrayList items -> o
-    org.simpledrive.adapters.UserAdapter newAdapter -> p
+    org.simpledrive.adapters.AccountAdapter newAdapter -> p
     int selectedPos -> q
     android.widget.AbsListView list -> r
     android.support.design.widget.FloatingActionButton fab -> s
@@ -15416,24 +15556,29 @@ org.simpledrive.activities.Accounts -> org.simpledrive.activities.Accounts:
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
     void onResume() -> onResume
-    void setUpToolbar() -> j
-    void setUpList() -> k
+    void initToolbar() -> i
+    void setUpList() -> j
+    void showRename(android.view.ActionMode) -> a
+    void showVirtualKeyboard() -> k
     void getAccounts() -> l
-    void displayUsers() -> m
+    void displayAccounts() -> m
     void unselectAll() -> n
     java.lang.String getFirstSelected() -> o
     void remove(java.lang.String) -> a
-    org.simpledrive.activities.Accounts access$000(org.simpledrive.activities.Accounts) -> a
-    void access$100(org.simpledrive.activities.Accounts) -> b
-    android.view.Menu access$202(org.simpledrive.activities.Accounts,android.view.Menu) -> a
-    java.lang.String access$300(org.simpledrive.activities.Accounts) -> c
-    void access$400(org.simpledrive.activities.Accounts,java.lang.String) -> a
-    int access$500(org.simpledrive.activities.Accounts) -> d
-    int access$502(org.simpledrive.activities.Accounts,int) -> a
-    android.widget.AbsListView access$600() -> i
-    android.view.Menu access$200(org.simpledrive.activities.Accounts) -> e
-    org.simpledrive.adapters.UserAdapter access$700(org.simpledrive.activities.Accounts) -> f
-    void access$800(org.simpledrive.activities.Accounts) -> g
+    void rename(java.lang.String,java.lang.String) -> a
+    void access$000(org.simpledrive.activities.Accounts) -> a
+    android.view.Menu access$102(org.simpledrive.activities.Accounts,android.view.Menu) -> a
+    java.lang.String access$200(org.simpledrive.activities.Accounts) -> b
+    void access$300(org.simpledrive.activities.Accounts,java.lang.String) -> a
+    org.simpledrive.activities.Accounts access$400(org.simpledrive.activities.Accounts) -> c
+    void access$500(org.simpledrive.activities.Accounts,android.view.ActionMode) -> a
+    int access$600(org.simpledrive.activities.Accounts) -> d
+    int access$602(org.simpledrive.activities.Accounts,int) -> a
+    android.widget.AbsListView access$700(org.simpledrive.activities.Accounts) -> e
+    android.view.Menu access$100(org.simpledrive.activities.Accounts) -> f
+    org.simpledrive.adapters.AccountAdapter access$800(org.simpledrive.activities.Accounts) -> g
+    void access$900(org.simpledrive.activities.Accounts,java.lang.String,java.lang.String) -> a
+    void access$1000(org.simpledrive.activities.Accounts) -> h
 org.simpledrive.activities.Accounts$1 -> org.simpledrive.activities.Accounts$1:
     org.simpledrive.activities.Accounts this$0 -> a
     void <init>(org.simpledrive.activities.Accounts) -> <init>
@@ -15456,6 +15601,25 @@ org.simpledrive.activities.Accounts$3$1 -> org.simpledrive.activities.Accounts$3
     void <init>(org.simpledrive.activities.Accounts$3,android.view.ActionMode) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
 org.simpledrive.activities.Accounts$4 -> org.simpledrive.activities.Accounts$4:
+    android.widget.EditText val$input -> a
+    android.view.ActionMode val$mode -> b
+    org.simpledrive.activities.Accounts this$0 -> c
+    void <init>(org.simpledrive.activities.Accounts,android.widget.EditText,android.view.ActionMode) -> <init>
+    void onClick(android.content.DialogInterface,int) -> onClick
+org.simpledrive.activities.Accounts$5 -> org.simpledrive.activities.Accounts$5:
+    android.view.ActionMode val$mode -> a
+    org.simpledrive.activities.Accounts this$0 -> b
+    void <init>(org.simpledrive.activities.Accounts,android.view.ActionMode) -> <init>
+    void onClick(android.content.DialogInterface,int) -> onClick
+org.simpledrive.activities.Accounts$6 -> org.simpledrive.activities.Accounts$6:
+    org.simpledrive.activities.Accounts this$0 -> a
+    void <init>(org.simpledrive.activities.Accounts) -> <init>
+    void run() -> run
+org.simpledrive.activities.Accounts$7 -> org.simpledrive.activities.Accounts$7:
+    org.simpledrive.activities.Accounts this$0 -> a
+    void <init>(org.simpledrive.activities.Accounts) -> <init>
+    void run() -> run
+org.simpledrive.activities.Accounts$8 -> org.simpledrive.activities.Accounts$8:
     org.simpledrive.activities.Accounts this$0 -> a
     void <init>(org.simpledrive.activities.Accounts) -> <init>
     void run() -> run
@@ -15554,11 +15718,10 @@ org.simpledrive.activities.Editor -> org.simpledrive.activities.Editor:
     void setToolbarTitle(java.lang.String) -> b
     void setToolbarSubtitle(java.lang.String) -> c
     boolean access$002(org.simpledrive.activities.Editor,boolean) -> a
-    android.support.v7.widget.Toolbar access$100(org.simpledrive.activities.Editor) -> a
-    java.lang.String access$200(org.simpledrive.activities.Editor) -> b
-    android.widget.EditText access$300(org.simpledrive.activities.Editor) -> c
-    void access$400(org.simpledrive.activities.Editor,java.lang.String) -> a
-    void access$500(org.simpledrive.activities.Editor,java.lang.String) -> b
+    java.lang.String access$100(org.simpledrive.activities.Editor) -> a
+    void access$200(org.simpledrive.activities.Editor,java.lang.String) -> a
+    void access$300(org.simpledrive.activities.Editor,java.lang.String) -> b
+    android.widget.EditText access$400(org.simpledrive.activities.Editor) -> b
 org.simpledrive.activities.Editor$1 -> org.simpledrive.activities.Editor$1:
     org.simpledrive.activities.Editor this$0 -> a
     void <init>(org.simpledrive.activities.Editor) -> <init>
@@ -15597,22 +15760,11 @@ org.simpledrive.activities.EnablePIN -> org.simpledrive.activities.EnablePIN:
     java.lang.String pin1 -> o
     android.widget.TextView pin -> p
     android.widget.TextView error -> q
-    android.widget.ImageView clear -> r
-    android.widget.Button one -> s
-    android.widget.Button two -> t
-    android.widget.Button three -> u
-    android.widget.Button four -> v
-    android.widget.Button five -> w
-    android.widget.Button six -> x
-    android.widget.Button seven -> y
-    android.widget.Button eight -> z
-    android.widget.Button nine -> A
-    android.widget.Button zero -> B
-    java.lang.String enteredPin -> C
+    java.lang.String enteredPin -> r
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
-    void updatePIN() -> i
-    void resetPIN(boolean) -> b
+    void setPIN() -> i
+    void reset(boolean) -> b
     void showError(java.lang.String) -> a
     void onClick(android.view.View) -> onClick
 org.simpledrive.activities.FileSelector -> org.simpledrive.activities.FileSelector:
@@ -15624,12 +15776,11 @@ org.simpledrive.activities.FileSelector -> org.simpledrive.activities.FileSelect
     org.simpledrive.adapters.FileAdapter mAdapter -> s
     java.util.ArrayList hierarchy -> t
     java.util.ArrayList items -> u
-    java.lang.Integer firstFilePos -> v
-    boolean longClicked -> w
-    android.widget.TextView info -> x
-    android.widget.ListView list -> y
-    android.view.Menu mMenu -> z
-    android.view.Menu mContextMenu -> A
+    boolean longClicked -> v
+    android.widget.TextView info -> w
+    android.widget.ListView list -> x
+    android.view.Menu mMenu -> y
+    android.view.Menu mContextMenu -> z
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
     void checkPermission() -> i
@@ -15641,12 +15792,13 @@ org.simpledrive.activities.FileSelector -> org.simpledrive.activities.FileSelect
     boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
     void selectAll() -> m
     void onBackPressed() -> onBackPressed
-    void openFile(int) -> d
+    void openFile(int) -> c
     void unselectAll() -> n
     java.lang.String[] getAllSelected() -> o
     void initHierarchy() -> p
     void fetchFiles() -> q
     void displayFiles() -> r
+    int countFolders() -> s
     java.lang.String getMimeType(java.io.File) -> a
     void setToolbarTitle(java.lang.String) -> a
     void setToolbarSubtitle(java.lang.String) -> b
@@ -15666,12 +15818,11 @@ org.simpledrive.activities.FileSelector -> org.simpledrive.activities.FileSelect
     android.view.Menu access$300(org.simpledrive.activities.FileSelector) -> j
     org.simpledrive.adapters.FileAdapter access$1100(org.simpledrive.activities.FileSelector) -> k
     void access$1200(org.simpledrive.activities.FileSelector,int) -> b
-    java.lang.Integer access$1302(org.simpledrive.activities.FileSelector,java.lang.Integer) -> a
     java.util.ArrayList access$1002(org.simpledrive.activities.FileSelector,java.util.ArrayList) -> a
-    java.util.ArrayList access$1400(org.simpledrive.activities.FileSelector) -> l
-    boolean access$1500(org.simpledrive.activities.FileSelector) -> m
-    java.lang.String access$1600(org.simpledrive.activities.FileSelector,java.io.File) -> a
-    void access$1700(org.simpledrive.activities.FileSelector) -> n
+    java.util.ArrayList access$1300(org.simpledrive.activities.FileSelector) -> l
+    boolean access$1400(org.simpledrive.activities.FileSelector) -> m
+    java.lang.String access$1500(org.simpledrive.activities.FileSelector,java.io.File) -> a
+    void access$1600(org.simpledrive.activities.FileSelector) -> n
 org.simpledrive.activities.FileSelector$1 -> org.simpledrive.activities.FileSelector$1:
     org.simpledrive.activities.FileSelector this$0 -> a
     void <init>(org.simpledrive.activities.FileSelector) -> <init>
@@ -15702,30 +15853,47 @@ org.simpledrive.activities.FileSelector$5 -> org.simpledrive.activities.FileSele
     void onPostExecute(java.util.ArrayList) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+org.simpledrive.activities.IconSelector -> org.simpledrive.activities.IconSelector:
+    java.util.List icons -> n
+    android.widget.ListView list -> o
+    void <init>() -> <init>
+    void onCreate(android.os.Bundle) -> onCreate
+    void onBackPressed() -> onBackPressed
+    void initList() -> i
+    void initToolbar() -> j
+    void setToolbarTitle(java.lang.String) -> a
+    void displayIcons() -> k
+    java.util.List access$000(org.simpledrive.activities.IconSelector) -> a
+org.simpledrive.activities.IconSelector$1 -> org.simpledrive.activities.IconSelector$1:
+    org.simpledrive.activities.IconSelector this$0 -> a
+    void <init>(org.simpledrive.activities.IconSelector) -> <init>
+    void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+org.simpledrive.activities.IconSelector$2 -> org.simpledrive.activities.IconSelector$2:
+    org.simpledrive.activities.IconSelector this$0 -> a
+    void <init>(org.simpledrive.activities.IconSelector) -> <init>
+    void onClick(android.view.View) -> onClick
 org.simpledrive.activities.ImageViewer -> org.simpledrive.activities.ImageViewer:
-    org.simpledrive.helper.ExtendedViewPager mViewPager -> n
-    org.simpledrive.adapters.TouchImageAdapter mAdapter -> o
-    boolean titleVisible -> p
-    android.support.v7.widget.Toolbar toolbar -> q
-    org.simpledrive.activities.ImageViewer e -> r
-    java.util.ArrayList images -> s
+    org.simpledrive.adapters.TouchImageAdapter mAdapter -> n
+    boolean titleVisible -> o
+    android.support.v7.widget.Toolbar toolbar -> p
+    java.util.ArrayList images -> q
     void <init>() -> <init>
     void onDestroy() -> onDestroy
     void onCreate(android.os.Bundle) -> onCreate
+    void initToolbar() -> j
     void toggleToolbar() -> i
-    org.simpledrive.activities.ImageViewer access$000(org.simpledrive.activities.ImageViewer) -> a
-    android.support.v7.widget.Toolbar access$100(org.simpledrive.activities.ImageViewer) -> b
-    java.util.ArrayList access$200(org.simpledrive.activities.ImageViewer) -> c
+    android.support.v7.widget.Toolbar access$000(org.simpledrive.activities.ImageViewer) -> a
+    java.util.ArrayList access$100(org.simpledrive.activities.ImageViewer) -> b
 org.simpledrive.activities.ImageViewer$1 -> org.simpledrive.activities.ImageViewer$1:
-    org.simpledrive.activities.ImageViewer this$0 -> a
-    void <init>(org.simpledrive.activities.ImageViewer) -> <init>
-    void onClick(android.view.View) -> onClick
-org.simpledrive.activities.ImageViewer$2 -> org.simpledrive.activities.ImageViewer$2:
     org.simpledrive.activities.ImageViewer this$0 -> a
     void <init>(org.simpledrive.activities.ImageViewer) -> <init>
     void onPageScrolled(int,float,int) -> a
     void onPageSelected(int) -> a
     void onPageScrollStateChanged(int) -> b
+org.simpledrive.activities.ImageViewer$2 -> org.simpledrive.activities.ImageViewer$2:
+    org.simpledrive.activities.ImageViewer this$0 -> a
+    void <init>(org.simpledrive.activities.ImageViewer) -> <init>
+    void onClick(android.view.View) -> onClick
 org.simpledrive.activities.Login -> org.simpledrive.activities.Login:
     android.widget.Button btnLogin -> n
     android.widget.EditText txtUsername -> o
@@ -15755,74 +15923,71 @@ org.simpledrive.activities.Login$2 -> org.simpledrive.activities.Login$2:
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.activities.RemoteFiles -> org.simpledrive.activities.RemoteFiles:
-    boolean appVisible -> o
-    org.simpledrive.activities.RemoteFiles e -> p
-    java.lang.String username -> q
-    java.lang.String viewmode -> r
-    java.lang.String CACHE_FOLDER -> s
-    int FORCE_RELOAD -> t
-    android.content.SharedPreferences settings -> u
-    int loginAttempts -> v
-    boolean loadthumbs -> w
-    int lastSelected -> x
-    int grids -> y
-    int gridSize -> z
-    boolean forceFullLoad -> A
-    boolean preventLock -> B
-    boolean calledForUnlock -> C
-    boolean isAdmin -> D
-    int REQUEST_CACHE -> E
-    org.simpledrive.helper.AudioService mPlayerService -> F
-    boolean mBound -> G
-    android.os.Handler mHandler -> H
-    boolean audioUpdateRunning -> I
-    android.widget.AbsListView list -> J
-    int listLayout -> K
-    int theme -> L
-    android.support.v7.widget.Toolbar toolbar -> M
-    android.support.v7.widget.Toolbar toolbarBottom -> N
-    android.support.v7.widget.ActionMenuView amvMenu -> O
-    android.view.Menu bottomContextMenu -> P
-    android.widget.TextView info -> Q
-    android.support.v4.widget.SwipeRefreshLayout mSwipeRefreshLayout -> R
-    android.view.Menu mToolbarMenu -> S
-    android.view.Menu mContextMenu -> T
-    android.widget.TextView audioTitle -> U
-    android.widget.RelativeLayout player -> V
-    android.widget.SeekBar seek -> W
-    android.widget.ImageView bExit -> X
-    android.widget.ImageView bPlay -> Y
-    android.widget.TextView header_user -> Z
-    android.widget.TextView header_server -> aa
-    android.widget.TextView header_indicator -> ab
-    android.support.v4.widget.DrawerLayout mDrawerLayout -> ac
-    android.support.design.widget.NavigationView mNavigationView -> ad
-    android.widget.GridView tmp_grid -> ae
-    android.widget.ListView tmp_list -> af
-    android.support.design.widget.FloatingActionButton fab -> ag
-    android.support.design.widget.FloatingActionButton fab_file -> ah
-    android.support.design.widget.FloatingActionButton fab_folder -> ai
-    android.support.design.widget.FloatingActionButton fab_upload -> aj
-    android.support.design.widget.FloatingActionButton fab_paste -> ak
-    android.support.design.widget.FloatingActionButton fab_paste_cancel -> al
-    android.support.v7.widget.SearchView searchView -> am
-    boolean accountsVisible -> an
-    android.view.ActionMode actionMode -> ao
-    boolean bottomToolbarEnabled -> ap
-    java.util.ArrayList items -> aq
-    java.util.ArrayList filteredItems -> ar
-    java.util.ArrayList hierarchy -> as
-    org.simpledrive.adapters.FileAdapter newAdapter -> at
-    int sortOrder -> au
-    org.json.JSONArray clipboard -> av
-    boolean deleteAfterCopy -> aw
+    org.simpledrive.activities.RemoteFiles e -> o
+    java.lang.String username -> p
+    java.lang.String viewmode -> q
+    android.content.SharedPreferences settings -> r
+    boolean appVisible -> s
+    int loginAttempts -> t
+    boolean loadthumbs -> u
+    int lastSelected -> v
+    boolean forceFullLoad -> w
+    boolean preventLock -> x
+    boolean calledForUnlock -> y
+    boolean isAdmin -> z
+    java.util.ArrayList accounts -> A
+    int REQUEST_UPLOAD -> B
+    int REQUEST_FORCE_RELOAD -> C
+    int REQUEST_CACHE -> D
+    org.simpledrive.helper.AudioService mPlayerService -> E
+    boolean mBound -> F
+    android.os.Handler mHandler -> G
+    boolean audioUpdateRunning -> H
+    android.widget.AbsListView list -> I
+    int listLayout -> J
+    int theme -> K
+    android.support.v7.widget.Toolbar toolbar -> L
+    android.support.v7.widget.Toolbar toolbarBottom -> M
+    android.support.v7.widget.ActionMenuView amvMenu -> N
+    android.view.Menu bottomContextMenu -> O
+    android.widget.TextView info -> P
+    android.support.v4.widget.SwipeRefreshLayout mSwipeRefreshLayout -> Q
+    android.view.Menu mToolbarMenu -> R
+    android.view.Menu mContextMenu -> S
+    android.widget.TextView audioTitle -> T
+    android.widget.RelativeLayout player -> U
+    android.widget.SeekBar seek -> V
+    android.widget.ImageView bExit -> W
+    android.widget.ImageView bPlay -> X
+    android.widget.TextView header_user -> Y
+    android.widget.TextView header_server -> Z
+    android.widget.TextView header_indicator -> aa
+    android.support.v4.widget.DrawerLayout mDrawerLayout -> ab
+    android.support.design.widget.NavigationView mNavigationView -> ac
+    android.support.design.widget.FloatingActionButton fab -> ad
+    android.support.design.widget.FloatingActionButton fab_file -> ae
+    android.support.design.widget.FloatingActionButton fab_folder -> af
+    android.support.design.widget.FloatingActionButton fab_upload -> ag
+    android.support.design.widget.FloatingActionButton fab_paste -> ah
+    android.support.design.widget.FloatingActionButton fab_paste_cancel -> ai
+    android.support.v7.widget.SearchView searchView -> aj
+    boolean accountsVisible -> ak
+    android.view.ActionMode actionMode -> al
+    boolean bottomToolbarEnabled -> am
+    java.util.ArrayList items -> an
+    java.util.ArrayList filteredItems -> ao
+    java.util.ArrayList hierarchy -> ap
+    org.simpledrive.adapters.FileAdapter newAdapter -> aq
+    int sortOrder -> ar
+    org.json.JSONArray clipboard -> as
+    boolean deleteAfterCopy -> at
     android.content.ServiceConnection mServiceConnection -> n
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
     void onRequestPermissionsResult(int,java.lang.String[],int[]) -> onRequestPermissionsResult
     void onResume() -> onResume
     void updateNavigationDrawer() -> k
-    void changeViewmode(java.lang.String) -> a
+    void setViewmode(java.lang.String) -> a
     void onPause() -> onPause
     void onDestroy() -> onDestroy
     void onActivityResult(int,int,android.content.Intent) -> onActivityResult
@@ -15835,38 +16000,39 @@ org.simpledrive.activities.RemoteFiles -> org.simpledrive.activities.RemoteFiles
     void hidePaste() -> n
     void fetchFiles() -> o
     void extractFiles(java.lang.String) -> b
-    void displayFiles() -> p
+    int countFolders() -> p
+    void displayFiles() -> q
     void filter(java.lang.String) -> c
-    void openFile(int) -> d
+    void openFile(int) -> c
     void toggleFAB(boolean) -> b
-    void showBottomToolbar() -> q
-    void hideBottomToolbar() -> r
-    void showAudioPlayer() -> s
-    void hideAudioPlayer() -> t
-    int getImagePosition(org.simpledrive.helper.FileItem) -> a
+    void showBottomToolbar() -> r
+    void hideBottomToolbar() -> s
+    void showAudioPlayer() -> t
+    void hideAudioPlayer() -> u
+    int getImagePosition(org.simpledrive.models.FileItem) -> a
     java.util.ArrayList getAllImages() -> i
-    boolean isItemSelected(int) -> e
-    void selectAll() -> u
-    void unselectAll() -> v
-    java.lang.String getAllSelected() -> w
-    java.lang.String getFirstSelected() -> x
-    void connect() -> y
-    void checkForPendingUploads() -> z
-    void unhideDrawerItem(int) -> f
+    boolean isItemSelected(int) -> d
+    void selectAll() -> v
+    void unselectAll() -> w
+    java.lang.String getAllSelected() -> x
+    java.lang.String getFirstSelected() -> y
+    void connect() -> z
+    void checkForPendingUploads() -> A
+    void unhideDrawerItem(int) -> e
     void showShare(java.lang.String) -> d
     void showCreate(java.lang.String) -> e
     void showRename(java.lang.String,java.lang.String) -> a
-    void showVirtualKeyboard() -> A
-    void initDrawer() -> B
-    void initToolbar() -> C
-    void executeContextAction(int) -> g
+    void showVirtualKeyboard() -> B
+    void initDrawer() -> C
+    void initToolbar() -> D
+    void executeContextAction(int) -> f
     void setToolbarTitle(java.lang.String) -> f
     void setToolbarSubtitle(java.lang.String) -> g
-    void initList() -> D
-    void setListLayout(int) -> h
-    void clearHierarchy() -> E
-    void createCache() -> F
-    void initAudioPlayer() -> G
+    void initList() -> E
+    void setListLayout(int) -> g
+    void clearHierarchy() -> F
+    void createCache() -> G
+    void initAudioPlayer() -> H
     void create(java.lang.String,java.lang.String,java.lang.String) -> a
     void share(java.lang.String,java.lang.String,java.lang.String,boolean,boolean) -> a
     void unshare(java.lang.String) -> h
@@ -15874,12 +16040,12 @@ org.simpledrive.activities.RemoteFiles -> org.simpledrive.activities.RemoteFiles
     void restore(java.lang.String) -> i
     void delete(java.lang.String,boolean) -> a
     void paste(java.lang.String,java.lang.String,boolean) -> a
-    void getPermissions() -> H
-    void getVersion() -> I
+    void getPermissions() -> I
+    void getVersion() -> J
     void rename(java.lang.String,java.lang.String) -> c
-    void hideAccounts() -> J
-    void toggleAccounts() -> K
-    void logout() -> L
+    void hideAccounts() -> K
+    void toggleAccounts() -> L
+    void logout() -> M
     boolean access$002(org.simpledrive.activities.RemoteFiles,boolean) -> a
     org.simpledrive.helper.AudioService access$102(org.simpledrive.activities.RemoteFiles,org.simpledrive.helper.AudioService) -> a
     void access$200(org.simpledrive.activities.RemoteFiles) -> a
@@ -15928,8 +16094,8 @@ org.simpledrive.activities.RemoteFiles -> org.simpledrive.activities.RemoteFiles
     void access$4000(org.simpledrive.activities.RemoteFiles) -> E
     void access$4100(org.simpledrive.activities.RemoteFiles) -> F
     android.support.v4.widget.DrawerLayout access$4200(org.simpledrive.activities.RemoteFiles) -> G
-    void access$4300(org.simpledrive.activities.RemoteFiles,java.lang.String) -> d
-    int access$4400(org.simpledrive.activities.RemoteFiles) -> H
+    java.util.ArrayList access$4300(org.simpledrive.activities.RemoteFiles) -> H
+    void access$4400(org.simpledrive.activities.RemoteFiles,java.lang.String) -> d
     void access$4500(org.simpledrive.activities.RemoteFiles) -> I
     void access$4600(org.simpledrive.activities.RemoteFiles,int) -> b
     void access$4700(org.simpledrive.activities.RemoteFiles,boolean) -> d
@@ -15946,10 +16112,9 @@ org.simpledrive.activities.RemoteFiles -> org.simpledrive.activities.RemoteFiles
     int access$5600(org.simpledrive.activities.RemoteFiles) -> P
     boolean access$5700(org.simpledrive.activities.RemoteFiles,int) -> d
     void access$5800(org.simpledrive.activities.RemoteFiles,int) -> e
-    java.lang.String access$5900(org.simpledrive.activities.RemoteFiles) -> Q
-    boolean access$6002(org.simpledrive.activities.RemoteFiles,boolean) -> e
-    boolean access$6102(org.simpledrive.activities.RemoteFiles,boolean) -> f
-    void access$6200(org.simpledrive.activities.RemoteFiles,int) -> f
+    boolean access$5902(org.simpledrive.activities.RemoteFiles,boolean) -> e
+    boolean access$6002(org.simpledrive.activities.RemoteFiles,boolean) -> f
+    void access$6100(org.simpledrive.activities.RemoteFiles,int) -> f
     void <clinit>() -> <clinit>
 org.simpledrive.activities.RemoteFiles$1 -> org.simpledrive.activities.RemoteFiles$1:
     org.simpledrive.activities.RemoteFiles this$0 -> a
@@ -16240,23 +16405,23 @@ org.simpledrive.activities.ServerLog -> org.simpledrive.activities.ServerLog:
     int totalPages -> o
     int currentPage -> p
     java.util.ArrayList items -> q
-    android.widget.ImageView prev -> r
-    android.widget.ImageView next -> s
-    android.widget.TextView page -> t
-    android.support.v4.widget.SwipeRefreshLayout mSwipeRefreshLayout -> u
-    android.widget.TextView info -> v
-    android.widget.AbsListView list -> w
-    android.view.Menu mMenu -> x
+    android.widget.TextView page -> r
+    android.support.v4.widget.SwipeRefreshLayout mSwipeRefreshLayout -> s
+    android.widget.TextView info -> t
+    android.widget.AbsListView list -> u
+    android.view.Menu mMenu -> v
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
+    void initToolbar() -> i
+    void initList() -> j
     void onResume() -> onResume
     boolean onPrepareOptionsMenu(android.view.Menu) -> onPrepareOptionsMenu
     boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
     boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
-    void clearLog() -> i
-    void fetchLog(int) -> d
+    void clearLog() -> k
+    void fetchLog(int) -> c
     void extractLog(java.lang.String) -> a
-    void displayLog() -> j
+    void displayLog() -> l
     int access$000(org.simpledrive.activities.ServerLog) -> a
     int access$010(org.simpledrive.activities.ServerLog) -> b
     void access$100(org.simpledrive.activities.ServerLog,int) -> a
@@ -16284,12 +16449,12 @@ org.simpledrive.activities.ServerLog$3 -> org.simpledrive.activities.ServerLog$3
 org.simpledrive.activities.ServerLog$4 -> org.simpledrive.activities.ServerLog$4:
     org.simpledrive.activities.ServerLog this$0 -> a
     void <init>(org.simpledrive.activities.ServerLog) -> <init>
-    void onRefresh() -> a
+    void onScrollStateChanged(android.widget.AbsListView,int) -> onScrollStateChanged
+    void onScroll(android.widget.AbsListView,int,int,int) -> onScroll
 org.simpledrive.activities.ServerLog$5 -> org.simpledrive.activities.ServerLog$5:
     org.simpledrive.activities.ServerLog this$0 -> a
     void <init>(org.simpledrive.activities.ServerLog) -> <init>
-    void onScrollStateChanged(android.widget.AbsListView,int) -> onScrollStateChanged
-    void onScroll(android.widget.AbsListView,int,int,int) -> onScroll
+    void onRefresh() -> a
 org.simpledrive.activities.ServerLog$6 -> org.simpledrive.activities.ServerLog$6:
     org.simpledrive.activities.ServerLog this$0 -> a
     void <init>(org.simpledrive.activities.ServerLog) -> <init>
@@ -16366,22 +16531,20 @@ org.simpledrive.activities.ShareFiles -> org.simpledrive.activities.ShareFiles:
     boolean preventLock -> o
     boolean calledForUnlock -> p
     java.lang.String username -> q
-    int grids -> r
-    int gridSize -> s
-    int loginAttempts -> t
-    java.util.ArrayList items -> u
-    java.util.ArrayList hierarchy -> v
-    org.simpledrive.adapters.FileAdapter newAdapter -> w
-    android.widget.AbsListView list -> x
-    android.widget.TextView info -> y
-    int listLayout -> z
-    android.support.v4.widget.SwipeRefreshLayout mSwipeRefreshLayout -> A
-    android.widget.GridView tmp_grid -> B
-    android.widget.ListView tmp_list -> C
-    android.support.design.widget.FloatingActionButton fab -> D
-    android.support.design.widget.FloatingActionButton fab_folder -> E
-    android.support.design.widget.FloatingActionButton fab_ok -> F
-    java.util.ArrayList uploadsPending -> G
+    int loginAttempts -> r
+    java.util.ArrayList items -> s
+    java.util.ArrayList hierarchy -> t
+    org.simpledrive.adapters.FileAdapter newAdapter -> u
+    android.widget.AbsListView list -> v
+    android.widget.TextView info -> w
+    int listLayout -> x
+    android.support.v4.widget.SwipeRefreshLayout mSwipeRefreshLayout -> y
+    android.widget.GridView tmp_grid -> z
+    android.widget.ListView tmp_list -> A
+    android.support.design.widget.FloatingActionButton fab -> B
+    android.support.design.widget.FloatingActionButton fab_folder -> C
+    android.support.design.widget.FloatingActionButton fab_ok -> D
+    java.util.ArrayList uploadsPending -> E
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
     void onResume() -> onResume
@@ -16391,7 +16554,7 @@ org.simpledrive.activities.ShareFiles -> org.simpledrive.activities.ShareFiles:
     void displayFiles() -> j
     void setToolbarTitle(java.lang.String) -> b
     void setToolbarSubtitle(java.lang.String) -> c
-    void openFile(int) -> d
+    void openFile(int) -> c
     void connect() -> k
     void onBackPressed() -> onBackPressed
     void showCreate(java.lang.String) -> d
@@ -16488,24 +16651,12 @@ org.simpledrive.activities.ShareFiles$9 -> org.simpledrive.activities.ShareFiles
 org.simpledrive.activities.Unlock -> org.simpledrive.activities.Unlock:
     android.widget.TextView pin -> n
     android.widget.TextView error -> o
-    android.widget.ImageView clear -> p
-    android.widget.Button one -> q
-    android.widget.Button two -> r
-    android.widget.Button three -> s
-    android.widget.Button four -> t
-    android.widget.Button five -> u
-    android.widget.Button six -> v
-    android.widget.Button seven -> w
-    android.widget.Button eight -> x
-    android.widget.Button nine -> y
-    android.widget.Button zero -> z
-    android.widget.TextView logout -> A
-    java.lang.String enteredPin -> B
+    java.lang.String enteredPin -> p
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
     void updatePIN() -> i
     void showError() -> j
-    void resetPINText() -> k
+    void reset() -> k
     void unlock() -> l
     void onClick(android.view.View) -> onClick
 org.simpledrive.activities.Unlock$1 -> org.simpledrive.activities.Unlock$1:
@@ -16519,6 +16670,7 @@ org.simpledrive.activities.UserDetails -> org.simpledrive.activities.UserDetails
     java.lang.String username -> q
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
+    void initToolbar() -> i
     void getStatus(java.lang.String) -> a
     void getQuota(java.lang.String) -> b
     void setAdmin(java.lang.String,java.lang.String) -> a
@@ -16597,8 +16749,8 @@ org.simpledrive.activities.Users -> org.simpledrive.activities.Users:
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
     void onResume() -> onResume
-    void setUpToolbar() -> i
-    void setUpList() -> j
+    void initToolbar() -> i
+    void initList() -> j
     void fetchUsers() -> k
     void extractFiles(java.lang.String) -> a
     void displayUsers() -> l
@@ -16698,35 +16850,158 @@ org.simpledrive.activities.Users$9 -> org.simpledrive.activities.Users$11:
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.adapters.FileAdapter -> org.simpledrive.a.a:
+org.simpledrive.activities.Vault -> org.simpledrive.activities.Vault:
+    org.simpledrive.activities.Vault e -> n
+    java.util.ArrayList items -> o
+    org.simpledrive.adapters.VaultAdapter newAdapter -> p
+    int selectedPos -> q
+    java.lang.String vaultname -> r
+    java.lang.String vaultString -> s
+    android.widget.TextView info -> t
+    android.widget.AbsListView list -> u
+    android.support.design.widget.FloatingActionButton fab -> v
+    android.view.Menu mContextMenu -> w
+    void <init>() -> <init>
+    void onCreate(android.os.Bundle) -> onCreate
+    void onResume() -> onResume
+    void setUpToolbar() -> k
+    void setUpList() -> l
+    void fetchVault() -> m
+    void syncVault() -> n
+    void extractEntries(java.lang.String) -> b
+    void displayEntries() -> o
+    void unselectAll() -> p
+    java.lang.Integer getFirstSelected() -> q
+    void create() -> r
+    void delete(int) -> c
+    boolean save() -> s
+    boolean saveEntry(org.simpledrive.models.VaultItem) -> a
+    org.simpledrive.models.VaultItem getEntry(java.lang.String) -> a
+    void access$000(org.simpledrive.activities.Vault) -> a
+    void access$100(org.simpledrive.activities.Vault) -> b
+    android.view.Menu access$202(org.simpledrive.activities.Vault,android.view.Menu) -> a
+    java.lang.Integer access$300(org.simpledrive.activities.Vault) -> c
+    void access$400(org.simpledrive.activities.Vault,int) -> a
+    org.simpledrive.activities.Vault access$500() -> i
+    int access$600(org.simpledrive.activities.Vault) -> d
+    int access$602(org.simpledrive.activities.Vault,int) -> b
+    android.widget.AbsListView access$700(org.simpledrive.activities.Vault) -> e
+    android.view.Menu access$200(org.simpledrive.activities.Vault) -> f
+    org.simpledrive.adapters.VaultAdapter access$800(org.simpledrive.activities.Vault) -> g
+    java.util.ArrayList access$900() -> j
+    android.widget.TextView access$1000(org.simpledrive.activities.Vault) -> h
+    java.lang.String access$1102(org.simpledrive.activities.Vault,java.lang.String) -> a
+    void access$1200(org.simpledrive.activities.Vault,java.lang.String) -> b
+    void access$1300(org.simpledrive.activities.Vault) -> i
+    void <clinit>() -> <clinit>
+org.simpledrive.activities.Vault$1 -> org.simpledrive.activities.Vault$1:
+    org.simpledrive.activities.Vault this$0 -> a
+    void <init>(org.simpledrive.activities.Vault) -> <init>
+    void onClick(android.view.View) -> onClick
+org.simpledrive.activities.Vault$2 -> org.simpledrive.activities.Vault$2:
+    org.simpledrive.activities.Vault this$0 -> a
+    void <init>(org.simpledrive.activities.Vault) -> <init>
+    void onClick(android.view.View) -> onClick
+org.simpledrive.activities.Vault$3 -> org.simpledrive.activities.Vault$3:
+    org.simpledrive.activities.Vault this$0 -> a
+    void <init>(org.simpledrive.activities.Vault) -> <init>
+    boolean onPrepareActionMode(android.view.ActionMode,android.view.Menu) -> onPrepareActionMode
+    void onDestroyActionMode(android.view.ActionMode) -> onDestroyActionMode
+    boolean onCreateActionMode(android.view.ActionMode,android.view.Menu) -> onCreateActionMode
+    boolean onActionItemClicked(android.view.ActionMode,android.view.MenuItem) -> onActionItemClicked
+    void onItemCheckedStateChanged(android.view.ActionMode,int,long,boolean) -> onItemCheckedStateChanged
+org.simpledrive.activities.Vault$3$1 -> org.simpledrive.activities.Vault$3$1:
+    android.view.ActionMode val$mode -> a
+    org.simpledrive.activities.Vault$3 this$1 -> b
+    void <init>(org.simpledrive.activities.Vault$3,android.view.ActionMode) -> <init>
+    void onClick(android.content.DialogInterface,int) -> onClick
+org.simpledrive.activities.Vault$4 -> org.simpledrive.activities.Vault$4:
+    org.simpledrive.activities.Vault this$0 -> a
+    void <init>(org.simpledrive.activities.Vault) -> <init>
+    void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+org.simpledrive.activities.Vault$5 -> org.simpledrive.activities.Vault$5:
+    org.simpledrive.activities.Vault this$0 -> a
+    void <init>(org.simpledrive.activities.Vault) -> <init>
+    void onPreExecute() -> onPreExecute
+    org.simpledrive.helper.Connection$Response doInBackground(java.lang.Void[]) -> a
+    void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
+    void onPostExecute(java.lang.Object) -> onPostExecute
+    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+org.simpledrive.activities.VaultEntry -> org.simpledrive.activities.VaultEntry:
+    org.simpledrive.models.VaultItem item -> n
+    int REQUEST_ICON -> o
+    boolean saved -> p
+    java.lang.String origTitle -> q
+    android.widget.EditText title -> r
+    android.widget.EditText category -> s
+    android.widget.ImageView icon -> t
+    void <init>() -> <init>
+    void onCreate(android.os.Bundle) -> onCreate
+    void initToolbar() -> i
+    void setToolbarTitle(java.lang.String) -> a
+    void setToolbarSubtitle(java.lang.String) -> b
+    boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
+    boolean onPrepareOptionsMenu(android.view.Menu) -> onPrepareOptionsMenu
+    boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
+    void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+    void afterTextChanged(android.text.Editable) -> afterTextChanged
+    void onActivityResult(int,int,android.content.Intent) -> onActivityResult
+    void displayEntry() -> j
+    void save() -> k
+    int access$000(org.simpledrive.activities.VaultEntry) -> a
+org.simpledrive.activities.VaultEntry$1 -> org.simpledrive.activities.VaultEntry$1:
+    org.simpledrive.activities.VaultEntry this$0 -> a
+    void <init>(org.simpledrive.activities.VaultEntry) -> <init>
+    void onClick(android.view.View) -> onClick
+org.simpledrive.activities.VaultEntry$2 -> org.simpledrive.activities.VaultEntry$2:
+    org.simpledrive.activities.VaultEntry this$0 -> a
+    void <init>(org.simpledrive.activities.VaultEntry) -> <init>
+    void onClick(android.view.View) -> onClick
+org.simpledrive.adapters.AccountAdapter -> org.simpledrive.a.a:
+    android.view.LayoutInflater layoutInflater -> b
+    int layout -> c
+    android.widget.AbsListView list -> d
+    android.app.Activity e -> e
+    boolean $assertionsDisabled -> a
+    void <init>(android.app.Activity,int,android.widget.AbsListView) -> <init>
+    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    void setData(java.util.ArrayList) -> a
+    void <clinit>() -> <clinit>
+org.simpledrive.adapters.AccountAdapter$1 -> org.simpledrive.a.a$1:
+org.simpledrive.adapters.AccountAdapter$ViewHolder -> org.simpledrive.a.a$a:
+    android.widget.ImageView icon -> a
+    android.widget.TextView displayName -> b
+    android.widget.TextView server -> c
+    android.widget.RelativeLayout checked -> d
+    org.simpledrive.adapters.AccountAdapter this$0 -> e
+    void <init>(org.simpledrive.adapters.AccountAdapter) -> <init>
+    void <init>(org.simpledrive.adapters.AccountAdapter,org.simpledrive.adapters.AccountAdapter$1) -> <init>
+org.simpledrive.adapters.FileAdapter -> org.simpledrive.a.b:
     android.view.LayoutInflater layoutInflater -> a
     int layout -> b
-    int gridSize -> c
-    boolean loadthumbs -> d
-    java.util.ArrayList thumbQueue -> e
-    boolean thumbLoading -> f
-    java.lang.Integer firstFilePos -> g
-    android.app.Activity e -> h
-    android.widget.AbsListView list -> i
-    void <init>(android.app.Activity,int,android.widget.AbsListView,int,boolean,int) -> <init>
+    boolean loadthumbs -> c
+    java.util.ArrayList thumbQueue -> d
+    boolean thumbLoading -> e
+    android.support.v7.app.AppCompatActivity e -> f
+    android.widget.AbsListView list -> g
+    java.lang.Integer thumbSize -> h
+    void <init>(android.support.v7.app.AppCompatActivity,int,android.widget.AbsListView,boolean) -> <init>
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     void cancelThumbLoad() -> a
     void setData(java.util.ArrayList) -> a
-    android.widget.AbsListView access$200(org.simpledrive.adapters.FileAdapter) -> a
-    boolean access$302(org.simpledrive.adapters.FileAdapter,boolean) -> a
-    java.util.ArrayList access$400(org.simpledrive.adapters.FileAdapter) -> b
-    android.app.Activity access$500(org.simpledrive.adapters.FileAdapter) -> c
-    int access$600(org.simpledrive.adapters.FileAdapter) -> d
-org.simpledrive.adapters.FileAdapter$1 -> org.simpledrive.a.a$1:
+    android.widget.AbsListView access$300(org.simpledrive.adapters.FileAdapter) -> a
+    boolean access$402(org.simpledrive.adapters.FileAdapter,boolean) -> a
+    java.util.ArrayList access$500(org.simpledrive.adapters.FileAdapter) -> b
+    java.lang.Integer access$600(org.simpledrive.adapters.FileAdapter) -> c
+org.simpledrive.adapters.FileAdapter$1 -> org.simpledrive.a.b$1:
     int val$position -> a
     org.simpledrive.adapters.FileAdapter this$0 -> b
     void <init>(org.simpledrive.adapters.FileAdapter,int) -> <init>
     void onClick(android.view.View) -> onClick
-org.simpledrive.adapters.FileAdapter$LoadThumb -> org.simpledrive.a.a$a:
-    org.simpledrive.helper.FileItem item -> a
-    java.lang.String size -> b
-    java.lang.String filepath -> c
-    org.simpledrive.adapters.FileAdapter this$0 -> d
+org.simpledrive.adapters.FileAdapter$LoadThumb -> org.simpledrive.a.b$a:
+    org.simpledrive.models.FileItem item -> a
+    org.simpledrive.adapters.FileAdapter this$0 -> b
     void <init>(org.simpledrive.adapters.FileAdapter) -> <init>
     void onPreExecute() -> onPreExecute
     org.simpledrive.helper.Connection$Response doInBackground(java.lang.String[]) -> a
@@ -16734,8 +17009,8 @@ org.simpledrive.adapters.FileAdapter$LoadThumb -> org.simpledrive.a.a$a:
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     void <init>(org.simpledrive.adapters.FileAdapter,org.simpledrive.adapters.FileAdapter$1) -> <init>
-org.simpledrive.adapters.FileAdapter$LocalThumb -> org.simpledrive.a.a$b:
-    org.simpledrive.helper.FileItem item -> b
+org.simpledrive.adapters.FileAdapter$LocalThumb -> org.simpledrive.a.b$b:
+    org.simpledrive.models.FileItem item -> b
     org.simpledrive.adapters.FileAdapter this$0 -> a
     void <init>(org.simpledrive.adapters.FileAdapter) -> <init>
     void onPreExecute() -> onPreExecute
@@ -16743,35 +17018,36 @@ org.simpledrive.adapters.FileAdapter$LocalThumb -> org.simpledrive.a.a$b:
     void onPostExecute(android.graphics.Bitmap) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.adapters.FileAdapter$ViewHolder -> org.simpledrive.a.a$c:
-    android.widget.RelativeLayout wrapper -> a
-    android.widget.ImageView icon -> b
-    android.widget.ImageView thumb -> c
-    android.widget.TextView name -> d
-    android.widget.TextView size -> e
-    android.widget.TextView owner -> f
-    android.widget.TextView separator -> g
-    android.widget.RelativeLayout checked -> h
-    android.widget.RelativeLayout icon_area -> i
-    org.simpledrive.adapters.FileAdapter this$0 -> j
+    void <init>(org.simpledrive.adapters.FileAdapter,org.simpledrive.adapters.FileAdapter$1) -> <init>
+org.simpledrive.adapters.FileAdapter$ViewHolder -> org.simpledrive.a.b$c:
+    android.widget.ImageView icon -> a
+    android.widget.ImageView thumb -> b
+    android.widget.TextView name -> c
+    android.widget.TextView size -> d
+    android.widget.TextView owner -> e
+    android.widget.TextView separator -> f
+    android.widget.RelativeLayout checked -> g
+    android.widget.RelativeLayout icon_area -> h
+    org.simpledrive.adapters.FileAdapter this$0 -> i
     void <init>(org.simpledrive.adapters.FileAdapter) -> <init>
     void <init>(org.simpledrive.adapters.FileAdapter,org.simpledrive.adapters.FileAdapter$1) -> <init>
-org.simpledrive.adapters.LogAdapter -> org.simpledrive.a.b:
+org.simpledrive.adapters.LogAdapter -> org.simpledrive.a.c:
     android.view.LayoutInflater layoutInflater -> a
     int layout -> b
     android.app.Activity e -> c
     void <init>(android.app.Activity,int) -> <init>
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     void setData(java.util.ArrayList) -> a
-org.simpledrive.adapters.LogAdapter$ViewHolder -> org.simpledrive.a.b$a:
+org.simpledrive.adapters.LogAdapter$1 -> org.simpledrive.a.c$1:
+org.simpledrive.adapters.LogAdapter$ViewHolder -> org.simpledrive.a.c$a:
     android.widget.ImageView icon -> a
     android.widget.TextView message -> b
     android.widget.TextView user -> c
     android.widget.TextView date -> d
-    android.widget.FrameLayout icon_circle -> e
-    org.simpledrive.adapters.LogAdapter this$0 -> f
+    org.simpledrive.adapters.LogAdapter this$0 -> e
     void <init>(org.simpledrive.adapters.LogAdapter) -> <init>
-org.simpledrive.adapters.TouchImageAdapter -> org.simpledrive.a.c:
+    void <init>(org.simpledrive.adapters.LogAdapter,org.simpledrive.adapters.LogAdapter$1) -> <init>
+org.simpledrive.adapters.TouchImageAdapter -> org.simpledrive.a.d:
     org.simpledrive.activities.ImageViewer e -> a
     int displayHeight -> b
     int displayWidth -> c
@@ -16788,28 +17064,49 @@ org.simpledrive.adapters.TouchImageAdapter -> org.simpledrive.a.c:
     boolean access$100(org.simpledrive.adapters.TouchImageAdapter) -> b
     int access$200(org.simpledrive.adapters.TouchImageAdapter) -> c
     int access$300(org.simpledrive.adapters.TouchImageAdapter) -> d
-org.simpledrive.adapters.TouchImageAdapter$1 -> org.simpledrive.a.c$1:
+org.simpledrive.adapters.TouchImageAdapter$1 -> org.simpledrive.a.d$1:
     org.simpledrive.adapters.TouchImageAdapter this$0 -> a
     void <init>(org.simpledrive.adapters.TouchImageAdapter) -> <init>
     void onClick(android.view.View) -> onClick
-org.simpledrive.adapters.TouchImageAdapter$2 -> org.simpledrive.a.c$2:
+org.simpledrive.adapters.TouchImageAdapter$2 -> org.simpledrive.a.d$2:
     org.simpledrive.adapters.TouchImageAdapter this$0 -> a
     void <init>(org.simpledrive.adapters.TouchImageAdapter) -> <init>
     void onClick(android.view.View) -> onClick
-org.simpledrive.adapters.TouchImageAdapter$LoadImage -> org.simpledrive.a.c$a:
-    java.lang.String thumbPath -> a
-    org.simpledrive.helper.TouchImageView img -> b
-    java.lang.String file -> c
-    java.lang.String filename -> d
-    java.lang.String path -> e
-    org.simpledrive.adapters.TouchImageAdapter this$0 -> f
-    void <init>(org.simpledrive.adapters.TouchImageAdapter,java.lang.String,org.simpledrive.helper.TouchImageView,java.lang.String,java.lang.String,java.lang.String) -> <init>
+org.simpledrive.adapters.TouchImageAdapter$LoadImage -> org.simpledrive.a.d$a:
+    org.simpledrive.helper.TouchImageView img -> a
+    org.simpledrive.models.FileItem file -> b
+    java.lang.String imgPath -> c
+    org.simpledrive.adapters.TouchImageAdapter this$0 -> d
+    void <init>(org.simpledrive.adapters.TouchImageAdapter,org.simpledrive.helper.TouchImageView,org.simpledrive.models.FileItem,java.lang.String) -> <init>
     void onPreExecute() -> onPreExecute
     org.simpledrive.helper.Connection$Response doInBackground(java.lang.String[]) -> a
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.adapters.UserAdapter -> org.simpledrive.a.d:
+org.simpledrive.adapters.UserAdapter -> org.simpledrive.a.e:
+    android.view.LayoutInflater layoutInflater -> a
+    int layout -> b
+    android.widget.AbsListView list -> c
+    void <init>(android.app.Activity,int,android.widget.AbsListView) -> <init>
+    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    void setData(java.util.ArrayList) -> a
+    android.widget.AbsListView access$100(org.simpledrive.adapters.UserAdapter) -> a
+org.simpledrive.adapters.UserAdapter$1 -> org.simpledrive.a.e$1:
+    int val$position -> a
+    org.simpledrive.adapters.UserAdapter this$0 -> b
+    void <init>(org.simpledrive.adapters.UserAdapter,int) -> <init>
+    void onClick(android.view.View) -> onClick
+org.simpledrive.adapters.UserAdapter$ViewHolder -> org.simpledrive.a.e$a:
+    android.widget.ImageView icon -> a
+    android.widget.TextView name -> b
+    android.widget.TextView mode -> c
+    android.widget.TextView date -> d
+    android.widget.RelativeLayout icon_area -> e
+    android.widget.RelativeLayout checked -> f
+    org.simpledrive.adapters.UserAdapter this$0 -> g
+    void <init>(org.simpledrive.adapters.UserAdapter) -> <init>
+    void <init>(org.simpledrive.adapters.UserAdapter,org.simpledrive.adapters.UserAdapter$1) -> <init>
+org.simpledrive.adapters.VaultAdapter -> org.simpledrive.a.f:
     android.view.LayoutInflater layoutInflater -> a
     int layout -> b
     android.widget.AbsListView list -> c
@@ -16817,22 +17114,21 @@ org.simpledrive.adapters.UserAdapter -> org.simpledrive.a.d:
     void <init>(android.app.Activity,int,android.widget.AbsListView) -> <init>
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     void setData(java.util.ArrayList) -> a
-    android.widget.AbsListView access$000(org.simpledrive.adapters.UserAdapter) -> a
-org.simpledrive.adapters.UserAdapter$1 -> org.simpledrive.a.d$1:
+    android.widget.AbsListView access$000(org.simpledrive.adapters.VaultAdapter) -> a
+org.simpledrive.adapters.VaultAdapter$1 -> org.simpledrive.a.f$1:
     int val$position -> a
-    org.simpledrive.adapters.UserAdapter this$0 -> b
-    void <init>(org.simpledrive.adapters.UserAdapter,int) -> <init>
+    org.simpledrive.adapters.VaultAdapter this$0 -> b
+    void <init>(org.simpledrive.adapters.VaultAdapter,int) -> <init>
     void onClick(android.view.View) -> onClick
-org.simpledrive.adapters.UserAdapter$ViewHolder -> org.simpledrive.a.d$a:
+org.simpledrive.adapters.VaultAdapter$ViewHolder -> org.simpledrive.a.f$a:
     android.widget.ImageView icon -> a
-    android.widget.TextView name -> b
-    android.widget.TextView mode -> c
-    android.widget.TextView date -> d
-    android.widget.FrameLayout icon_circle -> e
-    android.widget.RelativeLayout icon_area -> f
-    android.widget.RelativeLayout checked -> g
-    org.simpledrive.adapters.UserAdapter this$0 -> h
-    void <init>(org.simpledrive.adapters.UserAdapter) -> <init>
+    android.widget.TextView title -> b
+    android.widget.TextView detail1 -> c
+    android.widget.TextView detail2 -> d
+    android.widget.RelativeLayout icon_area -> e
+    android.widget.RelativeLayout checked -> f
+    org.simpledrive.adapters.VaultAdapter this$0 -> g
+    void <init>(org.simpledrive.adapters.VaultAdapter) -> <init>
 org.simpledrive.authenticator.AccountAuthenticator -> org.simpledrive.authenticator.a:
     android.content.Context mContext -> a
     void <init>(android.content.Context) -> <init>
@@ -16851,28 +17147,28 @@ org.simpledrive.authenticator.CustomAuthenticator -> org.simpledrive.authenticat
     android.accounts.AccountManager am -> c
     android.accounts.Account[] aaccount -> d
     boolean activeAccountChanged -> a
-    void refresh() -> n
+    void refresh() -> k
     boolean enable(android.content.Context) -> a
     boolean accountExists(java.lang.String,java.lang.String) -> a
     boolean addAccount(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
-    android.accounts.Account getActiveAccount() -> a
+    android.accounts.Account getActiveAccount() -> l
     boolean removeAccount(java.lang.String) -> a
-    void logout() -> b
+    boolean setNickname(java.lang.String,java.lang.String) -> b
+    void logout() -> a
     void setActive(java.lang.String) -> b
-    java.lang.String getUsername() -> c
-    java.lang.String getPassword() -> d
-    java.lang.String getServer() -> e
-    java.lang.String getToken() -> f
-    void updateToken(java.lang.String) -> c
-    void lock() -> g
-    boolean isLocked() -> h
+    java.lang.String getUsername() -> b
+    java.lang.String getPassword() -> c
+    java.lang.String getServer() -> d
+    java.lang.String getToken() -> e
+    void setToken(java.lang.String) -> c
+    void lock() -> f
+    boolean isLocked() -> g
     boolean unlock(java.lang.String) -> d
-    long getRemainingUnlockAttempts() -> i
-    long getCooldown() -> j
-    void incrementUnlockCounter() -> k
-    void enablePIN(java.lang.String) -> e
-    void disablePIN() -> l
-    boolean hasPIN() -> m
+    long getRemainingUnlockAttempts() -> h
+    long getCooldown() -> i
+    void incrementUnlockCounter() -> m
+    void setPIN(java.lang.String) -> e
+    boolean hasPIN() -> j
     java.util.ArrayList getAllAccounts(boolean) -> a
     boolean isActive(java.lang.String) -> f
     void <clinit>() -> <clinit>
@@ -16881,7 +17177,7 @@ org.simpledrive.helper.AudioService -> org.simpledrive.helper.AudioService:
     boolean playPause -> c
     boolean prepared -> d
     int NOFITICATION_ID -> e
-    org.simpledrive.helper.FileItem currentPlaying -> a
+    org.simpledrive.models.FileItem currentPlaying -> a
     org.simpledrive.helper.AudioService$AudioBCReceiver receiver -> f
     boolean active -> g
     void <init>() -> <init>
@@ -16898,7 +17194,7 @@ org.simpledrive.helper.AudioService -> org.simpledrive.helper.AudioService:
     void stop() -> d
     void play() -> e
     void togglePlay() -> f
-    void initPlay(org.simpledrive.helper.FileItem) -> a
+    void initPlay(org.simpledrive.models.FileItem) -> a
     int getCurrentPosition() -> g
     void sendBroadcast(java.lang.String) -> a
     void buildNotification() -> h
@@ -16929,15 +17225,15 @@ org.simpledrive.helper.AudioService$LocalBinder -> org.simpledrive.helper.AudioS
     void <init>(org.simpledrive.helper.AudioService) -> <init>
     org.simpledrive.helper.AudioService getService() -> a
 org.simpledrive.helper.Connection -> org.simpledrive.helper.a:
-    java.lang.String boundary -> d
-    java.lang.String LINE_FEED -> e
-    java.net.HttpURLConnection httpConn -> f
-    java.io.OutputStream outputStream -> g
-    java.io.PrintWriter writer -> h
-    long bytesTransferred -> a
-    long total -> b
-    org.simpledrive.helper.Connection$ProgressListener listener -> i
-    java.lang.String cookie -> c
+    java.lang.String boundary -> a
+    java.lang.String LINE_FEED -> b
+    java.net.HttpURLConnection httpConn -> c
+    java.io.OutputStream outputStream -> d
+    java.io.PrintWriter writer -> e
+    long bytesTransferred -> f
+    long total -> g
+    org.simpledrive.helper.Connection$ProgressListener listener -> h
+    java.lang.String cookie -> i
     boolean forceCookie -> j
     java.lang.String downloadPath -> k
     java.lang.String downloadFilename -> l
@@ -17016,51 +17312,12 @@ org.simpledrive.helper.ExtendedViewPager -> org.simpledrive.helper.ExtendedViewP
     void <init>(android.content.Context) -> <init>
     void <init>(android.content.Context,android.util.AttributeSet) -> <init>
     boolean canScroll(android.view.View,boolean,int,int,int) -> a
-org.simpledrive.helper.FileItem -> org.simpledrive.helper.c:
-    java.lang.String id -> a
-    java.lang.String filename -> b
-    java.lang.String parent -> c
-    java.lang.String size -> d
-    java.lang.String edit -> e
-    java.lang.String path -> f
-    android.graphics.Bitmap icon -> g
-    android.graphics.Bitmap thumb -> h
-    java.lang.String type -> i
-    java.lang.String owner -> j
-    java.lang.String thumbPath -> k
-    java.lang.String imgPath -> l
-    java.lang.Integer scrollPos -> m
-    boolean selfshared -> n
-    boolean shared -> o
-    void <init>(java.lang.String,java.lang.String,java.lang.String,android.graphics.Bitmap) -> <init>
-    void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,boolean,boolean,android.graphics.Bitmap,android.graphics.Bitmap,java.lang.String,java.lang.String) -> <init>
-    boolean is(java.lang.String) -> a
-    java.lang.String getID() -> a
-    java.lang.String getFilename() -> b
-    java.lang.String getSize() -> c
-    java.lang.String getPath() -> d
-    android.graphics.Bitmap getIcon() -> e
-    android.graphics.Bitmap getThumb() -> f
-    java.lang.String getThumbPath() -> g
-    java.lang.String getImgPath() -> h
-    void setThumb(android.graphics.Bitmap) -> a
-    java.lang.String getOwner() -> i
-    boolean selfshared() -> j
-    void setScrollPos(int) -> a
-    int getScrollPos() -> k
-org.simpledrive.helper.LogItem -> org.simpledrive.helper.d:
-    java.lang.String message -> a
-    java.lang.String user -> b
-    java.lang.String date -> c
-    java.lang.String type -> d
-    android.graphics.Bitmap icon -> e
-    void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String,android.graphics.Bitmap) -> <init>
-    android.graphics.Bitmap getIcon() -> a
-    java.lang.String getMessage() -> b
-    java.lang.String getUser() -> c
-    java.lang.String getDate() -> d
-    java.lang.String getType() -> e
-org.simpledrive.helper.PermissionManager -> org.simpledrive.helper.e:
+org.simpledrive.helper.GridViewItem -> org.simpledrive.helper.GridViewItem:
+    void <init>(android.content.Context) -> <init>
+    void <init>(android.content.Context,android.util.AttributeSet) -> <init>
+    void <init>(android.content.Context,android.util.AttributeSet,int) -> <init>
+    void onMeasure(int,int) -> onMeasure
+org.simpledrive.helper.PermissionManager -> org.simpledrive.helper.c:
     android.support.v7.app.AppCompatActivity e -> a
     int REQUEST_CODE -> b
     java.util.List permissionsWanted -> c
@@ -17072,19 +17329,19 @@ org.simpledrive.helper.PermissionManager -> org.simpledrive.helper.e:
     android.support.v7.app.AppCompatActivity access$000(org.simpledrive.helper.PermissionManager) -> a
     java.util.List access$100(org.simpledrive.helper.PermissionManager) -> b
     int access$200(org.simpledrive.helper.PermissionManager) -> c
-org.simpledrive.helper.PermissionManager$1 -> org.simpledrive.helper.e$1:
+org.simpledrive.helper.PermissionManager$1 -> org.simpledrive.helper.c$1:
     org.simpledrive.helper.PermissionManager$TaskListener val$listener -> a
     org.simpledrive.helper.PermissionManager this$0 -> b
     void <init>(org.simpledrive.helper.PermissionManager,org.simpledrive.helper.PermissionManager$TaskListener) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.helper.PermissionManager$2 -> org.simpledrive.helper.e$2:
+org.simpledrive.helper.PermissionManager$2 -> org.simpledrive.helper.c$2:
     org.simpledrive.helper.PermissionManager this$0 -> a
     void <init>(org.simpledrive.helper.PermissionManager) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.helper.PermissionManager$TaskListener -> org.simpledrive.helper.e$a:
+org.simpledrive.helper.PermissionManager$TaskListener -> org.simpledrive.helper.c$a:
     void onPositive() -> a
     void onNegative() -> b
-org.simpledrive.helper.TouchImageView -> org.simpledrive.helper.f:
+org.simpledrive.helper.TouchImageView -> org.simpledrive.helper.d:
     int three -> a
     float normalizedScale -> b
     android.graphics.Matrix matrix -> c
@@ -17188,10 +17445,10 @@ org.simpledrive.helper.TouchImageView -> org.simpledrive.helper.f:
     android.content.Context access$2600(org.simpledrive.helper.TouchImageView) -> r
     float[] access$2700(org.simpledrive.helper.TouchImageView) -> s
     void <clinit>() -> <clinit>
-org.simpledrive.helper.TouchImageView$1 -> org.simpledrive.helper.f$1:
+org.simpledrive.helper.TouchImageView$1 -> org.simpledrive.helper.d$1:
     int[] $SwitchMap$android$widget$ImageView$ScaleType -> a
     void <clinit>() -> <clinit>
-org.simpledrive.helper.TouchImageView$CompatScroller -> org.simpledrive.helper.f$a:
+org.simpledrive.helper.TouchImageView$CompatScroller -> org.simpledrive.helper.d$a:
     android.widget.Scroller scroller -> a
     android.widget.OverScroller overScroller -> b
     boolean isPreGingerbread -> c
@@ -17203,7 +17460,7 @@ org.simpledrive.helper.TouchImageView$CompatScroller -> org.simpledrive.helper.f
     boolean computeScrollOffset() -> b
     int getCurrX() -> c
     int getCurrY() -> d
-org.simpledrive.helper.TouchImageView$DoubleTapZoom -> org.simpledrive.helper.f$b:
+org.simpledrive.helper.TouchImageView$DoubleTapZoom -> org.simpledrive.helper.d$b:
     long startTime -> b
     float startZoom -> c
     float targetZoom -> d
@@ -17219,7 +17476,7 @@ org.simpledrive.helper.TouchImageView$DoubleTapZoom -> org.simpledrive.helper.f$
     void translateImageToCenterTouchPosition(float) -> a
     float interpolate() -> a
     double calculateDeltaScale(float) -> b
-org.simpledrive.helper.TouchImageView$Fling -> org.simpledrive.helper.f$c:
+org.simpledrive.helper.TouchImageView$Fling -> org.simpledrive.helper.d$c:
     org.simpledrive.helper.TouchImageView$CompatScroller scroller -> a
     int currX -> b
     int currY -> c
@@ -17227,7 +17484,7 @@ org.simpledrive.helper.TouchImageView$Fling -> org.simpledrive.helper.f$c:
     void <init>(org.simpledrive.helper.TouchImageView,int,int) -> <init>
     void cancelFling() -> a
     void run() -> run
-org.simpledrive.helper.TouchImageView$GestureListener -> org.simpledrive.helper.f$d:
+org.simpledrive.helper.TouchImageView$GestureListener -> org.simpledrive.helper.d$d:
     org.simpledrive.helper.TouchImageView this$0 -> a
     void <init>(org.simpledrive.helper.TouchImageView) -> <init>
     boolean onSingleTapConfirmed(android.view.MotionEvent) -> onSingleTapConfirmed
@@ -17236,22 +17493,22 @@ org.simpledrive.helper.TouchImageView$GestureListener -> org.simpledrive.helper.
     boolean onDoubleTap(android.view.MotionEvent) -> onDoubleTap
     boolean onDoubleTapEvent(android.view.MotionEvent) -> onDoubleTapEvent
     void <init>(org.simpledrive.helper.TouchImageView,org.simpledrive.helper.TouchImageView$1) -> <init>
-org.simpledrive.helper.TouchImageView$OnTouchImageViewListener -> org.simpledrive.helper.f$e:
+org.simpledrive.helper.TouchImageView$OnTouchImageViewListener -> org.simpledrive.helper.d$e:
     void onMove() -> a
-org.simpledrive.helper.TouchImageView$PrivateOnTouchListener -> org.simpledrive.helper.f$f:
+org.simpledrive.helper.TouchImageView$PrivateOnTouchListener -> org.simpledrive.helper.d$f:
     android.graphics.PointF last -> b
     org.simpledrive.helper.TouchImageView this$0 -> a
     void <init>(org.simpledrive.helper.TouchImageView) -> <init>
     boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
     void <init>(org.simpledrive.helper.TouchImageView,org.simpledrive.helper.TouchImageView$1) -> <init>
-org.simpledrive.helper.TouchImageView$ScaleListener -> org.simpledrive.helper.f$g:
+org.simpledrive.helper.TouchImageView$ScaleListener -> org.simpledrive.helper.d$g:
     org.simpledrive.helper.TouchImageView this$0 -> a
     void <init>(org.simpledrive.helper.TouchImageView) -> <init>
     boolean onScaleBegin(android.view.ScaleGestureDetector) -> onScaleBegin
     boolean onScale(android.view.ScaleGestureDetector) -> onScale
     void onScaleEnd(android.view.ScaleGestureDetector) -> onScaleEnd
     void <init>(org.simpledrive.helper.TouchImageView,org.simpledrive.helper.TouchImageView$1) -> <init>
-org.simpledrive.helper.TouchImageView$State -> org.simpledrive.helper.f$h:
+org.simpledrive.helper.TouchImageView$State -> org.simpledrive.helper.d$h:
     org.simpledrive.helper.TouchImageView$State NONE -> a
     org.simpledrive.helper.TouchImageView$State DRAG -> b
     org.simpledrive.helper.TouchImageView$State ZOOM -> c
@@ -17262,14 +17519,14 @@ org.simpledrive.helper.TouchImageView$State -> org.simpledrive.helper.f$h:
     org.simpledrive.helper.TouchImageView$State valueOf(java.lang.String) -> valueOf
     void <init>(java.lang.String,int) -> <init>
     void <clinit>() -> <clinit>
-org.simpledrive.helper.TouchImageView$ZoomVariables -> org.simpledrive.helper.f$i:
+org.simpledrive.helper.TouchImageView$ZoomVariables -> org.simpledrive.helper.d$i:
     float scale -> a
     float focusX -> b
     float focusY -> c
     android.widget.ImageView$ScaleType scaleType -> d
     org.simpledrive.helper.TouchImageView this$0 -> e
     void <init>(org.simpledrive.helper.TouchImageView,float,float,float,android.widget.ImageView$ScaleType) -> <init>
-org.simpledrive.helper.UploadManager -> org.simpledrive.helper.g:
+org.simpledrive.helper.UploadManager -> org.simpledrive.helper.e:
     int uploadCurrent -> a
     int uploadTotal -> b
     int uploadSuccessful -> c
@@ -17292,7 +17549,7 @@ org.simpledrive.helper.UploadManager -> org.simpledrive.helper.g:
     android.content.SharedPreferences access$700() -> i
     void access$800(org.simpledrive.helper.UploadManager$TaskListener) -> a
     void <clinit>() -> <clinit>
-org.simpledrive.helper.UploadManager$1 -> org.simpledrive.helper.g$1:
+org.simpledrive.helper.UploadManager$1 -> org.simpledrive.helper.e$1:
     android.support.v4.app.NotificationCompat$Builder mBuilder -> b
     android.app.NotificationManager mNotifyManager -> c
     java.lang.String filename -> d
@@ -17307,13 +17564,81 @@ org.simpledrive.helper.UploadManager$1 -> org.simpledrive.helper.g$1:
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     void access$500(org.simpledrive.helper.UploadManager$1,java.lang.Object[]) -> a
-org.simpledrive.helper.UploadManager$1$1 -> org.simpledrive.helper.g$1$1:
+org.simpledrive.helper.UploadManager$1$1 -> org.simpledrive.helper.e$1$1:
     org.simpledrive.helper.UploadManager$1 this$0 -> a
     void <init>(org.simpledrive.helper.UploadManager$1) -> <init>
     void transferred(java.lang.Integer) -> a
-org.simpledrive.helper.UploadManager$TaskListener -> org.simpledrive.helper.g$a:
+org.simpledrive.helper.UploadManager$TaskListener -> org.simpledrive.helper.e$a:
     void onFinished() -> a
-org.simpledrive.helper.UserItem -> org.simpledrive.helper.h:
+org.simpledrive.helper.Util -> org.simpledrive.helper.f:
+    android.graphics.Bitmap getThumb(java.lang.String,int) -> a
+    java.lang.String convertSize(java.lang.String) -> a
+    long stringToByte(java.lang.String) -> b
+    java.util.ArrayList sortFilesByName(java.util.ArrayList,int) -> a
+    int getMax(int,int) -> a
+    int getMin(int,int) -> b
+    int dpToPx(int) -> a
+    long folderSize(java.lang.String) -> c
+    long getTimestamp() -> a
+    int[] scaleImage(android.support.v7.app.AppCompatActivity,int,int) -> a
+    boolean writeToFile(java.lang.String,java.lang.String,android.content.Context) -> a
+    java.lang.String readFromFile(java.lang.String,android.content.Context) -> a
+    boolean isGIF(java.lang.String) -> d
+    java.lang.String getCacheDir() -> b
+    int getThumbSize(android.support.v7.app.AppCompatActivity,int) -> a
+org.simpledrive.helper.Util$1 -> org.simpledrive.helper.f$1:
+    int val$sortOrder -> a
+    void <init>(int) -> <init>
+    int compare(org.simpledrive.models.FileItem,org.simpledrive.models.FileItem) -> a
+    int compare(java.lang.Object,java.lang.Object) -> compare
+org.simpledrive.models.AccountItem -> org.simpledrive.b.a:
+    java.lang.String server -> a
+    java.lang.String displayName -> b
+    void <init>(java.lang.String,java.lang.String) -> <init>
+    java.lang.String getServer() -> a
+    java.lang.String getDisplayName() -> b
+org.simpledrive.models.FileItem -> org.simpledrive.b.b:
+    java.lang.String id -> a
+    java.lang.String filename -> b
+    java.lang.String size -> c
+    java.lang.String edit -> d
+    java.lang.String path -> e
+    android.graphics.Bitmap icon -> f
+    android.graphics.Bitmap thumb -> g
+    java.lang.String type -> h
+    java.lang.String owner -> i
+    java.lang.Integer scrollPos -> j
+    boolean selfshared -> k
+    boolean shared -> l
+    void <init>(java.lang.String,java.lang.String,java.lang.String) -> <init>
+    void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,boolean,boolean,android.graphics.Bitmap,android.graphics.Bitmap) -> <init>
+    boolean is(java.lang.String) -> a
+    java.lang.String getID() -> a
+    java.lang.String getFilename() -> b
+    java.lang.String getSize() -> c
+    java.lang.String getPath() -> d
+    android.graphics.Bitmap getIcon() -> e
+    android.graphics.Bitmap getThumb() -> f
+    java.lang.String getType() -> g
+    void setThumb(android.graphics.Bitmap) -> a
+    java.lang.String getOwner() -> h
+    boolean selfshared() -> i
+    boolean shared() -> j
+    void setScrollPos(int) -> a
+    int getScrollPos() -> k
+org.simpledrive.models.LogItem -> org.simpledrive.b.c:
+    java.lang.String message -> a
+    java.lang.String user -> b
+    java.lang.String date -> c
+    java.lang.String type -> d
+    android.graphics.Bitmap icon -> e
+    void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String,android.graphics.Bitmap) -> <init>
+    android.graphics.Bitmap getIcon() -> a
+    java.lang.String getMessage() -> b
+    java.lang.String getUser() -> c
+    java.lang.String getDate() -> d
+    java.lang.String getType() -> e
+org.simpledrive.models.UserItem -> org.simpledrive.b.d:
     java.lang.String username -> a
     java.lang.String mode -> b
     android.graphics.Bitmap icon -> c
@@ -17321,20 +17646,21 @@ org.simpledrive.helper.UserItem -> org.simpledrive.helper.h:
     android.graphics.Bitmap getIcon() -> a
     java.lang.String getUsername() -> b
     java.lang.String getMode() -> c
-org.simpledrive.helper.Util -> org.simpledrive.helper.i:
-    android.graphics.Bitmap getThumb(java.lang.String,int) -> a
-    java.lang.String convertSize(java.lang.String) -> a
-    long stringToByte(java.lang.String) -> b
-    java.util.ArrayList sortFilesByName(java.util.ArrayList,int) -> a
-    int getMax(int,int) -> a
-    int getMin(int,int) -> b
-    java.lang.String md5(java.lang.String) -> c
-    int dpToPx(int) -> a
-    long folderSize(java.lang.String) -> d
-    long getTimestamp() -> a
-    int[] scaleImage(android.support.v7.app.AppCompatActivity,int,int) -> a
-org.simpledrive.helper.Util$1 -> org.simpledrive.helper.i$1:
-    int val$sortOrder -> a
-    void <init>(int) -> <init>
-    int compare(org.simpledrive.helper.FileItem,org.simpledrive.helper.FileItem) -> a
-    int compare(java.lang.Object,java.lang.Object) -> compare
+org.simpledrive.models.VaultItem -> org.simpledrive.b.e:
+    java.lang.String title -> a
+    java.lang.String category -> b
+    java.lang.String type -> c
+    java.lang.String edit -> d
+    java.lang.String note -> e
+    java.lang.String icon -> f
+    android.graphics.Bitmap iconBmp -> g
+    void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,android.graphics.Bitmap) -> <init>
+    android.graphics.Bitmap getIconBmp() -> a
+    void setIconBmp(android.graphics.Bitmap) -> a
+    void setIcon(java.lang.String) -> a
+    java.lang.String getTitle() -> b
+    void setTitle(java.lang.String) -> b
+    java.lang.String getCategory() -> c
+    void setCategory(java.lang.String) -> c
+    java.lang.String getType() -> d
+    java.lang.String toString() -> toString

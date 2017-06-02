@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -27,8 +26,8 @@ import org.json.JSONObject;
 import org.simpledrive.R;
 import org.simpledrive.adapters.LogAdapter;
 import org.simpledrive.helper.Connection;
-import org.simpledrive.helper.LogItem;
 import org.simpledrive.helper.Util;
+import org.simpledrive.models.LogItem;
 
 import java.util.ArrayList;
 
@@ -39,9 +38,6 @@ public class ServerLog extends AppCompatActivity {
     private int currentPage = 0;
     private ArrayList<LogItem> items = new ArrayList<>();
 
-    // Interface
-    private ImageView prev;
-    private ImageView next;
     private TextView page;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private TextView info;
@@ -50,8 +46,6 @@ public class ServerLog extends AppCompatActivity {
 
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
-
-        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         e = this;
 
@@ -62,11 +56,10 @@ public class ServerLog extends AppCompatActivity {
 
         setContentView(R.layout.activity_log);
 
-        prev = (ImageView) findViewById(R.id.prev);
-        next = (ImageView) findViewById(R.id.next);
+        ImageView prev = (ImageView) findViewById(R.id.prev);
+        ImageView next = (ImageView) findViewById(R.id.next);
         page = (TextView) findViewById(R.id.page);
         info = (TextView) findViewById(R.id.info);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +80,11 @@ public class ServerLog extends AppCompatActivity {
                 }
             }
         });
+        initToolbar();
+    }
 
+    private void initToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             toolbar.setNavigationIcon(R.drawable.ic_arrow);
@@ -100,23 +97,8 @@ public class ServerLog extends AppCompatActivity {
         }
     }
 
-    protected void onResume() {
-        super.onResume();
-
+    private void initList() {
         list = (ListView) findViewById(R.id.list);
-
-        if (mMenu != null) {
-            invalidateOptionsMenu();
-        }
-
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                fetchLog(currentPage);
-            }
-        });
-
         list.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -129,11 +111,27 @@ public class ServerLog extends AppCompatActivity {
                 mSwipeRefreshLayout.setEnabled(enable);
             }
         });
+    }
 
+    protected void onResume() {
+        super.onResume();
+
+        if (mMenu != null) {
+            invalidateOptionsMenu();
+        }
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetchLog(currentPage);
+            }
+        });
         mSwipeRefreshLayout.setColorSchemeResources(R.color.darkgreen, R.color.darkgreen, R.color.darkgreen, R.color.darkgreen);
         mSwipeRefreshLayout.setProgressViewOffset(true, Util.dpToPx(56), Util.dpToPx(56) + 100);
-
         mSwipeRefreshLayout.setEnabled(true);
+
+        initList();
 
         fetchLog(currentPage);
     }
@@ -290,7 +288,7 @@ public class ServerLog extends AppCompatActivity {
             page.setText((currentPage + 1) + " / " + totalPages);
         }
 
-        LogAdapter newAdapter = new LogAdapter(this, R.layout.loglist);
+        LogAdapter newAdapter = new LogAdapter(this, R.layout.listview_detail);
         newAdapter.setData(items);
         list.setAdapter(newAdapter);
         invalidateOptionsMenu();

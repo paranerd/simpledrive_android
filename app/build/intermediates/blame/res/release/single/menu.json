@@ -4,6 +4,10 @@
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/remote_files_toolbar.xml"
     },
     {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/menu/vault_entry_toolbar.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/vault_entry_toolbar.xml"
+    },
+    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/menu/remote_files_context.xml",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/remote_files_context.xml"
     },
@@ -24,15 +28,19 @@
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/serverlog_toolbar.xml"
     },
     {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/menu/nav_body.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/nav_body.xml"
+    },
+    {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/menu/accounts_context.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/accounts_context.xml"
+    },
+    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/menu/file_selector_context.xml",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/file_selector_context.xml"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/menu/users_context.xml",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/users_context.xml"
-    },
-    {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/menu/navigation_drawer_body.xml",
-        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/navigation_drawer_body.xml"
     }
 ]
