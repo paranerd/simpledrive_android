@@ -21,13 +21,12 @@ import android.widget.Toast;
 
 import org.apache.commons.io.FileUtils;
 import org.simpledrive.R;
-
-import java.io.File;
-import java.io.IOException;
-
 import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.PermissionManager;
 import org.simpledrive.helper.Util;
+
+import java.io.File;
+import java.io.IOException;
 
 public class AppSettings extends AppCompatActivity {
     // General
@@ -176,7 +175,7 @@ public class AppSettings extends AppCompatActivity {
                         startActivity(new Intent(e.getApplicationContext(), EnablePIN.class));
                     }
                     else {
-                        CustomAuthenticator.disablePIN();
+                        CustomAuthenticator.setPIN("");
                         pin.setSummary("Disabled");
                     }
                     return true;

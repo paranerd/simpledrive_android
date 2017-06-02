@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v4.view.PagerAdapter;
-import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +12,15 @@ import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import org.apache.commons.io.FilenameUtils;
 import org.simpledrive.R;
 import org.simpledrive.activities.ImageViewer;
 import org.simpledrive.helper.Connection;
-import org.simpledrive.helper.FileItem;
 import org.simpledrive.helper.TouchImageView;
 import org.simpledrive.helper.Util;
+import org.simpledrive.models.FileItem;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class TouchImageAdapter extends PagerAdapter {
     private ImageViewer e;
@@ -50,8 +47,7 @@ public class TouchImageAdapter extends PagerAdapter {
 
     @Override
     public View instantiateItem(ViewGroup container, final int position) {
-        String imgPath = images.get(position).getImgPath();
-        String thumbPath = images.get(position).getThumbPath();
+        String path = Util.getCacheDir() + images.get(position).getID();
         TouchImageView img = new TouchImageView(container.getContext());
         WebView wv = null;
 
@@ -62,11 +58,8 @@ public class TouchImageAdapter extends PagerAdapter {
             }
         });
 
-        if (new File(imgPath).exists()) {
-            // Load image
-            String ext = "." + FilenameUtils.getExtension(imgPath);
-
-            if(ext.equals(".gif")) {
+        if (new File(path).exists()) {
+            if (Util.isGIF(path)) {
                 wv = new WebView(container.getContext());
 
                 wv.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +71,7 @@ public class TouchImageAdapter extends PagerAdapter {
 
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inJustDecodeBounds = true;
-                BitmapFactory.decodeFile(imgPath, options);
+                BitmapFactory.decodeFile(path, options);
                 int[] dim = Util.scaleImage(e, options.outWidth, options.outHeight);
                 int img_height = dim[1];
                 int img_width = dim[0];
@@ -87,7 +80,7 @@ public class TouchImageAdapter extends PagerAdapter {
                 int leftMargin = ((displayWidth - img_width) / 2 > 0) ? (displayWidth - img_width) / 2 : 0;
 
                 wv.setBackgroundColor(Color.parseColor("#000000"));
-                String url = "file://" + imgPath;
+                String url = "file://" + path;
 
                 String data = "<html><head></head><body><img width=" + img_width + " height=" + img_height + " src=\"" + url + "\" /></body></html>";
                 wv.loadDataWithBaseURL(null, "<style>body{background-color: black;}img{margin-top: " + topMargin + "px;margin-left: " + leftMargin + "px;display: block;height: " + img_height + "px;width: " + img_width + "px;max-width: 100%;}</style>" + data, "text/html", "UTF-8", null);
@@ -99,20 +92,14 @@ public class TouchImageAdapter extends PagerAdapter {
                 wv.setInitialScale(100);
             }
             else {
-                Bitmap bmp = BitmapFactory.decodeFile(imgPath);
+                Bitmap bmp = BitmapFactory.decodeFile(path);
                 img.setImageBitmap(bmp);
             }
-        }
-        else if(new File(thumbPath).exists()) {
-            // Load thumbnail and get image in background
-            Bitmap bmp = BitmapFactory.decodeFile(thumbPath);
-            img.setImageBitmap(bmp);
-            new LoadImage(thumbPath, img, images.get(position).getID(), images.get(position).getFilename(), imgPath).execute();
         }
         else {
             // Set placeholder and get image in background
             img.setImageResource(R.drawable.ic_image);
-            new LoadImage(thumbPath, img, images.get(position).getID(), images.get(position).getFilename(), imgPath).execute();
+            new LoadImage(img, images.get(position), path);
         }
 
         if (wv != null) {
@@ -139,18 +126,14 @@ public class TouchImageAdapter extends PagerAdapter {
     }
 
     private class LoadImage extends AsyncTask<String, Integer, Connection.Response> {
-        String thumbPath;
         TouchImageView img;
-        String file;
-        String filename;
-        String path;
+        FileItem file;
+        String imgPath;
 
-        public LoadImage(final String thumbPath, final TouchImageView img, String file, String filename, String path) {
-            this.thumbPath = thumbPath;
+        public LoadImage(final TouchImageView img, FileItem file, String imgPath) {
             this.img = img;
             this.file = file;
-            this.filename = filename;
-            this.path = path;
+            this.imgPath= imgPath;
         }
 
         @Override
@@ -164,10 +147,10 @@ public class TouchImageAdapter extends PagerAdapter {
                 return null;
             }
 
-            File thumb = new File(path);
+            File thumb = new File(this.imgPath);
 
             Connection multipart = new Connection("files", "get");
-            multipart.addFormField("target", "[" + file + "]");
+            multipart.addFormField("target", "[\"" + file.getID() + "\"]");
             multipart.addFormField("width", displayWidth + "");
             multipart.addFormField("height", displayHeight + "");
             multipart.setDownloadPath(thumb.getParent(), thumb.getName());
@@ -180,18 +163,13 @@ public class TouchImageAdapter extends PagerAdapter {
                 return;
             }
 
-            Bitmap bmp = BitmapFactory.decodeFile(this.path);
+            Bitmap bmp = BitmapFactory.decodeFile(this.imgPath);
 
             if (bmp != null) {
                 // Update adapter to display thumb
                 this.img.setImageBitmap(bmp);
                 notifyDataSetChanged();
             }
-
-            /*if(thumbPath != null) {
-                // Overrides the thumbnail with the image (may consume too much memory with many - and then bigger - thumbnails to display)
-                new File(thumbPath).delete();
-            }*/
         }
     }
 }

@@ -1,10 +1,9 @@
 package org.simpledrive.adapters;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.support.v4.content.ContextCompat;
-import android.util.DisplayMetrics;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +15,8 @@ import android.widget.TextView;
 
 import org.simpledrive.R;
 import org.simpledrive.helper.Connection;
-import org.simpledrive.helper.FileItem;
 import org.simpledrive.helper.Util;
+import org.simpledrive.models.FileItem;
 
 import java.io.File;
 import java.io.Serializable;
@@ -26,31 +25,30 @@ import java.util.ArrayList;
 public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable {
     private LayoutInflater layoutInflater;
     private int layout;
-    private int gridSize;
     private boolean loadthumbs = false;
     private ArrayList<FileItem> thumbQueue = new ArrayList<>();
     private boolean thumbLoading = false;
-    private Integer firstFilePos;
-    private Activity e;
+    private AppCompatActivity e;
     private AbsListView list;
+    private Integer thumbSize;
 
-    public FileAdapter(Activity mActivity, int textViewResourceId, AbsListView list, int gridSize, boolean loadthumbs, int firstFilePos) {
-        super(mActivity, textViewResourceId);
+    public FileAdapter(AppCompatActivity mActivity, int layoutResourceId, AbsListView list, boolean loadthumbs) {
+        super(mActivity, layoutResourceId);
         this.layoutInflater = LayoutInflater.from(mActivity);
-        this.layout = textViewResourceId;
-        this.gridSize = gridSize;
+        this.layout = layoutResourceId;
         this.loadthumbs = loadthumbs;
-        this.firstFilePos = firstFilePos;
         this.e = mActivity;
         this.list = list;
+        this.thumbSize = Util.getThumbSize(mActivity, layout);
     }
 
+    @NonNull
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
         ViewHolder holder;
         final FileItem item = getItem(position);
 
-        if(convertView == null) {
+        if (convertView == null) {
             convertView = layoutInflater.inflate(layout, null);
 
             holder = new ViewHolder();
@@ -58,15 +56,11 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
             holder.thumb = (ImageView) convertView.findViewById(R.id.thumb);
             holder.checked = (RelativeLayout) convertView.findViewById(R.id.checked);
             holder.icon_area = (RelativeLayout) convertView.findViewById(R.id.icon_area);
-            holder.name = (TextView) convertView.findViewById(R.id.name);
-            holder.size = (TextView) convertView.findViewById(R.id.size);
-            holder.owner = (TextView) convertView.findViewById(R.id.owner);
+            holder.name = (TextView) convertView.findViewById(R.id.title);
+            holder.size = (TextView) convertView.findViewById(R.id.detail1);
+            holder.owner = (TextView) convertView.findViewById(R.id.detail2);
 
-            if (layout == R.layout.filegrid) {
-                holder.wrapper = (RelativeLayout) convertView.findViewById(R.id.wrapper);
-                holder.wrapper.setLayoutParams(new RelativeLayout.LayoutParams(gridSize, gridSize));
-            }
-            else {
+            if (layout == R.layout.listview_detail) {
                 holder.separator = (TextView) convertView.findViewById(R.id.separator);
             }
             convertView.setTag(holder);
@@ -75,33 +69,29 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.owner.setText(item.getOwner());
         holder.name.setText(item.getFilename());
         holder.size.setText(item.getSize());
+        holder.thumb.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        holder.thumb.setImageBitmap(item.getThumb());
         holder.icon.setImageBitmap(item.getIcon());
 
-        if (layout == R.layout.filelist) {
-            int visibility = (position == 0 || (firstFilePos != null && position == firstFilePos)) ? View.VISIBLE : View.GONE;
-            holder.separator.setVisibility(visibility);
+        if (item.shared()) {
+            holder.owner.setText(item.getOwner());
+        }
 
-            String text = (firstFilePos != null && position == firstFilePos) ? "Files" : "Folders";
+        if (layout == R.layout.listview_detail) {
+            int separatorVisibility = (position == 0 || !item.getType().equals(getItem(position - 1).getType())) ? View.VISIBLE : View.GONE;
+            String text = (item.getType().equals("folder")) ? "Folders" : "Files";
+
+            holder.separator.setVisibility(separatorVisibility);
             holder.separator.setText(text);
         }
 
-        if (list.isItemChecked(position)) {
-            holder.checked.setVisibility(View.VISIBLE);
-            if(layout == R.layout.filegrid && item.is("image")) {
-                holder.checked.setBackgroundColor(ContextCompat.getColor(e, R.color.transparentgreen));
-            }
-        }
-        else {
-            holder.checked.setVisibility(View.INVISIBLE);
-            holder.checked.setBackgroundColor(ContextCompat.getColor(e, R.color.transparent));
-        }
+        int checkedVisibility = (list.isItemChecked(position)) ? View.VISIBLE : View.INVISIBLE;
+        holder.checked.setVisibility(checkedVisibility);
 
         if (item.is("image")) {
             if (item.getThumb() == null && loadthumbs) {
-                holder.thumb.setImageBitmap(null);
                 thumbQueue.add(item);
 
                 if (!thumbLoading && e.getClass().getSimpleName().equals("RemoteFiles")) {
@@ -111,19 +101,12 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
                     new LocalThumb().execute();
                 }
             }
-            else {
-                holder.thumb.setImageBitmap(item.getThumb());
-            }
-        }
-        else {
-            holder.thumb.setImageBitmap(null);
         }
 
-        if (layout == R.layout.filelist) {
+        if (layout == R.layout.listview_detail) {
             holder.icon_area.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //lastSelected = position;
                     list.setItemChecked(position, !list.isItemChecked(position));
                 }
             });
@@ -133,7 +116,6 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
     }
 
     private class ViewHolder {
-        RelativeLayout wrapper;
         ImageView icon;
         ImageView thumb;
         TextView name;
@@ -160,8 +142,6 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
 
     private class LoadThumb extends AsyncTask<String, Integer, Connection.Response> {
         FileItem item;
-        String size;
-        String filepath;
 
         @Override
         protected void onPreExecute() {
@@ -178,20 +158,13 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
                 return null;
             }
 
-            DisplayMetrics displaymetrics = new DisplayMetrics();
-            e.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-
-            size = (layout == R.layout.filelist) ? Util.dpToPx(100) + "" : Integer.toString(displaymetrics.widthPixels / 2);
-            String file = item.getID();
-            filepath = item.getThumbPath();
-
-            File thumb = new File(filepath);
+            File thumb = new File(Util.getCacheDir() + item.getID());
 
             Connection multipart = new Connection("files", "get");
 
-            multipart.addFormField("target", "[\"" + file + "\"]");
-            multipart.addFormField("width", size);
-            multipart.addFormField("height", size);
+            multipart.addFormField("target", "[\"" + item.getID() + "\"]");
+            multipart.addFormField("width", Integer.toString(thumbSize));
+            multipart.addFormField("height", Integer.toString(thumbSize));
             multipart.setDownloadPath(thumb.getParent(), thumb.getName());
             return multipart.finish();
         }
@@ -199,7 +172,7 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
         @Override
         protected void onPostExecute(Connection.Response res) {
             if (res != null) {
-                Bitmap bmp = Util.getThumb(filepath, Integer.valueOf(size));
+                Bitmap bmp = Util.getThumb(Util.getCacheDir() + item.getID(), thumbSize);
 
                 thumbLoading = false;
                 if (bmp != null && list != null) {
@@ -211,17 +184,11 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
                 if (thumbQueue.size() > 0) {
                     new LoadThumb().execute();
                 }
-
-                /*if(filename.substring(filename.length() - 3).equals("png")) {
-                    bmp.compress(Bitmap.CompressFormat.PNG, 85, fos);
-                } else {
-                    bmp.compress(Bitmap.CompressFormat.JPEG, 85, fos);
-                }*/
             }
         }
     }
 
-    public class LocalThumb extends AsyncTask<Integer, Bitmap, Bitmap> {
+    private class LocalThumb extends AsyncTask<Integer, Bitmap, Bitmap> {
         private FileItem item;
 
         @Override
@@ -238,10 +205,7 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
                 return null;
             }
 
-            String path = item.getPath();
-
-            int thumbSize = Util.dpToPx(40);
-            return Util.getThumb(path, thumbSize);
+            return Util.getThumb(item.getPath(), thumbSize);
         }
         @Override
         protected void onPostExecute(Bitmap bmp) {

@@ -2,7 +2,6 @@ package org.simpledrive.authenticator;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +9,7 @@ import android.util.Log;
 import org.simpledrive.helper.DownloadManager;
 import org.simpledrive.helper.UploadManager;
 import org.simpledrive.helper.Util;
+import org.simpledrive.models.AccountItem;
 
 import java.util.ArrayList;
 
@@ -23,12 +23,13 @@ public class CustomAuthenticator {
 
     // Constants
     public static final int MAX_UNLOCK_ATTEMPTS = 3;
-    public static final int COOLDOWN_ADD = 5000;
+    private static final int COOLDOWN_ADD = 5000;
     private static final String ACCOUNT_TYPE = "org.simpledrive";
     private static final String KEY_USER = "user";
     private static final String KEY_TOKEN = "token";
     private static final String KEY_SERVER = "server";
     private static final String KEY_PIN = "pin";
+    private static final String KEY_NICKNAME = "nickname";
     private static final String KEY_UNLOCK_ATTEMPTS = "unlockAttempts";
     private static final String KEY_LAST_UNLOCK_ATTEMPT = "lastUnlockAttempt";
     private static final String KEY_LOCKED = "locked";
@@ -76,6 +77,7 @@ public class CustomAuthenticator {
         userdata.putString(KEY_TOKEN, token);
         userdata.putString(KEY_UNLOCK_ATTEMPTS, "0");
         userdata.putString(KEY_LAST_UNLOCK_ATTEMPT, "0");
+        userdata.putString(KEY_NICKNAME, "");
         userdata.putString(KEY_PIN, "");
         userdata.putString(KEY_ACTIVE, FALSE);
         userdata.putString(KEY_LOCKED, FALSE);
@@ -88,7 +90,7 @@ public class CustomAuthenticator {
         return false;
     }
 
-    public static Account getActiveAccount() {
+    private static Account getActiveAccount() {
         refresh();
 
         for (Account a : aaccount) {
@@ -105,12 +107,28 @@ public class CustomAuthenticator {
         return null;
     }
 
-    public static boolean removeAccount(String username) {
-        username = (username.length() == 0 && getActiveAccount() != null) ? getActiveAccount().name : username;
+    public static boolean removeAccount(String accountName) {
+        accountName = (accountName.length() == 0 && getActiveAccount() != null) ? getActiveAccount().name : accountName;
 
         for (Account a : aaccount) {
-            if (a.name.equals(username)) {
+            if (a.name.equals(accountName)) {
                 am.removeAccount(a, null, null, null);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean setNickname(String accountName, String nickname) {
+        if (accountName.length() == 0) {
+            return false;
+        }
+
+        for (Account a : aaccount) {
+            if (a.name.equals(accountName)) {
+                Log.i("debug", "setting nickname " + nickname + " for " + accountName);
+                am.setUserData(a, KEY_NICKNAME, nickname);
                 return true;
             }
         }
@@ -156,7 +174,7 @@ public class CustomAuthenticator {
         return (getActiveAccount() != null) ? am.getUserData(getActiveAccount(), KEY_TOKEN) : "";
     }
 
-    public static void updateToken(String token) {
+    public static void setToken(String token) {
         if (getActiveAccount() != null) {
             am.setUserData(getActiveAccount(), KEY_TOKEN, token);
         }
@@ -206,7 +224,7 @@ public class CustomAuthenticator {
         return 0;
     }
 
-    public static void incrementUnlockCounter() {
+    private static void incrementUnlockCounter() {
         if (getActiveAccount() != null) {
             Long unlockAttempts = Long.parseLong(am.getUserData(getActiveAccount(), KEY_UNLOCK_ATTEMPTS));
             unlockAttempts++;
@@ -215,15 +233,9 @@ public class CustomAuthenticator {
         }
     }
 
-    public static void enablePIN(String pin) {
+    public static void setPIN(String pin) {
         if (getActiveAccount() != null) {
             am.setUserData(getActiveAccount(), KEY_PIN, pin);
-        }
-    }
-
-    public static void disablePIN() {
-        if (getActiveAccount() != null) {
-            am.setUserData(getActiveAccount(), KEY_PIN, "");
         }
     }
 
@@ -231,14 +243,17 @@ public class CustomAuthenticator {
         return (getActiveAccount() != null && !am.getUserData(getActiveAccount(), KEY_PIN).equals(""));
     }
 
-    public static ArrayList<String> getAllAccounts(boolean includeActive) {
+    public static ArrayList<AccountItem> getAllAccounts(boolean includeActive) {
         refresh();
-        ArrayList<String> accounts = new ArrayList<>();
+        ArrayList<AccountItem> accounts = new ArrayList<>();
         String active = (getActiveAccount() != null) ? getActiveAccount().name : "";
 
         for (Account a : aaccount) {
             if (includeActive || !a.name.equals(active)) {
-                accounts.add(a.name);
+                String server = am.getUserData(a, KEY_SERVER);
+                String nick = am.getUserData(a, KEY_NICKNAME);
+
+                accounts.add(new AccountItem(server, nick));
             }
         }
 

@@ -1,20 +1,17 @@
 package org.simpledrive.adapters;
 
 import android.app.Activity;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.simpledrive.R;
-import org.simpledrive.helper.UserItem;
+import org.simpledrive.models.UserItem;
 
 import java.util.ArrayList;
 
@@ -22,14 +19,12 @@ public class UserAdapter extends ArrayAdapter<UserItem> {
     private LayoutInflater layoutInflater;
     private int layout;
     private AbsListView list;
-    private Activity e;
 
     public UserAdapter (Activity mActivity, int textViewResourceId, AbsListView list) {
         super(mActivity, textViewResourceId);
 
         this.layoutInflater = LayoutInflater.from(mActivity);
         this.layout = textViewResourceId;
-        this.e = mActivity;
         this.list = list;
     }
 
@@ -43,12 +38,11 @@ public class UserAdapter extends ArrayAdapter<UserItem> {
 
             holder = new ViewHolder();
             holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-            holder.icon_circle = (FrameLayout) convertView.findViewById(R.id.icon_circle);
             holder.icon_area = (RelativeLayout) convertView.findViewById(R.id.icon_area);
             holder.checked = (RelativeLayout) convertView.findViewById(R.id.checked);
-            holder.name = (TextView) convertView.findViewById(R.id.username);
-            holder.mode = (TextView) convertView.findViewById(R.id.mode);
-            holder.date = (TextView) convertView.findViewById(R.id.date);
+            holder.name = (TextView) convertView.findViewById(R.id.title);
+            holder.mode = (TextView) convertView.findViewById(R.id.detail1);
+            holder.date = (TextView) convertView.findViewById(R.id.detail2);
             convertView.setTag(holder);
         }
         else {
@@ -65,7 +59,6 @@ public class UserAdapter extends ArrayAdapter<UserItem> {
         }
         else {
             holder.checked.setVisibility(View.INVISIBLE);
-            holder.checked.setBackgroundColor(ContextCompat.getColor(e, R.color.transparent));
         }
 
         holder.icon_area.setOnClickListener(new View.OnClickListener() {
@@ -79,12 +72,11 @@ public class UserAdapter extends ArrayAdapter<UserItem> {
         return convertView;
     }
 
-    class ViewHolder {
+    private class ViewHolder {
         ImageView icon;
         TextView name;
         TextView mode;
         TextView date;
-        FrameLayout icon_circle;
         RelativeLayout icon_area;
         RelativeLayout checked;
     }

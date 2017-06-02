@@ -32,7 +32,7 @@ import org.json.JSONObject;
 import org.simpledrive.R;
 import org.simpledrive.adapters.UserAdapter;
 import org.simpledrive.helper.Connection;
-import org.simpledrive.helper.UserItem;
+import org.simpledrive.models.UserItem;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -63,7 +63,7 @@ public class Users extends AppCompatActivity {
 
         setContentView(R.layout.activity_users);
 
-        setUpToolbar();
+        initToolbar();
 
         info = (TextView) findViewById(R.id.info);
 
@@ -79,12 +79,11 @@ public class Users extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        list = (ListView) findViewById(R.id.list);
-        setUpList();
+        initList();
         fetchUsers();
     }
 
-    private void setUpToolbar() {
+    private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         if(toolbar != null) {
@@ -99,7 +98,8 @@ public class Users extends AppCompatActivity {
         }
     }
 
-    private void setUpList() {
+    private void initList() {
+        list = (ListView) findViewById(R.id.list);
         list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 
         list.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
@@ -234,7 +234,7 @@ public class Users extends AppCompatActivity {
             info.setVisibility(View.GONE);
         }
 
-        int layout = R.layout.userlist;
+        int layout = R.layout.listview_detail;
         newAdapter = new UserAdapter(this, layout, list);
         newAdapter.setData(items);
         list.setAdapter(newAdapter);

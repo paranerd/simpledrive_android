@@ -1,4 +1,4 @@
-package org.simpledrive.helper;
+package org.simpledrive.models;
 
 import android.graphics.Bitmap;
 

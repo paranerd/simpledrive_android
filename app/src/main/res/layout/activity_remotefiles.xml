@@ -17,7 +17,7 @@
         <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -53,14 +53,18 @@
                         android:id="@id/list"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:choiceMode="multipleChoiceModal" />
+                        android:choiceMode="multipleChoiceModal"
+                        android:divider="?android:colorFocusedHighlight"
+                        android:dividerHeight="1dp"
+                        android:visibility="gone"/>
 
                     <GridView
                         android:id="@+id/grid"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:numColumns="3"
-                        android:choiceMode="multipleChoiceModal" />
+                        android:choiceMode="multipleChoiceModal"
+                        android:visibility="gone"/>
 
                     <android.support.design.widget.FloatingActionButton
                         android:id="@+id/fab"
@@ -198,9 +202,9 @@
                             android:layout_gravity="center">
 
                             <ImageView
+                                android:id="@+id/bPlay"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:id="@+id/bPlay"
                                 android:layout_centerVertical="true"
                                 android:scaleType="center"
                                 android:src="@drawable/ic_play"/>
@@ -265,8 +269,8 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:elevation="16dp"
-        app:headerLayout="@layout/navigation_drawer_header"
-        app:menu="@menu/navigation_drawer_body"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/nav_body"
         android:theme="@style/MenuItemAppearance"
         android:background="?android:colorBackground"
         app:itemIconTint="@color/drawer_list"

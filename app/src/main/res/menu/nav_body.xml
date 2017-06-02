@@ -62,10 +62,17 @@
         android:id="@+id/navigation_drawer_group_two"
         android:checkableBehavior="none">
         <item
+            android:id="@+id/navigation_view_item_vault"
+            android:orderInCategory="2"
+            android:icon="@drawable/ic_cloud"
+            android:visible="false"
+            android:title="Vault"/>
+
+        <item
             android:id="@+id/navigation_view_item_settings"
             android:orderInCategory="3"
             android:icon="@drawable/ic_settings"
-            android:title="Settings" />
+            android:title="Settings"/>
 
         <item
             android:id="@+id/navigation_view_item_server"

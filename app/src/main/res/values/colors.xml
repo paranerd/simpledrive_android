@@ -4,8 +4,10 @@
     <color name="black">#ff000000</color>
     <color name="orange">#FFFFBB33</color>
     <color name="red">#ffff0000</color>
-    <color name="grey1">#fffafafa</color>
+    <color name="grey1">#fff5f5f5</color>
+    <color name="grey1transparent">#aaf5f5f5</color>
     <color name="grey2">#ffe3e3e3</color>
+    <color name="grey2transparent">#aae3e3e3</color>
     <color name="grey3">#ffb3b3b3</color>
     <color name="grey3transparent">#aab3b3b3</color>
     <color name="grey4">#ff636363</color>

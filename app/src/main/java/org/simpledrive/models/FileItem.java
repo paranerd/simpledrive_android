@@ -1,11 +1,10 @@
-package org.simpledrive.helper;
+package org.simpledrive.models;
 
 import android.graphics.Bitmap;
 
 public class FileItem {
 	private String id;
 	private String filename;
-	private String parent;
 	private String size;
 	private String edit;
 	private String path;
@@ -13,34 +12,28 @@ public class FileItem {
 	private Bitmap thumb;
 	private String type;
 	private String owner;
-	private String thumbPath = null;
-	private String imgPath = null;
 	private Integer scrollPos = 0;
 	private boolean selfshared;
 	private boolean shared;
 
-	// Used for the root element
-	public FileItem(String id, String filename, String path, Bitmap icon) {
-		this(id, filename, "", path, "", "", "folder", "", false, false, icon, null, "", "");
+	// Used for hierarchy elements
+	public FileItem(String id, String filename, String path) {
+		this(id, filename, path, "", "", "folder", "", false, false, null, null);
 	}
 
 	// For all other elements
-	public FileItem(String id, String filename, String parent, String path, String size, String edit, String type, String owner, boolean selfshared, boolean shared, Bitmap icon, Bitmap thumb, String thumbPath, String imgPath) {
+	public FileItem(String id, String filename, String path, String size, String edit, String type, String owner, boolean selfshared, boolean shared, Bitmap icon, Bitmap thumb) {
 		this.id = id;
 		this.filename = filename;
-		this.parent = parent;
 		this.size = size;
 		this.edit = edit;
 		this.path = path;
 		this.icon = icon;
 		this.thumb = thumb;
 		this.type = type;
-		this.type = type;
 		this.owner = owner;
 		this.selfshared = selfshared;
 		this.shared = shared;
-		this.thumbPath = thumbPath;
-		this.imgPath = imgPath;
 	}
 
 	public boolean is(String type) {
@@ -67,24 +60,12 @@ public class FileItem {
 		return this.path;
 	}
 
-	public String getParent() {
-		return this.parent;
-	}
-
 	public Bitmap getIcon() {
 		return this.icon;
 	}
 
 	public Bitmap getThumb() {
 		return this.thumb;
-	}
-
-	public String getThumbPath() {
-		return this.thumbPath;
-	}
-
-	public String getImgPath() {
-		return this.imgPath;
 	}
 	
 	public String getType() {

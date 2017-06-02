@@ -40,12 +40,12 @@ public class Connection {
     private OutputStream outputStream;
     private PrintWriter writer;
 
-    public long bytesTransferred;
-    public long total;
+    private long bytesTransferred;
+    private long total;
 
     private ProgressListener listener;
 
-    public static String cookie;
+    private static String cookie;
     private boolean forceCookie = false;
 
     private String downloadPath;
@@ -81,7 +81,7 @@ public class Connection {
         }
     }
 
-    public void setListener(final ProgressListener listener) {
+    void setListener(final ProgressListener listener) {
         this.listener = listener;
     }
 
@@ -106,7 +106,7 @@ public class Connection {
         forceCookie = true;
     }
 
-    public interface ProgressListener {
+    interface ProgressListener {
         void transferred(Integer num);
     }
 
@@ -121,7 +121,7 @@ public class Connection {
      * @param fieldName  name attribute in <input type="file" name="..." />
      * @param uploadFile a File to be uploaded
      */
-    public void addFilePart(String fieldName, File uploadFile) {
+    void addFilePart(String fieldName, File uploadFile) {
         try {
             String fileName = uploadFile.getName();
             writer.append(LINE_FEED).append("--").append(boundary).append(LINE_FEED);
@@ -238,7 +238,7 @@ public class Connection {
                 }
 
                 String result = sb.toString();
-                Log.i("debug", result);
+                Log.i("debug", "Connection result: " + result);
                 JSONObject obj = new JSONObject(result);
 
                 // Cleanup
@@ -254,7 +254,7 @@ public class Connection {
         }
     }
 
-    public void trustCertificate (final String server) throws KeyManagementException, NoSuchAlgorithmException {
+    private void trustCertificate(final String server) throws KeyManagementException, NoSuchAlgorithmException {
         System.setProperty("https.protocols", "SSLv3");
 
         TrustManager[] trustAllCerts = new TrustManager[] {

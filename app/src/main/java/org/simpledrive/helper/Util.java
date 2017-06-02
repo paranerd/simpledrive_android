@@ -1,18 +1,34 @@
 package org.simpledrive.helper;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Movie;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import org.simpledrive.R;
+import org.simpledrive.models.FileItem;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class Util {
     public static Bitmap getThumb(String file, int size) {
@@ -169,5 +185,81 @@ public class Util {
         dim[1] = Math.round(img_height * shrink_to);
 
         return dim;
+    }
+
+    public static boolean writeToFile(String filename, String data, Context context) {
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(filename, MODE_PRIVATE));
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+            return true;
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+        return false;
+    }
+
+    public static String readFromFile(String filename, Context context) {
+        String ret = "";
+
+        try {
+            InputStream inputStream = context.openFileInput(filename);
+
+            if (inputStream != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ((receiveString = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(receiveString);
+                }
+
+                inputStream.close();
+                ret = stringBuilder.toString();
+            }
+        } catch (IOException e) {
+            // An error happened
+        }
+
+        return ret;
+    }
+
+    public static boolean isGIF(String path) {
+        try {
+            URL url = new URL("file://" + path);
+            URLConnection con = url.openConnection();
+            InputStream is = con.getInputStream();
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+
+            byte[] buffer = new byte[1024];
+            int len = 0;
+
+            while ((len = is.read(buffer)) != -1) {
+                os.write(buffer, 0, len);
+            }
+
+            is.close();
+            byte[] bytes = os.toByteArray();
+
+            Movie gif = Movie.decodeByteArray(bytes, 0, bytes.length);
+
+            return (gif != null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static String getCacheDir() {
+        return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/simpleDrive/";
+    }
+
+    public static int getThumbSize(AppCompatActivity ctx, int layout) {
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        ctx.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+
+        return (layout == R.layout.listview_detail) ? Util.dpToPx(100) : displaymetrics.widthPixels / 3;
     }
 }

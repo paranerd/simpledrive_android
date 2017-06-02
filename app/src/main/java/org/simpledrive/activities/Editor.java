@@ -33,7 +33,7 @@ public class Editor extends AppCompatActivity {
     private String filename;
     private boolean saved = true;
 
-    // View
+    // Interface
     private Menu mMenu;
     private Toolbar toolbar;
     private EditText editor;
@@ -84,10 +84,8 @@ public class Editor extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 saved = false;
-                if(toolbar != null) {
-                    toolbar.setTitle(filename + "*");
-                    toolbar.setSubtitle("Changed...");
-                }
+                setToolbarTitle(filename + "*");
+                setToolbarSubtitle("Changed...");
                 invalidateOptionsMenu();
             }
         });
@@ -147,9 +145,7 @@ public class Editor extends AppCompatActivity {
                 return super.onOptionsItemSelected(paramMenuItem);
 
             case R.id.savetext:
-                if(toolbar != null) {
-                    toolbar.setSubtitle("Saving...");
-                }
+                setToolbarSubtitle("Saving...");
                 save(file, editor.getText().toString());
                 break;
         }
@@ -212,10 +208,8 @@ public class Editor extends AppCompatActivity {
             protected void onPostExecute(Connection.Response res) {
                 if (res.successful()) {
                     saved = true;
-                    if(toolbar != null) {
-                        toolbar.setTitle(filename);
-                        toolbar.setSubtitle("Saved.");
-                    }
+                    setToolbarTitle(filename);
+                    setToolbarSubtitle("Saved.");
                     invalidateOptionsMenu();
                 }
                 else {

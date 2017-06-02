@@ -1,10 +1,10 @@
 package org.simpledrive.activities;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -16,26 +16,30 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import org.simpledrive.R;
-import org.simpledrive.adapters.UserAdapter;
+import org.simpledrive.adapters.AccountAdapter;
 import org.simpledrive.authenticator.CustomAuthenticator;
-import org.simpledrive.helper.UserItem;
+import org.simpledrive.models.AccountItem;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Accounts extends AppCompatActivity {
     // General
     private Accounts e;
-    private ArrayList<UserItem> items = new ArrayList<>();
-    private UserAdapter newAdapter;
+    private ArrayList<AccountItem> items = new ArrayList<>();
+    private AccountAdapter newAdapter;
     private int selectedPos;
 
     // Interface
-    private static AbsListView list;
+    private AbsListView list;
     private FloatingActionButton fab;
     private Menu mContextMenu;
 
@@ -52,7 +56,7 @@ public class Accounts extends AppCompatActivity {
 
         setContentView(R.layout.activity_users);
 
-        setUpToolbar();
+        initToolbar();
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +76,7 @@ public class Accounts extends AppCompatActivity {
         getAccounts();
     }
 
-    private void setUpToolbar() {
+    private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         if(toolbar != null) {
@@ -81,7 +85,7 @@ public class Accounts extends AppCompatActivity {
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    e.finish();
+                    finish();
                 }
             });
         }
@@ -104,7 +108,7 @@ public class Accounts extends AppCompatActivity {
             @Override
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
                 MenuInflater inflater = getMenuInflater();
-                inflater.inflate(R.menu.users_context, menu);
+                inflater.inflate(R.menu.accounts_context, menu);
                 mContextMenu = menu;
 
                 unselectAll();
@@ -129,6 +133,9 @@ public class Accounts extends AppCompatActivity {
                                 .setNegativeButton("Cancel", null)
                                 .show();
                         break;
+
+                    case R.id.rename:
+                        showRename(mode);
                 }
                 return false;
             }
@@ -149,24 +156,57 @@ public class Accounts extends AppCompatActivity {
         });
     }
 
-    private void getAccounts() {
-        items = new ArrayList<>();
-        ArrayList<String> accounts = CustomAuthenticator.getAllAccounts(true);
+    private void showRename(final ActionMode mode) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
-        for (int i = 0; i < accounts.size(); i++){
-            String username = accounts.get(i);
-            String mode = "";
-            Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_account);
-            UserItem item = new UserItem(username, mode, icon);
-            items.add(item);
-        }
+        alert.setTitle("Rename account");
 
-        displayUsers();
+        // Set an EditText view to get user input
+        final EditText input = new EditText(this);
+        alert.setView(input);
+
+        alert.setPositiveButton("Rename", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                rename(getFirstSelected(), input.getText().toString());
+                mode.finish();
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                mode.finish();
+            }
+        });
+
+        alert.show();
+        input.requestFocus();
+        input.selectAll();
+        showVirtualKeyboard();
     }
 
-    private void displayUsers() {
-        int layout = R.layout.userlist;
-        newAdapter = new UserAdapter(e, layout, list);
+    private void showVirtualKeyboard() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                InputMethodManager m = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                if (m != null) {
+                    m.toggleSoftInput(0, InputMethodManager.SHOW_IMPLICIT);
+                }
+            }
+        }, 100);
+    }
+
+    private void getAccounts() {
+        items = CustomAuthenticator.getAllAccounts(true);
+
+        displayAccounts();
+    }
+
+    private void displayAccounts() {
+        int layout = R.layout.listview_detail;
+        newAdapter = new AccountAdapter(e, layout, list);
         newAdapter.setData(items);
         list.setAdapter(newAdapter);
     }
@@ -185,7 +225,7 @@ public class Accounts extends AppCompatActivity {
 
         for (int i = 0; i < list.getCount(); i++) {
             if (checked.get(i)) {
-                return items.get(i).getUsername();
+                return items.get(i).getServer();
             }
         }
         return null;
@@ -203,6 +243,21 @@ public class Accounts extends AppCompatActivity {
         }
         else {
             Toast.makeText(e, "Error deleting account", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void rename(String accountName, String nickname) {
+        boolean result = CustomAuthenticator.setNickname(accountName, nickname);
+        if (result) {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    getAccounts();
+                }
+            }, 100);
+        }
+        else {
+            Toast.makeText(e, "Error renaming account", Toast.LENGTH_SHORT).show();
         }
     }
 }

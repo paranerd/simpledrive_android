@@ -25,15 +25,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.simpledrive.R;
 import org.simpledrive.adapters.FileAdapter;
 import org.simpledrive.helper.PermissionManager;
 import org.simpledrive.helper.Util;
-import org.simpledrive.helper.FileItem;
+import org.simpledrive.models.FileItem;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileSelector extends AppCompatActivity {
     // General
@@ -47,7 +47,6 @@ public class FileSelector extends AppCompatActivity {
     private FileAdapter mAdapter;
     private ArrayList<FileItem> hierarchy;
     private ArrayList<FileItem> items = new ArrayList<>();
-    private Integer firstFilePos = null;
 
     // Interface
     private boolean longClicked = false;
@@ -301,8 +300,8 @@ public class FileSelector extends AppCompatActivity {
 
     private void initHierarchy() {
         hierarchy = new ArrayList<>();
-        hierarchy.add(new FileItem(null, "", "", null));
-        hierarchy.add(new FileItem(null, "root", Environment.getExternalStorageDirectory() + "/", null));
+        hierarchy.add(new FileItem("", "", ""));
+        hierarchy.add(new FileItem("", "root", Environment.getExternalStorageDirectory() + "/"));
         fetchFiles();
     }
 
@@ -319,7 +318,6 @@ public class FileSelector extends AppCompatActivity {
                 pDialog.setCancelable(false);
                 pDialog.show();
 
-                firstFilePos = null;
                 items = new ArrayList<>();
 
                 if (mAdapter != null) {
@@ -329,11 +327,12 @@ public class FileSelector extends AppCompatActivity {
 
             @Override
             protected ArrayList<FileItem> doInBackground(Void... args) {
+                // "root"-directories (i.e. "Internal Storage" and "SD-Card")
                 if (hierarchy.size() <= 1) {
                     File[] dirs = getExternalFilesDirs(null);
                     for (File d : dirs) {
                         File f = d.getParentFile().getParentFile().getParentFile().getParentFile();
-                        items.add(new FileItem(null, f.getName(), f.getAbsolutePath(), BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder)));
+                        items.add(new FileItem("", f.getName(), f.getAbsolutePath(), "", "", "folder", "", false, false, BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder), null));
                     }
                 }
                 else {
@@ -348,40 +347,19 @@ public class FileSelector extends AppCompatActivity {
                         String filename = file.getName();
                         String path = file.getAbsolutePath();
                         String size = (file.isDirectory()) ? ((file.listFiles().length == 1) ? file.listFiles().length + " element" : file.listFiles().length + " elements") : Util.convertSize(file.length() + "");
-                        Bitmap icon;
                         String type = (file.isDirectory()) ? "folder" : getMimeType(file);
 
-                        switch (type) {
-                            case "folder":
-                                icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
-                                break;
-                            case "image":
-                                icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_image);
-                                break;
-                            case "audio":
-                                icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_audio);
-                                break;
-                            case "pdf":
-                                icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_pdf);
-                                break;
-                            default:
-                                icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown);
-                        }
+                        int drawableResourceId = e.getResources().getIdentifier("ic_" + type, "drawable", e.getPackageName());
+                        drawableResourceId = (drawableResourceId != 0) ? drawableResourceId : R.drawable.ic_unknown;
 
-                        items.add(new FileItem(null, filename, null, path, size, null, type, null, false, false, icon, null, "", ""));
+                        Bitmap icon = BitmapFactory.decodeResource(getResources(), drawableResourceId);
+
+                        items.add(new FileItem("", filename, path, size, "", type, "", false, false, icon, null));
                     }
                 }
 
                 Util.sortFilesByName(items, 1);
 
-                firstFilePos = items.size();
-
-                for (int i = 0; i < items.size(); i++) {
-                    if (!items.get(i).is("folder")) {
-                        firstFilePos = i;
-                        break;
-                    }
-                }
                 return null;
             }
 
@@ -403,15 +381,27 @@ public class FileSelector extends AppCompatActivity {
             info.setVisibility(View.GONE);
         }
 
+        int foldersCount = countFolders();
         setToolbarTitle(hierarchy.size() == 1 ? "Select" : hierarchy.get(hierarchy.size() - 1).getFilename());
-        setToolbarSubtitle("Folders: " + firstFilePos + ", Files: " + (items.size() - firstFilePos));
+        setToolbarSubtitle("Folders: " + foldersCount + ", Files: " + (items.size() - foldersCount));
 
-        mAdapter = new FileAdapter(e, R.layout.filelist, list, 0, true, firstFilePos);
+        mAdapter = new FileAdapter(e, R.layout.listview_detail, list, true);
         mAdapter.setData(items);
         mAdapter.notifyDataSetChanged();
 
         list.setAdapter(mAdapter);
         list.setSelection(hierarchy.get(hierarchy.size() - 1).getScrollPos());
+    }
+
+    private int countFolders() {
+        int count = 0;
+        for (int i = 0; i < items.size(); i++) {
+            if (!items.get(i).is("folder")) {
+                count = i;
+                break;
+            }
+        }
+        return count;
     }
 
     private String getMimeType(File file) {

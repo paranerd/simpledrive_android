@@ -13,16 +13,14 @@ import android.view.animation.DecelerateInterpolator;
 import org.simpledrive.R;
 import org.simpledrive.adapters.TouchImageAdapter;
 import org.simpledrive.helper.ExtendedViewPager;
-import org.simpledrive.helper.FileItem;
+import org.simpledrive.models.FileItem;
 
 import java.util.ArrayList;
 
 public class ImageViewer extends AppCompatActivity {
-    private ExtendedViewPager mViewPager;
     private TouchImageAdapter mAdapter;
     private boolean titleVisible = true;
     private Toolbar toolbar;
-    private ImageViewer e;
     private ArrayList<FileItem> images;
 
     @Override
@@ -39,33 +37,19 @@ public class ImageViewer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_imageviewer);
 
-        e = this;
-
         images = RemoteFiles.getAllImages();
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(toolbar != null) {
-            setSupportActionBar(toolbar);
-            toolbar.setBackgroundColor(ContextCompat.getColor(e, R.color.halfblack));
-            toolbar.setTitleTextColor(Color.parseColor("#eeeeee"));
-            toolbar.setNavigationIcon(R.drawable.ic_arrow);
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    e.finish();
-                }
-            });
-        }
+        initToolbar();
 
-        mViewPager = (ExtendedViewPager) findViewById(R.id.view_pager);
-        mAdapter = new TouchImageAdapter(e, images);
+        ExtendedViewPager mViewPager = (ExtendedViewPager) findViewById(R.id.view_pager);
+        mAdapter = new TouchImageAdapter(this, images);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(getIntent().getExtras().getInt("position"));
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if(toolbar != null) {
+                if (toolbar != null) {
                     toolbar.setTitle(images.get(position).getFilename());
                 }
             }
@@ -82,12 +66,28 @@ public class ImageViewer extends AppCompatActivity {
         });
     }
 
+    private void initToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.halfblack));
+            toolbar.setTitleTextColor(Color.parseColor("#eeeeee"));
+            toolbar.setNavigationIcon(R.drawable.ic_arrow);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
+    }
+
     public void toggleToolbar() {
-        if(titleVisible && toolbar != null) {
+        if (titleVisible && toolbar != null) {
             toolbar.animate().translationY(-toolbar.getBottom()).setInterpolator(new AccelerateInterpolator()).start();
             titleVisible = false;
         }
-        else if(toolbar != null) {
+        else if (toolbar != null) {
             toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).start();
             titleVisible = true;
         }

@@ -17,7 +17,6 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.simpledrive.R;
-
 import org.simpledrive.helper.Connection;
 import org.simpledrive.helper.Util;
 
@@ -50,6 +49,12 @@ public class UserDetails extends AppCompatActivity {
 
         setContentView(R.layout.activity_settings);
 
+        initToolbar();
+        setToolbarTitle(username);
+        getStatus(username);
+    }
+
+    private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar != null) {
             setSupportActionBar(toolbar);
@@ -61,9 +66,6 @@ public class UserDetails extends AppCompatActivity {
                 }
             });
         }
-
-        setToolbarTitle(username);
-        getStatus(username);
     }
 
     public static class PrefsFragment extends PreferenceFragment {

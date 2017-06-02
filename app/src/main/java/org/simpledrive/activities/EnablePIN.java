@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.simpledrive.R;
@@ -19,17 +17,6 @@ public class EnablePIN extends AppCompatActivity implements View.OnClickListener
     // Interface
     private TextView pin;
     private TextView error;
-    private ImageView clear;
-    private Button one;
-    private Button two;
-    private Button three;
-    private Button four;
-    private Button five;
-    private Button six;
-    private Button seven;
-    private Button eight;
-    private Button nine;
-    private Button zero;
 
     private String enteredPin = "";
 
@@ -41,37 +28,11 @@ public class EnablePIN extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.activity_unlock);
 
         pin = (TextView) findViewById(R.id.unlock_pin);
+        reset(true);
         error = (TextView) findViewById(R.id.unlock_error);
-        clear = (ImageView) findViewById(R.id.unlock_clear_pin);
-
-        one = (Button) findViewById(R.id.unlock_one);
-        two = (Button) findViewById(R.id.unlock_two);
-        three = (Button) findViewById(R.id.unlock_three);
-        four = (Button) findViewById(R.id.unlock_four);
-        five = (Button) findViewById(R.id.unlock_five);
-        six = (Button) findViewById(R.id.unlock_six);
-        seven = (Button) findViewById(R.id.unlock_seven);
-        eight = (Button) findViewById(R.id.unlock_eight);
-        nine = (Button) findViewById(R.id.unlock_nine);
-        zero = (Button) findViewById(R.id.unlock_zero);
-
-        pin.setText("Enter new PIN");
-
-        clear.setOnClickListener(this);
-
-        one.setOnClickListener(this);
-        two.setOnClickListener(this);
-        three.setOnClickListener(this);
-        four.setOnClickListener(this);
-        five.setOnClickListener(this);
-        six.setOnClickListener(this);
-        seven.setOnClickListener(this);
-        eight.setOnClickListener(this);
-        nine.setOnClickListener(this);
-        zero.setOnClickListener(this);
     }
 
-    private void updatePIN() {
+    private void setPIN() {
         String text = "";
         for (int i = 0; i < enteredPin.length(); i++) {
             text += "\u25CF";
@@ -82,47 +43,46 @@ public class EnablePIN extends AppCompatActivity implements View.OnClickListener
             if (step == 0) {
                 pin1 = enteredPin;
                 step++;
-                resetPIN(false);
+                reset(false);
                 showError("");
             }
             else {
                 if (pin1.equals(enteredPin)) {
-                    CustomAuthenticator.enablePIN(pin1);
+                    CustomAuthenticator.setPIN(pin1);
                     finish();
                 }
                 else {
                     showError("PINs don't match");
                     step = 0;
-                    resetPIN(true);
+                    reset(true);
                 }
             }
         }
     }
 
-    private void resetPIN(boolean full) {
+    private void reset(boolean full) {
         enteredPin = "";
         String text = (full || step == 0) ? "Enter new PIN" : "Repeat new PIN";
-        pin.setText(text);
+        pin.setText("");
+        pin.setHint(text);
     }
 
     private void showError(String e) {
         error.setText(e);
     }
 
-
-    @Override
     public void onClick(View view) {
         if (view.getTag() != null) {
             enteredPin += view.getTag().toString();
-            updatePIN();
+            setPIN();
             return;
         }
         switch (view.getId()) {
             case R.id.unlock_clear_pin:
-                resetPIN(false);
+                reset(false);
                 break;
         }
 
-        updatePIN();
+        setPIN();
     }
 }

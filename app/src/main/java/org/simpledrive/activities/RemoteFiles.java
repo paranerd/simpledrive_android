@@ -15,7 +15,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
@@ -32,8 +31,6 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -53,7 +50,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,10 +60,11 @@ import org.simpledrive.helper.AudioService;
 import org.simpledrive.helper.AudioService.LocalBinder;
 import org.simpledrive.helper.Connection;
 import org.simpledrive.helper.DownloadManager;
-import org.simpledrive.helper.FileItem;
 import org.simpledrive.helper.PermissionManager;
 import org.simpledrive.helper.UploadManager;
 import org.simpledrive.helper.Util;
+import org.simpledrive.models.AccountItem;
+import org.simpledrive.models.FileItem;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -77,22 +74,23 @@ import java.util.TimerTask;
 
 public class RemoteFiles extends AppCompatActivity {
     // General
-    private boolean appVisible;
     private RemoteFiles e;
     private String username = "";
     private String viewmode = "files";
-    private final String CACHE_FOLDER = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/simpleDrive/";
-    private int FORCE_RELOAD = 5;
     private SharedPreferences settings;
+    private boolean appVisible;
     private int loginAttempts = 0;
     private boolean loadthumbs = false;
     private int lastSelected = 0;
-    private int grids = 3;
-    private int gridSize;
     private boolean forceFullLoad = true;
     private boolean preventLock = false;
     private boolean calledForUnlock = false;
     private boolean isAdmin = false;
+    private ArrayList<AccountItem> accounts = new ArrayList<>();
+
+    // Request codes
+    private final int REQUEST_UPLOAD = 1;
+    private final int REQUEST_FORCE_RELOAD = 5;
     private final int REQUEST_CACHE = 6;
 
     // Audio
@@ -123,8 +121,6 @@ public class RemoteFiles extends AppCompatActivity {
     private TextView header_indicator;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
-    private GridView tmp_grid;
-    private ListView tmp_list;
     private FloatingActionButton fab;
     private FloatingActionButton fab_file;
     private FloatingActionButton fab_folder;
@@ -145,7 +141,7 @@ public class RemoteFiles extends AppCompatActivity {
     private JSONArray clipboard = new JSONArray();
     private boolean deleteAfterCopy = false;
 
-    ServiceConnection mServiceConnection = new ServiceConnection(){
+    ServiceConnection mServiceConnection = new ServiceConnection() {
 		public void onServiceDisconnected(ComponentName name) {
 			mBound = false;
 			mPlayerService = null;
@@ -169,12 +165,8 @@ public class RemoteFiles extends AppCompatActivity {
         theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
-        listLayout = (settings.getString("listlayout", "list").equals("list")) ? R.layout.filelist : R.layout.filegrid;
+        listLayout = (settings.getString("listlayout", "list").equals("list")) ? R.layout.listview_detail: R.layout.gridview;
         setContentView(R.layout.activity_remotefiles);
-
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        gridSize = displaymetrics.widthPixels / grids;
 
         initInterface();
         setListLayout(listLayout);
@@ -241,11 +233,14 @@ public class RemoteFiles extends AppCompatActivity {
     private void updateNavigationDrawer() {
         // Populate accounts
         Menu menu = mNavigationView.getMenu();
-        ArrayList<String> servers = CustomAuthenticator.getAllAccounts(false);
         menu.removeGroup(R.id.navigation_drawer_group_accounts);
 
-        for (String server : servers) {
-            menu.add(R.id.navigation_drawer_group_accounts, 1, 0, server).setIcon(R.drawable.ic_account_circle);
+        ArrayList<AccountItem> allAccounts = CustomAuthenticator.getAllAccounts(false);
+
+        for (int i = 0; i < allAccounts.size(); i++) {
+            accounts.add(allAccounts.get(i));
+            menu.add(R.id.navigation_drawer_group_accounts, i, 0, allAccounts.get(i).getDisplayName()).setIcon(R.drawable.ic_account_circle);
+
         }
 
         hideAccounts();
@@ -255,7 +250,7 @@ public class RemoteFiles extends AppCompatActivity {
         header_server.setText(CustomAuthenticator.getServer());
     }
 
-    private void changeViewmode(String vm) {
+    private void setViewmode(String vm) {
         viewmode = vm;
 
         // Highlight current view
@@ -302,7 +297,7 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
+        if (requestCode == REQUEST_UPLOAD) {
             if (resultCode == RESULT_OK) {
                 ArrayList<String> ul_paths = new ArrayList<>();
 
@@ -317,7 +312,7 @@ public class RemoteFiles extends AppCompatActivity {
                 Toast.makeText(e, "Upload started", Toast.LENGTH_SHORT).show();
             }
         }
-        else if (requestCode == FORCE_RELOAD) {
+        else if (requestCode == REQUEST_FORCE_RELOAD) {
             finish();
             startActivity(getIntent());
         }
@@ -335,7 +330,7 @@ public class RemoteFiles extends AppCompatActivity {
             fetchFiles();
         }
         else if (viewmode.equals("trash")) {
-            changeViewmode("files");
+            setViewmode("files");
         }
         else {
             super.onBackPressed();
@@ -346,7 +341,7 @@ public class RemoteFiles extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         mToolbarMenu = menu;
 
-        if (listLayout == R.layout.filelist) {
+        if (listLayout == R.layout.listview_detail) {
             menu.findItem(R.id.toggle_view).setIcon(R.drawable.ic_grid);
             menu.findItem(R.id.toggle_view).setTitle("Grid view");
         } else {
@@ -422,7 +417,7 @@ public class RemoteFiles extends AppCompatActivity {
                 break;
 
             case R.id.toggle_view:
-                listLayout = (listLayout == R.layout.filegrid) ? R.layout.filelist : R.layout.filegrid;
+                listLayout = (listLayout == R.layout.gridview) ? R.layout.listview_detail: R.layout.gridview;
                 setListLayout(listLayout);
                 initList();
                 displayFiles();
@@ -435,9 +430,6 @@ public class RemoteFiles extends AppCompatActivity {
     private void initInterface() {
         toolbarBottom = (Toolbar) findViewById(R.id.toolbar_bottom);
         amvMenu = (ActionMenuView) (toolbarBottom != null ? toolbarBottom.findViewById(R.id.amvMenu) : null);
-
-        tmp_grid = (GridView) findViewById(R.id.grid);
-        tmp_list = (ListView) findViewById(R.id.list);
 
         bPlay = (ImageView) findViewById(R.id.bPlay);
         bPlay.setOnClickListener(new View.OnClickListener() {
@@ -497,7 +489,7 @@ public class RemoteFiles extends AppCompatActivity {
                 Intent i = new Intent(e, FileSelector.class);
                 i.putExtra("multi", true);
                 i.putExtra("foldersonly", false);
-                startActivityForResult(i, 1);
+                startActivityForResult(i, REQUEST_UPLOAD);
             }
         });
 
@@ -632,7 +624,6 @@ public class RemoteFiles extends AppCompatActivity {
         fab_folder.setVisibility(View.GONE);
         fab_upload.setVisibility(View.GONE);
 
-        int thumbSize = (listLayout == R.layout.filelist) ? Util.dpToPx(40) : gridSize;
         items = new ArrayList<>();
         filteredItems = new ArrayList<>();
 
@@ -645,7 +636,7 @@ public class RemoteFiles extends AppCompatActivity {
             hierarchy = new ArrayList<>();
             for (int i = 0; i < h.length(); i++) {
                 JSONObject obj = h.getJSONObject(i);
-                hierarchy.add(new FileItem(obj.getString("id"), obj.getString("filename"), "", null));
+                hierarchy.add(new FileItem(obj.getString("id"), obj.getString("filename"), ""));
             }
 
             for (int i = 0; i < files.length(); i++){
@@ -654,76 +645,43 @@ public class RemoteFiles extends AppCompatActivity {
                 String id = obj.getString("id");
                 String filename = obj.getString ("filename");
                 String type = obj.getString("type");
+                String edit = obj.getString("edit");
                 String size = (obj.getString("type").equals("folder")) ? ((obj.getString("size").equals("1")) ? obj.getString("size") + " element" : obj.getString("size") + " elements") : Util.convertSize(obj.getString("size"));
                 boolean selfshared = Boolean.parseBoolean(obj.getString("selfshared"));
                 boolean shared = Boolean.parseBoolean(obj.getString("shared"));
-                String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : ((shared) ? "shared" : "");
-                Bitmap icon;
+                String owner = obj.getString("owner");
 
-                switch (type) {
-                    case "folder":
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
-                        break;
-                    case "audio":
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_audio);
-                        break;
-                    case "pdf":
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_pdf);
-                        break;
-                    case "image":
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_image);
-                        break;
-                    case "archive":
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_archive);
-                        break;
-                    default:
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_unknown);
-                        break;
-                }
+                int drawableResourceId = this.getResources().getIdentifier("ic_" + type, "drawable", this.getPackageName());
+                drawableResourceId = (drawableResourceId != 0) ? drawableResourceId : R.drawable.ic_unknown;
+                Bitmap icon = BitmapFactory.decodeResource(getResources(), drawableResourceId);
 
-                Bitmap thumb = null;
-                String thumbPath = "";
-                String imgPath = "";
+                int thumbSize = Util.getThumbSize(e, listLayout);
+                Bitmap thumb = (type.equals("image") && new File(Util.getCacheDir() + id).exists()) ? Util.getThumb(Util.getCacheDir() + id, thumbSize) : null;
 
-                if (type.equals("image")) {
-                    String ext = "." + FilenameUtils.getExtension(filename);
-                    imgPath = CACHE_FOLDER + Util.md5(id) + ext;
-                    String thumbType = (listLayout == R.layout.filelist) ? "list" : "grid";
-                    thumbPath = CACHE_FOLDER + Util.md5(id) + "_" + thumbType + ".jpg";
-
-
-                    if (new File(imgPath).exists()) {
-                        thumb = Util.getThumb(imgPath, thumbSize);
-                    }
-                    else if (new File(thumbPath).exists()) {
-                        thumb = Util.getThumb(thumbPath, thumbSize);
-                    }
-                }
-
-
-                FileItem item = new FileItem(id, filename, "", null, size, obj.getString("edit"), type, owner, selfshared, shared, icon, thumb, thumbPath, imgPath);
+                FileItem item = new FileItem(id, filename, "", size, edit, type, owner, selfshared, shared, icon, thumb);
                 items.add(item);
                 filteredItems.add(item);
             }
         } catch (JSONException exp) {
-
             exp.printStackTrace();
             Toast.makeText(this, R.string.unknown_error, Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void displayFiles() {
-        Util.sortFilesByName(filteredItems, sortOrder);
-        Util.sortFilesByName(items, sortOrder);
-
-        int firstFilePos = filteredItems.size();
-
-        for(int i = 0; i < filteredItems.size(); i++) {
+    private int countFolders() {
+        int count = 0;
+        for (int i = 0; i < filteredItems.size(); i++) {
             if (!filteredItems.get(i).is("folder")) {
-                firstFilePos = i;
+                count = i;
                 break;
             }
         }
+        return count;
+    }
+
+    private void displayFiles() {
+        Util.sortFilesByName(filteredItems, sortOrder);
+        Util.sortFilesByName(items, sortOrder);
 
         if (filteredItems.size() == 0) {
             info.setVisibility(View.VISIBLE);
@@ -733,7 +691,7 @@ public class RemoteFiles extends AppCompatActivity {
             info.setVisibility(View.GONE);
         }
 
-        newAdapter = new FileAdapter(this, listLayout, list, gridSize, loadthumbs, firstFilePos);
+        newAdapter = new FileAdapter(this, listLayout, list, loadthumbs);
         newAdapter.setData(filteredItems);
         list.setAdapter(newAdapter);
 
@@ -757,8 +715,9 @@ public class RemoteFiles extends AppCompatActivity {
             title = "Homefolder";
         }
 
+        int foldersCount = countFolders();
         setToolbarTitle(title);
-        setToolbarSubtitle("Folders: " + firstFilePos + ", Files: " + (filteredItems.size() - firstFilePos));
+        setToolbarSubtitle("Folders: " + foldersCount + ", Files: " + (filteredItems.size() - foldersCount));
 
         unselectAll();
     }
@@ -946,11 +905,9 @@ public class RemoteFiles extends AppCompatActivity {
             protected void onPostExecute(Connection.Response res) {
                 if (res.successful()) {
                     hierarchy = new ArrayList<>();
+                    hierarchy.add(new FileItem("0", "", ""));
 
-                    FileItem currDir = new FileItem("0", "", "", null);
-                    hierarchy.add(currDir);
-
-                    CustomAuthenticator.updateToken(res.getMessage());
+                    CustomAuthenticator.setToken(res.getMessage());
                     fetchFiles();
                     getVersion();
                     getPermissions();
@@ -1154,72 +1111,78 @@ public class RemoteFiles extends AppCompatActivity {
 
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(final MenuItem item) {
+            public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
                 mDrawerLayout.closeDrawer(GravityCompat.START);
 
                 hideAccounts();
 
-                switch (item.getItemId()) {
-                    case R.id.navigation_view_item_files:
-                        changeViewmode("files");
-                        break;
-
-                    case R.id.navigation_view_item_shareout:
-                        changeViewmode("shareout");
-                        break;
-
-                    case R.id.navigation_view_item_sharein:
-                        changeViewmode("sharein");
-                        break;
-
-                    case R.id.navigation_view_item_trash:
-                        changeViewmode("trash");
-                        break;
-
-                    case R.id.navigation_view_item_settings:
-                        preventLock = true;
-                        startActivityForResult(new Intent(getApplicationContext(), AppSettings.class), FORCE_RELOAD);
-                        break;
-
-                    case R.id.navigation_view_item_server:
-                        preventLock = true;
-                        startActivity(new Intent(getApplicationContext(), ServerSettings.class));
-                        break;
-
-                    case R.id.navigation_view_item_logout:
-                        new android.support.v7.app.AlertDialog.Builder(e)
-                                .setTitle("Logout")
-                                .setMessage("Are you sure you want to logout?")
-                                .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        logout();
-                                    }
-
-                                })
-                                .setNegativeButton("Cancel", null)
-                                .show();
-                        break;
-
-                    case R.id.navigation_view_item_add_account:
-                        startActivityForResult(new Intent(getApplicationContext(), Login.class), FORCE_RELOAD);
-                        break;
-
-                    case R.id.navigation_view_item_manage_accounts:
-                        startActivityForResult(new Intent(getApplicationContext(), Accounts.class), FORCE_RELOAD);
-                        break;
-
-                    case 1:
-                        if (DownloadManager.isRunning() || UploadManager.isRunning()) {
-                            Toast.makeText(e, "Up-/Download running", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            CustomAuthenticator.setActive(item.getTitle().toString());
-                            finish();
-                            startActivity(getIntent());
-                        }
+                if (item.getGroupId() == R.id.navigation_drawer_group_accounts) {
+                    if (DownloadManager.isRunning() || UploadManager.isRunning()) {
+                        Toast.makeText(e, "Up-/Download running", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        CustomAuthenticator.setActive(accounts.get(item.getItemId()).getServer());
+                        finish();
+                        startActivity(getIntent());
+                    }
                 }
+                else {
+                    switch (item.getItemId()) {
+                        case R.id.navigation_view_item_files:
+                            setViewmode("files");
+                            break;
 
+                        case R.id.navigation_view_item_shareout:
+                            setViewmode("shareout");
+                            break;
+
+                        case R.id.navigation_view_item_sharein:
+                            setViewmode("sharein");
+                            break;
+
+                        case R.id.navigation_view_item_trash:
+                            setViewmode("trash");
+                            break;
+
+                        case R.id.navigation_view_item_vault:
+                            preventLock = true;
+                            startActivity(new Intent(getApplicationContext(), Vault.class));
+                            break;
+
+                        case R.id.navigation_view_item_settings:
+                            preventLock = true;
+                            startActivityForResult(new Intent(getApplicationContext(), AppSettings.class), REQUEST_FORCE_RELOAD);
+                            break;
+
+                        case R.id.navigation_view_item_server:
+                            preventLock = true;
+                            startActivity(new Intent(getApplicationContext(), ServerSettings.class));
+                            break;
+
+                        case R.id.navigation_view_item_logout:
+                            new android.support.v7.app.AlertDialog.Builder(e)
+                                    .setTitle("Logout")
+                                    .setMessage("Are you sure you want to logout?")
+                                    .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            logout();
+                                        }
+
+                                    })
+                                    .setNegativeButton("Cancel", null)
+                                    .show();
+                            break;
+
+                        case R.id.navigation_view_item_add_account:
+                            startActivityForResult(new Intent(getApplicationContext(), Login.class), REQUEST_FORCE_RELOAD);
+                            break;
+
+                        case R.id.navigation_view_item_manage_accounts:
+                            startActivityForResult(new Intent(getApplicationContext(), Accounts.class), REQUEST_FORCE_RELOAD);
+                            break;
+                    }
+                }
                 return true;
             }
             }
@@ -1453,16 +1416,18 @@ public class RemoteFiles extends AppCompatActivity {
 
     private void setListLayout(int layout) {
         listLayout = layout;
-        String layoutString = (listLayout == R.layout.filegrid) ? "grid" : "list";
+        String layoutString = (listLayout == R.layout.gridview) ? "grid" : "list";
         settings.edit().putString("listlayout", layoutString).apply();
 
-        if (listLayout == R.layout.filelist) {
+        if (listLayout == R.layout.listview_detail) {
             list = (ListView) findViewById(R.id.list);
-            tmp_grid.setVisibility(View.GONE);
+            // Hide Grid
+            findViewById(R.id.grid).setVisibility(View.GONE);
         }
         else {
             list = (GridView) findViewById(R.id.grid);
-            tmp_list.setVisibility(View.GONE);
+            // Hide List
+            findViewById(R.id.list).setVisibility(View.GONE);
         }
         list.setVisibility(View.VISIBLE);
 
@@ -1486,7 +1451,7 @@ public class RemoteFiles extends AppCompatActivity {
             @Override
             public void onPositive() {
                 // Create image cache folder
-                File cache = new File(CACHE_FOLDER);
+                File cache = new File(Util.getCacheDir());
                 if (!cache.exists() && !cache.mkdir()) {
                     loadthumbs = false;
                     Toast.makeText(e, "Could not create cache", Toast.LENGTH_SHORT).show();
@@ -1825,6 +1790,8 @@ public class RemoteFiles extends AppCompatActivity {
         mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_one, true);
         mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_two, true);
         mNavigationView.getMenu().findItem(R.id.navigation_view_item_server).setVisible(isAdmin);
+        // Vault is hidden until ready
+        mNavigationView.getMenu().findItem(R.id.navigation_view_item_vault).setVisible(false);
     }
 
     private void toggleAccounts() {
@@ -1841,6 +1808,9 @@ public class RemoteFiles extends AppCompatActivity {
             header_indicator.setText("\u25BC");
             mNavigationView.getMenu().findItem(R.id.navigation_view_item_server).setVisible(isAdmin);
         }
+
+        // Vault is hidden until ready
+        mNavigationView.getMenu().findItem(R.id.navigation_view_item_vault).setVisible(false);
     }
 
     private void logout() {
