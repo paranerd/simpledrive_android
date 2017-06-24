@@ -348,11 +348,7 @@ public class FileSelector extends AppCompatActivity {
                         String path = file.getAbsolutePath();
                         String size = (file.isDirectory()) ? ((file.listFiles().length == 1) ? file.listFiles().length + " element" : file.listFiles().length + " elements") : Util.convertSize(file.length() + "");
                         String type = (file.isDirectory()) ? "folder" : getMimeType(file);
-
-                        int drawableResourceId = e.getResources().getIdentifier("ic_" + type, "drawable", e.getPackageName());
-                        drawableResourceId = (drawableResourceId != 0) ? drawableResourceId : R.drawable.ic_unknown;
-
-                        Bitmap icon = BitmapFactory.decodeResource(getResources(), drawableResourceId);
+                        Bitmap icon = Util.getDrawableByName(e, "ic_" + type, R.drawable.ic_unknown);
 
                         items.add(new FileItem("", filename, path, size, "", type, "", false, false, icon, null));
                     }

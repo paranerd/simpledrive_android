@@ -1,7 +1,7 @@
 package org.simpledrive.adapters;
 
-import android.app.Activity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +20,9 @@ public class VaultAdapter extends ArrayAdapter<VaultItem> {
     private LayoutInflater layoutInflater;
     private int layout;
     private AbsListView list;
-    private Activity e;
+    private AppCompatActivity e;
 
-    public VaultAdapter (Activity mActivity, int textViewResourceId, AbsListView list) {
+    public VaultAdapter (AppCompatActivity mActivity, int textViewResourceId, AbsListView list) {
         super(mActivity, textViewResourceId);
 
         this.layoutInflater = LayoutInflater.from(mActivity);

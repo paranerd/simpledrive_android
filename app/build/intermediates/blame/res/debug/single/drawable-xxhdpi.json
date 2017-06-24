@@ -48,12 +48,12 @@
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_paste.png"
     },
     {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-xxhdpi/ic_grid.png",
-        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_grid.png"
-    },
-    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-xxhdpi/ic_archive.png",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_archive.png"
+    },
+    {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-xxhdpi/ic_grid.png",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_grid.png"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-xxhdpi/ic_audio.png",
@@ -72,8 +72,16 @@
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_error.png"
     },
     {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-xxhdpi/ic_lock.png",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_lock.png"
+    },
+    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-xxhdpi/ic_menu.png",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_menu.png"
+    },
+    {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-xxhdpi/ic_visibility_black_24dp.png",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_visibility_black_24dp.png"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-xxhdpi/ic_unknown.png",
@@ -144,6 +152,10 @@
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_list.png"
     },
     {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-xxhdpi/ic_visibility_off_black_24dp.png",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_visibility_off_black_24dp.png"
+    },
+    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-xxhdpi/ic_cloud.png",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_cloud.png"
     },
@@ -162,6 +174,10 @@
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-xxhdpi/ic_check.png",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_check.png"
+    },
+    {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-xxhdpi/ic_text.png",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-xxhdpi/ic_text.png"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-xxhdpi/ic_logout.png",

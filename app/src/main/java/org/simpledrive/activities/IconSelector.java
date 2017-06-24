@@ -76,6 +76,7 @@ public class IconSelector extends AppCompatActivity {
     }
 
     private void displayIcons() {
+        // Add all drawable icons
         Field[] drawablesFields = R.drawable.class.getFields();
 
         for (Field field : drawablesFields) {

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="TextLabel" parent="TextAppearance.Design.Hint">
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <style name="MainTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="navDrawerItem">@color/orange</item>
         <item name="colorAccent">@color/darkgreen</item>
         <item name="android:colorAccent">@color/darkgreen</item>
         <item name="android:colorPrimary">@color/darkgreen</item>
@@ -20,7 +23,6 @@
     </style>
 
     <style name="MainTheme.Dark" parent="Theme.AppCompat.NoActionBar">
-        <item name="navDrawerItem">@color/orange</item>
         <item name="colorAccent">@color/darkgreen</item>
         <item name="android:colorAccent">@color/darkgreen</item>
         <item name="android:colorPrimary">@color/darkgreen</item>

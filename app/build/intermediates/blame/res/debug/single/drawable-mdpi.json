@@ -80,6 +80,10 @@
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-mdpi/ic_arrow_right.png"
     },
     {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-mdpi/ic_lock.png",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-mdpi/ic_lock.png"
+    },
+    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-mdpi/ic_grid.png",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-mdpi/ic_grid.png"
     },
@@ -96,6 +100,10 @@
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-mdpi/ic_account_circle.png"
     },
     {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-mdpi/ic_visibility_off_black_24dp.png",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-mdpi/ic_visibility_off_black_24dp.png"
+    },
+    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-mdpi/ic_close_black.png",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-mdpi/ic_close_black.png"
     },
@@ -106,6 +114,10 @@
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-mdpi/ic_audio.png",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-mdpi/ic_audio.png"
+    },
+    {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-mdpi/ic_visibility_black_24dp.png",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable-mdpi/ic_visibility_black_24dp.png"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable-mdpi/ic_settings.png",

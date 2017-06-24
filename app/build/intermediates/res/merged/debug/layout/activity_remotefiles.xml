@@ -53,7 +53,7 @@
                         android:id="@id/list"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:choiceMode="singleChoice"
+                        android:choiceMode="multipleChoiceModal"
                         android:divider="?android:colorFocusedHighlight"
                         android:dividerHeight="1dp"
                         android:visibility="gone"/>

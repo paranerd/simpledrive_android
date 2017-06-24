@@ -1,5 +1,9 @@
 [
     {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/menu/vault_toolbar.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/vault_toolbar.xml"
+    },
+    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/menu/remote_files_context.xml",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/menu/remote_files_context.xml"
     },

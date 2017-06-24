@@ -3,21 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="/home/paranerd/Development/simpledrive_android/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="caff8e51a24901cfc9cd7e1cf83d84f4cb0c103b">
-        <dex dex="/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_37f3d002f7135d89544464a18e017392e51aa4ec/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/home/paranerd/Development/simpledrive_android/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="b6726f8112edf5423192c738adedae26c4652b7a">
+        sha1="69b1f1d64a2605b8aac4dfd5b6637fbcbd064f73">
         <dex dex="/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_f7e59204bba1841e13326dcbffe1c21a393491dc/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/paranerd/Development/simpledrive_android/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_37f3d002f7135d89544464a18e017392e51aa4ec/classes.dex" />
     </item>
 
 </items>

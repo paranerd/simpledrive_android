@@ -225,7 +225,7 @@ public class Accounts extends AppCompatActivity {
 
         for (int i = 0; i < list.getCount(); i++) {
             if (checked.get(i)) {
-                return items.get(i).getServer();
+                return items.get(i).getName();
             }
         }
         return null;

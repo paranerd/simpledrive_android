@@ -1,5 +1,7 @@
 package org.simpledrive.helper;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -9,6 +11,7 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.simpledrive.R;
 import org.simpledrive.models.FileItem;
@@ -28,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
 
 public class Util {
@@ -261,5 +265,21 @@ public class Util {
         ctx.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 
         return (layout == R.layout.listview_detail) ? Util.dpToPx(100) : displaymetrics.widthPixels / 3;
+    }
+
+    public static Bitmap getDrawableByName(AppCompatActivity ctx, String name, int def) {
+        int drawableResourceId = ctx.getResources().getIdentifier(name, "drawable", ctx.getPackageName());
+        drawableResourceId = (drawableResourceId != 0) ? drawableResourceId : def;
+        return BitmapFactory.decodeResource(ctx.getResources(), drawableResourceId);
+    }
+
+    public static void copyToClipboard(AppCompatActivity ctx, String label, String toast) {
+        ClipboardManager clipboard = (ClipboardManager) ctx.getSystemService(CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("label", label);
+        clipboard.setPrimaryClip(clip);
+
+        if (!toast.equals("")) {
+            Toast.makeText(ctx, toast, Toast.LENGTH_SHORT).show();
+        }
     }
 }

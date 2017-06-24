@@ -2,8 +2,6 @@ package org.simpledrive.activities;
 
 import android.app.AlertDialog;
 import android.app.SearchManager;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,7 +10,6 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -168,6 +165,12 @@ public class RemoteFiles extends AppCompatActivity {
         listLayout = (settings.getString("listlayout", "list").equals("list")) ? R.layout.listview_detail: R.layout.gridview;
         setContentView(R.layout.activity_remotefiles);
 
+        //String enc = Crypto.encrypt("This is test", "secret");
+        //Log.i("debug", "enc: " + enc);
+        //String enc = "blNxR3dqMS9MZmsyNW9NdXlVTVBJamhGUndtdHQzaVlMMU5LZlpqbjJyMD06eUJ0Zy8yZWJhTEVkNFc0OW45QldoQT09OjM2M2NmNGRmOGU0OGYwYTk=";
+        //String dec = Crypto.decrypt(enc, "mypassword");
+        //Log.i("debug", "dec: " + dec);
+
         initInterface();
         setListLayout(listLayout);
         initToolbar();
@@ -235,13 +238,19 @@ public class RemoteFiles extends AppCompatActivity {
         Menu menu = mNavigationView.getMenu();
         menu.removeGroup(R.id.navigation_drawer_group_accounts);
 
-        ArrayList<AccountItem> allAccounts = CustomAuthenticator.getAllAccounts(false);
+        //ArrayList<AccountItem> allAccounts = CustomAuthenticator.getAllAccounts(false);
+        accounts = CustomAuthenticator.getAllAccounts(false);
 
-        for (int i = 0; i < allAccounts.size(); i++) {
-            accounts.add(allAccounts.get(i));
-            menu.add(R.id.navigation_drawer_group_accounts, i, 0, allAccounts.get(i).getDisplayName()).setIcon(R.drawable.ic_account_circle);
-
+        for (int i = 0; i < accounts.size(); i++) {
+            menu.add(R.id.navigation_drawer_group_accounts, i, 0, accounts.get(i).getDisplayName()).setIcon(R.drawable.ic_account_circle);
         }
+
+        /*for (int i = 0; i < allAccounts.size(); i++) {
+            AccountItem a = allAccounts.get(i);
+            accounts.add(a);
+            String title = (allAccounts.get(i).getNickname().equals("")) ? allAccounts
+            menu.add(R.id.navigation_drawer_group_accounts, i, 0, allAccounts.get(i).getDisplayName()).setIcon(R.drawable.ic_account_circle);
+        }*/
 
         hideAccounts();
 
@@ -651,9 +660,7 @@ public class RemoteFiles extends AppCompatActivity {
                 boolean shared = Boolean.parseBoolean(obj.getString("shared"));
                 String owner = obj.getString("owner");
 
-                int drawableResourceId = this.getResources().getIdentifier("ic_" + type, "drawable", this.getPackageName());
-                drawableResourceId = (drawableResourceId != 0) ? drawableResourceId : R.drawable.ic_unknown;
-                Bitmap icon = BitmapFactory.decodeResource(getResources(), drawableResourceId);
+                Bitmap icon = Util.getDrawableByName(this, "ic_" + type, R.drawable.ic_unknown);
 
                 int thumbSize = Util.getThumbSize(e, listLayout);
                 Bitmap thumb = (type.equals("image") && new File(Util.getCacheDir() + id).exists()) ? Util.getThumb(Util.getCacheDir() + id, thumbSize) : null;
@@ -1121,7 +1128,7 @@ public class RemoteFiles extends AppCompatActivity {
                         Toast.makeText(e, "Up-/Download running", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        CustomAuthenticator.setActive(accounts.get(item.getItemId()).getServer());
+                        CustomAuthenticator.setActive(accounts.get(item.getItemId()).getName());
                         finish();
                         startActivity(getIntent());
                     }
@@ -1552,10 +1559,7 @@ public class RemoteFiles extends AppCompatActivity {
                         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                ClipboardManager clipboard = (ClipboardManager) getSystemService(RemoteFiles.CLIPBOARD_SERVICE);
-                                ClipData clip = ClipData.newPlainText("label", res.getMessage());
-                                clipboard.setPrimaryClip(clip);
-                                Toast.makeText(e, "Link copied to clipboard", Toast.LENGTH_SHORT).show();
+                                Util.copyToClipboard(RemoteFiles.this, res.getMessage(), "Link copied to clipbard");
                                 dialog.cancel();
                             }
                         }).show();
@@ -1791,7 +1795,7 @@ public class RemoteFiles extends AppCompatActivity {
         mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_two, true);
         mNavigationView.getMenu().findItem(R.id.navigation_view_item_server).setVisible(isAdmin);
         // Vault is hidden until ready
-        mNavigationView.getMenu().findItem(R.id.navigation_view_item_vault).setVisible(false);
+        //mNavigationView.getMenu().findItem(R.id.navigation_view_item_vault).setVisible(false);
     }
 
     private void toggleAccounts() {
@@ -1810,7 +1814,7 @@ public class RemoteFiles extends AppCompatActivity {
         }
 
         // Vault is hidden until ready
-        mNavigationView.getMenu().findItem(R.id.navigation_view_item_vault).setVisible(false);
+        //mNavigationView.getMenu().findItem(R.id.navigation_view_item_vault).setVisible(false);
     }
 
     private void logout() {
