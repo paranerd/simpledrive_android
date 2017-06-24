@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/DrawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="7dp"
+    android:fitsSystemWindows="true">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false">
+
+            <RelativeLayout
+                android:background="?android:colorBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:android="http://schemas.android.com/apk/res/android">
+
+                <include
+                    android:id="@+id/toolbar"
+                    layout="@layout/toolbar"/>
+
+                <TextView
+                    android:id="@+id/info"
+                    android:textSize="20.0sp"
+                    android:textColor="?android:textColorSecondary"
+                    android:gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="@string/empty"
+                    android:layout_centerHorizontal="true"
+                    android:visibility="gone"
+                    android:fontFamily="sans-serif-light" />
+
+                <ListView
+                    android:id="@id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/toolbar"
+                    android:choiceMode="singleChoice" />
+            </RelativeLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:elevation="7dp"
+            app:backgroundTint="?android:attr/colorPrimary"
+            android:src="@drawable/ic_add"/>
+    </FrameLayout>
+
+</android.support.v4.widget.DrawerLayout>

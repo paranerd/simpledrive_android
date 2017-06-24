@@ -30,6 +30,7 @@ import org.simpledrive.helper.Crypto;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.VaultItem;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Vault extends AppCompatActivity {
