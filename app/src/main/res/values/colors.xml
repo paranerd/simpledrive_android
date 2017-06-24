@@ -5,7 +5,7 @@
     <color name="orange">#FFFFBB33</color>
     <color name="red">#ffff0000</color>
     <color name="grey1">#fff5f5f5</color>
-    <color name="grey1transparent">#aaf5f5f5</color>
+    <color name="grey1transparent">#a5f5f5f5</color>
     <color name="grey2">#ffe3e3e3</color>
     <color name="grey2transparent">#aae3e3e3</color>
     <color name="grey3">#ffb3b3b3</color>
@@ -23,4 +23,5 @@
     <color name="transparentgreen">#552e8b5e</color>
     <color name="halfblack">#33000000</color>
     <color name="transparent">#00000000</color>
+    <color name="blue">#ff0000ff</color>
 </resources>

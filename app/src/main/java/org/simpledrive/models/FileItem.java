@@ -2,7 +2,8 @@ package org.simpledrive.models;
 
 import android.graphics.Bitmap;
 
-public class FileItem {
+public class FileItem
+{
 	private String id;
 	private String filename;
 	private String size;
@@ -17,12 +18,14 @@ public class FileItem {
 	private boolean shared;
 
 	// Used for hierarchy elements
-	public FileItem(String id, String filename, String path) {
+	public FileItem(String id, String filename, String path)
+    {
 		this(id, filename, path, "", "", "folder", "", false, false, null, null);
 	}
 
 	// For all other elements
-	public FileItem(String id, String filename, String path, String size, String edit, String type, String owner, boolean selfshared, boolean shared, Bitmap icon, Bitmap thumb) {
+	public FileItem(String id, String filename, String path, String size, String edit, String type, String owner, boolean selfshared, boolean shared, Bitmap icon, Bitmap thumb)
+    {
 		this.id = id;
 		this.filename = filename;
 		this.size = size;
@@ -36,27 +39,28 @@ public class FileItem {
 		this.shared = shared;
 	}
 
-	public boolean is(String type) {
+	public boolean is(String type)
+    {
 		return this.type.equals(type);
 	}
 
-	public String getID() {
+	public String getID()
+	{
 		return this.id;
 	}
 	
-	public String getFilename() {
+	public String getFilename()
+    {
 		return this.filename;
 	}
 	
-	public String getSize() {
+	public String getSize()
+    {
 		return this.size;
 	}
-	
-	public String getLastEdit() {
-		return this.edit;
-	}
-	
-	public String getPath() {
+
+	public String getPath()
+    {
 		return this.path;
 	}
 
@@ -84,15 +88,18 @@ public class FileItem {
 		return this.selfshared;
 	}
 
-	public boolean shared() {
+	public boolean shared()
+    {
 		return this.shared;
 	}
 
-	public void setScrollPos(int pos) {
+	public void setScrollPos(int pos)
+    {
 		this.scrollPos = pos;
 	}
 
-	public int getScrollPos() {
+	public int getScrollPos()
+    {
 		return this.scrollPos;
 	}
 }

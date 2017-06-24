@@ -4,7 +4,6 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 
 import org.simpledrive.helper.DownloadManager;
 import org.simpledrive.helper.UploadManager;
@@ -127,7 +126,6 @@ public class CustomAuthenticator {
 
         for (Account a : aaccount) {
             if (a.name.equals(accountName)) {
-                Log.i("debug", "setting nickname " + nickname + " for " + accountName);
                 am.setUserData(a, KEY_NICKNAME, nickname);
                 return true;
             }
@@ -250,10 +248,12 @@ public class CustomAuthenticator {
 
         for (Account a : aaccount) {
             if (includeActive || !a.name.equals(active)) {
+                String name = a.name;
                 String server = am.getUserData(a, KEY_SERVER);
+                String user = am.getUserData(a, KEY_USER);
                 String nick = am.getUserData(a, KEY_NICKNAME);
 
-                accounts.add(new AccountItem(server, nick));
+                accounts.add(new AccountItem(name, server, user, nick));
             }
         }
 

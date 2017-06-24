@@ -1,15 +1,5 @@
 package org.simpledrive.helper;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URLEncoder;
-
-import org.simpledrive.R;
-import org.simpledrive.activities.RemoteFiles;
-import org.simpledrive.authenticator.CustomAuthenticator;
-import org.simpledrive.models.FileItem;
-
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -26,6 +16,16 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
+
+import org.simpledrive.R;
+import org.simpledrive.activities.RemoteFiles;
+import org.simpledrive.authenticator.CustomAuthenticator;
+import org.simpledrive.models.FileItem;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
 
 public class AudioService extends Service {
 
@@ -68,7 +68,7 @@ public class AudioService extends Service {
 
 	@Override
 	public boolean onUnbind(Intent intent) {
-		if(playPause) {
+		if (playPause) {
 			return true;
 		}
 		prepared = false;
@@ -107,7 +107,7 @@ public class AudioService extends Service {
 	}
 
 	public void pause() {
-		if(prepared && mediaPlayer != null && mediaPlayer.isPlaying()) {
+		if (prepared && mediaPlayer != null && mediaPlayer.isPlaying()) {
 			mediaPlayer.pause();
 			playPause = false;
 			sendBroadcast(PLAY_CHANGED);
@@ -116,7 +116,7 @@ public class AudioService extends Service {
 	}
 
 	public void stop() {
-		if(prepared && mediaPlayer != null && mediaPlayer.isPlaying()) {
+		if (prepared && mediaPlayer != null && mediaPlayer.isPlaying()) {
 			mediaPlayer.pause();
 			playPause = false;
 		}
@@ -187,7 +187,7 @@ public class AudioService extends Service {
 	}
 
 	public int getCurrentPosition() {
-		if(mediaPlayer != null && isPlaying()) {
+		if (mediaPlayer != null && isPlaying()) {
 			return (int) (((float) mediaPlayer.getCurrentPosition() / mediaPlayer.getDuration()) * 100);
 		}
 		return 0;
@@ -212,7 +212,7 @@ public class AudioService extends Service {
 		RemoteViews remoteView = new RemoteViews(getPackageName(), R.layout.notification);
 		remoteView.setImageViewResource(R.id.notifimage, R.drawable.ic_play_circle);
 
-		if(mediaPlayer.isPlaying()) {
+		if (mediaPlayer.isPlaying()) {
 			remoteView.setImageViewResource(R.id.notifbutton, R.drawable.ic_pause_black);
 		}
 		else {
@@ -237,10 +237,10 @@ public class AudioService extends Service {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if(intent.getAction().equals(CHANGE_PLAY)) {
+			if (intent.getAction().equals(CHANGE_PLAY)) {
 				togglePlay();
 			}
-			else if(intent.getAction().equals(STOP)) {
+			else if (intent.getAction().equals(STOP)) {
 				stop();
 			}
 		}

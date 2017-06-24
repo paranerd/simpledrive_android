@@ -64,7 +64,7 @@
         <item
             android:id="@+id/navigation_view_item_vault"
             android:orderInCategory="2"
-            android:icon="@drawable/ic_cloud"
+            android:icon="@drawable/ic_lock"
             android:visible="false"
             android:title="Vault"/>
 

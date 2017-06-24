@@ -44,8 +44,8 @@ public class AccountAdapter extends ArrayAdapter<AccountItem> {
             holder = new ViewHolder();
             holder.icon = (ImageView) convertView.findViewById(R.id.icon);
             holder.checked = (RelativeLayout) convertView.findViewById(R.id.checked);
-            holder.displayName = (TextView) convertView.findViewById(R.id.title);
-            holder.server = (TextView) convertView.findViewById(R.id.detail1);
+            holder.title = (TextView) convertView.findViewById(R.id.title);
+            holder.name = (TextView) convertView.findViewById(R.id.detail1);
             convertView.setTag(holder);
         }
         else {
@@ -54,10 +54,10 @@ public class AccountAdapter extends ArrayAdapter<AccountItem> {
 
         holder.icon.setImageBitmap(BitmapFactory.decodeResource(e.getResources(), R.drawable.ic_account));
         assert item != null;
-        holder.displayName.setText(item.getDisplayName());
+        holder.title.setText(item.getDisplayName());
 
-        if (!item.getServer().equals(item.getDisplayName())) {
-            holder.server.setText(item.getServer());
+        if (!item.getName().equals(item.getDisplayName())) {
+            holder.name.setText(item.getName());
         }
 
         if (list.isItemChecked(position)) {
@@ -72,8 +72,8 @@ public class AccountAdapter extends ArrayAdapter<AccountItem> {
 
     private class ViewHolder {
         ImageView icon;
-        TextView displayName;
-        TextView server;
+        TextView title;
+        TextView name;
         RelativeLayout checked;
     }
 
