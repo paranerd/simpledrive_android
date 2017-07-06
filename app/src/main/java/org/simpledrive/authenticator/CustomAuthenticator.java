@@ -26,6 +26,7 @@ public class CustomAuthenticator {
     private static final String ACCOUNT_TYPE = "org.simpledrive";
     private static final String KEY_USER = "user";
     private static final String KEY_TOKEN = "token";
+    private static final String KEY_SALT = "salt";
     private static final String KEY_SERVER = "server";
     private static final String KEY_PIN = "pin";
     private static final String KEY_NICKNAME = "nickname";
@@ -70,10 +71,12 @@ public class CustomAuthenticator {
     public static boolean addAccount(String username, String password, String server, String token) {
         final String accountName = username + "@" + server;
         final Account account = new Account(accountName, ACCOUNT_TYPE);
+        final String salt = "salt";
         Bundle userdata = new Bundle();
         userdata.putString(KEY_USER, username);
         userdata.putString(KEY_SERVER, server);
         userdata.putString(KEY_TOKEN, token);
+        userdata.putString(KEY_SALT, salt);
         userdata.putString(KEY_UNLOCK_ATTEMPTS, "0");
         userdata.putString(KEY_LAST_UNLOCK_ATTEMPT, "0");
         userdata.putString(KEY_NICKNAME, "");
@@ -166,6 +169,12 @@ public class CustomAuthenticator {
 
     public static String getServer() {
         return (getActiveAccount() != null) ? am.getUserData(getActiveAccount(), KEY_SERVER) : "";
+    }
+
+    public static String getSalt() {
+        // TO-DO
+        return "salt";
+        //return (getActiveAccount() != null) ? am.getUserData(getActiveAccount(), KEY_SALT) : "";
     }
 
     public static String getToken() {
