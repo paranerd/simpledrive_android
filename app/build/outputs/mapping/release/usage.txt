@@ -5518,8 +5518,6 @@ org.simpledrive.R$styleable
 org.simpledrive.R$xml
 org.simpledrive.activities.AppSettings:
     private static final int REQUEST_STORAGE
-org.simpledrive.activities.Vault:
-    private static final java.lang.String vaultname
 org.simpledrive.activities.VaultEntry:
     public static final java.lang.String COPY_USER
     public static final java.lang.String COPY_PASS
@@ -5529,6 +5527,7 @@ org.simpledrive.authenticator.CustomAuthenticator:
     private static final java.lang.String ACCOUNT_TYPE
     private static final java.lang.String KEY_USER
     private static final java.lang.String KEY_TOKEN
+    private static final java.lang.String KEY_SALT
     private static final java.lang.String KEY_SERVER
     private static final java.lang.String KEY_PIN
     private static final java.lang.String KEY_NICKNAME
@@ -5562,7 +5561,6 @@ org.simpledrive.helper.UploadManager:
     20:20:public UploadManager()
 org.simpledrive.helper.Util:
     37:37:public Util()
-    133:146:public static java.lang.String md5(java.lang.String)
     156:159:public static int pxToDp(int)
 org.simpledrive.models.AccountItem:
     25:25:public java.lang.String getServer()

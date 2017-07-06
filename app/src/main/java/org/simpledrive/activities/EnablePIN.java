@@ -28,41 +28,35 @@ public class EnablePIN extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.activity_unlock);
 
         pin = (TextView) findViewById(R.id.unlock_pin);
-        reset(true);
         error = (TextView) findViewById(R.id.unlock_error);
+        clearPin();
     }
 
     private void setPIN() {
-        String text = "";
-        for (int i = 0; i < enteredPin.length(); i++) {
-            text += "\u25CF";
-        }
-        pin.setText(text);
+        pin.setText(new String(new char[enteredPin.length()]).replace("\0", "\u25CF"));
 
         if (enteredPin.length() == 4) {
             if (step == 0) {
                 pin1 = enteredPin;
                 step++;
-                reset(false);
+                clearPin();
                 showError("");
             }
+            else if (!pin1.equals(enteredPin)) {
+                showError("PINs don't match");
+                step = 0;
+                clearPin();
+            }
             else {
-                if (pin1.equals(enteredPin)) {
-                    CustomAuthenticator.setPIN(pin1);
-                    finish();
-                }
-                else {
-                    showError("PINs don't match");
-                    step = 0;
-                    reset(true);
-                }
+                CustomAuthenticator.setPIN(pin1);
+                finish();
             }
         }
     }
 
-    private void reset(boolean full) {
+    private void clearPin() {
+        String text = (step == 0) ? "Enter new PIN" : "Repeat new PIN";
         enteredPin = "";
-        String text = (full || step == 0) ? "Enter new PIN" : "Repeat new PIN";
         pin.setText("");
         pin.setHint(text);
     }
@@ -77,12 +71,11 @@ public class EnablePIN extends AppCompatActivity implements View.OnClickListener
             setPIN();
             return;
         }
+
         switch (view.getId()) {
             case R.id.unlock_clear_pin:
-                reset(false);
+                clearPin();
                 break;
         }
-
-        setPIN();
     }
 }

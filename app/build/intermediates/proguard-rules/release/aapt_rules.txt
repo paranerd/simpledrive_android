@@ -31,22 +31,20 @@
 # view sw600dp-v13/res/layout-sw600dp-v13/design_layout_snackbar.xml #generated:18
 -keep class android.support.design.widget.Snackbar$SnackbarLayout { <init>(...); }
 
-# view res/layout/activity_vaultentry.xml #generated:184
-# view res/layout/activity_vaultentry2.xml #generated:137
-# view res/layout/activity_vaultentry2.xml #generated:178
-# view res/layout/activity_vaultentry2.xml #generated:45
-# view res/layout/activity_vaultentry2.xml #generated:69
-# view res/layout/activity_vaultentry2.xml #generated:98
-# view res/layout/activity_vaultunlock.xml #generated:56
+# view res/layout/activity_vaultentry.xml #generated:137
+# view res/layout/activity_vaultentry.xml #generated:178
+# view res/layout/activity_vaultentry.xml #generated:45
+# view res/layout/activity_vaultentry.xml #generated:69
+# view res/layout/activity_vaultentry.xml #generated:98
+# view res/layout/activity_vaultunlock.xml #generated:55
 -keep class android.support.design.widget.TextInputEditText { <init>(...); }
 
-# view res/layout/activity_vaultentry.xml #generated:174
-# view res/layout/activity_vaultentry2.xml #generated:128
-# view res/layout/activity_vaultentry2.xml #generated:168
-# view res/layout/activity_vaultentry2.xml #generated:36
-# view res/layout/activity_vaultentry2.xml #generated:60
-# view res/layout/activity_vaultentry2.xml #generated:89
-# view res/layout/activity_vaultunlock.xml #generated:46
+# view res/layout/activity_vaultentry.xml #generated:128
+# view res/layout/activity_vaultentry.xml #generated:168
+# view res/layout/activity_vaultentry.xml #generated:36
+# view res/layout/activity_vaultentry.xml #generated:60
+# view res/layout/activity_vaultentry.xml #generated:89
+# view res/layout/activity_vaultunlock.xml #generated:45
 -keep class android.support.design.widget.TextInputLayout { <init>(...); }
 
 # view res/layout/activity_log.xml #generated:2
@@ -154,6 +152,9 @@
 # view AndroidManifest.xml #generated:146
 -keep class org.simpledrive.activities.PasswordGenerator { <init>(...); }
 
+# view AndroidManifest.xml #generated:136
+-keep class org.simpledrive.activities.PasswordScreen { <init>(...); }
+
 # view AndroidManifest.xml #generated:24
 -keep class org.simpledrive.activities.RemoteFiles { <init>(...); }
 
@@ -181,9 +182,6 @@
 # view AndroidManifest.xml #generated:131
 -keep class org.simpledrive.activities.VaultEntry { <init>(...); }
 
-# view AndroidManifest.xml #generated:136
--keep class org.simpledrive.activities.VaultLock { <init>(...); }
-
 # view AndroidManifest.xml #generated:64
 -keep class org.simpledrive.authenticator.AuthenticationService { <init>(...); }
 
@@ -210,16 +208,12 @@
 # onClick res/layout/activity_unlock.xml #generated:49
 # onClick res/layout/activity_unlock.xml #generated:85
 # onClick res/layout/activity_unlock.xml #generated:99
-# onClick res/layout/activity_vaultentry.xml #generated:151
-# onClick res/layout/activity_vaultentry.xml #generated:199
-# onClick res/layout/activity_vaultentry.xml #generated:208
-# onClick res/layout/activity_vaultentry2.xml #generated:152
-# onClick res/layout/activity_vaultentry2.xml #generated:193
-# onClick res/layout/activity_vaultentry2.xml #generated:202
-# onClick res/layout/activity_vaultunlock.xml #generated:71
+# onClick res/layout/activity_vaultentry.xml #generated:152
+# onClick res/layout/activity_vaultentry.xml #generated:193
+# onClick res/layout/activity_vaultentry.xml #generated:202
+# onClick res/layout/activity_vaultunlock.xml #generated:70
 -keepclassmembers class * { *** onClick(...); }
 
-# onClick res/layout/activity_vaultentry.xml #generated:111
-# onClick res/layout/activity_vaultentry2.xml #generated:113
+# onClick res/layout/activity_vaultentry.xml #generated:113
 -keepclassmembers class * { *** openURL(...); }
 

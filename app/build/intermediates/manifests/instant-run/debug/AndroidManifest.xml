@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.simpledrive"
-    android:versionCode="88"
+    android:versionCode="89"
     android:versionName="6.0.0" >
 
     <uses-sdk
@@ -134,7 +134,7 @@
             android:theme="@style/MainTheme.Light" >
         </activity>
         <activity
-            android:name="org.simpledrive.activities.VaultLock"
+            android:name="org.simpledrive.activities.PasswordScreen"
             android:label="Vault Lock"
             android:theme="@style/MainTheme.Light" >
         </activity>

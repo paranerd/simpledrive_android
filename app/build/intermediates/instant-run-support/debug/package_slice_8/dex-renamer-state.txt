@@ -1,4 +1,4 @@
-#Tue Jun 20 11:21:47 CEST 2017
+#Thu Jul 06 08:18:10 CEST 2017
 base.0=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_8
 renamed.0=classes.dex
 file.0=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_8/classes.dex

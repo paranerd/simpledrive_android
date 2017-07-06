@@ -241,14 +241,14 @@ ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidMa
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:136:13-51
 	android:name
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:134:13-50
-activity#org.simpledrive.activities.VaultLock
+activity#org.simpledrive.activities.PasswordScreen
 ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:139:9-143:20
 	android:label
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:141:13-39
 	android:theme
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:142:13-51
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:140:13-49
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:140:13-54
 activity#org.simpledrive.activities.IconSelector
 ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:145:9-149:20
 	android:label

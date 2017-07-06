@@ -46,7 +46,7 @@ public class Crypto {
 
     public static String encrypt(String value, String secret) {
         try {
-            // Generate IV
+            // Generate IV - on error try randomString() and getBytes for ivSpec and iv in forReturn
             int iv_size = 16;
             byte[] iv = randomBytes(iv_size);
             IvParameterSpec ivSpec = new IvParameterSpec(iv);
@@ -64,11 +64,11 @@ public class Crypto {
 
             // Encrypt
             byte[] encrypted = cipher.doFinal(value.getBytes());
-            String encryptedString = Base64.encodeToString(encrypted, Base64.DEFAULT);
+            String encryptedString = Base64.encodeToString(encrypted, Base64.NO_WRAP);
 
             // Encode
-            String forReturn = encryptedString + ":" + Base64.encodeToString(iv, Base64.DEFAULT) + ":" + salt;
-            return Base64.encodeToString(forReturn.getBytes(), Base64.DEFAULT);
+            String forReturn = encryptedString + ":" + Base64.encodeToString(iv, Base64.NO_WRAP) + ":" + salt;
+            return Base64.encodeToString(forReturn.getBytes(), Base64.NO_WRAP);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

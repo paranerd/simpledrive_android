@@ -112,10 +112,6 @@
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_sharefiles.xml"
     },
     {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/activity_vaultentry2.xml",
-        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vaultentry2.xml"
-    },
-    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/abc_alert_dialog_button_bar_material.xml",
         "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/layout/abc_alert_dialog_button_bar_material.xml"
     },

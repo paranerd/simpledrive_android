@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.simpledrive.R;
 import org.simpledrive.adapters.VaultAdapter;
+import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.Connection;
 import org.simpledrive.helper.Crypto;
 import org.simpledrive.helper.Util;
@@ -36,16 +37,26 @@ import java.util.ArrayList;
 public class Vault extends AppCompatActivity {
     // General
     private static Vault e;
-    private static ArrayList<VaultItem> items;
+    private static ArrayList<VaultItem> items = new ArrayList<>();
     private VaultAdapter newAdapter;
     private int selectedPos;
-    private static final String vaultname = "vault";
-    private String vaultEncrypted;
-    private static String passphrase = "mypassword";
-    private int REQUEST_UNLOCK = 0;
     private boolean waitingForUnlock = false;
-    private boolean passphraseError = false;
+    private boolean waitingForSetPassphrase = false;
     private static boolean savePending = false;
+    private boolean createNewVault = false;
+    private int unlockAttempts= 0;
+
+    // Vault
+    private static final String username = CustomAuthenticator.getUsername();
+    private static final String server = CustomAuthenticator.getServer();
+    private static final String salt = CustomAuthenticator.getSalt();
+    private static final String vaultname = Util.md5(username + server + salt);
+    private static String vaultEncrypted;
+    private static String passphrase = "";
+
+    // Request Codes
+    private int REQUEST_UNLOCK = 0;
+    private int REQUEST_SET_PASSPHRASE = 1;
 
     // Interface
     private TextView info;
@@ -76,17 +87,16 @@ public class Vault extends AppCompatActivity {
 
         setUpList();
 
-        if (!waitingForUnlock) {
+        if (!waitingForUnlock && !waitingForSetPassphrase) {
             load();
         }
     }
 
     protected void onDestroy() {
         super.onDestroy();
-        items = null;
+        items = new ArrayList<>();
         vaultEncrypted = "";
-        // TO-DO: Uncomment that!
-        //passphrase = "";
+        passphrase = "";
 
     }
 
@@ -96,6 +106,17 @@ public class Vault extends AppCompatActivity {
                 passphrase = data.getStringExtra("passphrase");
                 waitingForUnlock = false;
                 decrypt();
+            }
+            else {
+                finish();
+            }
+        }
+        else if (requestCode == REQUEST_SET_PASSPHRASE) {
+            if (resultCode == RESULT_OK) {
+                passphrase = data.getStringExtra("passphrase");
+                waitingForSetPassphrase = false;
+                createNewVault = true;
+                display();
             }
             else {
                 finish();
@@ -220,7 +241,7 @@ public class Vault extends AppCompatActivity {
 
     private void load() {
         // Vault has already been loaded - just display
-        if (items != null) {
+        if (items.size() > 0 || createNewVault) {
             display();
         }
         // Load vault from local file
@@ -244,10 +265,12 @@ public class Vault extends AppCompatActivity {
             }
             else {
                 waitingForUnlock = true;
-                Intent i = new Intent(e, VaultLock.class);
-                i.putExtra("error", passphraseError);
+                Intent i = new Intent(e, PasswordScreen.class);
+                String error = (unlockAttempts > 0) ? "Passphrase incorrect" : "";
+                i.putExtra("error", error);
+                i.putExtra("requestCode", REQUEST_UNLOCK);
                 startActivityForResult(i, REQUEST_UNLOCK);
-                passphraseError = true;
+                unlockAttempts++;
             }
         }
         else {
@@ -264,7 +287,15 @@ public class Vault extends AppCompatActivity {
 
             @Override
             protected Connection.Response doInBackground(Void... args) {
+                long lastEdit = 0;
+                File vaultFile = new File(getFilesDir() + "/" + vaultname);
+                if (vaultFile.exists()) {
+                    lastEdit = vaultFile.lastModified() / 1000;
+                }
+
                 Connection con = new Connection("vault", "sync");
+                con.addFormField("vault", vaultEncrypted);
+                con.addFormField("lastedit", Long.toString(lastEdit));
 
                 return con.finish();
             }
@@ -272,6 +303,7 @@ public class Vault extends AppCompatActivity {
             @Override
             protected void onPostExecute(Connection.Response res) {
                 if (res.successful()) {
+                    Toast.makeText(Vault.this, "Sync complete.", Toast.LENGTH_SHORT).show();
                     info.setVisibility(View.INVISIBLE);
                     vaultEncrypted = res.getMessage();
 
@@ -302,7 +334,7 @@ public class Vault extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
+                if (res.successful() && !res.getMessage().equals("")) {
                     info.setVisibility(View.INVISIBLE);
                     vaultEncrypted = res.getMessage();
 
@@ -312,6 +344,11 @@ public class Vault extends AppCompatActivity {
                 else {
                     info.setVisibility(View.VISIBLE);
                     info.setText(res.getMessage());
+
+                    waitingForSetPassphrase = true;
+                    Intent i = new Intent(e, PasswordScreen.class);
+                    i.putExtra("requestCode", REQUEST_SET_PASSPHRASE);
+                    startActivityForResult(i, REQUEST_SET_PASSPHRASE);
                 }
             }
         }.execute();
@@ -338,7 +375,7 @@ public class Vault extends AppCompatActivity {
                 String edit = obj.getString("edit");
                 String user = obj.getString("user");
                 String pass = obj.getString("pass");
-                String note = obj.getString("note");
+                String note = (obj.has("note")) ? obj.getString("note") : "";
                 Bitmap iconBmp = Util.getDrawableByName(this, "logo_" + icon, R.drawable.logo_default);
 
                 VaultItem item = new VaultItem(title, category, type, url, user, pass, edit, note, icon, iconBmp);
@@ -349,7 +386,7 @@ public class Vault extends AppCompatActivity {
             Toast.makeText(this, R.string.unknown_error, Toast.LENGTH_SHORT).show();
         }
 
-        if (items != null && savePending) {
+        if (items.size() > 0 && savePending) {
             save();
         }
 
@@ -406,8 +443,8 @@ public class Vault extends AppCompatActivity {
 
     private static boolean save() {
         savePending = false;
-        String enc = Crypto.encrypt(items.toString(), passphrase);
-        return Util.writeToFile(vaultname, enc, Vault.e);
+        vaultEncrypted = Crypto.encrypt(items.toString(), passphrase);
+        return Util.writeToFile(vaultname, vaultEncrypted, Vault.e);
     }
 
     public static boolean saveEntry(VaultItem item, String origTitle) {

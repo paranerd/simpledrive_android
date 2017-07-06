@@ -1,4 +1,4 @@
-#Tue Jun 20 08:26:43 CEST 2017
+#Thu Jul 06 08:18:11 CEST 2017
 base.0=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_f7e59204bba1841e13326dcbffe1c21a393491dc
 renamed.1=classes.dex
 renamed.0=classes2.dex

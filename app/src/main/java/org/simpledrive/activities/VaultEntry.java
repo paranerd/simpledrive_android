@@ -58,7 +58,7 @@ public class VaultEntry extends AppCompatActivity implements TextWatcher {
         super.onCreate(savedInstanceState);
 
         // Init interface
-        setContentView(R.layout.activity_vaultentry2);
+        setContentView(R.layout.activity_vaultentry);
         initToolbar();
 
         title = (EditText) findViewById(R.id.vault_title);
@@ -232,9 +232,9 @@ public class VaultEntry extends AppCompatActivity implements TextWatcher {
                 String iconName = data.getStringExtra("icon");
 
                 item.setIcon(iconName);
-                item.setIconBmp(Util.getDrawableByName(this, "logo_" + iconName, R.drawable.logo_default));
-
-                display();
+                Bitmap drawable = Util.getDrawableByName(this, "logo_" + iconName, R.drawable.logo_default);
+                item.setIconBmp(drawable);
+                icon.setImageBitmap(drawable);
             }
         }
         else if (requestCode == REQUEST_PASSWORD) {

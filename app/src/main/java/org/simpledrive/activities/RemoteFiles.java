@@ -238,19 +238,11 @@ public class RemoteFiles extends AppCompatActivity {
         Menu menu = mNavigationView.getMenu();
         menu.removeGroup(R.id.navigation_drawer_group_accounts);
 
-        //ArrayList<AccountItem> allAccounts = CustomAuthenticator.getAllAccounts(false);
         accounts = CustomAuthenticator.getAllAccounts(false);
 
         for (int i = 0; i < accounts.size(); i++) {
             menu.add(R.id.navigation_drawer_group_accounts, i, 0, accounts.get(i).getDisplayName()).setIcon(R.drawable.ic_account_circle);
         }
-
-        /*for (int i = 0; i < allAccounts.size(); i++) {
-            AccountItem a = allAccounts.get(i);
-            accounts.add(a);
-            String title = (allAccounts.get(i).getNickname().equals("")) ? allAccounts
-            menu.add(R.id.navigation_drawer_group_accounts, i, 0, allAccounts.get(i).getDisplayName()).setIcon(R.drawable.ic_account_circle);
-        }*/
 
         hideAccounts();
 
@@ -860,7 +852,7 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     /**
-     * Removes selection from all elements
+     * Remove selection from all elements
      */
     private void unselectAll() {
         for (int i = 0; i < list.getCount(); i++) {

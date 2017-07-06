@@ -4873,6 +4873,7 @@ org.simpledrive.R$id: int clearlog
 org.simpledrive.R$id: int clip_horizontal
 org.simpledrive.R$id: int clip_vertical
 org.simpledrive.R$id: int collapseActionView
+org.simpledrive.R$id: int confirm
 org.simpledrive.R$id: int content
 org.simpledrive.R$id: int contentPanel
 org.simpledrive.R$id: int copy
@@ -5074,7 +5075,6 @@ org.simpledrive.R$id: int txtLength
 org.simpledrive.R$id: int txtPassword
 org.simpledrive.R$id: int txtServer
 org.simpledrive.R$id: int txtUsername
-org.simpledrive.R$id: int unlock
 org.simpledrive.R$id: int unlock_clear_pin
 org.simpledrive.R$id: int unlock_eight
 org.simpledrive.R$id: int unlock_error
@@ -5160,7 +5160,6 @@ org.simpledrive.R$layout: int activity_unlock
 org.simpledrive.R$layout: int activity_users
 org.simpledrive.R$layout: int activity_vault
 org.simpledrive.R$layout: int activity_vaultentry
-org.simpledrive.R$layout: int activity_vaultentry2
 org.simpledrive.R$layout: int activity_vaultunlock
 org.simpledrive.R$layout: int design_bottom_sheet_dialog
 org.simpledrive.R$layout: int design_layout_snackbar
@@ -6166,6 +6165,9 @@ org.simpledrive.activities.PasswordGenerator
 org.simpledrive.activities.PasswordGenerator: PasswordGenerator()
 org.simpledrive.activities.PasswordGenerator: void onClick(android.view.View)
 org.simpledrive.activities.PasswordGenerator$1: void onClick(android.view.View)
+org.simpledrive.activities.PasswordScreen
+org.simpledrive.activities.PasswordScreen: PasswordScreen()
+org.simpledrive.activities.PasswordScreen: void onClick(android.view.View)
 org.simpledrive.activities.RemoteFiles
 org.simpledrive.activities.RemoteFiles: RemoteFiles()
 org.simpledrive.activities.RemoteFiles$10: void onClick(android.view.View)
@@ -6230,9 +6232,6 @@ org.simpledrive.activities.VaultEntry: void openURL(android.view.View)
 org.simpledrive.activities.VaultEntry: void onClick(android.view.View)
 org.simpledrive.activities.VaultEntry$1: void onClick(android.view.View)
 org.simpledrive.activities.VaultEntry$2: void onClick(android.view.View)
-org.simpledrive.activities.VaultLock
-org.simpledrive.activities.VaultLock: VaultLock()
-org.simpledrive.activities.VaultLock: void onClick(android.view.View)
 org.simpledrive.adapters.FileAdapter$1: void onClick(android.view.View)
 org.simpledrive.adapters.TouchImageAdapter$1: void onClick(android.view.View)
 org.simpledrive.adapters.TouchImageAdapter$2: void onClick(android.view.View)

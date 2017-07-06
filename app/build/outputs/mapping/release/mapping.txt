@@ -16222,7 +16222,7 @@ org.simpledrive.activities.EnablePIN -> org.simpledrive.activities.EnablePIN:
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
     void setPIN() -> i
-    void reset(boolean) -> b
+    void clearPin() -> j
     void showError(java.lang.String) -> a
     void onClick(android.view.View) -> onClick
 org.simpledrive.activities.FileSelector -> org.simpledrive.activities.FileSelector:
@@ -16405,6 +16405,20 @@ org.simpledrive.activities.PasswordGenerator -> org.simpledrive.activities.Passw
 org.simpledrive.activities.PasswordGenerator$1 -> org.simpledrive.activities.PasswordGenerator$1:
     org.simpledrive.activities.PasswordGenerator this$0 -> a
     void <init>(org.simpledrive.activities.PasswordGenerator) -> <init>
+    void onClick(android.view.View) -> onClick
+org.simpledrive.activities.PasswordScreen -> org.simpledrive.activities.PasswordScreen:
+    int REQUEST_UNLOCK -> n
+    int REQUEST_SET_PASSPHRASE -> o
+    int request_code -> p
+    int step -> q
+    java.lang.String firstPassphrase -> r
+    android.widget.TextView passphrase -> s
+    android.widget.TextView error -> t
+    android.widget.Button confirm -> u
+    void <init>() -> <init>
+    void onCreate(android.os.Bundle) -> onCreate
+    void showError(java.lang.String) -> a
+    void updateDisplay() -> i
     void onClick(android.view.View) -> onClick
 org.simpledrive.activities.RemoteFiles -> org.simpledrive.activities.RemoteFiles:
     org.simpledrive.activities.RemoteFiles e -> o
@@ -17339,15 +17353,22 @@ org.simpledrive.activities.Vault -> org.simpledrive.activities.Vault:
     java.util.ArrayList items -> o
     org.simpledrive.adapters.VaultAdapter newAdapter -> p
     int selectedPos -> q
-    java.lang.String vaultEncrypted -> r
-    java.lang.String passphrase -> s
-    int REQUEST_UNLOCK -> t
-    boolean waitingForUnlock -> u
-    boolean passphraseError -> v
-    boolean savePending -> w
-    android.widget.TextView info -> x
-    android.widget.AbsListView list -> y
-    android.view.Menu mContextMenu -> z
+    boolean waitingForUnlock -> r
+    boolean waitingForSetPassphrase -> s
+    boolean savePending -> t
+    boolean createNewVault -> u
+    int unlockAttempts -> v
+    java.lang.String username -> w
+    java.lang.String server -> x
+    java.lang.String salt -> y
+    java.lang.String vaultname -> z
+    java.lang.String vaultEncrypted -> A
+    java.lang.String passphrase -> B
+    int REQUEST_UNLOCK -> C
+    int REQUEST_SET_PASSPHRASE -> D
+    android.widget.TextView info -> E
+    android.widget.AbsListView list -> F
+    android.view.Menu mContextMenu -> G
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
     void onResume() -> onResume
@@ -17356,19 +17377,19 @@ org.simpledrive.activities.Vault -> org.simpledrive.activities.Vault:
     boolean onPrepareOptionsMenu(android.view.Menu) -> onPrepareOptionsMenu
     boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
     boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
-    void setUpToolbar() -> j
-    void setUpList() -> k
-    void load() -> l
-    void decrypt() -> m
-    void sync() -> n
-    void fetch() -> o
-    void extractEntries(java.lang.String) -> b
-    void display() -> p
-    void unselectAll() -> q
-    java.lang.Integer getFirstSelected() -> r
-    void createEntry() -> s
+    void setUpToolbar() -> m
+    void setUpList() -> n
+    void load() -> o
+    void decrypt() -> p
+    void sync() -> q
+    void fetch() -> r
+    void extractEntries(java.lang.String) -> c
+    void display() -> s
+    void unselectAll() -> t
+    java.lang.Integer getFirstSelected() -> u
+    void createEntry() -> v
     void deleteEntry(int) -> c
-    boolean save() -> t
+    boolean save() -> w
     boolean saveEntry(org.simpledrive.models.VaultItem,java.lang.String) -> a
     boolean exists(java.lang.String) -> a
     void access$000(org.simpledrive.activities.Vault) -> a
@@ -17382,10 +17403,15 @@ org.simpledrive.activities.Vault -> org.simpledrive.activities.Vault:
     android.view.Menu access$200(org.simpledrive.activities.Vault) -> f
     org.simpledrive.adapters.VaultAdapter access$700(org.simpledrive.activities.Vault) -> g
     java.util.ArrayList access$800() -> i
-    android.widget.TextView access$900(org.simpledrive.activities.Vault) -> h
-    java.lang.String access$1002(org.simpledrive.activities.Vault,java.lang.String) -> a
-    boolean access$1102(boolean) -> b
-    void access$1200(org.simpledrive.activities.Vault) -> i
+    java.lang.String access$900() -> j
+    java.lang.String access$1000() -> k
+    android.widget.TextView access$1100(org.simpledrive.activities.Vault) -> h
+    java.lang.String access$1002(java.lang.String) -> b
+    boolean access$1202(boolean) -> b
+    void access$1300(org.simpledrive.activities.Vault) -> i
+    boolean access$1402(org.simpledrive.activities.Vault,boolean) -> a
+    org.simpledrive.activities.Vault access$1500() -> l
+    int access$1600(org.simpledrive.activities.Vault) -> j
     void <clinit>() -> <clinit>
 org.simpledrive.activities.Vault$1 -> org.simpledrive.activities.Vault$1:
     org.simpledrive.activities.Vault this$0 -> a
@@ -17481,13 +17507,6 @@ org.simpledrive.activities.VaultEntry$VaultBCReceiver -> org.simpledrive.activit
     org.simpledrive.activities.VaultEntry this$0 -> a
     void <init>(org.simpledrive.activities.VaultEntry) -> <init>
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
-org.simpledrive.activities.VaultLock -> org.simpledrive.activities.VaultLock:
-    android.widget.TextView passphrase -> n
-    android.widget.TextView error -> o
-    void <init>() -> <init>
-    void onCreate(android.os.Bundle) -> onCreate
-    void showError() -> i
-    void onClick(android.view.View) -> onClick
 org.simpledrive.adapters.AccountAdapter -> org.simpledrive.a.a:
     android.view.LayoutInflater layoutInflater -> b
     int layout -> c
@@ -17677,11 +17696,11 @@ org.simpledrive.authenticator.CustomAuthenticator -> org.simpledrive.authenticat
     android.accounts.AccountManager am -> c
     android.accounts.Account[] aaccount -> d
     boolean activeAccountChanged -> a
-    void refresh() -> k
+    void refresh() -> l
     boolean enable(android.content.Context) -> a
     boolean accountExists(java.lang.String,java.lang.String) -> a
     boolean addAccount(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
-    android.accounts.Account getActiveAccount() -> l
+    android.accounts.Account getActiveAccount() -> m
     boolean removeAccount(java.lang.String) -> a
     boolean setNickname(java.lang.String,java.lang.String) -> b
     void logout() -> a
@@ -17689,16 +17708,17 @@ org.simpledrive.authenticator.CustomAuthenticator -> org.simpledrive.authenticat
     java.lang.String getUsername() -> b
     java.lang.String getPassword() -> c
     java.lang.String getServer() -> d
-    java.lang.String getToken() -> e
+    java.lang.String getSalt() -> e
+    java.lang.String getToken() -> f
     void setToken(java.lang.String) -> c
-    void lock() -> f
-    boolean isLocked() -> g
+    void lock() -> g
+    boolean isLocked() -> h
     boolean unlock(java.lang.String) -> d
-    long getRemainingUnlockAttempts() -> h
-    long getCooldown() -> i
-    void incrementUnlockCounter() -> m
+    long getRemainingUnlockAttempts() -> i
+    long getCooldown() -> j
+    void incrementUnlockCounter() -> n
     void setPIN(java.lang.String) -> e
-    boolean hasPIN() -> j
+    boolean hasPIN() -> k
     java.util.ArrayList getAllAccounts(boolean) -> a
     boolean isActive(java.lang.String) -> f
     void <clinit>() -> <clinit>
@@ -18113,13 +18133,14 @@ org.simpledrive.helper.Util -> org.simpledrive.helper.g:
     java.util.ArrayList sortFilesByName(java.util.ArrayList,int) -> a
     int getMax(int,int) -> a
     int getMin(int,int) -> b
+    java.lang.String md5(java.lang.String) -> c
     int dpToPx(int) -> a
-    long folderSize(java.lang.String) -> c
+    long folderSize(java.lang.String) -> d
     long getTimestamp() -> a
     int[] scaleImage(android.support.v7.app.AppCompatActivity,int,int) -> a
     boolean writeToFile(java.lang.String,java.lang.String,android.content.Context) -> a
     java.lang.String readFromFile(java.lang.String,android.content.Context) -> a
-    boolean isGIF(java.lang.String) -> d
+    boolean isGIF(java.lang.String) -> e
     java.lang.String getCacheDir() -> b
     int getThumbSize(android.support.v7.app.AppCompatActivity,int) -> a
     android.graphics.Bitmap getDrawableByName(android.support.v7.app.AppCompatActivity,java.lang.String,int) -> a
