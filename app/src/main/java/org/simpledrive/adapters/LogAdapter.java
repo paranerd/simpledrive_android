@@ -53,10 +53,10 @@ public class LogAdapter extends ArrayAdapter<LogItem> {
         int color;
 
         switch (item.getType()) {
-            case "0":
+            case "info":
                 color = R.color.darkgreen;
                 break;
-            case "1":
+            case "warning":
                 color = R.color.orange;
                 break;
             default:

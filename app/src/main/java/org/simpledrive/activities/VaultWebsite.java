@@ -14,6 +14,7 @@ import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,11 +26,11 @@ import android.widget.Toast;
 
 import org.simpledrive.R;
 import org.simpledrive.helper.Util;
-import org.simpledrive.models.VaultItem;
+import org.simpledrive.models.VaultItemWebsite;
 
-public class VaultEntry extends AppCompatActivity implements TextWatcher {
+public class VaultWebsite extends AppCompatActivity implements TextWatcher {
     // General
-    private VaultItem item;
+    private VaultItemWebsite item;
     private int REQUEST_ICON = 0;
     private int REQUEST_PASSWORD = 1;
     private int USER_NOTIFICATION_ID = 1;
@@ -58,7 +59,7 @@ public class VaultEntry extends AppCompatActivity implements TextWatcher {
         super.onCreate(savedInstanceState);
 
         // Init interface
-        setContentView(R.layout.activity_vaultentry);
+        setContentView(R.layout.activity_vault_website);
         initToolbar();
 
         title = (EditText) findViewById(R.id.vault_title);
@@ -92,11 +93,13 @@ public class VaultEntry extends AppCompatActivity implements TextWatcher {
         initReceiver();
 
         // Init entry
-        item = getIntent().getParcelableExtra("item");
+        item = (VaultItemWebsite) getIntent().getParcelableExtra("item");
         if (item == null) {
-            item = new VaultItem();
+            item = new VaultItemWebsite();
         }
         origTitle = item.getTitle();
+
+        Log.i("debug", "item: " + item.toString());
 
         display();
         saved = true;
@@ -235,11 +238,17 @@ public class VaultEntry extends AppCompatActivity implements TextWatcher {
                 Bitmap drawable = Util.getDrawableByName(this, "logo_" + iconName, R.drawable.logo_default);
                 item.setIconBmp(drawable);
                 icon.setImageBitmap(drawable);
+
+                saved = false;
+                invalidateOptionsMenu();
             }
         }
         else if (requestCode == REQUEST_PASSWORD) {
             if (resultCode == RESULT_OK) {
                 password.setText(data.getStringExtra("password"));
+
+                saved = false;
+                invalidateOptionsMenu();
             }
         }
     }
@@ -324,11 +333,11 @@ public class VaultEntry extends AppCompatActivity implements TextWatcher {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.copyuser:
-                Util.copyToClipboard(VaultEntry.this, item.getUser(), "Username copied to clipboard");
+                Util.copyToClipboard(VaultWebsite.this, item.getUser(), "Username copied to clipboard");
                 break;
 
             case R.id.copypass:
-                Util.copyToClipboard(VaultEntry.this, item.getPass(), "Password copied to clipboard");
+                Util.copyToClipboard(VaultWebsite.this, item.getPass(), "Password copied to clipboard");
                 break;
 
             case R.id.generatepass:
@@ -343,10 +352,10 @@ public class VaultEntry extends AppCompatActivity implements TextWatcher {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(COPY_USER)) {
-                Util.copyToClipboard(VaultEntry.this, item.getUser(), "Username copied to clipboard");
+                Util.copyToClipboard(VaultWebsite.this, item.getUser(), "Username copied to clipboard");
             }
             else if (intent.getAction().equals(COPY_PASS)) {
-                Util.copyToClipboard(VaultEntry.this, item.getPass(), "Password copied to clipboard");
+                Util.copyToClipboard(VaultWebsite.this, item.getPass(), "Password copied to clipboard");
             }
         }
     }

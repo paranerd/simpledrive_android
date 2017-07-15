@@ -34,6 +34,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -118,16 +120,27 @@ public class RemoteFiles extends AppCompatActivity {
     private TextView header_indicator;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
+    private SearchView searchView = null;
+    private boolean accountsVisible = false;
+    private ActionMode actionMode;
+    private boolean bottomToolbarEnabled = false;
+
+    // Interface - Floating Action Buttons
+    private boolean FAB_Status = false;
     private FloatingActionButton fab;
     private FloatingActionButton fab_file;
     private FloatingActionButton fab_folder;
     private FloatingActionButton fab_upload;
     private FloatingActionButton fab_paste;
     private FloatingActionButton fab_paste_cancel;
-    private SearchView searchView = null;
-    private boolean accountsVisible = false;
-    private ActionMode actionMode;
-    private boolean bottomToolbarEnabled = false;
+    private Animation show_fab_upload;
+    private Animation hide_fab_upload;
+    private Animation show_fab_folder;
+    private Animation hide_fab_folder;
+    private Animation show_fab_file;
+    private Animation hide_fab_file;
+    private Animation show_paste_cancel;
+    private Animation hide_paste_cancel;
 
     // Files
     private ArrayList<FileItem> items = new ArrayList<>();
@@ -165,13 +178,8 @@ public class RemoteFiles extends AppCompatActivity {
         listLayout = (settings.getString("listlayout", "list").equals("list")) ? R.layout.listview_detail: R.layout.gridview;
         setContentView(R.layout.activity_remotefiles);
 
-        //String enc = Crypto.encrypt("This is test", "secret");
-        //Log.i("debug", "enc: " + enc);
-        //String enc = "blNxR3dqMS9MZmsyNW9NdXlVTVBJamhGUndtdHQzaVlMMU5LZlpqbjJyMD06eUJ0Zy8yZWJhTEVkNFc0OW45QldoQT09OjM2M2NmNGRmOGU0OGYwYTk=";
-        //String dec = Crypto.decrypt(enc, "mypassword");
-        //Log.i("debug", "dec: " + dec);
-
         initInterface();
+
         setListLayout(listLayout);
         initToolbar();
         initDrawer();
@@ -480,12 +488,22 @@ public class RemoteFiles extends AppCompatActivity {
         fab_paste = (FloatingActionButton) findViewById(R.id.fab_paste);
         fab_paste_cancel = (FloatingActionButton) findViewById(R.id.fab_paste_cancel);
 
+        show_fab_upload = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_vertical_1_show);
+        hide_fab_upload = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_vertical_1_hide);
+
+        show_fab_folder = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_vertical_2_show);
+        hide_fab_folder = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_vertical_2_hide);
+
+        show_fab_file = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_vertical_3_show);
+        hide_fab_file = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_vertical_3_hide);
+
+        show_paste_cancel = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_diagonal_show);
+        hide_paste_cancel = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_diagonal_hide);
+
         fab_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fab_folder.setVisibility(View.GONE);
-                fab_file.setVisibility(View.GONE);
-                fab_upload.setVisibility(View.GONE);
+                toggleFAB(false);
                 preventLock = true;
                 Intent i = new Intent(e, FileSelector.class);
                 i.putExtra("multi", true);
@@ -497,6 +515,7 @@ public class RemoteFiles extends AppCompatActivity {
         fab_folder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                toggleFAB(false);
                 showCreate("folder");
             }
         });
@@ -504,6 +523,7 @@ public class RemoteFiles extends AppCompatActivity {
         fab_file.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                toggleFAB(false);
                 showCreate("file");
             }
         });
@@ -511,14 +531,12 @@ public class RemoteFiles extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (fab_folder.getVisibility() == View.GONE) {
-                    fab_folder.setVisibility(View.VISIBLE);
-                    fab_file.setVisibility(View.VISIBLE);
-                    fab_upload.setVisibility(View.VISIBLE);
+                if (!FAB_Status) {
+                    // Display FAB menu
+                    toggleFAB(true);
                 } else {
-                    fab_folder.setVisibility(View.GONE);
-                    fab_file.setVisibility(View.GONE);
-                    fab_upload.setVisibility(View.GONE);
+                    // Close FAB menu
+                    toggleFAB(false);
                 }
             }
         });
@@ -534,7 +552,7 @@ public class RemoteFiles extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 clipboard = new JSONArray();
-                hidePaste();
+                togglePaste(false);
             }
         });
 
@@ -557,20 +575,39 @@ public class RemoteFiles extends AppCompatActivity {
         mSwipeRefreshLayout.setEnabled(true);
     }
 
-    private void showPaste() {
-        fab.setVisibility(View.GONE);
-        fab_file.setVisibility(View.GONE);
-        fab_folder.setVisibility(View.GONE);
+    private void toggleFAB(boolean status) {
+        if (status == FAB_Status) {
+            return;
+        }
 
-        fab_paste.setVisibility(View.VISIBLE);
-        fab_paste_cancel.setVisibility(View.VISIBLE);
+        FAB_Status = status;
+
+        // Upload FAB
+        Animation anim1 = (status) ? show_fab_upload : hide_fab_upload;
+        fab_upload.startAnimation(anim1);
+        fab_upload.setClickable(status);
+
+        // Folder FAB
+        Animation anim2 = (status) ? show_fab_folder : hide_fab_folder;
+        fab_folder.startAnimation(anim2);
+        fab_folder.setClickable(status);
+
+        // File FAB
+        Animation anim3 = (status) ? show_fab_file : hide_fab_file;
+        fab_file.startAnimation(anim3);
+        fab_file.setClickable(status);
     }
 
-    private void hidePaste() {
-        fab.setVisibility(View.VISIBLE);
+    private void togglePaste(boolean show) {
+        toggleFAB(false);
 
-        fab_paste.setVisibility(View.GONE);
-        fab_paste_cancel.setVisibility(View.GONE);
+        int visibility = (show) ? View.VISIBLE : View.GONE;
+        fab_paste.setVisibility(visibility);
+        Animation anim = (show) ? show_paste_cancel : hide_paste_cancel;
+        fab_paste_cancel.setAnimation(anim);
+        fab_paste_cancel.getAnimation().start();
+        fab_paste_cancel.setClickable(show);
+
     }
 
     private void fetchFiles() {
@@ -621,9 +658,7 @@ public class RemoteFiles extends AppCompatActivity {
      */
     private void extractFiles(String rawJSON) {
         // Reset anything related to listing files
-        fab_file.setVisibility(View.GONE);
-        fab_folder.setVisibility(View.GONE);
-        fab_upload.setVisibility(View.GONE);
+        toggleFAB(false);
 
         items = new ArrayList<>();
         filteredItems = new ArrayList<>();
@@ -765,14 +800,6 @@ public class RemoteFiles extends AppCompatActivity {
             Toast.makeText(this, "Can not open file", Toast.LENGTH_SHORT).show();
         }
         unselectAll();
-    }
-
-    private void toggleFAB(boolean hide) {
-        int visible = (hide) ? View.GONE : View.VISIBLE;
-        fab.setVisibility(visible);
-        fab_file.setVisibility(View.GONE);
-        fab_folder.setVisibility(View.GONE);
-        fab_upload.setVisibility(View.GONE);
     }
 
     private void showBottomToolbar() {
@@ -1250,7 +1277,7 @@ public class RemoteFiles extends AppCompatActivity {
                 }
 
                 Toast.makeText(this, clipboard.length() + " files to copy", Toast.LENGTH_SHORT).show();
-                showPaste();
+                togglePaste(true);
                 actionMode.finish();
                 break;
 
@@ -1268,7 +1295,7 @@ public class RemoteFiles extends AppCompatActivity {
                 }
 
                 Toast.makeText(this, clipboard.length() + " files to cut", Toast.LENGTH_SHORT).show();
-                showPaste();
+                togglePaste(true);
                 actionMode.finish();
                 break;
 
@@ -1315,7 +1342,6 @@ public class RemoteFiles extends AppCompatActivity {
 
             @Override
             public void onDestroyActionMode(ActionMode mode) {
-                toggleFAB(false);
                 unselectAll();
 
                 if (bottomToolbarEnabled) {
@@ -1335,7 +1361,7 @@ public class RemoteFiles extends AppCompatActivity {
                     showBottomToolbar();
                 }
 
-                toggleFAB(true);
+                toggleFAB(false);
                 unselectAll();
                 return true;
             }
@@ -1696,7 +1722,7 @@ public class RemoteFiles extends AppCompatActivity {
                 mSwipeRefreshLayout.setRefreshing(false);
                 if (res.successful()) {
                     clipboard = new JSONArray();
-                    hidePaste();
+                    togglePaste(false);
                     fetchFiles();
                 }
                 else {

@@ -14,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -30,6 +32,8 @@ import org.simpledrive.helper.Connection;
 import org.simpledrive.helper.Crypto;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.VaultItem;
+import org.simpledrive.models.VaultItemNote;
+import org.simpledrive.models.VaultItemWebsite;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -62,6 +66,13 @@ public class Vault extends AppCompatActivity {
     private TextView info;
     private AbsListView list;
     private Menu mContextMenu;
+    private boolean FAB_Status = false;
+    private FloatingActionButton fab_website;
+    private Animation show_fab_website;
+    private Animation hide_fab_website;
+    private FloatingActionButton fab_note;
+    private Animation show_fab_note;
+    private Animation hide_fab_note;
 
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
@@ -77,9 +88,60 @@ public class Vault extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createEntry();
+                toggleFAB(!FAB_Status);
             }
         });
+
+        // Testing
+        fab_website = (FloatingActionButton) findViewById(R.id.fab_website);
+        show_fab_website = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_vertical_1_show);
+        hide_fab_website = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_vertical_1_hide);
+
+        fab_note = (FloatingActionButton) findViewById(R.id.fab_note);
+        show_fab_note = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_vertical_2_show);
+        hide_fab_note = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_vertical_2_hide);
+
+        fab_website.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createEntry("website");
+            }
+        });
+
+        fab_note.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createEntry("note");
+            }
+        });
+    }
+
+
+    private void toggleFAB(boolean status) {
+        if (status == FAB_Status) {
+            return;
+        }
+
+        FAB_Status = status;
+        //int multiplicator = (status) ? 1 : -1;
+
+        // Floating Action Button 2
+        /*FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) fab_website.getLayoutParams();
+        layoutParams2.rightMargin += (int) (fab_website.getWidth() * multiplicator * 0.25);
+        layoutParams2.bottomMargin += (int) (fab_website.getHeight() * multiplicator * 1.90);
+        fab_website.setLayoutParams(layoutParams2);*/
+        Animation anim1 = (status) ? show_fab_website : hide_fab_website;
+        fab_website.startAnimation(anim1);
+        fab_website.setClickable(status);
+
+        // Floating Action Button 3
+        /*FrameLayout.LayoutParams layoutParams3 = (FrameLayout.LayoutParams) fab_note.getLayoutParams();
+        layoutParams3.rightMargin += (int) (fab_note.getWidth() * multiplicator * 0.25);
+        layoutParams3.bottomMargin += (int) (fab_note.getHeight() * multiplicator * 3.4);
+        fab_note.setLayoutParams(layoutParams3);*/
+        Animation anim2 = (status) ? show_fab_note: hide_fab_note;
+        fab_note.startAnimation(anim2);
+        fab_note.setClickable(status);
     }
 
     protected void onResume() {
@@ -90,6 +152,12 @@ public class Vault extends AppCompatActivity {
         if (!waitingForUnlock && !waitingForSetPassphrase) {
             load();
         }
+    }
+
+    protected void onPause() {
+        super.onPause();
+
+        toggleFAB(false);
     }
 
     protected void onDestroy() {
@@ -230,9 +298,23 @@ public class Vault extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(getApplicationContext(), VaultEntry.class);
-                i.putExtra("item", items.get(position));
+                VaultItem item = items.get(position);
+                Intent i;
 
+                switch (item.getType()) {
+                    case "website":
+                        i = new Intent(getApplicationContext(), VaultWebsite.class);
+                        break;
+                    case "note":
+                        i = new Intent(getApplicationContext(), VaultNote.class);
+                        break;
+                    default:
+                        return;
+                }
+
+                //Log.i("debug", "putExtra: " + items.get(position).toString());
+
+                i.putExtra("item", items.get(position));
                 unselectAll();
                 startActivity(i);
             }
@@ -370,16 +452,26 @@ public class Vault extends AppCompatActivity {
                 String title = obj.getString("title");
                 String category = obj.getString("category");
                 String type = obj.getString("type");
-                String icon = obj.getString("icon");
-                String url = obj.getString("url");
                 String edit = obj.getString("edit");
-                String user = obj.getString("user");
-                String pass = obj.getString("pass");
-                String note = (obj.has("note")) ? obj.getString("note") : "";
+                String icon = obj.getString("icon");
                 Bitmap iconBmp = Util.getDrawableByName(this, "logo_" + icon, R.drawable.logo_default);
 
-                VaultItem item = new VaultItem(title, category, type, url, user, pass, edit, note, icon, iconBmp);
-                items.add(item);
+                switch (type) {
+                    case "website":
+                        String url = obj.getString("url");
+                        String user = obj.getString("user");
+                        String pass = obj.getString("pass");
+
+                        VaultItemWebsite website = new VaultItemWebsite(title, category, type, url, user, pass, edit, icon, iconBmp);
+                        items.add(website);
+                        break;
+
+                    case "note":
+                        String content = obj.getString("content");
+                        VaultItemNote note = new VaultItemNote(title, category, content, edit, icon, iconBmp);
+                        items.add(note);
+                        break;
+                }
             }
         } catch (JSONException exp) {
             exp.printStackTrace();
@@ -429,8 +521,21 @@ public class Vault extends AppCompatActivity {
         return null;
     }
 
-    private void createEntry() {
-        Intent i = new Intent(getApplicationContext(), VaultEntry.class);
+    private void createEntry(String type) {
+        Intent i;
+        switch (type) {
+            case "website":
+                i = new Intent(getApplicationContext(), VaultWebsite.class);
+                break;
+
+            case "note":
+                i = new Intent(getApplicationContext(), VaultNote.class);
+                break;
+
+            default:
+                return;
+        }
+
         startActivity(i);
     }
 
