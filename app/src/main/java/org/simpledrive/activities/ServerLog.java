@@ -256,10 +256,10 @@ public class ServerLog extends AppCompatActivity {
                 Bitmap icon;
 
                 switch (type) {
-                    case "0":
+                    case "info":
                         icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_info);
                         break;
-                    case "1":
+                    case "warning":
                         icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_warning);
                         break;
                     default:

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.simpledrive"
     android:versionCode="90"
-    android:versionName="6.0.1" >
+    android:versionName="6.1.0" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -131,7 +131,13 @@
         </activity>
 
         <activity
-            android:name=".activities.VaultEntry"
+            android:name=".activities.VaultWebsite"
+            android:label="Vault Entry"
+            android:theme="@style/MainTheme.Light" >
+        </activity>
+
+        <activity
+            android:name=".activities.VaultNote"
             android:label="Vault Entry"
             android:theme="@style/MainTheme.Light" >
         </activity>

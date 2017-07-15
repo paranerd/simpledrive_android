@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:2:1-163:12
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:2:1-169:12
 	package
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:3:5-30
 		INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
@@ -44,7 +44,7 @@ ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidMa
 	android:name
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:13:22-77
 application
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:15:5-161:19
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:15:5-167:19
 MERGED from [com.android.support:design:24.2.1] /home/paranerd/.android/build-cache/41ed2336d2f736605e4e12c0e0bfb0727c56f2dc/output/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:percent:24.2.1] /home/paranerd/.android/build-cache/9273f23c9f41c4a01023d2e061deaeee9d3ccd87/output/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:appcompat-v7:24.2.1] /home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/AndroidManifest.xml:25:5-20
@@ -233,44 +233,52 @@ ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidMa
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:130:13-51
 	android:name
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:128:13-45
-activity#org.simpledrive.activities.VaultEntry
+activity#org.simpledrive.activities.VaultWebsite
 ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:133:9-137:20
 	android:label
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:135:13-40
 	android:theme
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:136:13-51
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:134:13-50
-activity#org.simpledrive.activities.PasswordScreen
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:134:13-52
+activity#org.simpledrive.activities.VaultNote
 ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:139:9-143:20
 	android:label
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:141:13-39
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:141:13-40
 	android:theme
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:142:13-51
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:140:13-54
-activity#org.simpledrive.activities.IconSelector
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:140:13-49
+activity#org.simpledrive.activities.PasswordScreen
 ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:145:9-149:20
 	android:label
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:147:13-42
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:147:13-39
 	android:theme
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:148:13-51
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:146:13-52
-activity#org.simpledrive.activities.PasswordGenerator
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:146:13-54
+activity#org.simpledrive.activities.IconSelector
 ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:151:9-155:20
 	android:label
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:153:13-47
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:153:13-42
 	android:theme
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:154:13-51
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:152:13-57
-service#org.simpledrive.helper.AudioService
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:157:9-160:19
-	android:enabled
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:159:13-35
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:152:13-52
+activity#org.simpledrive.activities.PasswordGenerator
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:157:9-161:20
+	android:label
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:159:13-47
+	android:theme
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:160:13-51
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:158:13-48
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:158:13-57
+service#org.simpledrive.helper.AudioService
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:163:9-166:19
+	android:enabled
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:165:13-35
+	android:name
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:164:13-48
 uses-sdk
 INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:design:24.2.1] /home/paranerd/.android/build-cache/41ed2336d2f736605e4e12c0e0bfb0727c56f2dc/output/AndroidManifest.xml:20:5-43

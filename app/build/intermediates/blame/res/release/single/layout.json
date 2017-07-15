@@ -68,6 +68,10 @@
         "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/layout/abc_action_mode_close_item_material.xml"
     },
     {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/activity_vault_note.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vault_note.xml"
+    },
+    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/design_layout_snackbar.xml",
         "source": "/home/paranerd/.android/build-cache/41ed2336d2f736605e4e12c0e0bfb0727c56f2dc/output/res/layout/design_layout_snackbar.xml"
     },
@@ -122,10 +126,6 @@
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/abc_action_bar_view_list_nav_layout.xml",
         "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/layout/abc_action_bar_view_list_nav_layout.xml"
-    },
-    {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/activity_vaultentry.xml",
-        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vaultentry.xml"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/notification_template_big_media_narrow.xml",
@@ -202,6 +202,10 @@
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/abc_dialog_title_material.xml",
         "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/layout/abc_dialog_title_material.xml"
+    },
+    {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/activity_vault_website.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vault_website.xml"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/activity_users.xml",

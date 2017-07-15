@@ -67,6 +67,49 @@
                         android:visibility="gone"/>
 
                     <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/fab_upload"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|end"
+                        android:layout_marginRight="@dimen/fab_mini_margin"
+                        android:layout_marginBottom="100dp"
+                        android:elevation="7dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:src="@drawable/ic_upload"
+                        android:visibility="invisible"
+                        app:backgroundTint="?android:colorPrimary"
+                        app:fabSize="mini" />
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/fab_folder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|end"
+                        android:layout_marginRight="@dimen/fab_mini_margin"
+                        android:layout_marginBottom="160dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:src="@drawable/ic_folder"
+                        android:visibility="invisible"
+                        app:backgroundTint="?android:colorPrimary"
+                        app:fabSize="mini" />
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/fab_file"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|end"
+                        android:layout_marginRight="@dimen/fab_mini_margin"
+                        android:layout_marginBottom="220dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:src="@drawable/ic_unknown"
+                        android:visibility="invisible"
+                        app:backgroundTint="?android:colorPrimary"
+                        app:fabSize="mini" />
+
+                    <android.support.design.widget.FloatingActionButton
                         android:id="@+id/fab"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -79,73 +122,34 @@
                         android:layout_alignParentBottom="true"/>
 
                     <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/fab_upload"
+                        android:id="@+id/fab_paste_cancel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom|end"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginBottom="88dp"
-                        android:elevation="7dp"
-                        app:backgroundTint="?android:colorPrimary"
-                        android:src="@drawable/ic_upload"
+                        android:layout_marginBottom="60dp"
+                        android:layout_marginRight="60dp"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
-                        android:visibility="gone"/>
-
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/fab_file"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom|end"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginRight="156dp"
-                        android:elevation="7dp"
+                        android:src="@drawable/ic_close"
+                        android:visibility="invisible"
                         app:backgroundTint="?android:colorPrimary"
-                        android:src="@drawable/ic_unknown"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true"
-                        android:visibility="gone"/>
-
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/fab_folder"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom|end"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginRight="88dp"
-                        android:elevation="7dp"
-                        app:backgroundTint="?android:colorPrimary"
-                        android:src="@drawable/ic_folder"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true"
-                        android:visibility="gone"/>
+                        app:fabSize="mini"
+                        />
 
                     <android.support.design.widget.FloatingActionButton
                         android:id="@+id/fab_paste"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom|end"
-                        android:layout_margin="16dp"
+                        android:layout_margin="@dimen/fab_margin"
                         android:elevation="7dp"
+                        android:visibility="gone"
                         app:backgroundTint="?android:colorPrimary"
                         android:src="@drawable/ic_paste"
-                        android:visibility="gone"
-                        android:layout_alignParentLeft="true"
+
+                        android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"/>
 
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/fab_paste_cancel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom|end"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginLeft="88dp"
-                        android:elevation="7dp"
-                        app:backgroundTint="?android:colorPrimary"
-                        android:src="@drawable/ic_close"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentBottom="true"
-                        android:visibility="gone"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/footer"

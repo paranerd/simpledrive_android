@@ -4104,6 +4104,14 @@ org.simpledrive.R$anim: int design_fab_in
 org.simpledrive.R$anim: int design_fab_out
 org.simpledrive.R$anim: int design_snackbar_in
 org.simpledrive.R$anim: int design_snackbar_out
+org.simpledrive.R$anim: int fab_diagonal_hide
+org.simpledrive.R$anim: int fab_diagonal_show
+org.simpledrive.R$anim: int fab_vertical_1_hide
+org.simpledrive.R$anim: int fab_vertical_1_show
+org.simpledrive.R$anim: int fab_vertical_2_hide
+org.simpledrive.R$anim: int fab_vertical_2_show
+org.simpledrive.R$anim: int fab_vertical_3_hide
+org.simpledrive.R$anim: int fab_vertical_3_show
 org.simpledrive.R$array: int listLayoutValues
 org.simpledrive.R$array: int listLayouts
 org.simpledrive.R$array: int themeValues
@@ -4663,6 +4671,8 @@ org.simpledrive.R$dimen: int design_tab_text_size
 org.simpledrive.R$dimen: int design_tab_text_size_2line
 org.simpledrive.R$dimen: int disabled_alpha_material_dark
 org.simpledrive.R$dimen: int disabled_alpha_material_light
+org.simpledrive.R$dimen: int fab_margin
+org.simpledrive.R$dimen: int fab_mini_margin
 org.simpledrive.R$dimen: int highlight_alpha_material_colored
 org.simpledrive.R$dimen: int highlight_alpha_material_dark
 org.simpledrive.R$dimen: int highlight_alpha_material_light
@@ -4911,10 +4921,12 @@ org.simpledrive.R$id: int expanded_menu
 org.simpledrive.R$id: int fab
 org.simpledrive.R$id: int fab_file
 org.simpledrive.R$id: int fab_folder
+org.simpledrive.R$id: int fab_note
 org.simpledrive.R$id: int fab_ok
 org.simpledrive.R$id: int fab_paste
 org.simpledrive.R$id: int fab_paste_cancel
 org.simpledrive.R$id: int fab_upload
+org.simpledrive.R$id: int fab_website
 org.simpledrive.R$id: int fd_Icon1
 org.simpledrive.R$id: int fill
 org.simpledrive.R$id: int fill_horizontal
@@ -5101,6 +5113,7 @@ org.simpledrive.R$id: int user_quota_max
 org.simpledrive.R$id: int user_quota_used
 org.simpledrive.R$id: int username
 org.simpledrive.R$id: int vault_category
+org.simpledrive.R$id: int vault_content
 org.simpledrive.R$id: int vault_icon
 org.simpledrive.R$id: int vault_pass
 org.simpledrive.R$id: int vault_save
@@ -5159,7 +5172,8 @@ org.simpledrive.R$layout: int activity_sharefiles
 org.simpledrive.R$layout: int activity_unlock
 org.simpledrive.R$layout: int activity_users
 org.simpledrive.R$layout: int activity_vault
-org.simpledrive.R$layout: int activity_vaultentry
+org.simpledrive.R$layout: int activity_vault_note
+org.simpledrive.R$layout: int activity_vault_website
 org.simpledrive.R$layout: int activity_vaultunlock
 org.simpledrive.R$layout: int design_bottom_sheet_dialog
 org.simpledrive.R$layout: int design_layout_snackbar
@@ -6225,13 +6239,19 @@ org.simpledrive.activities.Vault
 org.simpledrive.activities.Vault: Vault()
 org.simpledrive.activities.Vault$1: void onClick(android.view.View)
 org.simpledrive.activities.Vault$2: void onClick(android.view.View)
-org.simpledrive.activities.Vault$3$1: void onClick(android.content.DialogInterface,int)
-org.simpledrive.activities.VaultEntry
-org.simpledrive.activities.VaultEntry: VaultEntry()
-org.simpledrive.activities.VaultEntry: void openURL(android.view.View)
-org.simpledrive.activities.VaultEntry: void onClick(android.view.View)
-org.simpledrive.activities.VaultEntry$1: void onClick(android.view.View)
-org.simpledrive.activities.VaultEntry$2: void onClick(android.view.View)
+org.simpledrive.activities.Vault$3: void onClick(android.view.View)
+org.simpledrive.activities.Vault$4: void onClick(android.view.View)
+org.simpledrive.activities.Vault$5$1: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.VaultNote
+org.simpledrive.activities.VaultNote: VaultNote()
+org.simpledrive.activities.VaultNote$1: void onClick(android.view.View)
+org.simpledrive.activities.VaultNote$2: void onClick(android.view.View)
+org.simpledrive.activities.VaultWebsite
+org.simpledrive.activities.VaultWebsite: VaultWebsite()
+org.simpledrive.activities.VaultWebsite: void openURL(android.view.View)
+org.simpledrive.activities.VaultWebsite: void onClick(android.view.View)
+org.simpledrive.activities.VaultWebsite$1: void onClick(android.view.View)
+org.simpledrive.activities.VaultWebsite$2: void onClick(android.view.View)
 org.simpledrive.adapters.FileAdapter$1: void onClick(android.view.View)
 org.simpledrive.adapters.TouchImageAdapter$1: void onClick(android.view.View)
 org.simpledrive.adapters.TouchImageAdapter$2: void onClick(android.view.View)
@@ -6275,3 +6295,5 @@ org.simpledrive.helper.TouchImageView: void setState(org.simpledrive.helper.Touc
 org.simpledrive.helper.TouchImageView$State: org.simpledrive.helper.TouchImageView$State[] values()
 org.simpledrive.helper.TouchImageView$State: org.simpledrive.helper.TouchImageView$State valueOf(java.lang.String)
 org.simpledrive.models.VaultItem: android.os.Parcelable$Creator CREATOR
+org.simpledrive.models.VaultItemNote: android.os.Parcelable$Creator CREATOR
+org.simpledrive.models.VaultItemWebsite: android.os.Parcelable$Creator CREATOR

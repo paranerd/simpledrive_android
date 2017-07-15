@@ -5518,7 +5518,7 @@ org.simpledrive.R$styleable
 org.simpledrive.R$xml
 org.simpledrive.activities.AppSettings:
     private static final int REQUEST_STORAGE
-org.simpledrive.activities.VaultEntry:
+org.simpledrive.activities.VaultWebsite:
     public static final java.lang.String COPY_USER
     public static final java.lang.String COPY_PASS
 org.simpledrive.authenticator.CustomAuthenticator:
@@ -5565,6 +5565,3 @@ org.simpledrive.helper.Util:
 org.simpledrive.models.AccountItem:
     25:25:public java.lang.String getServer()
     30:30:public java.lang.String getUser()
-org.simpledrive.models.VaultItem:
-    96:96:public java.lang.String getEdit()
-    100:100:public java.lang.String getNote()

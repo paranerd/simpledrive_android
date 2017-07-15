@@ -3,37 +3,21 @@ package org.simpledrive.models;
 import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.util.Log;
 
 public class VaultItem implements Parcelable {
     private String title;
-    private String category;
     private String type;
-    private String url;
+    private String category;
     private String edit;
-    private String user;
-    private String pass;
-    private String note;
     private String icon;
     private Bitmap iconBmp;
 
-    // Empty element
-    public VaultItem() {
-        this("", "", "", "", "", "", "", "", "", null);
-    }
-
-    // For all other elements
-    public VaultItem(String title, String category, String type, String url, String user, String pass, String edit, String note, String icon, Bitmap iconBmp) {
+    public VaultItem(String title, String category, String type, String edit, String icon, Bitmap iconBmp) {
         this.title = title;
         this.category = category;
         this.type = type;
-        this.url = url;
-        this.user = user;
-        this.pass = pass;
         this.edit = edit;
-        this.note = note;
         this.icon = icon;
         this.iconBmp = iconBmp;
     }
@@ -60,24 +44,6 @@ public class VaultItem implements Parcelable {
 
     public void setTitle(String title) { this.title = title; }
 
-    public String getURL() {
-        return this.url;
-    }
-
-    public void setURL(String url) { this.url = url; }
-
-    public String getUser() {
-        return this.user;
-    }
-
-    public void setUser(String user) { this.user = user; }
-
-    public String getPass() {
-        return this.pass;
-    }
-
-    public void setPass(String pass) { this.pass = pass; }
-
     public String getCategory() {
         return this.category;
     }
@@ -96,27 +62,14 @@ public class VaultItem implements Parcelable {
         return this.edit;
     }
 
-    public String getNote() {
-        return this.note;
-    }
-
-    public String toString() {
-        JSONObject job = new JSONObject();
-        try {
-            job.put("title", this.title);
-            job.put("category", this.category);
-            job.put("type", this.type);
-            job.put("url", this.url);
-            job.put("user", this.user);
-            job.put("pass", this.pass);
-            job.put("edit", this.edit);
-            job.put("note", this.note);
-            job.put("icon", this.icon);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return job.toString();
+    protected VaultItem(Parcel in) {
+        Log.i("debug", "writeToParcel Item");
+        this.title = in.readString();
+        this.category = in.readString();
+        this.type = in.readString();
+        this.edit = in.readString();
+        this.icon = in.readString();
+        this.iconBmp = null;
     }
 
     @Override
@@ -129,11 +82,7 @@ public class VaultItem implements Parcelable {
         parcel.writeString(this.title);
         parcel.writeString(this.category);
         parcel.writeString(this.type);
-        parcel.writeString(this.url);
-        parcel.writeString(this.user);
-        parcel.writeString(this.pass);
         parcel.writeString(this.edit);
-        parcel.writeString(this.note);
         parcel.writeString(this.icon);
     }
 
@@ -148,17 +97,4 @@ public class VaultItem implements Parcelable {
             return new VaultItem[size];
         }
     };
-
-    public VaultItem(Parcel in) {
-        this.title = in.readString();
-        this.category = in.readString();
-        this.type = in.readString();
-        this.url = in.readString();
-        this.user = in.readString();
-        this.pass = in.readString();
-        this.edit = in.readString();
-        this.note = in.readString();
-        this.icon = in.readString();
-        this.iconBmp = null;
-    }
 }

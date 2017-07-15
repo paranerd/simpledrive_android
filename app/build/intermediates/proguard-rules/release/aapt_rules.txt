@@ -10,40 +10,48 @@
 # view res/layout/design_bottom_sheet_dialog.xml #generated:17
 -keep class android.support.design.widget.CoordinatorLayout { <init>(...); }
 
-# view res/layout/activity_remotefiles.xml #generated:109
-# view res/layout/activity_remotefiles.xml #generated:123
-# view res/layout/activity_remotefiles.xml #generated:136
+# view res/layout/activity_remotefiles.xml #generated:112
+# view res/layout/activity_remotefiles.xml #generated:124
+# view res/layout/activity_remotefiles.xml #generated:139
 # view res/layout/activity_remotefiles.xml #generated:69
-# view res/layout/activity_remotefiles.xml #generated:81
-# view res/layout/activity_remotefiles.xml #generated:95
+# view res/layout/activity_remotefiles.xml #generated:84
+# view res/layout/activity_remotefiles.xml #generated:98
 # view res/layout/activity_sharefiles.xml #generated:55
 # view res/layout/activity_sharefiles.xml #generated:65
 # view res/layout/activity_sharefiles.xml #generated:76
 # view res/layout/activity_sharefiles.xml #generated:88
 # view res/layout/activity_users.xml #generated:46
 # view res/layout/activity_vault.xml #generated:48
+# view res/layout/activity_vault.xml #generated:61
+# view res/layout/activity_vault.xml #generated:74
 -keep class android.support.design.widget.FloatingActionButton { <init>(...); }
 
-# view res/layout/activity_remotefiles.xml #generated:265
+# view res/layout/activity_remotefiles.xml #generated:269
 -keep class android.support.design.widget.NavigationView { <init>(...); }
 
 # view res/layout/design_layout_snackbar.xml #generated:18
 # view sw600dp-v13/res/layout-sw600dp-v13/design_layout_snackbar.xml #generated:18
 -keep class android.support.design.widget.Snackbar$SnackbarLayout { <init>(...); }
 
-# view res/layout/activity_vaultentry.xml #generated:137
-# view res/layout/activity_vaultentry.xml #generated:178
-# view res/layout/activity_vaultentry.xml #generated:45
-# view res/layout/activity_vaultentry.xml #generated:69
-# view res/layout/activity_vaultentry.xml #generated:98
+# view res/layout/activity_vault_note.xml #generated:45
+# view res/layout/activity_vault_note.xml #generated:69
+# view res/layout/activity_vault_note.xml #generated:93
+# view res/layout/activity_vault_website.xml #generated:137
+# view res/layout/activity_vault_website.xml #generated:178
+# view res/layout/activity_vault_website.xml #generated:45
+# view res/layout/activity_vault_website.xml #generated:69
+# view res/layout/activity_vault_website.xml #generated:98
 # view res/layout/activity_vaultunlock.xml #generated:55
 -keep class android.support.design.widget.TextInputEditText { <init>(...); }
 
-# view res/layout/activity_vaultentry.xml #generated:128
-# view res/layout/activity_vaultentry.xml #generated:168
-# view res/layout/activity_vaultentry.xml #generated:36
-# view res/layout/activity_vaultentry.xml #generated:60
-# view res/layout/activity_vaultentry.xml #generated:89
+# view res/layout/activity_vault_note.xml #generated:36
+# view res/layout/activity_vault_note.xml #generated:60
+# view res/layout/activity_vault_note.xml #generated:84
+# view res/layout/activity_vault_website.xml #generated:128
+# view res/layout/activity_vault_website.xml #generated:168
+# view res/layout/activity_vault_website.xml #generated:36
+# view res/layout/activity_vault_website.xml #generated:60
+# view res/layout/activity_vault_website.xml #generated:89
 # view res/layout/activity_vaultunlock.xml #generated:45
 -keep class android.support.design.widget.TextInputLayout { <init>(...); }
 
@@ -85,7 +93,7 @@
 -keep class android.support.v7.widget.ActionBarOverlayLayout { <init>(...); }
 
 # view res/layout/abc_action_menu_layout.xml #generated:17
-# view res/layout/activity_remotefiles.xml #generated:255
+# view res/layout/activity_remotefiles.xml #generated:259
 # view res/layout/toolbar_bottom.xml #generated:13
 -keep class android.support.v7.widget.ActionMenuView { <init>(...); }
 
@@ -112,7 +120,7 @@
 -keep class android.support.v7.widget.SearchView$SearchAutoComplete { <init>(...); }
 
 # view res/layout/abc_screen_toolbar.xml #generated:36
-# view res/layout/activity_remotefiles.xml #generated:242
+# view res/layout/activity_remotefiles.xml #generated:246
 # view res/layout/toolbar.xml #generated:2
 # view res/layout/toolbar_bottom.xml #generated:1
 # view v21/res/layout-v21/toolbar.xml #generated:2
@@ -140,7 +148,7 @@
 # view AndroidManifest.xml #generated:53
 -keep class org.simpledrive.activities.FileSelector { <init>(...); }
 
-# view AndroidManifest.xml #generated:141
+# view AndroidManifest.xml #generated:146
 -keep class org.simpledrive.activities.IconSelector { <init>(...); }
 
 # view AndroidManifest.xml #generated:76
@@ -149,10 +157,10 @@
 # view AndroidManifest.xml #generated:57
 -keep class org.simpledrive.activities.Login { <init>(...); }
 
-# view AndroidManifest.xml #generated:146
+# view AndroidManifest.xml #generated:151
 -keep class org.simpledrive.activities.PasswordGenerator { <init>(...); }
 
-# view AndroidManifest.xml #generated:136
+# view AndroidManifest.xml #generated:141
 -keep class org.simpledrive.activities.PasswordScreen { <init>(...); }
 
 # view AndroidManifest.xml #generated:24
@@ -179,13 +187,16 @@
 # view AndroidManifest.xml #generated:126
 -keep class org.simpledrive.activities.Vault { <init>(...); }
 
+# view AndroidManifest.xml #generated:136
+-keep class org.simpledrive.activities.VaultNote { <init>(...); }
+
 # view AndroidManifest.xml #generated:131
--keep class org.simpledrive.activities.VaultEntry { <init>(...); }
+-keep class org.simpledrive.activities.VaultWebsite { <init>(...); }
 
 # view AndroidManifest.xml #generated:64
 -keep class org.simpledrive.authenticator.AuthenticationService { <init>(...); }
 
-# view AndroidManifest.xml #generated:152
+# view AndroidManifest.xml #generated:157
 -keep class org.simpledrive.helper.AudioService { <init>(...); }
 
 # view res/layout/activity_imageviewer.xml #generated:11
@@ -208,12 +219,12 @@
 # onClick res/layout/activity_unlock.xml #generated:49
 # onClick res/layout/activity_unlock.xml #generated:85
 # onClick res/layout/activity_unlock.xml #generated:99
-# onClick res/layout/activity_vaultentry.xml #generated:152
-# onClick res/layout/activity_vaultentry.xml #generated:193
-# onClick res/layout/activity_vaultentry.xml #generated:202
+# onClick res/layout/activity_vault_website.xml #generated:152
+# onClick res/layout/activity_vault_website.xml #generated:193
+# onClick res/layout/activity_vault_website.xml #generated:202
 # onClick res/layout/activity_vaultunlock.xml #generated:70
 -keepclassmembers class * { *** onClick(...); }
 
-# onClick res/layout/activity_vaultentry.xml #generated:113
+# onClick res/layout/activity_vault_website.xml #generated:113
 -keepclassmembers class * { *** openURL(...); }
 

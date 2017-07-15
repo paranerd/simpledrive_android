@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.simpledrive"
     android:versionCode="90"
-    android:versionName="6.0.1" >
+    android:versionName="6.1.0" >
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -129,7 +129,12 @@
             android:theme="@style/MainTheme.Light" >
         </activity>
         <activity
-            android:name="org.simpledrive.activities.VaultEntry"
+            android:name="org.simpledrive.activities.VaultWebsite"
+            android:label="Vault Entry"
+            android:theme="@style/MainTheme.Light" >
+        </activity>
+        <activity
+            android:name="org.simpledrive.activities.VaultNote"
             android:label="Vault Entry"
             android:theme="@style/MainTheme.Light" >
         </activity>
