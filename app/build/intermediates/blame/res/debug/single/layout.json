@@ -116,6 +116,10 @@
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_settings.xml"
     },
     {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/layout/activity_logoselector.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_logoselector.xml"
+    },
+    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/layout/abc_action_bar_view_list_nav_layout.xml",
         "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/layout/abc_action_bar_view_list_nav_layout.xml"
     },
@@ -250,10 +254,6 @@
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/layout/notification_media_cancel_action.xml",
         "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/layout/notification_media_cancel_action.xml"
-    },
-    {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/layout/activity_iconselector.xml",
-        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_iconselector.xml"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/layout/notification_media_action.xml",

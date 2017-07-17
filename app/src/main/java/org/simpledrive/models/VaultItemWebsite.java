@@ -15,12 +15,12 @@ public class VaultItemWebsite extends VaultItem {
 
     // Empty element
     public VaultItemWebsite() {
-        this("", "", "", "", "", "", "", "", null);
+        this("", "", "", "", "", "", "", null, "", null);
     }
 
     // For all other elements
-    public VaultItemWebsite(String title, String category, String type, String url, String user, String pass, String edit, String icon, Bitmap iconBmp) {
-        super(title, category, type, edit, icon, iconBmp);
+    public VaultItemWebsite(String title, String category, String type, String url, String user, String pass, String edit, Bitmap icon, String logo, Bitmap logoBmp) {
+        super(title, category, type, edit, icon, logo, logoBmp);
         this.url = url;
         this.user = user;
         this.pass = pass;
@@ -51,7 +51,7 @@ public class VaultItemWebsite extends VaultItem {
             job.put("category", getCategory());
             job.put("type", getType());
             job.put("edit", getEdit());
-            job.put("icon", getIcon());
+            job.put("logo", getLogo());
             job.put("url", this.url);
             job.put("user", this.user);
             job.put("pass", this.pass);

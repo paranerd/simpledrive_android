@@ -80,8 +80,8 @@
         "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/layout/abc_action_menu_item_layout.xml"
     },
     {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/activity_iconselector.xml",
-        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_iconselector.xml"
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/activity_logoselector.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_logoselector.xml"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/activity_editor.xml",

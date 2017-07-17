@@ -917,6 +917,8 @@ public class RemoteFiles extends AppCompatActivity {
             protected void onPreExecute() {
                 loginAttempts++;
                 super.onPreExecute();
+
+                mSwipeRefreshLayout.setRefreshing(true);
             }
 
             @Override

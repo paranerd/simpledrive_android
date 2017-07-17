@@ -33,25 +33,25 @@
 # view sw600dp-v13/res/layout-sw600dp-v13/design_layout_snackbar.xml #generated:18
 -keep class android.support.design.widget.Snackbar$SnackbarLayout { <init>(...); }
 
-# view res/layout/activity_vault_note.xml #generated:45
-# view res/layout/activity_vault_note.xml #generated:69
-# view res/layout/activity_vault_note.xml #generated:93
-# view res/layout/activity_vault_website.xml #generated:137
-# view res/layout/activity_vault_website.xml #generated:178
-# view res/layout/activity_vault_website.xml #generated:45
-# view res/layout/activity_vault_website.xml #generated:69
-# view res/layout/activity_vault_website.xml #generated:98
+# view res/layout/activity_vault_note.xml #generated:109
+# view res/layout/activity_vault_note.xml #generated:61
+# view res/layout/activity_vault_note.xml #generated:85
+# view res/layout/activity_vault_website.xml #generated:114
+# view res/layout/activity_vault_website.xml #generated:153
+# view res/layout/activity_vault_website.xml #generated:194
+# view res/layout/activity_vault_website.xml #generated:61
+# view res/layout/activity_vault_website.xml #generated:85
 # view res/layout/activity_vaultunlock.xml #generated:55
 -keep class android.support.design.widget.TextInputEditText { <init>(...); }
 
-# view res/layout/activity_vault_note.xml #generated:36
-# view res/layout/activity_vault_note.xml #generated:60
-# view res/layout/activity_vault_note.xml #generated:84
-# view res/layout/activity_vault_website.xml #generated:128
-# view res/layout/activity_vault_website.xml #generated:168
-# view res/layout/activity_vault_website.xml #generated:36
-# view res/layout/activity_vault_website.xml #generated:60
-# view res/layout/activity_vault_website.xml #generated:89
+# view res/layout/activity_vault_note.xml #generated:100
+# view res/layout/activity_vault_note.xml #generated:52
+# view res/layout/activity_vault_note.xml #generated:76
+# view res/layout/activity_vault_website.xml #generated:105
+# view res/layout/activity_vault_website.xml #generated:144
+# view res/layout/activity_vault_website.xml #generated:184
+# view res/layout/activity_vault_website.xml #generated:52
+# view res/layout/activity_vault_website.xml #generated:76
 # view res/layout/activity_vaultunlock.xml #generated:45
 -keep class android.support.design.widget.TextInputLayout { <init>(...); }
 
@@ -148,14 +148,14 @@
 # view AndroidManifest.xml #generated:53
 -keep class org.simpledrive.activities.FileSelector { <init>(...); }
 
-# view AndroidManifest.xml #generated:146
--keep class org.simpledrive.activities.IconSelector { <init>(...); }
-
 # view AndroidManifest.xml #generated:76
 -keep class org.simpledrive.activities.ImageViewer { <init>(...); }
 
 # view AndroidManifest.xml #generated:57
 -keep class org.simpledrive.activities.Login { <init>(...); }
+
+# view AndroidManifest.xml #generated:146
+-keep class org.simpledrive.activities.LogoSelector { <init>(...); }
 
 # view AndroidManifest.xml #generated:151
 -keep class org.simpledrive.activities.PasswordGenerator { <init>(...); }
@@ -219,12 +219,12 @@
 # onClick res/layout/activity_unlock.xml #generated:49
 # onClick res/layout/activity_unlock.xml #generated:85
 # onClick res/layout/activity_unlock.xml #generated:99
-# onClick res/layout/activity_vault_website.xml #generated:152
-# onClick res/layout/activity_vault_website.xml #generated:193
-# onClick res/layout/activity_vault_website.xml #generated:202
+# onClick res/layout/activity_vault_website.xml #generated:168
+# onClick res/layout/activity_vault_website.xml #generated:209
+# onClick res/layout/activity_vault_website.xml #generated:218
 # onClick res/layout/activity_vaultunlock.xml #generated:70
 -keepclassmembers class * { *** onClick(...); }
 
-# onClick res/layout/activity_vault_website.xml #generated:113
+# onClick res/layout/activity_vault_website.xml #generated:129
 -keepclassmembers class * { *** openURL(...); }
 

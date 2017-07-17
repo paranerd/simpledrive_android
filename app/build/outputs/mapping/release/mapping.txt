@@ -15994,9 +15994,9 @@ org.simpledrive.R$drawable -> org.simpledrive.a$a:
     int ic_visibility_off_black_24dp -> ic_visibility_off_black_24dp
     int ic_warning -> ic_warning
     int item_selector -> item_selector
+    int logo_ -> logo_
     int logo_amazon -> logo_amazon
     int logo_comdirect -> logo_comdirect
-    int logo_default -> logo_default
     int navigation_empty_icon -> navigation_empty_icon
     int notification_template_icon_bg -> notification_template_icon_bg
     int progressbar -> progressbar
@@ -16311,25 +16311,6 @@ org.simpledrive.activities.FileSelector$5 -> org.simpledrive.activities.FileSele
     void onPostExecute(java.util.ArrayList) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.activities.IconSelector -> org.simpledrive.activities.IconSelector:
-    java.util.List icons -> n
-    android.widget.ListView list -> o
-    void <init>() -> <init>
-    void onCreate(android.os.Bundle) -> onCreate
-    void onBackPressed() -> onBackPressed
-    void initList() -> i
-    void initToolbar() -> j
-    void setToolbarTitle(java.lang.String) -> a
-    void displayIcons() -> k
-    java.util.List access$000(org.simpledrive.activities.IconSelector) -> a
-org.simpledrive.activities.IconSelector$1 -> org.simpledrive.activities.IconSelector$1:
-    org.simpledrive.activities.IconSelector this$0 -> a
-    void <init>(org.simpledrive.activities.IconSelector) -> <init>
-    void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-org.simpledrive.activities.IconSelector$2 -> org.simpledrive.activities.IconSelector$2:
-    org.simpledrive.activities.IconSelector this$0 -> a
-    void <init>(org.simpledrive.activities.IconSelector) -> <init>
-    void onClick(android.view.View) -> onClick
 org.simpledrive.activities.ImageViewer -> org.simpledrive.activities.ImageViewer:
     org.simpledrive.adapters.TouchImageAdapter mAdapter -> n
     boolean titleVisible -> o
@@ -16380,6 +16361,25 @@ org.simpledrive.activities.Login$2 -> org.simpledrive.activities.Login$2:
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+org.simpledrive.activities.LogoSelector -> org.simpledrive.activities.LogoSelector:
+    java.util.List logos -> n
+    android.widget.ListView list -> o
+    void <init>() -> <init>
+    void onCreate(android.os.Bundle) -> onCreate
+    void onBackPressed() -> onBackPressed
+    void initList() -> i
+    void initToolbar() -> j
+    void setToolbarTitle(java.lang.String) -> a
+    void displayLogos() -> k
+    java.util.List access$000(org.simpledrive.activities.LogoSelector) -> a
+org.simpledrive.activities.LogoSelector$1 -> org.simpledrive.activities.LogoSelector$1:
+    org.simpledrive.activities.LogoSelector this$0 -> a
+    void <init>(org.simpledrive.activities.LogoSelector) -> <init>
+    void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+org.simpledrive.activities.LogoSelector$2 -> org.simpledrive.activities.LogoSelector$2:
+    org.simpledrive.activities.LogoSelector this$0 -> a
+    void <init>(org.simpledrive.activities.LogoSelector) -> <init>
+    void onClick(android.view.View) -> onClick
 org.simpledrive.activities.PasswordGenerator -> org.simpledrive.activities.PasswordGenerator:
     android.widget.TextView txtPassword -> n
     android.widget.TextView passwordStrength -> o
@@ -17357,31 +17357,33 @@ org.simpledrive.activities.Users$9 -> org.simpledrive.activities.Users$11:
 org.simpledrive.activities.Vault -> org.simpledrive.activities.Vault:
     org.simpledrive.activities.Vault e -> n
     java.util.ArrayList items -> o
-    org.simpledrive.adapters.VaultAdapter newAdapter -> p
-    int selectedPos -> q
-    boolean waitingForUnlock -> r
-    boolean waitingForSetPassphrase -> s
-    boolean savePending -> t
-    boolean createNewVault -> u
-    int unlockAttempts -> v
-    java.lang.String username -> w
-    java.lang.String server -> x
-    java.lang.String salt -> y
-    java.lang.String vaultname -> z
-    java.lang.String vaultEncrypted -> A
-    java.lang.String passphrase -> B
-    int REQUEST_UNLOCK -> C
-    int REQUEST_SET_PASSPHRASE -> D
-    android.widget.TextView info -> E
-    android.widget.AbsListView list -> F
-    android.view.Menu mContextMenu -> G
-    boolean FAB_Status -> H
-    android.support.design.widget.FloatingActionButton fab_website -> I
-    android.view.animation.Animation show_fab_website -> J
-    android.view.animation.Animation hide_fab_website -> K
-    android.support.design.widget.FloatingActionButton fab_note -> L
-    android.view.animation.Animation show_fab_note -> M
-    android.view.animation.Animation hide_fab_note -> N
+    java.util.ArrayList filteredItems -> p
+    org.simpledrive.adapters.VaultAdapter newAdapter -> q
+    int selectedPos -> r
+    boolean waitingForUnlock -> s
+    boolean waitingForSetPassphrase -> t
+    boolean savePending -> u
+    boolean createNewVault -> v
+    int unlockAttempts -> w
+    java.lang.String username -> x
+    java.lang.String server -> y
+    java.lang.String salt -> z
+    java.lang.String vaultname -> A
+    java.lang.String vaultEncrypted -> B
+    java.lang.String passphrase -> C
+    int REQUEST_UNLOCK -> D
+    int REQUEST_SET_PASSPHRASE -> E
+    android.widget.TextView info -> F
+    android.widget.AbsListView list -> G
+    android.view.Menu mContextMenu -> H
+    android.support.v7.widget.SearchView searchView -> I
+    boolean FAB_Status -> J
+    android.support.design.widget.FloatingActionButton fab_website -> K
+    android.view.animation.Animation show_fab_website -> L
+    android.view.animation.Animation hide_fab_website -> M
+    android.support.design.widget.FloatingActionButton fab_note -> N
+    android.view.animation.Animation show_fab_note -> O
+    android.view.animation.Animation hide_fab_note -> P
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
     void toggleFAB(boolean) -> c
@@ -17400,35 +17402,38 @@ org.simpledrive.activities.Vault -> org.simpledrive.activities.Vault:
     void fetch() -> r
     void extractEntries(java.lang.String) -> c
     void display() -> s
+    void filter(java.lang.String) -> d
     void unselectAll() -> t
     java.lang.Integer getFirstSelected() -> u
-    void createEntry(java.lang.String) -> d
+    void createEntry(java.lang.String) -> e
     void deleteEntry(int) -> c
     boolean save() -> v
     boolean saveEntry(org.simpledrive.models.VaultItem,java.lang.String) -> a
+    java.util.ArrayList cloneArrayList(java.util.ArrayList) -> a
     boolean exists(java.lang.String) -> a
     boolean access$000(org.simpledrive.activities.Vault) -> a
     void access$100(org.simpledrive.activities.Vault,boolean) -> a
     void access$200(org.simpledrive.activities.Vault,java.lang.String) -> a
-    void access$300(org.simpledrive.activities.Vault) -> b
-    android.view.Menu access$402(org.simpledrive.activities.Vault,android.view.Menu) -> a
-    java.lang.Integer access$500(org.simpledrive.activities.Vault) -> c
-    void access$600(org.simpledrive.activities.Vault,int) -> a
-    int access$700(org.simpledrive.activities.Vault) -> d
-    int access$702(org.simpledrive.activities.Vault,int) -> b
-    android.widget.AbsListView access$800(org.simpledrive.activities.Vault) -> e
-    android.view.Menu access$400(org.simpledrive.activities.Vault) -> f
-    org.simpledrive.adapters.VaultAdapter access$900(org.simpledrive.activities.Vault) -> g
-    java.util.ArrayList access$1000() -> i
-    java.lang.String access$1100() -> j
-    java.lang.String access$1200() -> k
-    android.widget.TextView access$1300(org.simpledrive.activities.Vault) -> h
-    java.lang.String access$1202(java.lang.String) -> b
-    boolean access$1402(boolean) -> b
-    void access$1500(org.simpledrive.activities.Vault) -> i
-    boolean access$1602(org.simpledrive.activities.Vault,boolean) -> b
-    org.simpledrive.activities.Vault access$1700() -> l
-    int access$1800(org.simpledrive.activities.Vault) -> j
+    void access$300(org.simpledrive.activities.Vault,java.lang.String) -> b
+    void access$400(org.simpledrive.activities.Vault) -> b
+    android.view.Menu access$502(org.simpledrive.activities.Vault,android.view.Menu) -> a
+    java.lang.Integer access$600(org.simpledrive.activities.Vault) -> c
+    void access$700(org.simpledrive.activities.Vault,int) -> a
+    int access$800(org.simpledrive.activities.Vault) -> d
+    int access$802(org.simpledrive.activities.Vault,int) -> b
+    android.widget.AbsListView access$900(org.simpledrive.activities.Vault) -> e
+    android.view.Menu access$500(org.simpledrive.activities.Vault) -> f
+    org.simpledrive.adapters.VaultAdapter access$1000(org.simpledrive.activities.Vault) -> g
+    java.util.ArrayList access$1100() -> i
+    java.lang.String access$1200() -> j
+    java.lang.String access$1300() -> k
+    android.widget.TextView access$1400(org.simpledrive.activities.Vault) -> h
+    java.lang.String access$1302(java.lang.String) -> b
+    boolean access$1502(boolean) -> b
+    void access$1600(org.simpledrive.activities.Vault) -> i
+    boolean access$1702(org.simpledrive.activities.Vault,boolean) -> b
+    org.simpledrive.activities.Vault access$1800() -> l
+    int access$1900(org.simpledrive.activities.Vault) -> j
     void <clinit>() -> <clinit>
 org.simpledrive.activities.Vault$1 -> org.simpledrive.activities.Vault$1:
     org.simpledrive.activities.Vault this$0 -> a
@@ -17445,8 +17450,13 @@ org.simpledrive.activities.Vault$3 -> org.simpledrive.activities.Vault$3:
 org.simpledrive.activities.Vault$4 -> org.simpledrive.activities.Vault$4:
     org.simpledrive.activities.Vault this$0 -> a
     void <init>(org.simpledrive.activities.Vault) -> <init>
-    void onClick(android.view.View) -> onClick
+    boolean onQueryTextChange(java.lang.String) -> b
+    boolean onQueryTextSubmit(java.lang.String) -> a
 org.simpledrive.activities.Vault$5 -> org.simpledrive.activities.Vault$5:
+    org.simpledrive.activities.Vault this$0 -> a
+    void <init>(org.simpledrive.activities.Vault) -> <init>
+    void onClick(android.view.View) -> onClick
+org.simpledrive.activities.Vault$6 -> org.simpledrive.activities.Vault$6:
     org.simpledrive.activities.Vault this$0 -> a
     void <init>(org.simpledrive.activities.Vault) -> <init>
     boolean onPrepareActionMode(android.view.ActionMode,android.view.Menu) -> onPrepareActionMode
@@ -17454,16 +17464,16 @@ org.simpledrive.activities.Vault$5 -> org.simpledrive.activities.Vault$5:
     boolean onCreateActionMode(android.view.ActionMode,android.view.Menu) -> onCreateActionMode
     boolean onActionItemClicked(android.view.ActionMode,android.view.MenuItem) -> onActionItemClicked
     void onItemCheckedStateChanged(android.view.ActionMode,int,long,boolean) -> onItemCheckedStateChanged
-org.simpledrive.activities.Vault$5$1 -> org.simpledrive.activities.Vault$5$1:
+org.simpledrive.activities.Vault$6$1 -> org.simpledrive.activities.Vault$6$1:
     android.view.ActionMode val$mode -> a
-    org.simpledrive.activities.Vault$5 this$1 -> b
-    void <init>(org.simpledrive.activities.Vault$5,android.view.ActionMode) -> <init>
+    org.simpledrive.activities.Vault$6 this$1 -> b
+    void <init>(org.simpledrive.activities.Vault$6,android.view.ActionMode) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.activities.Vault$6 -> org.simpledrive.activities.Vault$6:
+org.simpledrive.activities.Vault$7 -> org.simpledrive.activities.Vault$7:
     org.simpledrive.activities.Vault this$0 -> a
     void <init>(org.simpledrive.activities.Vault) -> <init>
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-org.simpledrive.activities.Vault$7 -> org.simpledrive.activities.Vault$7:
+org.simpledrive.activities.Vault$8 -> org.simpledrive.activities.Vault$8:
     org.simpledrive.activities.Vault this$0 -> a
     void <init>(org.simpledrive.activities.Vault) -> <init>
     void onPreExecute() -> onPreExecute
@@ -17471,7 +17481,7 @@ org.simpledrive.activities.Vault$7 -> org.simpledrive.activities.Vault$7:
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.activities.Vault$8 -> org.simpledrive.activities.Vault$8:
+org.simpledrive.activities.Vault$9 -> org.simpledrive.activities.Vault$9:
     org.simpledrive.activities.Vault this$0 -> a
     void <init>(org.simpledrive.activities.Vault) -> <init>
     void onPreExecute() -> onPreExecute
@@ -17487,7 +17497,9 @@ org.simpledrive.activities.VaultNote -> org.simpledrive.activities.VaultNote:
     android.widget.EditText title -> r
     android.widget.EditText category -> s
     android.widget.EditText content -> t
-    android.widget.ImageView icon -> u
+    android.widget.FrameLayout logo_wrapper -> u
+    android.widget.TextView info -> v
+    android.widget.ImageView logo -> w
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
     void onDestroy() -> onDestroy
@@ -17527,9 +17539,11 @@ org.simpledrive.activities.VaultWebsite -> org.simpledrive.activities.VaultWebsi
     android.widget.EditText url -> y
     android.widget.EditText username -> z
     android.widget.EditText password -> A
-    android.widget.ImageView icon -> B
-    android.widget.Button passwordCopy -> C
-    android.widget.Button passwordGenerate -> D
+    android.widget.FrameLayout logo_wrapper -> B
+    android.widget.TextView info -> C
+    android.widget.ImageView logo -> D
+    android.widget.Button passwordCopy -> E
+    android.widget.Button passwordGenerate -> F
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
     void onDestroy() -> onDestroy
@@ -17729,12 +17743,13 @@ org.simpledrive.adapters.VaultAdapter$1 -> org.simpledrive.a.f$1:
     void onClick(android.view.View) -> onClick
 org.simpledrive.adapters.VaultAdapter$ViewHolder -> org.simpledrive.a.f$a:
     android.widget.ImageView icon -> a
-    android.widget.TextView title -> b
-    android.widget.TextView detail1 -> c
-    android.widget.TextView detail2 -> d
-    android.widget.RelativeLayout icon_area -> e
-    android.widget.RelativeLayout checked -> f
-    org.simpledrive.adapters.VaultAdapter this$0 -> g
+    android.widget.ImageView thumb -> b
+    android.widget.TextView title -> c
+    android.widget.TextView detail1 -> d
+    android.widget.TextView detail2 -> e
+    android.widget.RelativeLayout icon_area -> f
+    android.widget.RelativeLayout checked -> g
+    org.simpledrive.adapters.VaultAdapter this$0 -> h
     void <init>(org.simpledrive.adapters.VaultAdapter) -> <init>
 org.simpledrive.authenticator.AccountAuthenticator -> org.simpledrive.authenticator.a:
     android.content.Context mContext -> a
@@ -18270,21 +18285,24 @@ org.simpledrive.models.VaultItem -> org.simpledrive.b.e:
     java.lang.String type -> b
     java.lang.String category -> c
     java.lang.String edit -> d
-    java.lang.String icon -> e
-    android.graphics.Bitmap iconBmp -> f
+    android.graphics.Bitmap icon -> e
+    java.lang.String logo -> f
+    android.graphics.Bitmap logoBmp -> g
     android.os.Parcelable$Creator CREATOR -> CREATOR
-    void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,android.graphics.Bitmap) -> <init>
-    android.graphics.Bitmap getIconBmp() -> a
-    void setIconBmp(android.graphics.Bitmap) -> a
-    java.lang.String getIcon() -> b
-    void setIcon(java.lang.String) -> a
-    java.lang.String getTitle() -> c
+    void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String,android.graphics.Bitmap,java.lang.String,android.graphics.Bitmap) -> <init>
+    android.graphics.Bitmap getIcon() -> a
+    void setIcon(android.graphics.Bitmap) -> a
+    java.lang.String getLogo() -> b
+    void setLogo(java.lang.String) -> a
+    android.graphics.Bitmap getLogoBmp() -> c
+    void setLogoBmp(android.graphics.Bitmap) -> b
+    java.lang.String getTitle() -> d
     void setTitle(java.lang.String) -> b
-    java.lang.String getCategory() -> d
+    java.lang.String getCategory() -> e
     void setCategory(java.lang.String) -> c
-    java.lang.String getType() -> e
+    java.lang.String getType() -> f
     void setType(java.lang.String) -> d
-    java.lang.String getEdit() -> f
+    java.lang.String getEdit() -> g
     void <init>(android.os.Parcel) -> <init>
     int describeContents() -> describeContents
     void writeToParcel(android.os.Parcel,int) -> writeToParcel
@@ -18299,8 +18317,8 @@ org.simpledrive.models.VaultItemNote -> org.simpledrive.b.f:
     java.lang.String content -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     void <init>() -> <init>
-    void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,android.graphics.Bitmap) -> <init>
-    java.lang.String getContent() -> g
+    void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String,android.graphics.Bitmap,java.lang.String,android.graphics.Bitmap) -> <init>
+    java.lang.String getContent() -> h
     void setContent(java.lang.String) -> e
     java.lang.String toString() -> toString
     int describeContents() -> describeContents
@@ -18319,12 +18337,12 @@ org.simpledrive.models.VaultItemWebsite -> org.simpledrive.b.g:
     java.lang.String pass -> c
     android.os.Parcelable$Creator CREATOR -> CREATOR
     void <init>() -> <init>
-    void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,android.graphics.Bitmap) -> <init>
-    java.lang.String getURL() -> g
+    void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,android.graphics.Bitmap,java.lang.String,android.graphics.Bitmap) -> <init>
+    java.lang.String getURL() -> h
     void setURL(java.lang.String) -> e
-    java.lang.String getUser() -> h
+    java.lang.String getUser() -> i
     void setUser(java.lang.String) -> f
-    java.lang.String getPass() -> i
+    java.lang.String getPass() -> j
     void setPass(java.lang.String) -> g
     java.lang.String toString() -> toString
     int describeContents() -> describeContents

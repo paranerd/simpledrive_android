@@ -1,4 +1,4 @@
-#Tue Jul 11 09:14:48 CEST 2017
+#Mon Jul 17 07:35:37 CEST 2017
 file.2=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_dbcbc03bd5ef7ce20880e37991ad61f111f044df/classes.dex
 base.2=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_dbcbc03bd5ef7ce20880e37991ad61f111f044df
 file.1=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_81b5eb4a4d8771df516211d2d98fa94adb2e6441/classes.dex

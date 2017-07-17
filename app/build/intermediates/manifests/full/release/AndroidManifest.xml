@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.simpledrive"
     android:versionCode="90"
-    android:versionName="6.1.0" >
+    android:versionName="6.1.1" >
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -144,7 +144,7 @@
             android:theme="@style/MainTheme.Light" >
         </activity>
         <activity
-            android:name="org.simpledrive.activities.IconSelector"
+            android:name="org.simpledrive.activities.LogoSelector"
             android:label="Icon Selector"
             android:theme="@style/MainTheme.Light" >
         </activity>

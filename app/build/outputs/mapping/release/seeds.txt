@@ -4820,9 +4820,9 @@ org.simpledrive.R$drawable: int ic_visibility_black_24dp
 org.simpledrive.R$drawable: int ic_visibility_off_black_24dp
 org.simpledrive.R$drawable: int ic_warning
 org.simpledrive.R$drawable: int item_selector
+org.simpledrive.R$drawable: int logo_
 org.simpledrive.R$drawable: int logo_amazon
 org.simpledrive.R$drawable: int logo_comdirect
-org.simpledrive.R$drawable: int logo_default
 org.simpledrive.R$drawable: int navigation_empty_icon
 org.simpledrive.R$drawable: int notification_template_icon_bg
 org.simpledrive.R$drawable: int progressbar
@@ -4956,6 +4956,7 @@ org.simpledrive.R$id: int listMode
 org.simpledrive.R$id: int list_item
 org.simpledrive.R$id: int listview
 org.simpledrive.R$id: int logbottom
+org.simpledrive.R$id: int logo_wrapper
 org.simpledrive.R$id: int logout
 org.simpledrive.R$id: int media_actions
 org.simpledrive.R$id: int middle
@@ -5114,7 +5115,8 @@ org.simpledrive.R$id: int user_quota_used
 org.simpledrive.R$id: int username
 org.simpledrive.R$id: int vault_category
 org.simpledrive.R$id: int vault_content
-org.simpledrive.R$id: int vault_icon
+org.simpledrive.R$id: int vault_info
+org.simpledrive.R$id: int vault_logo
 org.simpledrive.R$id: int vault_pass
 org.simpledrive.R$id: int vault_save
 org.simpledrive.R$id: int vault_title
@@ -5161,10 +5163,10 @@ org.simpledrive.R$layout: int abc_search_view
 org.simpledrive.R$layout: int abc_select_dialog_material
 org.simpledrive.R$layout: int activity_editor
 org.simpledrive.R$layout: int activity_fileselector
-org.simpledrive.R$layout: int activity_iconselector
 org.simpledrive.R$layout: int activity_imageviewer
 org.simpledrive.R$layout: int activity_log
 org.simpledrive.R$layout: int activity_login
+org.simpledrive.R$layout: int activity_logoselector
 org.simpledrive.R$layout: int activity_passwordgenerator
 org.simpledrive.R$layout: int activity_remotefiles
 org.simpledrive.R$layout: int activity_settings
@@ -6166,15 +6168,15 @@ org.simpledrive.activities.EnablePIN: void onClick(android.view.View)
 org.simpledrive.activities.FileSelector
 org.simpledrive.activities.FileSelector: FileSelector()
 org.simpledrive.activities.FileSelector$4: void onClick(android.view.View)
-org.simpledrive.activities.IconSelector
-org.simpledrive.activities.IconSelector: IconSelector()
-org.simpledrive.activities.IconSelector$2: void onClick(android.view.View)
 org.simpledrive.activities.ImageViewer
 org.simpledrive.activities.ImageViewer: ImageViewer()
 org.simpledrive.activities.ImageViewer$2: void onClick(android.view.View)
 org.simpledrive.activities.Login
 org.simpledrive.activities.Login: Login()
 org.simpledrive.activities.Login$1: void onClick(android.view.View)
+org.simpledrive.activities.LogoSelector
+org.simpledrive.activities.LogoSelector: LogoSelector()
+org.simpledrive.activities.LogoSelector$2: void onClick(android.view.View)
 org.simpledrive.activities.PasswordGenerator
 org.simpledrive.activities.PasswordGenerator: PasswordGenerator()
 org.simpledrive.activities.PasswordGenerator: void onClick(android.view.View)
@@ -6240,8 +6242,8 @@ org.simpledrive.activities.Vault: Vault()
 org.simpledrive.activities.Vault$1: void onClick(android.view.View)
 org.simpledrive.activities.Vault$2: void onClick(android.view.View)
 org.simpledrive.activities.Vault$3: void onClick(android.view.View)
-org.simpledrive.activities.Vault$4: void onClick(android.view.View)
-org.simpledrive.activities.Vault$5$1: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.Vault$5: void onClick(android.view.View)
+org.simpledrive.activities.Vault$6$1: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.VaultNote
 org.simpledrive.activities.VaultNote: VaultNote()
 org.simpledrive.activities.VaultNote$1: void onClick(android.view.View)

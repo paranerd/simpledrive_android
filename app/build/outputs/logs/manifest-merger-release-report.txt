@@ -257,7 +257,7 @@ ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidMa
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:148:13-51
 	android:name
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:146:13-54
-activity#org.simpledrive.activities.IconSelector
+activity#org.simpledrive.activities.LogoSelector
 ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:151:9-155:20
 	android:label
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:153:13-42

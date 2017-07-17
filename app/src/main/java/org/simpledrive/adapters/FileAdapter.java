@@ -80,7 +80,6 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
         }
 
         if (layout == R.layout.listview_detail) {
-            //int separatorVisibility = (position == 0 || !item.getType().equals(getItem(position - 1).getType())) ? View.VISIBLE : View.GONE;
             int separatorVisibility = (position == 0 || !item.getType().equals("folder") && getItem(position - 1).getType().equals("folder")) ? View.VISIBLE : View.GONE;
             String text = (item.getType().equals("folder")) ? "Folders" : "Files";
 

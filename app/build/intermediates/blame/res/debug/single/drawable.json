@@ -68,6 +68,10 @@
         "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/drawable/abc_cab_background_internal_bg.xml"
     },
     {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable/logo_.png",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/logo_.png"
+    },
+    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable/abc_tab_indicator_material.xml",
         "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/drawable/abc_tab_indicator_material.xml"
     },

@@ -3,39 +3,48 @@ package org.simpledrive.models;
 import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 public class VaultItem implements Parcelable {
     private String title;
     private String type;
     private String category;
     private String edit;
-    private String icon;
-    private Bitmap iconBmp;
+    private Bitmap icon;
+    private String logo;
+    private Bitmap logoBmp;
 
-    public VaultItem(String title, String category, String type, String edit, String icon, Bitmap iconBmp) {
+    public VaultItem(String title, String category, String type, String edit, Bitmap icon, String logo, Bitmap logoBmp) {
         this.title = title;
         this.category = category;
         this.type = type;
         this.edit = edit;
         this.icon = icon;
-        this.iconBmp = iconBmp;
+        this.logo = logo;
+        this.logoBmp = logoBmp;
     }
 
-    public Bitmap getIconBmp() {
-        return this.iconBmp;
-    }
-
-    public void setIconBmp(Bitmap icon) {
-        this.iconBmp = icon;
-    }
-
-    public String getIcon() {
+    public Bitmap getIcon() {
         return this.icon;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setIcon(Bitmap icon) {
+        this.icon= icon;
+    }
+
+    public String getLogo() {
+        return this.logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    public Bitmap getLogoBmp() {
+        return this.logoBmp;
+    }
+
+    public void setLogoBmp(Bitmap logoBmp) {
+        this.logoBmp = logoBmp;
     }
 
     public String getTitle() {
@@ -63,13 +72,12 @@ public class VaultItem implements Parcelable {
     }
 
     protected VaultItem(Parcel in) {
-        Log.i("debug", "writeToParcel Item");
         this.title = in.readString();
         this.category = in.readString();
         this.type = in.readString();
         this.edit = in.readString();
-        this.icon = in.readString();
-        this.iconBmp = null;
+        this.logo = in.readString();
+        this.logoBmp = null;
     }
 
     @Override
@@ -83,7 +91,7 @@ public class VaultItem implements Parcelable {
         parcel.writeString(this.category);
         parcel.writeString(this.type);
         parcel.writeString(this.edit);
-        parcel.writeString(this.icon);
+        parcel.writeString(this.logo);
     }
 
     public static final Parcelable.Creator<VaultItem> CREATOR = new Parcelable.Creator<VaultItem>() {

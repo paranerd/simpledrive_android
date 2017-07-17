@@ -8,12 +8,12 @@
         "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/drawable/abc_ratingbar_indicator_material.xml"
     },
     {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/abc_cab_background_top_material.xml",
-        "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/drawable/abc_cab_background_top_material.xml"
-    },
-    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/abc_list_selector_holo_light.xml",
         "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/drawable/abc_list_selector_holo_light.xml"
+    },
+    {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/abc_cab_background_top_material.xml",
+        "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/drawable/abc_cab_background_top_material.xml"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/abc_vector_test.xml",
@@ -72,10 +72,6 @@
         "source": "/home/paranerd/.android/build-cache/41ed2336d2f736605e4e12c0e0bfb0727c56f2dc/output/res/drawable/design_ic_visibility.xml"
     },
     {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/logo_default.png",
-        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/logo_default.png"
-    },
-    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/abc_dialog_material_background.xml",
         "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/drawable/abc_dialog_material_background.xml"
     },
@@ -84,12 +80,12 @@
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/rounded_button.xml"
     },
     {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/abc_seekbar_tick_mark_material.xml",
-        "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/drawable/abc_seekbar_tick_mark_material.xml"
-    },
-    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/logo_comdirect.png",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/logo_comdirect.png"
+    },
+    {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/abc_seekbar_tick_mark_material.xml",
+        "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/drawable/abc_seekbar_tick_mark_material.xml"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/abc_btn_check_material.xml",
