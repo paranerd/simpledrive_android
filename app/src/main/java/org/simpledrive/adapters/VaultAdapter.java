@@ -40,8 +40,9 @@ public class VaultAdapter extends ArrayAdapter<VaultItem> {
             convertView = layoutInflater.inflate(layout, null);
 
             holder = new ViewHolder();
-            holder.icon= (ImageView) convertView.findViewById(R.id.thumb);
+            holder.icon = (ImageView) convertView.findViewById(R.id.icon);
             holder.icon_area = (RelativeLayout) convertView.findViewById(R.id.icon_area);
+            holder.thumb = (ImageView) convertView.findViewById(R.id.thumb);
             holder.checked = (RelativeLayout) convertView.findViewById(R.id.checked);
             holder.title = (TextView) convertView.findViewById(R.id.title);
             holder.detail1 = (TextView) convertView.findViewById(R.id.detail1);
@@ -55,8 +56,17 @@ public class VaultAdapter extends ArrayAdapter<VaultItem> {
         holder.title.setText(item.getTitle());
         holder.detail1.setText(item.getType());
         holder.detail2.setText("");
-        holder.icon.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        holder.icon.setImageBitmap(item.getIconBmp());
+        holder.icon.setImageBitmap(item.getIcon());
+        holder.thumb.setImageBitmap(item.getLogoBmp());
+
+        if (item.getLogo().equals("")) {
+            holder.icon.setVisibility(View.VISIBLE);
+            holder.thumb.setVisibility(View.GONE);
+        }
+        else {
+            holder.icon.setVisibility(View.GONE);
+            holder.thumb.setVisibility(View.VISIBLE);
+        }
 
         if (list.isItemChecked(position)) {
             holder.checked.setVisibility(View.VISIBLE);
@@ -79,6 +89,7 @@ public class VaultAdapter extends ArrayAdapter<VaultItem> {
 
     class ViewHolder {
         ImageView icon;
+        ImageView thumb;
         TextView title;
         TextView detail1;
         TextView detail2;

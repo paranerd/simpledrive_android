@@ -1,7 +1,6 @@
 package org.simpledrive.activities;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +11,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.simpledrive.R;
@@ -30,7 +31,9 @@ public class VaultNote extends AppCompatActivity implements TextWatcher {
     private EditText title;
     private EditText category;
     private EditText content;
-    private ImageView icon;
+    private FrameLayout logo_wrapper;
+    private TextView info;
+    private ImageView logo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,20 +52,27 @@ public class VaultNote extends AppCompatActivity implements TextWatcher {
         content = (EditText) findViewById(R.id.vault_content);
         content.addTextChangedListener(this);
 
-        icon = (ImageView) findViewById(R.id.vault_icon);
-        icon.setOnClickListener(new View.OnClickListener() {
+        logo_wrapper = (FrameLayout) findViewById(R.id.logo_wrapper);
+        logo_wrapper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), IconSelector.class);
+                Intent i = new Intent(getApplicationContext(), LogoSelector.class);
                 startActivityForResult(i, REQUEST_ICON);
             }
         });
+
+        info = (TextView) findViewById(R.id.vault_info);
+        logo = (ImageView) findViewById(R.id.vault_logo);
 
         // Init entry
         item = getIntent().getParcelableExtra("item");
         if (item == null) {
             item = new VaultItemNote();
         }
+
+        // Parcelable does not contain bitmaps
+        item.setLogoBmp(Util.getDrawableByName(this, "logo_" + item.getLogo(), R.drawable.logo_));
+
         origTitle = item.getTitle();
 
         display();
@@ -150,12 +160,11 @@ public class VaultNote extends AppCompatActivity implements TextWatcher {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_ICON) {
             if (resultCode == RESULT_OK) {
-                String iconName = data.getStringExtra("icon");
+                String logoName = data.getStringExtra("logo");
 
-                item.setIcon(iconName);
-                Bitmap drawable = Util.getDrawableByName(this, "logo_" + iconName, R.drawable.logo_default);
-                item.setIconBmp(drawable);
-                icon.setImageBitmap(drawable);
+                item.setLogo(logoName);
+                item.setLogoBmp(Util.getDrawableByName(this, "logo_" + logoName, R.drawable.logo_));
+                display();
 
                 saved = false;
                 invalidateOptionsMenu();
@@ -168,9 +177,7 @@ public class VaultNote extends AppCompatActivity implements TextWatcher {
         setToolbarTitle(toolbarTitle);
         setToolbarSubtitle("");
 
-        Bitmap entryIcon = Util.getDrawableByName(this, "logo_" + item.getIcon(), R.drawable.logo_default);
-
-        icon.setImageBitmap(entryIcon);
+        logo.setImageBitmap(item.getLogoBmp());
         title.setText(item.getTitle());
         category.setText(item.getCategory());
         content.setText(item.getContent());
@@ -197,11 +204,7 @@ public class VaultNote extends AppCompatActivity implements TextWatcher {
         item.setCategory(categoryText);
         item.setType("note");
         item.setContent(contentText);
-
-        if (item.getIcon().equals("")) {
-            item.setIcon("default");
-        }
-        item.setIconBmp(Util.getDrawableByName(this, "logo_" + item.getIcon(), R.drawable.logo_default));
+        item.setIcon(Util.getDrawableByName(this, "ic_unknown", R.drawable.ic_unknown));
 
         if (Vault.saveEntry(item, origTitle)) {
             display();

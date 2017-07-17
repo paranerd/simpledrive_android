@@ -6,7 +6,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,14 +13,15 @@ import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.simpledrive.R;
@@ -50,7 +50,9 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
     private EditText url;
     private EditText username;
     private EditText password;
-    private ImageView icon;
+    private FrameLayout logo_wrapper;
+    private TextView info;
+    private ImageView logo;
     private Button passwordCopy;
     private Button passwordGenerate;
 
@@ -80,14 +82,17 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
         passwordCopy = (Button) findViewById(R.id.copypass);
         passwordGenerate = (Button) findViewById(R.id.generatepass);
 
-        icon = (ImageView) findViewById(R.id.vault_icon);
-        icon.setOnClickListener(new View.OnClickListener() {
+        logo_wrapper = (FrameLayout) findViewById(R.id.logo_wrapper);
+        logo_wrapper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), IconSelector.class);
+                Intent i = new Intent(getApplicationContext(), LogoSelector.class);
                 startActivityForResult(i, REQUEST_ICON);
             }
         });
+
+        info = (TextView) findViewById(R.id.vault_info);
+        logo = (ImageView) findViewById(R.id.vault_logo);
 
         // Init receiver
         initReceiver();
@@ -97,9 +102,10 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
         if (item == null) {
             item = new VaultItemWebsite();
         }
-        origTitle = item.getTitle();
+        // Parcelable does not contain bitmaps
+        item.setLogoBmp(Util.getDrawableByName(this, "logo_" + item.getLogo(), R.drawable.logo_));
 
-        Log.i("debug", "item: " + item.toString());
+        origTitle = item.getTitle();
 
         display();
         saved = true;
@@ -232,12 +238,11 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_ICON) {
             if (resultCode == RESULT_OK) {
-                String iconName = data.getStringExtra("icon");
+                String logoName = data.getStringExtra("logo");
 
-                item.setIcon(iconName);
-                Bitmap drawable = Util.getDrawableByName(this, "logo_" + iconName, R.drawable.logo_default);
-                item.setIconBmp(drawable);
-                icon.setImageBitmap(drawable);
+                item.setLogo(logoName);
+                item.setLogoBmp(Util.getDrawableByName(this, "logo_" + logoName, R.drawable.logo_));
+                display();
 
                 saved = false;
                 invalidateOptionsMenu();
@@ -258,14 +263,22 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
         setToolbarTitle(toolbarTitle);
         setToolbarSubtitle("");
 
-        Bitmap entryIcon = Util.getDrawableByName(this, "logo_" + item.getIcon(), R.drawable.logo_default);
-
-        icon.setImageBitmap(entryIcon);
+        logo.setImageBitmap(item.getLogoBmp());
         title.setText(item.getTitle());
         url.setText(item.getURL());
         username.setText(item.getUser());
         password.setText(item.getPass());
         category.setText(item.getCategory());
+
+        if (item.getLogo().equals("")) {
+            info.setVisibility(View.VISIBLE);
+            logo.setVisibility(View.GONE);
+
+        }
+        else {
+            info.setVisibility(View.GONE);
+            logo.setVisibility(View.VISIBLE);
+        }
 
         if (item.getPass().equals("")) {
             passwordGenerate.setVisibility(View.VISIBLE);
@@ -302,11 +315,7 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
         item.setPass(passText);
         item.setCategory(categoryText);
         item.setType("website");
-
-        if (item.getIcon().equals("")) {
-            item.setIcon("default");
-        }
-        item.setIconBmp(Util.getDrawableByName(this, "logo_" + item.getIcon(), R.drawable.logo_default));
+        item.setIcon(Util.getDrawableByName(this, "ic_lock", R.drawable.ic_lock));
 
         if (Vault.saveEntry(item, origTitle)) {
             display();

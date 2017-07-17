@@ -17,9 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class IconSelector extends AppCompatActivity {
+public class LogoSelector extends AppCompatActivity {
     // General
-    private List<Map<String, Object>> icons = new ArrayList<>();
+    private List<Map<String, Object>> logos = new ArrayList<>();
 
     // Interface
     private ListView list;
@@ -28,12 +28,12 @@ public class IconSelector extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_iconselector);
+        setContentView(R.layout.activity_logoselector);
 
         initList();
         initToolbar();
-        setToolbarTitle("Select icon");
-        displayIcons();
+        setToolbarTitle("Select Logo");
+        displayLogos();
     }
 
     public void onBackPressed() {
@@ -48,7 +48,7 @@ public class IconSelector extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent();
-                i.putExtra("icon", icons.get(position).get("name").toString());
+                i.putExtra("logo", logos.get(position).get("name").toString());
                 setResult(RESULT_OK, i);
                 finish();
             }
@@ -75,21 +75,21 @@ public class IconSelector extends AppCompatActivity {
         }
     }
 
-    private void displayIcons() {
-        // Add all drawable icons
+    private void displayLogos() {
+        // Add all drawable logos
         Field[] drawablesFields = R.drawable.class.getFields();
 
         for (Field field : drawablesFields) {
             if (field.getName().indexOf("logo_") == 0) {
                 HashMap<String, Object> datum = new HashMap<>();
                 int drawableResourceId = this.getResources().getIdentifier(field.getName(), "drawable", this.getPackageName());
-                datum.put("icon", drawableResourceId);
+                datum.put("logo", drawableResourceId);
                 datum.put("name", field.getName().substring(5));
-                datum.put("type", "icon");
-                icons.add(datum);
+                datum.put("type", "logo");
+                logos.add(datum);
             }
         }
 
-        list.setAdapter(new SimpleAdapter(this, icons, R.layout.listview_detail, new String[] {"icon", "name", "type"}, new int[] {R.id.thumb, R.id.title, R.id.detail1}));
+        list.setAdapter(new SimpleAdapter(this, logos, R.layout.listview_detail, new String[] {"logo", "name", "type"}, new int[] {R.id.thumb, R.id.title, R.id.detail1}));
     }
 }

@@ -1,5 +1,7 @@
 package org.simpledrive.activities;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -7,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
@@ -42,6 +45,7 @@ public class Vault extends AppCompatActivity {
     // General
     private static Vault e;
     private static ArrayList<VaultItem> items = new ArrayList<>();
+    private static ArrayList<VaultItem> filteredItems = new ArrayList<>();
     private VaultAdapter newAdapter;
     private int selectedPos;
     private boolean waitingForUnlock = false;
@@ -66,6 +70,7 @@ public class Vault extends AppCompatActivity {
     private TextView info;
     private AbsListView list;
     private Menu mContextMenu;
+    private SearchView searchView = null;
     private boolean FAB_Status = false;
     private FloatingActionButton fab_website;
     private Animation show_fab_website;
@@ -201,6 +206,30 @@ public class Vault extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.vault_toolbar, menu);
 
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+            SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    filter(newText);
+                    return true;
+                }
+
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    filter(query);
+                    return true;
+                }
+            };
+            searchView.setOnQueryTextListener(queryTextListener);
+        }
         return true;
     }
 
@@ -298,7 +327,7 @@ public class Vault extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                VaultItem item = items.get(position);
+                VaultItem item = filteredItems.get(position);
                 Intent i;
 
                 switch (item.getType()) {
@@ -312,9 +341,7 @@ public class Vault extends AppCompatActivity {
                         return;
                 }
 
-                //Log.i("debug", "putExtra: " + items.get(position).toString());
-
-                i.putExtra("item", items.get(position));
+                i.putExtra("item", filteredItems.get(position));
                 unselectAll();
                 startActivity(i);
             }
@@ -442,6 +469,7 @@ public class Vault extends AppCompatActivity {
      */
     private void extractEntries(String rawJSON) {
         items = new ArrayList<>();
+        //filteredItems = new ArrayList<>();
 
         try {
             JSONArray entries = new JSONArray(rawJSON);
@@ -453,22 +481,25 @@ public class Vault extends AppCompatActivity {
                 String category = obj.getString("category");
                 String type = obj.getString("type");
                 String edit = obj.getString("edit");
-                String icon = obj.getString("icon");
-                Bitmap iconBmp = Util.getDrawableByName(this, "logo_" + icon, R.drawable.logo_default);
+                Bitmap icon;
+                String logo = obj.getString("logo");
+                Bitmap logoBmp = (!logo.equals("")) ? Util.getDrawableByName(this, "logo_" + logo, 0) : null;
 
                 switch (type) {
                     case "website":
+                        icon = Util.getDrawableByName(this, "ic_lock", R.drawable.ic_lock);
                         String url = obj.getString("url");
                         String user = obj.getString("user");
                         String pass = obj.getString("pass");
 
-                        VaultItemWebsite website = new VaultItemWebsite(title, category, type, url, user, pass, edit, icon, iconBmp);
+                        VaultItemWebsite website = new VaultItemWebsite(title, category, type, url, user, pass, edit, icon, logo, logoBmp);
                         items.add(website);
                         break;
 
                     case "note":
+                        icon = Util.getDrawableByName(this, "ic_unknown", R.drawable.ic_unknown);
                         String content = obj.getString("content");
-                        VaultItemNote note = new VaultItemNote(title, category, content, edit, icon, iconBmp);
+                        VaultItemNote note = new VaultItemNote(title, category, content, edit, icon, logo, logoBmp);
                         items.add(note);
                         break;
                 }
@@ -478,7 +509,9 @@ public class Vault extends AppCompatActivity {
             Toast.makeText(this, R.string.unknown_error, Toast.LENGTH_SHORT).show();
         }
 
-        if (items.size() > 0 && savePending) {
+        filteredItems = cloneArrayList(items);
+
+        if (filteredItems.size() > 0 && savePending) {
             save();
         }
 
@@ -486,7 +519,7 @@ public class Vault extends AppCompatActivity {
     }
 
     private void display() {
-        if (items.size() == 0) {
+        if (filteredItems.size() == 0) {
             info.setVisibility(View.VISIBLE);
             info.setText(R.string.empty);
         }
@@ -496,10 +529,22 @@ public class Vault extends AppCompatActivity {
 
         int layout = R.layout.listview_detail;
         newAdapter = new VaultAdapter(this, layout, list);
-        newAdapter.setData(items);
+        newAdapter.setData(filteredItems);
         list.setAdapter(newAdapter);
     }
 
+    private void filter(String needle) {
+        if (items.size() > 0) {
+            filteredItems = new ArrayList<>();
+
+            for (VaultItem item : items) {
+                if (item.getTitle().toLowerCase().contains(needle)) {
+                    filteredItems.add(item);
+                }
+            }
+            display();
+        }
+    }
     /**
      * Removes all selected Elements
      */
@@ -541,6 +586,7 @@ public class Vault extends AppCompatActivity {
 
     private void deleteEntry(int pos) {
         items.remove(pos);
+        filteredItems = cloneArrayList(items);
         save();
         display();
         invalidateOptionsMenu();
@@ -570,7 +616,19 @@ public class Vault extends AppCompatActivity {
             items.add(item);
         }
 
+        filteredItems = cloneArrayList(items);
+
         return save();
+    }
+
+    private static ArrayList<VaultItem> cloneArrayList(ArrayList<VaultItem> src) {
+        ArrayList<VaultItem> newList = new ArrayList<>();
+
+        for (int i = 0; i < src.size(); i++) {
+            newList.add(src.get(i));
+        }
+
+        return newList;
     }
 
     public static boolean exists(String title) {

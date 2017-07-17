@@ -12,12 +12,12 @@ public class VaultItemNote extends VaultItem {
 
     // Empty element
     public VaultItemNote() {
-        this("", "", "", "", "", null);
+        this("", "", "", "", null, "", null);
     }
 
     // For all other elements
-    public VaultItemNote(String title, String category, String content, String edit, String icon, Bitmap iconBmp) {
-        super(title, category, "note", edit, icon, iconBmp);
+    public VaultItemNote(String title, String category, String content, String edit, Bitmap icon, String logo, Bitmap logoBmp) {
+        super(title, category, "note", edit, icon, logo, logoBmp);
         this.content = content;
     }
 
@@ -36,7 +36,7 @@ public class VaultItemNote extends VaultItem {
             job.put("category", getCategory());
             job.put("type", getType());
             job.put("edit", getEdit());
-            job.put("icon", getIcon());
+            job.put("logo", getLogo());
             job.put("content", this.content);
         } catch (JSONException e) {
             e.printStackTrace();
