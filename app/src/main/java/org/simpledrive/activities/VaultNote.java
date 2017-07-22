@@ -164,11 +164,25 @@ public class VaultNote extends AppCompatActivity implements TextWatcher {
 
                 item.setLogo(logoName);
                 item.setLogoBmp(Util.getDrawableByName(this, "logo_" + logoName, R.drawable.logo_));
-                display();
+                updateLogo();
 
                 saved = false;
                 invalidateOptionsMenu();
             }
+        }
+    }
+
+    private void updateLogo() {
+        logo.setImageBitmap(item.getLogoBmp());
+
+        if (item.getLogo().equals("")) {
+            info.setVisibility(View.VISIBLE);
+            logo.setVisibility(View.GONE);
+
+        }
+        else {
+            info.setVisibility(View.GONE);
+            logo.setVisibility(View.VISIBLE);
         }
     }
 
@@ -177,7 +191,8 @@ public class VaultNote extends AppCompatActivity implements TextWatcher {
         setToolbarTitle(toolbarTitle);
         setToolbarSubtitle("");
 
-        logo.setImageBitmap(item.getLogoBmp());
+        updateLogo();
+
         title.setText(item.getTitle());
         category.setText(item.getCategory());
         content.setText(item.getContent());

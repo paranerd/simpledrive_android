@@ -396,11 +396,8 @@ public class Vault extends AppCompatActivity {
 
             @Override
             protected Connection.Response doInBackground(Void... args) {
-                long lastEdit = 0;
                 File vaultFile = new File(getFilesDir() + "/" + vaultname);
-                if (vaultFile.exists()) {
-                    lastEdit = vaultFile.lastModified() / 1000;
-                }
+                long lastEdit = (vaultFile.exists()) ? vaultFile.lastModified() / 1000 : 0;
 
                 Connection con = new Connection("vault", "sync");
                 con.addFormField("vault", vaultEncrypted);
@@ -469,7 +466,6 @@ public class Vault extends AppCompatActivity {
      */
     private void extractEntries(String rawJSON) {
         items = new ArrayList<>();
-        //filteredItems = new ArrayList<>();
 
         try {
             JSONArray entries = new JSONArray(rawJSON);
@@ -527,8 +523,7 @@ public class Vault extends AppCompatActivity {
             info.setVisibility(View.GONE);
         }
 
-        int layout = R.layout.listview_detail;
-        newAdapter = new VaultAdapter(this, layout, list);
+        newAdapter = new VaultAdapter(this, R.layout.listview_detail, list);
         newAdapter.setData(filteredItems);
         list.setAdapter(newAdapter);
     }
