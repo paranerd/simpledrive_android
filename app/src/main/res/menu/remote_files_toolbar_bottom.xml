@@ -69,6 +69,18 @@
                 android:orderInCategory="300"
                 android:title="Unshare"
                 app:showAsAction="ifRoom"/>
+
+            <item
+                android:id="@+id/encrypt"
+                android:orderInCategory="300"
+                android:title="Encrypt"
+                app:showAsAction="ifRoom"/>
+
+            <item
+                android:id="@+id/decrypt"
+                android:orderInCategory="300"
+                android:title="Decrypt"
+                app:showAsAction="ifRoom"/>
         </menu>
     </item>
 </menu>

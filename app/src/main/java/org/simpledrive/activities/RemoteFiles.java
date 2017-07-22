@@ -1062,6 +1062,60 @@ public class RemoteFiles extends AppCompatActivity {
         showVirtualKeyboard();
     }
 
+    private void showEncrypt(final String target) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle("Encrypt");
+
+        // Set an EditText view to get user input
+        final EditText input = new EditText(this);
+        alert.setView(input);
+
+        alert.setPositiveButton("Encrypt", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                encrypt(target, input.getText().toString());
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+
+        alert.show();
+        input.requestFocus();
+        input.selectAll();
+        showVirtualKeyboard();
+    }
+
+    private void showDecrypt(final String target) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle("Decrypt");
+
+        // Set an EditText view to get user input
+        final EditText input = new EditText(this);
+        alert.setView(input);
+
+        alert.setPositiveButton("Decrypt", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                decrypt(target, input.getText().toString());
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+
+        alert.show();
+        input.requestFocus();
+        input.selectAll();
+        showVirtualKeyboard();
+    }
+
     private void showRename(final String filename, final String target) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
@@ -1320,6 +1374,16 @@ public class RemoteFiles extends AppCompatActivity {
                 unshare(getFirstSelected());
                 actionMode.finish();
                 break;
+
+            case R.id.encrypt:
+                showEncrypt(getFirstSelected());
+                actionMode.finish();
+                break;
+
+            case R.id.decrypt:
+                showDecrypt(getFirstSelected());
+                actionMode.finish();
+                break;
         }
     }
 
@@ -1388,6 +1452,8 @@ public class RemoteFiles extends AppCompatActivity {
                     bottomContextMenu.findItem(R.id.rename).setVisible(!trash && list.getCheckedItemCount() == 1);
                     bottomContextMenu.findItem(R.id.share).setVisible(!trash && list.getCheckedItemCount() == 1 && !filteredItems.get(position).selfshared());
                     bottomContextMenu.findItem(R.id.unshare).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).selfshared());
+                    bottomContextMenu.findItem(R.id.encrypt).setVisible(!trash && list.getCheckedItemCount() == 1 && !filteredItems.get(position).getType().equals("folder") && !filteredItems.get(position).getType().equals("encrypted"));
+                    bottomContextMenu.findItem(R.id.decrypt).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).getType().equals("encrypted"));
                 }
                 else {
                     mContextMenu.findItem(R.id.restore).setVisible(trash);
@@ -1399,6 +1465,8 @@ public class RemoteFiles extends AppCompatActivity {
                     mContextMenu.findItem(R.id.rename).setVisible(!trash && list.getCheckedItemCount() == 1);
                     mContextMenu.findItem(R.id.share).setVisible(!trash && list.getCheckedItemCount() == 1 && !filteredItems.get(position).selfshared());
                     mContextMenu.findItem(R.id.unshare).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).selfshared());
+                    mContextMenu.findItem(R.id.encrypt).setVisible(!trash && list.getCheckedItemCount() == 1 && !filteredItems.get(position).getType().equals("folder") && !filteredItems.get(position).getType().equals("encrypted"));
+                    mContextMenu.findItem(R.id.decrypt).setVisible(!trash && list.getCheckedItemCount() == 1 && filteredItems.get(position).getType().equals("encrypted"));
                 }
 
                 lastSelected = position;
@@ -1789,6 +1857,66 @@ public class RemoteFiles extends AppCompatActivity {
                 Connection con = new Connection("files", "rename");
                 con.addFormField("target", target);
                 con.addFormField("newFilename", filename);
+
+                return con.finish();
+            }
+
+            @Override
+            protected void onPostExecute(Connection.Response res) {
+                mSwipeRefreshLayout.setRefreshing(false);
+                if (res.successful()) {
+                    fetchFiles();
+                }
+                else {
+                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
+    }
+
+    private void encrypt(final String target, final String secret) {
+        new AsyncTask<Void, Void, Connection.Response>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+
+            @Override
+            protected Connection.Response doInBackground(Void... names) {
+                Connection con = new Connection("files", "encrypt");
+                con.addFormField("target", target);
+                con.addFormField("secret", secret);
+
+                return con.finish();
+            }
+
+            @Override
+            protected void onPostExecute(Connection.Response res) {
+                mSwipeRefreshLayout.setRefreshing(false);
+                if (res.successful()) {
+                    fetchFiles();
+                }
+                else {
+                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
+    }
+
+    private void decrypt(final String target, final String secret) {
+        new AsyncTask<Void, Void, Connection.Response>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+
+            @Override
+            protected Connection.Response doInBackground(Void... names) {
+                Connection con = new Connection("files", "decrypt");
+                con.addFormField("target", target);
+                con.addFormField("secret", secret);
 
                 return con.finish();
             }

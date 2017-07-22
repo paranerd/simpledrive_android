@@ -2821,7 +2821,7 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f0e0076;
         public static final int action_mode_bar_stub=0x7f0e0075;
         public static final int action_mode_close_button=0x7f0e005c;
-        public static final int action_search=0x7f0e0126;
+        public static final int action_search=0x7f0e0128;
         public static final int activity_chooser_view_content=0x7f0e005d;
         public static final int activity_main_navigation_view=0x7f0e00b0;
         public static final int add=0x7f0e0037;
@@ -2853,7 +2853,7 @@ containing a value of this type.
         public static final int checked=0x7f0e00e9;
         public static final int chronometer=0x7f0e00fb;
         public static final int clearcache=0x7f0e0101;
-        public static final int clearlog=0x7f0e0129;
+        public static final int clearlog=0x7f0e012b;
         public static final int clip_horizontal=0x7f0e004b;
         public static final int clip_vertical=0x7f0e004c;
         public static final int collapseActionView=0x7f0e0054;
@@ -2867,6 +2867,7 @@ containing a value of this type.
         public static final int customPanel=0x7f0e006d;
         public static final int cut=0x7f0e0122;
         public static final int decor_content_parent=0x7f0e0077;
+        public static final int decrypt=0x7f0e0127;
         public static final int default_activity_button=0x7f0e005f;
         public static final int delete=0x7f0e010c;
         public static final int design_bottom_sheet=0x7f0e00d5;
@@ -2882,7 +2883,8 @@ containing a value of this type.
         public static final int editor=0x7f0e008a;
         public static final int editorscroll=0x7f0e0089;
         public static final int empty_list_item=0x7f0e000a;
-        public static final int emptytrash=0x7f0e0127;
+        public static final int emptytrash=0x7f0e0129;
+        public static final int encrypt=0x7f0e0126;
         public static final int end=0x7f0e0043;
         public static final int end_padder=0x7f0e00ff;
         public static final int enterAlways=0x7f0e0032;
@@ -3041,7 +3043,7 @@ containing a value of this type.
         public static final int submenuarrow=0x7f0e0073;
         public static final int submit_area=0x7f0e0084;
         public static final int swipe_refresh_layout=0x7f0e008f;
-        public static final int sync=0x7f0e012b;
+        public static final int sync=0x7f0e012d;
         public static final int tToolbar=0x7f0e0100;
         public static final int tabMode=0x7f0e002a;
         public static final int text=0x7f0e00fe;
@@ -3052,7 +3054,7 @@ containing a value of this type.
         public static final int time=0x7f0e00fa;
         public static final int title=0x7f0e0061;
         public static final int title_template=0x7f0e0066;
-        public static final int toggle_view=0x7f0e0128;
+        public static final int toggle_view=0x7f0e012a;
         public static final int toolbar=0x7f0e0088;
         public static final int toolbar_bottom=0x7f0e00ae;
         public static final int top=0x7f0e0048;
@@ -3092,7 +3094,7 @@ containing a value of this type.
         public static final int vault_info=0x7f0e00c4;
         public static final int vault_logo=0x7f0e00c5;
         public static final int vault_pass=0x7f0e00ce;
-        public static final int vault_save=0x7f0e012a;
+        public static final int vault_save=0x7f0e012c;
         public static final int vault_title=0x7f0e00c6;
         public static final int vault_url=0x7f0e00c9;
         public static final int vault_user=0x7f0e00cb;

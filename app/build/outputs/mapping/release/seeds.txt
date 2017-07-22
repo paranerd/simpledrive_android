@@ -4893,6 +4893,7 @@ org.simpledrive.R$id: int custom
 org.simpledrive.R$id: int customPanel
 org.simpledrive.R$id: int cut
 org.simpledrive.R$id: int decor_content_parent
+org.simpledrive.R$id: int decrypt
 org.simpledrive.R$id: int default_activity_button
 org.simpledrive.R$id: int delete
 org.simpledrive.R$id: int design_bottom_sheet
@@ -4909,6 +4910,7 @@ org.simpledrive.R$id: int editor
 org.simpledrive.R$id: int editorscroll
 org.simpledrive.R$id: int empty_list_item
 org.simpledrive.R$id: int emptytrash
+org.simpledrive.R$id: int encrypt
 org.simpledrive.R$id: int end
 org.simpledrive.R$id: int end_padder
 org.simpledrive.R$id: int enterAlways
@@ -6198,11 +6200,15 @@ org.simpledrive.activities.RemoteFiles$22: void onClick(android.content.DialogIn
 org.simpledrive.activities.RemoteFiles$23: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.RemoteFiles$24: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.RemoteFiles$25: void onClick(android.content.DialogInterface,int)
-org.simpledrive.activities.RemoteFiles$28: void onClick(android.view.View)
-org.simpledrive.activities.RemoteFiles$29$1: void onClick(android.content.DialogInterface,int)
-org.simpledrive.activities.RemoteFiles$37$1: void onClick(android.content.DialogInterface,int)
-org.simpledrive.activities.RemoteFiles$37$2: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.RemoteFiles$26: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.RemoteFiles$27: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.RemoteFiles$28: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.RemoteFiles$29: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.RemoteFiles$32: void onClick(android.view.View)
+org.simpledrive.activities.RemoteFiles$33$1: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.RemoteFiles$4: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.RemoteFiles$41$1: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.RemoteFiles$41$2: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.RemoteFiles$5: void onClick(android.view.View)
 org.simpledrive.activities.RemoteFiles$6: void onClick(android.view.View)
 org.simpledrive.activities.RemoteFiles$8: void onClick(android.view.View)

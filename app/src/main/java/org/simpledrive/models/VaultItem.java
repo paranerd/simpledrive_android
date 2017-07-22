@@ -67,6 +67,10 @@ public class VaultItem implements Parcelable {
         this.type = type;
     }
 
+    public void setEdit(String edit) {
+        this.edit = edit;
+    }
+
     public String getEdit() {
         return this.edit;
     }
@@ -77,7 +81,6 @@ public class VaultItem implements Parcelable {
         this.type = in.readString();
         this.edit = in.readString();
         this.logo = in.readString();
-        this.logoBmp = null;
     }
 
     @Override

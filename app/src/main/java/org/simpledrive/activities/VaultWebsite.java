@@ -31,7 +31,7 @@ import org.simpledrive.models.VaultItemWebsite;
 public class VaultWebsite extends AppCompatActivity implements TextWatcher {
     // General
     private VaultItemWebsite item;
-    private int REQUEST_ICON = 0;
+    private int REQUEST_LOGO = 0;
     private int REQUEST_PASSWORD = 1;
     private int USER_NOTIFICATION_ID = 1;
     private int PASS_NOTIFICATION_ID = 2;
@@ -87,7 +87,7 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), LogoSelector.class);
-                startActivityForResult(i, REQUEST_ICON);
+                startActivityForResult(i, REQUEST_LOGO);
             }
         });
 
@@ -236,13 +236,13 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_ICON) {
+        if (requestCode == REQUEST_LOGO) {
             if (resultCode == RESULT_OK) {
                 String logoName = data.getStringExtra("logo");
 
                 item.setLogo(logoName);
                 item.setLogoBmp(Util.getDrawableByName(this, "logo_" + logoName, R.drawable.logo_));
-                display();
+                updateLogo();
 
                 saved = false;
                 invalidateOptionsMenu();
@@ -258,17 +258,8 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
         }
     }
 
-    private void display() {
-        String toolbarTitle = (item.getTitle().equals("")) ? "New entry" : item.getTitle();
-        setToolbarTitle(toolbarTitle);
-        setToolbarSubtitle("");
-
+    private void updateLogo() {
         logo.setImageBitmap(item.getLogoBmp());
-        title.setText(item.getTitle());
-        url.setText(item.getURL());
-        username.setText(item.getUser());
-        password.setText(item.getPass());
-        category.setText(item.getCategory());
 
         if (item.getLogo().equals("")) {
             info.setVisibility(View.VISIBLE);
@@ -279,6 +270,20 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
             info.setVisibility(View.GONE);
             logo.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void display() {
+        String toolbarTitle = (item.getTitle().equals("")) ? "New entry" : item.getTitle();
+        setToolbarTitle(toolbarTitle);
+        setToolbarSubtitle("");
+
+        updateLogo();
+
+        title.setText(item.getTitle());
+        url.setText(item.getURL());
+        username.setText(item.getUser());
+        password.setText(item.getPass());
+        category.setText(item.getCategory());
 
         if (item.getPass().equals("")) {
             passwordGenerate.setVisibility(View.VISIBLE);
@@ -296,13 +301,15 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
         String urlText = url.getText().toString().replaceAll("\\s++$", "");
         String userText = username.getText().toString().replaceAll("\\s++$", "");
         String passText = password.getText().toString().replaceAll("\\s++$", "");
+        Long time = System.currentTimeMillis() / 1000;
+        String edit = time.toString();
 
         if (titleText.equals("")) {
             Toast.makeText(this, "Entry needs a title!", Toast.LENGTH_SHORT).show();
             setToolbarSubtitle("");
             return;
         }
-        // When updating the title, check if entry with the same title already exists
+        // If title has been updated, check if entry with the same title already exists
         if (!origTitle.equals(titleText) && Vault.exists(titleText)) {
             Toast.makeText(this, "Entry " + titleText + " already exists!", Toast.LENGTH_SHORT).show();
             setToolbarSubtitle("");
@@ -310,12 +317,13 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
         }
 
         item.setTitle(titleText);
-        item.setURL(urlText);
-        item.setUser(userText);
-        item.setPass(passText);
         item.setCategory(categoryText);
         item.setType("website");
         item.setIcon(Util.getDrawableByName(this, "ic_lock", R.drawable.ic_lock));
+        item.setEdit(edit);
+        item.setURL(urlText);
+        item.setUser(userText);
+        item.setPass(passText);
 
         if (Vault.saveEntry(item, origTitle)) {
             display();

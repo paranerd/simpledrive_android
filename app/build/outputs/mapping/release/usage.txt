@@ -5543,7 +5543,8 @@ org.simpledrive.helper.AudioService:
     public static final java.lang.String CHANGE_PLAY
     public static final java.lang.String STOP
 org.simpledrive.helper.Crypto:
-    14:14:public Crypto()
+    15:15:public Crypto()
+    32:40:private static java.lang.String randomString(int)
 org.simpledrive.helper.DownloadManager:
     private static final int NOTIFICATION_ID
     18:18:public DownloadManager()

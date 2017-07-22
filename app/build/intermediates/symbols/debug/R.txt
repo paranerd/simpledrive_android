@@ -758,7 +758,7 @@ int id action_menu_presenter 0x7f0e0006
 int id action_mode_bar 0x7f0e0076
 int id action_mode_bar_stub 0x7f0e0075
 int id action_mode_close_button 0x7f0e005c
-int id action_search 0x7f0e0126
+int id action_search 0x7f0e0128
 int id activity_chooser_view_content 0x7f0e005d
 int id activity_main_navigation_view 0x7f0e00b0
 int id add 0x7f0e0037
@@ -790,7 +790,7 @@ int id checkbox 0x7f0e0070
 int id checked 0x7f0e00e9
 int id chronometer 0x7f0e00fb
 int id clearcache 0x7f0e0101
-int id clearlog 0x7f0e0129
+int id clearlog 0x7f0e012b
 int id clip_horizontal 0x7f0e004b
 int id clip_vertical 0x7f0e004c
 int id collapseActionView 0x7f0e0054
@@ -804,6 +804,7 @@ int id custom 0x7f0e006e
 int id customPanel 0x7f0e006d
 int id cut 0x7f0e0122
 int id decor_content_parent 0x7f0e0077
+int id decrypt 0x7f0e0127
 int id default_activity_button 0x7f0e005f
 int id delete 0x7f0e010c
 int id design_bottom_sheet 0x7f0e00d5
@@ -819,7 +820,8 @@ int id edit_query 0x7f0e007b
 int id editor 0x7f0e008a
 int id editorscroll 0x7f0e0089
 int id empty_list_item 0x7f0e000a
-int id emptytrash 0x7f0e0127
+int id emptytrash 0x7f0e0129
+int id encrypt 0x7f0e0126
 int id end 0x7f0e0043
 int id end_padder 0x7f0e00ff
 int id enterAlways 0x7f0e0032
@@ -978,7 +980,7 @@ int id status_bar_latest_event_content 0x7f0e00f6
 int id submenuarrow 0x7f0e0073
 int id submit_area 0x7f0e0084
 int id swipe_refresh_layout 0x7f0e008f
-int id sync 0x7f0e012b
+int id sync 0x7f0e012d
 int id tToolbar 0x7f0e0100
 int id tabMode 0x7f0e002a
 int id text 0x7f0e00fe
@@ -989,7 +991,7 @@ int id thumb 0x7f0e00e8
 int id time 0x7f0e00fa
 int id title 0x7f0e0061
 int id title_template 0x7f0e0066
-int id toggle_view 0x7f0e0128
+int id toggle_view 0x7f0e012a
 int id toolbar 0x7f0e0088
 int id toolbar_bottom 0x7f0e00ae
 int id top 0x7f0e0048
@@ -1029,7 +1031,7 @@ int id vault_content 0x7f0e00c8
 int id vault_info 0x7f0e00c4
 int id vault_logo 0x7f0e00c5
 int id vault_pass 0x7f0e00ce
-int id vault_save 0x7f0e012a
+int id vault_save 0x7f0e012c
 int id vault_title 0x7f0e00c6
 int id vault_url 0x7f0e00c9
 int id vault_user 0x7f0e00cb
