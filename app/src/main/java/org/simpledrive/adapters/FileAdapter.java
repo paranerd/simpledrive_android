@@ -69,12 +69,6 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.name.setText(item.getFilename());
-        holder.size.setText(item.getSize());
-        holder.thumb.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        holder.thumb.setImageBitmap(item.getThumb());
-        holder.icon.setImageBitmap(item.getIcon());
-
         if (item.shared()) {
             holder.owner.setText(item.getOwner());
         }
@@ -90,17 +84,29 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
         int checkedVisibility = (list.isItemChecked(position)) ? View.VISIBLE : View.INVISIBLE;
         holder.checked.setVisibility(checkedVisibility);
 
-        if (item.is("image")) {
-            if (item.getThumb() == null && loadthumbs) {
-                thumbQueue.add(item);
-
-                if (!thumbLoading && e.getClass().getSimpleName().equals("RemoteFiles")) {
-                    new LoadThumb().execute();
+        if (item.is("image") && item.getThumb() == null && loadthumbs && !itemIsInQueue(item)) {
+            if (e.getClass().getSimpleName().equals("RemoteFiles")) {
+                // Try to load cached thumb
+                Bitmap cachedThumb = (new File(Util.getCacheDir() + item.getID()).exists()) ? Util.getThumb(Util.getCacheDir() + item.getID(), thumbSize) : null;
+                if (cachedThumb != null) {
+                    item.setThumb(cachedThumb);
                 }
-                else if (!thumbLoading && e.getClass().getSimpleName().equals("FileSelector")) {
-                    new LocalThumb().execute();
+                // Load thumb from server
+                else {
+                    thumbQueue.add(item);
+                    if (!thumbLoading) {
+                        new LoadThumb().execute();
+                    }
                 }
             }
+            else if (!thumbLoading && e.getClass().getSimpleName().equals("FileSelector")) {
+                thumbQueue.add(item);
+                new LocalThumb().execute();
+            }
+        }
+
+        if (item.getIcon() == null) {
+            item.setIcon(Util.getIconByName(e, item.getType(), R.drawable.ic_unknown));
         }
 
         if (layout == R.layout.listview_detail) {
@@ -111,6 +117,12 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
                 }
             });
         }
+
+        holder.name.setText(item.getFilename());
+        holder.size.setText(item.getSize());
+        holder.thumb.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        holder.thumb.setImageBitmap(item.getThumb());
+        holder.icon.setImageBitmap(item.getIcon());
 
         return convertView;
     }
@@ -138,6 +150,15 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
                 add(arg1.get(i));
             }
         }
+    }
+
+    private boolean itemIsInQueue(FileItem item) {
+        for (FileItem t : thumbQueue) {
+            if (t.getID() == item.getID()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private class LoadThumb extends AsyncTask<String, Integer, Connection.Response> {

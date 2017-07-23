@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -29,14 +30,16 @@ import org.simpledrive.helper.Util;
 import org.simpledrive.models.VaultItemWebsite;
 
 public class VaultWebsite extends AppCompatActivity implements TextWatcher {
+    // Constants
+    private final int REQUEST_LOGO = 0;
+    private final int REQUEST_PASSWORD = 1;
+    private final int USER_NOTIFICATION_ID = 1;
+    private final int PASS_NOTIFICATION_ID = 2;
+
     // General
-    private VaultItemWebsite item;
-    private int REQUEST_LOGO = 0;
-    private int REQUEST_PASSWORD = 1;
-    private int USER_NOTIFICATION_ID = 1;
-    private int PASS_NOTIFICATION_ID = 2;
     private boolean saved = true;
-    private String origTitle;
+    private VaultItemWebsite item;
+    private int id;
 
     // Notification
     private NotificationManager mNotifyManager;
@@ -50,7 +53,6 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
     private EditText url;
     private EditText username;
     private EditText password;
-    private FrameLayout logo_wrapper;
     private TextView info;
     private ImageView logo;
     private Button passwordCopy;
@@ -82,7 +84,7 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
         passwordCopy = (Button) findViewById(R.id.copypass);
         passwordGenerate = (Button) findViewById(R.id.generatepass);
 
-        logo_wrapper = (FrameLayout) findViewById(R.id.logo_wrapper);
+        FrameLayout logo_wrapper = (FrameLayout) findViewById(R.id.logo_wrapper);
         logo_wrapper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,14 +100,11 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
         initReceiver();
 
         // Init entry
+        id = getIntent().getIntExtra("id", -1);
         item = (VaultItemWebsite) getIntent().getParcelableExtra("item");
         if (item == null) {
             item = new VaultItemWebsite();
         }
-        // Parcelable does not contain bitmaps
-        item.setLogoBmp(Util.getDrawableByName(this, "logo_" + item.getLogo(), R.drawable.logo_));
-
-        origTitle = item.getTitle();
 
         display();
         saved = true;
@@ -241,7 +240,7 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
                 String logoName = data.getStringExtra("logo");
 
                 item.setLogo(logoName);
-                item.setLogoBmp(Util.getDrawableByName(this, "logo_" + logoName, R.drawable.logo_));
+                //item.setLogoBmp(Util.getDrawableByName(this, "logo_" + logoName, R.drawable.logo_));
                 updateLogo();
 
                 saved = false;
@@ -259,7 +258,8 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
     }
 
     private void updateLogo() {
-        logo.setImageBitmap(item.getLogoBmp());
+        Bitmap logoBmp = Util.getDrawableByName(this, "logo_" + item.getLogo(), R.drawable.logo_);
+        logo.setImageBitmap(logoBmp);
 
         if (item.getLogo().equals("")) {
             info.setVisibility(View.VISIBLE);
@@ -309,28 +309,20 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
             setToolbarSubtitle("");
             return;
         }
-        // If title has been updated, check if entry with the same title already exists
-        if (!origTitle.equals(titleText) && Vault.exists(titleText)) {
-            Toast.makeText(this, "Entry " + titleText + " already exists!", Toast.LENGTH_SHORT).show();
-            setToolbarSubtitle("");
-            return;
-        }
 
         item.setTitle(titleText);
         item.setCategory(categoryText);
         item.setType("website");
-        item.setIcon(Util.getDrawableByName(this, "ic_lock", R.drawable.ic_lock));
         item.setEdit(edit);
         item.setURL(urlText);
         item.setUser(userText);
         item.setPass(passText);
 
-        if (Vault.saveEntry(item, origTitle)) {
-            display();
-            saved = true;
-            origTitle = titleText;
-            invalidateOptionsMenu();
-        }
+        Intent i = new Intent();
+        i.putExtra("id", id);
+        i.putExtra("item", item);
+        setResult(RESULT_OK, i);
+        finish();
     }
 
     public void openURL(View view) {

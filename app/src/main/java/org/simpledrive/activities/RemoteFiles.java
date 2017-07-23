@@ -172,15 +172,7 @@ public class RemoteFiles extends AppCompatActivity {
 
         settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
 
-        theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
-        setTheme(theme);
-
-        listLayout = (settings.getString("listlayout", "list").equals("list")) ? R.layout.listview_detail: R.layout.gridview;
-        setContentView(R.layout.activity_remotefiles);
-
         initInterface();
-
-        setListLayout(listLayout);
         initToolbar();
         initDrawer();
         initList();
@@ -437,9 +429,20 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     private void initInterface() {
+        // Set theme
+        theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        setTheme(theme);
+
+        // Set layout
+        listLayout = (settings.getString("listlayout", "list").equals("list")) ? R.layout.listview_detail: R.layout.gridview;
+        setContentView(R.layout.activity_remotefiles);
+        setListLayout(listLayout);
+
+        // Bottom toolbar
         toolbarBottom = (Toolbar) findViewById(R.id.toolbar_bottom);
         amvMenu = (ActionMenuView) (toolbarBottom != null ? toolbarBottom.findViewById(R.id.amvMenu) : null);
 
+        // Audioplayer
         bPlay = (ImageView) findViewById(R.id.bPlay);
         bPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -479,8 +482,10 @@ public class RemoteFiles extends AppCompatActivity {
             }
         });
 
+        // Info
         info = (TextView) findViewById(R.id.info);
 
+        // Floating Action Buttons
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab_upload = (FloatingActionButton) findViewById(R.id.fab_upload);
         fab_file = (FloatingActionButton) findViewById(R.id.fab_file);
@@ -556,6 +561,7 @@ public class RemoteFiles extends AppCompatActivity {
             }
         });
 
+        // Swipe refresh layout
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -686,13 +692,9 @@ public class RemoteFiles extends AppCompatActivity {
                 boolean selfshared = Boolean.parseBoolean(obj.getString("selfshared"));
                 boolean shared = Boolean.parseBoolean(obj.getString("shared"));
                 String owner = obj.getString("owner");
+                Bitmap icon = Util.getIconByName(this, type, R.drawable.ic_unknown); //Util.getDrawableByName(this, "ic_" + type, R.drawable.ic_unknown);
 
-                Bitmap icon = Util.getDrawableByName(this, "ic_" + type, R.drawable.ic_unknown);
-
-                int thumbSize = Util.getThumbSize(e, listLayout);
-                Bitmap thumb = (type.equals("image") && new File(Util.getCacheDir() + id).exists()) ? Util.getThumb(Util.getCacheDir() + id, thumbSize) : null;
-
-                FileItem item = new FileItem(id, filename, "", size, edit, type, owner, selfshared, shared, icon, thumb);
+                FileItem item = new FileItem(id, filename, "", size, edit, type, owner, selfshared, shared, icon);
                 items.add(item);
                 filteredItems.add(item);
             }
@@ -796,6 +798,13 @@ public class RemoteFiles extends AppCompatActivity {
             i.putExtra("filename", filteredItems.get(position).getFilename());
             startActivity(i);
         }
+        /*else if (item.is("pdf")) {
+            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/example.pdf");
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(Uri.fromFile(file), "application/pdf");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            startActivity(intent);
+        }*/
         else {
             Toast.makeText(this, "Can not open file", Toast.LENGTH_SHORT).show();
         }

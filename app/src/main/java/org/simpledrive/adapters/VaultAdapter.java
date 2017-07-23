@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.simpledrive.R;
+import org.simpledrive.helper.Util;
 import org.simpledrive.models.VaultItem;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class VaultAdapter extends ArrayAdapter<VaultItem> {
         ViewHolder holder;
         final VaultItem item = getItem(position);
 
-        if(convertView == null) {
+        if (convertView == null) {
             convertView = layoutInflater.inflate(layout, null);
 
             holder = new ViewHolder();
@@ -53,19 +54,20 @@ public class VaultAdapter extends ArrayAdapter<VaultItem> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.title.setText(item.getTitle());
-        holder.detail1.setText(item.getType());
-        holder.detail2.setText("");
-        holder.icon.setImageBitmap(item.getIcon());
-        holder.thumb.setImageBitmap(item.getLogoBmp());
-
         if (item.getLogo().equals("")) {
             holder.icon.setVisibility(View.VISIBLE);
             holder.thumb.setVisibility(View.GONE);
         }
         else {
+            if (item.getLogoBmp() == null) {
+                item.setLogoBmp(Util.getDrawableByName(e, "logo_" + item.getLogo(), 0));
+            }
             holder.icon.setVisibility(View.GONE);
             holder.thumb.setVisibility(View.VISIBLE);
+        }
+
+        if (item.getIcon() == null) {
+            item.setIcon(Util.getIconByName(e, item.getType(), R.drawable.ic_lock));
         }
 
         if (list.isItemChecked(position)) {
@@ -76,6 +78,11 @@ public class VaultAdapter extends ArrayAdapter<VaultItem> {
             holder.checked.setBackgroundColor(ContextCompat.getColor(e, R.color.transparent));
         }
 
+        holder.title.setText(item.getTitle());
+        holder.detail1.setText(item.getType());
+        holder.detail2.setText("");
+        holder.icon.setImageBitmap(item.getIcon());
+        holder.thumb.setImageBitmap(item.getLogoBmp());
         holder.icon_area.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

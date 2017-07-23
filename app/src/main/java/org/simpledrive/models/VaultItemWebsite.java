@@ -1,9 +1,7 @@
 package org.simpledrive.models;
 
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,12 +13,12 @@ public class VaultItemWebsite extends VaultItem {
 
     // Empty element
     public VaultItemWebsite() {
-        this("", "", "", "", "", "", "", null, "", null);
+        this("", "", "", "", "", "", "", "");
     }
 
     // For all other elements
-    public VaultItemWebsite(String title, String category, String type, String url, String user, String pass, String edit, Bitmap icon, String logo, Bitmap logoBmp) {
-        super(title, category, type, edit, icon, logo, logoBmp);
+    public VaultItemWebsite(String title, String category, String type, String url, String user, String pass, String edit, String logo) {
+        super(title, category, type, edit, logo);
         this.url = url;
         this.user = user;
         this.pass = pass;
@@ -70,7 +68,6 @@ public class VaultItemWebsite extends VaultItem {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         super.writeToParcel(parcel, i);
-        Log.i("debug", "writeToParcel Website");
         parcel.writeString(this.url);
         parcel.writeString(this.user);
         parcel.writeString(this.pass);
@@ -88,9 +85,8 @@ public class VaultItemWebsite extends VaultItem {
         }
     };
 
-    public VaultItemWebsite(Parcel in) {
+    private VaultItemWebsite(Parcel in) {
         super(in);
-        Log.i("debug", "VaultItemWebsite(Parcel in)");
         this.url = in.readString();
         this.user = in.readString();
         this.pass = in.readString();

@@ -78,7 +78,7 @@ public class Crypto {
             ex.printStackTrace();
         }
 
-        return "";
+        return null;
     }
 
     public static String decrypt(String encrypted64, String secret) {
@@ -110,6 +110,6 @@ public class Crypto {
             ex.printStackTrace();
         }
 
-        return "";
+        return null;
     }
 }
