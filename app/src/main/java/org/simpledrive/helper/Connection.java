@@ -1,7 +1,5 @@
 package org.simpledrive.helper;
 
-import android.util.Log;
-
 import org.json.JSONObject;
 import org.simpledrive.authenticator.CustomAuthenticator;
 
@@ -238,7 +236,7 @@ public class Connection {
                 }
 
                 String result = sb.toString();
-                Log.i("debug", "Connection result: " + result);
+                //Log.i("debug", "Connection result: " + result);
                 JSONObject obj = new JSONObject(result);
 
                 // Cleanup

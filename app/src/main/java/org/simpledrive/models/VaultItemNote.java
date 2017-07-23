@@ -1,6 +1,5 @@
 package org.simpledrive.models;
 
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -12,12 +11,12 @@ public class VaultItemNote extends VaultItem {
 
     // Empty element
     public VaultItemNote() {
-        this("", "", "", "", null, "", null);
+        this("", "", "", "", "");
     }
 
     // For all other elements
-    public VaultItemNote(String title, String category, String content, String edit, Bitmap icon, String logo, Bitmap logoBmp) {
-        super(title, category, "note", edit, icon, logo, logoBmp);
+    public VaultItemNote(String title, String category, String content, String edit, String logo) {
+        super(title, category, "note", edit, logo);
         this.content = content;
     }
 
@@ -68,7 +67,7 @@ public class VaultItemNote extends VaultItem {
         }
     };
 
-    public VaultItemNote(Parcel in) {
+    private VaultItemNote(Parcel in) {
         super(in);
         this.content= in.readString();
     }

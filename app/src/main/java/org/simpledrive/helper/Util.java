@@ -6,8 +6,13 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Movie;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -271,6 +276,27 @@ public class Util {
         int drawableResourceId = ctx.getResources().getIdentifier(name, "drawable", ctx.getPackageName());
         drawableResourceId = (drawableResourceId != 0) ? drawableResourceId : def;
         return BitmapFactory.decodeResource(ctx.getResources(), drawableResourceId);
+    }
+
+    public static Bitmap getIconByName(AppCompatActivity ctx, String name, int def) {
+        // Get resource ID
+        int drawableResourceId = ctx.getResources().getIdentifier("ic_" + name, "drawable", ctx.getPackageName());
+        drawableResourceId = (drawableResourceId != 0) ? drawableResourceId : def;
+
+        // Create drawable
+        Drawable drawable = ContextCompat.getDrawable(ctx, drawableResourceId);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            drawable = (DrawableCompat.wrap(drawable)).mutate();
+        }
+
+        // Create bitmap
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
     }
 
     public static void copyToClipboard(AppCompatActivity ctx, String label, String toast) {

@@ -332,7 +332,7 @@ public class FileSelector extends AppCompatActivity {
                     File[] dirs = getExternalFilesDirs(null);
                     for (File d : dirs) {
                         File f = d.getParentFile().getParentFile().getParentFile().getParentFile();
-                        items.add(new FileItem("", f.getName(), f.getAbsolutePath(), "", "", "folder", "", false, false, BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder), null));
+                        items.add(new FileItem("", f.getName(), f.getAbsolutePath(), "", "", "folder", "", false, false, BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder)));
                     }
                 }
                 else {
@@ -348,9 +348,9 @@ public class FileSelector extends AppCompatActivity {
                         String path = file.getAbsolutePath();
                         String size = (file.isDirectory()) ? ((file.listFiles().length == 1) ? file.listFiles().length + " element" : file.listFiles().length + " elements") : Util.convertSize(file.length() + "");
                         String type = (file.isDirectory()) ? "folder" : getMimeType(file);
-                        Bitmap icon = Util.getDrawableByName(e, "ic_" + type, R.drawable.ic_unknown);
+                        Bitmap icon = Util.getIconByName(e, type, R.drawable.ic_unknown);
 
-                        items.add(new FileItem("", filename, path, size, "", type, "", false, false, icon, null));
+                        items.add(new FileItem("", filename, path, size, "", type, "", false, false, icon));
                     }
                 }
 

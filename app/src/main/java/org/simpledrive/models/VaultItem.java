@@ -13,14 +13,12 @@ public class VaultItem implements Parcelable {
     private String logo;
     private Bitmap logoBmp;
 
-    public VaultItem(String title, String category, String type, String edit, Bitmap icon, String logo, Bitmap logoBmp) {
+    VaultItem(String title, String category, String type, String edit, String logo) {
         this.title = title;
         this.category = category;
         this.type = type;
         this.edit = edit;
-        this.icon = icon;
         this.logo = logo;
-        this.logoBmp = logoBmp;
     }
 
     public Bitmap getIcon() {
@@ -75,7 +73,7 @@ public class VaultItem implements Parcelable {
         return this.edit;
     }
 
-    protected VaultItem(Parcel in) {
+    VaultItem(Parcel in) {
         this.title = in.readString();
         this.category = in.readString();
         this.type = in.readString();

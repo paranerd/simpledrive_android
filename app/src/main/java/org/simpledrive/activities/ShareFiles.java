@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -258,10 +257,10 @@ public class ShareFiles extends AppCompatActivity {
                 boolean selfshared = Boolean.parseBoolean(obj.getString("selfshared"));
                 boolean shared = Boolean.parseBoolean(obj.getString("shared"));
                 String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : ((shared) ? "shared" : "");
-                Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder);
 
                 if(type.equals("folder")) {
-                    FileItem item = new FileItem(id, filename, "", size, obj.getString("edit"), type, owner, selfshared, shared, icon, null);
+                    Bitmap icon = Util.getIconByName(e, type, R.drawable.ic_unknown);
+                    FileItem item = new FileItem(id, filename, "", size, obj.getString("edit"), type, owner, selfshared, shared, icon);
                     items.add(item);
                 }
             }

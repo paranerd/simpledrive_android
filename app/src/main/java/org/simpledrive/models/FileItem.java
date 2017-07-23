@@ -18,13 +18,12 @@ public class FileItem
 	private boolean shared;
 
 	// Used for hierarchy elements
-	public FileItem(String id, String filename, String path)
-    {
-		this(id, filename, path, "", "", "folder", "", false, false, null, null);
+	public FileItem(String id, String filename, String path) {
+		this(id, filename, path, "", "", "folder", "", false, false, null);
 	}
 
 	// For all other elements
-	public FileItem(String id, String filename, String path, String size, String edit, String type, String owner, boolean selfshared, boolean shared, Bitmap icon, Bitmap thumb)
+	public FileItem(String id, String filename, String path, String size, String edit, String type, String owner, boolean selfshared, boolean shared, Bitmap icon)
     {
 		this.id = id;
 		this.filename = filename;
@@ -32,7 +31,6 @@ public class FileItem
 		this.edit = edit;
 		this.path = path;
 		this.icon = icon;
-		this.thumb = thumb;
 		this.type = type;
 		this.owner = owner;
 		this.selfshared = selfshared;
@@ -68,16 +66,20 @@ public class FileItem
 		return this.icon;
 	}
 
+	public void setIcon(Bitmap icon) {
+		this.icon = icon;
+	}
+
 	public Bitmap getThumb() {
 		return this.thumb;
+	}
+
+	public void setThumb(Bitmap thumb) {
+		this.thumb = thumb;
 	}
 	
 	public String getType() {
 		return this.type;
-	}
-
-	public void setThumb(Bitmap img) {
-		this.thumb = img;
 	}
 
 	public String getOwner() {
