@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import org.simpledrive.R;
 import org.simpledrive.activities.RemoteFiles;
@@ -31,7 +32,7 @@ public class DownloadManager {
         return downloading;
     }
 
-    public static void addDownload(AppCompatActivity act, String target) {
+    public static void addDownload(AppCompatActivity act, String target, TaskListener listener) {
         downloadQueue.add(target);
         downloadTotal++;
 
@@ -39,11 +40,16 @@ public class DownloadManager {
             e = act;
             downloading = true;
             mNotifyManager = (NotificationManager) e.getSystemService(Context.NOTIFICATION_SERVICE);
-            download();
+            download(listener);
+            Toast.makeText(e, "Download started", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private static void download() {
+    public interface TaskListener {
+        void onFinished(String path);
+    }
+
+    private static void download(final TaskListener taskListener) {
         new AsyncTask<String, Integer, Connection.Response>() {
             @Override
             protected void onPreExecute() {
@@ -92,7 +98,7 @@ public class DownloadManager {
             protected void onPostExecute(Connection.Response res) {
                 downloadSuccessful = (res.successful()) ? downloadSuccessful + 1 : downloadSuccessful;
                 if (downloadQueue.size() > 0) {
-                    download();
+                    download(taskListener);
                 }
                 else {
                     String file = (downloadTotal == 1) ? "file" : "files";
@@ -102,6 +108,10 @@ public class DownloadManager {
                             .setProgress(0, 0, false);
                     mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
                     downloading = false;
+
+                    if (taskListener != null) {
+                        taskListener.onFinished(res.getMessage());
+                    }
                 }
             }
         }.execute();

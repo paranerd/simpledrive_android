@@ -81,7 +81,7 @@ public class VaultAdapter extends ArrayAdapter<VaultItem> {
         holder.title.setText(item.getTitle());
         holder.detail1.setText(item.getType());
         holder.detail2.setText("");
-        holder.icon.setImageBitmap(item.getIcon());
+        holder.icon.setImageDrawable(item.getIcon());
         holder.thumb.setImageBitmap(item.getLogoBmp());
         holder.icon_area.setOnClickListener(new View.OnClickListener() {
             @Override

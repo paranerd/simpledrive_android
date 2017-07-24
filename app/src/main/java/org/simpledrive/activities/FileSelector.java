@@ -4,8 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -42,6 +40,7 @@ public class FileSelector extends AppCompatActivity {
     private boolean foldersonly;
     private int selectedPos;
     private final int REQUEST_STORAGE = 6;
+    SharedPreferences settings;
 
     // Files
     private FileAdapter mAdapter;
@@ -60,24 +59,28 @@ public class FileSelector extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         e = this;
-
-        SharedPreferences settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
-
-        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
-        setTheme(theme);
-
-        setContentView(R.layout.activity_fileselector);
-
-        list = (ListView) findViewById(R.id.listview);
-        info = (TextView) findViewById(R.id.info);
+        settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
 
         Bundle extras = getIntent().getExtras();
         multi = extras.getBoolean("multi", false);
         foldersonly = extras.getBoolean("foldersonly", false);
 
+        initInterface();
         initList();
         initToolbar();
         checkPermission();
+    }
+
+    private void initInterface() {
+        // Set theme
+        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        setTheme(theme);
+
+        // Set view
+        setContentView(R.layout.activity_fileselector);
+
+        list = (ListView) findViewById(R.id.listview);
+        info = (TextView) findViewById(R.id.info);
     }
 
     public void checkPermission() {
@@ -332,7 +335,7 @@ public class FileSelector extends AppCompatActivity {
                     File[] dirs = getExternalFilesDirs(null);
                     for (File d : dirs) {
                         File f = d.getParentFile().getParentFile().getParentFile().getParentFile();
-                        items.add(new FileItem("", f.getName(), f.getAbsolutePath(), "", "", "folder", "", false, false, BitmapFactory.decodeResource(getResources(), R.drawable.ic_folder)));
+                        items.add(new FileItem("", f.getName(), f.getAbsolutePath(), "", "", "folder", "", false, false));
                     }
                 }
                 else {
@@ -348,9 +351,8 @@ public class FileSelector extends AppCompatActivity {
                         String path = file.getAbsolutePath();
                         String size = (file.isDirectory()) ? ((file.listFiles().length == 1) ? file.listFiles().length + " element" : file.listFiles().length + " elements") : Util.convertSize(file.length() + "");
                         String type = (file.isDirectory()) ? "folder" : getMimeType(file);
-                        Bitmap icon = Util.getIconByName(e, type, R.drawable.ic_unknown);
 
-                        items.add(new FileItem("", filename, path, size, "", type, "", false, false, icon));
+                        items.add(new FileItem("", filename, path, size, "", type, "", false, false));
                     }
                 }
 

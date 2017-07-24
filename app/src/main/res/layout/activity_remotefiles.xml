@@ -76,7 +76,7 @@
                         android:elevation="7dp"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
-                        android:src="@drawable/ic_upload"
+                        app:srcCompat="@drawable/ic_upload"
                         android:visibility="invisible"
                         app:backgroundTint="?android:colorPrimary"
                         app:fabSize="mini" />
@@ -90,7 +90,7 @@
                         android:layout_marginBottom="160dp"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
-                        android:src="@drawable/ic_folder"
+                        app:srcCompat="@drawable/ic_folder_add"
                         android:visibility="invisible"
                         app:backgroundTint="?android:colorPrimary"
                         app:fabSize="mini" />
@@ -104,7 +104,7 @@
                         android:layout_marginBottom="220dp"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
-                        android:src="@drawable/ic_unknown"
+                        app:srcCompat="@drawable/ic_file_add"
                         android:visibility="invisible"
                         app:backgroundTint="?android:colorPrimary"
                         app:fabSize="mini" />
@@ -117,7 +117,7 @@
                         android:layout_gravity="bottom|end"
                         android:layout_margin="16dp"
                         app:backgroundTint="?android:colorPrimary"
-                        android:src="@drawable/ic_add"
+                        app:srcCompat="@drawable/ic_add"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"/>
 
@@ -130,7 +130,7 @@
                         android:layout_marginRight="60dp"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
-                        android:src="@drawable/ic_close"
+                        app:srcCompat="@drawable/ic_close"
                         android:visibility="invisible"
                         app:backgroundTint="?android:colorPrimary"
                         app:fabSize="mini"
@@ -145,8 +145,7 @@
                         android:elevation="7dp"
                         android:visibility="gone"
                         app:backgroundTint="?android:colorPrimary"
-                        android:src="@drawable/ic_paste"
-
+                        app:srcCompat="@drawable/ic_paste"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"/>
 
@@ -195,7 +194,7 @@
                             android:layout_marginBottom="15dp"
                             android:layout_alignParentBottom="true"
                             android:background="?android:colorPrimary"
-                            android:src="@drawable/ic_upload"
+                            app:srcCompat="@drawable/ic_upload"
                             android:visibility="gone"/>
 
                         <FrameLayout
@@ -211,7 +210,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_centerVertical="true"
                                 android:scaleType="center"
-                                android:src="@drawable/ic_play"/>
+                                app:srcCompat="@drawable/ic_play"/>
                         </FrameLayout>
 
                         <ImageButton
@@ -222,7 +221,7 @@
                             android:layout_marginBottom="15dp"
                             android:layout_alignParentBottom="true"
                             android:background="?android:colorPrimary"
-                            android:src="@drawable/ic_upload"
+                            app:srcCompat="@drawable/ic_upload"
                             android:visibility="gone"/>
 
                         <FrameLayout
@@ -239,7 +238,7 @@
                                 android:id="@+id/bExit"
                                 android:layout_centerVertical="true"
                                 android:scaleType="center"
-                                android:src="@drawable/ic_close"/>
+                                app:srcCompat="@drawable/ic_close"/>
                         </FrameLayout>
                     </RelativeLayout>
 

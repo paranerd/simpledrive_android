@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -47,6 +46,7 @@ public class ShareFiles extends AppCompatActivity {
     private boolean calledForUnlock = false;
     private String username = "";
     private int loginAttempts = 0;
+    private SharedPreferences settings;
 
     // Files
     private ArrayList<FileItem> items = new ArrayList<>();
@@ -57,26 +57,32 @@ public class ShareFiles extends AppCompatActivity {
     private AbsListView list;
     private TextView info;
     private int listLayout;
+    private int theme;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private GridView tmp_grid;
     private ListView tmp_list;
 
-    private FloatingActionButton fab;
-    private FloatingActionButton fab_folder;
-    private FloatingActionButton fab_ok;
-
+    // Files
     private ArrayList<String> uploadsPending;
 
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
 
         e = this;
+        settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
+        uploadsPending = getUploads(getIntent());
 
-        SharedPreferences settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
+        initInterface();
+        initList();
+        initToolbar();
+    }
 
-        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+    private void initInterface() {
+        // Set theme
+        theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
+        // Set View
         setContentView(R.layout.activity_sharefiles);
 
         tmp_grid = (GridView) findViewById(R.id.grid);
@@ -84,20 +90,15 @@ public class ShareFiles extends AppCompatActivity {
 
         info = (TextView) findViewById(R.id.info);
 
-        uploadsPending = getUploads(getIntent());
-
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab_ok = (FloatingActionButton) findViewById(R.id.fab_ok);
-        fab_folder = (FloatingActionButton) findViewById(R.id.fab_folder);
+        // Floating Action Buttons
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab_folder = (FloatingActionButton) findViewById(R.id.fab_folder);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (fab_folder.getVisibility() == View.GONE) {
-                    fab_folder.setVisibility(View.VISIBLE);
-                } else {
-                    fab_folder.setVisibility(View.GONE);
-                }
+                UploadManager.addUpload(e, uploadsPending, hierarchy.get(hierarchy.size() - 1).getID(), "0", null);
+                e.finish();
             }
         });
 
@@ -108,16 +109,7 @@ public class ShareFiles extends AppCompatActivity {
             }
         });
 
-        fab_ok.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                UploadManager.addUpload(e, uploadsPending, hierarchy.get(hierarchy.size() - 1).getID(), "0", null);
-                e.finish();
-            }
-        });
-
+        // Swipe refresh layout
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -128,7 +120,9 @@ public class ShareFiles extends AppCompatActivity {
         });
         mSwipeRefreshLayout.setColorSchemeResources(R.color.darkgreen, R.color.darkgreen, R.color.darkgreen, R.color.darkgreen);
         mSwipeRefreshLayout.setProgressViewOffset(false, Util.dpToPx(56), Util.dpToPx(56) + 100);
+    }
 
+    private void initList() {
         listLayout = (settings.getString("listlayout", "").length() == 0 || settings.getString("listlayout", "").equals("list")) ? R.layout.listview_detail: R.layout.gridview;
         setListLayout();
 
@@ -151,9 +145,12 @@ public class ShareFiles extends AppCompatActivity {
                 mSwipeRefreshLayout.setEnabled(enable);
             }
         });
+    }
 
+    private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar != null) {
+            toolbar.setPopupTheme(theme);
             setSupportActionBar(toolbar);
         }
     }
@@ -259,8 +256,7 @@ public class ShareFiles extends AppCompatActivity {
                 String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : ((shared) ? "shared" : "");
 
                 if(type.equals("folder")) {
-                    Bitmap icon = Util.getIconByName(e, type, R.drawable.ic_unknown);
-                    FileItem item = new FileItem(id, filename, "", size, obj.getString("edit"), type, owner, selfshared, shared, icon);
+                    FileItem item = new FileItem(id, filename, "", size, obj.getString("edit"), type, owner, selfshared, shared);
                     items.add(item);
                 }
             }

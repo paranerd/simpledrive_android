@@ -1,6 +1,7 @@
 package org.simpledrive.models;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 
 public class FileItem
 {
@@ -9,7 +10,7 @@ public class FileItem
 	private String size;
 	private String edit;
 	private String path;
-	private Bitmap icon;
+	private Drawable icon;
 	private Bitmap thumb;
 	private String type;
 	private String owner;
@@ -19,18 +20,17 @@ public class FileItem
 
 	// Used for hierarchy elements
 	public FileItem(String id, String filename, String path) {
-		this(id, filename, path, "", "", "folder", "", false, false, null);
+		this(id, filename, path, "", "", "folder", "", false, false);
 	}
 
 	// For all other elements
-	public FileItem(String id, String filename, String path, String size, String edit, String type, String owner, boolean selfshared, boolean shared, Bitmap icon)
+	public FileItem(String id, String filename, String path, String size, String edit, String type, String owner, boolean selfshared, boolean shared)
     {
 		this.id = id;
 		this.filename = filename;
 		this.size = size;
 		this.edit = edit;
 		this.path = path;
-		this.icon = icon;
 		this.type = type;
 		this.owner = owner;
 		this.selfshared = selfshared;
@@ -62,11 +62,11 @@ public class FileItem
 		return this.path;
 	}
 
-	public Bitmap getIcon() {
+	public Drawable getIcon() {
 		return this.icon;
 	}
 
-	public void setIcon(Bitmap icon) {
+	public void setIcon(Drawable icon) {
 		this.icon = icon;
 	}
 

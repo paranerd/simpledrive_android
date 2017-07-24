@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
     private boolean saved = true;
     private VaultItemWebsite item;
     private int id;
+    private SharedPreferences settings;
 
     // Notification
     private NotificationManager mNotifyManager;
@@ -62,9 +64,37 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Init interface
-        setContentView(R.layout.activity_vault_website);
+        settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
+
+        initInterface();
         initToolbar();
+
+        // Init receiver
+        initReceiver();
+
+        // Init entry
+        id = getIntent().getIntExtra("id", -1);
+        item = getIntent().getParcelableExtra("item");
+        if (item == null) {
+            item = new VaultItemWebsite();
+        }
+
+        display();
+        saved = true;
+
+        // Show notifications
+        mNotifyManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        showPasswordNotification();
+        showUsernameNotification();
+    }
+
+    private void initInterface() {
+        // Set theme
+        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        setTheme(theme);
+
+        // Set view
+        setContentView(R.layout.activity_vault_website);
 
         title = (EditText) findViewById(R.id.vault_title);
         title.addTextChangedListener(this);
@@ -95,24 +125,6 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
 
         info = (TextView) findViewById(R.id.vault_info);
         logo = (ImageView) findViewById(R.id.vault_logo);
-
-        // Init receiver
-        initReceiver();
-
-        // Init entry
-        id = getIntent().getIntExtra("id", -1);
-        item = (VaultItemWebsite) getIntent().getParcelableExtra("item");
-        if (item == null) {
-            item = new VaultItemWebsite();
-        }
-
-        display();
-        saved = true;
-
-        // Show notifications
-        mNotifyManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        showPasswordNotification();
-        showUsernameNotification();
     }
 
     @Override

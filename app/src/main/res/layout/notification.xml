@@ -36,9 +36,8 @@
         android:textSize="17sp"
         android:textColor="@color/black"
         android:gravity="center_vertical|start"
-        android:singleLine="true"
         android:layout_toLeftOf="@id/notifbutton"
         android:layout_toRightOf="@id/notifimage"
         style="Custom Notification Title"
-        android:text="longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglong"/>
+        android:maxLines="1" />
 </RelativeLayout>
