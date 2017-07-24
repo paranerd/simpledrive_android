@@ -2,6 +2,7 @@ package org.simpledrive.activities;
 
 import android.app.AlertDialog;
 import android.app.SearchManager;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,7 +10,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -169,7 +170,6 @@ public class RemoteFiles extends AppCompatActivity {
 
         e = this;
         forceFullLoad = true;
-
         settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
 
         initInterface();
@@ -433,10 +433,8 @@ public class RemoteFiles extends AppCompatActivity {
         theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
-        // Set layout
-        listLayout = (settings.getString("listlayout", "list").equals("list")) ? R.layout.listview_detail: R.layout.gridview;
+        // Set view
         setContentView(R.layout.activity_remotefiles);
-        setListLayout(listLayout);
 
         // Bottom toolbar
         toolbarBottom = (Toolbar) findViewById(R.id.toolbar_bottom);
@@ -692,9 +690,8 @@ public class RemoteFiles extends AppCompatActivity {
                 boolean selfshared = Boolean.parseBoolean(obj.getString("selfshared"));
                 boolean shared = Boolean.parseBoolean(obj.getString("shared"));
                 String owner = obj.getString("owner");
-                Bitmap icon = Util.getIconByName(this, type, R.drawable.ic_unknown); //Util.getDrawableByName(this, "ic_" + type, R.drawable.ic_unknown);
 
-                FileItem item = new FileItem(id, filename, "", size, edit, type, owner, selfshared, shared, icon);
+                FileItem item = new FileItem(id, filename, "", size, edit, type, owner, selfshared, shared);
                 items.add(item);
                 filteredItems.add(item);
             }
@@ -798,17 +795,35 @@ public class RemoteFiles extends AppCompatActivity {
             i.putExtra("filename", filteredItems.get(position).getFilename());
             startActivity(i);
         }
-        /*else if (item.is("pdf")) {
-            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/example.pdf");
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(Uri.fromFile(file), "application/pdf");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            startActivity(intent);
-        }*/
+        else if (item.is("pdf")) {
+            JSONArray arr = new JSONArray();
+            arr.put(item.getID());
+
+            DownloadManager.addDownload(this, arr.toString(), new DownloadManager.TaskListener() {
+                @Override
+                public void onFinished(String path) {
+                    openLocally(path, "application/pdf");
+                }
+            });
+        }
         else {
             Toast.makeText(this, "Can not open file", Toast.LENGTH_SHORT).show();
         }
         unselectAll();
+    }
+
+    private void openLocally(String path, String mimeType) {
+        File file = new File(path);
+        Intent target = new Intent(Intent.ACTION_VIEW);
+        target.setDataAndType(Uri.fromFile(file), mimeType);
+        target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+        Intent intent = Intent.createChooser(target, "Open file");
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, "No application found to open the file", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void showBottomToolbar() {
@@ -1365,7 +1380,7 @@ public class RemoteFiles extends AppCompatActivity {
                 break;
 
             case R.id.download:
-                DownloadManager.addDownload(this, getAllSelected());
+                DownloadManager.addDownload(this, getAllSelected(), null);
                 actionMode.finish();
                 break;
 
@@ -1409,6 +1424,11 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     private void initList() {
+        // Set layout
+        listLayout = (settings.getString("listlayout", "list").equals("list")) ? R.layout.listview_detail: R.layout.gridview;
+        setListLayout(listLayout);
+
+        // Set listeners
         list.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
             public boolean onPrepareActionMode(ActionMode mode, Menu menu) {

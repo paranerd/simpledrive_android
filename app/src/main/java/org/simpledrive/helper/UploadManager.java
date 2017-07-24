@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import org.simpledrive.R;
 import org.simpledrive.activities.RemoteFiles;
@@ -72,6 +73,7 @@ public class UploadManager {
             e = act;
             settings = e.getSharedPreferences("org.simpledrive.shared_pref", 0);
             upload(listener);
+            Toast.makeText(e, "Upload started", Toast.LENGTH_SHORT).show();
         }
     }
 

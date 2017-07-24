@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -52,6 +53,7 @@ public class Vault extends AppCompatActivity {
     private boolean savePending = false;
     private boolean createNewVault = false;
     private int unlockAttempts= 0;
+    private SharedPreferences settings;
 
     // Vault
     private final String username = CustomAuthenticator.getUsername();
@@ -84,12 +86,17 @@ public class Vault extends AppCompatActivity {
         super.onCreate(paramBundle);
 
         e = this;
+        settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
 
         initInterface();
         initToolbar();
     }
 
     private void initInterface() {
+        // Set theme
+        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        setTheme(theme);
+
         // Set layout
         setContentView(R.layout.activity_vault);
 
@@ -606,7 +613,7 @@ public class Vault extends AppCompatActivity {
         }
     }
 
-    private Integer getFirstSelected() {
+    private int getFirstSelected() {
         SparseBooleanArray checked = list.getCheckedItemPositions();
 
         for (int i = 0; i < list.getCount(); i++) {
@@ -614,7 +621,7 @@ public class Vault extends AppCompatActivity {
                 return i;
             }
         }
-        return null;
+        return -1;
     }
 
     private void createEntry(String type) {

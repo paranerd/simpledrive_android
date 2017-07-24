@@ -1,0 +1,102 @@
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/blackforest"
+        android:scaleType="centerCrop"
+        />
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="5.0dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+      xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="simpleDrive"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_marginTop="0dp"
+            android:fontFamily="sans-serif-light"
+            android:textSize="45.0sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Private. Secure. Simple."
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:fontFamily="sans-serif-light"
+            android:textSize="20.0sp"/>
+
+        <EditText
+            android:id="@id/txtServer"
+            android:textColor="@color/logintext"
+            android:textColorHint="@color/grey3transparent"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:textSize="19sp"
+            android:fontFamily="sans-serif-light"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="75dp"
+            android:layout_marginBottom="20.0dp"
+            android:hint="Server address"
+            android:inputType="textUri"
+            android:maxLines="1"
+            android:background="@drawable/custom_edittext"/>
+
+        <EditText
+            android:id="@id/txtUsername"
+            android:textColor="@color/logintext"
+            android:textColorHint="@color/grey3transparent"
+            android:gravity="center"
+            android:textSize="19sp"
+            android:fontFamily="sans-serif-light"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20.0dp"
+            android:hint="Username"
+            android:inputType="textUri"
+            android:maxLines="1"
+            android:nextFocusDown="@id/txtPassword"
+            android:background="@drawable/custom_edittext" />
+
+        <EditText
+            android:id="@id/txtPassword"
+            android:textColor="@color/logintext"
+            android:textColorHint="@color/grey3transparent"
+            android:gravity="center"
+            android:textSize="19sp"
+            android:fontFamily="sans-serif-light"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="50.0dp"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:background="@drawable/custom_edittext"
+            android:maxLines="1" />
+
+        <Button
+            android:id="@id/btnLogin"
+            android:layout_width="250.0dp"
+            android:layout_height="60dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-light"
+            style="@style/Base.Widget.AppCompat.Button.Colored"
+            android:text="Login" />
+    </LinearLayout>
+</RelativeLayout>

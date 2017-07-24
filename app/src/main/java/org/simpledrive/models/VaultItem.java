@@ -1,6 +1,7 @@
 package org.simpledrive.models;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -9,7 +10,7 @@ public class VaultItem implements Parcelable {
     private String type;
     private String category;
     private String edit;
-    private Bitmap icon;
+    private Drawable icon;
     private String logo;
     private Bitmap logoBmp;
 
@@ -21,12 +22,12 @@ public class VaultItem implements Parcelable {
         this.logo = logo;
     }
 
-    public Bitmap getIcon() {
+    public Drawable getIcon() {
         return this.icon;
     }
 
-    public void setIcon(Bitmap icon) {
-        this.icon= icon;
+    public void setIcon(Drawable icon) {
+        this.icon = icon;
     }
 
     public String getLogo() {

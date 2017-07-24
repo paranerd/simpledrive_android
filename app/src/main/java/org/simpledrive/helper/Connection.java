@@ -221,7 +221,7 @@ public class Connection {
                 outputStream.close();
                 is.close();
                 httpConn.disconnect();
-                return new Response(true, "");
+                return new Response(true, saveFilePath);
             }
             // Receive answer from server
             else {

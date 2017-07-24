@@ -1,6 +1,7 @@
 package org.simpledrive.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,7 @@ public class VaultNote extends AppCompatActivity implements TextWatcher {
     private int REQUEST_LOGO = 0;
     private boolean saved = true;
     private int id;
+    private SharedPreferences settings;
 
     // Interface
     private EditText title;
@@ -39,9 +41,29 @@ public class VaultNote extends AppCompatActivity implements TextWatcher {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
+
+        initInterface();
+        initToolbar();
+
+        // Init entry
+        id = getIntent().getIntExtra("id", -1);
+        item = getIntent().getParcelableExtra("item");
+        if (item == null) {
+            item = new VaultItemNote();
+        }
+
+        display();
+        saved = true;
+    }
+
+    private void initInterface() {
+        // Set theme
+        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        setTheme(theme);
+
         // Init interface
         setContentView(R.layout.activity_vault_note);
-        initToolbar();
 
         title = (EditText) findViewById(R.id.vault_title);
         title.addTextChangedListener(this);
@@ -63,16 +85,6 @@ public class VaultNote extends AppCompatActivity implements TextWatcher {
 
         info = (TextView) findViewById(R.id.vault_info);
         logo = (ImageView) findViewById(R.id.vault_logo);
-
-        // Init entry
-        id = getIntent().getIntExtra("id", -1);
-        item = getIntent().getParcelableExtra("item");
-        if (item == null) {
-            item = new VaultItemNote();
-        }
-
-        display();
-        saved = true;
     }
 
     @Override

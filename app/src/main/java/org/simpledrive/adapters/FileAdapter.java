@@ -122,7 +122,7 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
         holder.size.setText(item.getSize());
         holder.thumb.setScaleType(ImageView.ScaleType.CENTER_CROP);
         holder.thumb.setImageBitmap(item.getThumb());
-        holder.icon.setImageBitmap(item.getIcon());
+        holder.icon.setImageDrawable(item.getIcon());
 
         return convertView;
     }
