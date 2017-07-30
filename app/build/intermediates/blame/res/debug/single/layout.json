@@ -24,12 +24,12 @@
         "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/layout/notification_template_part_time.xml"
     },
     {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/layout/activity_imageviewer.xml",
-        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_imageviewer.xml"
-    },
-    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/layout/abc_screen_content_include.xml",
         "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/layout/abc_screen_content_include.xml"
+    },
+    {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/layout/activity_imageviewer.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_imageviewer.xml"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/layout/nav_header.xml",

@@ -5543,8 +5543,11 @@ org.simpledrive.helper.AudioService:
     public static final java.lang.String CHANGE_PLAY
     public static final java.lang.String STOP
 org.simpledrive.helper.Crypto:
-    15:15:public Crypto()
-    32:40:private static java.lang.String randomString(int)
+    20:20:public Crypto()
+    50:58:private static java.lang.String randomString(int)
+    85:85:public static java.lang.String encryptFile(java.lang.String,java.lang.String)
+    90:101:public static java.lang.String encryptFile(java.lang.String,java.lang.String,boolean,boolean)
+    151:163:public static java.lang.String decryptFile(java.lang.String,java.lang.String,boolean)
 org.simpledrive.helper.DownloadManager:
     private static final int NOTIFICATION_ID
     19:19:public DownloadManager()
@@ -5561,8 +5564,12 @@ org.simpledrive.helper.TouchImageView$DoubleTapZoom:
 org.simpledrive.helper.UploadManager:
     21:21:public UploadManager()
 org.simpledrive.helper.Util:
-    39:39:public Util()
-    158:161:public static int pxToDp(int)
+    43:43:public Util()
+    162:165:public static int pxToDp(int)
+    241:259:public static java.lang.String readTextFromStorage(java.lang.String)
+    263:274:public static byte[] readFromStorage(java.lang.String)
+    280:288:public static boolean writeToStorage(java.lang.String,byte[])
+    293:303:public static boolean writeTextToStorage(java.lang.String,java.lang.String)
 org.simpledrive.models.AccountItem:
     25:25:public java.lang.String getServer()
     30:30:public java.lang.String getUser()

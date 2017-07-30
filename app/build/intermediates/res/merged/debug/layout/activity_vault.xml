@@ -52,7 +52,7 @@
             android:layout_gravity="bottom|end"
             android:layout_marginRight="@dimen/fab_mini_margin"
             android:layout_marginBottom="100dp"
-            android:src="@drawable/ic_website"
+            app:srcCompat="@drawable/ic_website"
             android:tint="@color/white"
             android:visibility="invisible"
             app:backgroundTint="?android:attr/colorPrimary"
@@ -65,7 +65,7 @@
             android:layout_gravity="bottom|end"
             android:layout_marginRight="@dimen/fab_mini_margin"
             android:layout_marginBottom="160dp"
-            android:src="@drawable/ic_note"
+            app:srcCompat="@drawable/ic_note"
             android:visibility="invisible"
             app:backgroundTint="?android:attr/colorPrimary"
             android:tint="@color/white"
@@ -79,7 +79,7 @@
             android:layout_margin="16dp"
             android:elevation="7dp"
             app:backgroundTint="?android:attr/colorPrimary"
-            android:src="@drawable/ic_add"/>
+            app:srcCompat="@drawable/ic_add"/>
     </FrameLayout>
 
 </android.support.v4.widget.DrawerLayout>

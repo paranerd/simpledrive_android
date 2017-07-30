@@ -17962,10 +17962,16 @@ org.simpledrive.helper.Connection$Response -> org.simpledrive.helper.a$b:
 org.simpledrive.helper.Crypto -> org.simpledrive.helper.b:
     int blockSize -> a
     int keySize -> b
+    java.lang.String sign(byte[],javax.crypto.spec.SecretKeySpec) -> a
     javax.crypto.spec.SecretKeySpec generateKey(java.lang.String,byte[]) -> a
     byte[] randomBytes(int) -> a
-    java.lang.String encrypt(java.lang.String,java.lang.String) -> a
-    java.lang.String decrypt(java.lang.String,java.lang.String) -> b
+    java.lang.String base64_url_encode(byte[]) -> a
+    byte[] base64_url_decode(java.lang.String) -> a
+    java.lang.String encryptString(java.lang.String,java.lang.String) -> a
+    java.lang.String encryptString(java.lang.String,java.lang.String,boolean) -> a
+    java.lang.String encrypt(byte[],java.lang.String,boolean) -> a
+    java.lang.String decryptString(java.lang.String,java.lang.String) -> b
+    byte[] decrypt(java.lang.String,java.lang.String) -> c
     void <clinit>() -> <clinit>
 org.simpledrive.helper.DownloadManager -> org.simpledrive.helper.c:
     int downloadCurrent -> a
@@ -18285,14 +18291,16 @@ org.simpledrive.helper.Util -> org.simpledrive.helper.g:
     long folderSize(java.lang.String) -> d
     long getTimestamp() -> a
     int[] scaleImage(android.support.v7.app.AppCompatActivity,int,int) -> a
-    boolean writeToFile(java.lang.String,java.lang.String,android.content.Context) -> a
-    java.lang.String readFromFile(java.lang.String,android.content.Context) -> a
+    boolean writeToData(java.lang.String,java.lang.String,android.content.Context) -> a
+    java.lang.String readFromData(java.lang.String,android.content.Context) -> a
     boolean isGIF(java.lang.String) -> e
     java.lang.String getCacheDir() -> b
     int getThumbSize(android.support.v7.app.AppCompatActivity,int) -> a
     android.graphics.Bitmap getDrawableByName(android.support.v7.app.AppCompatActivity,java.lang.String,int) -> a
     android.graphics.drawable.Drawable getIconByName(android.support.v7.app.AppCompatActivity,java.lang.String,int) -> b
     void copyToClipboard(android.support.v7.app.AppCompatActivity,java.lang.String,java.lang.String) -> a
+    java.lang.String bytesToHex(byte[]) -> a
+    java.lang.String byteToString(byte[]) -> b
 org.simpledrive.helper.Util$1 -> org.simpledrive.helper.g$1:
     int val$sortOrder -> a
     void <init>(int) -> <init>
