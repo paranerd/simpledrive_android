@@ -81,9 +81,6 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
             holder.separator.setText(text);
         }
 
-        int checkedVisibility = (list.isItemChecked(position)) ? View.VISIBLE : View.INVISIBLE;
-        holder.checked.setVisibility(checkedVisibility);
-
         if (item.is("image") && item.getThumb() == null && loadthumbs && !itemIsInQueue(item)) {
             if (e.getClass().getSimpleName().equals("RemoteFiles")) {
                 // Try to load cached thumb
@@ -117,6 +114,12 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
                 }
             });
         }
+
+        int checkedVisibility = (list.isItemChecked(position)) ? View.VISIBLE : View.INVISIBLE;
+        holder.checked.setVisibility(checkedVisibility);
+
+        int iconVisibility = (item.getThumb() == null) ? View.VISIBLE : View.INVISIBLE;
+        holder.icon.setVisibility(iconVisibility);
 
         holder.name.setText(item.getFilename());
         holder.size.setText(item.getSize());

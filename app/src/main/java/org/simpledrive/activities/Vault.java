@@ -395,7 +395,7 @@ public class Vault extends AppCompatActivity {
         }
         // Load vault from local file
         else if (new File(getFilesDir() + "/" + vaultname).exists()) {
-            vaultEncrypted = Util.readFromFile(vaultname, Vault.this);
+            vaultEncrypted = Util.readFromData(vaultname, Vault.this);
             decrypt();
         }
         // Fetch vault from server
@@ -405,7 +405,7 @@ public class Vault extends AppCompatActivity {
     }
 
     private void decrypt() {
-        String vaultDecrypted = Crypto.decrypt(vaultEncrypted, passphrase);
+        String vaultDecrypted = Crypto.decryptString(vaultEncrypted, passphrase);
 
         if (vaultDecrypted == null || vaultDecrypted.equals("")) {
             if (waitingForUnlock) {
@@ -655,11 +655,11 @@ public class Vault extends AppCompatActivity {
 
     private boolean save() {
         savePending = false;
-        vaultEncrypted = Crypto.encrypt(items.toString(), passphrase);
+        vaultEncrypted = Crypto.encryptString(items.toString(), passphrase);
 
         if (vaultEncrypted != null && !vaultEncrypted.equals("")) {
             saveToServer();
-            return Util.writeToFile(vaultname, vaultEncrypted, Vault.e);
+            return Util.writeToData(vaultname, vaultEncrypted, Vault.e);
         }
 
         return false;

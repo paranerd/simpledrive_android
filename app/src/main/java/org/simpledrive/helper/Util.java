@@ -12,15 +12,19 @@ import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.simpledrive.R;
 import org.simpledrive.models.FileItem;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -193,7 +197,7 @@ public class Util {
         return dim;
     }
 
-    public static boolean writeToFile(String filename, String data, Context context) {
+    public static boolean writeToData(String filename, String data, Context context) {
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(filename, MODE_PRIVATE));
             outputStreamWriter.write(data);
@@ -201,12 +205,12 @@ public class Util {
             return true;
         }
         catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
+            e.printStackTrace();
         }
         return false;
     }
 
-    public static String readFromFile(String filename, Context context) {
+    public static String readFromData(String filename, Context context) {
         String ret = "";
 
         try {
@@ -215,7 +219,7 @@ public class Util {
             if (inputStream != null) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
+                String receiveString;
                 StringBuilder stringBuilder = new StringBuilder();
 
                 while ((receiveString = bufferedReader.readLine()) != null) {
@@ -232,6 +236,73 @@ public class Util {
         return ret;
     }
 
+    public static String readTextFromStorage(String path) {
+        //Get the text file
+        File file = new File(path);
+
+        //Read text from file
+        StringBuilder text = new StringBuilder();
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                text.append(line);
+                text.append('\n');
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return text.toString();
+    }
+
+    public static byte[] readFromStorage(String path) {
+        File file = new File(path);
+        int size = (int) file.length();
+        byte[] bytes = new byte[size];
+        try {
+            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+            buf.read(bytes, 0, bytes.length);
+            buf.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return bytes;
+    }
+
+    public static boolean writeToStorage(String path, byte[] data) {
+        FileOutputStream fos;
+        try {
+            fos = new FileOutputStream(path);
+            fos.write(data, 0, data.length);
+            fos.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public static boolean writeTextToStorage(String path, String data) {
+        try{
+            File file = new File(path);
+            FileWriter writer = new FileWriter(file);
+            writer.append(data);
+            writer.flush();
+            writer.close();
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
     public static boolean isGIF(String path) {
         try {
             URL url = new URL("file://" + path);
@@ -240,7 +311,7 @@ public class Util {
             ByteArrayOutputStream os = new ByteArrayOutputStream();
 
             byte[] buffer = new byte[1024];
-            int len = 0;
+            int len;
 
             while ((len = is.read(buffer)) != -1) {
                 os.write(buffer, 0, len);
@@ -294,6 +365,25 @@ public class Util {
 
         if (!toast.equals("")) {
             Toast.makeText(ctx, toast, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static String bytesToHex(byte[] in) {
+        final StringBuilder builder = new StringBuilder();
+
+        for (byte b : in) {
+            builder.append(String.format("%02x", b));
+        }
+
+        return builder.toString();
+    }
+
+    public static String byteToString(byte[] arr) {
+        try {
+            return new String(arr, "UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
         }
     }
 }
