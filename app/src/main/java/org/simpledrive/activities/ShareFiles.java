@@ -73,8 +73,15 @@ public class ShareFiles extends AppCompatActivity {
 
         ctx = this;
         CustomAuthenticator.enable(this);
+        // If there's no account, return to login
+        if (CustomAuthenticator.getActiveAccount() == null) {
+            startActivity(new Intent(getApplicationContext(), Login.class));
+            finish();
+        }
+
         uploadsPending = getUploads(getIntent());
 
+        clearHierarchy();
         initInterface();
         initList();
         initToolbar();
@@ -184,6 +191,17 @@ public class ShareFiles extends AppCompatActivity {
             CustomAuthenticator.lock();
         }
         super.onPause();
+    }
+
+    private void clearHierarchy() {
+        if (hierarchy.size() > 0) {
+            FileItem first = hierarchy.get(0);
+            hierarchy = new ArrayList<>();
+            hierarchy.add(first);
+        }
+        else {
+            hierarchy.add(new FileItem("0", "", ""));
+        }
     }
 
     private void fetchFiles() {
