@@ -20891,21 +20891,22 @@ org.simpledrive.activities.ShareFiles -> org.simpledrive.activities.ShareFiles:
     void initToolbar() -> k
     void onResume() -> onResume
     void onPause() -> onPause
-    void fetchFiles() -> l
+    void clearHierarchy() -> l
+    void fetchFiles() -> m
     void onActivityResult(int,int,android.content.Intent) -> onActivityResult
-    void requestPIN() -> m
+    void requestPIN() -> n
     void extractFiles(java.lang.String) -> a
-    void displayFiles() -> n
+    void displayFiles() -> o
     void setToolbarTitle(java.lang.String) -> b
     void setToolbarSubtitle(java.lang.String) -> c
     void openFile(int) -> c
-    void connect() -> o
+    void connect() -> p
     void onBackPressed() -> onBackPressed
     void showCreate(java.lang.String) -> d
-    void showVirtualKeyboard() -> p
+    void showVirtualKeyboard() -> q
     java.lang.String getRealPathFromURI(android.net.Uri) -> a
     java.util.ArrayList getUploads(android.content.Intent) -> c
-    void setListLayout() -> q
+    void setListLayout() -> r
     void create(java.lang.String,java.lang.String,java.lang.String) -> a
     org.simpledrive.activities.ShareFiles access$000(org.simpledrive.activities.ShareFiles) -> a
     java.util.ArrayList access$100(org.simpledrive.activities.ShareFiles) -> b
