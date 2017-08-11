@@ -62,6 +62,16 @@ public class FileItem
 		return this.path;
 	}
 
+	public String getCacheName()
+	{
+		return this.id;
+	}
+
+	public String getThumbName()
+	{
+		return this.id + "_thumb";
+	}
+
 	public Drawable getIcon() {
 		return this.icon;
 	}

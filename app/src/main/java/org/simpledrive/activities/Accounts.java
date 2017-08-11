@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -25,6 +24,7 @@ import android.widget.Toast;
 import org.simpledrive.R;
 import org.simpledrive.adapters.AccountAdapter;
 import org.simpledrive.authenticator.CustomAuthenticator;
+import org.simpledrive.helper.SharedPrefManager;
 import org.simpledrive.models.AccountItem;
 
 import java.util.ArrayList;
@@ -33,32 +33,26 @@ import java.util.TimerTask;
 
 public class Accounts extends AppCompatActivity {
     // General
-    private Accounts e;
     private ArrayList<AccountItem> items = new ArrayList<>();
     private AccountAdapter newAdapter;
     private int selectedPos;
 
     // Interface
     private AbsListView list;
-    private FloatingActionButton fab;
     private Menu mContextMenu;
 
 
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
 
-        e = this;
-
-        SharedPreferences settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
-
-        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         setContentView(R.layout.activity_users);
 
         initToolbar();
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,7 +113,7 @@ public class Accounts extends AppCompatActivity {
             public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.delete:
-                        new android.support.v7.app.AlertDialog.Builder(e)
+                        new android.support.v7.app.AlertDialog.Builder(getApplicationContext())
                                 .setTitle("Remove " + getFirstSelected())
                                 .setMessage("Are you sure you want to remove this account?")
                                 .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
@@ -206,7 +200,7 @@ public class Accounts extends AppCompatActivity {
 
     private void displayAccounts() {
         int layout = R.layout.listview_detail;
-        newAdapter = new AccountAdapter(e, layout, list);
+        newAdapter = new AccountAdapter(this, layout, list);
         newAdapter.setData(items);
         list.setAdapter(newAdapter);
     }
@@ -242,7 +236,7 @@ public class Accounts extends AppCompatActivity {
             }, 100);
         }
         else {
-            Toast.makeText(e, "Error deleting account", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error deleting account", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -257,7 +251,7 @@ public class Accounts extends AppCompatActivity {
             }, 100);
         }
         else {
-            Toast.makeText(e, "Error renaming account", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error renaming account", Toast.LENGTH_SHORT).show();
         }
     }
 }

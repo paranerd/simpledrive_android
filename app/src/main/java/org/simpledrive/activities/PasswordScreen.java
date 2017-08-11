@@ -12,16 +12,14 @@ import org.simpledrive.R;
 
 public class PasswordScreen extends AppCompatActivity {
     // General
-    private int REQUEST_UNLOCK = 0;
-    private int REQUEST_SET_PASSPHRASE = 1;
-    private int request_code;
+    private boolean repeat = false;
     private int step = 0;
     private String firstPassphrase = "";
+    private String label = "passphrase";
 
     // Interface
     private TextView passphrase;
     private TextView error;
-
     private Button confirm;
 
     @Override
@@ -38,7 +36,8 @@ public class PasswordScreen extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             showError(extras.getString("error", ""));
-            request_code = extras.getInt("requestCode", REQUEST_UNLOCK);
+            repeat = extras.getBoolean("repeat", false);
+            label = extras.getString("label", "passphrase");
         }
         updateDisplay();
     }
@@ -48,13 +47,13 @@ public class PasswordScreen extends AppCompatActivity {
     }
 
     private void updateDisplay() {
-        if (request_code == REQUEST_SET_PASSPHRASE) {
-            String t = (step == 0) ? "Set passphrase" : "Repeat passphrase";
-            passphrase.setHint(t);
+        if (repeat) {
+            String t = (step == 0) ? "Set" : "Repeat";
+            passphrase.setHint(t + " " + label);
             confirm.setText("Set");
         }
         else {
-            passphrase.setHint("Enter passphrase");
+            passphrase.setHint("Enter " + label);
             confirm.setText("Unlock");
         }
         passphrase.setText("");
@@ -64,13 +63,13 @@ public class PasswordScreen extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.confirm:
                 // Repeat required
-                if (request_code == REQUEST_SET_PASSPHRASE && step == 0) {
+                if (repeat && step == 0) {
                     firstPassphrase = passphrase.getText().toString();
                     step++;
                     updateDisplay();
                 }
                 // Passphrases don't match
-                else if (request_code == REQUEST_SET_PASSPHRASE && step == 1 &&
+                else if (repeat && step == 1 &&
                         !passphrase.getText().toString().equals(firstPassphrase))
                 {
                     showError("Passphrases don't match");

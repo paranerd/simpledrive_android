@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.simpledrive"
-    android:versionCode="95"
-    android:versionName="6.2.2" >
+    android:versionCode="96"
+    android:versionName="6.3.0" >
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -15,6 +15,15 @@
     <uses-permission android:name="android.permission.GET_CREDENTIALS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <permission
+        android:name="org.simpledrive.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="org.simpledrive.permission.C2D_MESSAGE" />
 
     <application
         android:allowBackup="true"
@@ -60,19 +69,6 @@
             android:theme="@style/MainThemeFullscreen"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-
-        <service android:name="org.simpledrive.authenticator.AuthenticationService" >
-            <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" />
-"
-            </intent-filter>
-
-            <meta-data
-                android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
-"
-        </service>
-
         <activity
             android:name="org.simpledrive.activities.ImageViewer"
             android:label="Images"
@@ -109,13 +105,8 @@
             android:theme="@style/MainTheme.Light" >
         </activity>
         <activity
-            android:name="org.simpledrive.activities.Unlock"
-            android:label="User Details"
-            android:theme="@style/MainTheme.Light" >
-        </activity>
-        <activity
-            android:name="org.simpledrive.activities.EnablePIN"
-            android:label="Enable PIN"
+            android:name="org.simpledrive.activities.PinScreen"
+            android:label="Enter PIN"
             android:theme="@style/MainTheme.Light" >
         </activity>
         <activity
@@ -154,10 +145,101 @@
             android:theme="@style/MainTheme.Light" >
         </activity>
 
+        <service android:name="org.simpledrive.authenticator.AuthenticationService" >
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+"
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+"
+        </service>
         <service
-            android:name="org.simpledrive.helper.AudioService"
+            android:name="org.simpledrive.services.AudioService"
             android:enabled="true" >
         </service>
+        <service android:name="org.simpledrive.services.MyFirebaseInstanceIDService" >
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name="org.simpledrive.services.MyFirebaseMessagingService" >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <!--
+         FirebaseMessagingService performs security checks at runtime,
+             no need for explicit permissions despite exported="true"
+        -->
+        <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:exported="true" >
+            <intent-filter android:priority="-500" >
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+            android:enabled="true"
+            android:exported="false" >
+        </receiver>
+        <receiver
+            android:name="com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver"
+            android:enabled="true"
+            android:permission="android.permission.INSTALL_PACKAGES" >
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.google.android.gms.measurement.AppMeasurementService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="org.simpledrive" />
+            </intent-filter>
+        </receiver>
+        <!--
+ Internal (not exported) receiver used by the app to start its own exported services
+             without risk of being spoofed.
+        -->
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdInternalReceiver"
+            android:exported="false" />
+        <!--
+ FirebaseInstanceIdService performs security checks at runtime,
+             no need for explicit permissions despite exported="true"
+        -->
+        <service
+            android:name="com.google.firebase.iid.FirebaseInstanceIdService"
+            android:exported="true" >
+            <intent-filter android:priority="-500" >
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:authorities="org.simpledrive.firebaseinitprovider"
+            android:exported="false"
+            android:initOrder="100" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

@@ -22,6 +22,7 @@ public class ImageViewer extends AppCompatActivity {
     private boolean titleVisible = true;
     private Toolbar toolbar;
     private ArrayList<FileItem> images;
+    private int layout;
 
     @Override
     public void onDestroy() {
@@ -35,11 +36,17 @@ public class ImageViewer extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_imageviewer);
+
+        layout = getIntent().getExtras().getInt("layout", 0);
 
         images = RemoteFiles.getAllImages();
 
+        initInterface();
         initToolbar();
+    }
+
+    private void initInterface() {
+        setContentView(R.layout.activity_imageviewer);
 
         ExtendedViewPager mViewPager = (ExtendedViewPager) findViewById(R.id.view_pager);
         mAdapter = new TouchImageAdapter(this, images);

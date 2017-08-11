@@ -128,80 +128,107 @@
 # view res/layout/abc_screen_simple_overlay_action_mode.xml #generated:32
 -keep class android.support.v7.widget.ViewStubCompat { <init>(...); }
 
+# view AndroidManifest.xml #generated:190
+-keep class com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver { <init>(...); }
+
+# view AndroidManifest.xml #generated:185
+-keep class com.google.android.gms.measurement.AppMeasurementReceiver { <init>(...); }
+
+# view AndroidManifest.xml #generated:199
+-keep class com.google.android.gms.measurement.AppMeasurementService { <init>(...); }
+
+# view AndroidManifest.xml #generated:219
+-keep class com.google.firebase.iid.FirebaseInstanceIdInternalReceiver { <init>(...); }
+
+# view AndroidManifest.xml #generated:204
+-keep class com.google.firebase.iid.FirebaseInstanceIdReceiver { <init>(...); }
+
+# view AndroidManifest.xml #generated:226
+-keep class com.google.firebase.iid.FirebaseInstanceIdService { <init>(...); }
+
+# view AndroidManifest.xml #generated:177
+-keep class com.google.firebase.messaging.FirebaseMessagingService { <init>(...); }
+
+# view AndroidManifest.xml #generated:234
+-keep class com.google.firebase.provider.FirebaseInitProvider { <init>(...); }
+
 # view res/layout/nav_header.xml #generated:11
 -keep class de.hdodenhof.circleimageview.CircleImageView { <init>(...); }
 
-# view AndroidManifest.xml #generated:121
+# view AndroidManifest.xml #generated:112
 -keep class org.simpledrive.activities.Accounts { <init>(...); }
 
-# view AndroidManifest.xml #generated:86
+# view AndroidManifest.xml #generated:82
 -keep class org.simpledrive.activities.AppSettings { <init>(...); }
 
-# view AndroidManifest.xml #generated:81
+# view AndroidManifest.xml #generated:77
 -keep class org.simpledrive.activities.Editor { <init>(...); }
 
-# view AndroidManifest.xml #generated:116
--keep class org.simpledrive.activities.EnablePIN { <init>(...); }
-
-# view AndroidManifest.xml #generated:53
+# view AndroidManifest.xml #generated:62
 -keep class org.simpledrive.activities.FileSelector { <init>(...); }
 
-# view AndroidManifest.xml #generated:76
+# view AndroidManifest.xml #generated:72
 -keep class org.simpledrive.activities.ImageViewer { <init>(...); }
 
-# view AndroidManifest.xml #generated:57
+# view AndroidManifest.xml #generated:66
 -keep class org.simpledrive.activities.Login { <init>(...); }
 
-# view AndroidManifest.xml #generated:146
+# view AndroidManifest.xml #generated:137
 -keep class org.simpledrive.activities.LogoSelector { <init>(...); }
 
-# view AndroidManifest.xml #generated:151
+# view AndroidManifest.xml #generated:142
 -keep class org.simpledrive.activities.PasswordGenerator { <init>(...); }
 
-# view AndroidManifest.xml #generated:141
+# view AndroidManifest.xml #generated:132
 -keep class org.simpledrive.activities.PasswordScreen { <init>(...); }
 
-# view AndroidManifest.xml #generated:24
+# view AndroidManifest.xml #generated:107
+-keep class org.simpledrive.activities.PinScreen { <init>(...); }
+
+# view AndroidManifest.xml #generated:33
 -keep class org.simpledrive.activities.RemoteFiles { <init>(...); }
 
-# view AndroidManifest.xml #generated:96
+# view AndroidManifest.xml #generated:92
 -keep class org.simpledrive.activities.ServerLog { <init>(...); }
 
-# view AndroidManifest.xml #generated:91
+# view AndroidManifest.xml #generated:87
 -keep class org.simpledrive.activities.ServerSettings { <init>(...); }
 
-# view AndroidManifest.xml #generated:34
+# view AndroidManifest.xml #generated:43
 -keep class org.simpledrive.activities.ShareFiles { <init>(...); }
 
-# view AndroidManifest.xml #generated:111
--keep class org.simpledrive.activities.Unlock { <init>(...); }
-
-# view AndroidManifest.xml #generated:106
+# view AndroidManifest.xml #generated:102
 -keep class org.simpledrive.activities.UserDetails { <init>(...); }
 
-# view AndroidManifest.xml #generated:101
+# view AndroidManifest.xml #generated:97
 -keep class org.simpledrive.activities.Users { <init>(...); }
 
-# view AndroidManifest.xml #generated:126
+# view AndroidManifest.xml #generated:117
 -keep class org.simpledrive.activities.Vault { <init>(...); }
 
-# view AndroidManifest.xml #generated:136
+# view AndroidManifest.xml #generated:127
 -keep class org.simpledrive.activities.VaultNote { <init>(...); }
 
-# view AndroidManifest.xml #generated:131
+# view AndroidManifest.xml #generated:122
 -keep class org.simpledrive.activities.VaultWebsite { <init>(...); }
 
-# view AndroidManifest.xml #generated:64
+# view AndroidManifest.xml #generated:148
 -keep class org.simpledrive.authenticator.AuthenticationService { <init>(...); }
-
-# view AndroidManifest.xml #generated:157
--keep class org.simpledrive.helper.AudioService { <init>(...); }
 
 # view res/layout/activity_imageviewer.xml #generated:11
 -keep class org.simpledrive.helper.ExtendedViewPager { <init>(...); }
 
 # view res/layout/gridview.xml #generated:2
--keep class org.simpledrive.helper.GridViewItem { <init>(...); }
+-keep class org.simpledrive.models.GridViewItem { <init>(...); }
+
+# view AndroidManifest.xml #generated:159
+-keep class org.simpledrive.services.AudioService { <init>(...); }
+
+# view AndroidManifest.xml #generated:163
+-keep class org.simpledrive.services.MyFirebaseInstanceIDService { <init>(...); }
+
+# view AndroidManifest.xml #generated:168
+-keep class org.simpledrive.services.MyFirebaseMessagingService { <init>(...); }
 
 # onClick res/layout/activity_passwordgenerator.xml #generated:48
 # onClick res/layout/activity_passwordgenerator.xml #generated:60

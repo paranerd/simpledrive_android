@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.simpledrive.helper.GridViewItem xmlns:android="http://schemas.android.com/apk/res/android"
+<org.simpledrive.models.GridViewItem xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/wrapper"
     android:layout_width="match_parent"
@@ -80,4 +80,4 @@
             </FrameLayout>
         </RelativeLayout>
     </RelativeLayout>
-</org.simpledrive.helper.GridViewItem>
+</org.simpledrive.models.GridViewItem>

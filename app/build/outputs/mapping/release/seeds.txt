@@ -1967,6 +1967,7 @@ android.support.v4.app.FragmentTabHost: void setOnTabChangedListener(android.wid
 android.support.v4.app.FragmentTabHost$SavedState: android.os.Parcelable$Creator CREATOR
 android.support.v4.content.ModernAsyncTask$Status: android.support.v4.content.ModernAsyncTask$Status[] values()
 android.support.v4.content.ModernAsyncTask$Status: android.support.v4.content.ModernAsyncTask$Status valueOf(java.lang.String)
+android.support.v4.content.WakefulBroadcastReceiver: WakefulBroadcastReceiver()
 android.support.v4.media.MediaBrowserCompat$MediaItem: android.os.Parcelable$Creator CREATOR
 android.support.v4.media.MediaDescriptionCompat: android.os.Parcelable$Creator CREATOR
 android.support.v4.media.MediaMetadataCompat: android.os.Parcelable$Creator CREATOR
@@ -4067,6 +4068,101 @@ android.support.v7.widget.ViewStubCompat: void setLayoutInflater(android.view.La
 android.support.v7.widget.ViewStubCompat: android.view.LayoutInflater getLayoutInflater()
 android.support.v7.widget.ViewStubCompat: void setVisibility(int)
 android.support.v7.widget.ViewStubCompat: void setOnInflateListener(android.support.v7.widget.ViewStubCompat$OnInflateListener)
+com.google.android.gms.R$id: int auto
+com.google.android.gms.R$id: int center
+com.google.android.gms.R$id: int none
+com.google.android.gms.R$id: int normal
+com.google.android.gms.R$id: int radio
+com.google.android.gms.R$id: int text
+com.google.android.gms.R$id: int text2
+com.google.android.gms.R$id: int toolbar
+com.google.android.gms.R$id: int wrap_content
+com.google.android.gms.R$integer: int google_play_services_version
+com.google.android.gms.R$string: int common_google_play_services_unknown_issue
+com.google.android.gms.common.ConnectionResult: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.common.annotation.KeepName
+com.google.android.gms.common.api.Scope
+com.google.android.gms.common.api.Scope: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.common.api.Status
+com.google.android.gms.common.api.Status: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.common.internal.BinderWrapper
+com.google.android.gms.common.internal.BinderWrapper: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.common.internal.DowngradeableSafeParcel
+com.google.android.gms.common.internal.ReflectedParcelable
+com.google.android.gms.common.internal.safeparcel.SafeParcelable
+com.google.android.gms.common.internal.safeparcel.SafeParcelable: java.lang.String NULL
+com.google.android.gms.common.internal.zzan: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.common.internal.zzj: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.common.stats.StatsEvent
+com.google.android.gms.common.stats.WakeLockEvent
+com.google.android.gms.common.stats.WakeLockEvent: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.common.util.DynamiteApi
+com.google.android.gms.dynamite.DynamiteModule$DynamiteLoaderClassLoader
+com.google.android.gms.dynamite.DynamiteModule$DynamiteLoaderClassLoader: java.lang.ClassLoader sClassLoader
+com.google.android.gms.dynamite.DynamiteModule$DynamiteLoaderClassLoader: DynamiteModule$DynamiteLoaderClassLoader()
+com.google.android.gms.dynamite.descriptors.com.google.android.gms.flags.ModuleDescriptor
+com.google.android.gms.dynamite.descriptors.com.google.android.gms.flags.ModuleDescriptor: java.lang.String MODULE_ID
+com.google.android.gms.dynamite.descriptors.com.google.android.gms.flags.ModuleDescriptor: int MODULE_VERSION
+com.google.android.gms.dynamite.descriptors.com.google.android.gms.flags.ModuleDescriptor: ModuleDescriptor()
+com.google.android.gms.flags.impl.FlagProviderImpl
+com.google.android.gms.flags.impl.FlagProviderImpl: FlagProviderImpl()
+com.google.android.gms.flags.impl.FlagProviderImpl: void init(com.google.android.gms.dynamic.zzd)
+com.google.android.gms.flags.impl.FlagProviderImpl: boolean getBooleanFlagValue(java.lang.String,boolean,int)
+com.google.android.gms.flags.impl.FlagProviderImpl: int getIntFlagValue(java.lang.String,int,int)
+com.google.android.gms.flags.impl.FlagProviderImpl: long getLongFlagValue(java.lang.String,long,int)
+com.google.android.gms.flags.impl.FlagProviderImpl: java.lang.String getStringFlagValue(java.lang.String,java.lang.String,int)
+com.google.android.gms.iid.MessengerCompat
+com.google.android.gms.iid.MessengerCompat: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.internal.zzag: com.google.android.gms.internal.zzag[] values()
+com.google.android.gms.internal.zzah: com.google.android.gms.internal.zzah[] values()
+com.google.android.gms.internal.zzapq$zza: zzapq$zza()
+com.google.android.gms.internal.zzapq$zza: com.google.android.gms.internal.zzapq asInterface(android.os.IBinder)
+com.google.android.gms.internal.zzapq$zza: android.os.IBinder asBinder()
+com.google.android.gms.internal.zzapq$zza: boolean onTransact(int,android.os.Parcel,android.os.Parcel,int)
+com.google.android.gms.internal.zzasq: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.internal.zzasz: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.internal.zzatb: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.internal.zzaub: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.internal.zzawa: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.internal.zzawc: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.internal.zzk$zza: com.google.android.gms.internal.zzk$zza[] values()
+com.google.android.gms.internal.zzw$zza
+com.google.android.gms.location.places.PlaceReport
+com.google.android.gms.location.places.PlaceReport: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.measurement.AppMeasurement
+com.google.android.gms.measurement.AppMeasurement: com.google.android.gms.measurement.AppMeasurement getInstance(android.content.Context)
+com.google.android.gms.measurement.AppMeasurement: void logEventInternal(java.lang.String,java.lang.String,android.os.Bundle)
+com.google.android.gms.measurement.AppMeasurement: void registerOnScreenChangeCallback(com.google.android.gms.measurement.AppMeasurement$zzd)
+com.google.android.gms.measurement.AppMeasurement: void unregisterOnScreenChangeCallback(com.google.android.gms.measurement.AppMeasurement$zzd)
+com.google.android.gms.measurement.AppMeasurement: java.lang.String getCurrentScreenName()
+com.google.android.gms.measurement.AppMeasurement: java.lang.String getCurrentScreenNameOnPackageSide(java.lang.String)
+com.google.android.gms.measurement.AppMeasurement: java.lang.String getAppInstanceIdOnPackageSide(java.lang.String)
+com.google.android.gms.measurement.AppMeasurement: java.lang.String getGmpAppIdOnPackageSide(java.lang.String)
+com.google.android.gms.measurement.AppMeasurement: java.lang.String getAppInstanceId()
+com.google.android.gms.measurement.AppMeasurement: java.lang.String getGmpAppId()
+com.google.android.gms.measurement.AppMeasurement: long generateEventId()
+com.google.android.gms.measurement.AppMeasurement: void beginAdUnitExposure(java.lang.String)
+com.google.android.gms.measurement.AppMeasurement: void endAdUnitExposure(java.lang.String)
+com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver
+com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver: AppMeasurementInstallReferrerReceiver()
+com.google.android.gms.measurement.AppMeasurementReceiver
+com.google.android.gms.measurement.AppMeasurementReceiver: AppMeasurementReceiver()
+com.google.android.gms.measurement.AppMeasurementService
+com.google.android.gms.measurement.AppMeasurementService: AppMeasurementService()
+com.google.firebase.iid.FirebaseInstanceId
+com.google.firebase.iid.FirebaseInstanceId: com.google.firebase.iid.FirebaseInstanceId getInstance(com.google.firebase.FirebaseApp)
+com.google.firebase.iid.FirebaseInstanceIdInternalReceiver
+com.google.firebase.iid.FirebaseInstanceIdInternalReceiver: FirebaseInstanceIdInternalReceiver()
+com.google.firebase.iid.FirebaseInstanceIdReceiver
+com.google.firebase.iid.FirebaseInstanceIdReceiver: FirebaseInstanceIdReceiver()
+com.google.firebase.iid.FirebaseInstanceIdService
+com.google.firebase.iid.FirebaseInstanceIdService: FirebaseInstanceIdService()
+com.google.firebase.iid.zzb: zzb()
+com.google.firebase.messaging.FirebaseMessagingService
+com.google.firebase.messaging.FirebaseMessagingService: FirebaseMessagingService()
+com.google.firebase.messaging.RemoteMessage: android.os.Parcelable$Creator CREATOR
+com.google.firebase.provider.FirebaseInitProvider
+com.google.firebase.provider.FirebaseInitProvider: FirebaseInitProvider()
 de.hdodenhof.circleimageview.CircleImageView
 de.hdodenhof.circleimageview.CircleImageView: CircleImageView(android.content.Context)
 de.hdodenhof.circleimageview.CircleImageView: CircleImageView(android.content.Context,android.util.AttributeSet)
@@ -5109,6 +5205,7 @@ org.simpledrive.R$id: int unlock_three
 org.simpledrive.R$id: int unlock_two
 org.simpledrive.R$id: int unlock_zero
 org.simpledrive.R$id: int unshare
+org.simpledrive.R$id: int unzip
 org.simpledrive.R$id: int up
 org.simpledrive.R$id: int useLogo
 org.simpledrive.R$id: int use_lowercase
@@ -5140,6 +5237,7 @@ org.simpledrive.R$integer: int app_bar_elevation_anim_duration
 org.simpledrive.R$integer: int bottom_sheet_slide_duration
 org.simpledrive.R$integer: int cancel_button_image_alpha
 org.simpledrive.R$integer: int design_snackbar_text_max_lines
+org.simpledrive.R$integer: int google_play_services_version
 org.simpledrive.R$integer: int status_bar_notification_info_maxnum
 org.simpledrive.R$layout: int abc_action_bar_title_item
 org.simpledrive.R$layout: int abc_action_bar_up_container
@@ -5267,13 +5365,21 @@ org.simpledrive.R$string: int app_name
 org.simpledrive.R$string: int appbar_scrolling_view_behavior
 org.simpledrive.R$string: int bottom_sheet_behavior
 org.simpledrive.R$string: int character_counter_pattern
+org.simpledrive.R$string: int common_google_play_services_unknown_issue
 org.simpledrive.R$string: int connecting
 org.simpledrive.R$string: int connection_error
+org.simpledrive.R$string: int default_web_client_id
 org.simpledrive.R$string: int drawer_close
 org.simpledrive.R$string: int drawer_open
 org.simpledrive.R$string: int empty
 org.simpledrive.R$string: int files
+org.simpledrive.R$string: int firebase_database_url
 org.simpledrive.R$string: int folders
+org.simpledrive.R$string: int gcm_defaultSenderId
+org.simpledrive.R$string: int google_api_key
+org.simpledrive.R$string: int google_app_id
+org.simpledrive.R$string: int google_crash_reporting_api_key
+org.simpledrive.R$string: int google_storage_bucket
 org.simpledrive.R$string: int loading
 org.simpledrive.R$string: int login_error
 org.simpledrive.R$string: int logout
@@ -6168,9 +6274,6 @@ org.simpledrive.activities.Editor
 org.simpledrive.activities.Editor: Editor()
 org.simpledrive.activities.Editor$1: void onClick(android.view.View)
 org.simpledrive.activities.Editor$3: void onClick(android.content.DialogInterface,int)
-org.simpledrive.activities.EnablePIN
-org.simpledrive.activities.EnablePIN: EnablePIN()
-org.simpledrive.activities.EnablePIN: void onClick(android.view.View)
 org.simpledrive.activities.FileSelector
 org.simpledrive.activities.FileSelector: FileSelector()
 org.simpledrive.activities.FileSelector$4: void onClick(android.view.View)
@@ -6190,6 +6293,9 @@ org.simpledrive.activities.PasswordGenerator$1: void onClick(android.view.View)
 org.simpledrive.activities.PasswordScreen
 org.simpledrive.activities.PasswordScreen: PasswordScreen()
 org.simpledrive.activities.PasswordScreen: void onClick(android.view.View)
+org.simpledrive.activities.PinScreen
+org.simpledrive.activities.PinScreen: PinScreen()
+org.simpledrive.activities.PinScreen: void onClick(android.view.View)
 org.simpledrive.activities.RemoteFiles
 org.simpledrive.activities.RemoteFiles: RemoteFiles()
 org.simpledrive.activities.RemoteFiles$10: void onClick(android.view.View)
@@ -6232,9 +6338,6 @@ org.simpledrive.activities.ShareFiles$1: void onClick(android.view.View)
 org.simpledrive.activities.ShareFiles$2: void onClick(android.view.View)
 org.simpledrive.activities.ShareFiles$8: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.ShareFiles$9: void onClick(android.content.DialogInterface,int)
-org.simpledrive.activities.Unlock
-org.simpledrive.activities.Unlock: Unlock()
-org.simpledrive.activities.Unlock: void onClick(android.view.View)
 org.simpledrive.activities.UserDetails
 org.simpledrive.activities.UserDetails: UserDetails()
 org.simpledrive.activities.UserDetails$1: void onClick(android.view.View)
@@ -6270,15 +6373,9 @@ org.simpledrive.adapters.UserAdapter$1: void onClick(android.view.View)
 org.simpledrive.adapters.VaultAdapter$1: void onClick(android.view.View)
 org.simpledrive.authenticator.AuthenticationService
 org.simpledrive.authenticator.AuthenticationService: AuthenticationService()
-org.simpledrive.helper.AudioService
-org.simpledrive.helper.AudioService: AudioService()
 org.simpledrive.helper.ExtendedViewPager
 org.simpledrive.helper.ExtendedViewPager: ExtendedViewPager(android.content.Context)
 org.simpledrive.helper.ExtendedViewPager: ExtendedViewPager(android.content.Context,android.util.AttributeSet)
-org.simpledrive.helper.GridViewItem
-org.simpledrive.helper.GridViewItem: GridViewItem(android.content.Context)
-org.simpledrive.helper.GridViewItem: GridViewItem(android.content.Context,android.util.AttributeSet)
-org.simpledrive.helper.GridViewItem: GridViewItem(android.content.Context,android.util.AttributeSet,int)
 org.simpledrive.helper.PermissionManager$1: void onClick(android.content.DialogInterface,int)
 org.simpledrive.helper.PermissionManager$2: void onClick(android.content.DialogInterface,int)
 org.simpledrive.helper.TouchImageView: void setCustomOnClickListener(android.view.View$OnClickListener)
@@ -6305,6 +6402,16 @@ org.simpledrive.helper.TouchImageView: float getImageHeight()
 org.simpledrive.helper.TouchImageView: void setState(org.simpledrive.helper.TouchImageView$State)
 org.simpledrive.helper.TouchImageView$State: org.simpledrive.helper.TouchImageView$State[] values()
 org.simpledrive.helper.TouchImageView$State: org.simpledrive.helper.TouchImageView$State valueOf(java.lang.String)
+org.simpledrive.models.GridViewItem
+org.simpledrive.models.GridViewItem: GridViewItem(android.content.Context)
+org.simpledrive.models.GridViewItem: GridViewItem(android.content.Context,android.util.AttributeSet)
+org.simpledrive.models.GridViewItem: GridViewItem(android.content.Context,android.util.AttributeSet,int)
 org.simpledrive.models.VaultItem: android.os.Parcelable$Creator CREATOR
 org.simpledrive.models.VaultItemNote: android.os.Parcelable$Creator CREATOR
 org.simpledrive.models.VaultItemWebsite: android.os.Parcelable$Creator CREATOR
+org.simpledrive.services.AudioService
+org.simpledrive.services.AudioService: AudioService()
+org.simpledrive.services.MyFirebaseInstanceIDService
+org.simpledrive.services.MyFirebaseInstanceIDService: MyFirebaseInstanceIDService()
+org.simpledrive.services.MyFirebaseMessagingService
+org.simpledrive.services.MyFirebaseMessagingService: MyFirebaseMessagingService()

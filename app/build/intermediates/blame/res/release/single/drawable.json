@@ -24,12 +24,12 @@
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/ic_pause_black.xml"
     },
     {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/abc_ic_voice_search_api_material.xml",
-        "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/drawable/abc_ic_voice_search_api_material.xml"
-    },
-    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/unlock_button.xml",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/unlock_button.xml"
+    },
+    {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/abc_ic_voice_search_api_material.xml",
+        "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/drawable/abc_ic_voice_search_api_material.xml"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/abc_ratingbar_small_material.xml",
@@ -60,12 +60,12 @@
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/ic_file_add.xml"
     },
     {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/design_ic_visibility.xml",
-        "source": "/home/paranerd/.android/build-cache/41ed2336d2f736605e4e12c0e0bfb0727c56f2dc/output/res/drawable/design_ic_visibility.xml"
-    },
-    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/ic_user.xml",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/ic_user.xml"
+    },
+    {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/design_ic_visibility.xml",
+        "source": "/home/paranerd/.android/build-cache/41ed2336d2f736605e4e12c0e0bfb0727c56f2dc/output/res/drawable/design_ic_visibility.xml"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/ic_add.xml",
@@ -136,12 +136,12 @@
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/ic_folder_add.xml"
     },
     {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/ic_select_all.xml",
-        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/ic_select_all.xml"
-    },
-    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/abc_ratingbar_material.xml",
         "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/drawable/abc_ratingbar_material.xml"
+    },
+    {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/ic_select_all.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/ic_select_all.xml"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/drawable/ic_text.xml",

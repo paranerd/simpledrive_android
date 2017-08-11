@@ -6,7 +6,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.simpledrive.R;
+import org.simpledrive.helper.SharedPrefManager;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.VaultItemWebsite;
 
@@ -41,7 +42,6 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
     private boolean saved = true;
     private VaultItemWebsite item;
     private int id;
-    private SharedPreferences settings;
 
     // Notification
     private NotificationManager mNotifyManager;
@@ -62,9 +62,8 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         super.onCreate(savedInstanceState);
-
-        settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
 
         initInterface();
         initToolbar();
@@ -90,7 +89,7 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
 
     private void initInterface() {
         // Set theme
-        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         // Set view
@@ -329,6 +328,7 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
         item.setURL(urlText);
         item.setUser(userText);
         item.setPass(passText);
+        item.setEdit(String.valueOf(System.currentTimeMillis()));
 
         Intent i = new Intent();
         i.putExtra("id", id);

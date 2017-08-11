@@ -47,9 +47,9 @@ public class TouchImageAdapter extends PagerAdapter {
 
     @Override
     public View instantiateItem(ViewGroup container, final int position) {
-        String path = Util.getCacheDir() + images.get(position).getID();
+        FileItem item = images.get(position);
+        String path = Util.getCacheDir() + item.getCacheName();
         TouchImageView img = new TouchImageView(container.getContext());
-        WebView wv = null;
 
         img.setCustomOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +60,7 @@ public class TouchImageAdapter extends PagerAdapter {
 
         if (new File(path).exists()) {
             if (Util.isGIF(path)) {
-                wv = new WebView(container.getContext());
+                WebView wv = new WebView(container.getContext());
 
                 wv.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -73,8 +73,8 @@ public class TouchImageAdapter extends PagerAdapter {
                 options.inJustDecodeBounds = true;
                 BitmapFactory.decodeFile(path, options);
                 int[] dim = Util.scaleImage(e, options.outWidth, options.outHeight);
-                int img_height = dim[1];
                 int img_width = dim[0];
+                int img_height = dim[1];
 
                 int topMargin = ((displayHeight - img_height) / 2 > 0) ? (displayHeight - img_height) / 2 : 0;
                 int leftMargin = ((displayWidth - img_width) / 2 > 0) ? (displayWidth - img_width) / 2 : 0;
@@ -86,25 +86,27 @@ public class TouchImageAdapter extends PagerAdapter {
                 wv.loadDataWithBaseURL(null, "<style>body{background-color: black;}img{margin-top: " + topMargin + "px;margin-left: " + leftMargin + "px;display: block;height: " + img_height + "px;width: " + img_width + "px;max-width: 100%;}</style>" + data, "text/html", "UTF-8", null);
 
                 RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                lp.height = img_height;
                 lp.width = img_width;
+                lp.height = img_height;
                 wv.setLayoutParams(lp);
                 wv.setInitialScale(100);
+                container.addView(wv, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                return wv;
             }
             else {
                 Bitmap bmp = BitmapFactory.decodeFile(path);
                 img.setImageBitmap(bmp);
             }
         }
+        else if (item.getThumb() != null) {
+            // Set thumbnail as placeholder
+            img.setImageBitmap(item.getThumb());
+            new LoadImage(img, item, path).execute();
+        }
         else {
             // Set placeholder and get image in background
             img.setImageResource(R.drawable.ic_image);
-            new LoadImage(img, images.get(position), path);
-        }
-
-        if (wv != null) {
-            container.addView(wv, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            return wv;
+            new LoadImage(img, item, path).execute();
         }
 
         container.addView(img, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -130,7 +132,7 @@ public class TouchImageAdapter extends PagerAdapter {
         FileItem file;
         String imgPath;
 
-        public LoadImage(final TouchImageView img, FileItem file, String imgPath) {
+        LoadImage(final TouchImageView img, FileItem file, String imgPath) {
             this.img = img;
             this.file = file;
             this.imgPath= imgPath;
@@ -147,13 +149,13 @@ public class TouchImageAdapter extends PagerAdapter {
                 return null;
             }
 
-            File thumb = new File(this.imgPath);
+            File img = new File(this.imgPath);
 
             Connection multipart = new Connection("files", "get");
             multipart.addFormField("target", "[\"" + file.getID() + "\"]");
             multipart.addFormField("width", displayWidth + "");
             multipart.addFormField("height", displayHeight + "");
-            multipart.setDownloadPath(thumb.getParent(), thumb.getName());
+            multipart.setDownloadPath(img.getParent(), img.getName());
             return multipart.finish();
         }
 

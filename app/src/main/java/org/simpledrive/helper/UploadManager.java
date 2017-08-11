@@ -4,7 +4,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -25,7 +24,6 @@ public class UploadManager {
     private static int NOTIFICATION_ID = 1;
     private static ArrayList<HashMap<String, String>> uploadQueue = new ArrayList<>();
     private static AppCompatActivity e;
-    private static SharedPreferences settings;
 
     public static boolean isRunning() {
         return uploadQueue.size() > 0;
@@ -71,7 +69,6 @@ public class UploadManager {
 
         if (uploadQueue.size() > 0 && uploadQueue.size() == paths.size()) {
             e = act;
-            settings = e.getSharedPreferences("org.simpledrive.shared_pref", 0);
             upload(listener);
             Toast.makeText(e, "Upload started", Toast.LENGTH_SHORT).show();
         }
@@ -102,7 +99,7 @@ public class UploadManager {
                 mBuilder.setContentIntent(pIntent)
                         .setContentTitle("Uploading " + uploadCurrent + " of " + uploadTotal)
                         .setOngoing(true)
-                        .setSmallIcon(R.drawable.ic_cloud)
+                        .setSmallIcon(R.drawable.ic_upload)
                         .setColor(ContextCompat.getColor(e, R.color.darkgreen))
                         .setProgress(100, 0, false);
                 mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
@@ -140,7 +137,7 @@ public class UploadManager {
             protected void onPostExecute(Connection.Response res) {
                 uploadSuccessful = (!res.successful()) ? uploadSuccessful : uploadSuccessful + 1;
                 if (ul_elem.get("photosync").equals("1")) {
-                    settings.edit().putLong("lastPhotoSync", Util.getTimestamp()).apply();
+                    SharedPrefManager.getInstance(e).write(SharedPrefManager.TAG_LAST_PHOTO_SYNC, Util.getTimestamp());
                 }
 
                 if (uploadQueue.size() > 0) {

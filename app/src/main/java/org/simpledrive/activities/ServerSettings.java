@@ -3,7 +3,6 @@ package org.simpledrive.activities;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -17,26 +16,23 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.simpledrive.R;
-
 import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.Connection;
+import org.simpledrive.helper.SharedPrefManager;
 import org.simpledrive.helper.Util;
 
 public class ServerSettings extends AppCompatActivity {
     // General
-    public static ServerSettings e;
+    public static ServerSettings ctx;
     public static PrefsFragment prefsFragment;
-    public static SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        e = this;
+        ctx = this;
 
-        settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
-
-        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         prefsFragment = new PrefsFragment();
@@ -79,7 +75,7 @@ public class ServerSettings extends AppCompatActivity {
             showlog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    startActivity(new Intent(e.getApplicationContext(), ServerLog.class));
+                    startActivity(new Intent(ctx.getApplicationContext(), ServerLog.class));
                     return false;
                 }
             });
@@ -88,7 +84,7 @@ public class ServerSettings extends AppCompatActivity {
             showusers.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    startActivity(new Intent(e.getApplicationContext(), Users.class));
+                    startActivity(new Intent(ctx.getApplicationContext(), Users.class));
                     return false;
                 }
             });
@@ -98,7 +94,7 @@ public class ServerSettings extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     String value = Long.toString(Util.stringToByte(o.toString()));
-                    e.setUploadLimit(value);
+                    ctx.setUploadLimit(value);
                     return false;
                 }
             });
@@ -163,10 +159,10 @@ public class ServerSettings extends AppCompatActivity {
             @Override
             protected void onPostExecute(Connection.Response res) {
                 if (res.successful()) {
-                    e.getStatus();
+                    ctx.getStatus();
                 }
                 else {
-                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();

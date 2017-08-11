@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:2:1-169:12
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:2:1-177:12
 	package
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:3:5-30
 		INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
@@ -17,6 +17,9 @@ ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidMa
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:2:11-69
 uses-permission#android.permission.INTERNET
 ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:7:5-67
+MERGED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.android/build-cache/5dda58e8823b0ce7344db482502a6ea897ab2521/output/AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:20:5-66
 	android:name
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:7:22-64
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
@@ -44,19 +47,27 @@ ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidMa
 	android:name
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:13:22-77
 application
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:15:5-167:19
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:15:5-175:19
 MERGED from [com.android.support:design:24.2.1] /home/paranerd/.android/build-cache/41ed2336d2f736605e4e12c0e0bfb0727c56f2dc/output/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:percent:24.2.1] /home/paranerd/.android/build-cache/9273f23c9f41c4a01023d2e061deaeee9d3ccd87/output/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:appcompat-v7:24.2.1] /home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:animated-vector-drawable:24.2.1] /home/paranerd/.android/build-cache/66f872a2b83e948f26cdbc94a96c0c7321d80ff9/output/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-vector-drawable:24.2.1] /home/paranerd/.android/build-cache/dfb2dd4601af965ebf8808612c82769dd51a233a/output/AndroidManifest.xml:23:5-20
+MERGED from [de.hdodenhof:circleimageview:1.2.1] /home/paranerd/.android/build-cache/54dfcc2d672f1625fa964326680b5ecc6f0adfea/output/AndroidManifest.xml:9:5-20
+MERGED from [com.google.firebase:firebase-messaging:10.0.1] /home/paranerd/.android/build-cache/e3e52caed89b2ce73b5052273da9871d90f46fea/output/AndroidManifest.xml:19:5-29:19
+MERGED from [com.google.firebase:firebase-core:10.0.1] /home/paranerd/.android/build-cache/5cff994269bf8bacd79cb996608175945654cb49/output/AndroidManifest.xml:5:5-20
+MERGED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:24:5-33:19
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.android/build-cache/5dda58e8823b0ce7344db482502a6ea897ab2521/output/AndroidManifest.xml:24:5-28:19
+MERGED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:28:5-50:19
+MERGED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.android/build-cache/d1351202d0feea53e0ea360f5c1dacb11f0589e5/output/AndroidManifest.xml:4:5-7:19
+MERGED from [com.google.android.gms:play-services-tasks:10.0.1] /home/paranerd/.android/build-cache/2507d0da68fd175ca39ce35a849ff7103cadc731/output/AndroidManifest.xml:4:5-19
+MERGED from [com.google.android.gms:play-services-basement:10.0.1] /home/paranerd/.android/build-cache/fe957b760e493aef42d52ef87d547978505db3f9/output/AndroidManifest.xml:19:5-21:19
 MERGED from [com.android.support:support-v4:24.2.1] /home/paranerd/.android/build-cache/03b39c0a2974d3b534d2ce9136dd77388c6b535c/output/AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-fragment:24.2.1] /home/paranerd/.android/build-cache/57121ff633bf53ff6d4a746940bbdae5de294249/output/AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-media-compat:24.2.1] /home/paranerd/.android/build-cache/03bcd4970e16a6645879488c71a93a62bb4fb53e/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-core-utils:24.2.1] /home/paranerd/.android/build-cache/c023e93922822e21fed883bf2f6dff94fffadd81/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:animated-vector-drawable:24.2.1] /home/paranerd/.android/build-cache/66f872a2b83e948f26cdbc94a96c0c7321d80ff9/output/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-vector-drawable:24.2.1] /home/paranerd/.android/build-cache/dfb2dd4601af965ebf8808612c82769dd51a233a/output/AndroidManifest.xml:23:5-20
 MERGED from [com.android.support:support-core-ui:24.2.1] /home/paranerd/.android/build-cache/7d27c0d0503eb008c52d9afc7a3a12a2cbea7e48/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-utils:24.2.1] /home/paranerd/.android/build-cache/c023e93922822e21fed883bf2f6dff94fffadd81/output/AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-compat:24.2.1] /home/paranerd/.android/build-cache/34c24c9a2f3be0447ed71c5aa97f1baec6632563/output/AndroidManifest.xml:25:5-20
-MERGED from [de.hdodenhof:circleimageview:1.2.1] /home/paranerd/.android/build-cache/54dfcc2d672f1625fa964326680b5ecc6f0adfea/output/AndroidManifest.xml:9:5-20
 	android:label
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:18:9-41
 	android:allowBackup
@@ -129,171 +140,191 @@ ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidMa
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:55:13-55
 	android:name
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:53:13-45
-service#org.simpledrive.authenticator.AuthenticationService
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:59:9-65:19
-	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:59:18-69
-intent-filter#android.accounts.AccountAuthenticator
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:60:13-62:29
-action#android.accounts.AccountAuthenticator
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:61:17-80
-	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:61:25-77
-meta-data#android.accounts.AccountAuthenticator
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:63:13-64:57
-	android:resource
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:64:17-54
-	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:63:24-76
 activity#org.simpledrive.activities.ImageViewer
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:67:9-71:20
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:59:9-63:20
 	android:label
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:69:13-35
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:61:13-35
 	android:theme
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:70:13-55
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:62:13-55
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:68:13-51
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:60:13-51
 activity#org.simpledrive.activities.Editor
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:73:9-77:20
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:65:9-69:20
 	android:label
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:75:13-35
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:67:13-35
 	android:theme
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:76:13-51
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:68:13-51
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:74:13-46
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:66:13-46
 activity#org.simpledrive.activities.AppSettings
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:79:9-83:20
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:71:9-75:20
 	android:label
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:81:13-37
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:73:13-37
 	android:theme
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:82:13-51
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:74:13-51
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:80:13-51
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:72:13-51
 activity#org.simpledrive.activities.ServerSettings
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:85:9-89:20
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:77:9-81:20
 	android:label
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:87:13-35
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:79:13-35
 	android:theme
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:88:13-51
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:80:13-51
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:86:13-54
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:78:13-54
 activity#org.simpledrive.activities.ServerLog
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:91:9-95:20
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:83:9-87:20
 	android:label
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:93:13-32
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:85:13-32
 	android:theme
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:94:13-51
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:86:13-51
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:92:13-49
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:84:13-49
 activity#org.simpledrive.activities.Users
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:97:9-101:20
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:89:9-93:20
 	android:label
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:99:13-34
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:91:13-34
 	android:theme
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:100:13-51
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:92:13-51
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:98:13-45
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:90:13-45
 activity#org.simpledrive.activities.UserDetails
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:103:9-107:20
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:95:9-99:20
 	android:label
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:105:13-41
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:97:13-41
 	android:theme
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:106:13-51
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:98:13-51
 	android:name
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:96:13-51
+activity#org.simpledrive.activities.PinScreen
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:101:9-105:20
+	android:label
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:103:13-38
+	android:theme
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:104:13-51
-activity#org.simpledrive.activities.Unlock
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:109:9-113:20
-	android:label
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:111:13-41
-	android:theme
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:112:13-51
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:110:13-46
-activity#org.simpledrive.activities.EnablePIN
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:115:9-119:20
-	android:label
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:117:13-39
-	android:theme
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:118:13-51
-	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:116:13-49
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:102:13-49
 activity#org.simpledrive.activities.Accounts
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:121:9-125:20
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:107:9-111:20
 	android:label
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:123:13-37
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:109:13-37
 	android:theme
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:124:13-51
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:110:13-51
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:122:13-48
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:108:13-48
 activity#org.simpledrive.activities.Vault
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:127:9-131:20
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:113:9-117:20
 	android:label
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:129:13-34
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:115:13-34
 	android:theme
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:130:13-51
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:116:13-51
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:128:13-45
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:114:13-45
 activity#org.simpledrive.activities.VaultWebsite
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:133:9-137:20
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:119:9-123:20
 	android:label
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:135:13-40
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:121:13-40
 	android:theme
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:136:13-51
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:122:13-51
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:134:13-52
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:120:13-52
 activity#org.simpledrive.activities.VaultNote
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:139:9-143:20
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:125:9-129:20
 	android:label
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:141:13-40
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:127:13-40
 	android:theme
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:142:13-51
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:128:13-51
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:140:13-49
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:126:13-49
 activity#org.simpledrive.activities.PasswordScreen
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:145:9-149:20
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:131:9-135:20
 	android:label
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:147:13-39
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:133:13-39
 	android:theme
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:148:13-51
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:134:13-51
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:146:13-54
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:132:13-54
 activity#org.simpledrive.activities.LogoSelector
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:151:9-155:20
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:137:9-141:20
 	android:label
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:153:13-42
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:139:13-42
 	android:theme
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:154:13-51
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:140:13-51
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:152:13-52
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:138:13-52
 activity#org.simpledrive.activities.PasswordGenerator
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:157:9-161:20
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:143:9-147:20
 	android:label
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:159:13-47
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:145:13-47
 	android:theme
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:160:13-51
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:146:13-51
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:158:13-57
-service#org.simpledrive.helper.AudioService
-ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:163:9-166:19
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:144:13-57
+service#org.simpledrive.authenticator.AuthenticationService
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:149:9-155:19
+	android:name
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:149:18-69
+intent-filter#android.accounts.AccountAuthenticator
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:150:13-152:29
+action#android.accounts.AccountAuthenticator
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:151:17-80
+	android:name
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:151:25-77
+meta-data#android.accounts.AccountAuthenticator
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:153:13-154:57
+	android:resource
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:154:17-54
+	android:name
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:153:24-76
+service#org.simpledrive.services.AudioService
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:157:9-160:19
 	android:enabled
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:165:13-35
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:159:13-35
 	android:name
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:164:13-48
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:158:13-50
+service#org.simpledrive.services.MyFirebaseInstanceIDService
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:162:9-167:19
+	android:name
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:163:13-65
+intent-filter#com.google.firebase.INSTANCE_ID_EVENT
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:164:13-166:29
+action#com.google.firebase.INSTANCE_ID_EVENT
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:165:17-79
+	android:name
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:165:25-77
+service#org.simpledrive.services.MyFirebaseMessagingService
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:169:9-174:19
+	android:name
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:170:13-64
+intent-filter#com.google.firebase.MESSAGING_EVENT
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:171:13-173:29
+action#com.google.firebase.MESSAGING_EVENT
+ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:172:17-77
+	android:name
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:172:25-75
 uses-sdk
 INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:design:24.2.1] /home/paranerd/.android/build-cache/41ed2336d2f736605e4e12c0e0bfb0727c56f2dc/output/AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:percent:24.2.1] /home/paranerd/.android/build-cache/9273f23c9f41c4a01023d2e061deaeee9d3ccd87/output/AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:appcompat-v7:24.2.1] /home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/AndroidManifest.xml:21:5-23:78
-MERGED from [com.android.support:support-v4:24.2.1] /home/paranerd/.android/build-cache/03b39c0a2974d3b534d2ce9136dd77388c6b535c/output/AndroidManifest.xml:21:5-23:54
-MERGED from [com.android.support:support-fragment:24.2.1] /home/paranerd/.android/build-cache/57121ff633bf53ff6d4a746940bbdae5de294249/output/AndroidManifest.xml:21:5-23:60
-MERGED from [com.android.support:support-media-compat:24.2.1] /home/paranerd/.android/build-cache/03bcd4970e16a6645879488c71a93a62bb4fb53e/output/AndroidManifest.xml:21:5-23:63
-MERGED from [com.android.support:support-core-utils:24.2.1] /home/paranerd/.android/build-cache/c023e93922822e21fed883bf2f6dff94fffadd81/output/AndroidManifest.xml:21:5-23:61
 MERGED from [com.android.support:animated-vector-drawable:24.2.1] /home/paranerd/.android/build-cache/66f872a2b83e948f26cdbc94a96c0c7321d80ff9/output/AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:support-vector-drawable:24.2.1] /home/paranerd/.android/build-cache/dfb2dd4601af965ebf8808612c82769dd51a233a/output/AndroidManifest.xml:21:5-43
 MERGED from [com.android.support:recyclerview-v7:24.2.1] /home/paranerd/.android/build-cache/de84e7e60db0d9e53e3af8856b9b552e03b480aa/output/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:support-core-ui:24.2.1] /home/paranerd/.android/build-cache/7d27c0d0503eb008c52d9afc7a3a12a2cbea7e48/output/AndroidManifest.xml:21:5-23:58
-MERGED from [com.android.support:support-compat:24.2.1] /home/paranerd/.android/build-cache/34c24c9a2f3be0447ed71c5aa97f1baec6632563/output/AndroidManifest.xml:21:5-23:58
 MERGED from [de.hdodenhof:circleimageview:1.2.1] /home/paranerd/.android/build-cache/54dfcc2d672f1625fa964326680b5ecc6f0adfea/output/AndroidManifest.xml:5:5-7:41
+MERGED from [com.google.firebase:firebase-messaging:10.0.1] /home/paranerd/.android/build-cache/e3e52caed89b2ce73b5052273da9871d90f46fea/output/AndroidManifest.xml:17:5-42
+MERGED from [com.google.firebase:firebase-core:10.0.1] /home/paranerd/.android/build-cache/5cff994269bf8bacd79cb996608175945654cb49/output/AndroidManifest.xml:4:5-42
+MERGED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:17:5-42
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.android/build-cache/5dda58e8823b0ce7344db482502a6ea897ab2521/output/AndroidManifest.xml:17:5-42
+MERGED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:17:5-42
+MERGED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.android/build-cache/d1351202d0feea53e0ea360f5c1dacb11f0589e5/output/AndroidManifest.xml:3:5-42
+MERGED from [com.google.android.gms:play-services-tasks:10.0.1] /home/paranerd/.android/build-cache/2507d0da68fd175ca39ce35a849ff7103cadc731/output/AndroidManifest.xml:3:5-42
+MERGED from [com.google.android.gms:play-services-basement:10.0.1] /home/paranerd/.android/build-cache/fe957b760e493aef42d52ef87d547978505db3f9/output/AndroidManifest.xml:17:5-42
+MERGED from [com.android.support:support-v4:24.2.1] /home/paranerd/.android/build-cache/03b39c0a2974d3b534d2ce9136dd77388c6b535c/output/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-fragment:24.2.1] /home/paranerd/.android/build-cache/57121ff633bf53ff6d4a746940bbdae5de294249/output/AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-media-compat:24.2.1] /home/paranerd/.android/build-cache/03bcd4970e16a6645879488c71a93a62bb4fb53e/output/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-ui:24.2.1] /home/paranerd/.android/build-cache/7d27c0d0503eb008c52d9afc7a3a12a2cbea7e48/output/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-utils:24.2.1] /home/paranerd/.android/build-cache/c023e93922822e21fed883bf2f6dff94fffadd81/output/AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-compat:24.2.1] /home/paranerd/.android/build-cache/34c24c9a2f3be0447ed71c5aa97f1baec6632563/output/AndroidManifest.xml:21:5-23:58
 	tools:overrideLibrary
 		ADDED from [com.android.support:appcompat-v7:24.2.1] /home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/AndroidManifest.xml:23:9-75
 	android:targetSdkVersion
@@ -302,3 +333,117 @@ MERGED from [de.hdodenhof:circleimageview:1.2.1] /home/paranerd/.android/build-c
 	android:minSdkVersion
 		INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
 		INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
+service#com.google.firebase.messaging.FirebaseMessagingService
+ADDED from [com.google.firebase:firebase-messaging:10.0.1] /home/paranerd/.android/build-cache/e3e52caed89b2ce73b5052273da9871d90f46fea/output/AndroidManifest.xml:23:9-27:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-messaging:10.0.1] /home/paranerd/.android/build-cache/e3e52caed89b2ce73b5052273da9871d90f46fea/output/AndroidManifest.xml:23:88-111
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:10.0.1] /home/paranerd/.android/build-cache/e3e52caed89b2ce73b5052273da9871d90f46fea/output/AndroidManifest.xml:23:18-87
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:21:5-78
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.android/build-cache/5dda58e8823b0ce7344db482502a6ea897ab2521/output/AndroidManifest.xml:21:5-78
+MERGED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:19:5-78
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:21:22-76
+uses-permission#android.permission.WAKE_LOCK
+ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:22:5-67
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.android/build-cache/5dda58e8823b0ce7344db482502a6ea897ab2521/output/AndroidManifest.xml:22:5-67
+MERGED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:21:5-67
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:22:22-65
+receiver#com.google.android.gms.measurement.AppMeasurementReceiver
+ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:25:7-26:18
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.android/build-cache/5dda58e8823b0ce7344db482502a6ea897ab2521/output/AndroidManifest.xml:25:7-26:18
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:25:90-112
+	android:exported
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:25:113-137
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:25:17-89
+receiver#com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver
+ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:27:7-31:18
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:27:162-184
+	android:permission
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:27:105-161
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:27:17-104
+intent-filter#com.android.vending.INSTALL_REFERRER
+ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:28:11-30:27
+action#com.android.vending.INSTALL_REFERRER
+ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:29:15-76
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:29:23-74
+service#com.google.android.gms.measurement.AppMeasurementService
+ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:32:7-137
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.android/build-cache/5dda58e8823b0ce7344db482502a6ea897ab2521/output/AndroidManifest.xml:27:7-137
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:32:88-110
+	android:exported
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:32:111-135
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:32:16-87
+uses-permission#com.google.android.c2dm.permission.RECEIVE
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:22:5-81
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:22:22-79
+permission#${applicationId}.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:24:5-109
+	android:protectionLevel
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:24:72-107
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:24:17-71
+uses-permission#${applicationId}.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:26:5-78
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:26:22-76
+receiver#com.google.firebase.iid.FirebaseInstanceIdReceiver
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:30:9-36:20
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:30:85-108
+	android:permission
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:30:109-169
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:30:19-84
+intent-filter#${applicationId}+com.google.android.c2dm.intent.RECEIVE+com.google.android.c2dm.intent.REGISTRATION
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:31:13-35:29
+action#com.google.android.c2dm.intent.RECEIVE
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:32:17-80
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:32:25-78
+action#com.google.android.c2dm.intent.REGISTRATION
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:33:17-85
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:33:25-83
+category#${applicationId}
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:34:17-60
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:34:27-58
+receiver#com.google.firebase.iid.FirebaseInstanceIdInternalReceiver
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:40:9-119
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:40:93-117
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:40:19-92
+service#com.google.firebase.iid.FirebaseInstanceIdService
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:44:9-48:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:44:83-106
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:44:18-82
+provider#com.google.firebase.provider.FirebaseInitProvider
+ADDED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.android/build-cache/d1351202d0feea53e0ea360f5c1dacb11f0589e5/output/AndroidManifest.xml:6:9-194
+	android:authorities
+		ADDED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.android/build-cache/d1351202d0feea53e0ea360f5c1dacb11f0589e5/output/AndroidManifest.xml:6:19-78
+	android:exported
+		ADDED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.android/build-cache/d1351202d0feea53e0ea360f5c1dacb11f0589e5/output/AndroidManifest.xml:6:144-168
+	android:initOrder
+		ADDED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.android/build-cache/d1351202d0feea53e0ea360f5c1dacb11f0589e5/output/AndroidManifest.xml:6:169-192
+	android:name
+		ADDED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.android/build-cache/d1351202d0feea53e0ea360f5c1dacb11f0589e5/output/AndroidManifest.xml:6:79-143
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:10.0.1] /home/paranerd/.android/build-cache/fe957b760e493aef42d52ef87d547978505db3f9/output/AndroidManifest.xml:20:9-121
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:10.0.1] /home/paranerd/.android/build-cache/fe957b760e493aef42d52ef87d547978505db3f9/output/AndroidManifest.xml:20:66-119
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:10.0.1] /home/paranerd/.android/build-cache/fe957b760e493aef42d52ef87d547978505db3f9/output/AndroidManifest.xml:20:20-65

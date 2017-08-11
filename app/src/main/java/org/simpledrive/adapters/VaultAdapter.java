@@ -21,14 +21,14 @@ public class VaultAdapter extends ArrayAdapter<VaultItem> {
     private LayoutInflater layoutInflater;
     private int layout;
     private AbsListView list;
-    private AppCompatActivity e;
+    private AppCompatActivity ctx;
 
     public VaultAdapter (AppCompatActivity mActivity, int textViewResourceId, AbsListView list) {
         super(mActivity, textViewResourceId);
 
         this.layoutInflater = LayoutInflater.from(mActivity);
         this.layout = textViewResourceId;
-        this.e = mActivity;
+        this.ctx = mActivity;
         this.list = list;
     }
 
@@ -60,14 +60,14 @@ public class VaultAdapter extends ArrayAdapter<VaultItem> {
         }
         else {
             if (item.getLogoBmp() == null) {
-                item.setLogoBmp(Util.getDrawableByName(e, "logo_" + item.getLogo(), 0));
+                item.setLogoBmp(Util.getDrawableByName(ctx, "logo_" + item.getLogo(), 0));
             }
             holder.icon.setVisibility(View.GONE);
             holder.thumb.setVisibility(View.VISIBLE);
         }
 
         if (item.getIcon() == null) {
-            item.setIcon(Util.getIconByName(e, item.getType(), R.drawable.ic_lock));
+            item.setIcon(Util.getIconByName(ctx, item.getType(), R.drawable.ic_lock));
         }
 
         if (list.isItemChecked(position)) {
@@ -75,12 +75,12 @@ public class VaultAdapter extends ArrayAdapter<VaultItem> {
         }
         else {
             holder.checked.setVisibility(View.INVISIBLE);
-            holder.checked.setBackgroundColor(ContextCompat.getColor(e, R.color.transparent));
+            holder.checked.setBackgroundColor(ContextCompat.getColor(ctx, R.color.transparent));
         }
 
         holder.title.setText(item.getTitle());
-        holder.detail1.setText(item.getType());
-        holder.detail2.setText("");
+        holder.detail1.setText(item.getCategory());
+        holder.detail2.setText(Util.timestampToDate(ctx, item.getEdit()));
         holder.icon.setImageDrawable(item.getIcon());
         holder.thumb.setImageBitmap(item.getLogoBmp());
         holder.icon_area.setOnClickListener(new View.OnClickListener() {

@@ -3,6 +3,15 @@
 
     <item
         is-multidex="true"
+        jar="/home/paranerd/.android/build-cache/fe957b760e493aef42d52ef87d547978505db3f9/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="756f6297eef79784f5e356dcd4f39865028b2bd0">
+        <dex dex="/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_c11a7df93195e38bbb805ee557a50522012ba568/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/home/paranerd/Development/simpledrive_android/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
@@ -12,11 +21,65 @@
     </item>
     <item
         is-multidex="true"
+        jar="/home/paranerd/.android/build-cache/2507d0da68fd175ca39ce35a849ff7103cadc731/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="6addaba208e21c6da776d0ca75b6b23a6ccd5499">
+        <dex dex="/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_59f5634e7b295b69069f3141634550cd947dc193/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/paranerd/.android/build-cache/e3e52caed89b2ce73b5052273da9871d90f46fea/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="4b17463c814bdc562fb0392fa3494063623a0904">
+        <dex dex="/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_9697601a06d3f6e44b2fadc1168a6394a82bcbed/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="486371f97baad8e607f332f20fee1d3dd00a731a">
+        <dex dex="/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_93158adb5164dbeacf43c490167f82c9066f2daf/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/paranerd/.android/build-cache/d1351202d0feea53e0ea360f5c1dacb11f0589e5/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="eb0d830e3eabb9deb9ec44869cf7ac7ea1ad794c">
+        <dex dex="/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_e64b884b0d7222202b619272e71a67d722830321/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="433f4d6aa5f21f19552afe0e6c5eff0fedba73ad">
+        <dex dex="/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_f9bedaffe8fdcf7430efc7394e00d2b6de52ebde/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/paranerd/.android/build-cache/5dda58e8823b0ce7344db482502a6ea897ab2521/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="6116e0e7069de7fc259aac8e08b84f32c2038231">
+        <dex dex="/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_514944afddf502255fe754390e5c8fa3977ebc9e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/home/paranerd/Development/simpledrive_android/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="af3e4279f5920c1bbae549119ff07fddf9498baf">
+        sha1="2da5a7ebe5feaee82b0278fa85b44f9fe66e0eb7">
         <dex dex="/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_f7e59204bba1841e13326dcbffe1c21a393491dc/classes.dex" />
     </item>
 

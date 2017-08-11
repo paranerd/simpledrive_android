@@ -1,7 +1,6 @@
 package org.simpledrive.activities;
 
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -26,6 +25,7 @@ import org.json.JSONObject;
 import org.simpledrive.R;
 import org.simpledrive.adapters.LogAdapter;
 import org.simpledrive.helper.Connection;
+import org.simpledrive.helper.SharedPrefManager;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.LogItem;
 
@@ -49,9 +49,7 @@ public class ServerLog extends AppCompatActivity {
 
         e = this;
 
-        SharedPreferences settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
-
-        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         setContentView(R.layout.activity_log);

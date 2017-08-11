@@ -997,10 +997,8 @@ android.support.v4.app.NotificationCompat$BigTextStyle:
     1885:1887:public NotificationCompat$BigTextStyle(android.support.v4.app.NotificationCompat$Builder)
     1894:1895:public android.support.v4.app.NotificationCompat$BigTextStyle setBigContentTitle(java.lang.CharSequence)
     1902:1904:public android.support.v4.app.NotificationCompat$BigTextStyle setSummaryText(java.lang.CharSequence)
-    1912:1913:public android.support.v4.app.NotificationCompat$BigTextStyle bigText(java.lang.CharSequence)
 android.support.v4.app.NotificationCompat$Builder:
     private static final int MAX_CHARSEQUENCE_LENGTH
-    1059:1060:public android.support.v4.app.NotificationCompat$Builder setWhen(long)
     1068:1069:public android.support.v4.app.NotificationCompat$Builder setShowWhen(boolean)
     1084:1085:public android.support.v4.app.NotificationCompat$Builder setUsesChronometer(boolean)
     1111:1113:public android.support.v4.app.NotificationCompat$Builder setSmallIcon(int,int)
@@ -1008,21 +1006,14 @@ android.support.v4.app.NotificationCompat$Builder:
     1161:1162:public android.support.v4.app.NotificationCompat$Builder setRemoteInputHistory(java.lang.CharSequence[])
     1171:1172:public android.support.v4.app.NotificationCompat$Builder setNumber(int)
     1179:1180:public android.support.v4.app.NotificationCompat$Builder setContentInfo(java.lang.CharSequence)
-    1223:1224:public android.support.v4.app.NotificationCompat$Builder setDeleteIntent(android.app.PendingIntent)
     1246:1248:public android.support.v4.app.NotificationCompat$Builder setFullScreenIntent(android.app.PendingIntent,boolean)
-    1256:1257:public android.support.v4.app.NotificationCompat$Builder setTicker(java.lang.CharSequence)
     1266:1268:public android.support.v4.app.NotificationCompat$Builder setTicker(java.lang.CharSequence,android.widget.RemoteViews)
-    1275:1276:public android.support.v4.app.NotificationCompat$Builder setLargeIcon(android.graphics.Bitmap)
-    1288:1290:public android.support.v4.app.NotificationCompat$Builder setSound(android.net.Uri)
     1305:1307:public android.support.v4.app.NotificationCompat$Builder setSound(android.net.Uri,int)
     1322:1323:public android.support.v4.app.NotificationCompat$Builder setVibrate(long[])
     1332:1338:public android.support.v4.app.NotificationCompat$Builder setLights(int,int,int)
     1362:1363:public android.support.v4.app.NotificationCompat$Builder setOnlyAlertOnce(boolean)
-    1373:1374:public android.support.v4.app.NotificationCompat$Builder setAutoCancel(boolean)
     1384:1385:public android.support.v4.app.NotificationCompat$Builder setLocalOnly(boolean)
     1396:1397:public android.support.v4.app.NotificationCompat$Builder setCategory(java.lang.String)
-    1411:1415:public android.support.v4.app.NotificationCompat$Builder setDefaults(int)
-    1444:1445:public android.support.v4.app.NotificationCompat$Builder setPriority(int)
     1471:1472:public android.support.v4.app.NotificationCompat$Builder addPerson(java.lang.String)
     1487:1488:public android.support.v4.app.NotificationCompat$Builder setGroup(java.lang.String)
     1499:1500:public android.support.v4.app.NotificationCompat$Builder setGroupSummary(boolean)
@@ -1032,7 +1023,6 @@ android.support.v4.app.NotificationCompat$Builder:
     1566:1569:public android.os.Bundle getExtras()
     1589:1590:public android.support.v4.app.NotificationCompat$Builder addAction(int,java.lang.CharSequence,android.app.PendingIntent)
     1608:1609:public android.support.v4.app.NotificationCompat$Builder addAction(android.support.v4.app.NotificationCompat$Action)
-    1621:1627:public android.support.v4.app.NotificationCompat$Builder setStyle(android.support.v4.app.NotificationCompat$Style)
     1650:1651:public android.support.v4.app.NotificationCompat$Builder setVisibility(int)
     1663:1664:public android.support.v4.app.NotificationCompat$Builder setPublicVersion(android.app.Notification)
     1674:1675:public android.support.v4.app.NotificationCompat$Builder setCustomContentView(android.widget.RemoteViews)
@@ -1124,8 +1114,6 @@ android.support.v4.app.NotificationCompat$NotificationCompatImplKitKat:
     739:739:public boolean isGroupSummary(android.app.Notification)
     744:744:public java.lang.String getSortKey(android.app.Notification)
 android.support.v4.app.NotificationCompat$Style:
-    android.support.v4.app.NotificationCompat$Builder mBuilder
-    1759:1765:public void setBuilder(android.support.v4.app.NotificationCompat$Builder)
     1768:1772:public android.app.Notification build()
     1787:1787:protected void restoreFromCompatExtras(android.os.Bundle)
 android.support.v4.app.NotificationCompat$WearableExtender
@@ -1379,7 +1367,6 @@ android.support.v4.content.ContextCompat:
     478:488:private static synchronized java.io.File createFilesDir(java.io.File)
     523:526:public static android.content.Context createDeviceProtectedStorageContext(android.content.Context)
     538:538:public static android.content.Context createDeviceEncryptedStorageContext(android.content.Context)
-    548:551:public static boolean isDeviceProtectedStorage(android.content.Context)
     562:562:public static boolean isDeviceEncryptedStorage(android.content.Context)
 android.support.v4.content.ContextCompatApi21:
     24:24:ContextCompatApi21()
@@ -1387,7 +1374,10 @@ android.support.v4.content.ContextCompatApi21:
     34:34:public static java.io.File getCodeCacheDir(android.content.Context)
 android.support.v4.content.ContextCompatApi23:
     25:25:ContextCompatApi23()
-android.support.v4.content.ContextCompatApi24
+android.support.v4.content.ContextCompatApi24:
+    23:23:ContextCompatApi24()
+    25:25:public static java.io.File getDataDir(android.content.Context)
+    29:29:public static android.content.Context createDeviceProtectedStorageContext(android.content.Context)
 android.support.v4.content.ContextCompatHoneycomb:
     27:27:ContextCompatHoneycomb()
     34:34:public static java.io.File getObbDir(android.content.Context)
@@ -1475,7 +1465,8 @@ android.support.v4.content.PermissionChecker$PermissionResult
 android.support.v4.content.SharedPreferencesCompat
 android.support.v4.content.SharedPreferencesCompat$EditorCompat
 android.support.v4.content.SharedPreferencesCompat$EditorCompat$Helper
-android.support.v4.content.WakefulBroadcastReceiver
+android.support.v4.content.WakefulBroadcastReceiver:
+    private static final java.lang.String EXTRA_WAKE_LOCK_ID
 android.support.v4.content.pm.ActivityInfoCompat
 android.support.v4.content.res.ConfigurationHelper:
     42:42:private ConfigurationHelper()
@@ -5228,6 +5219,648 @@ android.support.v7.widget.helper.ItemTouchUIUtilImpl$Gingerbread
 android.support.v7.widget.helper.ItemTouchUIUtilImpl$Honeycomb
 android.support.v7.widget.helper.ItemTouchUIUtilImpl$Lollipop
 android.support.v7.widget.util.SortedListAdapterCallback
+com.google.android.gms.R:
+    9:9:public R()
+com.google.android.gms.R$id
+com.google.android.gms.R$integer
+com.google.android.gms.R$string:
+    24:24:public R$string()
+com.google.android.gms.actions.ItemListIntents
+com.google.android.gms.actions.NoteIntents
+com.google.android.gms.actions.ReserveIntents
+com.google.android.gms.actions.SearchIntents
+com.google.android.gms.ads.identifier.AdvertisingIdClient:
+    public AdvertisingIdClient(android.content.Context)
+    public void start()
+com.google.android.gms.common.AccountPicker
+com.google.android.gms.common.ConnectionResult:
+    public static final int SUCCESS
+    public static final int SERVICE_MISSING
+    public static final int SERVICE_VERSION_UPDATE_REQUIRED
+    public static final int SERVICE_DISABLED
+    public static final int SIGN_IN_REQUIRED
+    public static final int INVALID_ACCOUNT
+    public static final int RESOLUTION_REQUIRED
+    public static final int NETWORK_ERROR
+    public static final int INTERNAL_ERROR
+    public static final int SERVICE_INVALID
+    public static final int DEVELOPER_ERROR
+    public static final int LICENSE_CHECK_FAILED
+    public static final int CANCELED
+    public static final int TIMEOUT
+    public static final int INTERRUPTED
+    public static final int API_UNAVAILABLE
+    public static final int SIGN_IN_FAILED
+    public static final int SERVICE_UPDATING
+    public static final int SERVICE_MISSING_PERMISSION
+    public static final int RESTRICTED_PROFILE
+    public static final int DRIVE_EXTERNAL_STORAGE_REQUIRED
+    public void startResolutionForResult(android.app.Activity,int)
+    public boolean hasResolution()
+com.google.android.gms.common.GooglePlayServicesRepairableException:
+    private final int zzahH
+    GooglePlayServicesRepairableException(int,java.lang.String,android.content.Intent)
+    public int getConnectionStatusCode()
+com.google.android.gms.common.Scopes
+com.google.android.gms.common.UserRecoverableException:
+    private final android.content.Intent mIntent
+    public UserRecoverableException(java.lang.String,android.content.Intent)
+    public android.content.Intent getIntent()
+com.google.android.gms.common.api.CommonStatusCodes:
+    public static final int SUCCESS_CACHE
+    public static final int SUCCESS
+    public static final int SERVICE_VERSION_UPDATE_REQUIRED
+    public static final int SERVICE_DISABLED
+    public static final int SIGN_IN_REQUIRED
+    public static final int INVALID_ACCOUNT
+    public static final int RESOLUTION_REQUIRED
+    public static final int NETWORK_ERROR
+    public static final int INTERNAL_ERROR
+    public static final int DEVELOPER_ERROR
+    public static final int ERROR
+    public static final int INTERRUPTED
+    public static final int TIMEOUT
+    public static final int CANCELED
+    public static final int API_NOT_CONNECTED
+    public static final int DEAD_CLIENT
+    protected CommonStatusCodes()
+com.google.android.gms.common.api.Releasable
+com.google.android.gms.common.api.ResolvingResultCallbacks
+com.google.android.gms.common.api.Result
+com.google.android.gms.common.api.ResultCallback
+com.google.android.gms.common.api.ResultCallbacks
+com.google.android.gms.common.api.Scope:
+    public Scope(java.lang.String)
+com.google.android.gms.common.api.Status:
+    public Status(int,java.lang.String,android.app.PendingIntent)
+    public void startResolutionForResult(android.app.Activity,int)
+    public boolean hasResolution()
+    public boolean isCanceled()
+    public boolean isInterrupted()
+    public android.app.PendingIntent getResolution()
+    public com.google.android.gms.common.api.Status getStatus()
+com.google.android.gms.common.api.zza
+com.google.android.gms.common.api.zzd
+com.google.android.gms.common.api.zze
+com.google.android.gms.common.internal.BinderWrapper
+com.google.android.gms.common.internal.BinderWrapper$1
+com.google.android.gms.common.internal.DowngradeableSafeParcel
+com.google.android.gms.common.internal.safeparcel.zzb:
+    public static java.lang.Boolean zzd(android.os.Parcel,int)
+    public static byte zze(android.os.Parcel,int)
+    public static short zzf(android.os.Parcel,int)
+    public static java.lang.Integer zzh(android.os.Parcel,int)
+    public static java.math.BigInteger zzk(android.os.Parcel,int)
+    public static float zzl(android.os.Parcel,int)
+    public static double zzn(android.os.Parcel,int)
+    public static java.math.BigDecimal zzp(android.os.Parcel,int)
+    public static byte[] zzt(android.os.Parcel,int)
+    public static byte[][] zzu(android.os.Parcel,int)
+    public static boolean[] zzv(android.os.Parcel,int)
+    public static int[] zzw(android.os.Parcel,int)
+    public static long[] zzx(android.os.Parcel,int)
+    public static java.math.BigInteger[] zzy(android.os.Parcel,int)
+    public static float[] zzz(android.os.Parcel,int)
+    public static double[] zzA(android.os.Parcel,int)
+    public static java.math.BigDecimal[] zzB(android.os.Parcel,int)
+    public static java.lang.String[] zzC(android.os.Parcel,int)
+    public static java.util.ArrayList zzD(android.os.Parcel,int)
+    public static java.util.ArrayList zzE(android.os.Parcel,int)
+    public static java.util.ArrayList zzc(android.os.Parcel,int,android.os.Parcelable$Creator)
+    public static android.os.Parcel zzF(android.os.Parcel,int)
+    public static android.os.Parcel[] zzG(android.os.Parcel,int)
+    public static void zza(android.os.Parcel,int,java.util.List,java.lang.ClassLoader)
+com.google.android.gms.common.internal.safeparcel.zzc:
+    public static void zza(android.os.Parcel,int,java.lang.Boolean,boolean)
+    public static void zza(android.os.Parcel,int,byte)
+    public static void zza(android.os.Parcel,int,short)
+    public static void zza(android.os.Parcel,int,java.lang.Integer,boolean)
+    public static void zza(android.os.Parcel,int,float)
+    public static void zza(android.os.Parcel,int,double)
+    public static void zza(android.os.Parcel,int,byte[],boolean)
+    public static void zza(android.os.Parcel,int,byte[][],boolean)
+    public static void zza(android.os.Parcel,int,boolean[],boolean)
+    public static void zza(android.os.Parcel,int,int[],boolean)
+    public static void zza(android.os.Parcel,int,long[],boolean)
+    public static void zza(android.os.Parcel,int,float[],boolean)
+    public static void zza(android.os.Parcel,int,java.lang.String[],boolean)
+    public static void zza(android.os.Parcel,int,java.util.List,boolean)
+    public static void zzb(android.os.Parcel,int,java.util.List,boolean)
+    public static void zzc(android.os.Parcel,int,java.util.List,boolean)
+    public static void zza(android.os.Parcel,int,android.os.Parcel,boolean)
+    public static void zzd(android.os.Parcel,int,java.util.List,boolean)
+com.google.android.gms.common.internal.safeparcel.zzd
+com.google.android.gms.common.internal.zzac:
+    public static int zza(int,java.lang.Object)
+    public static int zzcR(int)
+    public static long zza(long,java.lang.Object)
+    public static varargs void zza(boolean,java.lang.String,java.lang.Object[])
+    public static varargs void zzb(boolean,java.lang.String,java.lang.Object[])
+    public static void zzxx()
+    public static void zza(android.os.Handler)
+com.google.android.gms.common.internal.zzap
+com.google.android.gms.common.internal.zzc
+com.google.android.gms.common.internal.zzf:
+    public void disconnect()
+    public void zza(com.google.android.gms.common.internal.zzf$zzf,com.google.android.gms.common.ConnectionResult)
+    public final android.content.Context getContext()
+    public final android.os.Looper getLooper()
+    public boolean zzuI()
+    public boolean zzqS()
+    public android.content.Intent zzqT()
+    public void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[])
+    public android.os.IBinder zzuJ()
+com.google.android.gms.common.internal.zzn:
+    public abstract boolean zza(android.content.ComponentName,android.content.ServiceConnection,java.lang.String)
+    public abstract void zzb(android.content.ComponentName,android.content.ServiceConnection,java.lang.String)
+com.google.android.gms.common.internal.zzo:
+    public boolean zza(android.content.ComponentName,android.content.ServiceConnection,java.lang.String)
+    public void zzb(android.content.ComponentName,android.content.ServiceConnection,java.lang.String)
+com.google.android.gms.common.internal.zzo$zza:
+    public zzo$zza(android.content.ComponentName)
+com.google.android.gms.common.internal.zzp
+com.google.android.gms.common.internal.zzq
+com.google.android.gms.common.internal.zzs
+com.google.android.gms.common.internal.zzs$zza
+com.google.android.gms.common.internal.zzs$zza$zza
+com.google.android.gms.common.stats.StatsEvent
+com.google.android.gms.common.stats.WakeLockEvent
+com.google.android.gms.common.stats.zze
+com.google.android.gms.common.stats.zzf
+com.google.android.gms.common.stats.zzg
+com.google.android.gms.common.util.zza
+com.google.android.gms.common.util.zzb
+com.google.android.gms.common.util.zzc
+com.google.android.gms.common.util.zzd:
+    public static int zzv(android.content.Context,java.lang.String)
+    public static int zza(android.content.pm.PackageInfo)
+    public static android.content.pm.PackageInfo zzw(android.content.Context,java.lang.String)
+com.google.android.gms.common.util.zzf:
+    public static java.util.List zzc(java.lang.Object,java.lang.Object)
+    public static java.util.Set zzyt()
+    public static java.util.Set zzy(java.lang.Object)
+    public static java.util.Set zzd(java.lang.Object,java.lang.Object)
+    public static java.util.Set zza(java.lang.Object,java.lang.Object,java.lang.Object)
+    public static java.util.Set zza(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+    public static varargs java.util.Set zzc(java.lang.Object[])
+    public static java.util.Map zza(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+com.google.android.gms.common.util.zzg
+com.google.android.gms.common.util.zzi:
+    private static java.lang.Boolean zzaGL
+    private static java.lang.Boolean zzaGM
+    private static java.lang.Boolean zzaGO
+    public static boolean zzb(android.content.res.Resources)
+    private static boolean zzc(android.content.res.Resources)
+    public static boolean zzaK(android.content.Context)
+com.google.android.gms.common.util.zzj
+com.google.android.gms.common.util.zzk
+com.google.android.gms.common.util.zzn
+com.google.android.gms.common.util.zzo:
+    public static void zza(android.os.ParcelFileDescriptor)
+    public static long zza(java.io.InputStream,java.io.OutputStream)
+    public static long zza(java.io.InputStream,java.io.OutputStream,boolean)
+    public static long zza(java.io.InputStream,java.io.OutputStream,boolean,int)
+    public static byte[] zzk(java.io.InputStream)
+    public static byte[] zza(java.io.InputStream,boolean)
+com.google.android.gms.common.util.zzp
+com.google.android.gms.common.util.zzq
+com.google.android.gms.common.util.zzr
+com.google.android.gms.common.util.zzs:
+    public static boolean zzyx()
+    public static boolean zzyz()
+    public static boolean zzyB()
+    public static boolean zzyC()
+    public static boolean zzyD()
+    public static boolean zzyJ()
+com.google.android.gms.common.util.zzu
+com.google.android.gms.common.util.zzy
+com.google.android.gms.common.zza:
+    public android.os.IBinder zzuy()
+com.google.android.gms.common.zzc:
+    public static final java.lang.String GOOGLE_PLAY_SERVICES_PACKAGE
+    public void zzam(android.content.Context)
+    public boolean isUserResolvableError(int)
+    public android.content.Intent zzcr(int)
+    public android.content.Intent zzb(android.content.Context,int,java.lang.String)
+    public android.app.PendingIntent getErrorResolutionPendingIntent(android.content.Context,int,int)
+    public android.app.PendingIntent zza(android.content.Context,int,int,java.lang.String)
+    public void zzan(android.content.Context)
+    public java.lang.String getOpenSourceSoftwareLicenseInfo(android.content.Context)
+    public int zzak(android.content.Context)
+    public boolean zzd(android.content.Context,int)
+    public boolean zzs(android.content.Context,java.lang.String)
+    public java.lang.String getErrorString(int)
+    static java.lang.String zzt(android.content.Context,java.lang.String)
+com.google.android.gms.common.zze:
+    public static final java.lang.String GOOGLE_PLAY_SERVICES_PACKAGE
+    public static final java.lang.String GOOGLE_PLAY_STORE_PACKAGE
+    zze()
+    public static java.lang.String getErrorString(int)
+    public static void zzZ(android.content.Context)
+    public static android.app.PendingIntent getErrorPendingIntent(int,android.content.Context,int)
+    public static void zzan(android.content.Context)
+    public static boolean isUserRecoverableError(int)
+    public static java.lang.String getOpenSourceSoftwareLicenseInfo(android.content.Context)
+    public static android.content.res.Resources getRemoteResource(android.content.Context)
+    public static int zzak(android.content.Context)
+    public static boolean zze(android.content.Context,int)
+com.google.android.gms.dynamic.LifecycleDelegate
+com.google.android.gms.dynamic.zzb
+com.google.android.gms.dynamic.zzc
+com.google.android.gms.dynamic.zzc$zza
+com.google.android.gms.dynamic.zzc$zza$zza
+com.google.android.gms.dynamic.zzf
+com.google.android.gms.dynamic.zzg
+com.google.android.gms.dynamic.zzg$zza
+com.google.android.gms.dynamic.zzh
+com.google.android.gms.dynamite.DynamiteModule:
+    public static int zzB(android.content.Context,java.lang.String)
+    public android.content.Context zzBd()
+com.google.android.gms.internal.zza
+com.google.android.gms.internal.zzaa
+com.google.android.gms.internal.zzaav
+com.google.android.gms.internal.zzaaw
+com.google.android.gms.internal.zzaax
+com.google.android.gms.internal.zzaay
+com.google.android.gms.internal.zzaay$1
+com.google.android.gms.internal.zzab
+com.google.android.gms.internal.zzabk
+com.google.android.gms.internal.zzabm
+com.google.android.gms.internal.zzabm$1
+com.google.android.gms.internal.zzabs:
+    public static com.google.android.gms.internal.zzabs zza(java.lang.String,java.lang.Float)
+com.google.android.gms.internal.zzabs$4
+com.google.android.gms.internal.zzabs$zza:
+    public abstract java.lang.Float zzb(java.lang.String,java.lang.Float)
+com.google.android.gms.internal.zzac
+com.google.android.gms.internal.zzace
+com.google.android.gms.internal.zzact
+com.google.android.gms.internal.zzacu
+com.google.android.gms.internal.zzacv
+com.google.android.gms.internal.zzacw:
+    public int checkPermission(java.lang.String,java.lang.String)
+    public java.lang.CharSequence zzdE(java.lang.String)
+com.google.android.gms.internal.zzad
+com.google.android.gms.internal.zzad$zza
+com.google.android.gms.internal.zzad$zzb
+com.google.android.gms.internal.zzad$zzc
+com.google.android.gms.internal.zzae
+com.google.android.gms.internal.zzae$zza
+com.google.android.gms.internal.zzaf
+com.google.android.gms.internal.zzaf$zza
+com.google.android.gms.internal.zzaf$zza$zza
+com.google.android.gms.internal.zzaf$zza$zzb
+com.google.android.gms.internal.zzaf$zzb
+com.google.android.gms.internal.zzaf$zzc
+com.google.android.gms.internal.zzaf$zzd
+com.google.android.gms.internal.zzaf$zze
+com.google.android.gms.internal.zzaf$zzf
+com.google.android.gms.internal.zzag
+com.google.android.gms.internal.zzah
+com.google.android.gms.internal.zzapn
+com.google.android.gms.internal.zzapn$1
+com.google.android.gms.internal.zzapn$zza
+com.google.android.gms.internal.zzapn$zzb
+com.google.android.gms.internal.zzapn$zzc
+com.google.android.gms.internal.zzapn$zzd
+com.google.android.gms.internal.zzapo
+com.google.android.gms.internal.zzapp
+com.google.android.gms.internal.zzapr
+com.google.android.gms.internal.zzatp:
+    public com.google.firebase.analytics.FirebaseAnalytics zzLx()
+com.google.android.gms.internal.zzatu:
+    public void setMeasurementEnabled(boolean)
+    public void setMinimumSessionDuration(long)
+    public void setSessionTimeoutDuration(long)
+    public void zza(java.lang.String,java.lang.String,android.os.Bundle,boolean)
+    public void zzd(java.lang.String,java.lang.String,android.os.Bundle,long)
+    public java.util.List zzaI(boolean)
+    public void zza(com.google.android.gms.measurement.AppMeasurement$zzb)
+    public void zza(com.google.android.gms.measurement.AppMeasurement$zzc)
+com.google.android.gms.internal.zzatu$1:
+    zzatu$1(com.google.android.gms.internal.zzatu,boolean)
+com.google.android.gms.internal.zzatu$2
+com.google.android.gms.internal.zzatu$3
+com.google.android.gms.internal.zzatu$6
+com.google.android.gms.internal.zzatv:
+    public void setCurrentScreen(android.app.Activity,java.lang.String,java.lang.String)
+com.google.android.gms.internal.zzatw:
+    protected void zza(java.util.concurrent.atomic.AtomicReference,boolean)
+com.google.android.gms.internal.zzatw$6
+com.google.android.gms.internal.zzaue:
+    public int zzfX(java.lang.String)
+    public int zzfZ(java.lang.String)
+com.google.android.gms.internal.zzawa
+com.google.android.gms.internal.zzawb
+com.google.android.gms.internal.zzawc
+com.google.android.gms.internal.zzawc$zza
+com.google.android.gms.internal.zzawd
+com.google.android.gms.internal.zzayd
+com.google.android.gms.internal.zzb
+com.google.android.gms.internal.zzb$zza
+com.google.android.gms.internal.zzbii
+com.google.android.gms.internal.zzbii$1
+com.google.android.gms.internal.zzbqj:
+    public static com.google.android.gms.internal.zzbqj zzaan()
+    public boolean zzaao()
+com.google.android.gms.internal.zzbqk:
+    public static com.google.android.gms.internal.zzbqk zzaap()
+    public java.util.Set zzaaq()
+    public com.google.firebase.FirebaseOptions zzjD(java.lang.String)
+com.google.android.gms.internal.zzbql
+com.google.android.gms.internal.zzbqm
+com.google.android.gms.internal.zzbqn
+com.google.android.gms.internal.zzbul:
+    public long zzacz()
+    public void zza(com.google.android.gms.internal.zzbut,int)
+    public byte[] readBytes()
+    public int zzacB()
+    public long zzacC()
+    public static int zzqi(int)
+    public static long zzaV(long)
+    public byte[] zzE(int,int)
+com.google.android.gms.internal.zzbum:
+    public void zzc(int,long)
+    public void zzb(int,byte[])
+    public void zzG(int,int)
+    public void zzd(int,long)
+    public void zzaY(long)
+    public void zzb(com.google.android.gms.internal.zzbut)
+    public void zzaf(byte[])
+    public void zzqo(int)
+    public void zzaZ(long)
+    public static int zze(int,long)
+    public static int zzg(int,long)
+    public static int zzb(int,com.google.android.gms.internal.zzbut)
+    public static int zzc(int,byte[])
+    public static int zzI(int,int)
+    public static int zzh(int,long)
+    public static int zzd(com.google.android.gms.internal.zzbut)
+    public static int zzag(byte[])
+    public static int zzqq(int)
+    public static int zzbc(long)
+    public void zzah(byte[])
+    public void zzd(byte[],int,int)
+    public static int zzqw(int)
+    public static long zzbg(long)
+com.google.android.gms.internal.zzbun
+com.google.android.gms.internal.zzbuo
+com.google.android.gms.internal.zzbup
+com.google.android.gms.internal.zzbuq
+com.google.android.gms.internal.zzbur:
+    public static boolean equals(int[],int[])
+    public static boolean equals(float[],float[])
+    public static boolean zza(byte[][],byte[][])
+    public static int hashCode(int[])
+    public static int hashCode(float[])
+    public static int zzb(byte[][])
+    public static void zza(com.google.android.gms.internal.zzbun,com.google.android.gms.internal.zzbun)
+com.google.android.gms.internal.zzbut:
+    public static final byte[] zzf(com.google.android.gms.internal.zzbut)
+    public static final void zza(com.google.android.gms.internal.zzbut,byte[],int,int)
+    public static final com.google.android.gms.internal.zzbut zza(com.google.android.gms.internal.zzbut,byte[])
+    public static final com.google.android.gms.internal.zzbut zzb(com.google.android.gms.internal.zzbut,byte[],int,int)
+com.google.android.gms.internal.zzbuv
+com.google.android.gms.internal.zzc
+com.google.android.gms.internal.zzc$1
+com.google.android.gms.internal.zzd
+com.google.android.gms.internal.zze
+com.google.android.gms.internal.zze$1
+com.google.android.gms.internal.zze$zza
+com.google.android.gms.internal.zzf
+com.google.android.gms.internal.zzg
+com.google.android.gms.internal.zzh
+com.google.android.gms.internal.zzi
+com.google.android.gms.internal.zzj
+com.google.android.gms.internal.zzk
+com.google.android.gms.internal.zzk$1
+com.google.android.gms.internal.zzk$zza
+com.google.android.gms.internal.zzl
+com.google.android.gms.internal.zzm
+com.google.android.gms.internal.zzm$zza
+com.google.android.gms.internal.zzm$zzb
+com.google.android.gms.internal.zzn
+com.google.android.gms.internal.zzo
+com.google.android.gms.internal.zzp
+com.google.android.gms.internal.zzq
+com.google.android.gms.internal.zzr
+com.google.android.gms.internal.zzs
+com.google.android.gms.internal.zzs$zza
+com.google.android.gms.internal.zzs$zza$zza
+com.google.android.gms.internal.zzt
+com.google.android.gms.internal.zzu
+com.google.android.gms.internal.zzu$1
+com.google.android.gms.internal.zzv
+com.google.android.gms.internal.zzv$1
+com.google.android.gms.internal.zzv$zza
+com.google.android.gms.internal.zzv$zzb
+com.google.android.gms.internal.zzw:
+    protected final org.apache.http.client.HttpClient zzaC
+    public zzw(org.apache.http.client.HttpClient)
+    private static void zza(org.apache.http.client.methods.HttpUriRequest,java.util.Map)
+    public org.apache.http.HttpResponse zza(com.google.android.gms.internal.zzk,java.util.Map)
+    static org.apache.http.client.methods.HttpUriRequest zzb(com.google.android.gms.internal.zzk,java.util.Map)
+    private static void zza(org.apache.http.client.methods.HttpEntityEnclosingRequestBase,com.google.android.gms.internal.zzk)
+com.google.android.gms.internal.zzw$zza:
+    public zzw$zza(java.lang.String)
+com.google.android.gms.internal.zzx
+com.google.android.gms.internal.zzy
+com.google.android.gms.internal.zzz
+com.google.android.gms.internal.zzz$zza
+com.google.android.gms.location.places.PlaceReport
+com.google.android.gms.location.places.zzl
+com.google.android.gms.measurement.AppMeasurement:
+    public void logEvent(java.lang.String,android.os.Bundle)
+    public void setUserProperty(java.lang.String,java.lang.String)
+    public void setMeasurementEnabled(boolean)
+    public void setUserId(java.lang.String)
+    public void setMinimumSessionDuration(long)
+    public void setSessionTimeoutDuration(long)
+    public void zza(java.lang.String,java.lang.String,android.os.Bundle,long)
+    public java.util.Map zzaE(boolean)
+    public void zza(com.google.android.gms.measurement.AppMeasurement$zzb)
+    public void zza(com.google.android.gms.measurement.AppMeasurement$zzc)
+com.google.android.gms.measurement.AppMeasurementContentProvider
+com.google.android.gms.measurement.R
+com.google.android.gms.measurement.impl.R
+com.google.android.gms.security.ProviderInstaller
+com.google.android.gms.security.ProviderInstaller$1
+com.google.android.gms.security.ProviderInstaller$ProviderInstallListener
+com.google.android.gms.tasks.Continuation
+com.google.android.gms.tasks.OnCompleteListener
+com.google.android.gms.tasks.OnFailureListener
+com.google.android.gms.tasks.OnSuccessListener
+com.google.android.gms.tasks.R
+com.google.android.gms.tasks.RuntimeExecutionException
+com.google.android.gms.tasks.Task
+com.google.android.gms.tasks.TaskCompletionSource
+com.google.android.gms.tasks.TaskExecutors
+com.google.android.gms.tasks.TaskExecutors$1
+com.google.android.gms.tasks.TaskExecutors$zza
+com.google.android.gms.tasks.Tasks
+com.google.android.gms.tasks.Tasks$1
+com.google.android.gms.tasks.Tasks$zza
+com.google.android.gms.tasks.Tasks$zzb
+com.google.android.gms.tasks.Tasks$zzc
+com.google.android.gms.tasks.zza
+com.google.android.gms.tasks.zza$1
+com.google.android.gms.tasks.zzb
+com.google.android.gms.tasks.zzb$1
+com.google.android.gms.tasks.zzc
+com.google.android.gms.tasks.zzc$1
+com.google.android.gms.tasks.zzd
+com.google.android.gms.tasks.zzd$1
+com.google.android.gms.tasks.zze
+com.google.android.gms.tasks.zze$1
+com.google.android.gms.tasks.zzf
+com.google.android.gms.tasks.zzg
+com.google.android.gms.tasks.zzh
+com.google.android.gms.tasks.zzh$zza
+com.google.firebase.FirebaseApiNotAvailableException
+com.google.firebase.FirebaseApp:
+    public static final java.lang.String DEFAULT_APP_NAME
+    private com.google.android.gms.internal.zzbql zzbUJ
+    public static java.util.List getApps(android.content.Context)
+    public static com.google.firebase.FirebaseApp getInstance(java.lang.String)
+    public void zza(com.google.android.gms.internal.zzbql)
+    public com.google.android.gms.tasks.Task getToken(boolean)
+    public void setAutomaticResourceManagementEnabled(boolean)
+    public void zza(com.google.android.gms.internal.zzbqm)
+    public void zza(com.google.firebase.FirebaseApp$zza)
+    public void zza(com.google.firebase.FirebaseApp$zzb)
+    public java.lang.String zzTu()
+    private static java.util.List zzTv()
+com.google.firebase.FirebaseApp$zza
+com.google.firebase.FirebaseException
+com.google.firebase.FirebaseNetworkException
+com.google.firebase.FirebaseOptions:
+    public java.lang.String getApiKey()
+    public java.lang.String getDatabaseUrl()
+    public java.lang.String getStorageBucket()
+    static synthetic java.lang.String zza(com.google.firebase.FirebaseOptions)
+    static synthetic java.lang.String zzb(com.google.firebase.FirebaseOptions)
+    static synthetic java.lang.String zzc(com.google.firebase.FirebaseOptions)
+    static synthetic java.lang.String zzd(com.google.firebase.FirebaseOptions)
+    static synthetic java.lang.String zze(com.google.firebase.FirebaseOptions)
+    static synthetic java.lang.String zzf(com.google.firebase.FirebaseOptions)
+    synthetic FirebaseOptions(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.google.firebase.FirebaseOptions$1)
+com.google.firebase.FirebaseOptions$1
+com.google.firebase.FirebaseOptions$Builder
+com.google.firebase.FirebaseTooManyRequestsException
+com.google.firebase.R
+com.google.firebase.analytics.FirebaseAnalytics:
+    public static com.google.firebase.analytics.FirebaseAnalytics getInstance(android.content.Context)
+    public void logEvent(java.lang.String,android.os.Bundle)
+    public void setUserProperty(java.lang.String,java.lang.String)
+    public void setCurrentScreen(android.app.Activity,java.lang.String,java.lang.String)
+    public void setAnalyticsCollectionEnabled(boolean)
+    public void setUserId(java.lang.String)
+    public void setMinimumSessionDuration(long)
+    public void setSessionTimeoutDuration(long)
+com.google.firebase.analytics.FirebaseAnalytics$Event:
+    public static final java.lang.String ADD_PAYMENT_INFO
+    public static final java.lang.String ADD_TO_CART
+    public static final java.lang.String ADD_TO_WISHLIST
+    public static final java.lang.String APP_OPEN
+    public static final java.lang.String BEGIN_CHECKOUT
+    public static final java.lang.String ECOMMERCE_PURCHASE
+    public static final java.lang.String GENERATE_LEAD
+    public static final java.lang.String JOIN_GROUP
+    public static final java.lang.String LEVEL_UP
+    public static final java.lang.String LOGIN
+    public static final java.lang.String POST_SCORE
+    public static final java.lang.String PRESENT_OFFER
+    public static final java.lang.String PURCHASE_REFUND
+    public static final java.lang.String SEARCH
+    public static final java.lang.String SELECT_CONTENT
+    public static final java.lang.String SHARE
+    public static final java.lang.String SIGN_UP
+    public static final java.lang.String SPEND_VIRTUAL_CURRENCY
+    public static final java.lang.String TUTORIAL_BEGIN
+    public static final java.lang.String TUTORIAL_COMPLETE
+    public static final java.lang.String UNLOCK_ACHIEVEMENT
+    public static final java.lang.String VIEW_ITEM
+    public static final java.lang.String VIEW_ITEM_LIST
+    public static final java.lang.String VIEW_SEARCH_RESULTS
+    public static final java.lang.String EARN_VIRTUAL_CURRENCY
+    protected FirebaseAnalytics$Event()
+com.google.firebase.analytics.FirebaseAnalytics$Param:
+    public static final java.lang.String ACHIEVEMENT_ID
+    public static final java.lang.String CHARACTER
+    public static final java.lang.String TRAVEL_CLASS
+    public static final java.lang.String CONTENT_TYPE
+    public static final java.lang.String CURRENCY
+    public static final java.lang.String COUPON
+    public static final java.lang.String START_DATE
+    public static final java.lang.String END_DATE
+    public static final java.lang.String FLIGHT_NUMBER
+    public static final java.lang.String GROUP_ID
+    public static final java.lang.String ITEM_CATEGORY
+    public static final java.lang.String ITEM_ID
+    public static final java.lang.String ITEM_LOCATION_ID
+    public static final java.lang.String ITEM_NAME
+    public static final java.lang.String LOCATION
+    public static final java.lang.String LEVEL
+    public static final java.lang.String SIGN_UP_METHOD
+    public static final java.lang.String NUMBER_OF_NIGHTS
+    public static final java.lang.String NUMBER_OF_PASSENGERS
+    public static final java.lang.String NUMBER_OF_ROOMS
+    public static final java.lang.String DESTINATION
+    public static final java.lang.String ORIGIN
+    public static final java.lang.String PRICE
+    public static final java.lang.String QUANTITY
+    public static final java.lang.String SCORE
+    public static final java.lang.String SHIPPING
+    public static final java.lang.String TRANSACTION_ID
+    public static final java.lang.String SEARCH_TERM
+    public static final java.lang.String TAX
+    public static final java.lang.String VALUE
+    public static final java.lang.String VIRTUAL_CURRENCY_NAME
+    protected FirebaseAnalytics$Param()
+com.google.firebase.analytics.FirebaseAnalytics$UserProperty:
+    public static final java.lang.String SIGN_UP_METHOD
+    protected FirebaseAnalytics$UserProperty()
+com.google.firebase.auth.FirebaseAuthException
+com.google.firebase.auth.GetTokenResult
+com.google.firebase.firebase_core.R
+com.google.firebase.iid.FirebaseInstanceId:
+    public long getCreationTime()
+    public void deleteInstanceId()
+    public void deleteToken(java.lang.String,java.lang.String)
+    public void zzju(java.lang.String)
+com.google.firebase.iid.R
+com.google.firebase.iid.zzc:
+    public java.lang.String getToken()
+com.google.firebase.iid.zzd:
+    public long getCreationTime()
+com.google.firebase.iid.zze:
+    void zzju(java.lang.String)
+com.google.firebase.iid.zzh:
+    public synchronized long zzjz(java.lang.String)
+com.google.firebase.messaging.FirebaseMessaging
+com.google.firebase.messaging.R
+com.google.firebase.messaging.RemoteMessage:
+    private com.google.firebase.messaging.RemoteMessage$Notification zzcjr
+    void zzL(android.content.Intent)
+    public java.lang.String getFrom()
+    public java.lang.String getTo()
+    public java.lang.String getCollapseKey()
+    public java.lang.String getMessageId()
+    public java.lang.String getMessageType()
+    public long getSentTime()
+    public int getTtl()
+    public com.google.firebase.messaging.RemoteMessage$Notification getNotification()
+com.google.firebase.messaging.RemoteMessage$1
+com.google.firebase.messaging.RemoteMessage$Builder
+com.google.firebase.messaging.RemoteMessage$Notification
+com.google.firebase.messaging.SendException:
+    public static final int ERROR_UNKNOWN
+    public static final int ERROR_INVALID_PARAMETERS
+    public static final int ERROR_SIZE
+    public static final int ERROR_TTL_EXCEEDED
+    public static final int ERROR_TOO_MANY_MESSAGES
+    public int getErrorCode()
+com.google.firebase.zza
 de.hdodenhof.circleimageview.BuildConfig
 de.hdodenhof.circleimageview.CircleImageView:
     private static final int COLORDRAWABLE_DIMENSION
@@ -5499,6 +6132,8 @@ org.apache.commons.io.output.ThresholdingOutputStream
 org.apache.commons.io.output.WriterOutputStream
 org.apache.commons.io.output.XmlStreamWriter
 org.simpledrive.BuildConfig
+org.simpledrive.Manifest
+org.simpledrive.Manifest$permission
 org.simpledrive.R:
     10:10:public R()
 org.simpledrive.R$anim
@@ -5518,6 +6153,8 @@ org.simpledrive.R$styleable
 org.simpledrive.R$xml
 org.simpledrive.activities.AppSettings:
     private static final int REQUEST_STORAGE
+    private static final int REQUEST_SET_PIN
+    private static final int REQUEST_ENABLE_PHOTO_SYNC
 org.simpledrive.activities.VaultWebsite:
     public static final java.lang.String COPY_USER
     public static final java.lang.String COPY_PASS
@@ -5538,10 +6175,6 @@ org.simpledrive.authenticator.CustomAuthenticator:
     private static final java.lang.String TRUE
     private static final java.lang.String FALSE
     15:15:public CustomAuthenticator()
-org.simpledrive.helper.AudioService:
-    public static final java.lang.String PLAY_CHANGED
-    public static final java.lang.String CHANGE_PLAY
-    public static final java.lang.String STOP
 org.simpledrive.helper.Crypto:
     20:20:public Crypto()
     50:58:private static java.lang.String randomString(int)
@@ -5551,6 +6184,16 @@ org.simpledrive.helper.Crypto:
 org.simpledrive.helper.DownloadManager:
     private static final int NOTIFICATION_ID
     19:19:public DownloadManager()
+org.simpledrive.helper.SharedPrefManager:
+    private static final java.lang.String SHARED_PREF_NAME
+    public static final java.lang.String TAG_FIREBASE_TOKEN
+    public static final java.lang.String TAG_LOAD_THUMB
+    public static final java.lang.String TAG_BOTTOM_TOOLBAR
+    public static final java.lang.String TAG_COLOR_THEME
+    public static final java.lang.String TAG_LIST_LAYOUT
+    public static final java.lang.String TAG_PHOTO_SYNC
+    public static final java.lang.String TAG_LAST_PHOTO_SYNC
+    50:51:public int read(java.lang.String,int)
 org.simpledrive.helper.TouchImageView:
     private static final java.lang.String DEBUG
     private static final float SUPER_MIN_MULTIPLIER
@@ -5562,14 +6205,19 @@ org.simpledrive.helper.TouchImageView:
 org.simpledrive.helper.TouchImageView$DoubleTapZoom:
     private static final float ZOOM_TIME
 org.simpledrive.helper.UploadManager:
-    21:21:public UploadManager()
+    20:20:public UploadManager()
 org.simpledrive.helper.Util:
-    43:43:public Util()
-    162:165:public static int pxToDp(int)
-    241:259:public static java.lang.String readTextFromStorage(java.lang.String)
-    263:274:public static byte[] readFromStorage(java.lang.String)
-    280:288:public static boolean writeToStorage(java.lang.String,byte[])
-    293:303:public static boolean writeTextToStorage(java.lang.String,java.lang.String)
+    49:49:public Util()
+    172:175:public static int pxToDp(int)
+    251:269:public static java.lang.String readTextFromStorage(java.lang.String)
+    273:284:public static byte[] readFromStorage(java.lang.String)
+    289:299:public static boolean writeTextToStorage(java.lang.String,java.lang.String)
+    305:313:public static boolean writeToStorage(java.lang.String,byte[])
+    425:434:public static android.graphics.Bitmap getBitmapFromURL(java.lang.String)
 org.simpledrive.models.AccountItem:
     25:25:public java.lang.String getServer()
     30:30:public java.lang.String getUser()
+org.simpledrive.services.AudioService:
+    public static final java.lang.String PLAY_CHANGED
+    public static final java.lang.String CHANGE_PLAY
+    public static final java.lang.String STOP

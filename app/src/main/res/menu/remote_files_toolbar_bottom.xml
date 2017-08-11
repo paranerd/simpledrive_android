@@ -65,6 +65,12 @@
                 app:showAsAction="ifRoom" />
 
             <item
+                android:id="@+id/unzip"
+                android:orderInCategory="300"
+                android:title="Unzip"
+                app:showAsAction="ifRoom" />
+
+            <item
                 android:id="@+id/unshare"
                 android:orderInCategory="300"
                 android:title="Unshare"

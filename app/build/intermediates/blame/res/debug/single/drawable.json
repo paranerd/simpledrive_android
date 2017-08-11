@@ -4,28 +4,28 @@
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/ic_download.xml"
     },
     {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable/abc_ic_menu_overflow_material.xml",
-        "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/drawable/abc_ic_menu_overflow_material.xml"
-    },
-    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable/ic_paste.xml",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/ic_paste.xml"
+    },
+    {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable/abc_ic_menu_overflow_material.xml",
+        "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/drawable/abc_ic_menu_overflow_material.xml"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable/ic_info.xml",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/ic_info.xml"
     },
     {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable/custom_edittext.xml",
-        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/custom_edittext.xml"
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable/ic_server.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/ic_server.xml"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable/ic_save.xml",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/ic_save.xml"
     },
     {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable/ic_server.xml",
-        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/ic_server.xml"
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable/custom_edittext.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/custom_edittext.xml"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable/abc_ic_search_api_material.xml",
@@ -100,12 +100,12 @@
         "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/drawable/abc_switch_thumb_material.xml"
     },
     {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable/abc_textfield_search_material.xml",
-        "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/drawable/abc_textfield_search_material.xml"
-    },
-    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable/design_fab_background.xml",
         "source": "/home/paranerd/.android/build-cache/41ed2336d2f736605e4e12c0e0bfb0727c56f2dc/output/res/drawable/design_fab_background.xml"
+    },
+    {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable/abc_textfield_search_material.xml",
+        "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/drawable/abc_textfield_search_material.xml"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable/ic_settings.xml",
