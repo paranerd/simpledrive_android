@@ -12,67 +12,77 @@ import org.simpledrive.R;
 import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.Connection;
 
-public class Unlock extends AppCompatActivity {
+public class PinScreen extends AppCompatActivity {
+    // General
+    private String pin1 = "";
+    private String enteredPin = "";
+    private String label = "passphrase";
+    private boolean repeat = false;
+    private int length = 4;
+
     // Interface
     private TextView pin;
     private TextView error;
-
-    // General
-    private String enteredPin = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        initInterface();
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            error.setText(extras.getString("error", ""));
+            repeat = extras.getBoolean("repeat", false);
+            label = extras.getString("label", "passphrase");
+            length = extras.getInt("length", 4);
+        }
+        clearPin();
+    }
+
+    private void initInterface() {
         setContentView(R.layout.activity_unlock);
 
         pin = (TextView) findViewById(R.id.unlock_pin);
         error = (TextView) findViewById(R.id.unlock_error);
-
         TextView logout = (TextView) findViewById(R.id.unlock_logout);
         logout.setVisibility(View.VISIBLE);
-
-        showError();
     }
 
     private void updatePIN() {
-        String text = "";
-        for (int i = 0; i < enteredPin.length(); i++) {
-            text += "\u25CF";
-        }
-        pin.setText(text);
+        pin.setText(new String(new char[enteredPin.length()]).replace("\0", "\u25CF"));
 
-        if (enteredPin.length() == 4) {
-            unlock();
+        if (enteredPin.length() == length) {
+            if (pin1.equals("") && repeat) {
+                pin1 = enteredPin;
+                error.setText("");
+                clearPin();
+            }
+            else if (!pin1.equals("") && repeat && !pin1.equals(enteredPin)) {
+                pin1 = "";
+                error.setText("Entries don't match");
+                clearPin();
+            }
+            else {
+                Intent i = new Intent();
+                i.putExtra("passphrase", enteredPin);
+                setResult(RESULT_OK, i);
+                finish();
+            }
         }
     }
 
-    private void showError() {
-        long cooldown = CustomAuthenticator.getCooldown();
-        long remainingUnlockAttempts = CustomAuthenticator.getRemainingUnlockAttempts();
-
-        if (cooldown > 0) {
-            error.setText("Locked for " + cooldown + " second(s).");
-        }
-        else if (CustomAuthenticator.MAX_UNLOCK_ATTEMPTS - remainingUnlockAttempts > 0 && remainingUnlockAttempts > 0) {
-            error.setText("Incorrect PIN, " + remainingUnlockAttempts + " attempt(s) remaining");
-        }
+    private void clearPin() {
+        String text = (pin1.equals("")) ? "Enter " + label : "Repeat " + label;
+        enteredPin = "";
+        pin.setText("");
+        pin.setHint(text);
     }
 
     private void reset() {
         enteredPin = "";
         pin.setText("");
-    }
-
-    private void unlock() {
-        if (CustomAuthenticator.unlock(enteredPin)) {
-            finish();
-            return;
-        }
-
-        showError();
-        reset();
     }
 
     public void onClick(View view) {

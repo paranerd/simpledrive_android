@@ -4,13 +4,13 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -33,6 +33,7 @@ import org.simpledrive.adapters.VaultAdapter;
 import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.Connection;
 import org.simpledrive.helper.Crypto;
+import org.simpledrive.helper.SharedPrefManager;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.VaultItem;
 import org.simpledrive.models.VaultItemNote;
@@ -43,7 +44,6 @@ import java.util.ArrayList;
 
 public class Vault extends AppCompatActivity {
     // General
-    private static Vault e;
     private ArrayList<VaultItem> items = new ArrayList<>();
     private ArrayList<VaultItem> filteredItems = new ArrayList<>();
     private VaultAdapter newAdapter;
@@ -53,7 +53,6 @@ public class Vault extends AppCompatActivity {
     private boolean savePending = false;
     private boolean createNewVault = false;
     private int unlockAttempts= 0;
-    private SharedPreferences settings;
 
     // Vault
     private final String username = CustomAuthenticator.getUsername();
@@ -85,16 +84,13 @@ public class Vault extends AppCompatActivity {
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
 
-        e = this;
-        settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
-
         initInterface();
         initToolbar();
     }
 
     private void initInterface() {
         // Set theme
-        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         // Set layout
@@ -414,10 +410,9 @@ public class Vault extends AppCompatActivity {
             }
             else {
                 waitingForUnlock = true;
-                Intent i = new Intent(e, PasswordScreen.class);
+                Intent i = new Intent(this, PasswordScreen.class);
                 String error = (unlockAttempts > 0) ? "Passphrase incorrect" : "";
                 i.putExtra("error", error);
-                i.putExtra("requestCode", REQUEST_UNLOCK);
                 startActivityForResult(i, REQUEST_UNLOCK);
                 unlockAttempts++;
             }
@@ -519,8 +514,8 @@ public class Vault extends AppCompatActivity {
                     info.setText(res.getMessage());
 
                     waitingForSetPassphrase = true;
-                    Intent i = new Intent(e, PasswordScreen.class);
-                    i.putExtra("requestCode", REQUEST_SET_PASSPHRASE);
+                    Intent i = new Intent(getApplicationContext(), PasswordScreen.class);
+                    i.putExtra("repeat", true);
                     startActivityForResult(i, REQUEST_SET_PASSPHRASE);
                 }
             }
@@ -545,6 +540,8 @@ public class Vault extends AppCompatActivity {
                 String type = obj.getString("type");
                 String edit = obj.getString("edit");
                 String logo = obj.getString("logo");
+
+                Log.i("debug", "edit: " + edit);
 
                 switch (type) {
                     case "website":
@@ -659,7 +656,7 @@ public class Vault extends AppCompatActivity {
 
         if (vaultEncrypted != null && !vaultEncrypted.equals("")) {
             saveToServer();
-            return Util.writeToData(vaultname, vaultEncrypted, Vault.e);
+            return Util.writeToData(vaultname, vaultEncrypted, Vault.this);
         }
 
         return false;

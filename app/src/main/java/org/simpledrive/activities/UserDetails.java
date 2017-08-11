@@ -2,7 +2,6 @@ package org.simpledrive.activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -18,13 +17,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.simpledrive.R;
 import org.simpledrive.helper.Connection;
+import org.simpledrive.helper.SharedPrefManager;
 import org.simpledrive.helper.Util;
 
 public class UserDetails extends AppCompatActivity {
 
     public static UserDetails e;
     public static PrefsFragment prefsFragment;
-    public static SharedPreferences settings;
 
     public static String username;
 
@@ -37,9 +36,7 @@ public class UserDetails extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         username = extras.getString("username");
 
-        settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
-
-        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         prefsFragment = new PrefsFragment();
@@ -160,7 +157,6 @@ public class UserDetails extends AppCompatActivity {
             protected Connection.Response doInBackground(Void... pos) {
                 Connection multipart = new Connection("user", "quota");
                 multipart.addFormField("user", username);
-                multipart.addFormField("value", "0");
 
                 return multipart.finish();
             }

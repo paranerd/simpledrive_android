@@ -2,7 +2,6 @@ package org.simpledrive.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,6 +25,7 @@ import android.widget.Toast;
 import org.simpledrive.R;
 import org.simpledrive.adapters.FileAdapter;
 import org.simpledrive.helper.PermissionManager;
+import org.simpledrive.helper.SharedPrefManager;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.FileItem;
 
@@ -40,7 +40,6 @@ public class FileSelector extends AppCompatActivity {
     private boolean foldersonly;
     private int selectedPos;
     private final int REQUEST_STORAGE = 6;
-    SharedPreferences settings;
 
     // Files
     private FileAdapter mAdapter;
@@ -59,7 +58,6 @@ public class FileSelector extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         e = this;
-        settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
 
         Bundle extras = getIntent().getExtras();
         multi = extras.getBoolean("multi", false);
@@ -73,7 +71,7 @@ public class FileSelector extends AppCompatActivity {
 
     private void initInterface() {
         // Set theme
-        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         // Set view

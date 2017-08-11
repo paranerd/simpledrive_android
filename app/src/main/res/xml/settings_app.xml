@@ -11,7 +11,7 @@
             android:entries="@array/listLayouts"
             android:entryValues="@array/listLayoutValues"
             android:dialogTitle="Select List Layout"
-            android:defaultValue="list" />
+            android:defaultValue="0" />
 
         <ListPreference
             android:key="colortheme"
@@ -20,7 +20,7 @@
             android:entries="@array/themes"
             android:entryValues="@array/themeValues"
             android:dialogTitle="Choose"
-            android:defaultValue="light" />
+            android:defaultValue="0" />
 
         <CheckBoxPreference
             android:key="loadthumb"
@@ -53,7 +53,14 @@
         <CheckBoxPreference
             android:key="pin"
             android:title="PIN"
-            android:summary="Disabled" />
+            android:summary="Disabled"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="twofactor"
+            android:title="Two-Factor-Authentication"
+            android:summary=""
+            android:defaultValue="false"/>
     </PreferenceCategory>
 
     <PreferenceCategory

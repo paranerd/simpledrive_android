@@ -1,7 +1,6 @@
 package org.simpledrive.activities;
 
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -17,12 +16,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.simpledrive.R;
-
 import org.simpledrive.helper.Connection;
+import org.simpledrive.helper.SharedPrefManager;
 
 public class Editor extends AppCompatActivity {
     // General
@@ -44,20 +42,19 @@ public class Editor extends AppCompatActivity {
 
         e = this;
 
-        SharedPreferences settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
-        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
-        setTheme(theme);
-
-        setContentView(R.layout.activity_editor);
-
-        editor = (EditText) findViewById(R.id.editor);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         Bundle extras = getIntent().getExtras();
         file = extras.getString("file");
         filename = extras.getString("filename");
 
-        if(toolbar != null) {
+        initInterface();
+        initToolbar();
+
+        maximizeEditor();
+        load(file);
+    }
+
+    private void initToolbar() {
+        if (toolbar != null) {
             setSupportActionBar(toolbar);
             toolbar.setTitle("test");
             toolbar.setSubtitle("");
@@ -69,6 +66,16 @@ public class Editor extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void initInterface() {
+        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        setTheme(theme);
+
+        setContentView(R.layout.activity_editor);
+
+        editor = (EditText) findViewById(R.id.editor);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         editor.addTextChangedListener(new TextWatcher() {
             @Override
@@ -89,9 +96,6 @@ public class Editor extends AppCompatActivity {
                 invalidateOptionsMenu();
             }
         });
-
-        maximizeEditor();
-        load(file);
     }
 
     public void onBackPressed() {

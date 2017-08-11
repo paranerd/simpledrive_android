@@ -18,7 +18,6 @@ public class CustomAuthenticator {
     // Accounts
     private static AccountManager am;
     private static Account[] aaccount;
-    public static boolean activeAccountChanged = false;
 
     // Constants
     public static final int MAX_UNLOCK_ATTEMPTS = 3;
@@ -37,24 +36,16 @@ public class CustomAuthenticator {
     private static final String TRUE = "1";
     private static final String FALSE = "0";
 
+    /**
+     * Refill the account-array with all current accounts
+     */
     private static void refresh() {
         am = AccountManager.get(ctx);
         aaccount = am.getAccountsByType(ACCOUNT_TYPE);
     }
 
-    public static boolean enable(Context context) {
+    public static void enable(Context context) {
         ctx = context;
-        refresh();
-
-        for (Account a : aaccount) {
-            if (am.getUserData(a, KEY_ACTIVE).equals(TRUE)) {
-                activeAccountChanged = false;
-                return true;
-            }
-        }
-
-        activeAccountChanged = true;
-        return aaccount.length > 0;
     }
 
     public static boolean accountExists(String username, String server) {
@@ -92,7 +83,7 @@ public class CustomAuthenticator {
         return false;
     }
 
-    private static Account getActiveAccount() {
+    public static Account getActiveAccount() {
         refresh();
 
         for (Account a : aaccount) {

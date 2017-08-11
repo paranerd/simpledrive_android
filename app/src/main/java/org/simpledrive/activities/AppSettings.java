@@ -4,9 +4,9 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.CheckBoxPreference;
@@ -22,7 +22,9 @@ import android.widget.Toast;
 import org.apache.commons.io.FileUtils;
 import org.simpledrive.R;
 import org.simpledrive.authenticator.CustomAuthenticator;
+import org.simpledrive.helper.Connection;
 import org.simpledrive.helper.PermissionManager;
+import org.simpledrive.helper.SharedPrefManager;
 import org.simpledrive.helper.Util;
 
 import java.io.File;
@@ -30,34 +32,41 @@ import java.io.IOException;
 
 public class AppSettings extends AppCompatActivity {
     // General
-    public static AppSettings e;
+    public static AppSettings ctx;
     private static final String CACHE_FOLDER = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/simpleDrive/";
     public static PrefsFragment prefsFragment;
-    public static SharedPreferences settings;
     public static boolean pinEnabled = false;
     public static String pinEnabledText;
     public static boolean photosyncEnabled = false;
     private static String photosyncText;
     private static boolean cacheEnabled = false;
     private static final int REQUEST_STORAGE = 6;
+    private static String tfaToken;
 
     // Interface
     private static ListPreference fileview;
     private static CheckBoxPreference photosync;
     private static CheckBoxPreference pin;
+    private static CheckBoxPreference twoFactor;
+
+    // Request codes
+    private static final int REQUEST_SET_PIN = 0;
+    private static final int REQUEST_ENABLE_PHOTO_SYNC = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        e = this;
-        settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
+        ctx = this;
 
-        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        initInterface();
+        initToolbar();
+    }
+
+    private void initInterface() {
+        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
         setContentView(R.layout.activity_settings);
-
-        initToolbar();
     }
 
     private void initToolbar() {
@@ -82,9 +91,11 @@ public class AppSettings extends AppCompatActivity {
         super.onResume();
         pinEnabled = CustomAuthenticator.hasPIN();
         pinEnabledText = (pinEnabled) ? "Enabled" : "Disabled";
-        photosyncEnabled = !settings.getString("photosync", "").equals("");
-        photosyncText = settings.getString("photosync", "");
+        photosyncEnabled = !SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_PHOTO_SYNC, "").equals("");
+        photosyncText = SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_PHOTO_SYNC, "");
         cacheEnabled = new File(CACHE_FOLDER).canRead();
+        tfaToken = SharedPrefManager.getInstance(ctx).read(SharedPrefManager.TAG_FIREBASE_TOKEN, "");
+        twoFactorEnabled(tfaToken);
 
         prefsFragment = new PrefsFragment();
         FragmentManager fragmentManager = getFragmentManager();
@@ -117,14 +128,14 @@ public class AppSettings extends AppCompatActivity {
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.settings_app);
 
-            String currentView = (settings.getString("listlayout", "list").equals("list")) ? "list": "grid";
+            String currentView = (SharedPrefManager.getInstance(ctx).read(SharedPrefManager.TAG_LIST_LAYOUT, "list").equals("list")) ? "list": "grid";
             fileview = (ListPreference) findPreference("listlayout");
             fileview.setSummary(currentView.substring(0,1).toUpperCase() + currentView.substring(1));
             fileview.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     String view = o.toString();
-                    settings.edit().putString("listlayout", view).apply();
+                    SharedPrefManager.getInstance(ctx).write(SharedPrefManager.TAG_LIST_LAYOUT, view);
                     fileview.setSummary(view.substring(0,1).toUpperCase() + view.substring(1));
                     return true;
                 }
@@ -137,28 +148,28 @@ public class AppSettings extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     if (Boolean.parseBoolean(o.toString())) {
-                        PermissionManager pm = new PermissionManager(e, REQUEST_STORAGE);
+                        PermissionManager pm = new PermissionManager(ctx, REQUEST_STORAGE);
                         pm.wantStorage();
                         pm.request("Access files", "Need access to files to create cache folder.", new PermissionManager.TaskListener() {
                             @Override
                             public void onPositive() {
-                                Intent i = new Intent(e, FileSelector.class);
+                                Intent i = new Intent(ctx, FileSelector.class);
                                 i.putExtra("multi", false);
                                 i.putExtra("foldersonly", true);
-                                e.startActivityForResult(i, 1);
+                                ctx.startActivityForResult(i, REQUEST_ENABLE_PHOTO_SYNC);
                             }
 
                             @Override
                             public void onNegative() {
-                                settings.edit().putString("photosync", "").apply();
+                                SharedPrefManager.getInstance(ctx).write(SharedPrefManager.TAG_PHOTO_SYNC, "");
                                 photosync.setChecked(false);
                                 photosync.setSummary("");
-                                Toast.makeText(e, "No access to files", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ctx, "No access to files", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                     else {
-                        settings.edit().putString("photosync", "").apply();
+                        SharedPrefManager.getInstance(ctx).write(SharedPrefManager.TAG_PHOTO_SYNC, "");
                         photosync.setSummary("");
                     }
                     return true;
@@ -172,7 +183,11 @@ public class AppSettings extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     if (Boolean.parseBoolean(o.toString())) {
-                        startActivity(new Intent(e.getApplicationContext(), EnablePIN.class));
+                        Intent i = new Intent(ctx.getApplicationContext(), PinScreen.class);
+                        i.putExtra("label", "new PIN");
+                        i.putExtra("length", 4);
+                        i.putExtra("repeat", true);
+                        ctx.startActivityForResult(i, REQUEST_SET_PIN);
                     }
                     else {
                         CustomAuthenticator.setPIN("");
@@ -182,14 +197,14 @@ public class AppSettings extends AppCompatActivity {
                 }
             });
 
-            boolean bottomToolbar = settings.getBoolean("bottomtoolbar", false);
+            boolean bottomToolbar = SharedPrefManager.getInstance(ctx).read(SharedPrefManager.TAG_BOTTOM_TOOLBAR, false);
             CheckBoxPreference contextMenu = (CheckBoxPreference) findPreference("context");
             contextMenu.setChecked(bottomToolbar);
             contextMenu.setSummary("");
             contextMenu.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    settings.edit().putBoolean("bottomtoolbar", Boolean.parseBoolean(o.toString())).apply();
+                    SharedPrefManager.getInstance(ctx).write(SharedPrefManager.TAG_BOTTOM_TOOLBAR, Boolean.parseBoolean(o.toString()));
                     return true;
                 }
             });
@@ -200,13 +215,13 @@ public class AppSettings extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     if (cacheEnabled) {
-                        new android.support.v7.app.AlertDialog.Builder(e)
+                        new android.support.v7.app.AlertDialog.Builder(ctx)
                                 .setTitle("Clear Cache")
                                 .setMessage("Are you sure you want to clear cache?")
                                 .setPositiveButton("Clear", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        e.clearCache();
+                                        ctx.clearCache();
                                     }
 
                                 })
@@ -217,27 +232,41 @@ public class AppSettings extends AppCompatActivity {
                 }
             });
 
-            boolean load = settings.getBoolean("loadthumb", false);
+            boolean load = SharedPrefManager.getInstance(ctx).read(SharedPrefManager.TAG_LOAD_THUMB, false);
             CheckBoxPreference loadthumb = (CheckBoxPreference) findPreference("loadthumb");
             loadthumb.setChecked(load);
             loadthumb.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    settings.edit().putBoolean("loadthumb", Boolean.parseBoolean(o.toString())).apply();
+                    SharedPrefManager.getInstance(ctx).write(SharedPrefManager.TAG_LOAD_THUMB, Boolean.parseBoolean(o.toString()));
                     return true;
                 }
             });
 
-            final String currentTheme = settings.getString("colortheme", "light");
+            final String currentTheme = SharedPrefManager.getInstance(ctx).read(SharedPrefManager.TAG_COLOR_THEME, "light");
             ListPreference theme = (ListPreference) findPreference("colortheme");
             theme.setValue(currentTheme);
             theme.setSummary(currentTheme.substring(0,1).toUpperCase() + currentTheme.substring(1));
             theme.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    settings.edit().putString("colortheme", o.toString()).apply();
-                    e.finish();
-                    startActivity(e.getIntent());
+                    SharedPrefManager.getInstance(ctx).write(SharedPrefManager.TAG_COLOR_THEME, o.toString());
+                    ctx.finish();
+                    startActivity(ctx.getIntent());
+                    return true;
+                }
+            });
+
+            twoFactor = (CheckBoxPreference) findPreference("twofactor");
+            twoFactor.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    if (Boolean.parseBoolean(o.toString())) {
+                        ctx.registerTwoFactor(tfaToken);
+                    }
+                    else {
+                        ctx.unregisterTwoFactor(tfaToken);
+                    }
                     return true;
                 }
             });
@@ -245,7 +274,7 @@ public class AppSettings extends AppCompatActivity {
             Preference version = findPreference("appversion");
             PackageInfo pInfo;
             try {
-                pInfo = e.getPackageManager().getPackageInfo(e.getPackageName(), 0);
+                pInfo = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
                 version.setSummary(pInfo.versionName + " (" + pInfo.versionCode + ")");
             } catch (PackageManager.NameNotFoundException e1) {
                 e1.printStackTrace();
@@ -265,16 +294,16 @@ public class AppSettings extends AppCompatActivity {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0) {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        Intent i = new Intent(e, FileSelector.class);
+                        Intent i = new Intent(ctx, FileSelector.class);
                         i.putExtra("multi", false);
                         i.putExtra("foldersonly", true);
-                        e.startActivityForResult(i, 1);
+                        ctx.startActivityForResult(i, 1);
                     }
                     else {
-                        settings.edit().putString("photosync", "").apply();
+                        SharedPrefManager.getInstance(ctx).write(SharedPrefManager.TAG_PHOTO_SYNC, "");
                         photosync.setChecked(false);
                         photosync.setSummary("");
-                        Toast.makeText(e, "No access to files", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ctx, "No access to files", Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
@@ -283,12 +312,100 @@ public class AppSettings extends AppCompatActivity {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                String[] paths = data.getStringArrayExtra("paths");
-                settings.edit().putString("photosync", paths[0]).apply();
-                photosync.setSummary(paths[0]);
-            }
+        switch (requestCode) {
+            case REQUEST_ENABLE_PHOTO_SYNC:
+                if (resultCode == RESULT_OK) {
+                    String[] paths = data.getStringArrayExtra("paths");
+                    SharedPrefManager.getInstance(ctx).write(SharedPrefManager.TAG_PHOTO_SYNC, paths[0]);
+                    photosync.setSummary(paths[0]);
+                }
+                break;
+
+            case REQUEST_SET_PIN:
+                if (resultCode == RESULT_OK) {
+                    CustomAuthenticator.setPIN(data.getStringExtra("passphrase"));
+                }
+                break;
         }
+    }
+
+    private void twoFactorEnabled(final String token) {
+        new AsyncTask<Void, Void, Connection.Response>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected Connection.Response doInBackground(Void... params) {
+                Connection con = new Connection("twofactor", "registered");
+                con.addFormField("client", token);
+
+                return con.finish();
+            }
+            @Override
+            protected void onPostExecute(Connection.Response res) {
+                if (res.successful()) {
+                    twoFactor.setChecked(Boolean.parseBoolean(res.getMessage()));
+                }
+                else {
+                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
+    }
+
+    private void registerTwoFactor(final String token) {
+        new AsyncTask<Void, Void, Connection.Response>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected Connection.Response doInBackground(Void... params) {
+                Connection con = new Connection("twofactor", "register");
+                con.addFormField("client", token);
+
+                return con.finish();
+            }
+            @Override
+            protected void onPostExecute(Connection.Response res) {
+                if (res.successful()) {
+                    twoFactor.setChecked(true);
+                    Toast.makeText(ctx, "Registered for Two-Factor-Authentication", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
+    }
+
+    private void unregisterTwoFactor(final String token) {
+        new AsyncTask<Void, Void, Connection.Response>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected Connection.Response doInBackground(Void... params) {
+                Connection con = new Connection("twofactor", "unregister");
+                con.addFormField("client", token);
+
+                return con.finish();
+            }
+            @Override
+            protected void onPostExecute(Connection.Response res) {
+                if (res.successful()) {
+                    twoFactor.setChecked(false);
+                    Toast.makeText(ctx, "Unregistered from Two-Factor-Authentication", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
     }
 }

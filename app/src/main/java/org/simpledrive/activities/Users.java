@@ -3,7 +3,6 @@ package org.simpledrive.activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -32,6 +31,7 @@ import org.json.JSONObject;
 import org.simpledrive.R;
 import org.simpledrive.adapters.UserAdapter;
 import org.simpledrive.helper.Connection;
+import org.simpledrive.helper.SharedPrefManager;
 import org.simpledrive.models.UserItem;
 
 import java.util.ArrayList;
@@ -56,14 +56,22 @@ public class Users extends AppCompatActivity {
 
         e = this;
 
-        SharedPreferences settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
+        initInterface();
+        initToolbar();
+    }
 
-        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+    protected void onResume() {
+        super.onResume();
+
+        initList();
+        fetchUsers();
+    }
+
+    private void initInterface() {
+        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         setContentView(R.layout.activity_users);
-
-        initToolbar();
 
         info = (TextView) findViewById(R.id.info);
 
@@ -74,13 +82,6 @@ public class Users extends AppCompatActivity {
                 showCreate();
             }
         });
-    }
-
-    protected void onResume() {
-        super.onResume();
-
-        initList();
-        fetchUsers();
     }
 
     private void initToolbar() {

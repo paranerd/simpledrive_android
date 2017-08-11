@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -31,6 +30,7 @@ import org.simpledrive.R;
 import org.simpledrive.adapters.FileAdapter;
 import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.Connection;
+import org.simpledrive.helper.SharedPrefManager;
 import org.simpledrive.helper.UploadManager;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.FileItem;
@@ -41,12 +41,11 @@ import java.util.TimerTask;
 
 public class ShareFiles extends AppCompatActivity {
     // General
-    private ShareFiles e;
+    private ShareFiles ctx;
     private boolean preventLock = false;
-    private boolean calledForUnlock = false;
     private String username = "";
     private int loginAttempts = 0;
-    private SharedPreferences settings;
+    private String tfaCode = "";
 
     // Files
     private ArrayList<FileItem> items = new ArrayList<>();
@@ -65,21 +64,26 @@ public class ShareFiles extends AppCompatActivity {
     // Files
     private ArrayList<String> uploadsPending;
 
+    // Request codes
+    private final int REQUEST_UNLOCK = 0;
+    private final int REQUEST_TFA_CODE = 2;
+
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
 
-        e = this;
-        settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
+        ctx = this;
+        CustomAuthenticator.enable(this);
         uploadsPending = getUploads(getIntent());
 
         initInterface();
         initList();
         initToolbar();
+
     }
 
     private void initInterface() {
         // Set theme
-        theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         // Set View
@@ -97,8 +101,8 @@ public class ShareFiles extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UploadManager.addUpload(e, uploadsPending, hierarchy.get(hierarchy.size() - 1).getID(), "0", null);
-                e.finish();
+                UploadManager.addUpload(ctx, uploadsPending, hierarchy.get(hierarchy.size() - 1).getID(), "0", null);
+                ctx.finish();
             }
         });
 
@@ -123,7 +127,7 @@ public class ShareFiles extends AppCompatActivity {
     }
 
     private void initList() {
-        listLayout = (settings.getString("listlayout", "").length() == 0 || settings.getString("listlayout", "").equals("list")) ? R.layout.listview_detail: R.layout.gridview;
+        listLayout = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_LIST_LAYOUT, "list").equals("list")) ? R.layout.listview_detail: R.layout.gridview;
         setListLayout();
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -160,23 +164,16 @@ public class ShareFiles extends AppCompatActivity {
 
         preventLock = false;
 
-        if (!CustomAuthenticator.enable(this)) {
-            // Not logged in
+        if (CustomAuthenticator.getActiveAccount() == null) {
+            // No-one is logged in
             startActivity(new Intent(getApplicationContext(), Login.class));
             finish();
         }
         else if (CustomAuthenticator.isLocked()) {
-            if (calledForUnlock) {
-                calledForUnlock = false;
-                finish();
-                return;
-            }
-            preventLock = true;
-            calledForUnlock = true;
-            startActivityForResult(new Intent(getApplicationContext(), Unlock.class), 5);
+            requestPIN();
         }
         else {
-            connect();
+            fetchFiles();
         }
 
         username = CustomAuthenticator.getUsername();
@@ -184,7 +181,6 @@ public class ShareFiles extends AppCompatActivity {
 
     protected void onPause() {
         if (!preventLock) {
-            calledForUnlock = false;
             CustomAuthenticator.lock();
         }
         super.onPause();
@@ -222,6 +218,44 @@ public class ShareFiles extends AppCompatActivity {
                 }
             }
         }.execute();
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_UNLOCK:
+                if (resultCode == RESULT_OK) {
+                    CustomAuthenticator.unlock(data.getStringExtra("passphrase"));
+                }
+                else {
+                    finish();
+                }
+                break;
+
+            case REQUEST_TFA_CODE:
+                if (resultCode == RESULT_OK) {
+                    tfaCode = data.getStringExtra("passphrase");
+                    connect();
+                }
+                break;
+        }
+    }
+
+    private void requestPIN() {
+        long cooldown = CustomAuthenticator.getCooldown();
+        long remainingUnlockAttempts = CustomAuthenticator.getRemainingUnlockAttempts();
+        String error = "";
+
+        if (cooldown > 0) {
+            error = "Locked for " + cooldown + " second(s).";
+        }
+        else if (CustomAuthenticator.MAX_UNLOCK_ATTEMPTS - remainingUnlockAttempts > 0 && remainingUnlockAttempts > 0) {
+            error = "Incorrect PIN, " + remainingUnlockAttempts + " attempt(s) remaining";
+        }
+        Intent i = new Intent(getApplicationContext(), PinScreen.class);
+        i.putExtra("error", error);
+        i.putExtra("length", 4);
+        i.putExtra("label", "PIN to unlock");
+        startActivityForResult(i, REQUEST_UNLOCK);
     }
 
     /**
@@ -334,25 +368,34 @@ public class ShareFiles extends AppCompatActivity {
             protected void onPostExecute(Connection.Response res) {
                 if (res.successful()) {
                     hierarchy = new ArrayList<>();
-
                     hierarchy.add(new FileItem("0", "", ""));
 
                     CustomAuthenticator.setToken(res.getMessage());
-
                     fetchFiles();
                 }
                 else {
-                    // No connection
-                    info.setVisibility(View.VISIBLE);
-                    info.setText(R.string.connection_error);
-
-                    if (newAdapter != null) {
-                        newAdapter.setData(null);
-                        newAdapter.notifyDataSetChanged();
+                    if (res.getStatus() == 403) {
+                        // TFA-Code required
+                        Intent i = new Intent(getApplicationContext(), PinScreen.class);
+                        String error = (tfaCode.equals("")) ? "" : "Incorrect code";
+                        i.putExtra("error", error);
+                        i.putExtra("label", "2FA-code");
+                        i.putExtra("length", 5);
+                        startActivityForResult(i, REQUEST_TFA_CODE);
                     }
+                    else {
+                        // No connection
+                        info.setVisibility(View.VISIBLE);
+                        info.setText(R.string.connection_error);
 
-                    mSwipeRefreshLayout.setRefreshing(false);
-                    mSwipeRefreshLayout.setEnabled(true);
+                        if (newAdapter != null) {
+                            newAdapter.setData(null);
+                            newAdapter.notifyDataSetChanged();
+                        }
+
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        mSwipeRefreshLayout.setEnabled(true);
+                    }
                 }
             }
         }.execute();
@@ -499,7 +542,7 @@ public class ShareFiles extends AppCompatActivity {
                     fetchFiles();
                 }
                 else {
-                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();

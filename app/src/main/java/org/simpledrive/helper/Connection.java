@@ -41,7 +41,7 @@ public class Connection {
     private long bytesTransferred;
     private long total;
 
-    private ProgressListener listener;
+    private ProgressListener pListener;
 
     private static String cookie;
     private boolean forceCookie = false;
@@ -80,7 +80,7 @@ public class Connection {
     }
 
     void setListener(final ProgressListener listener) {
-        this.listener = listener;
+        this.pListener = listener;
     }
 
     /**
@@ -139,8 +139,8 @@ public class Connection {
                 outputStream.write(buffer, 0, bytesRead);
                 bytesTransferred += bytesRead;
                 int percent = (int) ((bytesTransferred / (float) total) * 100);
-                if (percent % 5 == 0 && listener != null) {
-                    listener.transferred(percent);
+                if (percent % 5 == 0 && pListener != null) {
+                    pListener.transferred(percent);
                 }
             }
             outputStream.flush();
@@ -156,10 +156,10 @@ public class Connection {
     /**
      * Completes the request and receives response from the server.
      *
-     * @return a list of Strings as response in case the server returned
-     * status OK, otherwise an exception is thrown.
+     * @return Response
      */
     public Response finish() {
+        int status = 404;
         addFormField("token", CustomAuthenticator.getToken());
 
         try {
@@ -175,12 +175,14 @@ public class Connection {
                 cookie = cookieList.get(0).toString();
             }
 
+            status = httpConn.getResponseCode();
+
             // Handle download
-            if (downloadPath != null && httpConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            if (downloadPath != null && status == HttpURLConnection.HTTP_OK) {
                 // Can't access directory
                 if (!new File(downloadPath).canRead()) {
                     httpConn.disconnect();
-                    return new Response(false, "Could not access download folder");
+                    return new Response(false, status, "Could not access download folder");
                 }
 
                 InputStream is = httpConn.getInputStream();
@@ -196,7 +198,7 @@ public class Connection {
                 if (downloadFilename == null) {
                     is.close();
                     httpConn.disconnect();
-                    return new Response(false, "Empty filename");
+                    return new Response(false, status, "Empty filename");
                 }
 
                 String saveFilePath = downloadPath + File.separator + downloadFilename;
@@ -212,8 +214,8 @@ public class Connection {
                     outputStream.write(buffer, 0, bytesRead);
                     bytesTransferred += bytesRead;
                     int percent = (int) ((bytesTransferred / (float) total) * 100);
-                    if (percent % 5 == 0 && listener != null) {
-                        listener.transferred(percent);
+                    if (percent % 5 == 0 && pListener != null) {
+                        pListener.transferred(percent);
                     }
                 }
 
@@ -221,11 +223,11 @@ public class Connection {
                 outputStream.close();
                 is.close();
                 httpConn.disconnect();
-                return new Response(true, saveFilePath);
+                return new Response(true, status, saveFilePath);
             }
             // Receive answer from server
             else {
-                boolean success = httpConn.getResponseCode() == HttpURLConnection.HTTP_OK;
+                boolean success = status == HttpURLConnection.HTTP_OK;
                 InputStream is = (success) ? httpConn.getInputStream() : httpConn.getErrorStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
                 StringBuilder sb = new StringBuilder();
@@ -243,12 +245,12 @@ public class Connection {
                 reader.close();
                 is.close();
                 httpConn.disconnect();
-                return new Response(success, obj.getString("msg"));
+                return new Response(success, status, obj.getString("msg"));
             }
         } catch (Exception e) {
             e.printStackTrace();
             httpConn.disconnect();
-            return new Response(false, "Connection error");
+            return new Response(false, status, "Connection error");
         }
     }
 
@@ -292,16 +294,20 @@ public class Connection {
 
     public class Response {
         private boolean success;
+        private int status;
         private String msg;
 
-        public Response(boolean success, String message) {
+        public Response(boolean success, int status, String message) {
             this.success = success;
+            this.status = status;
             this.msg = message;
         }
 
         public boolean successful() {
             return this.success;
         }
+
+        public int getStatus() { return this.status; }
 
         public String getMessage() {
             return this.msg;

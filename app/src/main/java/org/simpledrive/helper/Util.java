@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Movie;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -29,19 +30,28 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
 
 public class Util {
     public static Bitmap getThumb(String file, int size) {
+        if (!new File(file).exists()) {
+            return null;
+        }
+
         BitmapFactory.Options o = new BitmapFactory.Options();
         o.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(file, o);
@@ -237,10 +247,10 @@ public class Util {
     }
 
     public static String readTextFromStorage(String path) {
-        //Get the text file
+        // Get the text file
         File file = new File(path);
 
-        //Read text from file
+        // Read text from file
         StringBuilder text = new StringBuilder();
 
         try {
@@ -274,20 +284,6 @@ public class Util {
         return bytes;
     }
 
-    public static boolean writeToStorage(String path, byte[] data) {
-        FileOutputStream fos;
-        try {
-            fos = new FileOutputStream(path);
-            fos.write(data, 0, data.length);
-            fos.close();
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
     public static boolean writeTextToStorage(String path, String data) {
         try{
             File file = new File(path);
@@ -301,6 +297,20 @@ public class Util {
         }
 
         return true;
+    }
+
+    public static boolean writeToStorage(String path, byte[] data) {
+        FileOutputStream fos;
+        try {
+            fos = new FileOutputStream(path);
+            fos.write(data, 0, data.length);
+            fos.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     public static boolean isGIF(String path) {
@@ -337,7 +347,7 @@ public class Util {
         DisplayMetrics displaymetrics = new DisplayMetrics();
         ctx.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 
-        return (layout == R.layout.listview_detail) ? Util.dpToPx(100) : displaymetrics.widthPixels / 3;
+        return (layout == R.layout.listview_detail) ? Util.dpToPx(50) : displaymetrics.widthPixels / 3;
     }
 
     public static Bitmap getDrawableByName(AppCompatActivity ctx, String name, int def) {
@@ -384,6 +394,44 @@ public class Util {
         } catch (Exception e) {
             e.printStackTrace();
             return "";
+        }
+    }
+
+    public static String timestampToDate(AppCompatActivity ctx, String timestamp) {
+        if (!timestamp.equals("")) {
+            long ts = Long.parseLong(timestamp);
+            ts = (timestamp.length() > 10) ? ts / 1000 : ts;
+            Date date = new Date(ts * 1000L);
+            DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, getCurrentLocale(ctx));
+            df.setTimeZone(TimeZone.getTimeZone("UTC"));
+            return df.format(date);
+        }
+
+        return "";
+    }
+
+    public static Locale getCurrentLocale(AppCompatActivity ctx) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return ctx.getResources().getConfiguration().getLocales().get(0);
+        }
+        else {
+            return ctx.getResources().getConfiguration().locale;
+        }
+    }
+
+    //The method will return Bitmap from an image URL
+    public static Bitmap getBitmapFromURL(String strURL) {
+        try {
+            URL url = new URL(strURL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import org.simpledrive.R;
 import org.simpledrive.helper.Connection;
+import org.simpledrive.helper.SharedPrefManager;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.FileItem;
 
@@ -32,14 +33,18 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
     private AbsListView list;
     private Integer thumbSize;
 
-    public FileAdapter(AppCompatActivity mActivity, int layoutResourceId, AbsListView list, boolean loadthumbs) {
-        super(mActivity, layoutResourceId);
-        this.layoutInflater = LayoutInflater.from(mActivity);
+    public FileAdapter(AppCompatActivity ctx, int layoutResourceId, AbsListView list) {
+        this(ctx, layoutResourceId, list, SharedPrefManager.getInstance(ctx).read(SharedPrefManager.TAG_LOAD_THUMB, false));
+    }
+
+    public FileAdapter(AppCompatActivity ctx, int layoutResourceId, AbsListView list, boolean loadthumbs) {
+        super(ctx, layoutResourceId);
+        this.layoutInflater = LayoutInflater.from(ctx);
         this.layout = layoutResourceId;
         this.loadthumbs = loadthumbs;
-        this.e = mActivity;
+        this.e = ctx;
         this.list = list;
-        this.thumbSize = Util.getThumbSize(mActivity, layout);
+        this.thumbSize = Util.getThumbSize(ctx, layout);
     }
 
     @NonNull
@@ -84,7 +89,7 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
         if (item.is("image") && item.getThumb() == null && loadthumbs && !itemIsInQueue(item)) {
             if (e.getClass().getSimpleName().equals("RemoteFiles")) {
                 // Try to load cached thumb
-                Bitmap cachedThumb = (new File(Util.getCacheDir() + item.getID()).exists()) ? Util.getThumb(Util.getCacheDir() + item.getID(), thumbSize) : null;
+                Bitmap cachedThumb = Util.getThumb(Util.getCacheDir() + item.getThumbName() + thumbSize, thumbSize);
                 if (cachedThumb != null) {
                     item.setThumb(cachedThumb);
                 }
@@ -157,7 +162,7 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
 
     private boolean itemIsInQueue(FileItem item) {
         for (FileItem t : thumbQueue) {
-            if (t.getID() == item.getID()) {
+            if (t.getID().equals(item.getID())) {
                 return true;
             }
         }
@@ -166,6 +171,7 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
 
     private class LoadThumb extends AsyncTask<String, Integer, Connection.Response> {
         FileItem item;
+        String thumbName;
 
         @Override
         protected void onPreExecute() {
@@ -177,26 +183,28 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
         protected Connection.Response doInBackground(String... info) {
             if (thumbQueue.size() > 0) {
                 item = thumbQueue.remove(0);
+                thumbName = item.getThumbName() + thumbSize;
             }
             else {
                 return null;
             }
 
-            File thumb = new File(Util.getCacheDir() + item.getID());
+            File thumb = new File(Util.getCacheDir() + thumbName);
 
             Connection multipart = new Connection("files", "get");
 
             multipart.addFormField("target", "[\"" + item.getID() + "\"]");
             multipart.addFormField("width", Integer.toString(thumbSize));
             multipart.addFormField("height", Integer.toString(thumbSize));
-            multipart.setDownloadPath(thumb.getParent(), thumb.getName());
+            multipart.addFormField("thumbnail", "1");
+            multipart.setDownloadPath(thumb.getParent(), thumbName);
             return multipart.finish();
         }
 
         @Override
         protected void onPostExecute(Connection.Response res) {
             if (res != null) {
-                Bitmap bmp = Util.getThumb(Util.getCacheDir() + item.getID(), thumbSize);
+                Bitmap bmp = Util.getThumb(Util.getCacheDir() + thumbName, thumbSize);
 
                 thumbLoading = false;
                 if (bmp != null && list != null) {

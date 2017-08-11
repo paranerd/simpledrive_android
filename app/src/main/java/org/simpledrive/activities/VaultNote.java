@@ -1,7 +1,6 @@
 package org.simpledrive.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.simpledrive.R;
+import org.simpledrive.helper.SharedPrefManager;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.VaultItemNote;
 
@@ -28,7 +29,6 @@ public class VaultNote extends AppCompatActivity implements TextWatcher {
     private int REQUEST_LOGO = 0;
     private boolean saved = true;
     private int id;
-    private SharedPreferences settings;
 
     // Interface
     private EditText title;
@@ -39,9 +39,8 @@ public class VaultNote extends AppCompatActivity implements TextWatcher {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         super.onCreate(savedInstanceState);
-
-        settings = getSharedPreferences("org.simpledrive.shared_pref", 0);
 
         initInterface();
         initToolbar();
@@ -59,7 +58,7 @@ public class VaultNote extends AppCompatActivity implements TextWatcher {
 
     private void initInterface() {
         // Set theme
-        int theme = (settings.getString("colortheme", "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         // Init interface
@@ -221,6 +220,7 @@ public class VaultNote extends AppCompatActivity implements TextWatcher {
         item.setCategory(categoryText);
         item.setType("note");
         item.setContent(contentText);
+        item.setEdit(String.valueOf(System.currentTimeMillis()));
 
         Intent i = new Intent();
         i.putExtra("id", id);

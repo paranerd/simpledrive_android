@@ -17,11 +17,20 @@ import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.Connection;
 
 public class Login extends AppCompatActivity {
+    // General
+    private String username;
+    private String password;
+    private String server;
+    private String unlockCode = "";
+
     // Interface
     private Button btnLogin;
     private EditText txtUsername;
     private EditText txtPassword;
     private EditText txtServername;
+
+    // Request codes
+    private final int REQUEST_UNLOCK = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,9 +50,9 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                String username = txtUsername.getText().toString().replaceAll("\\s+", "");
-                String password = txtPassword.getText().toString().replaceAll("\\s+", "");
-                String server = txtServername.getText().toString().replaceAll("\\s+", "");
+                username = txtUsername.getText().toString().replaceAll("\\s+", "");
+                password = txtPassword.getText().toString().replaceAll("\\s+", "");
+                server = txtServername.getText().toString().replaceAll("\\s+", "");
 
                 // Check if server, username, password is filled
                 if (server.length() == 0 || username.length() == 0 || password.length() == 0) {
@@ -64,6 +73,17 @@ public class Login extends AppCompatActivity {
         });
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_UNLOCK:
+                if (resultCode == RESULT_OK) {
+                    unlockCode = data.getStringExtra("passphrase");
+                    login(server, username, password);
+                }
+                break;
+        }
+    }
+
     private void login(final String server, final String username, final String password) {
         final ProgressDialog pDialog = new ProgressDialog(Login.this);
         new AsyncTask<Void, Void, Connection.Response>() {
@@ -81,6 +101,7 @@ public class Login extends AppCompatActivity {
                 Connection con = new Connection(server, "core", "login");
                 con.addFormField("user", username);
                 con.addFormField("pass", password);
+                con.addFormField("code", unlockCode);
                 con.forceSetCookie();
 
                 return con.finish();
@@ -89,29 +110,33 @@ public class Login extends AppCompatActivity {
             protected void onPostExecute(Connection.Response res) {
                 pDialog.dismiss();
 
-                if (res == null) {
-                    Toast.makeText(Login.this, R.string.connection_error, Toast.LENGTH_SHORT).show();
-                }
-                else if (res.successful()) {
+                if (res.successful()) {
                     if (CustomAuthenticator.addAccount(username, password, server, res.getMessage())) {
                         Intent i = new Intent(getApplicationContext(), RemoteFiles.class);
                         if (getCallingActivity() != null) {
                             setResult(RESULT_OK, i);
-                        }
-                        else {
+                        } else {
                             startActivity(i);
                         }
                         finish();
-                    }
-                    else if (CustomAuthenticator.accountExists(username, server)) {
+                    } else if (CustomAuthenticator.accountExists(username, server)) {
                         Toast.makeText(Login.this, R.string.account_exists, Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+                    } else {
                         Toast.makeText(Login.this, R.string.login_error, Toast.LENGTH_SHORT).show();
                     }
                 }
                 else {
-                    Toast.makeText(Login.this, res.getMessage(), Toast.LENGTH_SHORT).show();
+                    if (res.getStatus() == 403) {
+                        // TFA-Code required
+                        Intent i = new Intent(getApplicationContext(), PasswordScreen.class);
+                        String error = (!unlockCode.equals("")) ? "Incorrect code" : "";
+                        i.putExtra("error", error);
+                        i.putExtra("label", "code");
+                        startActivityForResult(i, REQUEST_UNLOCK);
+                    }
+                    else {
+                        Toast.makeText(Login.this, res.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         }.execute();

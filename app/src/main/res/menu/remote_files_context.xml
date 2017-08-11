@@ -67,6 +67,14 @@
         android:visible="false"/>
 
     <item
+        android:id="@+id/unzip"
+        android:orderInCategory="300"
+        android:title="Unzip"
+        android:icon="@drawable/ic_archive"
+        app:showAsAction="ifRoom"
+        android:visible="false"/>
+
+    <item
         android:id="@+id/share"
         android:orderInCategory="300"
         android:title="Share"

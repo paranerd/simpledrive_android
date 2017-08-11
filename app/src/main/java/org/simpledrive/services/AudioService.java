@@ -1,4 +1,4 @@
-package org.simpledrive.helper;
+package org.simpledrive.services;
 
 import android.app.Notification;
 import android.app.PendingIntent;

@@ -64,7 +64,7 @@ public class DownloadManager {
                         .setContentTitle("Downloading " + downloadCurrent + " of " + downloadTotal)
                         .setContentIntent(pIntent)
                         .setOngoing(true)
-                        .setSmallIcon(R.drawable.ic_cloud)
+                        .setSmallIcon(R.drawable.ic_download)
                         .setColor(ContextCompat.getColor(e, R.color.darkgreen))
                         .setProgress(100, 0, false);
 
