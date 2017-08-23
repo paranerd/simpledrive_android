@@ -9,12 +9,14 @@ public class SharedPrefManager {
 
     // Tags
     public static final String TAG_FIREBASE_TOKEN = "firebasetoken";
+    public static final String TAG_FIREBASE_TOKEN_OLD = "firebasetokenold";
     public static final String TAG_LOAD_THUMB = "loadthumb";
     public static final String TAG_BOTTOM_TOOLBAR = "bottomtoolbar";
     public static final String TAG_COLOR_THEME = "colortheme";
     public static final String TAG_LIST_LAYOUT = "listlayout";
     public static final String TAG_PHOTO_SYNC = "photosync";
     public static final String TAG_LAST_PHOTO_SYNC = "lastPhotoSync";
+    public static final String TAG_VAULT_IN_SYNC = "vaultinsync";
 
     // General
     private static SharedPrefManager mInstance;

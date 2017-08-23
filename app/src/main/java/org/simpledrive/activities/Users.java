@@ -1,6 +1,5 @@
 package org.simpledrive.activities;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -32,15 +30,14 @@ import org.simpledrive.R;
 import org.simpledrive.adapters.UserAdapter;
 import org.simpledrive.helper.Connection;
 import org.simpledrive.helper.SharedPrefManager;
+import org.simpledrive.helper.Util;
 import org.simpledrive.models.UserItem;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Users extends AppCompatActivity {
     // General
-    private Users e;
+    private Users ctx;
     private ArrayList<UserItem> items = new ArrayList<>();
     private UserAdapter newAdapter;
     private int selectedPos;
@@ -54,7 +51,7 @@ public class Users extends AppCompatActivity {
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
 
-        e = this;
+        ctx = this;
 
         initInterface();
         initToolbar();
@@ -93,7 +90,7 @@ public class Users extends AppCompatActivity {
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    e.finish();
+                    ctx.finish();
                 }
             });
         }
@@ -128,7 +125,7 @@ public class Users extends AppCompatActivity {
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.delete:
-                        new android.support.v7.app.AlertDialog.Builder(e)
+                        new android.support.v7.app.AlertDialog.Builder(ctx)
                                 .setTitle("Delete " + getFirstSelected())
                                 .setMessage("Are you sure you want to delete this user?")
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -292,10 +289,10 @@ public class Users extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (username.getText().toString().isEmpty()) {
-                    Toast.makeText(e, "Enter a username", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, "Enter a username", Toast.LENGTH_SHORT).show();
                 }
                 else if (!pass1.getText().toString().equals(pass2.getText().toString())) {
-                    Toast.makeText(e, "Passwords don't match", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, "Passwords don't match", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     create(username.getText().toString(), pass1.getText().toString(), admin.isChecked());
@@ -305,7 +302,7 @@ public class Users extends AppCompatActivity {
         });
 
         username.requestFocus();
-        showVirtualKeyboard();
+        Util.showVirtualKeyboard(ctx);
     }
 
     private void create(final String username, final String pass, final boolean admin) {
@@ -333,7 +330,7 @@ public class Users extends AppCompatActivity {
                     fetchUsers();
                 }
                 else {
-                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();
@@ -360,23 +357,9 @@ public class Users extends AppCompatActivity {
                     fetchUsers();
                 }
                 else {
-                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();
-    }
-
-    private void showVirtualKeyboard() {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                InputMethodManager m = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
-                if (m != null) {
-                    m.toggleSoftInput(0, InputMethodManager.SHOW_IMPLICIT);
-                }
-            }
-        }, 100);
     }
 }

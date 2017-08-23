@@ -4973,6 +4973,7 @@ org.simpledrive.R$id: int cancel_action
 org.simpledrive.R$id: int center
 org.simpledrive.R$id: int center_horizontal
 org.simpledrive.R$id: int center_vertical
+org.simpledrive.R$id: int changepass
 org.simpledrive.R$id: int check
 org.simpledrive.R$id: int check_wrapper
 org.simpledrive.R$id: int checkbox
@@ -4982,6 +4983,7 @@ org.simpledrive.R$id: int clearcache
 org.simpledrive.R$id: int clearlog
 org.simpledrive.R$id: int clip_horizontal
 org.simpledrive.R$id: int clip_vertical
+org.simpledrive.R$id: int code
 org.simpledrive.R$id: int collapseActionView
 org.simpledrive.R$id: int confirm
 org.simpledrive.R$id: int content
@@ -5086,7 +5088,10 @@ org.simpledrive.R$id: int navigation_view_item_trash
 org.simpledrive.R$id: int navigation_view_item_vault
 org.simpledrive.R$id: int never
 org.simpledrive.R$id: int newfolder
+org.simpledrive.R$id: int newpass1
+org.simpledrive.R$id: int newpass2
 org.simpledrive.R$id: int next
+org.simpledrive.R$id: int no
 org.simpledrive.R$id: int none
 org.simpledrive.R$id: int normal
 org.simpledrive.R$id: int notifbutton
@@ -5095,6 +5100,7 @@ org.simpledrive.R$id: int notification
 org.simpledrive.R$id: int notifimage
 org.simpledrive.R$id: int notiftitle
 org.simpledrive.R$id: int ok
+org.simpledrive.R$id: int oldpass
 org.simpledrive.R$id: int openurl
 org.simpledrive.R$id: int overlay
 org.simpledrive.R$id: int owner
@@ -5230,6 +5236,7 @@ org.simpledrive.R$id: int view_pager
 org.simpledrive.R$id: int withText
 org.simpledrive.R$id: int wrap_content
 org.simpledrive.R$id: int wrapper
+org.simpledrive.R$id: int yes
 org.simpledrive.R$id: int zip
 org.simpledrive.R$integer: int abc_config_activityDefaultDur
 org.simpledrive.R$integer: int abc_config_activityShortDur
@@ -5276,6 +5283,7 @@ org.simpledrive.R$layout: int activity_remotefiles
 org.simpledrive.R$layout: int activity_settings
 org.simpledrive.R$layout: int activity_sharefiles
 org.simpledrive.R$layout: int activity_unlock
+org.simpledrive.R$layout: int activity_unlock_tfa
 org.simpledrive.R$layout: int activity_users
 org.simpledrive.R$layout: int activity_vault
 org.simpledrive.R$layout: int activity_vault_note
@@ -5294,6 +5302,7 @@ org.simpledrive.R$layout: int design_navigation_item_subheader
 org.simpledrive.R$layout: int design_navigation_menu
 org.simpledrive.R$layout: int design_navigation_menu_item
 org.simpledrive.R$layout: int design_text_input_password_icon
+org.simpledrive.R$layout: int dialog_change_password
 org.simpledrive.R$layout: int dialog_createuser
 org.simpledrive.R$layout: int dialog_share
 org.simpledrive.R$layout: int drawer_list_item
@@ -5552,6 +5561,9 @@ org.simpledrive.R$style: int MainTheme_Light
 org.simpledrive.R$style: int MainTheme_Login
 org.simpledrive.R$style: int MainThemeFullscreen
 org.simpledrive.R$style: int MenuItemAppearance
+org.simpledrive.R$style: int MyButton
+org.simpledrive.R$style: int MyButtonCircle
+org.simpledrive.R$style: int MyButtonLarge
 org.simpledrive.R$style: int Platform_AppCompat
 org.simpledrive.R$style: int Platform_AppCompat_Light
 org.simpledrive.R$style: int Platform_ThemeOverlay_AppCompat
@@ -6302,11 +6314,10 @@ org.simpledrive.activities.RemoteFiles$10: void onClick(android.view.View)
 org.simpledrive.activities.RemoteFiles$11: void onClick(android.view.View)
 org.simpledrive.activities.RemoteFiles$12: void onClick(android.view.View)
 org.simpledrive.activities.RemoteFiles$13: void onClick(android.view.View)
-org.simpledrive.activities.RemoteFiles$19: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.RemoteFiles$20: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.RemoteFiles$21: void onClick(android.content.DialogInterface,int)
-org.simpledrive.activities.RemoteFiles$22: void onClick(android.view.View)
-org.simpledrive.activities.RemoteFiles$23: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.RemoteFiles$22: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.RemoteFiles$23: void onClick(android.view.View)
 org.simpledrive.activities.RemoteFiles$24: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.RemoteFiles$25: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.RemoteFiles$26: void onClick(android.content.DialogInterface,int)
@@ -6314,6 +6325,7 @@ org.simpledrive.activities.RemoteFiles$27: void onClick(android.content.DialogIn
 org.simpledrive.activities.RemoteFiles$28: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.RemoteFiles$29: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.RemoteFiles$30: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.RemoteFiles$31: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.RemoteFiles$33: void onClick(android.view.View)
 org.simpledrive.activities.RemoteFiles$34$1: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.RemoteFiles$4: void onClick(android.content.DialogInterface,int)
@@ -6338,6 +6350,9 @@ org.simpledrive.activities.ShareFiles$1: void onClick(android.view.View)
 org.simpledrive.activities.ShareFiles$2: void onClick(android.view.View)
 org.simpledrive.activities.ShareFiles$8: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.ShareFiles$9: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.UnlockTFA
+org.simpledrive.activities.UnlockTFA: UnlockTFA()
+org.simpledrive.activities.UnlockTFA: void onClick(android.view.View)
 org.simpledrive.activities.UserDetails
 org.simpledrive.activities.UserDetails: UserDetails()
 org.simpledrive.activities.UserDetails$1: void onClick(android.view.View)
@@ -6352,6 +6367,9 @@ org.simpledrive.activities.Users$8: void onClick(android.view.View)
 org.simpledrive.activities.Vault
 org.simpledrive.activities.Vault: Vault()
 org.simpledrive.activities.Vault$1: void onClick(android.view.View)
+org.simpledrive.activities.Vault$11: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.Vault$12: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.Vault$13: void onClick(android.view.View)
 org.simpledrive.activities.Vault$2: void onClick(android.view.View)
 org.simpledrive.activities.Vault$3: void onClick(android.view.View)
 org.simpledrive.activities.Vault$5: void onClick(android.view.View)

@@ -6,7 +6,7 @@
 
         <ListPreference
             android:key="listlayout"
-            android:title="List Layout"
+            android:title="Layout"
             android:summary="List"
             android:entries="@array/listLayouts"
             android:entryValues="@array/listLayoutValues"
@@ -31,7 +31,6 @@
         <CheckBoxPreference
             android:key="context"
             android:title="Enable bottom context menu"
-            android:summary="Disabled"
             android:defaultValue="false"/>
     </PreferenceCategory>
 
@@ -45,7 +44,7 @@
             android:summary="Size: calculating..." />
 
         <CheckBoxPreference
-            android:key="photosync1"
+            android:key="photosync"
             android:title="Photo Sync"
             android:summary=""
             android:defaultValue="false" />
@@ -53,7 +52,7 @@
         <CheckBoxPreference
             android:key="pin"
             android:title="PIN"
-            android:summary="Disabled"
+            android:summary="Protect app-access"
             android:defaultValue="false"/>
 
         <CheckBoxPreference

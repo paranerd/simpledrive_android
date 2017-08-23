@@ -172,6 +172,14 @@
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_remotefiles.xml"
     },
     {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/layout/dialog_change_password.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/dialog_change_password.xml"
+    },
+    {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/layout/activity_unlock_tfa.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_unlock_tfa.xml"
+    },
+    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/layout/activity_users.xml",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_users.xml"
     },

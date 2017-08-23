@@ -1,7 +1,6 @@
 package org.simpledrive.activities;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -25,11 +23,10 @@ import org.simpledrive.R;
 import org.simpledrive.adapters.AccountAdapter;
 import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.SharedPrefManager;
+import org.simpledrive.helper.Util;
 import org.simpledrive.models.AccountItem;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Accounts extends AppCompatActivity {
     // General
@@ -175,21 +172,7 @@ public class Accounts extends AppCompatActivity {
         alert.show();
         input.requestFocus();
         input.selectAll();
-        showVirtualKeyboard();
-    }
-
-    private void showVirtualKeyboard() {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                InputMethodManager m = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
-                if (m != null) {
-                    m.toggleSoftInput(0, InputMethodManager.SHOW_IMPLICIT);
-                }
-            }
-        }, 100);
+        Util.showVirtualKeyboard(getApplicationContext());
     }
 
     private void getAccounts() {

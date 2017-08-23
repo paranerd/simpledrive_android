@@ -6175,6 +6175,8 @@ org.simpledrive.authenticator.CustomAuthenticator:
     private static final java.lang.String TRUE
     private static final java.lang.String FALSE
     15:15:public CustomAuthenticator()
+org.simpledrive.helper.Connection:
+    private static final int timeout
 org.simpledrive.helper.Crypto:
     20:20:public Crypto()
     50:58:private static java.lang.String randomString(int)
@@ -6187,13 +6189,15 @@ org.simpledrive.helper.DownloadManager:
 org.simpledrive.helper.SharedPrefManager:
     private static final java.lang.String SHARED_PREF_NAME
     public static final java.lang.String TAG_FIREBASE_TOKEN
+    public static final java.lang.String TAG_FIREBASE_TOKEN_OLD
     public static final java.lang.String TAG_LOAD_THUMB
     public static final java.lang.String TAG_BOTTOM_TOOLBAR
     public static final java.lang.String TAG_COLOR_THEME
     public static final java.lang.String TAG_LIST_LAYOUT
     public static final java.lang.String TAG_PHOTO_SYNC
     public static final java.lang.String TAG_LAST_PHOTO_SYNC
-    50:51:public int read(java.lang.String,int)
+    public static final java.lang.String TAG_VAULT_IN_SYNC
+    52:53:public int read(java.lang.String,int)
 org.simpledrive.helper.TouchImageView:
     private static final java.lang.String DEBUG
     private static final float SUPER_MIN_MULTIPLIER
@@ -6207,13 +6211,13 @@ org.simpledrive.helper.TouchImageView$DoubleTapZoom:
 org.simpledrive.helper.UploadManager:
     20:20:public UploadManager()
 org.simpledrive.helper.Util:
-    49:49:public Util()
-    172:175:public static int pxToDp(int)
-    251:269:public static java.lang.String readTextFromStorage(java.lang.String)
-    273:284:public static byte[] readFromStorage(java.lang.String)
-    289:299:public static boolean writeTextToStorage(java.lang.String,java.lang.String)
-    305:313:public static boolean writeToStorage(java.lang.String,byte[])
-    425:434:public static android.graphics.Bitmap getBitmapFromURL(java.lang.String)
+    52:52:public Util()
+    175:178:public static int pxToDp(int)
+    254:272:public static java.lang.String readTextFromStorage(java.lang.String)
+    276:287:public static byte[] readFromStorage(java.lang.String)
+    292:302:public static boolean writeTextToStorage(java.lang.String,java.lang.String)
+    308:316:public static boolean writeToStorage(java.lang.String,byte[])
+    428:437:public static android.graphics.Bitmap getBitmapFromURL(java.lang.String)
 org.simpledrive.models.AccountItem:
     25:25:public java.lang.String getServer()
     30:30:public java.lang.String getUser()

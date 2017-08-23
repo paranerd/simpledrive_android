@@ -14,7 +14,7 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
 import org.simpledrive.R;
-import org.simpledrive.activities.RemoteFiles;
+import org.simpledrive.activities.UnlockTFA;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static int NOTIFICATION_ID = 4;
@@ -38,13 +38,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             // Parsing json data
             String title = data.getString("title");
-            String message = data.getString("message");
+            String code = data.getString("code");
+            String fingerprint = data.getString("fingerprint");
 
             // Creating an intent for the notification
-            Intent intent = new Intent(getApplicationContext(), RemoteFiles.class);
+            Intent intent = new Intent(getApplicationContext(), UnlockTFA.class);
+            intent.putExtra("fingerprint", fingerprint);
+            intent.putExtra("code", code);
 
             // Show Notification
-            showNotification(title, message, intent);
+            showNotification(title, code, intent);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,6 +67,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Notification notification;
         notification = mBuilder
                 .setTicker(title)
+                .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(0)
                 .setAutoCancel(true)
                 .setContentIntent(resultPendingIntent)
@@ -71,11 +75,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.ic_cloud)
                 .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ic_launcher))
                 .setContentText(message)
-                .setDefaults(Notification.DEFAULT_ALL)
                 .setPriority(Notification.PRIORITY_MAX)
                 .build();
-
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(NOTIFICATION_ID, notification);

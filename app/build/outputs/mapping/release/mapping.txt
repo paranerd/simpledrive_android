@@ -19726,11 +19726,10 @@ org.simpledrive.activities.Accounts -> org.simpledrive.activities.Accounts:
     void initToolbar() -> i
     void setUpList() -> j
     void showRename(android.view.ActionMode) -> a
-    void showVirtualKeyboard() -> k
-    void getAccounts() -> l
-    void displayAccounts() -> m
-    void unselectAll() -> n
-    java.lang.String getFirstSelected() -> o
+    void getAccounts() -> k
+    void displayAccounts() -> l
+    void unselectAll() -> m
+    java.lang.String getFirstSelected() -> n
     void remove(java.lang.String) -> a
     void rename(java.lang.String,java.lang.String) -> a
     void access$000(org.simpledrive.activities.Accounts) -> a
@@ -19785,28 +19784,24 @@ org.simpledrive.activities.Accounts$7 -> org.simpledrive.activities.Accounts$7:
     org.simpledrive.activities.Accounts this$0 -> a
     void <init>(org.simpledrive.activities.Accounts) -> <init>
     void run() -> run
-org.simpledrive.activities.Accounts$8 -> org.simpledrive.activities.Accounts$8:
-    org.simpledrive.activities.Accounts this$0 -> a
-    void <init>(org.simpledrive.activities.Accounts) -> <init>
-    void run() -> run
 org.simpledrive.activities.AppSettings -> org.simpledrive.activities.AppSettings:
     org.simpledrive.activities.AppSettings ctx -> n
-    java.lang.String CACHE_FOLDER -> s
+    java.lang.String CACHE_FOLDER -> r
     org.simpledrive.activities.AppSettings$PrefsFragment prefsFragment -> o
     boolean pinEnabled -> p
-    java.lang.String pinEnabledText -> q
-    boolean photosyncEnabled -> r
-    java.lang.String photosyncText -> t
-    boolean cacheEnabled -> u
-    java.lang.String tfaToken -> v
+    boolean photosyncEnabled -> q
+    java.lang.String photosyncText -> s
+    boolean cacheEnabled -> t
+    java.lang.String tfaToken -> u
+    boolean tfaEnabled -> v
     android.preference.ListPreference fileview -> w
     android.preference.CheckBoxPreference photosync -> x
     android.preference.CheckBoxPreference pin -> y
     android.preference.CheckBoxPreference twoFactor -> z
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
-    void initInterface() -> r
-    void initToolbar() -> s
+    void initInterface() -> s
+    void initToolbar() -> t
     void onResume() -> onResume
     void clearCache() -> i
     void onRequestPermissionsResult(int,java.lang.String[],int[]) -> onRequestPermissionsResult
@@ -19828,6 +19823,8 @@ org.simpledrive.activities.AppSettings -> org.simpledrive.activities.AppSettings
     void access$800(org.simpledrive.activities.AppSettings,java.lang.String) -> a
     void access$900(org.simpledrive.activities.AppSettings,java.lang.String) -> b
     android.preference.CheckBoxPreference access$600() -> q
+    boolean access$1002(boolean) -> b
+    boolean access$1000() -> r
     void <clinit>() -> <clinit>
 org.simpledrive.activities.AppSettings$1 -> org.simpledrive.activities.AppSettings$1:
     org.simpledrive.activities.AppSettings this$0 -> a
@@ -20203,7 +20200,7 @@ org.simpledrive.activities.RemoteFiles -> org.simpledrive.activities.RemoteFiles
     boolean preventLock -> u
     boolean isAdmin -> v
     java.util.ArrayList accounts -> w
-    java.lang.String tfaCode -> x
+    boolean waitForTFAUnlock -> x
     int REQUEST_UPLOAD -> y
     int REQUEST_TFA_CODE -> z
     int REQUEST_UNLOCK -> A
@@ -20297,19 +20294,22 @@ org.simpledrive.activities.RemoteFiles -> org.simpledrive.activities.RemoteFiles
     java.lang.String getAllSelected() -> w
     java.lang.String getFirstSelected() -> x
     void connect() -> y
-    void checkForPendingUploads() -> z
+    void submitTFA(java.lang.String) -> d
+    void requestTFA(java.lang.String) -> e
+    void emptyList() -> z
+    void showInfo(java.lang.String) -> f
+    void checkForPendingUploads() -> A
     void unhideDrawerItem(int) -> e
-    void showShare(java.lang.String) -> d
-    void showCreate(java.lang.String) -> e
-    void showEncrypt(java.lang.String) -> f
-    void showDecrypt(java.lang.String) -> g
+    void showShare(java.lang.String) -> g
+    void showCreate(java.lang.String) -> h
+    void showEncrypt(java.lang.String) -> i
+    void showDecrypt(java.lang.String) -> j
     void showRename(java.lang.String,java.lang.String) -> b
-    void showVirtualKeyboard() -> A
     void initDrawer() -> B
     void initToolbar() -> C
     void executeContextAction(int) -> f
-    void setToolbarTitle(java.lang.String) -> h
-    void setToolbarSubtitle(java.lang.String) -> i
+    void setToolbarTitle(java.lang.String) -> k
+    void setToolbarSubtitle(java.lang.String) -> l
     void initList() -> D
     void setListLayout(int) -> g
     void clearHierarchy() -> E
@@ -20317,17 +20317,18 @@ org.simpledrive.activities.RemoteFiles -> org.simpledrive.activities.RemoteFiles
     void initAudioPlayer() -> G
     void create(java.lang.String,java.lang.String,java.lang.String) -> a
     void share(java.lang.String,java.lang.String,java.lang.String,boolean,boolean) -> a
-    void unshare(java.lang.String) -> j
+    void unshare(java.lang.String) -> m
     void zip(java.lang.String,java.lang.String) -> c
     void unzip(java.lang.String,java.lang.String) -> d
-    void restore(java.lang.String) -> k
+    void restore(java.lang.String) -> n
     void delete(java.lang.String,boolean) -> a
     void paste(java.lang.String,java.lang.String,boolean) -> a
+    void refreshToken(java.lang.String,java.lang.String) -> e
     void getPermissions() -> H
     void getVersion() -> I
-    void rename(java.lang.String,java.lang.String) -> e
-    void encrypt(java.lang.String,java.lang.String) -> f
-    void decrypt(java.lang.String,java.lang.String) -> g
+    void rename(java.lang.String,java.lang.String) -> f
+    void encrypt(java.lang.String,java.lang.String) -> g
+    void decrypt(java.lang.String,java.lang.String) -> h
     void hideAccounts() -> J
     void toggleAccounts() -> K
     void logout() -> L
@@ -20359,48 +20360,50 @@ org.simpledrive.activities.RemoteFiles -> org.simpledrive.activities.RemoteFiles
     android.support.v4.widget.SwipeRefreshLayout access$2300(org.simpledrive.activities.RemoteFiles) -> o
     void access$2400(org.simpledrive.activities.RemoteFiles,java.lang.String) -> c
     void access$2500(org.simpledrive.activities.RemoteFiles) -> p
-    android.widget.TextView access$2600(org.simpledrive.activities.RemoteFiles) -> q
-    int access$1900(org.simpledrive.activities.RemoteFiles) -> r
+    void access$2600(org.simpledrive.activities.RemoteFiles,java.lang.String) -> d
+    int access$1900(org.simpledrive.activities.RemoteFiles) -> q
     void access$2700(org.simpledrive.activities.RemoteFiles,java.lang.String,java.lang.String) -> a
     boolean access$2802(org.simpledrive.activities.RemoteFiles,boolean) -> e
-    android.widget.SeekBar access$2900(org.simpledrive.activities.RemoteFiles) -> s
-    android.widget.ImageView access$3000(org.simpledrive.activities.RemoteFiles) -> t
-    boolean access$3100(org.simpledrive.activities.RemoteFiles) -> u
-    android.os.Handler access$3200(org.simpledrive.activities.RemoteFiles) -> v
-    void access$3300(org.simpledrive.activities.RemoteFiles) -> w
+    android.widget.SeekBar access$2900(org.simpledrive.activities.RemoteFiles) -> r
+    android.widget.ImageView access$3000(org.simpledrive.activities.RemoteFiles) -> s
+    boolean access$3100(org.simpledrive.activities.RemoteFiles) -> t
+    android.os.Handler access$3200(org.simpledrive.activities.RemoteFiles) -> u
+    void access$3300(org.simpledrive.activities.RemoteFiles) -> v
+    boolean access$3400(org.simpledrive.activities.RemoteFiles) -> w
     int access$1908(org.simpledrive.activities.RemoteFiles) -> x
-    java.lang.String access$3400(org.simpledrive.activities.RemoteFiles) -> y
-    java.lang.String access$3402(org.simpledrive.activities.RemoteFiles,java.lang.String) -> d
-    void access$3500(org.simpledrive.activities.RemoteFiles) -> z
-    void access$3600(org.simpledrive.activities.RemoteFiles) -> A
-    void access$3700(org.simpledrive.activities.RemoteFiles) -> B
-    void access$3800(org.simpledrive.activities.RemoteFiles,java.lang.String,java.lang.String,java.lang.String,boolean,boolean) -> a
-    void access$3900(org.simpledrive.activities.RemoteFiles,java.lang.String,java.lang.String,java.lang.String) -> a
-    void access$4000(org.simpledrive.activities.RemoteFiles,java.lang.String,java.lang.String) -> b
-    void access$4100(org.simpledrive.activities.RemoteFiles,java.lang.String,java.lang.String) -> c
-    void access$4200(org.simpledrive.activities.RemoteFiles,java.lang.String,java.lang.String) -> d
-    void access$4300(org.simpledrive.activities.RemoteFiles) -> C
-    void access$4400(org.simpledrive.activities.RemoteFiles) -> D
-    android.support.v4.widget.DrawerLayout access$4500(org.simpledrive.activities.RemoteFiles) -> E
-    java.util.ArrayList access$4600(org.simpledrive.activities.RemoteFiles) -> F
-    void access$4700(org.simpledrive.activities.RemoteFiles,java.lang.String) -> e
-    void access$4800(org.simpledrive.activities.RemoteFiles) -> G
-    void access$4900(org.simpledrive.activities.RemoteFiles,int) -> b
-    boolean access$5000(org.simpledrive.activities.RemoteFiles) -> H
-    void access$5100(org.simpledrive.activities.RemoteFiles) -> I
-    android.view.ActionMode access$5202(org.simpledrive.activities.RemoteFiles,android.view.ActionMode) -> a
-    android.view.Menu access$5302(org.simpledrive.activities.RemoteFiles,android.view.Menu) -> a
-    void access$5400(org.simpledrive.activities.RemoteFiles) -> J
-    java.util.ArrayList access$5500() -> j
-    android.widget.AbsListView access$5600(org.simpledrive.activities.RemoteFiles) -> K
-    android.view.Menu access$5300(org.simpledrive.activities.RemoteFiles) -> L
-    android.view.Menu access$5700(org.simpledrive.activities.RemoteFiles) -> M
-    int access$5802(org.simpledrive.activities.RemoteFiles,int) -> c
-    int access$5800(org.simpledrive.activities.RemoteFiles) -> N
-    boolean access$5900(org.simpledrive.activities.RemoteFiles,int) -> d
-    void access$6000(org.simpledrive.activities.RemoteFiles,int) -> e
-    boolean access$6102(org.simpledrive.activities.RemoteFiles,boolean) -> f
-    void access$6200(org.simpledrive.activities.RemoteFiles,int) -> f
+    void access$3500(org.simpledrive.activities.RemoteFiles) -> y
+    boolean access$3402(org.simpledrive.activities.RemoteFiles,boolean) -> f
+    void access$3600(org.simpledrive.activities.RemoteFiles) -> z
+    void access$3700(org.simpledrive.activities.RemoteFiles) -> A
+    void access$3800(org.simpledrive.activities.RemoteFiles) -> B
+    void access$3900(org.simpledrive.activities.RemoteFiles,java.lang.String) -> e
+    void access$4000(org.simpledrive.activities.RemoteFiles,java.lang.String,java.lang.String,java.lang.String,boolean,boolean) -> a
+    void access$4100(org.simpledrive.activities.RemoteFiles,java.lang.String,java.lang.String,java.lang.String) -> a
+    void access$4200(org.simpledrive.activities.RemoteFiles,java.lang.String,java.lang.String) -> b
+    void access$4300(org.simpledrive.activities.RemoteFiles,java.lang.String,java.lang.String) -> c
+    void access$4400(org.simpledrive.activities.RemoteFiles,java.lang.String,java.lang.String) -> d
+    void access$4500(org.simpledrive.activities.RemoteFiles) -> C
+    void access$4600(org.simpledrive.activities.RemoteFiles) -> D
+    android.support.v4.widget.DrawerLayout access$4700(org.simpledrive.activities.RemoteFiles) -> E
+    java.util.ArrayList access$4800(org.simpledrive.activities.RemoteFiles) -> F
+    void access$4900(org.simpledrive.activities.RemoteFiles,java.lang.String) -> f
+    void access$5000(org.simpledrive.activities.RemoteFiles) -> G
+    void access$5100(org.simpledrive.activities.RemoteFiles,int) -> b
+    boolean access$5200(org.simpledrive.activities.RemoteFiles) -> H
+    void access$5300(org.simpledrive.activities.RemoteFiles) -> I
+    android.view.ActionMode access$5402(org.simpledrive.activities.RemoteFiles,android.view.ActionMode) -> a
+    android.view.Menu access$5502(org.simpledrive.activities.RemoteFiles,android.view.Menu) -> a
+    void access$5600(org.simpledrive.activities.RemoteFiles) -> J
+    java.util.ArrayList access$5700() -> j
+    android.widget.AbsListView access$5800(org.simpledrive.activities.RemoteFiles) -> K
+    android.view.Menu access$5500(org.simpledrive.activities.RemoteFiles) -> L
+    android.view.Menu access$5900(org.simpledrive.activities.RemoteFiles) -> M
+    int access$6002(org.simpledrive.activities.RemoteFiles,int) -> c
+    int access$6000(org.simpledrive.activities.RemoteFiles) -> N
+    boolean access$6100(org.simpledrive.activities.RemoteFiles,int) -> d
+    void access$6200(org.simpledrive.activities.RemoteFiles,int) -> e
+    boolean access$6302(org.simpledrive.activities.RemoteFiles,boolean) -> g
+    void access$6400(org.simpledrive.activities.RemoteFiles,int) -> f
     void <clinit>() -> <clinit>
 org.simpledrive.activities.RemoteFiles$1 -> org.simpledrive.activities.RemoteFiles$1:
     org.simpledrive.activities.RemoteFiles this$0 -> a
@@ -20452,23 +20455,32 @@ org.simpledrive.activities.RemoteFiles$18 -> org.simpledrive.activities.RemoteFi
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.activities.RemoteFiles$19 -> org.simpledrive.activities.RemoteFiles$11:
-    java.util.ArrayList val$pending -> a
+    java.lang.String val$code -> a
     org.simpledrive.activities.RemoteFiles this$0 -> b
-    void <init>(org.simpledrive.activities.RemoteFiles,java.util.ArrayList) -> <init>
-    void onClick(android.content.DialogInterface,int) -> onClick
+    void <init>(org.simpledrive.activities.RemoteFiles,java.lang.String) -> <init>
+    void onPreExecute() -> onPreExecute
+    org.simpledrive.helper.Connection$Response doInBackground(java.lang.Void[]) -> a
+    void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
+    void onPostExecute(java.lang.Object) -> onPostExecute
+    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.activities.RemoteFiles$2 -> org.simpledrive.activities.RemoteFiles$12:
     org.simpledrive.activities.RemoteFiles this$0 -> a
     void <init>(org.simpledrive.activities.RemoteFiles) -> <init>
     void onFinished() -> a
 org.simpledrive.activities.RemoteFiles$20 -> org.simpledrive.activities.RemoteFiles$13:
-    org.simpledrive.activities.RemoteFiles this$0 -> a
-    void <init>(org.simpledrive.activities.RemoteFiles) -> <init>
+    java.util.ArrayList val$pending -> a
+    org.simpledrive.activities.RemoteFiles this$0 -> b
+    void <init>(org.simpledrive.activities.RemoteFiles,java.util.ArrayList) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
 org.simpledrive.activities.RemoteFiles$21 -> org.simpledrive.activities.RemoteFiles$14:
     org.simpledrive.activities.RemoteFiles this$0 -> a
     void <init>(org.simpledrive.activities.RemoteFiles) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
 org.simpledrive.activities.RemoteFiles$22 -> org.simpledrive.activities.RemoteFiles$15:
+    org.simpledrive.activities.RemoteFiles this$0 -> a
+    void <init>(org.simpledrive.activities.RemoteFiles) -> <init>
+    void onClick(android.content.DialogInterface,int) -> onClick
+org.simpledrive.activities.RemoteFiles$23 -> org.simpledrive.activities.RemoteFiles$16:
     android.widget.EditText val$shareUser -> a
     android.widget.CheckBox val$sharePublic -> b
     java.lang.String val$target -> c
@@ -20477,41 +20489,35 @@ org.simpledrive.activities.RemoteFiles$22 -> org.simpledrive.activities.RemoteFi
     org.simpledrive.activities.RemoteFiles this$0 -> f
     void <init>(org.simpledrive.activities.RemoteFiles,android.widget.EditText,android.widget.CheckBox,java.lang.String,android.widget.CheckBox,android.app.AlertDialog) -> <init>
     void onClick(android.view.View) -> onClick
-org.simpledrive.activities.RemoteFiles$23 -> org.simpledrive.activities.RemoteFiles$16:
+org.simpledrive.activities.RemoteFiles$24 -> org.simpledrive.activities.RemoteFiles$17:
     android.widget.EditText val$input -> a
     java.lang.String val$type -> b
     org.simpledrive.activities.RemoteFiles this$0 -> c
     void <init>(org.simpledrive.activities.RemoteFiles,android.widget.EditText,java.lang.String) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.activities.RemoteFiles$24 -> org.simpledrive.activities.RemoteFiles$17:
+org.simpledrive.activities.RemoteFiles$25 -> org.simpledrive.activities.RemoteFiles$18:
     org.simpledrive.activities.RemoteFiles this$0 -> a
     void <init>(org.simpledrive.activities.RemoteFiles) -> <init>
-    void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.activities.RemoteFiles$25 -> org.simpledrive.activities.RemoteFiles$18:
-    java.lang.String val$source -> a
-    android.widget.EditText val$input -> b
-    org.simpledrive.activities.RemoteFiles this$0 -> c
-    void <init>(org.simpledrive.activities.RemoteFiles,java.lang.String,android.widget.EditText) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
 org.simpledrive.activities.RemoteFiles$26 -> org.simpledrive.activities.RemoteFiles$19:
-    org.simpledrive.activities.RemoteFiles this$0 -> a
-    void <init>(org.simpledrive.activities.RemoteFiles) -> <init>
-    void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.activities.RemoteFiles$27 -> org.simpledrive.activities.RemoteFiles$20:
     java.lang.String val$source -> a
     android.widget.EditText val$input -> b
     org.simpledrive.activities.RemoteFiles this$0 -> c
     void <init>(org.simpledrive.activities.RemoteFiles,java.lang.String,android.widget.EditText) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.activities.RemoteFiles$28 -> org.simpledrive.activities.RemoteFiles$21:
+org.simpledrive.activities.RemoteFiles$27 -> org.simpledrive.activities.RemoteFiles$20:
     org.simpledrive.activities.RemoteFiles this$0 -> a
     void <init>(org.simpledrive.activities.RemoteFiles) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.activities.RemoteFiles$29 -> org.simpledrive.activities.RemoteFiles$22:
-    java.lang.String val$target -> a
+org.simpledrive.activities.RemoteFiles$28 -> org.simpledrive.activities.RemoteFiles$21:
+    java.lang.String val$source -> a
     android.widget.EditText val$input -> b
     org.simpledrive.activities.RemoteFiles this$0 -> c
     void <init>(org.simpledrive.activities.RemoteFiles,java.lang.String,android.widget.EditText) -> <init>
+    void onClick(android.content.DialogInterface,int) -> onClick
+org.simpledrive.activities.RemoteFiles$29 -> org.simpledrive.activities.RemoteFiles$22:
+    org.simpledrive.activities.RemoteFiles this$0 -> a
+    void <init>(org.simpledrive.activities.RemoteFiles) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
 org.simpledrive.activities.RemoteFiles$3 -> org.simpledrive.activities.RemoteFiles$23:
     org.simpledrive.activities.RemoteFiles this$0 -> a
@@ -20519,13 +20525,15 @@ org.simpledrive.activities.RemoteFiles$3 -> org.simpledrive.activities.RemoteFil
     boolean onQueryTextChange(java.lang.String) -> b
     boolean onQueryTextSubmit(java.lang.String) -> a
 org.simpledrive.activities.RemoteFiles$30 -> org.simpledrive.activities.RemoteFiles$24:
-    org.simpledrive.activities.RemoteFiles this$0 -> a
-    void <init>(org.simpledrive.activities.RemoteFiles) -> <init>
+    java.lang.String val$target -> a
+    android.widget.EditText val$input -> b
+    org.simpledrive.activities.RemoteFiles this$0 -> c
+    void <init>(org.simpledrive.activities.RemoteFiles,java.lang.String,android.widget.EditText) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
 org.simpledrive.activities.RemoteFiles$31 -> org.simpledrive.activities.RemoteFiles$25:
     org.simpledrive.activities.RemoteFiles this$0 -> a
     void <init>(org.simpledrive.activities.RemoteFiles) -> <init>
-    void run() -> run
+    void onClick(android.content.DialogInterface,int) -> onClick
 org.simpledrive.activities.RemoteFiles$32 -> org.simpledrive.activities.RemoteFiles$26:
     org.simpledrive.activities.RemoteFiles this$0 -> c
     void <init>(org.simpledrive.activities.RemoteFiles,android.app.Activity,android.support.v4.widget.DrawerLayout,android.support.v7.widget.Toolbar,int,int) -> <init>
@@ -20671,8 +20679,11 @@ org.simpledrive.activities.RemoteFiles$48 -> org.simpledrive.activities.RemoteFi
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.activities.RemoteFiles$49 -> org.simpledrive.activities.RemoteFiles$44:
-    org.simpledrive.activities.RemoteFiles this$0 -> a
-    void <init>(org.simpledrive.activities.RemoteFiles) -> <init>
+    java.lang.String val$client_old -> a
+    java.lang.String val$client_new -> b
+    org.simpledrive.activities.RemoteFiles this$0 -> c
+    void <init>(org.simpledrive.activities.RemoteFiles,java.lang.String,java.lang.String) -> <init>
+    void onPreExecute() -> onPreExecute
     org.simpledrive.helper.Connection$Response doInBackground(java.lang.Void[]) -> a
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
@@ -20689,18 +20700,15 @@ org.simpledrive.activities.RemoteFiles$50 -> org.simpledrive.activities.RemoteFi
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.activities.RemoteFiles$51 -> org.simpledrive.activities.RemoteFiles$47:
-    java.lang.String val$target -> a
-    java.lang.String val$filename -> b
-    org.simpledrive.activities.RemoteFiles this$0 -> c
-    void <init>(org.simpledrive.activities.RemoteFiles,java.lang.String,java.lang.String) -> <init>
-    void onPreExecute() -> onPreExecute
+    org.simpledrive.activities.RemoteFiles this$0 -> a
+    void <init>(org.simpledrive.activities.RemoteFiles) -> <init>
     org.simpledrive.helper.Connection$Response doInBackground(java.lang.Void[]) -> a
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.activities.RemoteFiles$52 -> org.simpledrive.activities.RemoteFiles$48:
-    java.lang.String val$source -> a
-    java.lang.String val$secret -> b
+    java.lang.String val$target -> a
+    java.lang.String val$filename -> b
     org.simpledrive.activities.RemoteFiles this$0 -> c
     void <init>(org.simpledrive.activities.RemoteFiles,java.lang.String,java.lang.String) -> <init>
     void onPreExecute() -> onPreExecute
@@ -20719,24 +20727,34 @@ org.simpledrive.activities.RemoteFiles$53 -> org.simpledrive.activities.RemoteFi
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.activities.RemoteFiles$54 -> org.simpledrive.activities.RemoteFiles$50:
+    java.lang.String val$source -> a
+    java.lang.String val$secret -> b
+    org.simpledrive.activities.RemoteFiles this$0 -> c
+    void <init>(org.simpledrive.activities.RemoteFiles,java.lang.String,java.lang.String) -> <init>
+    void onPreExecute() -> onPreExecute
+    org.simpledrive.helper.Connection$Response doInBackground(java.lang.Void[]) -> a
+    void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
+    void onPostExecute(java.lang.Object) -> onPostExecute
+    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+org.simpledrive.activities.RemoteFiles$55 -> org.simpledrive.activities.RemoteFiles$51:
     org.simpledrive.activities.RemoteFiles this$0 -> a
     void <init>(org.simpledrive.activities.RemoteFiles) -> <init>
     void run() -> run
-org.simpledrive.activities.RemoteFiles$6 -> org.simpledrive.activities.RemoteFiles$51:
+org.simpledrive.activities.RemoteFiles$6 -> org.simpledrive.activities.RemoteFiles$52:
     org.simpledrive.activities.RemoteFiles this$0 -> a
     void <init>(org.simpledrive.activities.RemoteFiles) -> <init>
     void onClick(android.view.View) -> onClick
-org.simpledrive.activities.RemoteFiles$7 -> org.simpledrive.activities.RemoteFiles$52:
+org.simpledrive.activities.RemoteFiles$7 -> org.simpledrive.activities.RemoteFiles$53:
     org.simpledrive.activities.RemoteFiles this$0 -> a
     void <init>(org.simpledrive.activities.RemoteFiles) -> <init>
     void onProgressChanged(android.widget.SeekBar,int,boolean) -> onProgressChanged
     void onStartTrackingTouch(android.widget.SeekBar) -> onStartTrackingTouch
     void onStopTrackingTouch(android.widget.SeekBar) -> onStopTrackingTouch
-org.simpledrive.activities.RemoteFiles$8 -> org.simpledrive.activities.RemoteFiles$53:
+org.simpledrive.activities.RemoteFiles$8 -> org.simpledrive.activities.RemoteFiles$54:
     org.simpledrive.activities.RemoteFiles this$0 -> a
     void <init>(org.simpledrive.activities.RemoteFiles) -> <init>
     void onClick(android.view.View) -> onClick
-org.simpledrive.activities.RemoteFiles$9 -> org.simpledrive.activities.RemoteFiles$54:
+org.simpledrive.activities.RemoteFiles$9 -> org.simpledrive.activities.RemoteFiles$55:
     org.simpledrive.activities.RemoteFiles this$0 -> a
     void <init>(org.simpledrive.activities.RemoteFiles) -> <init>
     void onClick(android.view.View) -> onClick
@@ -20903,10 +20921,9 @@ org.simpledrive.activities.ShareFiles -> org.simpledrive.activities.ShareFiles:
     void connect() -> p
     void onBackPressed() -> onBackPressed
     void showCreate(java.lang.String) -> d
-    void showVirtualKeyboard() -> q
     java.lang.String getRealPathFromURI(android.net.Uri) -> a
     java.util.ArrayList getUploads(android.content.Intent) -> c
-    void setListLayout() -> r
+    void setListLayout() -> q
     void create(java.lang.String,java.lang.String,java.lang.String) -> a
     org.simpledrive.activities.ShareFiles access$000(org.simpledrive.activities.ShareFiles) -> a
     java.util.ArrayList access$100(org.simpledrive.activities.ShareFiles) -> b
@@ -20932,10 +20949,6 @@ org.simpledrive.activities.ShareFiles$1 -> org.simpledrive.activities.ShareFiles
     void <init>(org.simpledrive.activities.ShareFiles) -> <init>
     void onClick(android.view.View) -> onClick
 org.simpledrive.activities.ShareFiles$10 -> org.simpledrive.activities.ShareFiles$2:
-    org.simpledrive.activities.ShareFiles this$0 -> a
-    void <init>(org.simpledrive.activities.ShareFiles) -> <init>
-    void run() -> run
-org.simpledrive.activities.ShareFiles$11 -> org.simpledrive.activities.ShareFiles$3:
     java.lang.String val$target -> a
     java.lang.String val$filename -> b
     java.lang.String val$type -> c
@@ -20946,24 +20959,24 @@ org.simpledrive.activities.ShareFiles$11 -> org.simpledrive.activities.ShareFile
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.activities.ShareFiles$2 -> org.simpledrive.activities.ShareFiles$4:
+org.simpledrive.activities.ShareFiles$2 -> org.simpledrive.activities.ShareFiles$3:
     org.simpledrive.activities.ShareFiles this$0 -> a
     void <init>(org.simpledrive.activities.ShareFiles) -> <init>
     void onClick(android.view.View) -> onClick
-org.simpledrive.activities.ShareFiles$3 -> org.simpledrive.activities.ShareFiles$5:
+org.simpledrive.activities.ShareFiles$3 -> org.simpledrive.activities.ShareFiles$4:
     org.simpledrive.activities.ShareFiles this$0 -> a
     void <init>(org.simpledrive.activities.ShareFiles) -> <init>
     void onRefresh() -> a
-org.simpledrive.activities.ShareFiles$4 -> org.simpledrive.activities.ShareFiles$6:
+org.simpledrive.activities.ShareFiles$4 -> org.simpledrive.activities.ShareFiles$5:
     org.simpledrive.activities.ShareFiles this$0 -> a
     void <init>(org.simpledrive.activities.ShareFiles) -> <init>
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-org.simpledrive.activities.ShareFiles$5 -> org.simpledrive.activities.ShareFiles$7:
+org.simpledrive.activities.ShareFiles$5 -> org.simpledrive.activities.ShareFiles$6:
     org.simpledrive.activities.ShareFiles this$0 -> a
     void <init>(org.simpledrive.activities.ShareFiles) -> <init>
     void onScrollStateChanged(android.widget.AbsListView,int) -> onScrollStateChanged
     void onScroll(android.widget.AbsListView,int,int,int) -> onScroll
-org.simpledrive.activities.ShareFiles$6 -> org.simpledrive.activities.ShareFiles$8:
+org.simpledrive.activities.ShareFiles$6 -> org.simpledrive.activities.ShareFiles$7:
     org.simpledrive.activities.ShareFiles this$0 -> a
     void <init>(org.simpledrive.activities.ShareFiles) -> <init>
     void onPreExecute() -> onPreExecute
@@ -20971,7 +20984,7 @@ org.simpledrive.activities.ShareFiles$6 -> org.simpledrive.activities.ShareFiles
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.activities.ShareFiles$7 -> org.simpledrive.activities.ShareFiles$9:
+org.simpledrive.activities.ShareFiles$7 -> org.simpledrive.activities.ShareFiles$8:
     org.simpledrive.activities.ShareFiles this$0 -> a
     void <init>(org.simpledrive.activities.ShareFiles) -> <init>
     void onPreExecute() -> onPreExecute
@@ -20979,16 +20992,35 @@ org.simpledrive.activities.ShareFiles$7 -> org.simpledrive.activities.ShareFiles
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.activities.ShareFiles$8 -> org.simpledrive.activities.ShareFiles$10:
+org.simpledrive.activities.ShareFiles$8 -> org.simpledrive.activities.ShareFiles$9:
     android.widget.EditText val$input -> a
     java.lang.String val$type -> b
     org.simpledrive.activities.ShareFiles this$0 -> c
     void <init>(org.simpledrive.activities.ShareFiles,android.widget.EditText,java.lang.String) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.activities.ShareFiles$9 -> org.simpledrive.activities.ShareFiles$11:
+org.simpledrive.activities.ShareFiles$9 -> org.simpledrive.activities.ShareFiles$10:
     org.simpledrive.activities.ShareFiles this$0 -> a
     void <init>(org.simpledrive.activities.ShareFiles) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
+org.simpledrive.activities.UnlockTFA -> org.simpledrive.activities.UnlockTFA:
+    java.lang.String code -> n
+    java.lang.String fingerprint -> o
+    android.widget.TextView txtCode -> p
+    void <init>() -> <init>
+    void onCreate(android.os.Bundle) -> onCreate
+    void initInterface() -> i
+    void onClick(android.view.View) -> onClick
+    void submitTFA(java.lang.String,java.lang.String) -> a
+org.simpledrive.activities.UnlockTFA$1 -> org.simpledrive.activities.UnlockTFA$1:
+    java.lang.String val$code -> a
+    java.lang.String val$fingerprint -> b
+    org.simpledrive.activities.UnlockTFA this$0 -> c
+    void <init>(org.simpledrive.activities.UnlockTFA,java.lang.String,java.lang.String) -> <init>
+    void onPreExecute() -> onPreExecute
+    org.simpledrive.helper.Connection$Response doInBackground(java.lang.Void[]) -> a
+    void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
+    void onPostExecute(java.lang.Object) -> onPostExecute
+    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.activities.UserDetails -> org.simpledrive.activities.UserDetails:
     org.simpledrive.activities.UserDetails e -> n
     org.simpledrive.activities.UserDetails$PrefsFragment prefsFragment -> o
@@ -21063,7 +21095,7 @@ org.simpledrive.activities.UserDetails$PrefsFragment$2 -> org.simpledrive.activi
     void <init>(org.simpledrive.activities.UserDetails$PrefsFragment) -> <init>
     boolean onPreferenceChange(android.preference.Preference,java.lang.Object) -> onPreferenceChange
 org.simpledrive.activities.Users -> org.simpledrive.activities.Users:
-    org.simpledrive.activities.Users e -> n
+    org.simpledrive.activities.Users ctx -> n
     java.util.ArrayList items -> o
     org.simpledrive.adapters.UserAdapter newAdapter -> p
     int selectedPos -> q
@@ -21085,7 +21117,6 @@ org.simpledrive.activities.Users -> org.simpledrive.activities.Users:
     void showCreate() -> p
     void create(java.lang.String,java.lang.String,boolean) -> a
     void delete(java.lang.String) -> b
-    void showVirtualKeyboard() -> q
     void access$000(org.simpledrive.activities.Users) -> a
     org.simpledrive.activities.Users access$100(org.simpledrive.activities.Users) -> b
     void access$200(org.simpledrive.activities.Users) -> c
@@ -21116,15 +21147,11 @@ org.simpledrive.activities.Users$10 -> org.simpledrive.activities.Users$2:
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.activities.Users$11 -> org.simpledrive.activities.Users$3:
-    org.simpledrive.activities.Users this$0 -> a
-    void <init>(org.simpledrive.activities.Users) -> <init>
-    void run() -> run
-org.simpledrive.activities.Users$2 -> org.simpledrive.activities.Users$4:
+org.simpledrive.activities.Users$2 -> org.simpledrive.activities.Users$3:
     org.simpledrive.activities.Users this$0 -> a
     void <init>(org.simpledrive.activities.Users) -> <init>
     void onClick(android.view.View) -> onClick
-org.simpledrive.activities.Users$3 -> org.simpledrive.activities.Users$5:
+org.simpledrive.activities.Users$3 -> org.simpledrive.activities.Users$4:
     org.simpledrive.activities.Users this$0 -> a
     void <init>(org.simpledrive.activities.Users) -> <init>
     boolean onPrepareActionMode(android.view.ActionMode,android.view.Menu) -> onPrepareActionMode
@@ -21132,15 +21159,15 @@ org.simpledrive.activities.Users$3 -> org.simpledrive.activities.Users$5:
     boolean onCreateActionMode(android.view.ActionMode,android.view.Menu) -> onCreateActionMode
     boolean onActionItemClicked(android.view.ActionMode,android.view.MenuItem) -> onActionItemClicked
     void onItemCheckedStateChanged(android.view.ActionMode,int,long,boolean) -> onItemCheckedStateChanged
-org.simpledrive.activities.Users$3$1 -> org.simpledrive.activities.Users$5$1:
+org.simpledrive.activities.Users$3$1 -> org.simpledrive.activities.Users$4$1:
     org.simpledrive.activities.Users$3 this$1 -> a
     void <init>(org.simpledrive.activities.Users$3) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.activities.Users$4 -> org.simpledrive.activities.Users$6:
+org.simpledrive.activities.Users$4 -> org.simpledrive.activities.Users$5:
     org.simpledrive.activities.Users this$0 -> a
     void <init>(org.simpledrive.activities.Users) -> <init>
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-org.simpledrive.activities.Users$5 -> org.simpledrive.activities.Users$7:
+org.simpledrive.activities.Users$5 -> org.simpledrive.activities.Users$6:
     org.simpledrive.activities.Users this$0 -> a
     void <init>(org.simpledrive.activities.Users) -> <init>
     void onPreExecute() -> onPreExecute
@@ -21148,15 +21175,15 @@ org.simpledrive.activities.Users$5 -> org.simpledrive.activities.Users$7:
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.activities.Users$6 -> org.simpledrive.activities.Users$8:
+org.simpledrive.activities.Users$6 -> org.simpledrive.activities.Users$7:
     org.simpledrive.activities.Users this$0 -> a
     void <init>(org.simpledrive.activities.Users) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.activities.Users$7 -> org.simpledrive.activities.Users$9:
+org.simpledrive.activities.Users$7 -> org.simpledrive.activities.Users$8:
     org.simpledrive.activities.Users this$0 -> a
     void <init>(org.simpledrive.activities.Users) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.activities.Users$8 -> org.simpledrive.activities.Users$10:
+org.simpledrive.activities.Users$8 -> org.simpledrive.activities.Users$9:
     android.widget.EditText val$username -> a
     android.widget.EditText val$pass1 -> b
     android.widget.EditText val$pass2 -> c
@@ -21165,7 +21192,7 @@ org.simpledrive.activities.Users$8 -> org.simpledrive.activities.Users$10:
     org.simpledrive.activities.Users this$0 -> f
     void <init>(org.simpledrive.activities.Users,android.widget.EditText,android.widget.EditText,android.widget.EditText,android.widget.CheckBox,android.app.AlertDialog) -> <init>
     void onClick(android.view.View) -> onClick
-org.simpledrive.activities.Users$9 -> org.simpledrive.activities.Users$11:
+org.simpledrive.activities.Users$9 -> org.simpledrive.activities.Users$10:
     boolean val$admin -> a
     java.lang.String val$username -> b
     java.lang.String val$pass -> c
@@ -21183,7 +21210,7 @@ org.simpledrive.activities.Vault -> org.simpledrive.activities.Vault:
     int selectedPos -> q
     boolean waitingForUnlock -> r
     boolean waitingForSetPassphrase -> s
-    boolean savePending -> t
+    boolean changed -> t
     boolean createNewVault -> u
     int unlockAttempts -> v
     java.lang.String username -> w
@@ -21235,6 +21262,7 @@ org.simpledrive.activities.Vault -> org.simpledrive.activities.Vault:
     boolean save() -> t
     boolean saveEntry(org.simpledrive.models.VaultItem,int) -> a
     java.util.ArrayList cloneArrayList(java.util.ArrayList) -> a
+    void showChangePassword() -> u
     boolean access$000(org.simpledrive.activities.Vault) -> a
     void access$100(org.simpledrive.activities.Vault,boolean) -> a
     void access$200(org.simpledrive.activities.Vault,java.lang.String) -> a
@@ -21256,6 +21284,9 @@ org.simpledrive.activities.Vault -> org.simpledrive.activities.Vault:
     boolean access$1502(org.simpledrive.activities.Vault,boolean) -> b
     void access$1600(org.simpledrive.activities.Vault) -> l
     boolean access$1702(org.simpledrive.activities.Vault,boolean) -> c
+    java.lang.String access$1800(org.simpledrive.activities.Vault) -> m
+    java.lang.String access$1802(org.simpledrive.activities.Vault,java.lang.String) -> d
+    boolean access$1900(org.simpledrive.activities.Vault) -> n
 org.simpledrive.activities.Vault$1 -> org.simpledrive.activities.Vault$1:
     org.simpledrive.activities.Vault this$0 -> a
     void <init>(org.simpledrive.activities.Vault) -> <init>
@@ -21268,24 +21299,40 @@ org.simpledrive.activities.Vault$10 -> org.simpledrive.activities.Vault$2:
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.activities.Vault$2 -> org.simpledrive.activities.Vault$3:
+org.simpledrive.activities.Vault$11 -> org.simpledrive.activities.Vault$3:
+    org.simpledrive.activities.Vault this$0 -> a
+    void <init>(org.simpledrive.activities.Vault) -> <init>
+    void onClick(android.content.DialogInterface,int) -> onClick
+org.simpledrive.activities.Vault$12 -> org.simpledrive.activities.Vault$4:
+    org.simpledrive.activities.Vault this$0 -> a
+    void <init>(org.simpledrive.activities.Vault) -> <init>
+    void onClick(android.content.DialogInterface,int) -> onClick
+org.simpledrive.activities.Vault$13 -> org.simpledrive.activities.Vault$5:
+    android.widget.EditText val$oldpass -> a
+    android.widget.EditText val$newpass1 -> b
+    android.widget.EditText val$newpass2 -> c
+    android.app.AlertDialog val$dialog2 -> d
+    org.simpledrive.activities.Vault this$0 -> e
+    void <init>(org.simpledrive.activities.Vault,android.widget.EditText,android.widget.EditText,android.widget.EditText,android.app.AlertDialog) -> <init>
+    void onClick(android.view.View) -> onClick
+org.simpledrive.activities.Vault$2 -> org.simpledrive.activities.Vault$6:
     org.simpledrive.activities.Vault this$0 -> a
     void <init>(org.simpledrive.activities.Vault) -> <init>
     void onClick(android.view.View) -> onClick
-org.simpledrive.activities.Vault$3 -> org.simpledrive.activities.Vault$4:
+org.simpledrive.activities.Vault$3 -> org.simpledrive.activities.Vault$7:
     org.simpledrive.activities.Vault this$0 -> a
     void <init>(org.simpledrive.activities.Vault) -> <init>
     void onClick(android.view.View) -> onClick
-org.simpledrive.activities.Vault$4 -> org.simpledrive.activities.Vault$5:
+org.simpledrive.activities.Vault$4 -> org.simpledrive.activities.Vault$8:
     org.simpledrive.activities.Vault this$0 -> a
     void <init>(org.simpledrive.activities.Vault) -> <init>
     boolean onQueryTextChange(java.lang.String) -> b
     boolean onQueryTextSubmit(java.lang.String) -> a
-org.simpledrive.activities.Vault$5 -> org.simpledrive.activities.Vault$6:
+org.simpledrive.activities.Vault$5 -> org.simpledrive.activities.Vault$9:
     org.simpledrive.activities.Vault this$0 -> a
     void <init>(org.simpledrive.activities.Vault) -> <init>
     void onClick(android.view.View) -> onClick
-org.simpledrive.activities.Vault$6 -> org.simpledrive.activities.Vault$7:
+org.simpledrive.activities.Vault$6 -> org.simpledrive.activities.Vault$10:
     org.simpledrive.activities.Vault this$0 -> a
     void <init>(org.simpledrive.activities.Vault) -> <init>
     boolean onPrepareActionMode(android.view.ActionMode,android.view.Menu) -> onPrepareActionMode
@@ -21293,16 +21340,16 @@ org.simpledrive.activities.Vault$6 -> org.simpledrive.activities.Vault$7:
     boolean onCreateActionMode(android.view.ActionMode,android.view.Menu) -> onCreateActionMode
     boolean onActionItemClicked(android.view.ActionMode,android.view.MenuItem) -> onActionItemClicked
     void onItemCheckedStateChanged(android.view.ActionMode,int,long,boolean) -> onItemCheckedStateChanged
-org.simpledrive.activities.Vault$6$1 -> org.simpledrive.activities.Vault$7$1:
+org.simpledrive.activities.Vault$6$1 -> org.simpledrive.activities.Vault$10$1:
     android.view.ActionMode val$mode -> a
     org.simpledrive.activities.Vault$6 this$1 -> b
     void <init>(org.simpledrive.activities.Vault$6,android.view.ActionMode) -> <init>
     void onClick(android.content.DialogInterface,int) -> onClick
-org.simpledrive.activities.Vault$7 -> org.simpledrive.activities.Vault$8:
+org.simpledrive.activities.Vault$7 -> org.simpledrive.activities.Vault$11:
     org.simpledrive.activities.Vault this$0 -> a
     void <init>(org.simpledrive.activities.Vault) -> <init>
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-org.simpledrive.activities.Vault$8 -> org.simpledrive.activities.Vault$9:
+org.simpledrive.activities.Vault$8 -> org.simpledrive.activities.Vault$12:
     org.simpledrive.activities.Vault this$0 -> a
     void <init>(org.simpledrive.activities.Vault) -> <init>
     void onPreExecute() -> onPreExecute
@@ -21310,7 +21357,7 @@ org.simpledrive.activities.Vault$8 -> org.simpledrive.activities.Vault$9:
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.activities.Vault$9 -> org.simpledrive.activities.Vault$10:
+org.simpledrive.activities.Vault$9 -> org.simpledrive.activities.Vault$13:
     org.simpledrive.activities.Vault this$0 -> a
     void <init>(org.simpledrive.activities.Vault) -> <init>
     void onPreExecute() -> onPreExecute
@@ -21601,7 +21648,7 @@ org.simpledrive.authenticator.CustomAuthenticator -> org.simpledrive.authenticat
     android.content.Context ctx -> a
     android.accounts.AccountManager am -> b
     android.accounts.Account[] aaccount -> c
-    void refresh() -> m
+    void refresh() -> n
     void enable(android.content.Context) -> a
     boolean accountExists(java.lang.String,java.lang.String) -> a
     boolean addAccount(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
@@ -21616,14 +21663,15 @@ org.simpledrive.authenticator.CustomAuthenticator -> org.simpledrive.authenticat
     java.lang.String getSalt() -> f
     java.lang.String getToken() -> g
     void setToken(java.lang.String) -> c
-    void lock() -> h
-    boolean isLocked() -> i
+    void removeToken() -> h
+    void lock() -> i
+    boolean isLocked() -> j
     boolean unlock(java.lang.String) -> d
-    long getRemainingUnlockAttempts() -> j
-    long getCooldown() -> k
-    void incrementUnlockCounter() -> n
+    long getRemainingUnlockAttempts() -> k
+    long getCooldown() -> l
+    void incrementUnlockCounter() -> o
     void setPIN(java.lang.String) -> e
-    boolean hasPIN() -> l
+    boolean hasPIN() -> m
     java.util.ArrayList getAllAccounts(boolean) -> a
     boolean isActive(java.lang.String) -> f
 org.simpledrive.helper.Connection -> org.simpledrive.helper.a:
@@ -21640,7 +21688,9 @@ org.simpledrive.helper.Connection -> org.simpledrive.helper.a:
     java.lang.String downloadPath -> k
     java.lang.String downloadFilename -> l
     void <init>(java.lang.String,java.lang.String) -> <init>
+    void <init>(java.lang.String,java.lang.String,int) -> <init>
     void <init>(java.lang.String,java.lang.String,java.lang.String) -> <init>
+    void <init>(java.lang.String,java.lang.String,java.lang.String,int) -> <init>
     void setListener(org.simpledrive.helper.Connection$ProgressListener) -> a
     void addFormField(java.lang.String,java.lang.String) -> a
     void forceSetCookie() -> a
@@ -22019,11 +22069,16 @@ org.simpledrive.helper.Util -> org.simpledrive.helper.h:
     java.lang.String byteToString(byte[]) -> b
     java.lang.String timestampToDate(android.support.v7.app.AppCompatActivity,java.lang.String) -> a
     java.util.Locale getCurrentLocale(android.support.v7.app.AppCompatActivity) -> a
+    void showVirtualKeyboard(android.content.Context) -> a
 org.simpledrive.helper.Util$1 -> org.simpledrive.helper.h$1:
     int val$sortOrder -> a
     void <init>(int) -> <init>
     int compare(org.simpledrive.models.FileItem,org.simpledrive.models.FileItem) -> a
     int compare(java.lang.Object,java.lang.Object) -> compare
+org.simpledrive.helper.Util$2 -> org.simpledrive.helper.h$2:
+    android.content.Context val$ctx -> a
+    void <init>(android.content.Context) -> <init>
+    void run() -> run
 org.simpledrive.models.AccountItem -> org.simpledrive.models.a:
     java.lang.String name -> a
     java.lang.String server -> b

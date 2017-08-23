@@ -70,11 +70,7 @@
         <Button
             android:id="@+id/confirm"
             android:layout_width="250.0dp"
-            android:layout_height="50dp"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:fontFamily="sans-serif-light"
-            android:background="@color/darkergreen"
+            style="@style/MyButtonLarge"
             android:text="Unlock"
             android:onClick="onClick"/>
 

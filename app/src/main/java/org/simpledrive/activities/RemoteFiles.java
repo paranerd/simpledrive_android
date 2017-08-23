@@ -37,7 +37,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -70,8 +69,6 @@ import org.simpledrive.services.AudioService.LocalBinder;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class RemoteFiles extends AppCompatActivity {
     // General
@@ -84,7 +81,7 @@ public class RemoteFiles extends AppCompatActivity {
     private boolean preventLock = false;
     private boolean isAdmin = false;
     private ArrayList<AccountItem> accounts = new ArrayList<>();
-    private String tfaCode = "";
+    private boolean waitForTFAUnlock = false;
 
     // Request codes
     private final int REQUEST_UPLOAD = 1;
@@ -191,6 +188,14 @@ public class RemoteFiles extends AppCompatActivity {
         bottomToolbarEnabled = SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_BOTTOM_TOOLBAR, false);
         username = CustomAuthenticator.getUsername();
         updateNavigationDrawer();
+
+        // Update firebase-token if refreshed
+        if (!SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_FIREBASE_TOKEN_OLD, "").equals("")) {
+            refreshToken(
+                    SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_FIREBASE_TOKEN_OLD, ""),
+                    SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_FIREBASE_TOKEN, "")
+            );
+        }
     }
 
     @Override
@@ -223,7 +228,7 @@ public class RemoteFiles extends AppCompatActivity {
         else if (CustomAuthenticator.isLocked()) {
             requestPIN();
         }
-        else {
+        else if (!waitForTFAUnlock) {
             fetchFiles();
             preventLock = false;
             appVisible = true;
@@ -337,8 +342,10 @@ public class RemoteFiles extends AppCompatActivity {
 
             case REQUEST_TFA_CODE:
                 if (resultCode == RESULT_OK) {
-                    tfaCode = data.getStringExtra("passphrase");
-                    connect();
+                    submitTFA(data.getStringExtra("passphrase"));
+                }
+                else if (CustomAuthenticator.getToken().equals("")) {
+                    finish();
                 }
                 break;
 
@@ -379,7 +386,8 @@ public class RemoteFiles extends AppCompatActivity {
         if (listLayout == R.layout.listview_detail) {
             menu.findItem(R.id.toggle_view).setIcon(R.drawable.ic_grid);
             menu.findItem(R.id.toggle_view).setTitle("Grid view");
-        } else {
+        }
+        else {
             menu.findItem(R.id.toggle_view).setIcon(R.drawable.ic_list);
             menu.findItem(R.id.toggle_view).setTitle("List view");
         }
@@ -571,7 +579,8 @@ public class RemoteFiles extends AppCompatActivity {
                 if (!FAB_Status) {
                     // Display FAB menu
                     toggleFAB(true);
-                } else {
+                }
+                else {
                     // Close FAB menu
                     toggleFAB(false);
                 }
@@ -678,9 +687,7 @@ public class RemoteFiles extends AppCompatActivity {
                     displayFiles();
                 }
                 else {
-                    String msg = res.getMessage();
-                    info.setVisibility(View.VISIBLE);
-                    info.setText(msg);
+                    showInfo(res.getMessage());
 
                     if (loginAttempts < 2) {
                         connect();
@@ -697,9 +704,7 @@ public class RemoteFiles extends AppCompatActivity {
     private void extractFiles(String rawJSON) {
         // Reset anything related to listing files
         toggleFAB(false);
-
-        items = new ArrayList<>();
-        filteredItems = new ArrayList<>();
+        emptyList();
 
         try {
             JSONObject job = new JSONObject(rawJSON);
@@ -751,8 +756,7 @@ public class RemoteFiles extends AppCompatActivity {
         Util.sortFilesByName(items, sortOrder);
 
         if (filteredItems.size() == 0) {
-            info.setVisibility(View.VISIBLE);
-            info.setText(R.string.empty);
+            showInfo(getString(R.string.empty));
         }
         else {
             info.setVisibility(View.GONE);
@@ -971,61 +975,114 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     private void connect() {
-        Log.i("debug", "connect");
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
-                loginAttempts++;
+                Log.i("debug", "connect | onPreExecute | " + String.valueOf(waitForTFAUnlock));
                 super.onPreExecute();
-
+                loginAttempts++;
+                Log.i("debug", "remove Token");
+                CustomAuthenticator.removeToken();
+                emptyList();
                 mSwipeRefreshLayout.setRefreshing(true);
             }
 
             @Override
             protected Connection.Response doInBackground(Void... login) {
-                Connection con = new Connection("core", "login");
+                Connection con = (waitForTFAUnlock) ? new Connection("core", "login", 30000) : new Connection("core", "login");
                 con.addFormField("user", CustomAuthenticator.getUsername());
                 con.addFormField("pass", CustomAuthenticator.getPassword());
-                con.addFormField("code", tfaCode);
+                con.addFormField("callback", String.valueOf(waitForTFAUnlock));
                 con.forceSetCookie();
                 return con.finish();
             }
+
             @Override
             protected void onPostExecute(Connection.Response res) {
+                Log.i("debug", "connect | onPostExecute");
                 if (res.successful()) {
-                    tfaCode = "";
+                    Log.i("debug", "set token to " + res.getMessage());
                     CustomAuthenticator.setToken(res.getMessage());
+                    if (waitForTFAUnlock) {
+                        Log.i("debug", "connect | finish REQUEST_TFA_CODE in 1s");
+                        finishActivity(REQUEST_TFA_CODE);
+
+                    }
+                    waitForTFAUnlock = false;
                     fetchFiles();
                     getVersion();
                     getPermissions();
                     checkForPendingUploads();
                 }
                 else {
+                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
                     if (res.getStatus() == 403) {
-                        // TFA-Code required
-                        Intent i = new Intent(getApplicationContext(), PinScreen.class);
-                        String error = (tfaCode.equals("")) ? "" : "Incorrect code";
-                        i.putExtra("error", error);
-                        i.putExtra("label", "2FA-code");
-                        i.putExtra("length", 5);
-                        startActivityForResult(i, REQUEST_TFA_CODE);
+                        requestTFA(res.getMessage());
+                        connect();
                     }
                     else {
                         // No connection
-                        info.setVisibility(View.VISIBLE);
-                        info.setText(res.getMessage());
-
-                        if (newAdapter != null) {
-                            newAdapter.setData(null);
-                            newAdapter.notifyDataSetChanged();
-                        }
+                        showInfo(res.getMessage());
 
                         mSwipeRefreshLayout.setRefreshing(false);
                         mSwipeRefreshLayout.setEnabled(true);
                     }
                 }
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void submitTFA(final String code) {
+        new AsyncTask<Void, Void, Connection.Response>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                showInfo("Evaluating Code...");
+            }
+
+            @Override
+            protected Connection.Response doInBackground(Void... params) {
+                Connection con = new Connection("twofactor", "unlock", 30000);
+                con.addFormField("code", code);
+
+                return con.finish();
+            }
+            @Override
+            protected void onPostExecute(Connection.Response res) {
+                if (res.successful()) {
+                    showInfo("");
+                }
+                else {
+                    requestTFA(res.getMessage());
+                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void requestTFA(String error) {
+        Intent i = new Intent(getApplicationContext(), PinScreen.class);
+        i.putExtra("error", error);
+        i.putExtra("label", "2FA-code");
+        i.putExtra("length", 5);
+        startActivityForResult(i, REQUEST_TFA_CODE);
+        waitForTFAUnlock = true;
+    }
+
+    private void emptyList() {
+        items = new ArrayList<>();
+        filteredItems = new ArrayList<>();
+
+        if (newAdapter != null) {
+            newAdapter.setData(null);
+            newAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void showInfo(String msg) {
+        Log.i("debug", "showInfo: " + msg);
+        info.setVisibility(View.VISIBLE);
+        info.setText(msg);
     }
 
     private void checkForPendingUploads() {
@@ -1094,7 +1151,8 @@ public class RemoteFiles extends AppCompatActivity {
             public void onClick(View v) {
                 if (shareUser.getText().toString().isEmpty() && !sharePublic.isChecked()) {
                     Toast.makeText(ctx, "Enter a username", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else {
                     share(target, username, shareUser.getText().toString(), shareWrite.isChecked(), sharePublic.isChecked());
                     dialog2.dismiss();
                 }
@@ -1102,7 +1160,7 @@ public class RemoteFiles extends AppCompatActivity {
         });
 
         shareUser.requestFocus();
-        showVirtualKeyboard();
+        Util.showVirtualKeyboard(ctx);
     }
 
     private void showCreate(final String type) {
@@ -1129,7 +1187,7 @@ public class RemoteFiles extends AppCompatActivity {
         alert.show();
         input.requestFocus();
         input.selectAll();
-        showVirtualKeyboard();
+        Util.showVirtualKeyboard(ctx);
     }
 
     private void showEncrypt(final String source) {
@@ -1156,7 +1214,7 @@ public class RemoteFiles extends AppCompatActivity {
         alert.show();
         input.requestFocus();
         input.selectAll();
-        showVirtualKeyboard();
+        Util.showVirtualKeyboard(ctx);
     }
 
     private void showDecrypt(final String source) {
@@ -1183,7 +1241,7 @@ public class RemoteFiles extends AppCompatActivity {
         alert.show();
         input.requestFocus();
         input.selectAll();
-        showVirtualKeyboard();
+        Util.showVirtualKeyboard(ctx);
     }
 
     private void showRename(final String filename, final String target) {
@@ -1212,21 +1270,7 @@ public class RemoteFiles extends AppCompatActivity {
         alert.show();
         input.requestFocus();
         input.selectAll();
-        showVirtualKeyboard();
-    }
-
-    private void showVirtualKeyboard() {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                InputMethodManager m = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
-                if (m != null) {
-                    m.toggleSoftInput(0, InputMethodManager.SHOW_IMPLICIT);
-                }
-            }
-  	    }, 100);
+        Util.showVirtualKeyboard(ctx);
     }
 
     private void initDrawer() {
@@ -1739,7 +1783,8 @@ public class RemoteFiles extends AppCompatActivity {
                             }
                         }).show();
                     }
-                } else {
+                }
+                else {
                     Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -1916,6 +1961,34 @@ public class RemoteFiles extends AppCompatActivity {
         }.execute();
     }
 
+    private void refreshToken(final String client_old, final String client_new) {
+        new AsyncTask<Void, Void, Connection.Response>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected Connection.Response doInBackground(Void... params) {
+                Connection con = new Connection("twofactor", "update");
+                con.addFormField("client_old", client_old);
+                con.addFormField("client_new", client_new);
+
+                return con.finish();
+            }
+            @Override
+            protected void onPostExecute(Connection.Response res) {
+                if (res.successful()) {
+                    SharedPrefManager.getInstance(ctx).write(SharedPrefManager.TAG_FIREBASE_TOKEN_OLD, "");
+                    Toast.makeText(ctx, "Updated 2FA-Token", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
+    }
+
     private void getPermissions() {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
@@ -1930,7 +2003,7 @@ public class RemoteFiles extends AppCompatActivity {
                     unhideDrawerItem(R.id.navigation_view_item_server);
                 }
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void getVersion() {
@@ -1955,7 +2028,7 @@ public class RemoteFiles extends AppCompatActivity {
                     }
                 }
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void rename(final String target, final String filename) {
@@ -2058,8 +2131,6 @@ public class RemoteFiles extends AppCompatActivity {
         mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_one, true);
         mNavigationView.getMenu().setGroupVisible(R.id.navigation_drawer_group_two, true);
         mNavigationView.getMenu().findItem(R.id.navigation_view_item_server).setVisible(isAdmin);
-        // Vault is hidden until ready
-        //mNavigationView.getMenu().findItem(R.id.navigation_view_item_vault).setVisible(false);
     }
 
     private void toggleAccounts() {
@@ -2076,9 +2147,6 @@ public class RemoteFiles extends AppCompatActivity {
             header_indicator.setText("\u25BC");
             mNavigationView.getMenu().findItem(R.id.navigation_view_item_server).setVisible(isAdmin);
         }
-
-        // Vault is hidden until ready
-        //mNavigationView.getMenu().findItem(R.id.navigation_view_item_vault).setVisible(false);
     }
 
     private void logout() {

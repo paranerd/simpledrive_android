@@ -36,12 +36,12 @@ public class AppSettings extends AppCompatActivity {
     private static final String CACHE_FOLDER = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/simpleDrive/";
     public static PrefsFragment prefsFragment;
     public static boolean pinEnabled = false;
-    public static String pinEnabledText;
     public static boolean photosyncEnabled = false;
     private static String photosyncText;
     private static boolean cacheEnabled = false;
     private static final int REQUEST_STORAGE = 6;
     private static String tfaToken;
+    private static boolean tfaEnabled = false;
 
     // Interface
     private static ListPreference fileview;
@@ -90,7 +90,6 @@ public class AppSettings extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         pinEnabled = CustomAuthenticator.hasPIN();
-        pinEnabledText = (pinEnabled) ? "Enabled" : "Disabled";
         photosyncEnabled = !SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_PHOTO_SYNC, "").equals("");
         photosyncText = SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_PHOTO_SYNC, "");
         cacheEnabled = new File(CACHE_FOLDER).canRead();
@@ -141,7 +140,7 @@ public class AppSettings extends AppCompatActivity {
                 }
             });
 
-            photosync = (CheckBoxPreference) findPreference("photosync1");
+            photosync = (CheckBoxPreference) findPreference("photosync");
             photosync.setChecked(photosyncEnabled);
             photosync.setSummary(photosyncText);
             photosync.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -178,7 +177,6 @@ public class AppSettings extends AppCompatActivity {
 
             pin = (CheckBoxPreference) findPreference("pin");
             pin.setChecked(pinEnabled);
-            pin.setSummary(pinEnabledText);
             pin.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
@@ -372,10 +370,11 @@ public class AppSettings extends AppCompatActivity {
             @Override
             protected void onPostExecute(Connection.Response res) {
                 if (res.successful()) {
-                    twoFactor.setChecked(true);
+                    tfaEnabled = true;
                     Toast.makeText(ctx, "Registered for Two-Factor-Authentication", Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    twoFactor.setChecked(tfaEnabled);
                     Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -399,10 +398,11 @@ public class AppSettings extends AppCompatActivity {
             @Override
             protected void onPostExecute(Connection.Response res) {
                 if (res.successful()) {
-                    twoFactor.setChecked(false);
+                    tfaEnabled = false;
                     Toast.makeText(ctx, "Unregistered from Two-Factor-Authentication", Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    twoFactor.setChecked(tfaEnabled);
                     Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }

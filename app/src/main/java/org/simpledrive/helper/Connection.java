@@ -37,6 +37,7 @@ public class Connection {
     private HttpURLConnection httpConn;
     private OutputStream outputStream;
     private PrintWriter writer;
+    private static final int timeout = 10000;
 
     private long bytesTransferred;
     private long total;
@@ -50,7 +51,15 @@ public class Connection {
     private String downloadFilename;
 
     public Connection(String endpoint, String action) {
-        this(CustomAuthenticator.getServer(), endpoint, action);
+        this(CustomAuthenticator.getServer(), endpoint, action, timeout);
+    }
+
+    public Connection(String endpoint, String action, int timeout) {
+        this(CustomAuthenticator.getServer(), endpoint, action, timeout);
+    }
+
+    public Connection(String server, String endpoint, String action) {
+        this(server, endpoint, action, timeout);
     }
 
     /**
@@ -59,7 +68,7 @@ public class Connection {
      * @param endpoint The endpoint to connect to
      * @param action The action to execute
      */
-    public Connection(String server, String endpoint, String action) {
+    public Connection(String server, String endpoint, String action, int timeout) {
         try {
             URL url = new URL(server + "api/" + endpoint + "/" + action);
             trustCertificate(server);
@@ -67,8 +76,8 @@ public class Connection {
             httpConn.setUseCaches(false);
             httpConn.setDoOutput(true);
             httpConn.setDoInput(true);
-            httpConn.setReadTimeout(10000);
-            httpConn.setConnectTimeout(10000);
+            httpConn.setReadTimeout(timeout);
+            httpConn.setConnectTimeout(timeout);
             httpConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
             httpConn.setRequestProperty("Cookie", cookie);
 

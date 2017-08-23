@@ -35,8 +35,8 @@
 # view res/layout/activity_vault_note.xml #generated:61
 # view res/layout/activity_vault_note.xml #generated:85
 # view res/layout/activity_vault_website.xml #generated:114
-# view res/layout/activity_vault_website.xml #generated:153
-# view res/layout/activity_vault_website.xml #generated:194
+# view res/layout/activity_vault_website.xml #generated:151
+# view res/layout/activity_vault_website.xml #generated:192
 # view res/layout/activity_vault_website.xml #generated:61
 # view res/layout/activity_vault_website.xml #generated:85
 # view res/layout/activity_vaultunlock.xml #generated:55
@@ -46,8 +46,8 @@
 # view res/layout/activity_vault_note.xml #generated:52
 # view res/layout/activity_vault_note.xml #generated:76
 # view res/layout/activity_vault_website.xml #generated:105
-# view res/layout/activity_vault_website.xml #generated:144
-# view res/layout/activity_vault_website.xml #generated:184
+# view res/layout/activity_vault_website.xml #generated:142
+# view res/layout/activity_vault_website.xml #generated:182
 # view res/layout/activity_vault_website.xml #generated:52
 # view res/layout/activity_vault_website.xml #generated:76
 # view res/layout/activity_vaultunlock.xml #generated:45
@@ -128,28 +128,28 @@
 # view res/layout/abc_screen_simple_overlay_action_mode.xml #generated:32
 -keep class android.support.v7.widget.ViewStubCompat { <init>(...); }
 
-# view AndroidManifest.xml #generated:190
+# view AndroidManifest.xml #generated:195
 -keep class com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver { <init>(...); }
 
-# view AndroidManifest.xml #generated:185
+# view AndroidManifest.xml #generated:190
 -keep class com.google.android.gms.measurement.AppMeasurementReceiver { <init>(...); }
 
-# view AndroidManifest.xml #generated:199
+# view AndroidManifest.xml #generated:204
 -keep class com.google.android.gms.measurement.AppMeasurementService { <init>(...); }
 
-# view AndroidManifest.xml #generated:219
+# view AndroidManifest.xml #generated:224
 -keep class com.google.firebase.iid.FirebaseInstanceIdInternalReceiver { <init>(...); }
 
-# view AndroidManifest.xml #generated:204
+# view AndroidManifest.xml #generated:209
 -keep class com.google.firebase.iid.FirebaseInstanceIdReceiver { <init>(...); }
 
-# view AndroidManifest.xml #generated:226
+# view AndroidManifest.xml #generated:231
 -keep class com.google.firebase.iid.FirebaseInstanceIdService { <init>(...); }
 
-# view AndroidManifest.xml #generated:177
+# view AndroidManifest.xml #generated:182
 -keep class com.google.firebase.messaging.FirebaseMessagingService { <init>(...); }
 
-# view AndroidManifest.xml #generated:234
+# view AndroidManifest.xml #generated:239
 -keep class com.google.firebase.provider.FirebaseInitProvider { <init>(...); }
 
 # view res/layout/nav_header.xml #generated:11
@@ -197,6 +197,9 @@
 # view AndroidManifest.xml #generated:43
 -keep class org.simpledrive.activities.ShareFiles { <init>(...); }
 
+# view AndroidManifest.xml #generated:147
+-keep class org.simpledrive.activities.UnlockTFA { <init>(...); }
+
 # view AndroidManifest.xml #generated:102
 -keep class org.simpledrive.activities.UserDetails { <init>(...); }
 
@@ -212,7 +215,7 @@
 # view AndroidManifest.xml #generated:122
 -keep class org.simpledrive.activities.VaultWebsite { <init>(...); }
 
-# view AndroidManifest.xml #generated:148
+# view AndroidManifest.xml #generated:153
 -keep class org.simpledrive.authenticator.AuthenticationService { <init>(...); }
 
 # view res/layout/activity_imageviewer.xml #generated:11
@@ -221,32 +224,34 @@
 # view res/layout/gridview.xml #generated:2
 -keep class org.simpledrive.models.GridViewItem { <init>(...); }
 
-# view AndroidManifest.xml #generated:159
+# view AndroidManifest.xml #generated:164
 -keep class org.simpledrive.services.AudioService { <init>(...); }
 
-# view AndroidManifest.xml #generated:163
+# view AndroidManifest.xml #generated:168
 -keep class org.simpledrive.services.MyFirebaseInstanceIDService { <init>(...); }
 
-# view AndroidManifest.xml #generated:168
+# view AndroidManifest.xml #generated:173
 -keep class org.simpledrive.services.MyFirebaseMessagingService { <init>(...); }
 
 # onClick res/layout/activity_passwordgenerator.xml #generated:48
 # onClick res/layout/activity_passwordgenerator.xml #generated:60
-# onClick res/layout/activity_unlock.xml #generated:112
-# onClick res/layout/activity_unlock.xml #generated:131
+# onClick res/layout/activity_unlock.xml #generated:102
+# onClick res/layout/activity_unlock.xml #generated:116
+# onClick res/layout/activity_unlock.xml #generated:123
+# onClick res/layout/activity_unlock.xml #generated:130
 # onClick res/layout/activity_unlock.xml #generated:144
-# onClick res/layout/activity_unlock.xml #generated:157
-# onClick res/layout/activity_unlock.xml #generated:176
-# onClick res/layout/activity_unlock.xml #generated:189
-# onClick res/layout/activity_unlock.xml #generated:202
-# onClick res/layout/activity_unlock.xml #generated:228
-# onClick res/layout/activity_unlock.xml #generated:248
-# onClick res/layout/activity_unlock.xml #generated:49
-# onClick res/layout/activity_unlock.xml #generated:85
-# onClick res/layout/activity_unlock.xml #generated:99
-# onClick res/layout/activity_vault_website.xml #generated:168
-# onClick res/layout/activity_vault_website.xml #generated:209
-# onClick res/layout/activity_vault_website.xml #generated:218
+# onClick res/layout/activity_unlock.xml #generated:151
+# onClick res/layout/activity_unlock.xml #generated:158
+# onClick res/layout/activity_unlock.xml #generated:172
+# onClick res/layout/activity_unlock.xml #generated:180
+# onClick res/layout/activity_unlock.xml #generated:50
+# onClick res/layout/activity_unlock.xml #generated:87
+# onClick res/layout/activity_unlock.xml #generated:95
+# onClick res/layout/activity_unlock_tfa.xml #generated:36
+# onClick res/layout/activity_unlock_tfa.xml #generated:42
+# onClick res/layout/activity_vault_website.xml #generated:166
+# onClick res/layout/activity_vault_website.xml #generated:207
+# onClick res/layout/activity_vault_website.xml #generated:216
 # onClick res/layout/activity_vaultunlock.xml #generated:70
 -keepclassmembers class * { *** onClick(...); }
 

@@ -8,7 +8,8 @@
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:gravity="center">
 
         <LinearLayout
             android:layout_height="match_parent"
@@ -80,18 +81,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center">
 
                 <Button
                     android:tag="1"
                     android:id="@+id/unlock_one"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/unlock_button"
-                    android:textColor="@color/white"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="28sp"
+                    style="@style/MyButtonCircle"
                     android:clickable="true"
                     android:onClick="onClick"
                     android:text="1"/>
@@ -99,26 +95,14 @@
                 <Button
                     android:tag="2"
                     android:id="@+id/unlock_two"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/unlock_button"
-                    android:textColor="@color/white"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="28sp"
+                    style="@style/MyButtonCircle"
                     android:onClick="onClick"
                     android:text="2"/>
 
                 <Button
                     android:tag="3"
                     android:id="@+id/unlock_three"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/unlock_button"
-                    android:textColor="@color/white"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="28sp"
+                    style="@style/MyButtonCircle"
                     android:onClick="onClick"
                     android:text="3"/>
             </LinearLayout>
@@ -126,44 +110,27 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center">
 
                 <Button
                     android:tag="4"
                     android:id="@+id/unlock_four"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/unlock_button"
-                    android:textColor="@color/white"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="28sp"
+                    style="@style/MyButtonCircle"
                     android:onClick="onClick"
                     android:text="4"/>
 
                 <Button
                     android:tag="5"
                     android:id="@+id/unlock_five"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/unlock_button"
-                    android:textColor="@color/white"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="28sp"
+                    style="@style/MyButtonCircle"
                     android:onClick="onClick"
                     android:text="5"/>
 
                 <Button
                     android:tag="6"
                     android:id="@+id/unlock_six"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/unlock_button"
-                    android:textColor="@color/white"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="28sp"
+                    style="@style/MyButtonCircle"
                     android:onClick="onClick"
                     android:text="6"/>
             </LinearLayout>
@@ -171,44 +138,27 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center">
 
                 <Button
                     android:tag="7"
                     android:id="@+id/unlock_seven"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/unlock_button"
-                    android:textColor="@color/white"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="28sp"
+                    style="@style/MyButtonCircle"
                     android:onClick="onClick"
                     android:text="7"/>
 
                 <Button
                     android:tag="8"
                     android:id="@+id/unlock_eight"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/unlock_button"
-                    android:textColor="@color/white"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="28sp"
+                    style="@style/MyButtonCircle"
                     android:onClick="onClick"
                     android:text="8"/>
 
                 <Button
                     android:tag="9"
                     android:id="@+id/unlock_nine"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/unlock_button"
-                    android:textColor="@color/white"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="28sp"
+                    style="@style/MyButtonCircle"
                     android:onClick="onClick"
                     android:text="9"/>
             </LinearLayout>
@@ -216,33 +166,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/unlock_button"
-                    android:visibility="invisible"/>
+                android:orientation="horizontal"
+                android:gravity="center">
 
                 <Button
                     android:tag="0"
                     android:id="@+id/unlock_zero"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/unlock_button"
-                    android:textColor="@color/white"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="28sp"
+                    style="@style/MyButtonCircle"
                     android:onClick="onClick"
                     android:text="0"/>
-
-                <Button
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="10dp"
-                    android:visibility="invisible"/>
             </LinearLayout>
 
             <TextView

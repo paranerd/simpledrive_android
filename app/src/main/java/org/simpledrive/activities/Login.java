@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.simpledrive.R;
-
 import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.Connection;
 
@@ -133,6 +132,7 @@ public class Login extends AppCompatActivity {
                         i.putExtra("error", error);
                         i.putExtra("label", "code");
                         startActivityForResult(i, REQUEST_UNLOCK);
+                        //finishActivity(REQUEST_UNLOCK);
                     }
                     else {
                         Toast.makeText(Login.this, res.getMessage(), Toast.LENGTH_SHORT).show();
