@@ -1,7 +1,6 @@
 package org.simpledrive.activities;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,7 +13,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -36,8 +34,6 @@ import org.simpledrive.helper.Util;
 import org.simpledrive.models.FileItem;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class ShareFiles extends AppCompatActivity {
     // General
@@ -453,24 +449,7 @@ public class ShareFiles extends AppCompatActivity {
         alert.show();
         input.requestFocus();
         input.selectAll();
-        showVirtualKeyboard();
-    }
-
-    private void showVirtualKeyboard() {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask()
-        {
-            @Override
-            public void run()
-            {
-                InputMethodManager m = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
-                if (m != null)
-                {
-                    m.toggleSoftInput(0, InputMethodManager.SHOW_IMPLICIT);
-                }
-            }
-        }, 100);
+        Util.showVirtualKeyboard(ctx);
     }
 
     private String getRealPathFromURI(Uri contentURI) {

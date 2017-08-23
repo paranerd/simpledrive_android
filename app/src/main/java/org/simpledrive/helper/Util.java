@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import org.simpledrive.R;
@@ -42,6 +43,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
@@ -419,7 +422,7 @@ public class Util {
         }
     }
 
-    //The method will return Bitmap from an image URL
+    // Get Bitmap from an image URL
     public static Bitmap getBitmapFromURL(String strURL) {
         try {
             URL url = new URL(strURL);
@@ -433,5 +436,19 @@ public class Util {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static void showVirtualKeyboard(final Context ctx) {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                InputMethodManager m = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                if (m != null) {
+                    m.toggleSoftInput(0, InputMethodManager.SHOW_IMPLICIT);
+                }
+            }
+        }, 100);
     }
 }

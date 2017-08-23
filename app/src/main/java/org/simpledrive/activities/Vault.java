@@ -10,7 +10,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -21,6 +20,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,7 +50,7 @@ public class Vault extends AppCompatActivity {
     private int selectedPos;
     private boolean waitingForUnlock = false;
     private boolean waitingForSetPassphrase = false;
-    private boolean savePending = false;
+    private boolean changed = false;
     private boolean createNewVault = false;
     private int unlockAttempts= 0;
 
@@ -154,6 +154,7 @@ public class Vault extends AppCompatActivity {
         super.onResume();
 
         initList();
+        supportInvalidateOptionsMenu();
 
         if (!waitingForUnlock && !waitingForSetPassphrase) {
             load();
@@ -225,6 +226,7 @@ public class Vault extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.save).setVisible(changed || !SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_VAULT_IN_SYNC, false));
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -269,9 +271,11 @@ public class Vault extends AppCompatActivity {
                 break;
 
             case R.id.save:
-                if (vaultEncrypted != null && !vaultEncrypted.equals("")) {
-                    save();
-                }
+                save();
+                break;
+
+            case R.id.changepass:
+                showChangePassword();
                 break;
         }
 
@@ -448,7 +452,7 @@ public class Vault extends AppCompatActivity {
                     info.setVisibility(View.INVISIBLE);
                     vaultEncrypted = res.getMessage();
 
-                    savePending = true;
+                    changed = true;
                     decrypt();
                 }
                 else {
@@ -477,6 +481,7 @@ public class Vault extends AppCompatActivity {
             @Override
             protected void onPostExecute(Connection.Response res) {
                 if (res.successful()) {
+                    SharedPrefManager.getInstance(getApplicationContext()).write(SharedPrefManager.TAG_VAULT_IN_SYNC, true);
                     Toast.makeText(Vault.this, "Saved to server", Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -506,7 +511,7 @@ public class Vault extends AppCompatActivity {
                     info.setVisibility(View.INVISIBLE);
                     vaultEncrypted = res.getMessage();
 
-                    savePending = true;
+                    changed = true;
                     decrypt();
                 }
                 else {
@@ -541,7 +546,6 @@ public class Vault extends AppCompatActivity {
                 String edit = obj.getString("edit");
                 String logo = obj.getString("logo");
 
-                Log.i("debug", "edit: " + edit);
 
                 switch (type) {
                     case "website":
@@ -567,7 +571,7 @@ public class Vault extends AppCompatActivity {
 
         filteredItems = cloneArrayList(items);
 
-        if (filteredItems.size() > 0 && savePending) {
+        if (filteredItems.size() > 0 && changed) {
             save();
         }
 
@@ -651,12 +655,18 @@ public class Vault extends AppCompatActivity {
     }
 
     private boolean save() {
-        savePending = false;
+        changed = false;
         vaultEncrypted = Crypto.encryptString(items.toString(), passphrase);
+        boolean vaultInSync = SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_VAULT_IN_SYNC, false);
 
         if (vaultEncrypted != null && !vaultEncrypted.equals("")) {
-            saveToServer();
-            return Util.writeToData(vaultname, vaultEncrypted, Vault.this);
+            if (!vaultInSync) {
+                saveToServer();
+            }
+            if (Util.writeToData(vaultname, vaultEncrypted, Vault.this)) {
+                Toast.makeText(getApplicationContext(), "Saved.", Toast.LENGTH_SHORT).show();
+                return true;
+            }
         }
 
         return false;
@@ -674,6 +684,7 @@ public class Vault extends AppCompatActivity {
         }
 
         filteredItems = cloneArrayList(items);
+        SharedPrefManager.getInstance(getApplicationContext()).write(SharedPrefManager.TAG_VAULT_IN_SYNC, false);
 
         display();
         return save();
@@ -687,5 +698,54 @@ public class Vault extends AppCompatActivity {
         }
 
         return newList;
+    }
+
+    private void showChangePassword() {
+        final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
+        View shareView = View.inflate(this, R.layout.dialog_change_password, null);
+        final EditText oldpass = (EditText) shareView.findViewById(R.id.oldpass);
+        final EditText newpass1 = (EditText) shareView.findViewById(R.id.newpass1);
+        final EditText newpass2 = (EditText) shareView.findViewById(R.id.newpass2);
+
+        dialog.setTitle("Create user")
+                .setView(shareView)
+                .setCancelable(true)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        final android.app.AlertDialog dialog2 = dialog.create();
+        dialog2.show();
+        dialog2.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (oldpass.getText().toString().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Enter the current passphrase", Toast.LENGTH_SHORT).show();
+                }
+                else if (!oldpass.getText().toString().equals(passphrase)) {
+                    Toast.makeText(getApplicationContext(), "Passphrase incorrect", Toast.LENGTH_SHORT).show();
+                }
+                else if (!newpass1.getText().toString().equals(newpass2.getText().toString())) {
+                    Toast.makeText(getApplicationContext(), "New passphrases don't match", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Changing passphrase", Toast.LENGTH_SHORT).show();
+                    passphrase = newpass1.getText().toString();
+                    save();
+                    dialog2.dismiss();
+                }
+            }
+        });
+
+        oldpass.requestFocus();
+        Util.showVirtualKeyboard(getApplicationContext());
     }
 }

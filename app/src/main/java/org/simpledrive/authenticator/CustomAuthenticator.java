@@ -178,6 +178,12 @@ public class CustomAuthenticator {
         }
     }
 
+    public static void removeToken() {
+        if (getActiveAccount() != null) {
+            am.setUserData(getActiveAccount(), KEY_TOKEN, "");
+        }
+    }
+
     public static void lock() {
         if (hasPIN()) {
             am.setUserData(getActiveAccount(), KEY_LOCKED, TRUE);

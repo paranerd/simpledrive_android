@@ -128,11 +128,9 @@
 
                 <Button
                     android:id="@+id/openurl"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
                     android:layout_marginRight="15dp"
                     android:text="Open"
-                    style="@style/Base.Widget.AppCompat.Button.Colored"
+                    style="@style/MyButton"
                     android:onClick="openURL"/>
             </LinearLayout>
 
@@ -171,7 +169,7 @@
                     android:layout_height="50dp"
                     android:layout_marginRight="15dp"
                     android:text="Copy"
-                    style="@style/Base.Widget.AppCompat.Button.Colored"
+                    style="@style/MyButton"
                     android:onClick="onClick"/>
             </LinearLayout>
 
@@ -212,7 +210,7 @@
                     android:layout_height="50dp"
                     android:layout_marginRight="15dp"
                     android:text="Copy"
-                    style="@style/Base.Widget.AppCompat.Button.Colored"
+                    style="@style/MyButton"
                     android:onClick="onClick"/>
 
                 <Button
@@ -221,7 +219,7 @@
                     android:layout_height="50dp"
                     android:layout_marginRight="15dp"
                     android:text="Generate"
-                    style="@style/Base.Widget.AppCompat.Button.Colored"
+                    style="@style/MyButton"
                     android:onClick="onClick"
                     android:visibility="gone"/>
             </LinearLayout>

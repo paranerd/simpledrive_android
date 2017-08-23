@@ -21,4 +21,10 @@
         android:title="Sync"
         android:icon="@drawable/ic_sync"
         app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/changepass"
+        android:orderInCategory="1"
+        android:title="Change passphrase"
+        android:icon="@drawable/ic_sync"
+        app:showAsAction="never" />
 </menu>
