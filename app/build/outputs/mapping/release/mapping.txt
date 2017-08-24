@@ -21033,14 +21033,25 @@ org.simpledrive.activities.UnlockTFA -> org.simpledrive.activities.UnlockTFA:
     android.widget.TextView txtCode -> p
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
+    void onResume() -> onResume
     void initInterface() -> i
     void onClick(android.view.View) -> onClick
     void submitTFA(java.lang.String,java.lang.String) -> a
+    void invalidateTFA(java.lang.String) -> a
 org.simpledrive.activities.UnlockTFA$1 -> org.simpledrive.activities.UnlockTFA$1:
     java.lang.String val$code -> a
     java.lang.String val$fingerprint -> b
     org.simpledrive.activities.UnlockTFA this$0 -> c
     void <init>(org.simpledrive.activities.UnlockTFA,java.lang.String,java.lang.String) -> <init>
+    void onPreExecute() -> onPreExecute
+    org.simpledrive.helper.Connection$Response doInBackground(java.lang.Void[]) -> a
+    void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
+    void onPostExecute(java.lang.Object) -> onPostExecute
+    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
+org.simpledrive.activities.UnlockTFA$2 -> org.simpledrive.activities.UnlockTFA$2:
+    java.lang.String val$fingerprint -> a
+    org.simpledrive.activities.UnlockTFA this$0 -> b
+    void <init>(org.simpledrive.activities.UnlockTFA,java.lang.String) -> <init>
     void onPreExecute() -> onPreExecute
     org.simpledrive.helper.Connection$Response doInBackground(java.lang.Void[]) -> a
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a

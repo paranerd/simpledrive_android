@@ -21,6 +21,10 @@ public class UnlockTFA extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         initInterface();
+    }
+
+    protected void onResume() {
+        super.onResume();
 
         code = getIntent().getStringExtra("code");
         fingerprint = getIntent().getStringExtra("fingerprint");
@@ -45,7 +49,7 @@ public class UnlockTFA extends AppCompatActivity {
                 break;
 
             case R.id.no:
-                finish();
+                invalidateTFA(fingerprint);
                 break;
         }
     }
@@ -60,7 +64,7 @@ public class UnlockTFA extends AppCompatActivity {
 
             @Override
             protected Connection.Response doInBackground(Void... params) {
-                Connection con = new Connection("twofactor", "unlock", 30000);
+                Connection con = new Connection("twofactor", "unlock");
                 con.addFormField("code", code);
                 con.addFormField("fingerprint", fingerprint);
 
@@ -70,6 +74,34 @@ public class UnlockTFA extends AppCompatActivity {
             protected void onPostExecute(Connection.Response res) {
                 if (res.successful()) {
                     Toast.makeText(getApplicationContext(), "Unlock successful", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), res.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void invalidateTFA(final String fingerprint) {
+        new AsyncTask<Void, Void, Connection.Response>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                Toast.makeText(getApplicationContext(), "Sending code...", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            protected Connection.Response doInBackground(Void... params) {
+                Connection con = new Connection("twofactor", "invalidate");
+                con.addFormField("fingerprint", fingerprint);
+
+                return con.finish();
+            }
+            @Override
+            protected void onPostExecute(Connection.Response res) {
+                if (res.successful()) {
+                    Toast.makeText(getApplicationContext(), "Code invalidated", Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 else {
