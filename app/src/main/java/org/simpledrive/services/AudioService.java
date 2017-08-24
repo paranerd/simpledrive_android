@@ -20,12 +20,15 @@ import android.widget.RemoteViews;
 import org.simpledrive.R;
 import org.simpledrive.activities.RemoteFiles;
 import org.simpledrive.authenticator.CustomAuthenticator;
+import org.simpledrive.helper.SharedPrefManager;
 import org.simpledrive.models.FileItem;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AudioService extends Service {
 
@@ -148,9 +151,12 @@ public class AudioService extends Service {
 		prepared = false;
 
 		try {
+			// Add fingerprint as cookie
+			Map<String, String> headers = new HashMap<>();
+			headers.put("Cookie", SharedPrefManager.getInstance(getApplicationContext()).read(SharedPrefManager.TAG_FINGERPRINT, ""));
 			URI uri = new URI(CustomAuthenticator.getServer() + "api/files/get?target=[" + URLEncoder.encode('"' + item.getID() + '"', "UTF-8") + "]&token=" + CustomAuthenticator.getToken());
 			mediaPlayer.reset();
-			mediaPlayer.setDataSource(uri.toASCIIString());
+			mediaPlayer.setDataSource(getApplicationContext(), android.net.Uri.parse(uri.toASCIIString()), headers);
 		} catch (IllegalArgumentException | IOException | IllegalStateException | SecurityException | URISyntaxException e) {
 			e.printStackTrace();
 		}

@@ -44,7 +44,7 @@ public class CustomAuthenticator {
         aaccount = am.getAccountsByType(ACCOUNT_TYPE);
     }
 
-    public static void enable(Context context) {
+    public static void setContext(Context context) {
         ctx = context;
     }
 
