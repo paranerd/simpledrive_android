@@ -29,7 +29,7 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
     private boolean loadthumbs = false;
     private ArrayList<FileItem> thumbQueue = new ArrayList<>();
     private boolean thumbLoading = false;
-    private AppCompatActivity e;
+    private AppCompatActivity ctx;
     private AbsListView list;
     private Integer thumbSize;
 
@@ -42,7 +42,7 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
         this.layoutInflater = LayoutInflater.from(ctx);
         this.layout = layoutResourceId;
         this.loadthumbs = loadthumbs;
-        this.e = ctx;
+        this.ctx = ctx;
         this.list = list;
         this.thumbSize = Util.getThumbSize(ctx, layout);
     }
@@ -87,7 +87,7 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
         }
 
         if (item.is("image") && item.getThumb() == null && loadthumbs && !itemIsInQueue(item)) {
-            if (e.getClass().getSimpleName().equals("RemoteFiles")) {
+            if (ctx.getClass().getSimpleName().equals("RemoteFiles")) {
                 // Try to load cached thumb
                 Bitmap cachedThumb = Util.getThumb(Util.getCacheDir() + item.getThumbName() + thumbSize, thumbSize);
                 if (cachedThumb != null) {
@@ -101,14 +101,14 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
                     }
                 }
             }
-            else if (!thumbLoading && e.getClass().getSimpleName().equals("FileSelector")) {
+            else if (!thumbLoading && ctx.getClass().getSimpleName().equals("FileSelector")) {
                 thumbQueue.add(item);
                 new LocalThumb().execute();
             }
         }
 
         if (item.getIcon() == null) {
-            item.setIcon(Util.getIconByName(e, item.getType(), R.drawable.ic_unknown));
+            item.setIcon(Util.getIconByName(ctx, item.getType(), R.drawable.ic_unknown));
         }
 
         if (layout == R.layout.listview_detail) {

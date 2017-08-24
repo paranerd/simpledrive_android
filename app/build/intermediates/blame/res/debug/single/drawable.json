@@ -284,6 +284,10 @@
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/ic_list.xml"
     },
     {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable/ic_users.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/ic_users.xml"
+    },
+    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/debug/drawable/checkbox_selector.xml",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/drawable/checkbox_selector.xml"
     },

@@ -2,6 +2,7 @@ package org.simpledrive.activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -21,8 +22,8 @@ import org.simpledrive.helper.SharedPrefManager;
 import org.simpledrive.helper.Util;
 
 public class UserDetails extends AppCompatActivity {
-
-    public static UserDetails e;
+    // General
+    public static UserDetails ctx;
     public static PrefsFragment prefsFragment;
 
     public static String username;
@@ -31,7 +32,7 @@ public class UserDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        e = this;
+        ctx = this;
 
         Bundle extras = getIntent().getExtras();
         username = extras.getString("username");
@@ -82,7 +83,7 @@ public class UserDetails extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     String admin = (o.toString().equals("true")) ? "1" : "0";
-                    e.setAdmin(username, admin);
+                    ctx.setAdmin(username, admin);
                     return false;
                 }
             });
@@ -92,7 +93,7 @@ public class UserDetails extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     String value = Long.toString(Util.stringToByte(o.toString()));
-                    e.setQuota(username, value);
+                    ctx.setQuota(username, value);
                     return false;
                 }
             });
@@ -179,10 +180,15 @@ public class UserDetails extends AppCompatActivity {
     }
 
     private void setAdmin(final String username, final String enable) {
+        final ProgressDialog pDialog = new ProgressDialog(this);
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
+                pDialog.setMessage("Updating...");
+                pDialog.setIndeterminate(false);
+                pDialog.setCancelable(true);
+                pDialog.show();
             }
 
             @Override
@@ -196,21 +202,27 @@ public class UserDetails extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Connection.Response res) {
+                pDialog.dismiss();
                 if (res.successful()) {
-                    e.getStatus(username);
+                    ctx.getStatus(username);
                 }
                 else {
-                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();
     }
 
     private void setQuota(final String username, final String value) {
+        final ProgressDialog pDialog = new ProgressDialog(this);
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
+                pDialog.setMessage("Updating...");
+                pDialog.setIndeterminate(false);
+                pDialog.setCancelable(true);
+                pDialog.show();
             }
 
             @Override
@@ -224,11 +236,12 @@ public class UserDetails extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Connection.Response res) {
+                pDialog.dismiss();
                 if (res.successful()) {
-                    e.getStatus(username);
+                    ctx.getStatus(username);
                 }
                 else {
-                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();

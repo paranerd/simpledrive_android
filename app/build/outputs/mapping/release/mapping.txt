@@ -19702,6 +19702,7 @@ org.simpledrive.R$drawable -> org.simpledrive.a$a:
     int ic_unknown -> ic_unknown
     int ic_upload -> ic_upload
     int ic_user -> ic_user
+    int ic_users -> ic_users
     int ic_warning -> ic_warning
     int ic_website -> ic_website
     int item_selector -> item_selector
@@ -20771,7 +20772,7 @@ org.simpledrive.activities.RemoteFiles$9 -> org.simpledrive.activities.RemoteFil
     void <init>(org.simpledrive.activities.RemoteFiles) -> <init>
     void onClick(android.view.View) -> onClick
 org.simpledrive.activities.ServerLog -> org.simpledrive.activities.ServerLog:
-    org.simpledrive.activities.ServerLog e -> n
+    org.simpledrive.activities.ServerLog ctx -> n
     int totalPages -> o
     int currentPage -> p
     java.util.ArrayList items -> q
@@ -21058,7 +21059,7 @@ org.simpledrive.activities.UnlockTFA$2 -> org.simpledrive.activities.UnlockTFA$2
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.activities.UserDetails -> org.simpledrive.activities.UserDetails:
-    org.simpledrive.activities.UserDetails e -> n
+    org.simpledrive.activities.UserDetails ctx -> n
     org.simpledrive.activities.UserDetails$PrefsFragment prefsFragment -> o
     java.lang.String username -> p
     void <init>() -> <init>
@@ -21096,20 +21097,22 @@ org.simpledrive.activities.UserDetails$3 -> org.simpledrive.activities.UserDetai
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.activities.UserDetails$4 -> org.simpledrive.activities.UserDetails$4:
-    java.lang.String val$username -> a
-    java.lang.String val$enable -> b
-    org.simpledrive.activities.UserDetails this$0 -> c
-    void <init>(org.simpledrive.activities.UserDetails,java.lang.String,java.lang.String) -> <init>
+    android.app.ProgressDialog val$pDialog -> a
+    java.lang.String val$username -> b
+    java.lang.String val$enable -> c
+    org.simpledrive.activities.UserDetails this$0 -> d
+    void <init>(org.simpledrive.activities.UserDetails,android.app.ProgressDialog,java.lang.String,java.lang.String) -> <init>
     void onPreExecute() -> onPreExecute
     org.simpledrive.helper.Connection$Response doInBackground(java.lang.Void[]) -> a
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 org.simpledrive.activities.UserDetails$5 -> org.simpledrive.activities.UserDetails$5:
-    java.lang.String val$username -> a
-    java.lang.String val$value -> b
-    org.simpledrive.activities.UserDetails this$0 -> c
-    void <init>(org.simpledrive.activities.UserDetails,java.lang.String,java.lang.String) -> <init>
+    android.app.ProgressDialog val$pDialog -> a
+    java.lang.String val$username -> b
+    java.lang.String val$value -> c
+    org.simpledrive.activities.UserDetails this$0 -> d
+    void <init>(org.simpledrive.activities.UserDetails,android.app.ProgressDialog,java.lang.String,java.lang.String) -> <init>
     void onPreExecute() -> onPreExecute
     org.simpledrive.helper.Connection$Response doInBackground(java.lang.Void[]) -> a
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
@@ -21517,7 +21520,7 @@ org.simpledrive.adapters.FileAdapter -> org.simpledrive.a.b:
     boolean loadthumbs -> c
     java.util.ArrayList thumbQueue -> d
     boolean thumbLoading -> e
-    android.support.v7.app.AppCompatActivity e -> f
+    android.support.v7.app.AppCompatActivity ctx -> f
     android.widget.AbsListView list -> g
     java.lang.Integer thumbSize -> h
     void <init>(android.support.v7.app.AppCompatActivity,int,android.widget.AbsListView) -> <init>
@@ -21571,8 +21574,8 @@ org.simpledrive.adapters.FileAdapter$ViewHolder -> org.simpledrive.a.b$c:
 org.simpledrive.adapters.LogAdapter -> org.simpledrive.a.c:
     android.view.LayoutInflater layoutInflater -> a
     int layout -> b
-    android.app.Activity e -> c
-    void <init>(android.app.Activity,int) -> <init>
+    android.support.v7.app.AppCompatActivity ctx -> c
+    void <init>(android.support.v7.app.AppCompatActivity,int) -> <init>
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     void setData(java.util.ArrayList) -> a
 org.simpledrive.adapters.LogAdapter$1 -> org.simpledrive.a.c$1:
@@ -21624,7 +21627,8 @@ org.simpledrive.adapters.UserAdapter -> org.simpledrive.a.e:
     android.view.LayoutInflater layoutInflater -> a
     int layout -> b
     android.widget.AbsListView list -> c
-    void <init>(android.app.Activity,int,android.widget.AbsListView) -> <init>
+    android.support.v7.app.AppCompatActivity ctx -> d
+    void <init>(android.support.v7.app.AppCompatActivity,int,android.widget.AbsListView) -> <init>
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     void setData(java.util.ArrayList) -> a
     android.widget.AbsListView access$100(org.simpledrive.adapters.UserAdapter) -> a
@@ -22167,9 +22171,10 @@ org.simpledrive.models.LogItem -> org.simpledrive.models.c:
     java.lang.String user -> b
     java.lang.String date -> c
     java.lang.String type -> d
-    android.graphics.Bitmap icon -> e
-    void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String,android.graphics.Bitmap) -> <init>
-    android.graphics.Bitmap getIcon() -> a
+    android.graphics.drawable.Drawable icon -> e
+    void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> <init>
+    android.graphics.drawable.Drawable getIcon() -> a
+    void setIcon(android.graphics.drawable.Drawable) -> a
     java.lang.String getMessage() -> b
     java.lang.String getUser() -> c
     java.lang.String getDate() -> d
@@ -22177,9 +22182,10 @@ org.simpledrive.models.LogItem -> org.simpledrive.models.c:
 org.simpledrive.models.UserItem -> org.simpledrive.models.d:
     java.lang.String username -> a
     java.lang.String mode -> b
-    android.graphics.Bitmap icon -> c
-    void <init>(java.lang.String,java.lang.String,android.graphics.Bitmap) -> <init>
-    android.graphics.Bitmap getIcon() -> a
+    android.graphics.drawable.Drawable icon -> c
+    void <init>(java.lang.String,java.lang.String) -> <init>
+    android.graphics.drawable.Drawable getIcon() -> a
+    void setIcon(android.graphics.drawable.Drawable) -> a
     java.lang.String getUsername() -> b
     java.lang.String getMode() -> c
 org.simpledrive.models.VaultItem -> org.simpledrive.models.e:

@@ -4917,6 +4917,7 @@ org.simpledrive.R$drawable: int ic_undo
 org.simpledrive.R$drawable: int ic_unknown
 org.simpledrive.R$drawable: int ic_upload
 org.simpledrive.R$drawable: int ic_user
+org.simpledrive.R$drawable: int ic_users
 org.simpledrive.R$drawable: int ic_warning
 org.simpledrive.R$drawable: int ic_website
 org.simpledrive.R$drawable: int item_selector

@@ -10,12 +10,12 @@
 # view res/layout/design_bottom_sheet_dialog.xml #generated:17
 -keep class android.support.design.widget.CoordinatorLayout { <init>(...); }
 
-# view res/layout/activity_remotefiles.xml #generated:112
-# view res/layout/activity_remotefiles.xml #generated:124
-# view res/layout/activity_remotefiles.xml #generated:139
-# view res/layout/activity_remotefiles.xml #generated:69
-# view res/layout/activity_remotefiles.xml #generated:84
-# view res/layout/activity_remotefiles.xml #generated:98
+# view res/layout/activity_remotefiles.xml #generated:111
+# view res/layout/activity_remotefiles.xml #generated:123
+# view res/layout/activity_remotefiles.xml #generated:138
+# view res/layout/activity_remotefiles.xml #generated:68
+# view res/layout/activity_remotefiles.xml #generated:83
+# view res/layout/activity_remotefiles.xml #generated:97
 # view res/layout/activity_sharefiles.xml #generated:53
 # view res/layout/activity_sharefiles.xml #generated:67
 # view res/layout/activity_users.xml #generated:46
@@ -24,7 +24,7 @@
 # view res/layout/activity_vault.xml #generated:74
 -keep class android.support.design.widget.FloatingActionButton { <init>(...); }
 
-# view res/layout/activity_remotefiles.xml #generated:268
+# view res/layout/activity_remotefiles.xml #generated:267
 -keep class android.support.design.widget.NavigationView { <init>(...); }
 
 # view res/layout/design_layout_snackbar.xml #generated:18
@@ -66,7 +66,7 @@
 -keep class android.support.v4.widget.Space { <init>(...); }
 
 # view res/layout/activity_log.xml #generated:17
-# view res/layout/activity_remotefiles.xml #generated:17
+# view res/layout/activity_remotefiles.xml #generated:16
 # view res/layout/activity_sharefiles.xml #generated:8
 -keep class android.support.v4.widget.SwipeRefreshLayout { <init>(...); }
 
@@ -91,7 +91,7 @@
 -keep class android.support.v7.widget.ActionBarOverlayLayout { <init>(...); }
 
 # view res/layout/abc_action_menu_layout.xml #generated:17
-# view res/layout/activity_remotefiles.xml #generated:258
+# view res/layout/activity_remotefiles.xml #generated:257
 # view res/layout/toolbar_bottom.xml #generated:13
 -keep class android.support.v7.widget.ActionMenuView { <init>(...); }
 
@@ -118,7 +118,7 @@
 -keep class android.support.v7.widget.SearchView$SearchAutoComplete { <init>(...); }
 
 # view res/layout/abc_screen_toolbar.xml #generated:36
-# view res/layout/activity_remotefiles.xml #generated:245
+# view res/layout/activity_remotefiles.xml #generated:244
 # view res/layout/toolbar.xml #generated:2
 # view res/layout/toolbar_bottom.xml #generated:1
 # view v21/res/layout-v21/toolbar.xml #generated:2

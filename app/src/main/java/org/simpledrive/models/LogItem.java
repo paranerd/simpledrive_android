@@ -1,25 +1,28 @@
 package org.simpledrive.models;
 
-import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 
 public class LogItem {
     private String message;
     private String user;
     private String date;
     private String type;
-    private Bitmap icon;
+    private Drawable icon;
 
     // For all other elements
-    public LogItem(String message, String user, String date, String type, Bitmap icon) {
+    public LogItem(String message, String user, String date, String type) {
         this.message = message;
         this.user = user;
         this.date = date;
         this.type = type;
-        this.icon = icon;
     }
 
-    public Bitmap getIcon() {
+    public Drawable getIcon() {
         return this.icon;
+    }
+
+    public void setIcon(Drawable icon) {
+        this.icon = icon;
     }
 
     public String getMessage() {

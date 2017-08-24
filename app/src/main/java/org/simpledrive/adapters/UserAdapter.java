@@ -1,6 +1,7 @@
 package org.simpledrive.adapters;
 
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.simpledrive.R;
+import org.simpledrive.helper.Util;
 import org.simpledrive.models.UserItem;
 
 import java.util.ArrayList;
@@ -19,13 +21,15 @@ public class UserAdapter extends ArrayAdapter<UserItem> {
     private LayoutInflater layoutInflater;
     private int layout;
     private AbsListView list;
+    private AppCompatActivity ctx;
 
-    public UserAdapter (Activity mActivity, int textViewResourceId, AbsListView list) {
-        super(mActivity, textViewResourceId);
+    public UserAdapter (AppCompatActivity ctx, int textViewResourceId, AbsListView list) {
+        super(ctx, textViewResourceId);
 
-        this.layoutInflater = LayoutInflater.from(mActivity);
+        this.layoutInflater = LayoutInflater.from(ctx);
         this.layout = textViewResourceId;
         this.list = list;
+        this.ctx = ctx;
     }
 
     @Override
@@ -49,10 +53,15 @@ public class UserAdapter extends ArrayAdapter<UserItem> {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        if (item.getIcon() == null) {
+            Log.i("debug", "set icon: " + item.getMode());
+            item.setIcon(Util.getIconByName(ctx, item.getMode(), R.drawable.ic_user));
+        }
+
         holder.name.setText(item.getUsername());
         holder.mode.setText(item.getMode());
         holder.date.setText("");
-        holder.icon.setImageBitmap(item.getIcon());
+        holder.icon.setImageDrawable(item.getIcon());
 
         if (list.isItemChecked(position)) {
             holder.checked.setVisibility(View.VISIBLE);

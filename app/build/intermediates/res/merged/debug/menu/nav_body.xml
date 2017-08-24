@@ -42,7 +42,7 @@
         <item
             android:id="@+id/navigation_view_item_shareout"
             android:orderInCategory="2"
-            android:icon="@drawable/ic_user"
+            android:icon="@drawable/ic_users"
             android:title="My Shares"/>
 
         <item

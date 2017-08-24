@@ -1,21 +1,24 @@
 package org.simpledrive.models;
 
-import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 
 public class UserItem {
     private String username;
     private String mode;
-    private Bitmap icon;
+    private Drawable icon;
 
     // For all other elements
-    public UserItem(String username, String mode, Bitmap icon) {
+    public UserItem(String username, String mode) {
         this.username = username;
         this.mode = mode;
-        this.icon = icon;
     }
 
-    public Bitmap getIcon() {
+    public Drawable getIcon() {
         return this.icon;
+    }
+
+    public void setIcon(Drawable icon) {
+        this.icon = icon;
     }
 
     public String getUsername() {
