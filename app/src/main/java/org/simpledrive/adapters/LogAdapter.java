@@ -1,7 +1,7 @@
 package org.simpledrive.adapters;
 
-import android.app.Activity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.simpledrive.R;
+import org.simpledrive.helper.Util;
 import org.simpledrive.models.LogItem;
 
 import java.util.ArrayList;
@@ -17,13 +18,13 @@ import java.util.ArrayList;
 public class LogAdapter extends ArrayAdapter<LogItem> {
     private LayoutInflater layoutInflater;
     private int layout;
-    private Activity e;
+    private AppCompatActivity ctx;
 
-    public LogAdapter(Activity mActivity, int textViewResourceId) {
-        super(mActivity, textViewResourceId);
-        this.layoutInflater = LayoutInflater.from(mActivity);
+    public LogAdapter(AppCompatActivity ctx, int textViewResourceId) {
+        super(ctx, textViewResourceId);
+        this.layoutInflater = LayoutInflater.from(ctx);
         this.layout = textViewResourceId;
-        this.e = mActivity;
+        this.ctx = ctx;
     }
 
     @Override
@@ -31,7 +32,7 @@ public class LogAdapter extends ArrayAdapter<LogItem> {
         ViewHolder holder;
         final LogItem item = getItem(position);
 
-        if(convertView == null) {
+        if (convertView == null) {
             convertView = layoutInflater.inflate(layout, null);
 
             holder = new ViewHolder();
@@ -45,10 +46,14 @@ public class LogAdapter extends ArrayAdapter<LogItem> {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        if (item.getIcon() == null) {
+            item.setIcon(Util.getIconByName(ctx, item.getType(), R.drawable.ic_error));
+        }
+
         holder.message.setText(item.getMessage());
         holder.user.setText(item.getUser());
         holder.date.setText(item.getDate());
-        holder.icon.setImageBitmap(item.getIcon());
+        holder.icon.setImageDrawable(item.getIcon());
 
         int color;
 
@@ -64,7 +69,7 @@ public class LogAdapter extends ArrayAdapter<LogItem> {
                 break;
         }
 
-        holder.icon.setColorFilter(ContextCompat.getColor(e, color));
+        holder.icon.setColorFilter(ContextCompat.getColor(ctx, color));
 
         return convertView;
     }

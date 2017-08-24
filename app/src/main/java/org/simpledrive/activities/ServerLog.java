@@ -1,8 +1,6 @@
 package org.simpledrive.activities;
 
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -33,7 +31,7 @@ import java.util.ArrayList;
 
 public class ServerLog extends AppCompatActivity {
     // General
-    private ServerLog e;
+    private ServerLog ctx;
     private int totalPages = 0;
     private int currentPage = 0;
     private ArrayList<LogItem> items = new ArrayList<>();
@@ -47,7 +45,7 @@ public class ServerLog extends AppCompatActivity {
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
 
-        e = this;
+        ctx = this;
 
         int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
@@ -89,7 +87,7 @@ public class ServerLog extends AppCompatActivity {
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    e.finish();
+                    ctx.finish();
                 }
             });
         }
@@ -177,7 +175,7 @@ public class ServerLog extends AppCompatActivity {
             protected void onPreExecute() {
                 super.onPreExecute();
                 mSwipeRefreshLayout.setRefreshing(true);
-                Toast.makeText(e, "Clearing log...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ctx, "Clearing log...", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -193,7 +191,7 @@ public class ServerLog extends AppCompatActivity {
                     fetchLog(currentPage);
                 }
                 else {
-                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();
@@ -244,28 +242,15 @@ public class ServerLog extends AppCompatActivity {
             totalPages = Integer.valueOf(j.getString("total"));
             JSONArray log = j.getJSONArray("log");
 
-            for(int i = 0; i < log.length(); i++){
+            for (int i = 0; i < log.length(); i++){
                 JSONObject obj = log.getJSONObject(i);
 
                 String message = obj.getString("msg");
                 String type = obj.getString("type");
                 String user = obj.getString("user");
                 String date = obj.getString("date");
-                Bitmap icon;
 
-                switch (type) {
-                    case "info":
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_info);
-                        break;
-                    case "warning":
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_warning);
-                        break;
-                    default:
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_error);
-                        break;
-                }
-
-                LogItem item = new LogItem(message, user, date, type, icon);
+                LogItem item = new LogItem(message, user, date, type);
                 items.add(item);
             }
         } catch (JSONException exp) {

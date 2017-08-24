@@ -29,24 +29,35 @@
                     android:id="@+id/toolbar"
                     layout="@layout/toolbar"/>
 
-                <TextView
-                    android:id="@+id/info"
-                    android:textSize="20.0sp"
-                    android:textColor="?android:textColorSecondary"
-                    android:gravity="center"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:text="@string/empty"
-                    android:layout_centerHorizontal="true"
-                    android:visibility="gone"
-                    android:fontFamily="sans-serif-light" />
-
-                <ListView
-                    android:id="@id/list"
+                <RelativeLayout
+                    android:id="@+id/content"
+                    android:background="?android:colorBackground"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/toolbar"
-                    android:choiceMode="singleChoice" />
+                    android:layout_above="@+id/logbottom"
+                    xmlns:android="http://schemas.android.com/apk/res/android">
+
+                    <TextView
+                        android:id="@+id/info"
+                        android:textSize="20.0sp"
+                        android:textColor="?android:textColorSecondary"
+                        android:gravity="center"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:text="@string/empty"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="gone"
+                        android:fontFamily="sans-serif-light" />
+
+                    <ListView
+                        android:id="@id/list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:choiceMode="singleChoice"
+                        android:divider="?android:colorFocusedHighlight"
+                        android:dividerHeight="1dp" />
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/logbottom"

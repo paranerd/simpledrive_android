@@ -2,8 +2,6 @@ package org.simpledrive.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -213,8 +211,7 @@ public class Users extends AppCompatActivity {
 
                 String username = obj.getString("username");
                 String mode = (obj.getString("admin").equals("1")) ? "admin" : "user";
-                Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_account);
-                UserItem item = new UserItem(username, mode, icon);
+                UserItem item = new UserItem(username, mode);
                 items.add(item);
             }
         } catch (JSONException exp) {
