@@ -28,7 +28,6 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -166,7 +165,8 @@ public class RemoteFiles extends AppCompatActivity {
         super.onCreate(paramBundle);
 
         ctx = this;
-        CustomAuthenticator.enable(this);
+        CustomAuthenticator.setContext(this);
+        Connection.init(this);
 
         // If there's no account, return to login
         if (CustomAuthenticator.getActiveAccount() == null) {
@@ -978,10 +978,8 @@ public class RemoteFiles extends AppCompatActivity {
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
-                Log.i("debug", "connect | onPreExecute | " + String.valueOf(waitForTFAUnlock));
                 super.onPreExecute();
                 loginAttempts++;
-                Log.i("debug", "remove Token");
                 CustomAuthenticator.removeToken();
                 emptyList();
                 mSwipeRefreshLayout.setRefreshing(true);
@@ -993,20 +991,15 @@ public class RemoteFiles extends AppCompatActivity {
                 con.addFormField("user", CustomAuthenticator.getUsername());
                 con.addFormField("pass", CustomAuthenticator.getPassword());
                 con.addFormField("callback", String.valueOf(waitForTFAUnlock));
-                con.forceSetCookie();
                 return con.finish();
             }
 
             @Override
             protected void onPostExecute(Connection.Response res) {
-                Log.i("debug", "connect | onPostExecute");
                 if (res.successful()) {
-                    Log.i("debug", "set token to " + res.getMessage());
                     CustomAuthenticator.setToken(res.getMessage());
                     if (waitForTFAUnlock) {
-                        Log.i("debug", "connect | finish REQUEST_TFA_CODE in 1s");
                         finishActivity(REQUEST_TFA_CODE);
-
                     }
                     waitForTFAUnlock = false;
                     fetchFiles();
@@ -1042,7 +1035,7 @@ public class RemoteFiles extends AppCompatActivity {
 
             @Override
             protected Connection.Response doInBackground(Void... params) {
-                Connection con = new Connection("twofactor", "unlock", 30000);
+                Connection con = new Connection("twofactor", "unlock");
                 con.addFormField("code", code);
 
                 return con.finish();
@@ -1080,7 +1073,6 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     private void showInfo(String msg) {
-        Log.i("debug", "showInfo: " + msg);
         info.setVisibility(View.VISIBLE);
         info.setText(msg);
     }

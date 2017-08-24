@@ -6347,8 +6347,8 @@ org.simpledrive.activities.ServerSettings$1: void onClick(android.view.View)
 org.simpledrive.activities.ShareFiles
 org.simpledrive.activities.ShareFiles: ShareFiles()
 org.simpledrive.activities.ShareFiles$1: void onClick(android.view.View)
+org.simpledrive.activities.ShareFiles$10: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.ShareFiles$2: void onClick(android.view.View)
-org.simpledrive.activities.ShareFiles$8: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.ShareFiles$9: void onClick(android.content.DialogInterface,int)
 org.simpledrive.activities.UnlockTFA
 org.simpledrive.activities.UnlockTFA: UnlockTFA()

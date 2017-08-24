@@ -17,6 +17,7 @@ public class SharedPrefManager {
     public static final String TAG_PHOTO_SYNC = "photosync";
     public static final String TAG_LAST_PHOTO_SYNC = "lastPhotoSync";
     public static final String TAG_VAULT_IN_SYNC = "vaultinsync";
+    public static final String TAG_FINGERPRINT = "fingerprint";
 
     // General
     private static SharedPrefManager mInstance;

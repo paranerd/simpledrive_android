@@ -10,7 +10,7 @@ ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidMa
 		INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
 		INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
 	android:versionCode
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:4:5-29
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:4:5-30
 		INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
 		INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
 	xmlns:android

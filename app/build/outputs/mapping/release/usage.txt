@@ -6197,7 +6197,8 @@ org.simpledrive.helper.SharedPrefManager:
     public static final java.lang.String TAG_PHOTO_SYNC
     public static final java.lang.String TAG_LAST_PHOTO_SYNC
     public static final java.lang.String TAG_VAULT_IN_SYNC
-    52:53:public int read(java.lang.String,int)
+    public static final java.lang.String TAG_FINGERPRINT
+    53:54:public int read(java.lang.String,int)
 org.simpledrive.helper.TouchImageView:
     private static final java.lang.String DEBUG
     private static final float SUPER_MIN_MULTIPLIER

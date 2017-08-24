@@ -1,5 +1,7 @@
 package org.simpledrive.helper;
 
+import android.content.Context;
+
 import org.json.JSONObject;
 import org.simpledrive.authenticator.CustomAuthenticator;
 
@@ -13,6 +15,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -31,6 +34,8 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 public class Connection {
+    // General
+    private static Context ctx;
     private final String boundary = "===" + System.currentTimeMillis() + "===";
     private final String LINE_FEED = "\r\n";
 
@@ -44,8 +49,7 @@ public class Connection {
 
     private ProgressListener pListener;
 
-    private static String cookie;
-    private boolean forceCookie = false;
+    private static String fingerprint = "";
 
     private String downloadPath;
     private String downloadFilename;
@@ -63,8 +67,7 @@ public class Connection {
     }
 
     /**
-     * This constructor initializes a new HTTP POST request
-     *
+     * Constructor; initialize a new HTTP POST request
      * @param endpoint The endpoint to connect to
      * @param action The action to execute
      */
@@ -79,7 +82,7 @@ public class Connection {
             httpConn.setReadTimeout(timeout);
             httpConn.setConnectTimeout(timeout);
             httpConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
-            httpConn.setRequestProperty("Cookie", cookie);
+            httpConn.setRequestProperty("Cookie", fingerprint);
 
             outputStream = httpConn.getOutputStream();
             writer = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"), true);
@@ -88,15 +91,27 @@ public class Connection {
         }
     }
 
+    /**
+     * Set the context for accessing SharedPrefs
+     * @param context Activity context
+     */
+    public static void init(Context context) {
+        ctx = context;
+        fingerprint = SharedPrefManager.getInstance(ctx).read(SharedPrefManager.TAG_FINGERPRINT, "");
+    }
+
+    /**
+     * Set progress listener
+     * @param listener Progress listener
+     */
     void setListener(final ProgressListener listener) {
         this.pListener = listener;
     }
 
     /**
-     * Adds a form field to the request
-     *
-     * @param name  field name
-     * @param value field value
+     * Add a form field to the request
+     * @param name  Field name
+     * @param value Field value
      */
     public void addFormField(String name, String value) {
         if (writer != null) {
@@ -104,13 +119,9 @@ public class Connection {
             writer.append("Content-Disposition: form-data; name=\"").append(name).append("\"").append(LINE_FEED);
             writer.append("Content-Type: text/plain; charset=UTF-8").append(LINE_FEED);
             writer.append(LINE_FEED);
-            writer.append(value); //.append(LINE_FEED);
+            writer.append(value);
             writer.flush();
         }
-    }
-
-    public void forceSetCookie() {
-        forceCookie = true;
     }
 
     interface ProgressListener {
@@ -124,9 +135,8 @@ public class Connection {
 
     /**
      * Adds a upload file section to the request
-     *
-     * @param fieldName  name attribute in <input type="file" name="..." />
-     * @param uploadFile a File to be uploaded
+     * @param fieldName  Name attribute in <input type="file" name="..." />
+     * @param uploadFile File to be uploaded
      */
     void addFilePart(String fieldName, File uploadFile) {
         try {
@@ -163,8 +173,7 @@ public class Connection {
     }
 
     /**
-     * Completes the request and receives response from the server.
-     *
+     * Complete the request and receive response from the server
      * @return Response
      */
     public Response finish() {
@@ -180,8 +189,8 @@ public class Connection {
 
             // Get cookie from header
             List cookieList = httpConn.getHeaderFields().get("Set-Cookie");
-            if (cookieList != null && (cookie == null || forceCookie)) {
-                cookie = cookieList.get(0).toString();
+            if (cookieList != null && !cookieList.isEmpty()) {
+                extractCookies(cookieList);
             }
 
             status = httpConn.getResponseCode();
@@ -247,7 +256,6 @@ public class Connection {
                 }
 
                 String result = sb.toString();
-                //Log.i("debug", "Connection result: " + result);
                 JSONObject obj = new JSONObject(result);
 
                 // Cleanup
@@ -260,6 +268,18 @@ public class Connection {
             e.printStackTrace();
             httpConn.disconnect();
             return new Response(false, status, "Connection error");
+        }
+    }
+
+    private void extractCookies(List cookieList) {
+        for (int i = 0; i < cookieList.size(); i++) {
+            HttpCookie cookie = HttpCookie.parse(cookieList.get(i).toString()).get(0);
+
+            // Only override fingerprint if none is set
+            if (cookie.getName().equals("fingerprint") && fingerprint.equals("")) {
+                fingerprint = cookie.toString();
+                SharedPrefManager.getInstance(ctx).write(SharedPrefManager.TAG_FINGERPRINT, fingerprint);
+            }
         }
     }
 
@@ -298,7 +318,7 @@ public class Connection {
     }
 
     public static void logout() {
-        cookie = null;
+        // Do something
     }
 
     public class Response {

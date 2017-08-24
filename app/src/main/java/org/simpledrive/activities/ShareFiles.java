@@ -41,7 +41,7 @@ public class ShareFiles extends AppCompatActivity {
     private boolean preventLock = false;
     private String username = "";
     private int loginAttempts = 0;
-    private String tfaCode = "";
+    private boolean waitForTFAUnlock = false;
 
     // Files
     private ArrayList<FileItem> items = new ArrayList<>();
@@ -68,7 +68,9 @@ public class ShareFiles extends AppCompatActivity {
         super.onCreate(paramBundle);
 
         ctx = this;
-        CustomAuthenticator.enable(this);
+        CustomAuthenticator.setContext(this);
+        Connection.init(this);
+
         // If there's no account, return to login
         if (CustomAuthenticator.getActiveAccount() == null) {
             startActivity(new Intent(getApplicationContext(), Login.class));
@@ -247,8 +249,10 @@ public class ShareFiles extends AppCompatActivity {
 
             case REQUEST_TFA_CODE:
                 if (resultCode == RESULT_OK) {
-                    tfaCode = data.getStringExtra("passphrase");
-                    connect();
+                    submitTFA(data.getStringExtra("passphrase"));
+                }
+                else if (CustomAuthenticator.getToken().equals("")) {
+                    finish();
                 }
                 break;
         }
@@ -367,6 +371,9 @@ public class ShareFiles extends AppCompatActivity {
             protected void onPreExecute() {
                 super.onPreExecute();
                 loginAttempts++;
+                CustomAuthenticator.removeToken();
+                emptyList();
+                mSwipeRefreshLayout.setRefreshing(true);
             }
 
             @Override
@@ -374,7 +381,6 @@ public class ShareFiles extends AppCompatActivity {
                 Connection con = new Connection("core", "login");
                 con.addFormField("user", CustomAuthenticator.getUsername());
                 con.addFormField("pass", CustomAuthenticator.getPassword());
-                con.forceSetCookie();
 
                 return con.finish();
             }
@@ -388,24 +394,14 @@ public class ShareFiles extends AppCompatActivity {
                     fetchFiles();
                 }
                 else {
+                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
                     if (res.getStatus() == 403) {
-                        // TFA-Code required
-                        Intent i = new Intent(getApplicationContext(), PinScreen.class);
-                        String error = (tfaCode.equals("")) ? "" : "Incorrect code";
-                        i.putExtra("error", error);
-                        i.putExtra("label", "2FA-code");
-                        i.putExtra("length", 5);
-                        startActivityForResult(i, REQUEST_TFA_CODE);
+                        requestTFA(res.getMessage());
+                        connect();
                     }
                     else {
                         // No connection
-                        info.setVisibility(View.VISIBLE);
-                        info.setText(R.string.connection_error);
-
-                        if (newAdapter != null) {
-                            newAdapter.setData(null);
-                            newAdapter.notifyDataSetChanged();
-                        }
+                        showInfo(res.getMessage());
 
                         mSwipeRefreshLayout.setRefreshing(false);
                         mSwipeRefreshLayout.setEnabled(true);
@@ -413,6 +409,57 @@ public class ShareFiles extends AppCompatActivity {
                 }
             }
         }.execute();
+    }
+
+    private void submitTFA(final String code) {
+        new AsyncTask<Void, Void, Connection.Response>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                showInfo("Evaluating Code...");
+            }
+
+            @Override
+            protected Connection.Response doInBackground(Void... params) {
+                Connection con = new Connection("twofactor", "unlock", 30000);
+                con.addFormField("code", code);
+
+                return con.finish();
+            }
+            @Override
+            protected void onPostExecute(Connection.Response res) {
+                if (res.successful()) {
+                    showInfo("");
+                }
+                else {
+                    requestTFA(res.getMessage());
+                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void requestTFA(String error) {
+        Intent i = new Intent(getApplicationContext(), PinScreen.class);
+        i.putExtra("error", error);
+        i.putExtra("label", "2FA-code");
+        i.putExtra("length", 5);
+        startActivityForResult(i, REQUEST_TFA_CODE);
+        waitForTFAUnlock = true;
+    }
+
+    private void emptyList() {
+        items = new ArrayList<>();
+
+        if (newAdapter != null) {
+            newAdapter.setData(null);
+            newAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void showInfo(String msg) {
+        info.setVisibility(View.VISIBLE);
+        info.setText(msg);
     }
 
     public void onBackPressed() {

@@ -20,31 +20,31 @@ public class Login extends AppCompatActivity {
     private String username;
     private String password;
     private String server;
-    private String unlockCode = "";
+    private boolean waitForTFAUnlock = false;
 
     // Interface
-    private Button btnLogin;
     private EditText txtUsername;
     private EditText txtPassword;
     private EditText txtServername;
 
     // Request codes
-    private final int REQUEST_UNLOCK = 0;
+    private final int REQUEST_TFA_CODE = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Need to set context again because RemoteFiles/ShareFiles finish
+        CustomAuthenticator.setContext(this);
+        Connection.init(this);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
-
-        CustomAuthenticator.enable(this);
 
         txtUsername = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
         txtServername = (EditText) findViewById(R.id.txtServer);
 
-        btnLogin = (Button) findViewById(R.id.btnLogin);
+        Button btnLogin = (Button) findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -58,6 +58,7 @@ public class Login extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), R.string.no_blank_fields, Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    // Clean-up server-string
                     if (server.length() > 3 && !server.substring(0, 4).matches("http")) {
                         server = "http://" + server;
                     }
@@ -74,10 +75,12 @@ public class Login extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case REQUEST_UNLOCK:
+            case REQUEST_TFA_CODE:
                 if (resultCode == RESULT_OK) {
-                    unlockCode = data.getStringExtra("passphrase");
-                    login(server, username, password);
+                    submitTFA(data.getStringExtra("passphrase"));
+                }
+                else if (CustomAuthenticator.getToken().equals("")) {
+                    finish();
                 }
                 break;
         }
@@ -97,11 +100,10 @@ public class Login extends AppCompatActivity {
 
             @Override
             protected Connection.Response doInBackground(Void... login) {
-                Connection con = new Connection(server, "core", "login");
+                Connection con = (waitForTFAUnlock) ? new Connection(server, "core", "login", 30000) : new Connection(server, "core", "login");
                 con.addFormField("user", username);
                 con.addFormField("pass", password);
-                con.addFormField("code", unlockCode);
-                con.forceSetCookie();
+                con.addFormField("callback", String.valueOf(waitForTFAUnlock));
 
                 return con.finish();
             }
@@ -110,6 +112,11 @@ public class Login extends AppCompatActivity {
                 pDialog.dismiss();
 
                 if (res.successful()) {
+                    if (waitForTFAUnlock) {
+                        finishActivity(REQUEST_TFA_CODE);
+                    }
+                    waitForTFAUnlock = false;
+
                     if (CustomAuthenticator.addAccount(username, password, server, res.getMessage())) {
                         Intent i = new Intent(getApplicationContext(), RemoteFiles.class);
                         if (getCallingActivity() != null) {
@@ -127,12 +134,7 @@ public class Login extends AppCompatActivity {
                 else {
                     if (res.getStatus() == 403) {
                         // TFA-Code required
-                        Intent i = new Intent(getApplicationContext(), PasswordScreen.class);
-                        String error = (!unlockCode.equals("")) ? "Incorrect code" : "";
-                        i.putExtra("error", error);
-                        i.putExtra("label", "code");
-                        startActivityForResult(i, REQUEST_UNLOCK);
-                        //finishActivity(REQUEST_UNLOCK);
+                        requestTFA(res.getMessage());
                     }
                     else {
                         Toast.makeText(Login.this, res.getMessage(), Toast.LENGTH_SHORT).show();
@@ -140,5 +142,39 @@ public class Login extends AppCompatActivity {
                 }
             }
         }.execute();
+    }
+
+    private void submitTFA(final String code) {
+        new AsyncTask<Void, Void, Connection.Response>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                Toast.makeText(getApplicationContext(), "Evaluating Code...", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            protected Connection.Response doInBackground(Void... params) {
+                Connection con = new Connection("twofactor", "unlock");
+                con.addFormField("code", code);
+
+                return con.finish();
+            }
+            @Override
+            protected void onPostExecute(Connection.Response res) {
+                if (!res.successful()) {
+                    requestTFA(res.getMessage());
+                    Toast.makeText(getApplicationContext(), res.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void requestTFA(String error) {
+        Intent i = new Intent(getApplicationContext(), PinScreen.class);
+        i.putExtra("error", error);
+        i.putExtra("label", "2FA-code");
+        i.putExtra("length", 5);
+        startActivityForResult(i, REQUEST_TFA_CODE);
+        waitForTFAUnlock = true;
     }
 }
