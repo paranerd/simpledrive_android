@@ -41,7 +41,7 @@ public class PasswordGenerator extends AppCompatActivity implements TextWatcher 
         useSpecials = (CheckBox) findViewById(R.id.use_specials);
 
         initToolbar();
-        setToolbarTitle("Generate Password");
+        //setToolbarTitle("Generate Password");
     }
 
     public void onBackPressed() {

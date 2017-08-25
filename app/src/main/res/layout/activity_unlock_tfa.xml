@@ -1,50 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:id="@+id/scrollView1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:colorBackground"
-    android:gravity="center">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:gravity="center"
-        android:text="Confirm Login"
-        android:textColor="?android:textColorPrimary"
-        android:fontFamily="sans-serif-light"
-        android:textSize="32sp"/>
-
-    <TextView
-        android:id="@+id/code"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
-        android:textColor="?android:textColorPrimary"
-        android:textStyle="bold"
-        android:textSize="24sp"
-        android:gravity="center"/>
+    android:background="@color/darkgreen">
 
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:gravity="center_horizontal">
+        android:layout_height="match_parent"
+        android:paddingTop="50dp"
+        android:paddingBottom="50dp"
+        android:orientation="vertical"
+        android:background="@color/darkgreen"
+        android:gravity="center">
 
-        <Button
-            android:id="@+id/no"
-            android:text="No"
-            style="@style/MyButtonLarge"
-            android:onClick="onClick" />
+        <include layout="@layout/header"/>
 
-        <Button
-            android:id="@+id/yes"
-            android:layout_gravity="center"
-            android:text="Yes"
-            style="@style/MyButtonLarge"
-            android:onClick="onClick" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:layout_marginBottom="30dp"
+                android:gravity="center"
+                android:text="Confirm Login"
+                android:textColor="@color/white"
+                android:fontFamily="sans-serif-light"
+                android:textSize="28sp"/>
+
+            <TextView
+                android:id="@+id/code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:text="45342"
+                android:gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center_horizontal">
+
+                <Button
+                    android:id="@+id/no"
+                    android:text="No"
+                    style="@style/MyButtonLarge"
+                    android:onClick="onClick" />
+
+                <Button
+                    android:id="@+id/yes"
+                    android:layout_gravity="center"
+                    android:text="Yes"
+                    style="@style/MyButtonLarge"
+                    android:onClick="onClick" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>
