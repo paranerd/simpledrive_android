@@ -39,7 +39,7 @@
 # view res/layout/activity_vault_website.xml #generated:192
 # view res/layout/activity_vault_website.xml #generated:61
 # view res/layout/activity_vault_website.xml #generated:85
-# view res/layout/activity_vaultunlock.xml #generated:55
+# view res/layout/activity_vaultunlock.xml #generated:45
 -keep class android.support.design.widget.TextInputEditText { <init>(...); }
 
 # view res/layout/activity_vault_note.xml #generated:100
@@ -50,7 +50,7 @@
 # view res/layout/activity_vault_website.xml #generated:182
 # view res/layout/activity_vault_website.xml #generated:52
 # view res/layout/activity_vault_website.xml #generated:76
-# view res/layout/activity_vaultunlock.xml #generated:45
+# view res/layout/activity_vaultunlock.xml #generated:37
 -keep class android.support.design.widget.TextInputLayout { <init>(...); }
 
 # view res/layout/activity_log.xml #generated:2
@@ -233,8 +233,8 @@
 # view AndroidManifest.xml #generated:173
 -keep class org.simpledrive.services.MyFirebaseMessagingService { <init>(...); }
 
-# onClick res/layout/activity_passwordgenerator.xml #generated:48
-# onClick res/layout/activity_passwordgenerator.xml #generated:60
+# onClick res/layout/activity_passwordgenerator.xml #generated:64
+# onClick res/layout/activity_passwordgenerator.xml #generated:76
 # onClick res/layout/activity_unlock.xml #generated:102
 # onClick res/layout/activity_unlock.xml #generated:116
 # onClick res/layout/activity_unlock.xml #generated:123
@@ -247,12 +247,12 @@
 # onClick res/layout/activity_unlock.xml #generated:50
 # onClick res/layout/activity_unlock.xml #generated:87
 # onClick res/layout/activity_unlock.xml #generated:95
-# onClick res/layout/activity_unlock_tfa.xml #generated:36
-# onClick res/layout/activity_unlock_tfa.xml #generated:42
+# onClick res/layout/activity_unlock_tfa.xml #generated:54
+# onClick res/layout/activity_unlock_tfa.xml #generated:60
 # onClick res/layout/activity_vault_website.xml #generated:166
 # onClick res/layout/activity_vault_website.xml #generated:207
 # onClick res/layout/activity_vault_website.xml #generated:216
-# onClick res/layout/activity_vaultunlock.xml #generated:70
+# onClick res/layout/activity_vaultunlock.xml #generated:59
 -keepclassmembers class * { *** onClick(...); }
 
 # onClick res/layout/activity_vault_website.xml #generated:129

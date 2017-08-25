@@ -6155,6 +6155,8 @@ org.simpledrive.activities.AppSettings:
     private static final int REQUEST_STORAGE
     private static final int REQUEST_SET_PIN
     private static final int REQUEST_ENABLE_PHOTO_SYNC
+org.simpledrive.activities.PasswordGenerator:
+    80:83:private void setToolbarTitle(java.lang.String)
 org.simpledrive.activities.VaultWebsite:
     public static final java.lang.String COPY_USER
     public static final java.lang.String COPY_PASS

@@ -20158,12 +20158,11 @@ org.simpledrive.activities.PasswordGenerator -> org.simpledrive.activities.Passw
     void onBackPressed() -> onBackPressed
     void onClick(android.view.View) -> onClick
     void initToolbar() -> i
-    void setToolbarTitle(java.lang.String) -> a
     void generatePassword() -> j
     java.lang.String initAlphabet(boolean,boolean,boolean,boolean) -> a
     void returnPassword() -> k
-    int checkPasswordStrength(java.lang.String) -> b
-    void showPasswordStrength(java.lang.String) -> c
+    int checkPasswordStrength(java.lang.String) -> a
+    void showPasswordStrength(java.lang.String) -> b
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged

@@ -5308,6 +5308,7 @@ org.simpledrive.R$layout: int dialog_createuser
 org.simpledrive.R$layout: int dialog_share
 org.simpledrive.R$layout: int drawer_list_item
 org.simpledrive.R$layout: int gridview
+org.simpledrive.R$layout: int header
 org.simpledrive.R$layout: int listview_detail
 org.simpledrive.R$layout: int nav_header
 org.simpledrive.R$layout: int notification
