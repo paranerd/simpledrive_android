@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Fri Aug 25 09:30:08 CEST 2017
+#Sat Aug 26 10:11:48 CEST 2017
 1863.set=ANDROID_RESOURCE
 1117.file=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/proguard/release/jars/3/1f/main.jar/com/google/android/gms/internal/ag$c.class
 1391.set=JAVA_RESOURCE

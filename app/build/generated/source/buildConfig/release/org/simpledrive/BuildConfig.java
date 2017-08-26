@@ -8,6 +8,6 @@ public final class BuildConfig {
   public static final String APPLICATION_ID = "org.simpledrive";
   public static final String BUILD_TYPE = "release";
   public static final String FLAVOR = "";
-  public static final int VERSION_CODE = 109;
-  public static final String VERSION_NAME = "6.4.7";
+  public static final int VERSION_CODE = 110;
+  public static final String VERSION_NAME = "6.4.8";
 }
