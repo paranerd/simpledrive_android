@@ -79,7 +79,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="6ab57bec342ae60698e0f0b9569c1115a6c59d5e">
+        sha1="cc9cd7dedfa0073c70d2bf2dbf77bc0901d24f2f">
         <dex dex="/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_f7e59204bba1841e13326dcbffe1c21a393491dc/classes.dex" />
     </item>
 
