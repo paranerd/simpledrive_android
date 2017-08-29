@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -80,7 +81,7 @@ public class Login extends AppCompatActivity {
                     submitTFA(data.getStringExtra("passphrase"));
                 }
                 else if (CustomAuthenticator.getToken().equals("")) {
-                    finish();
+                    Toast.makeText(Login.this, "Two-Factor-Authentication failed", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -135,8 +136,14 @@ public class Login extends AppCompatActivity {
                     if (res.getStatus() == 403) {
                         // TFA-Code required
                         requestTFA(res.getMessage());
+                        login(server, username, password);
                     }
                     else {
+                        if (waitForTFAUnlock) {
+                            finishActivity(REQUEST_TFA_CODE);
+                        }
+                        waitForTFAUnlock = false;
+
                         Toast.makeText(Login.this, res.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
