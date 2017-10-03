@@ -3,7 +3,6 @@ package org.simpledrive.activities;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,8 +28,6 @@ public class UnlockTFA extends AppCompatActivity {
 
         code = getIntent().getStringExtra("code");
         fingerprint = getIntent().getStringExtra("fingerprint");
-
-        Log.i("debug", "code: " + code);
 
         txtCode.setText(code);
     }

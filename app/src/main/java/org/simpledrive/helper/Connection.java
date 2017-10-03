@@ -1,6 +1,7 @@
 package org.simpledrive.helper;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONObject;
 import org.simpledrive.authenticator.CustomAuthenticator;
@@ -72,6 +73,7 @@ public class Connection {
      * @param action The action to execute
      */
     public Connection(String server, String endpoint, String action, int timeout) {
+        Log.i("debug", "server: " + server);
         try {
             URL url = new URL(server + "api/" + endpoint + "/" + action);
             trustCertificate(server);

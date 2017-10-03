@@ -3,6 +3,7 @@ package org.simpledrive.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -16,10 +17,12 @@ public class PasswordScreen extends AppCompatActivity {
     private int step = 0;
     private String firstPassphrase = "";
     private String label = "passphrase";
+    private String title = "Unlock";
 
     // Interface
     private TextView passphrase;
     private TextView error;
+    private TextView tvTitle;
     private Button confirm;
 
     @Override
@@ -27,10 +30,11 @@ public class PasswordScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_vaultunlock);
+        setContentView(R.layout.activity_passwordscreen);
 
         passphrase = (TextView) findViewById(R.id.passphrase);
         error = (TextView) findViewById(R.id.error);
+        tvTitle = (TextView) findViewById(R.id.title);
         confirm = (Button) findViewById(R.id.confirm);
 
         Bundle extras = getIntent().getExtras();
@@ -38,7 +42,9 @@ public class PasswordScreen extends AppCompatActivity {
             showError(extras.getString("error", ""));
             repeat = extras.getBoolean("repeat", false);
             label = extras.getString("label", "passphrase");
+            title = extras.getString("title", "Unlock");
         }
+
         updateDisplay();
     }
 
@@ -47,10 +53,11 @@ public class PasswordScreen extends AppCompatActivity {
     }
 
     private void updateDisplay() {
+        tvTitle.setText(title);
         if (repeat) {
             String t = (step == 0) ? "Set" : "Repeat";
             passphrase.setHint(t + " " + label);
-            confirm.setText("Set");
+            confirm.setText(t);
         }
         else {
             passphrase.setHint("Enter " + label);

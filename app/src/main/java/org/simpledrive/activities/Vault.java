@@ -416,6 +416,7 @@ public class Vault extends AppCompatActivity {
                 waitingForUnlock = true;
                 Intent i = new Intent(this, PasswordScreen.class);
                 String error = (unlockAttempts > 0) ? "Passphrase incorrect" : "";
+                i.putExtra("title", "Unlock Vault");
                 i.putExtra("error", error);
                 startActivityForResult(i, REQUEST_UNLOCK);
                 unlockAttempts++;
@@ -520,6 +521,7 @@ public class Vault extends AppCompatActivity {
 
                     waitingForSetPassphrase = true;
                     Intent i = new Intent(getApplicationContext(), PasswordScreen.class);
+                    i.putExtra("title", "Setup Vault");
                     i.putExtra("repeat", true);
                     startActivityForResult(i, REQUEST_SET_PASSPHRASE);
                 }
