@@ -40,6 +40,10 @@
         "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/layout/abc_list_menu_item_checkbox.xml"
     },
     {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/activity_pinscreen.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_pinscreen.xml"
+    },
+    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/design_layout_tab_text.xml",
         "source": "/home/paranerd/.android/build-cache/41ed2336d2f736605e4e12c0e0bfb0727c56f2dc/output/res/layout/design_layout_tab_text.xml"
     },
@@ -216,6 +220,10 @@
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vault_website.xml"
     },
     {
+        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/activity_passwordscreen.xml",
+        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_passwordscreen.xml"
+    },
+    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/activity_users.xml",
         "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_users.xml"
     },
@@ -238,10 +246,6 @@
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/abc_popup_menu_item_layout.xml",
         "source": "/home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/res/layout/abc_popup_menu_item_layout.xml"
-    },
-    {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/activity_unlock.xml",
-        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_unlock.xml"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/dialog_change_password.xml",
@@ -294,10 +298,6 @@
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/design_menu_item_action_area.xml",
         "source": "/home/paranerd/.android/build-cache/41ed2336d2f736605e4e12c0e0bfb0727c56f2dc/output/res/layout/design_menu_item_action_area.xml"
-    },
-    {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/activity_vaultunlock.xml",
-        "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vaultunlock.xml"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/release/layout/abc_activity_chooser_view_list_item.xml",

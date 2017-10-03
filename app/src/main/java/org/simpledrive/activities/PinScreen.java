@@ -42,7 +42,7 @@ public class PinScreen extends AppCompatActivity {
     }
 
     private void initInterface() {
-        setContentView(R.layout.activity_unlock);
+        setContentView(R.layout.activity_pinscreen);
 
         pin = (TextView) findViewById(R.id.unlock_pin);
         error = (TextView) findViewById(R.id.unlock_error);

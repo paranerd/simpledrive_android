@@ -20175,9 +20175,11 @@ org.simpledrive.activities.PasswordScreen -> org.simpledrive.activities.Password
     int step -> o
     java.lang.String firstPassphrase -> p
     java.lang.String label -> q
-    android.widget.TextView passphrase -> r
-    android.widget.TextView error -> s
-    android.widget.Button confirm -> t
+    java.lang.String title -> r
+    android.widget.TextView passphrase -> s
+    android.widget.TextView error -> t
+    android.widget.TextView tvTitle -> u
+    android.widget.Button confirm -> v
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
     void showError(java.lang.String) -> a
