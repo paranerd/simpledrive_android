@@ -114,4 +114,8 @@ public class FileItem
     {
 		return this.scrollPos;
 	}
+
+	public String getEdit() {
+		return this.edit;
+	}
 }

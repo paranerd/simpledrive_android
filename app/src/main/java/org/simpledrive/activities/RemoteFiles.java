@@ -55,6 +55,7 @@ import org.simpledrive.R;
 import org.simpledrive.adapters.FileAdapter;
 import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.Connection;
+import org.simpledrive.helper.DatabaseHandler;
 import org.simpledrive.helper.DownloadManager;
 import org.simpledrive.helper.PermissionManager;
 import org.simpledrive.helper.SharedPrefManager;
@@ -81,6 +82,8 @@ public class RemoteFiles extends AppCompatActivity {
     private boolean isAdmin = false;
     private ArrayList<AccountItem> accounts = new ArrayList<>();
     private boolean waitForTFAUnlock = false;
+    private DatabaseHandler db;
+    private long requestId = 0;
 
     // Request codes
     private final int REQUEST_UPLOAD = 1;
@@ -188,6 +191,7 @@ public class RemoteFiles extends AppCompatActivity {
         bottomToolbarEnabled = SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_BOTTOM_TOOLBAR, false);
         username = CustomAuthenticator.getUsername();
         updateNavigationDrawer();
+        db = new DatabaseHandler(this, Util.md5(username + CustomAuthenticator.getServer()));
 
         // Update firebase-token if refreshed
         if (!SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_FIREBASE_TOKEN_OLD, "").equals("")) {
@@ -229,12 +233,15 @@ public class RemoteFiles extends AppCompatActivity {
             requestPIN();
         }
         else if (!waitForTFAUnlock) {
-            fetchFiles();
+            fetchFiles(false);
             preventLock = false;
             appVisible = true;
         }
     }
 
+    /**
+     * Request unlock PIN
+     */
     private void requestPIN() {
         long cooldown = CustomAuthenticator.getCooldown();
         long remainingUnlockAttempts = CustomAuthenticator.getRemainingUnlockAttempts();
@@ -291,7 +298,7 @@ public class RemoteFiles extends AppCompatActivity {
         }
 
         clearHierarchy();
-        fetchFiles();
+        fetchFiles(false);
     }
 
     protected void onPause() {
@@ -305,6 +312,7 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     protected void onDestroy() {
+        db.close();
         super.onDestroy();
 
         if (mBound && AudioService.isPlaying()) {
@@ -328,7 +336,7 @@ public class RemoteFiles extends AppCompatActivity {
                     UploadManager.addUpload(this, ul_paths, hierarchy.get(hierarchy.size() - 1).getID(), "0", new UploadManager.TaskListener() {
                         @Override
                         public void onFinished() {
-                            fetchFiles();
+                            fetchFiles(true);
                         }
                     });
                     Toast.makeText(ctx, "Upload started", Toast.LENGTH_SHORT).show();
@@ -369,7 +377,7 @@ public class RemoteFiles extends AppCompatActivity {
         }
         else if (hierarchy.size() > 1) {
             hierarchy.remove(hierarchy.size() - 1);
-            fetchFiles();
+            fetchFiles(false);
         }
         else if (viewmode.equals("trash")) {
             setViewmode("files");
@@ -470,6 +478,9 @@ public class RemoteFiles extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Initialize all interface elements
+     */
     private void initInterface() {
         // Set theme
         theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
@@ -609,7 +620,7 @@ public class RemoteFiles extends AppCompatActivity {
             public void onRefresh() {
                 loginAttempts = 0;
                 if (hierarchy.size() > 0 && CustomAuthenticator.isActive(username)) {
-                    fetchFiles();
+                    fetchFiles(true);
                 }
                 else {
                     connect();
@@ -622,6 +633,10 @@ public class RemoteFiles extends AppCompatActivity {
         mSwipeRefreshLayout.setEnabled(true);
     }
 
+    /**
+     * Show/Hide the small Floating Action Buttons
+     * @param status true for show, false for hide
+     */
     private void toggleFAB(boolean status) {
         if (status == FAB_Status) {
             return;
@@ -645,6 +660,10 @@ public class RemoteFiles extends AppCompatActivity {
         fab_file.setClickable(status);
     }
 
+    /**
+     * Show/Hide paste and paste-cancel Floating Action Buttons
+     * @param show
+     */
     private void togglePaste(boolean show) {
         toggleFAB(false);
 
@@ -654,10 +673,61 @@ public class RemoteFiles extends AppCompatActivity {
         fab_paste_cancel.setAnimation(anim);
         fab_paste_cancel.getAnimation().start();
         fab_paste_cancel.setClickable(show);
-
     }
 
-    private void fetchFiles() {
+    /**
+     * Get the current FolderID from hierarchy
+     * If "root"-Folder, ID is 0
+     * @return String
+     */
+    private String getCurrentFolderId() {
+        return (hierarchy.size() == 1 && hierarchy.get(hierarchy.size() -1).getFilename().equals("")) ? "0" : hierarchy.get(hierarchy.size() - 1).getID();
+    }
+
+    /**
+     * Load files from cache or server
+     * @param forceRefresh
+     */
+    private void fetchFiles(boolean forceRefresh) {
+        mSwipeRefreshLayout.setRefreshing(false);
+        if (viewmode.equals("files") && (!fetchFilesFromCache() || forceRefresh)) {
+            fetchFilesFromServer();
+        }
+    }
+
+    /**
+     * Load files from DB-cache
+     * @return if successful
+     */
+    private boolean fetchFilesFromCache() {
+        if (newAdapter != null) {
+            newAdapter.cancelThumbLoad();
+        }
+
+        // Reset anything related to listing files
+        toggleFAB(false);
+        emptyList();
+
+        // Cache-parent is "0" for root elements
+        String parent = getCurrentFolderId();
+        ArrayList<FileItem> cachedFiles = db.getChildren(parent);
+
+        // Add files
+        for (FileItem item : cachedFiles) {
+            items.add(item);
+            filteredItems.add(item);
+        }
+
+        displayFiles();
+
+        return (cachedFiles.size() > 0);
+    }
+
+    /**
+     * Fetch files from server
+     */
+    private void fetchFilesFromServer() {
+        final long currentRequestId = Util.getTimestamp();
         new AsyncTask<Void, Void, Connection.Response>() {
             @Override
             protected void onPreExecute() {
@@ -666,6 +736,7 @@ public class RemoteFiles extends AppCompatActivity {
                     newAdapter.cancelThumbLoad();
                 }
 
+                requestId = currentRequestId;
                 mSwipeRefreshLayout.setRefreshing(true);
             }
 
@@ -681,15 +752,18 @@ public class RemoteFiles extends AppCompatActivity {
             @Override
             protected void onPostExecute(Connection.Response res) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                if (res.successful()) {
+                if (requestId != currentRequestId) {
+                    return;
+                }
+                else if (res.successful()) {
                     loginAttempts = 0;
                     extractFiles(res.getMessage());
                     displayFiles();
                 }
                 else {
                     showInfo(res.getMessage());
-
                     if (loginAttempts < 2) {
+                        clearHierarchy();
                         connect();
                     }
                 }
@@ -702,9 +776,13 @@ public class RemoteFiles extends AppCompatActivity {
      * @param rawJSON The raw JSON-Data from the server
      */
     private void extractFiles(String rawJSON) {
+        // Cache-parent is "0" for root elements
+        String parent = getCurrentFolderId();
+
         // Reset anything related to listing files
         toggleFAB(false);
         emptyList();
+        db.deleteFolder(parent);
 
         try {
             JSONObject job = new JSONObject(rawJSON);
@@ -733,6 +811,8 @@ public class RemoteFiles extends AppCompatActivity {
                 FileItem item = new FileItem(id, filename, "", size, edit, type, owner, selfshared, shared);
                 items.add(item);
                 filteredItems.add(item);
+
+                db.addFile(item, parent);
             }
         } catch (JSONException exp) {
             exp.printStackTrace();
@@ -806,14 +886,14 @@ public class RemoteFiles extends AppCompatActivity {
         }
     }
 
-    private void openFile(int position) {
+    private void open(int position) {
         FileItem item = filteredItems.get(position);
         if (viewmode.equals("trash")) {
             return;
         }
         else if (item.is("folder")) {
             hierarchy.add(item);
-            fetchFiles();
+            fetchFiles(false);
         }
         else if (item.is("image")) {
             preventLock = true;
@@ -1002,7 +1082,7 @@ public class RemoteFiles extends AppCompatActivity {
                         finishActivity(REQUEST_TFA_CODE);
                     }
                     waitForTFAUnlock = false;
-                    fetchFiles();
+                    fetchFiles(false);
                     getVersion();
                     getPermissions();
                     checkForPendingUploads();
@@ -1611,7 +1691,7 @@ public class RemoteFiles extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                openFile(position);
+                open(position);
             }
         });
 
@@ -1717,7 +1797,7 @@ public class RemoteFiles extends AppCompatActivity {
             @Override
             protected void onPostExecute(Connection.Response res) {
                 if (res.successful()) {
-                    fetchFiles();
+                    fetchFiles(true);
                 }
                 else {
                     Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
@@ -1751,7 +1831,7 @@ public class RemoteFiles extends AppCompatActivity {
             @Override
             protected void onPostExecute(final Connection.Response res) {
                 if (res.successful()) {
-                    fetchFiles();
+                    fetchFiles(true);
 
                     if (sharePublic) {
                         final android.support.v7.app.AlertDialog.Builder dialog = new android.support.v7.app.AlertDialog.Builder(ctx);
@@ -1800,7 +1880,7 @@ public class RemoteFiles extends AppCompatActivity {
             @Override
             protected void onPostExecute(Connection.Response res) {
                 if (res.successful()) {
-                    fetchFiles();
+                    fetchFiles(true);
                 }
                 else {
                     Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
@@ -1827,7 +1907,7 @@ public class RemoteFiles extends AppCompatActivity {
             @Override
             protected void onPostExecute(Connection.Response res) {
                 if (res.successful()) {
-                    fetchFiles();
+                    fetchFiles(true);
                 }
                 else {
                     Toast.makeText(ctx, "Error zipping", Toast.LENGTH_SHORT).show();
@@ -1854,7 +1934,7 @@ public class RemoteFiles extends AppCompatActivity {
             @Override
             protected void onPostExecute(Connection.Response res) {
                 if (res.successful()) {
-                    fetchFiles();
+                    fetchFiles(true);
                 }
                 else {
                     Toast.makeText(ctx, "Error unzipping", Toast.LENGTH_SHORT).show();
@@ -1880,7 +1960,7 @@ public class RemoteFiles extends AppCompatActivity {
             @Override
             protected void onPostExecute(Connection.Response res) {
                 if (res.successful()) {
-                    fetchFiles();
+                    fetchFiles(true);
                 }
                 else {
                     Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
@@ -1910,7 +1990,7 @@ public class RemoteFiles extends AppCompatActivity {
             protected void onPostExecute(Connection.Response res) {
                 mSwipeRefreshLayout.setRefreshing(false);
                 if (res.successful()) {
-                    fetchFiles();
+                    fetchFiles(true);
                 }
                 else {
                     Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
@@ -1944,7 +2024,7 @@ public class RemoteFiles extends AppCompatActivity {
                 if (res.successful()) {
                     clipboard = new JSONArray();
                     togglePaste(false);
-                    fetchFiles();
+                    fetchFiles(true);
                 }
                 else {
                     Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
@@ -2044,7 +2124,7 @@ public class RemoteFiles extends AppCompatActivity {
             protected void onPostExecute(Connection.Response res) {
                 mSwipeRefreshLayout.setRefreshing(false);
                 if (res.successful()) {
-                    fetchFiles();
+                    fetchFiles(true);
                 }
                 else {
                     Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
@@ -2075,7 +2155,7 @@ public class RemoteFiles extends AppCompatActivity {
             protected void onPostExecute(Connection.Response res) {
                 mSwipeRefreshLayout.setRefreshing(false);
                 if (res.successful()) {
-                    fetchFiles();
+                    fetchFiles(true);
                 }
                 else {
                     Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
@@ -2106,7 +2186,7 @@ public class RemoteFiles extends AppCompatActivity {
             protected void onPostExecute(Connection.Response res) {
                 mSwipeRefreshLayout.setRefreshing(false);
                 if (res.successful()) {
-                    fetchFiles();
+                    fetchFiles(true);
                 }
                 else {
                     Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
