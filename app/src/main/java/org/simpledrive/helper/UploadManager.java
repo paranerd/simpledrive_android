@@ -99,7 +99,7 @@ public class UploadManager {
                 mBuilder.setContentIntent(pIntent)
                         .setContentTitle("Uploading " + uploadCurrent + " of " + uploadTotal)
                         .setOngoing(true)
-                        .setSmallIcon(R.drawable.ic_upload)
+                        .setSmallIcon(R.drawable.ic_cloud)
                         .setColor(ContextCompat.getColor(e, R.color.darkgreen))
                         .setProgress(100, 0, false);
                 mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());

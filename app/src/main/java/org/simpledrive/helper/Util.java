@@ -413,7 +413,7 @@ public class Util {
         return "";
     }
 
-    public static Locale getCurrentLocale(AppCompatActivity ctx) {
+    private static Locale getCurrentLocale(AppCompatActivity ctx) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return ctx.getResources().getConfiguration().getLocales().get(0);
         }
@@ -430,8 +430,7 @@ public class Util {
             connection.setDoInput(true);
             connection.connect();
             InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
+            return BitmapFactory.decodeStream(input);
         } catch (IOException e) {
             e.printStackTrace();
             return null;

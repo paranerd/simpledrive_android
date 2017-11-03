@@ -4,7 +4,6 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 
 import org.simpledrive.helper.DownloadManager;
 import org.simpledrive.helper.UploadManager;
@@ -46,7 +45,6 @@ public class CustomAuthenticator {
     }
 
     public static void setContext(Context context) {
-        Log.i("debug", "setting context");
         ctx = context;
     }
 
@@ -171,12 +169,10 @@ public class CustomAuthenticator {
     }
 
     public static String getToken() {
-        Log.i("debug", "get token");
         return (getActiveAccount() != null) ? am.getUserData(getActiveAccount(), KEY_TOKEN) : "";
     }
 
     public static void setToken(String token) {
-        Log.i("debug", "set token");
         if (getActiveAccount() != null) {
             am.setUserData(getActiveAccount(), KEY_TOKEN, token);
         }

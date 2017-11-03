@@ -6176,7 +6176,7 @@ org.simpledrive.authenticator.CustomAuthenticator:
     private static final java.lang.String KEY_ACTIVE
     private static final java.lang.String TRUE
     private static final java.lang.String FALSE
-    16:16:public CustomAuthenticator()
+    15:15:public CustomAuthenticator()
 org.simpledrive.helper.Connection:
     private static final int timeout
 org.simpledrive.helper.Crypto:
@@ -6185,6 +6185,21 @@ org.simpledrive.helper.Crypto:
     85:85:public static java.lang.String encryptFile(java.lang.String,java.lang.String)
     90:101:public static java.lang.String encryptFile(java.lang.String,java.lang.String,boolean,boolean)
     151:163:public static java.lang.String decryptFile(java.lang.String,java.lang.String,boolean)
+org.simpledrive.helper.DatabaseHandler:
+    private static final int DATABASE_VERSION
+    private static final java.lang.String DATABASE_NAME
+    private static final java.lang.String TABLE_FILES
+    private static final java.lang.String KEY_ID
+    private static final java.lang.String KEY_ACCOUNT
+    private static final java.lang.String KEY_FILENAME
+    private static final java.lang.String KEY_PARENT
+    private static final java.lang.String KEY_SIZE
+    private static final java.lang.String KEY_EDIT
+    private static final java.lang.String KEY_TYPE
+    private static final java.lang.String KEY_OWNER
+    private static final java.lang.String KEY_SELFSHARED
+    private static final java.lang.String KEY_SHARED
+    99:115:org.simpledrive.models.FileItem getFile(java.lang.String)
 org.simpledrive.helper.DownloadManager:
     private static final int NOTIFICATION_ID
     19:19:public DownloadManager()
@@ -6220,7 +6235,7 @@ org.simpledrive.helper.Util:
     276:287:public static byte[] readFromStorage(java.lang.String)
     292:302:public static boolean writeTextToStorage(java.lang.String,java.lang.String)
     308:316:public static boolean writeToStorage(java.lang.String,byte[])
-    428:437:public static android.graphics.Bitmap getBitmapFromURL(java.lang.String)
+    428:436:public static android.graphics.Bitmap getBitmapFromURL(java.lang.String)
 org.simpledrive.models.AccountItem:
     25:25:public java.lang.String getServer()
     30:30:public java.lang.String getUser()
