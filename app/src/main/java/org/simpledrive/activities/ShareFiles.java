@@ -28,11 +28,12 @@ import org.simpledrive.R;
 import org.simpledrive.adapters.FileAdapter;
 import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.Connection;
-import org.simpledrive.helper.SharedPrefManager;
-import org.simpledrive.helper.UploadManager;
+import org.simpledrive.helper.Preferences;
+import org.simpledrive.helper.Uploader;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.FileItem;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 public class ShareFiles extends AppCompatActivity {
@@ -41,7 +42,7 @@ public class ShareFiles extends AppCompatActivity {
     private boolean preventLock = false;
     private String username = "";
     private int loginAttempts = 0;
-    private boolean waitForTFAUnlock = false;
+    private static boolean waitForTFAUnlock = false;
 
     // Files
     private ArrayList<FileItem> items = new ArrayList<>();
@@ -78,17 +79,17 @@ public class ShareFiles extends AppCompatActivity {
         }
 
         uploadsPending = getUploads(getIntent());
+        username = CustomAuthenticator.getUsername();
 
         clearHierarchy();
         initInterface();
         initList();
         initToolbar();
-
     }
 
     private void initInterface() {
         // Set theme
-        theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        theme = (Preferences.getInstance(this).read(Preferences.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         // Set View
@@ -106,7 +107,7 @@ public class ShareFiles extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UploadManager.addUpload(ctx, uploadsPending, hierarchy.get(hierarchy.size() - 1).getID(), "0", null);
+                Uploader.addUpload(ctx, uploadsPending, hierarchy.get(hierarchy.size() - 1).getID(), "0", null);
                 ctx.finish();
             }
         });
@@ -114,7 +115,7 @@ public class ShareFiles extends AppCompatActivity {
         fab_folder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showCreate("folder");
+                showCreate();
             }
         });
 
@@ -124,7 +125,7 @@ public class ShareFiles extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 loginAttempts = 0;
-                fetchFiles();
+                new FetchFilesFromServer(ShareFiles.this, getCurrentFolderId()).execute();
             }
         });
         mSwipeRefreshLayout.setColorSchemeResources(R.color.darkgreen, R.color.darkgreen, R.color.darkgreen, R.color.darkgreen);
@@ -132,7 +133,7 @@ public class ShareFiles extends AppCompatActivity {
     }
 
     private void initList() {
-        listLayout = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_LIST_LAYOUT, "list").equals("list")) ? R.layout.listview_detail: R.layout.gridview;
+        listLayout = (Preferences.getInstance(this).read(Preferences.TAG_LIST_LAYOUT, "list").equals("list")) ? R.layout.listview_detail: R.layout.gridview;
         setListLayout();
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -158,7 +159,7 @@ public class ShareFiles extends AppCompatActivity {
 
     private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(toolbar != null) {
+        if (toolbar != null) {
             toolbar.setPopupTheme(theme);
             setSupportActionBar(toolbar);
         }
@@ -177,11 +178,10 @@ public class ShareFiles extends AppCompatActivity {
         else if (CustomAuthenticator.isLocked()) {
             requestPIN();
         }
-        else {
-            fetchFiles();
+        else if (!waitForTFAUnlock) {
+            new FetchFilesFromServer(this, getCurrentFolderId()).execute();
+            preventLock = false;
         }
-
-        username = CustomAuthenticator.getUsername();
     }
 
     protected void onPause() {
@@ -202,38 +202,63 @@ public class ShareFiles extends AppCompatActivity {
         }
     }
 
-    private void fetchFiles() {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                mSwipeRefreshLayout.setRefreshing(true);
+    /**
+     * Get the current FolderID from hierarchy
+     * If "root"-Folder, ID is 0
+     *
+     * @return String
+     */
+    private String getCurrentFolderId() {
+        return (hierarchy.size() == 1 && hierarchy.get(hierarchy.size() -1).getFilename().equals("")) ? "0" : hierarchy.get(hierarchy.size() - 1).getID();
+    }
+
+    private static class FetchFilesFromServer extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<ShareFiles> ref;
+        private String target;
+
+        FetchFilesFromServer(ShareFiles ctx, String target) {
+            this.ref = new WeakReference<>(ctx);
+            this.target = target;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            if (ref.get() != null) {
+                final ShareFiles act = ref.get();
+                act.mSwipeRefreshLayout.setRefreshing(true);
+            }
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... args) {
+            Connection con = new Connection("files", "children");
+            con.addFormField("target", target);
+            con.addFormField("mode", "files");
+
+            return con.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... args) {
-                Connection con = new Connection("files", "children");
-                con.addFormField("target", hierarchy.get(hierarchy.size() - 1).getID());
-                con.addFormField("mode", "files");
-
-                return con.finish();
+            final ShareFiles act = ref.get();
+            act.mSwipeRefreshLayout.setRefreshing(false);
+            if (res.successful()) {
+                act.loginAttempts = 0;
+                act.extractFiles(res.getMessage());
+                act.displayFiles();
             }
-
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                mSwipeRefreshLayout.setRefreshing(false);
-                if (res.successful()) {
-                    loginAttempts = 0;
-                    extractFiles(res.getMessage());
-                    displayFiles();
+            else {
+                if (act.loginAttempts < 2) {
+                    new Connect(act).execute();
                 }
-                else {
-                    if (loginAttempts < 2) {
-                        connect();
-                    }
-                }
             }
-        }.execute();
+        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -249,7 +274,7 @@ public class ShareFiles extends AppCompatActivity {
 
             case REQUEST_TFA_CODE:
                 if (resultCode == RESULT_OK) {
-                    submitTFA(data.getStringExtra("passphrase"));
+                    new SubmitTFA(this, data.getStringExtra("passphrase")).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 }
                 else if (CustomAuthenticator.getToken().equals("")) {
                     finish();
@@ -307,7 +332,7 @@ public class ShareFiles extends AppCompatActivity {
                 boolean shared = Boolean.parseBoolean(obj.getString("shared"));
                 String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : ((shared) ? "shared" : "");
 
-                if(type.equals("folder")) {
+                if (type.equals("folder")) {
                     FileItem item = new FileItem(id, filename, "", size, obj.getString("edit"), type, owner, selfshared, shared);
                     items.add(item);
                 }
@@ -362,81 +387,111 @@ public class ShareFiles extends AppCompatActivity {
     private void openFile(int position) {
         FileItem item = items.get(position);
         hierarchy.add(item);
-        fetchFiles();
+        new FetchFilesFromServer(this, getCurrentFolderId()).execute();
     }
 
-    private void connect() {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                loginAttempts++;
+    private static class Connect extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<ShareFiles> ref;
+
+        Connect(ShareFiles ctx) {
+            this.ref = new WeakReference<>(ctx);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            if (ref.get() != null) {
+                final ShareFiles act = ref.get();
+                act.loginAttempts++;
                 CustomAuthenticator.removeToken();
-                emptyList();
-                mSwipeRefreshLayout.setRefreshing(true);
+                act.emptyList();
+                act.mSwipeRefreshLayout.setRefreshing(true);
+            }
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... params) {
+            Connection con = (waitForTFAUnlock) ? new Connection("core", "login", 30000) : new Connection("core", "login");
+            con.addFormField("user", CustomAuthenticator.getUsername());
+            con.addFormField("pass", CustomAuthenticator.getPassword());
+            con.addFormField("callback", String.valueOf(waitForTFAUnlock));
+            return con.finish();
+        }
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... params) {
-                Connection con = new Connection("core", "login");
-                con.addFormField("user", CustomAuthenticator.getUsername());
-                con.addFormField("pass", CustomAuthenticator.getPassword());
+            final ShareFiles act = ref.get();
+            if (res.successful()) {
+                act.clearHierarchy();
 
-                return con.finish();
+                CustomAuthenticator.setToken(res.getMessage());
+                if (waitForTFAUnlock) {
+                    act.finishActivity(act.REQUEST_TFA_CODE);
+                }
+                waitForTFAUnlock = false;
+                new FetchFilesFromServer(act, act.getCurrentFolderId()).execute();
             }
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    hierarchy = new ArrayList<>();
-                    hierarchy.add(new FileItem("0", "", ""));
-
-                    CustomAuthenticator.setToken(res.getMessage());
-                    fetchFiles();
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
+                if (res.getStatus() == 403) {
+                    act.requestTFA(res.getMessage());
+                    new Connect(act).execute();
                 }
                 else {
-                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
-                    if (res.getStatus() == 403) {
-                        requestTFA(res.getMessage());
-                        connect();
-                    }
-                    else {
-                        // No connection
-                        showInfo(res.getMessage());
+                    // No connection
+                    act.showInfo(res.getMessage());
 
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        mSwipeRefreshLayout.setEnabled(true);
-                    }
+                    act.mSwipeRefreshLayout.setRefreshing(false);
+                    act.mSwipeRefreshLayout.setEnabled(true);
                 }
             }
-        }.execute();
+        }
     }
 
-    private void submitTFA(final String code) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                showInfo("Evaluating Code...");
+    private static class SubmitTFA extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<ShareFiles> ref;
+        private String code;
+
+        SubmitTFA(ShareFiles ctx, String code) {
+            this.ref = new WeakReference<>(ctx);
+            this.code = code;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if (ref.get() != null) {
+                final ShareFiles act = ref.get();
+                act.showInfo("Evaluating Code...");
+            }
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... params) {
+            Connection con = new Connection("twofactor", "unlock", 30000);
+            con.addFormField("code", code);
+
+            return con.finish();
+        }
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... params) {
-                Connection con = new Connection("twofactor", "unlock", 30000);
-                con.addFormField("code", code);
-
-                return con.finish();
+            final ShareFiles act = ref.get();
+            if (res.successful()) {
+                act.showInfo("");
             }
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    showInfo("");
-                }
-                else {
-                    requestTFA(res.getMessage());
-                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            else {
+                act.requestTFA(res.getMessage());
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
     }
 
     private void requestTFA(String error) {
@@ -465,17 +520,17 @@ public class ShareFiles extends AppCompatActivity {
     public void onBackPressed() {
         if (hierarchy.size() > 1) {
             hierarchy.remove(hierarchy.size() - 1);
-            fetchFiles();
+            new FetchFilesFromServer(this, getCurrentFolderId()).execute();
         }
         else {
             super.onBackPressed();
         }
     }
 
-    private void showCreate(final String type) {
+    private void showCreate() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
-        alert.setTitle("New " + type.substring(0,1).toUpperCase() + type.substring(1));
+        alert.setTitle("New Folder");
 
         // Set an EditText view to get user input
         final EditText input = new EditText(this);
@@ -483,7 +538,7 @@ public class ShareFiles extends AppCompatActivity {
 
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                create(hierarchy.get(hierarchy.size() - 1).getID(), input.getText().toString(), type);
+                new Create(ShareFiles.this, getCurrentFolderId(), input.getText().toString(), "folder");
             }
         });
 
@@ -563,32 +618,44 @@ public class ShareFiles extends AppCompatActivity {
         registerForContextMenu(list);
     }
 
-    private void create(final String target, final String filename, final String type) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+    private static class Create extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<ShareFiles> ref;
+        private String target;
+        private String filename;
+        private String type;
+
+        Create(ShareFiles ctx, String target, String filename, String type) {
+            this.ref = new WeakReference<>(ctx);
+            this.target = target;
+            this.filename = filename;
+            this.type = type;
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... params) {
+            Connection con = new Connection("files", "create");
+            con.addFormField("target", target);
+            con.addFormField("filename", filename);
+            con.addFormField("type", type);
+
+            return con.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... params) {
-                Connection con = new Connection("files", "create");
-                con.addFormField("target", target);
-                con.addFormField("filename", filename);
-                con.addFormField("type", type);
+            ShareFiles act = ref.get();
+            act.mSwipeRefreshLayout.setRefreshing(true);
 
-                return con.finish();
+            if (res.successful()) {
+                new FetchFilesFromServer(act, act.getCurrentFolderId());
             }
-
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    fetchFiles();
-                }
-                else {
-                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }.execute();
+        }
     }
 }

@@ -15,12 +15,14 @@ import org.simpledrive.R;
 import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.Connection;
 
+import java.lang.ref.WeakReference;
+
 public class Login extends AppCompatActivity {
     // General
     private String username;
     private String password;
     private String server;
-    private boolean waitForTFAUnlock = false;
+    private static boolean requestedTFAUnlock = false;
 
     // Interface
     private EditText txtUsername;
@@ -28,7 +30,7 @@ public class Login extends AppCompatActivity {
     private EditText txtServername;
 
     // Request codes
-    private final int REQUEST_TFA_CODE = 0;
+    private static final int REQUEST_TFA_CODE = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,7 @@ public class Login extends AppCompatActivity {
                         server += "/";
                     }
 
-                    login(server, username, password);
+                    new LoginTask(Login.this, server, username, password).execute();
                 }
             }
         });
@@ -76,9 +78,9 @@ public class Login extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQUEST_TFA_CODE:
-                waitForTFAUnlock = false;
+                requestedTFAUnlock = false;
                 if (resultCode == RESULT_OK) {
-                    submitTFA(data.getStringExtra("passphrase"));
+                    new SubmitTFA(Login.this, data.getStringExtra("passphrase")).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 }
                 else if (CustomAuthenticator.getToken().equals("")) {
                     Toast.makeText(Login.this, "Two-Factor-Authentication failed", Toast.LENGTH_SHORT).show();
@@ -87,93 +89,127 @@ public class Login extends AppCompatActivity {
         }
     }
 
-    private void login(final String server, final String username, final String password) {
-        final ProgressDialog pDialog = new ProgressDialog(Login.this);
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+    private static class LoginTask extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<Login> ref;
+        private ProgressDialog pDialog;
+        private String server;
+        private String username;
+        private String password;
+
+        LoginTask(Login ctx, String server, String username, String password) {
+            this.ref = new WeakReference<>(ctx);
+            this.server = server;
+            this.username = username;
+            this.password = password;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            if (ref.get() != null) {
+                final Login act = ref.get();
+                pDialog = new ProgressDialog(act);
                 pDialog.setMessage("Login...");
                 pDialog.setIndeterminate(false);
                 pDialog.setCancelable(true);
                 pDialog.show();
             }
+        }
 
-            @Override
-            protected Connection.Response doInBackground(Void... login) {
-                Connection con = (waitForTFAUnlock) ? new Connection(server, "core", "login", 30000) : new Connection(server, "core", "login");
-                con.addFormField("user", username);
-                con.addFormField("pass", password);
-                con.addFormField("callback", String.valueOf(waitForTFAUnlock));
+        @Override
+        protected Connection.Response doInBackground(Void... login) {
+            Connection con = (requestedTFAUnlock) ? new Connection(server, "core", "login", 30000) : new Connection(server, "core", "login");
+            con.addFormField("user", username);
+            con.addFormField("pass", password);
+            con.addFormField("callback", String.valueOf(requestedTFAUnlock));
 
-                return con.finish();
+            return con.finish();
+        }
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                pDialog.dismiss();
 
-                if (res.successful()) {
-                    if (waitForTFAUnlock) {
-                        finishActivity(REQUEST_TFA_CODE);
-                    }
-                    waitForTFAUnlock = false;
+            final Login act = ref.get();
+            pDialog.dismiss();
 
-                    if (CustomAuthenticator.addAccount(username, password, server, res.getMessage())) {
-                        Intent i = new Intent(getApplicationContext(), RemoteFiles.class);
-                        if (getCallingActivity() != null) {
-                            setResult(RESULT_OK, i);
-                        } else {
-                            startActivity(i);
-                        }
-                        finish();
-                    } else if (CustomAuthenticator.accountExists(username, server)) {
-                        Toast.makeText(Login.this, R.string.account_exists, Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(Login.this, R.string.login_error, Toast.LENGTH_SHORT).show();
-                    }
+            if (requestedTFAUnlock) {
+                act.finishActivity(REQUEST_TFA_CODE);
+            }
+            requestedTFAUnlock = false;
+
+            if (res.successful()) {
+                if (CustomAuthenticator.accountExists(username, server)) {
+                    Toast.makeText(act, R.string.account_exists, Toast.LENGTH_SHORT).show();
                 }
-                else {
-                    if (res.getStatus() == 403) {
-                        // TFA-Code required
-                        requestTFA(res.getMessage());
-                        login(server, username, password);
+                else if (CustomAuthenticator.addAccount(username, password, server, res.getMessage())) {
+                    Intent i = new Intent(act, RemoteFiles.class);
+                    if (act.getCallingActivity() != null) {
+                        act.setResult(RESULT_OK, i);
                     }
                     else {
-                        if (waitForTFAUnlock) {
-                            finishActivity(REQUEST_TFA_CODE);
-                        }
-                        waitForTFAUnlock = false;
-
-                        Toast.makeText(Login.this, res.getMessage(), Toast.LENGTH_SHORT).show();
+                        act.startActivity(i);
                     }
+                    act.finish();
+                }
+                else {
+                    // An error occurred
+                    Toast.makeText(act, R.string.login_error, Toast.LENGTH_SHORT).show();
                 }
             }
-        }.execute();
+            else {
+                if (res.getStatus() == 403) {
+                    // TFA-Code required
+                    act.requestTFA(res.getMessage());
+                    new LoginTask(act, server, username, password).execute();
+                }
+                else {
+                    // An error occurred
+                    Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 
-    private void submitTFA(final String code) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                Toast.makeText(getApplicationContext(), "Evaluating Code...", Toast.LENGTH_SHORT).show();
+    private static class SubmitTFA extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<Login> ref;
+        private String code;
+
+        SubmitTFA(Login ctx, String code) {
+            this.ref = new WeakReference<>(ctx);
+            this.code = code;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if (ref.get() == null) {
+                final Login act = ref.get();
+                Toast.makeText(act, "Evaluating Code...", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... params) {
+            Connection con = new Connection("twofactor", "unlock");
+            con.addFormField("code", code);
+
+            return con.finish();
+        }
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... params) {
-                Connection con = new Connection("twofactor", "unlock");
-                con.addFormField("code", code);
-
-                return con.finish();
+            final Login act = ref.get();
+            if (!res.successful()) {
+                act.requestTFA(res.getMessage());
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (!res.successful()) {
-                    requestTFA(res.getMessage());
-                    Toast.makeText(getApplicationContext(), res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
     }
 
     private void requestTFA(String error) {
@@ -182,6 +218,6 @@ public class Login extends AppCompatActivity {
         i.putExtra("label", "2FA-code");
         i.putExtra("length", 5);
         startActivityForResult(i, REQUEST_TFA_CODE);
-        waitForTFAUnlock = true;
+        requestedTFAUnlock = true;
     }
 }

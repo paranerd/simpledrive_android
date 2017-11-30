@@ -3,7 +3,6 @@ package org.simpledrive.adapters;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.support.v4.view.PagerAdapter;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -14,16 +13,15 @@ import android.widget.RelativeLayout;
 
 import org.simpledrive.R;
 import org.simpledrive.activities.ImageViewer;
-import org.simpledrive.helper.Connection;
+import org.simpledrive.helper.Downloader;
 import org.simpledrive.helper.TouchImageView;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.FileItem;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class TouchImageAdapter extends PagerAdapter {
-    private ImageViewer e;
+    private ImageViewer ctx;
     private int displayHeight;
     private int displayWidth;
     private ArrayList<FileItem> images;
@@ -31,11 +29,11 @@ public class TouchImageAdapter extends PagerAdapter {
 
     public TouchImageAdapter(ImageViewer act, ArrayList<FileItem> img) {
         super();
-        this.e = act;
+        this.ctx = act;
         this.images = img;
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
-        e.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        ctx.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         displayHeight = displaymetrics.heightPixels;
         displayWidth = displaymetrics.widthPixels;
     }
@@ -48,31 +46,31 @@ public class TouchImageAdapter extends PagerAdapter {
     @Override
     public View instantiateItem(ViewGroup container, final int position) {
         FileItem item = images.get(position);
-        String path = Util.getCacheDir() + item.getCacheName();
+        String path = Downloader.isCached(item);
         TouchImageView img = new TouchImageView(container.getContext());
 
         img.setCustomOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                e.toggleToolbar();
+                ctx.toggleToolbar();
             }
         });
 
-        if (new File(path).exists()) {
+        if (path != null) {
             if (Util.isGIF(path)) {
                 WebView wv = new WebView(container.getContext());
 
                 wv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        e.toggleToolbar();
+                        ctx.toggleToolbar();
                     }
                 });
 
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inJustDecodeBounds = true;
                 BitmapFactory.decodeFile(path, options);
-                int[] dim = Util.scaleImage(e, options.outWidth, options.outHeight);
+                int[] dim = Util.scaleImage(ctx, options.outWidth, options.outHeight);
                 int img_width = dim[0];
                 int img_height = dim[1];
 
@@ -98,19 +96,32 @@ public class TouchImageAdapter extends PagerAdapter {
                 img.setImageBitmap(bmp);
             }
         }
-        else if (item.getThumb() != null) {
-            // Set thumbnail as placeholder
-            img.setImageBitmap(item.getThumb());
-            new LoadImage(img, item, path).execute();
-        }
         else {
-            // Set placeholder and get image in background
-            img.setImageResource(R.drawable.ic_image);
-            new LoadImage(img, item, path).execute();
+            if (item.getThumb() != null) {
+                // Set thumbnail as placeholder
+                img.setImageBitmap(item.getThumb());
+            }
+            else {
+                // Set placeholder and get image in background
+                img.setImageResource(R.drawable.ic_image);
+            }
+            loadImage(item);
         }
 
         container.addView(img, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         return img;
+    }
+
+    private void loadImage(final FileItem item) {
+        Downloader.cache(item, displayWidth, displayHeight, false, new Downloader.TaskListener() {
+            @Override
+            public void onFinished(boolean success, String path) {
+                if (success && doLoad) {
+                    // Update adapter to display thumb
+                    notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     @Override
@@ -123,55 +134,7 @@ public class TouchImageAdapter extends PagerAdapter {
         return view == object;
     }
 
-    public void cancelThumbLoad() {
+    public void cancelLoad() {
         doLoad = false;
-    }
-
-    private class LoadImage extends AsyncTask<String, Integer, Connection.Response> {
-        TouchImageView img;
-        FileItem file;
-        String imgPath;
-
-        LoadImage(final TouchImageView img, FileItem file, String imgPath) {
-            this.img = img;
-            this.file = file;
-            this.imgPath= imgPath;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Connection.Response doInBackground(String... info) {
-            if (!doLoad) {
-                return null;
-            }
-
-            File img = new File(this.imgPath);
-
-            Connection multipart = new Connection("files", "get");
-            multipart.addFormField("target", "[\"" + file.getID() + "\"]");
-            multipart.addFormField("width", displayWidth + "");
-            multipart.addFormField("height", displayHeight + "");
-            multipart.setDownloadPath(img.getParent(), img.getName());
-            return multipart.finish();
-        }
-
-        @Override
-        protected void onPostExecute(Connection.Response res) {
-            if(!doLoad) {
-                return;
-            }
-
-            Bitmap bmp = BitmapFactory.decodeFile(this.imgPath);
-
-            if (bmp != null) {
-                // Update adapter to display thumb
-                this.img.setImageBitmap(bmp);
-                notifyDataSetChanged();
-            }
-        }
     }
 }

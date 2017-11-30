@@ -3,7 +3,7 @@ package org.simpledrive.helper;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class SharedPrefManager {
+public class Preferences {
     // Preference name
     private static final String SHARED_PREF_NAME = "org.simpledrive.shared_pref";
 
@@ -20,16 +20,16 @@ public class SharedPrefManager {
     public static final String TAG_FINGERPRINT = "fingerprint";
 
     // General
-    private static SharedPrefManager mInstance;
+    private static Preferences mInstance;
     private static Context mCtx;
 
-    private SharedPrefManager(Context context) {
+    private Preferences(Context context) {
         mCtx = context;
     }
 
-    public static synchronized SharedPrefManager getInstance(Context context) {
+    public static synchronized Preferences getInstance(Context context) {
         if (mInstance == null) {
-            mInstance = new SharedPrefManager(context);
+            mInstance = new Preferences(context);
         }
         return mInstance;
     }

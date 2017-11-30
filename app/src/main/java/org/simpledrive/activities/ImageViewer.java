@@ -22,22 +22,19 @@ public class ImageViewer extends AppCompatActivity {
     private boolean titleVisible = true;
     private Toolbar toolbar;
     private ArrayList<FileItem> images;
-    private int layout;
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
         if (mAdapter != null) {
-            mAdapter.cancelThumbLoad();
+            mAdapter.cancelLoad();
         }
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        layout = getIntent().getExtras().getInt("layout", 0);
 
         images = RemoteFiles.getAllImages();
 

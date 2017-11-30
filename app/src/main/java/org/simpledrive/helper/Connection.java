@@ -97,7 +97,7 @@ public class Connection {
      */
     public static void init(Context context) {
         ctx = context;
-        fingerprint = SharedPrefManager.getInstance(ctx).read(SharedPrefManager.TAG_FINGERPRINT, "");
+        fingerprint = Preferences.getInstance(ctx).read(Preferences.TAG_FINGERPRINT, "");
     }
 
     /**
@@ -278,7 +278,7 @@ public class Connection {
             // Only override fingerprint if none is set
             if (cookie.getName().equals("fingerprint") && fingerprint.equals("")) {
                 fingerprint = cookie.toString();
-                SharedPrefManager.getInstance(ctx).write(SharedPrefManager.TAG_FINGERPRINT, fingerprint);
+                Preferences.getInstance(ctx).write(Preferences.TAG_FINGERPRINT, fingerprint);
             }
         }
     }

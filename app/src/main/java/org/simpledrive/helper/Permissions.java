@@ -11,13 +11,13 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PermissionManager {
+public class Permissions {
     private AppCompatActivity e;
     private int REQUEST_CODE;
     private List<String> permissionsWanted = new ArrayList<>();
     private List<String> permissionsNeeded = new ArrayList<>();
 
-    public PermissionManager(AppCompatActivity e, int requestCode) {
+    public Permissions(AppCompatActivity e, int requestCode) {
         this.e = e;
         this.REQUEST_CODE = requestCode;
     }

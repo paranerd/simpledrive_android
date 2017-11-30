@@ -1,5 +1,6 @@
 package org.simpledrive.activities;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
@@ -18,12 +19,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.simpledrive.R;
 import org.simpledrive.helper.Connection;
-import org.simpledrive.helper.SharedPrefManager;
+import org.simpledrive.helper.Preferences;
 import org.simpledrive.helper.Util;
+
+import java.lang.ref.WeakReference;
 
 public class UserDetails extends AppCompatActivity {
     // General
-    public static UserDetails ctx;
     public static PrefsFragment prefsFragment;
 
     public static String username;
@@ -32,12 +34,10 @@ public class UserDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ctx = this;
-
         Bundle extras = getIntent().getExtras();
         username = extras.getString("username");
 
-        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        int theme = (Preferences.getInstance(this).read(Preferences.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         prefsFragment = new PrefsFragment();
@@ -49,7 +49,7 @@ public class UserDetails extends AppCompatActivity {
 
         initToolbar();
         setToolbarTitle(username);
-        getStatus(username);
+        new GetStatus(username).execute();
     }
 
     private void initToolbar() {
@@ -67,7 +67,13 @@ public class UserDetails extends AppCompatActivity {
     }
 
     public static class PrefsFragment extends PreferenceFragment {
+        private UserDetails ctx;
 
+        @Override
+        public void onAttach(Activity act) {
+            super.onAttach(act);
+            ctx = (UserDetails) act;
+        }
         private EditTextPreference quotaMax;
         private CheckBoxPreference admin;
 
@@ -83,7 +89,7 @@ public class UserDetails extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     String admin = (o.toString().equals("true")) ? "1" : "0";
-                    ctx.setAdmin(username, admin);
+                    new SetAdmin(ctx, username, admin);
                     return false;
                 }
             });
@@ -93,7 +99,7 @@ public class UserDetails extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     String value = Long.toString(Util.stringToByte(o.toString()));
-                    ctx.setQuota(username, value);
+                    new SetQuota(ctx, username, value).execute();
                     return false;
                 }
             });
@@ -116,135 +122,171 @@ public class UserDetails extends AppCompatActivity {
         }
     }
 
-    private void getStatus(final String username) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
+    private static class GetStatus extends AsyncTask<Void, Void, Connection.Response> {
+        private String username;
 
-            @Override
-            protected Connection.Response doInBackground(Void... pos) {
-                Connection multipart = new Connection("user", "get");
-                multipart.addFormField("user", username);
+        GetStatus(String username) {
+            this.username = username;
+        }
 
-                return multipart.finish();
-            }
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    try {
-                        JSONObject job = new JSONObject(res.getMessage());
-                        String admin = job.getString("admin");
+        @Override
+        protected Connection.Response doInBackground(Void... pos) {
+            Connection multipart = new Connection("user", "get");
+            multipart.addFormField("user", username);
 
-                        prefsFragment.setChecked("user_admin", admin.equals("1"));
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                    }
-                }
+            return multipart.finish();
+        }
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (res.successful()) {
+                try {
+                    JSONObject job = new JSONObject(res.getMessage());
+                    String admin = job.getString("admin");
 
-                getQuota(username);
-            }
-        }.execute();
-    }
-
-    private void getQuota(final String username) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
-
-            @Override
-            protected Connection.Response doInBackground(Void... pos) {
-                Connection multipart = new Connection("user", "quota");
-                multipart.addFormField("user", username);
-
-                return multipart.finish();
-            }
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    try {
-                        JSONObject job = new JSONObject(res.getMessage());
-                        String used = job.getString("used");
-                        String max = job.getString("max");
-
-                        prefsFragment.setSummary("user_quota_max", Util.convertSize(max));
-                        prefsFragment.setSummary("user_quota_used", Util.convertSize(used));
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                    }
+                    prefsFragment.setChecked("user_admin", admin.equals("1"));
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
                 }
             }
-        }.execute();
+
+            new GetQuota(username).execute();
+        }
     }
 
-    private void setAdmin(final String username, final String enable) {
-        final ProgressDialog pDialog = new ProgressDialog(this);
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+    private static class GetQuota extends AsyncTask<Void, Void, Connection.Response> {
+        private String username;
+
+        GetQuota(String username) {
+            this.username = username;
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... pos) {
+            Connection multipart = new Connection("user", "quota");
+            multipart.addFormField("user", username);
+
+            return multipart.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (res.successful()) {
+                try {
+                    JSONObject job = new JSONObject(res.getMessage());
+                    String used = job.getString("used");
+                    String max = job.getString("max");
+
+                    prefsFragment.setSummary("user_quota_max", Util.convertSize(max));
+                    prefsFragment.setSummary("user_quota_used", Util.convertSize(used));
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private static class SetAdmin extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<UserDetails> ref;
+        private String username;
+        private String enable;
+        private ProgressDialog pDialog;
+
+        SetAdmin(UserDetails ctx, String username, String enable) {
+            this.ref = new WeakReference<>(ctx);
+            this.username = username;
+            this.enable = enable;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            if (ref.get() != null) {
+                final UserDetails act = ref.get();
+                pDialog = new ProgressDialog(act);
                 pDialog.setMessage("Updating...");
                 pDialog.setIndeterminate(false);
                 pDialog.setCancelable(true);
                 pDialog.show();
             }
+        }
 
-            @Override
-            protected Connection.Response doInBackground(Void... pos) {
-                Connection multipart = new Connection("user", "setadmin");
-                multipart.addFormField("user", username);
-                multipart.addFormField("enable", enable);
+        @Override
+        protected Connection.Response doInBackground(Void... pos) {
+            Connection multipart = new Connection("user", "setadmin");
+            multipart.addFormField("user", username);
+            multipart.addFormField("enable", enable);
 
-                return multipart.finish();
+            return multipart.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                pDialog.dismiss();
-                if (res.successful()) {
-                    ctx.getStatus(username);
-                }
-                else {
-                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            final UserDetails act = ref.get();
+            pDialog.dismiss();
+            if (res.successful()) {
+                new GetStatus(username).execute();
             }
-        }.execute();
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
-    private void setQuota(final String username, final String value) {
-        final ProgressDialog pDialog = new ProgressDialog(this);
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+    private static class SetQuota extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<UserDetails> ref;
+        private String username;
+        private String value;
+        private ProgressDialog pDialog;
+
+        SetQuota(UserDetails ctx, String username, String value) {
+            this.ref = new WeakReference<>(ctx);
+            this.username = username;
+            this.value = value;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            if (ref.get() != null) {
+                final UserDetails act = ref.get();
+                pDialog = new ProgressDialog(act);
                 pDialog.setMessage("Updating...");
                 pDialog.setIndeterminate(false);
                 pDialog.setCancelable(true);
                 pDialog.show();
             }
+        }
 
-            @Override
-            protected Connection.Response doInBackground(Void... pos) {
-                Connection multipart = new Connection("user", "setquota");
-                multipart.addFormField("user", username);
-                multipart.addFormField("value", value);
+        @Override
+        protected Connection.Response doInBackground(Void... pos) {
+            Connection multipart = new Connection("user", "setquota");
+            multipart.addFormField("user", username);
+            multipart.addFormField("value", value);
 
-                return multipart.finish();
+            return multipart.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                pDialog.dismiss();
-                if (res.successful()) {
-                    ctx.getStatus(username);
-                }
-                else {
-                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            final UserDetails act = ref.get();
+            pDialog.dismiss();
+            if (res.successful()) {
+                new GetStatus(username).execute();
             }
-        }.execute();
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void setToolbarTitle(final String title) {

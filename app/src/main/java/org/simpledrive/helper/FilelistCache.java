@@ -10,7 +10,7 @@ import org.simpledrive.models.FileItem;
 
 import java.util.ArrayList;
 
-public class DatabaseHandler extends SQLiteOpenHelper {
+public class FilelistCache extends SQLiteOpenHelper {
 
     // All Static variables
     // Database Version
@@ -37,7 +37,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Account hash
     private static String account;
 
-    public DatabaseHandler(Context context, String acc) {
+    public FilelistCache(Context context, String acc) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         account = acc;
     }

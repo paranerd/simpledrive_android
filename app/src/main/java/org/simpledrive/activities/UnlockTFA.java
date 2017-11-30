@@ -9,7 +9,9 @@ import android.widget.Toast;
 
 import org.simpledrive.R;
 import org.simpledrive.helper.Connection;
-import org.simpledrive.helper.SharedPrefManager;
+import org.simpledrive.helper.Preferences;
+
+import java.lang.ref.WeakReference;
 
 public class UnlockTFA extends AppCompatActivity {
     private String code = "";
@@ -34,7 +36,7 @@ public class UnlockTFA extends AppCompatActivity {
 
     private void initInterface() {
         // Set theme
-        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        int theme = (Preferences.getInstance(this).read(Preferences.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         // Set view
@@ -45,69 +47,101 @@ public class UnlockTFA extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.yes:
-                submitTFA(code, fingerprint);
+                new SubmitTFA(this, code, fingerprint).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
 
             case R.id.no:
-                invalidateTFA(fingerprint);
+                new InvalidateTFA(this, fingerprint).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 break;
         }
     }
 
-    private void submitTFA(final String code, final String fingerprint) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                Toast.makeText(getApplicationContext(), "Sending code...", Toast.LENGTH_SHORT).show();
+    private static class SubmitTFA extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<UnlockTFA> ref;
+        private String code;
+        private String fingerprint;
+
+        SubmitTFA(UnlockTFA ctx, String code, String fingerprint) {
+            this.ref = new WeakReference<>(ctx);
+            this.code = code;
+            this.fingerprint = fingerprint;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            if (ref.get() != null) {
+                final UnlockTFA act = ref.get();
+                Toast.makeText(act, "Sending code...", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... params) {
+            Connection con = new Connection("twofactor", "unlock");
+            con.addFormField("code", code);
+            con.addFormField("fingerprint", fingerprint);
+
+            return con.finish();
+        }
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... params) {
-                Connection con = new Connection("twofactor", "unlock");
-                con.addFormField("code", code);
-                con.addFormField("fingerprint", fingerprint);
-
-                return con.finish();
+            final UnlockTFA act = ref.get();
+            if (res.successful()) {
+                Toast.makeText(act, "Unlock successful", Toast.LENGTH_SHORT).show();
+                act.finish();
             }
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    Toast.makeText(getApplicationContext(), "Unlock successful", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
     }
 
-    private void invalidateTFA(final String fingerprint) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                Toast.makeText(getApplicationContext(), "Sending code...", Toast.LENGTH_SHORT).show();
+    private static class InvalidateTFA extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<UnlockTFA> ref;
+        private String fingerprint;
+
+        InvalidateTFA(UnlockTFA ctx, String fingerprint) {
+            this.ref = new WeakReference<>(ctx);
+            this.fingerprint = fingerprint;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            if (ref.get() != null) {
+                final UnlockTFA act = ref.get();
+                Toast.makeText(act, "Sending code...", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... params) {
+            Connection con = new Connection("twofactor", "invalidate");
+            con.addFormField("fingerprint", fingerprint);
+
+            return con.finish();
+        }
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... params) {
-                Connection con = new Connection("twofactor", "invalidate");
-                con.addFormField("fingerprint", fingerprint);
-
-                return con.finish();
+            final UnlockTFA act = ref.get();
+            if (res.successful()) {
+                Toast.makeText(act, "Code invalidated", Toast.LENGTH_SHORT).show();
+                act.finish();
             }
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    Toast.makeText(getApplicationContext(), "Code invalidated", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
     }
 }

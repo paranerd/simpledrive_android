@@ -17,23 +17,23 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class UploadManager {
+public class Uploader {
     private static int uploadCurrent = 0;
     private static int uploadTotal = 0;
     private static int uploadSuccessful = 0;
     private static int NOTIFICATION_ID = 1;
     private static ArrayList<HashMap<String, String>> uploadQueue = new ArrayList<>();
-    private static AppCompatActivity e;
+    private static AppCompatActivity ctx;
 
     public static boolean isRunning() {
         return uploadQueue.size() > 0;
     }
 
-    private static void addRecursive(String orig_path, File dir, String target) {
+    private static void addFolder(String orig_path, File dir, String target) {
         File[] files = dir.listFiles();
         for (File file : files) {
             if (file.isDirectory()) {
-                addRecursive(orig_path, file, target);
+                addFolder(orig_path, file, target);
             }
             else {
                 String rel_dir = file.getParent().substring(orig_path.length()) + "/";
@@ -53,7 +53,7 @@ public class UploadManager {
             File file = new File(path);
             if (file.canRead()) {
                 if (file.isDirectory()) {
-                    addRecursive(file.getParent(), file, target);
+                    addFolder(file.getParent(), file, target);
                 } else {
                     HashMap<String, String> ul_elem = new HashMap<>();
                     ul_elem.put("filename", file.getName());
@@ -68,9 +68,9 @@ public class UploadManager {
         }
 
         if (uploadQueue.size() > 0 && uploadQueue.size() == paths.size()) {
-            e = act;
+            ctx = act;
             upload(listener);
-            Toast.makeText(e, "Upload started", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ctx, "Upload started", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -89,18 +89,18 @@ public class UploadManager {
             protected void onPreExecute() {
                 super.onPreExecute();
 
-                Intent intent = new Intent(e, RemoteFiles.class);
-                PendingIntent pIntent = PendingIntent.getActivity(e, 0, intent, 0);
+                Intent intent = new Intent(ctx, RemoteFiles.class);
+                PendingIntent pIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
 
                 uploadCurrent++;
 
-                mNotifyManager = (NotificationManager) e.getSystemService(Context.NOTIFICATION_SERVICE);
-                mBuilder = new NotificationCompat.Builder(e);
+                mNotifyManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+                mBuilder = new NotificationCompat.Builder(ctx);
                 mBuilder.setContentIntent(pIntent)
                         .setContentTitle("Uploading " + uploadCurrent + " of " + uploadTotal)
                         .setOngoing(true)
                         .setSmallIcon(R.drawable.ic_cloud)
-                        .setColor(ContextCompat.getColor(e, R.color.darkgreen))
+                        .setColor(ContextCompat.getColor(ctx, R.color.darkgreen))
                         .setProgress(100, 0, false);
                 mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
             }
@@ -137,7 +137,7 @@ public class UploadManager {
             protected void onPostExecute(Connection.Response res) {
                 uploadSuccessful = (!res.successful()) ? uploadSuccessful : uploadSuccessful + 1;
                 if (ul_elem.get("photosync").equals("1")) {
-                    SharedPrefManager.getInstance(e).write(SharedPrefManager.TAG_LAST_PHOTO_SYNC, Util.getTimestamp());
+                    Preferences.getInstance(ctx).write(Preferences.TAG_LAST_PHOTO_SYNC, Util.getTimestamp());
                 }
 
                 if (uploadQueue.size() > 0) {

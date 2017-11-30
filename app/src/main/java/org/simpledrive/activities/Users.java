@@ -27,15 +27,15 @@ import org.json.JSONObject;
 import org.simpledrive.R;
 import org.simpledrive.adapters.UserAdapter;
 import org.simpledrive.helper.Connection;
-import org.simpledrive.helper.SharedPrefManager;
+import org.simpledrive.helper.Preferences;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.UserItem;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 public class Users extends AppCompatActivity {
     // General
-    private Users ctx;
     private ArrayList<UserItem> items = new ArrayList<>();
     private UserAdapter newAdapter;
     private int selectedPos;
@@ -49,8 +49,6 @@ public class Users extends AppCompatActivity {
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
 
-        ctx = this;
-
         initInterface();
         initToolbar();
     }
@@ -59,11 +57,11 @@ public class Users extends AppCompatActivity {
         super.onResume();
 
         initList();
-        fetchUsers();
+        new FetchUsers(this).execute();
     }
 
     private void initInterface() {
-        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        int theme = (Preferences.getInstance(this).read(Preferences.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         setContentView(R.layout.activity_users);
@@ -88,7 +86,7 @@ public class Users extends AppCompatActivity {
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ctx.finish();
+                    finish();
                 }
             });
         }
@@ -123,13 +121,13 @@ public class Users extends AppCompatActivity {
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.delete:
-                        new android.support.v7.app.AlertDialog.Builder(ctx)
+                        new android.support.v7.app.AlertDialog.Builder(getApplicationContext())
                                 .setTitle("Delete " + getFirstSelected())
                                 .setMessage("Are you sure you want to delete this user?")
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        delete(getFirstSelected());
+                                        new Delete(Users.this, getFirstSelected()).execute();
                                     }
 
                                 })
@@ -167,33 +165,35 @@ public class Users extends AppCompatActivity {
         });
     }
 
-    private void fetchUsers() {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+    private static class FetchUsers extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<Users> ref;
+
+        FetchUsers(Users ctx) {
+            this.ref = new WeakReference<>(ctx);
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... names) {
+            Connection con = new Connection("user", "getall");
+
+            return con.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... args) {
-                Connection con = new Connection("user", "getall");
-
-                return con.finish();
+            final Users act = ref.get();
+            if (res.successful()) {
+                act.extractFiles(res.getMessage());
+                act.displayUsers();
             }
-
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    info.setVisibility(View.INVISIBLE);
-                    extractFiles(res.getMessage());
-                    displayUsers();
-                }
-                else {
-                    info.setVisibility(View.VISIBLE);
-                    info.setText(res.getMessage());
-                }
+            else {
+                act.setInfo(res.getMessage());
             }
-        }.execute();
+        }
     }
 
     /**
@@ -220,13 +220,18 @@ public class Users extends AppCompatActivity {
         }
     }
 
+    private void setInfo(String msg) {
+        int visibility = (msg.equals("")) ? View.GONE : View.VISIBLE;
+        info.setVisibility(visibility);
+        info.setText(msg);
+    }
+
     private void displayUsers() {
         if (items.size() == 0) {
-            info.setVisibility(View.VISIBLE);
-            info.setText(R.string.empty);
+            setInfo(getResources().getString(R.string.empty));
         }
         else {
-            info.setVisibility(View.GONE);
+            setInfo("");
         }
 
         int layout = R.layout.listview_detail;
@@ -286,77 +291,92 @@ public class Users extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (username.getText().toString().isEmpty()) {
-                    Toast.makeText(ctx, "Enter a username", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Enter a username", Toast.LENGTH_SHORT).show();
                 }
                 else if (!pass1.getText().toString().equals(pass2.getText().toString())) {
-                    Toast.makeText(ctx, "Passwords don't match", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Passwords don't match", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    create(username.getText().toString(), pass1.getText().toString(), admin.isChecked());
+                    new Create(Users.this, username.getText().toString(), pass1.getText().toString(), admin.isChecked()).execute();
                     dialog2.dismiss();
                 }
             }
         });
 
         username.requestFocus();
-        Util.showVirtualKeyboard(ctx);
+        Util.showVirtualKeyboard(this);
     }
 
-    private void create(final String username, final String pass, final boolean admin) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+    private static class Create extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<Users> ref;
+        private String username;
+        private String pass;
+        private boolean admin;
+
+        Create(Users ctx, String username, String pass, boolean admin) {
+            this.ref = new WeakReference<>(ctx);
+            this.username = username;
+            this.pass = pass;
+            this.admin = admin;
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... names) {
+            Connection con = new Connection("user", "create");
+            con.addFormField("user", username);
+            con.addFormField("pass", pass);
+            con.addFormField("admin", (admin) ? "1" : "0");
+            con.addFormField("mail", "");
+
+            return con.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... pos) {
-                String a = (admin) ? "1" : "0";
-                Connection con = new Connection("user", "create");
-                con.addFormField("user", username);
-                con.addFormField("pass", pass);
-                con.addFormField("admin", a);
-                con.addFormField("mail", "");
-
-                return con.finish();
+            final Users act = ref.get();
+            if (res.successful()) {
+                new FetchUsers(act).execute();
             }
-
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    fetchUsers();
-                }
-                else {
-                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }.execute();
+        }
     }
 
-    private void delete(final String username) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+    private static class Delete extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<Users> ref;
+        private String username;
+
+        Delete(Users ctx, String username) {
+            this.ref = new WeakReference<>(ctx);
+            this.username = username;
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... names) {
+            Connection con = new Connection("user", "delete");
+            con.addFormField("user", username);
+
+            return con.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... params) {
-                Connection con = new Connection("user", "delete");
-                con.addFormField("user", username);
-
-                return con.finish();
+            final Users act = ref.get();
+            if (res.successful()) {
+                new FetchUsers(act).execute();
             }
-
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    fetchUsers();
-                }
-                else {
-                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }.execute();
+        }
     }
 }

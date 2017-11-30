@@ -33,13 +33,14 @@ import org.simpledrive.adapters.VaultAdapter;
 import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.Connection;
 import org.simpledrive.helper.Crypto;
-import org.simpledrive.helper.SharedPrefManager;
+import org.simpledrive.helper.Preferences;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.VaultItem;
 import org.simpledrive.models.VaultItemNote;
 import org.simpledrive.models.VaultItemWebsite;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 public class Vault extends AppCompatActivity {
@@ -63,10 +64,10 @@ public class Vault extends AppCompatActivity {
     private String passphrase = "";
 
     // Request Codes
-    private final int REQUEST_UNLOCK = 0;
-    private final int REQUEST_SET_PASSPHRASE = 1;
-    private final int REQUEST_WEBSITE= 2;
-    private final int REQUEST_NOTE = 3;
+    private static final int REQUEST_UNLOCK = 0;
+    private static final int REQUEST_SET_PASSPHRASE = 1;
+    private static final int REQUEST_WEBSITE= 2;
+    private static final int REQUEST_NOTE = 3;
 
     // Interface
     private TextView info;
@@ -90,7 +91,7 @@ public class Vault extends AppCompatActivity {
 
     private void initInterface() {
         // Set theme
-        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        int theme = (Preferences.getInstance(this).read(Preferences.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         // Set layout
@@ -226,7 +227,7 @@ public class Vault extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.save).setVisible(changed || !SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_VAULT_IN_SYNC, false));
+        menu.findItem(R.id.save).setVisible(changed || !Preferences.getInstance(this).read(Preferences.TAG_VAULT_IN_SYNC, false));
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -240,7 +241,7 @@ public class Vault extends AppCompatActivity {
         if (searchItem != null) {
             searchView = (SearchView) searchItem.getActionView();
         }
-        if (searchView != null) {
+        if (searchView != null && searchManager != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
             SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
@@ -267,7 +268,7 @@ public class Vault extends AppCompatActivity {
                 return super.onOptionsItemSelected(paramMenuItem);
 
             case R.id.sync:
-                sync();
+                new Sync(this, vaultEncrypted, getLastEdit()).execute();
                 break;
 
             case R.id.save:
@@ -400,14 +401,14 @@ public class Vault extends AppCompatActivity {
         }
         // Fetch vault from server
         else {
-            fetch();
+            new Fetch(this).execute();
         }
     }
 
     private void decrypt() {
         String vaultDecrypted = Crypto.decryptString(vaultEncrypted, passphrase);
 
-        if (vaultDecrypted == null || vaultDecrypted.equals("")) {
+        if (vaultDecrypted.equals("")) {
             if (waitingForUnlock) {
                 waitingForUnlock = false;
                 finish();
@@ -427,106 +428,126 @@ public class Vault extends AppCompatActivity {
         }
     }
 
-    private void sync() {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+    private static class Sync extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<Vault> ref;
+        private String vault;
+        private long lastEdit;
+
+        Sync(Vault ctx, String vault, long lastEdit) {
+            this.ref = new WeakReference<>(ctx);
+            this.vault = vault;
+            this.lastEdit = lastEdit;
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... args) {
+            Connection con = new Connection("vault", "sync");
+            con.addFormField("vault", vault);
+            con.addFormField("lastedit", Long.toString(lastEdit));
+
+            return con.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... args) {
-                File vaultFile = new File(getFilesDir() + "/" + vaultname);
-                long lastEdit = (vaultFile.exists()) ? vaultFile.lastModified() / 1000 : 0;
+            final Vault act = ref.get();
+            if (res.successful()) {
+                Toast.makeText(act, "Sync complete.", Toast.LENGTH_SHORT).show();
+                act.info.setVisibility(View.INVISIBLE);
+                act.vaultEncrypted = res.getMessage();
 
-                Connection con = new Connection("vault", "sync");
-                con.addFormField("vault", vaultEncrypted);
-                con.addFormField("lastedit", Long.toString(lastEdit));
-
-                return con.finish();
+                act.changed = true;
+                act.decrypt();
             }
-
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    Toast.makeText(Vault.this, "Sync complete.", Toast.LENGTH_SHORT).show();
-                    info.setVisibility(View.INVISIBLE);
-                    vaultEncrypted = res.getMessage();
-
-                    changed = true;
-                    decrypt();
-                }
-                else {
-                    info.setVisibility(View.VISIBLE);
-                    info.setText(res.getMessage());
-                }
+            else {
+                act.info.setVisibility(View.VISIBLE);
+                act.info.setText(res.getMessage());
             }
-        }.execute();
+        }
     }
 
-    private void saveToServer() {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
-
-            @Override
-            protected Connection.Response doInBackground(Void... args) {
-                Connection con = new Connection("vault", "save");
-                con.addFormField("vault", vaultEncrypted);
-
-                return con.finish();
-            }
-
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    SharedPrefManager.getInstance(getApplicationContext()).write(SharedPrefManager.TAG_VAULT_IN_SYNC, true);
-                    Toast.makeText(Vault.this, "Saved to server", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(Vault.this, "Error saving to server", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }.execute();
+    private long getLastEdit() {
+        File vaultFile = new File(getFilesDir() + "/" + vaultname);
+        return (vaultFile.exists()) ? vaultFile.lastModified() / 1000 : 0;
     }
 
-    private void fetch() {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+    private static class SaveToServer extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<Vault> ref;
+        private String vault;
+
+        SaveToServer(Vault ctx, String vault) {
+            this.ref = new WeakReference<>(ctx);
+            this.vault = vault;
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... args) {
+            Connection con = new Connection("vault", "save");
+            con.addFormField("vault", vault);
+
+            return con.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... args) {
-                Connection con = new Connection("vault", "get");
+            final Vault act = ref.get();
+            if (res.successful()) {
+                Preferences.getInstance(act).write(Preferences.TAG_VAULT_IN_SYNC, true);
+                Toast.makeText(act, "Saved to server", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(act, "Error saving to server", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
-                return con.finish();
+    private static class Fetch extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<Vault> ref;
+
+        Fetch(Vault ctx) {
+            this.ref = new WeakReference<>(ctx);
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... args) {
+            Connection con = new Connection("vault", "get");
+
+            return con.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful() && !res.getMessage().equals("")) {
-                    info.setVisibility(View.INVISIBLE);
-                    vaultEncrypted = res.getMessage();
+            final Vault act = ref.get();
+            if (res.successful() && !res.getMessage().equals("")) {
+                act.info.setVisibility(View.INVISIBLE);
+                act.vaultEncrypted = res.getMessage();
 
-                    changed = true;
-                    decrypt();
-                }
-                else {
-                    info.setVisibility(View.VISIBLE);
-                    info.setText(res.getMessage());
-
-                    waitingForSetPassphrase = true;
-                    Intent i = new Intent(getApplicationContext(), PasswordScreen.class);
-                    i.putExtra("title", "Setup Vault");
-                    i.putExtra("repeat", true);
-                    startActivityForResult(i, REQUEST_SET_PASSPHRASE);
-                }
+                act.changed = true;
+                act.decrypt();
             }
-        }.execute();
+            else {
+                act.info.setVisibility(View.VISIBLE);
+                act.info.setText(res.getMessage());
+
+                act.waitingForSetPassphrase = true;
+                Intent i = new Intent(act, PasswordScreen.class);
+                i.putExtra("title", "Setup Vault");
+                i.putExtra("repeat", true);
+                act.startActivityForResult(i, REQUEST_SET_PASSPHRASE);
+            }
+        }
     }
 
     /**
@@ -571,13 +592,18 @@ public class Vault extends AppCompatActivity {
             Toast.makeText(this, R.string.unknown_error, Toast.LENGTH_SHORT).show();
         }
 
-        filteredItems = cloneArrayList(items);
+        resetFilter();
 
         if (filteredItems.size() > 0 && changed) {
             save();
         }
 
         display();
+    }
+
+    private void resetFilter() {
+        filteredItems.clear();
+        filteredItems.addAll(items);
     }
 
     private void display() {
@@ -650,34 +676,32 @@ public class Vault extends AppCompatActivity {
 
     private void deleteEntry(int pos) {
         items.remove(pos);
-        filteredItems = cloneArrayList(items);
+        resetFilter();
         save();
         display();
         invalidateOptionsMenu();
     }
 
-    private boolean save() {
+    private void save() {
         changed = false;
         vaultEncrypted = Crypto.encryptString(items.toString(), passphrase);
-        boolean vaultInSync = SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_VAULT_IN_SYNC, false);
+        boolean vaultInSync = Preferences.getInstance(this).read(Preferences.TAG_VAULT_IN_SYNC, false);
 
         if (vaultEncrypted != null && !vaultEncrypted.equals("")) {
             if (!vaultInSync) {
-                saveToServer();
+                new SaveToServer(this, vaultEncrypted).execute();
             }
             if (Util.writeToData(vaultname, vaultEncrypted, Vault.this)) {
                 Toast.makeText(getApplicationContext(), "Saved.", Toast.LENGTH_SHORT).show();
-                return true;
             }
         }
-
-        return false;
     }
 
-    public boolean saveEntry(VaultItem item, int id) {
+    public void saveEntry(VaultItem item, int id) {
         if (item.getTitle().equals("")) {
-            return false;
+            return;
         }
+
         if (id < 0 || id > items.size() - 1) {
             items.add(item);
         }
@@ -685,21 +709,11 @@ public class Vault extends AppCompatActivity {
             items.set(id, item);
         }
 
-        filteredItems = cloneArrayList(items);
-        SharedPrefManager.getInstance(getApplicationContext()).write(SharedPrefManager.TAG_VAULT_IN_SYNC, false);
+        resetFilter();
+        Preferences.getInstance(getApplicationContext()).write(Preferences.TAG_VAULT_IN_SYNC, false);
 
         display();
-        return save();
-    }
-
-    private ArrayList<VaultItem> cloneArrayList(ArrayList<VaultItem> src) {
-        ArrayList<VaultItem> newList = new ArrayList<>();
-
-        for (int i = 0; i < src.size(); i++) {
-            newList.add(src.get(i));
-        }
-
-        return newList;
+        save();
     }
 
     private void showChangePassword() {

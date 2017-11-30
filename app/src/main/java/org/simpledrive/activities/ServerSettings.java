@@ -2,6 +2,7 @@ package org.simpledrive.activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,21 +19,20 @@ import org.json.JSONObject;
 import org.simpledrive.R;
 import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.Connection;
-import org.simpledrive.helper.SharedPrefManager;
+import org.simpledrive.helper.Preferences;
 import org.simpledrive.helper.Util;
+
+import java.lang.ref.WeakReference;
 
 public class ServerSettings extends AppCompatActivity {
     // General
-    public static ServerSettings ctx;
     public static PrefsFragment prefsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ctx = this;
-
-        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        int theme = (Preferences.getInstance(this).read(Preferences.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         prefsFragment = new PrefsFragment();
@@ -55,14 +55,20 @@ public class ServerSettings extends AppCompatActivity {
             toolbar.setTitle("Server Settings");
         }
 
-        getStatus();
+        new GetStatus().execute();
     }
 
     public static class PrefsFragment extends PreferenceFragment {
-
+        private ServerSettings act;
         private Preference showlog;
         private Preference showusers;
         private EditTextPreference uploadLimit;
+
+        @Override
+        public void onAttach(Context ctx) {
+            super.onAttach(ctx);
+            act = (ServerSettings) ctx;
+        }
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -75,7 +81,7 @@ public class ServerSettings extends AppCompatActivity {
             showlog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    startActivity(new Intent(ctx.getApplicationContext(), ServerLog.class));
+                    startActivity(new Intent(act, ServerLog.class));
                     return false;
                 }
             });
@@ -84,7 +90,7 @@ public class ServerSettings extends AppCompatActivity {
             showusers.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    startActivity(new Intent(ctx.getApplicationContext(), Users.class));
+                    startActivity(new Intent(act, Users.class));
                     return false;
                 }
             });
@@ -94,7 +100,7 @@ public class ServerSettings extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     String value = Long.toString(Util.stringToByte(o.toString()));
-                    ctx.setUploadLimit(value);
+                    new SetUploadLimit(act, value).execute();
                     return false;
                 }
             });
@@ -108,63 +114,64 @@ public class ServerSettings extends AppCompatActivity {
         }
     }
 
-    private void getStatus() {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
+    private static class GetStatus extends AsyncTask<Void, Void, Connection.Response> {
+        @Override
+        protected Connection.Response doInBackground(Void... pos) {
+            Connection multipart = new Connection("system", "status");
 
-            @Override
-            protected Connection.Response doInBackground(Void... pos) {
-                Connection multipart = new Connection("system", "status");
+            return multipart.finish();
+        }
 
-                return multipart.finish();
-            }
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    try {
-                        JSONObject job = new JSONObject(res.getMessage());
-                        String version = job.getString("version");
-                        String storage_used = job.getString("storage_used");
-                        String storage_total = job.getString("storage_total");
-                        String upload_max = job.getString("upload_max");
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (res.successful()) {
+                try {
+                    JSONObject job = new JSONObject(res.getMessage());
+                    String version = job.getString("version");
+                    String storage_used = job.getString("storage_used");
+                    String storage_total = job.getString("storage_total");
+                    String upload_max = job.getString("upload_max");
 
-                        prefsFragment.setSummary("server_version", version);
-                        prefsFragment.setSummary("server_storage", Util.convertSize(storage_used) + " / " + Util.convertSize(storage_total));
-                        prefsFragment.setSummary("server_upload_max", Util.convertSize(upload_max));
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                    }
+                    prefsFragment.setSummary("server_version", version);
+                    prefsFragment.setSummary("server_storage", Util.convertSize(storage_used) + " / " + Util.convertSize(storage_total));
+                    prefsFragment.setSummary("server_upload_max", Util.convertSize(upload_max));
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
                 }
             }
-        }.execute();
+        }
     }
 
-    private void setUploadLimit(final String value) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+    private static class SetUploadLimit extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<ServerSettings> ref;
+        private String value;
+
+        SetUploadLimit(ServerSettings ctx, String value) {
+            this.ref = new WeakReference<>(ctx);
+            this.value = value;
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... pos) {
+            Connection multipart = new Connection("system", "uploadlimit");
+            multipart.addFormField("value", value);
+
+            return multipart.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... pos) {
-                Connection multipart = new Connection("system", "uploadlimit");
-                multipart.addFormField("value", value);
-
-                return multipart.finish();
+            final ServerSettings act = ref.get();
+            if (res.successful()) {
+                new GetStatus().execute();
             }
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    ctx.getStatus();
-                }
-                else {
-                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }.execute();
+        }
     }
 }

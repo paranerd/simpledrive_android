@@ -27,7 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.simpledrive.R;
-import org.simpledrive.helper.SharedPrefManager;
+import org.simpledrive.helper.Preferences;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.VaultItemWebsite;
 
@@ -89,7 +89,7 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
 
     private void initInterface() {
         // Set theme
-        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        int theme = (Preferences.getInstance(this).read(Preferences.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         // Set view
@@ -369,14 +369,15 @@ public class VaultWebsite extends AppCompatActivity implements TextWatcher {
     }
 
     public class VaultBCReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(COPY_USER)) {
-                Util.copyToClipboard(VaultWebsite.this, item.getUser(), "Username copied to clipboard");
-            }
-            else if (intent.getAction().equals(COPY_PASS)) {
-                Util.copyToClipboard(VaultWebsite.this, item.getPass(), "Password copied to clipboard");
+            if (intent.getAction() != null) {
+                if (intent.getAction().equals(COPY_USER)) {
+                    Util.copyToClipboard(VaultWebsite.this, item.getUser(), "Username copied to clipboard");
+                }
+                else if (intent.getAction().equals(COPY_PASS)) {
+                    Util.copyToClipboard(VaultWebsite.this, item.getPass(), "Password copied to clipboard");
+                }
             }
         }
     }
