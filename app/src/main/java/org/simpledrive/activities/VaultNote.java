@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.simpledrive.R;
-import org.simpledrive.helper.SharedPrefManager;
+import org.simpledrive.helper.Preferences;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.VaultItemNote;
 
@@ -58,7 +58,7 @@ public class VaultNote extends AppCompatActivity implements TextWatcher {
 
     private void initInterface() {
         // Set theme
-        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        int theme = (Preferences.getInstance(this).read(Preferences.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         // Init interface

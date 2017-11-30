@@ -16,7 +16,10 @@ import android.util.DisplayMetrics;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import org.apache.commons.io.FileUtils;
+import org.json.JSONArray;
 import org.simpledrive.R;
+import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.models.FileItem;
 
 import java.io.BufferedInputStream;
@@ -50,7 +53,7 @@ import static android.content.Context.CLIPBOARD_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
 
 public class Util {
-    public static Bitmap getThumb(String file, int size) {
+    public static Bitmap resizeImage(String file, int size) {
         if (!new File(file).exists()) {
             return null;
         }
@@ -164,6 +167,15 @@ public class Util {
             e.printStackTrace();
             return "";
         }
+    }
+
+    public static int[] getDisplayDimensions(AppCompatActivity ctx) {
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        ctx.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int[] dim = new int[2];
+        dim[0] = displaymetrics.heightPixels;
+        dim[1] = displaymetrics.widthPixels;
+        return dim;
     }
 
     public static int dpToPx(int dp) {
@@ -342,8 +354,35 @@ public class Util {
         return false;
     }
 
+    public static boolean createCache() {
+        File thumbDir = new File(getThumbDir());
+        return (thumbDir.exists() || thumbDir.mkdirs());
+    }
+
+    public static boolean clearCache() {
+        File cache = new File(getCacheDir());
+        if (cache.exists()) {
+            try {
+                FileUtils.cleanDirectory(cache);
+                return (cache.list().length == 0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return false;
+    }
+
     public static String getCacheDir() {
-        return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/simpleDrive/";
+        return Environment.getExternalStorageDirectory().getAbsolutePath() + "/simpleDrive/" + CustomAuthenticator.getID() + "/";
+    }
+
+    public static String getThumbDir() {
+        return getCacheDir() + "thumbnail/";
+    }
+
+    public static String getDownloadDir() {
+        return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
     }
 
     public static int getThumbSize(AppCompatActivity ctx, int layout) {
@@ -394,7 +433,8 @@ public class Util {
     public static String byteToString(byte[] arr) {
         try {
             return new String(arr, "UTF-8");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
             return "";
         }
@@ -407,6 +447,7 @@ public class Util {
             Date date = new Date(ts * 1000L);
             DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, getCurrentLocale(ctx));
             df.setTimeZone(TimeZone.getTimeZone("UTC"));
+
             return df.format(date);
         }
 
@@ -431,7 +472,8 @@ public class Util {
             connection.connect();
             InputStream input = connection.getInputStream();
             return BitmapFactory.decodeStream(input);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
             return null;
         }
@@ -449,5 +491,12 @@ public class Util {
                 }
             }
         }, 100);
+    }
+
+    public static String stringToJsonString(String s) {
+        JSONArray j = new JSONArray();
+        j.put(s);
+
+        return j.toString();
     }
 }

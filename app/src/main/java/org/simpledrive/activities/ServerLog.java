@@ -23,10 +23,11 @@ import org.json.JSONObject;
 import org.simpledrive.R;
 import org.simpledrive.adapters.LogAdapter;
 import org.simpledrive.helper.Connection;
-import org.simpledrive.helper.SharedPrefManager;
+import org.simpledrive.helper.Preferences;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.LogItem;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 public class ServerLog extends AppCompatActivity {
@@ -47,7 +48,7 @@ public class ServerLog extends AppCompatActivity {
 
         ctx = this;
 
-        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        int theme = (Preferences.getInstance(this).read(Preferences.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         setContentView(R.layout.activity_log);
@@ -62,7 +63,7 @@ public class ServerLog extends AppCompatActivity {
             public void onClick(View view) {
                 if (currentPage > 0) {
                     currentPage--;
-                    fetchLog(currentPage);
+                    new FetchLog(ServerLog.this, currentPage).execute();
                 }
             }
         });
@@ -72,7 +73,7 @@ public class ServerLog extends AppCompatActivity {
             public void onClick(View view) {
                 if (currentPage < totalPages - 1) {
                     currentPage++;
-                    fetchLog(currentPage);
+                    new FetchLog(ServerLog.this, currentPage).execute();
                 }
             }
         });
@@ -120,7 +121,7 @@ public class ServerLog extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                fetchLog(currentPage);
+                new FetchLog(ServerLog.this, currentPage).execute();
             }
         });
         mSwipeRefreshLayout.setColorSchemeResources(R.color.darkgreen, R.color.darkgreen, R.color.darkgreen, R.color.darkgreen);
@@ -129,7 +130,7 @@ public class ServerLog extends AppCompatActivity {
 
         initList();
 
-        fetchLog(currentPage);
+        new FetchLog(this, currentPage).execute();
     }
 
     @Override
@@ -158,7 +159,7 @@ public class ServerLog extends AppCompatActivity {
                         {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                clearLog();
+                                new ClearLog(ServerLog.this).execute();
                             }
 
                         })
@@ -169,65 +170,97 @@ public class ServerLog extends AppCompatActivity {
         return true;
     }
 
-    private void clearLog() {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                mSwipeRefreshLayout.setRefreshing(true);
-                Toast.makeText(ctx, "Clearing log...", Toast.LENGTH_SHORT).show();
+    private static class ClearLog extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<ServerLog> ref;
+
+        ClearLog(ServerLog ctx) {
+            this.ref = new WeakReference<>(ctx);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            if (ref.get() != null) {
+                final ServerLog act = ref.get();
+                act.mSwipeRefreshLayout.setRefreshing(true);
+                Toast.makeText(act, "Clearing log...", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... args) {
+            Connection multipart = new Connection("system", "clearlog");
+            return multipart.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... args) {
-                Connection multipart = new Connection("system", "clearlog");
-                return multipart.finish();
+            final ServerLog act = ref.get();
+            act.mSwipeRefreshLayout.setRefreshing(false);
+            if (res.successful()) {
+                new FetchLog(act, 0).execute();
             }
-
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                mSwipeRefreshLayout.setRefreshing(false);
-                if (res.successful()) {
-                    fetchLog(currentPage);
-                }
-                else {
-                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }.execute();
+        }
     }
 
-    private void fetchLog(final int page) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+    private static class FetchLog extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<ServerLog> ref;
+        private int page;
 
-                mSwipeRefreshLayout.setRefreshing(true);
+        FetchLog(ServerLog ctx, int page) {
+            this.ref = new WeakReference<>(ctx);
+            this.page = page;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            if (ref.get() != null) {
+                final ServerLog act = ref.get();
+                act.mSwipeRefreshLayout.setRefreshing(true);
+            }
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... args) {
+            Connection multipart = new Connection("system", "log");
+            multipart.addFormField("page", Integer.toString(page));
+
+            return multipart.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... args) {
-                Connection multipart = new Connection("system", "log");
-                multipart.addFormField("page", Integer.toString(page));
+            final ServerLog act = ref.get();
+            act.mSwipeRefreshLayout.setRefreshing(false);
 
-                return multipart.finish();
+            if (res.successful()) {
+                act.extractLog(res.getMessage());
+                act.displayLog();
             }
+            else {
+                act.setInfo(res.getMessage());
+            }
+        }
+    }
 
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                mSwipeRefreshLayout.setRefreshing(false);
-                if (res.successful()) {
-                    info.setVisibility(View.INVISIBLE);
-                    extractLog(res.getMessage());
-                    displayLog();
-                }
-                else {
-                    info.setVisibility(View.VISIBLE);
-                    info.setText(res.getMessage());
-                }
-            }
-        }.execute();
+    private void setInfo(String msg) {
+        int visibility = (msg.equals("")) ? View.INVISIBLE : View.VISIBLE;
+        info.setVisibility(visibility);
+        info.setText(msg);
     }
 
     /**
@@ -253,20 +286,19 @@ public class ServerLog extends AppCompatActivity {
                 LogItem item = new LogItem(message, user, date, type);
                 items.add(item);
             }
-        } catch (JSONException exp) {
-            exp.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
             Toast.makeText(this, R.string.unknown_error, Toast.LENGTH_SHORT).show();
         }
     }
 
     private void displayLog() {
         if (items.size() == 0) {
-            info.setVisibility(View.VISIBLE);
+            setInfo(getResources().getString(R.string.empty));
             page.setVisibility(View.INVISIBLE);
-            info.setText(R.string.empty);
         }
         else {
-            info.setVisibility(View.GONE);
+            setInfo("");
             page.setVisibility(View.VISIBLE);
             page.setText((currentPage + 1) + " / " + totalPages);
         }

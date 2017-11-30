@@ -1,4 +1,4 @@
-#Mon Oct 23 09:41:03 CEST 2017
-base.0=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_3
+#Sun Nov 26 18:36:18 CET 2017
+base.0=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dexMerger/debug/3
 renamed.0=classes.dex
-file.0=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_3/classes.dex
+file.0=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dexMerger/debug/3/classes.dex

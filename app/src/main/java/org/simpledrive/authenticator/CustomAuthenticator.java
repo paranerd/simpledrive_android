@@ -5,8 +5,8 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.os.Bundle;
 
-import org.simpledrive.helper.DownloadManager;
-import org.simpledrive.helper.UploadManager;
+import org.simpledrive.helper.Downloader;
+import org.simpledrive.helper.Uploader;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.AccountItem;
 
@@ -23,6 +23,7 @@ public class CustomAuthenticator {
     public static final int MAX_UNLOCK_ATTEMPTS = 3;
     private static final int COOLDOWN_ADD = 5000;
     private static final String ACCOUNT_TYPE = "org.simpledrive";
+    private static final String KEY_ID = "id";
     private static final String KEY_USER = "user";
     private static final String KEY_TOKEN = "token";
     private static final String KEY_SALT = "salt";
@@ -64,6 +65,7 @@ public class CustomAuthenticator {
         final Account account = new Account(accountName, ACCOUNT_TYPE);
         final String salt = "salt";
         Bundle userdata = new Bundle();
+        userdata.putString(KEY_ID, Util.md5(username + server));
         userdata.putString(KEY_USER, username);
         userdata.putString(KEY_SERVER, server);
         userdata.putString(KEY_TOKEN, token);
@@ -135,7 +137,7 @@ public class CustomAuthenticator {
     }
 
     public static void setActive(String accountName) {
-        if (DownloadManager.isRunning() || UploadManager.isRunning()) {
+        if (Downloader.isRunning() || Uploader.isRunning()) {
             return;
         }
 
@@ -148,6 +150,10 @@ public class CustomAuthenticator {
                 am.setUserData(a, KEY_ACTIVE, TRUE);
             }
         }
+    }
+
+    public static String getID() {
+        return (getActiveAccount() != null) ? am.getUserData(getActiveAccount(), KEY_ID) : "";
     }
 
     public static String getUsername() {

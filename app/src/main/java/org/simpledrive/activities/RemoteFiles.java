@@ -28,6 +28,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -55,11 +56,11 @@ import org.simpledrive.R;
 import org.simpledrive.adapters.FileAdapter;
 import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.Connection;
-import org.simpledrive.helper.DatabaseHandler;
-import org.simpledrive.helper.DownloadManager;
-import org.simpledrive.helper.PermissionManager;
-import org.simpledrive.helper.SharedPrefManager;
-import org.simpledrive.helper.UploadManager;
+import org.simpledrive.helper.Downloader;
+import org.simpledrive.helper.FilelistCache;
+import org.simpledrive.helper.Permissions;
+import org.simpledrive.helper.Preferences;
+import org.simpledrive.helper.Uploader;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.AccountItem;
 import org.simpledrive.models.FileItem;
@@ -67,6 +68,7 @@ import org.simpledrive.services.AudioService;
 import org.simpledrive.services.AudioService.LocalBinder;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -81,8 +83,8 @@ public class RemoteFiles extends AppCompatActivity {
     private boolean preventLock = false;
     private boolean isAdmin = false;
     private ArrayList<AccountItem> accounts = new ArrayList<>();
-    private boolean waitForTFAUnlock = false;
-    private DatabaseHandler db;
+    private static boolean waitForTFAUnlock = false;
+    private FilelistCache db;
     private long requestId = 0;
 
     // Request codes
@@ -107,7 +109,7 @@ public class RemoteFiles extends AppCompatActivity {
     private ActionMenuView amvMenu;
     private Menu bottomContextMenu;
     private TextView info;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    public SwipeRefreshLayout mSwipeRefreshLayout;
     private Menu mToolbarMenu;
     private Menu mContextMenu;
     private TextView audioTitle;
@@ -146,7 +148,7 @@ public class RemoteFiles extends AppCompatActivity {
     private ArrayList<FileItem> items = new ArrayList<>();
     private static ArrayList<FileItem> filteredItems = new ArrayList<>();
     private ArrayList<FileItem> hierarchy = new ArrayList<>();
-    private FileAdapter newAdapter;
+    public FileAdapter newAdapter;
     private int sortOrder = 1;
     private JSONArray clipboard = new JSONArray();
     private boolean deleteAfterCopy = false;
@@ -168,6 +170,7 @@ public class RemoteFiles extends AppCompatActivity {
         super.onCreate(paramBundle);
 
         ctx = this;
+        Downloader.setContext(this);
         CustomAuthenticator.setContext(this);
         Connection.init(this);
 
@@ -185,20 +188,21 @@ public class RemoteFiles extends AppCompatActivity {
         createCache();
 
         clearHierarchy();
-        getVersion();
-        getPermissions();
+        new GetVersion(RemoteFiles.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new GetPermissions(RemoteFiles.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         checkForPendingUploads();
-        bottomToolbarEnabled = SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_BOTTOM_TOOLBAR, false);
+        bottomToolbarEnabled = Preferences.getInstance(this).read(Preferences.TAG_BOTTOM_TOOLBAR, false);
         username = CustomAuthenticator.getUsername();
         updateNavigationDrawer();
-        db = new DatabaseHandler(this, Util.md5(username + CustomAuthenticator.getServer()));
+        db = new FilelistCache(this, Util.md5(username + CustomAuthenticator.getServer()));
 
         // Update firebase-token if refreshed
-        if (!SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_FIREBASE_TOKEN_OLD, "").equals("")) {
-            refreshToken(
-                    SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_FIREBASE_TOKEN_OLD, ""),
-                    SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_FIREBASE_TOKEN, "")
-            );
+        if (!Preferences.getInstance(this).read(Preferences.TAG_FIREBASE_TOKEN_OLD, "").equals("")) {
+            new RefreshToken(
+                    RemoteFiles.this,
+                    Preferences.getInstance(this).read(Preferences.TAG_FIREBASE_TOKEN_OLD, ""),
+                    Preferences.getInstance(this).read(Preferences.TAG_FIREBASE_TOKEN, "")
+            ).execute();
         }
     }
 
@@ -212,7 +216,7 @@ public class RemoteFiles extends AppCompatActivity {
                         createCache();
                     }
                     else {
-                        SharedPrefManager.getInstance(ctx).write(SharedPrefManager.TAG_LOAD_THUMB, false);
+                        Preferences.getInstance(ctx).write(Preferences.TAG_LOAD_THUMB, false);
                         Toast.makeText(ctx, "Could not create cache", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -333,7 +337,7 @@ public class RemoteFiles extends AppCompatActivity {
 
                     String[] paths = data.getStringArrayExtra("paths");
                     Collections.addAll(ul_paths, paths);
-                    UploadManager.addUpload(this, ul_paths, hierarchy.get(hierarchy.size() - 1).getID(), "0", new UploadManager.TaskListener() {
+                    Uploader.addUpload(this, ul_paths, hierarchy.get(hierarchy.size() - 1).getID(), "0", new Uploader.TaskListener() {
                         @Override
                         public void onFinished() {
                             fetchFiles(true);
@@ -350,7 +354,7 @@ public class RemoteFiles extends AppCompatActivity {
 
             case REQUEST_TFA_CODE:
                 if (resultCode == RESULT_OK) {
-                    submitTFA(data.getStringExtra("passphrase"));
+                    new SubmitTFA(RemoteFiles.this, data.getStringExtra("passphrase")).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 }
                 else if (CustomAuthenticator.getToken().equals("")) {
                     finish();
@@ -402,6 +406,7 @@ public class RemoteFiles extends AppCompatActivity {
 
         menu.findItem(R.id.emptytrash).setVisible(viewmode.equals("trash") && filteredItems.size() > 0);
         menu.findItem(R.id.selectall).setVisible(filteredItems.size() > 0);
+        menu.findItem(R.id.cacheimages).setVisible(getAllImages().size() > 0);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -458,7 +463,8 @@ public class RemoteFiles extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 selectAll();
-                                delete(getAllSelected(), viewmode.equals("trash"));
+                                //delete(getAllSelected(), viewmode.equals("trash"));
+                                new Delete(ctx, getAllSelected(), viewmode.equals("trash")).execute();
                                 unselectAll();
                             }
 
@@ -473,6 +479,11 @@ public class RemoteFiles extends AppCompatActivity {
                 initList();
                 displayFiles();
                 break;
+
+            case R.id.cacheimages:
+                cacheAllThumbs();
+                cacheAllImages();
+                break;
         }
 
         return true;
@@ -483,7 +494,7 @@ public class RemoteFiles extends AppCompatActivity {
      */
     private void initInterface() {
         // Set theme
-        theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        theme = (Preferences.getInstance(this).read(Preferences.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         // Set view
@@ -601,7 +612,7 @@ public class RemoteFiles extends AppCompatActivity {
         fab_paste.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paste(clipboard.toString(), hierarchy.get(hierarchy.size() - 1).getID(), deleteAfterCopy);
+                new Paste(RemoteFiles.this, hierarchy.get(hierarchy.size() - 1).getID(), clipboard.toString(), deleteAfterCopy).execute();
             }
         });
 
@@ -623,7 +634,7 @@ public class RemoteFiles extends AppCompatActivity {
                     fetchFiles(true);
                 }
                 else {
-                    connect();
+                    new Connect(RemoteFiles.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 }
             }
         });
@@ -635,6 +646,7 @@ public class RemoteFiles extends AppCompatActivity {
 
     /**
      * Show/Hide the small Floating Action Buttons
+     *
      * @param status true for show, false for hide
      */
     private void toggleFAB(boolean status) {
@@ -662,7 +674,8 @@ public class RemoteFiles extends AppCompatActivity {
 
     /**
      * Show/Hide paste and paste-cancel Floating Action Buttons
-     * @param show
+     *
+     * @param show Whether or not to show FAB
      */
     private void togglePaste(boolean show) {
         toggleFAB(false);
@@ -678,6 +691,7 @@ public class RemoteFiles extends AppCompatActivity {
     /**
      * Get the current FolderID from hierarchy
      * If "root"-Folder, ID is 0
+     *
      * @return String
      */
     private String getCurrentFolderId() {
@@ -686,12 +700,13 @@ public class RemoteFiles extends AppCompatActivity {
 
     /**
      * Load files from cache or server
-     * @param forceRefresh
+     *
+     * @param forceRefresh Load files from server even if cached
      */
     private void fetchFiles(boolean forceRefresh) {
         mSwipeRefreshLayout.setRefreshing(false);
-        if (viewmode.equals("files") && (!fetchFilesFromCache() || forceRefresh)) {
-            fetchFilesFromServer();
+        if (viewmode.equals("files") && (forceRefresh || !fetchFilesFromCache())) {
+            new FetchFilesFromServer(RemoteFiles.this, getCurrentFolderId(), viewmode).execute();
         }
     }
 
@@ -726,53 +741,70 @@ public class RemoteFiles extends AppCompatActivity {
     /**
      * Fetch files from server
      */
-    private void fetchFilesFromServer() {
-        final long currentRequestId = Util.getTimestamp();
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                if (newAdapter != null) {
-                    newAdapter.cancelThumbLoad();
+    private static class FetchFilesFromServer extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<RemoteFiles> ref;
+        private final long currentRequestId = Util.getTimestamp();
+        private String target;
+        private String viewmode;
+
+        FetchFilesFromServer(RemoteFiles ctx, String target, String viewmode) {
+            this.ref = new WeakReference<>(ctx);
+            this.target = target;
+            this.viewmode = viewmode;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if (ref.get() != null) {
+                final RemoteFiles act = ref.get();
+                if (act.newAdapter != null) {
+                    act.newAdapter.cancelThumbLoad();
                 }
 
-                requestId = currentRequestId;
-                mSwipeRefreshLayout.setRefreshing(true);
+                act.requestId = currentRequestId;
+                act.mSwipeRefreshLayout.setRefreshing(true);
+            }
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... args) {
+            Connection con = new Connection("files", "children");
+            con.addFormField("target", target);
+            con.addFormField("mode", viewmode);
+
+            return con.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... args) {
-                Connection con = new Connection("files", "children");
-                con.addFormField("target", hierarchy.get(hierarchy.size() - 1).getID());
-                con.addFormField("mode", viewmode);
-
-                return con.finish();
+            final RemoteFiles act = ref.get();
+            act.mSwipeRefreshLayout.setRefreshing(false);
+            if (act.requestId != currentRequestId) {
+                return;
             }
-
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                mSwipeRefreshLayout.setRefreshing(false);
-                if (requestId != currentRequestId) {
-                    return;
-                }
-                else if (res.successful()) {
-                    loginAttempts = 0;
-                    extractFiles(res.getMessage());
-                    displayFiles();
-                }
-                else {
-                    showInfo(res.getMessage());
-                    if (loginAttempts < 2) {
-                        clearHierarchy();
-                        connect();
-                    }
+            if (res.successful()) {
+                act.loginAttempts = 0;
+                act.extractFiles(res.getMessage());
+                act.displayFiles();
+            }
+            else {
+                act.showInfo(res.getMessage());
+                if (act.loginAttempts < 2) {
+                    act.clearHierarchy();
+                    new Connect(act).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 }
             }
-        }.execute();
+        }
     }
 
     /**
      * Extract JSONArray from server-data, convert to ArrayList and display
+     *
      * @param rawJSON The raw JSON-Data from the server
      */
     private void extractFiles(String rawJSON) {
@@ -817,6 +849,28 @@ public class RemoteFiles extends AppCompatActivity {
         } catch (JSONException exp) {
             exp.printStackTrace();
             Toast.makeText(this, R.string.unknown_error, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void cacheAllImages() {
+        ArrayList<FileItem> images = getAllImages();
+        int[] dimensions = Util.getDisplayDimensions(ctx);
+
+        for (FileItem item : images) {
+            if (Downloader.isCached(item) == null) {
+                Downloader.queueForCache(item, dimensions[0], dimensions[1], false);
+            }
+        }
+    }
+
+    private void cacheAllThumbs() {
+        ArrayList<FileItem> images = getAllImages();
+        int thumbSize = Util.getThumbSize(ctx, listLayout);
+
+        for (FileItem item : images) {
+            if (Downloader.isThumbnailCached(item, 1) == null) {
+                Downloader.queueForCache(item, thumbSize, thumbSize, true);
+            }
         }
     }
 
@@ -899,7 +953,6 @@ public class RemoteFiles extends AppCompatActivity {
             preventLock = true;
             Intent i = new Intent(getApplicationContext(), ImageViewer.class);
             i.putExtra("position", getImagePosition(item));
-            i.putExtra("layout", listLayout);
             startActivity(i);
         }
         else if (item.is("audio") && mPlayerService != null) {
@@ -915,13 +968,15 @@ public class RemoteFiles extends AppCompatActivity {
             startActivity(i);
         }
         else if (item.is("pdf")) {
-            JSONArray arr = new JSONArray();
-            arr.put(item.getID());
+            Toast.makeText(ctx, "Download started", Toast.LENGTH_SHORT).show();
 
-            DownloadManager.addDownload(this, arr.toString(), new DownloadManager.TaskListener() {
+            Downloader.download(item, new Downloader.TaskListener() {
                 @Override
-                public void onFinished(String path) {
-                    openLocally(path, "application/pdf");
+                public void onFinished(boolean success, String path) {
+                    Log.i("debug", "onFinished: " + path);
+                    if (success) {
+                        openLocally(path, "application/pdf");
+                    }
                 }
             });
         }
@@ -1054,83 +1109,109 @@ public class RemoteFiles extends AppCompatActivity {
         return "";
     }
 
-    private void connect() {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                loginAttempts++;
+    private static class Connect extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<RemoteFiles> ref;
+
+        Connect(RemoteFiles ctx) {
+            this.ref = new WeakReference<>(ctx);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if (ref.get() != null) {
+                final RemoteFiles act = ref.get();
+                act.loginAttempts++;
                 CustomAuthenticator.removeToken();
-                emptyList();
-                mSwipeRefreshLayout.setRefreshing(true);
+                act.emptyList();
+                act.mSwipeRefreshLayout.setRefreshing(true);
+            }
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... login) {
+            Connection con = (waitForTFAUnlock) ? new Connection("core", "login", 30000) : new Connection("core", "login");
+            con.addFormField("user", CustomAuthenticator.getUsername());
+            con.addFormField("pass", CustomAuthenticator.getPassword());
+            con.addFormField("callback", String.valueOf(waitForTFAUnlock));
+            return con.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... login) {
-                Connection con = (waitForTFAUnlock) ? new Connection("core", "login", 30000) : new Connection("core", "login");
-                con.addFormField("user", CustomAuthenticator.getUsername());
-                con.addFormField("pass", CustomAuthenticator.getPassword());
-                con.addFormField("callback", String.valueOf(waitForTFAUnlock));
-                return con.finish();
+            final RemoteFiles act = ref.get();
+            if (res.successful()) {
+                CustomAuthenticator.setToken(res.getMessage());
+                if (waitForTFAUnlock) {
+                    act.finishActivity(act.REQUEST_TFA_CODE);
+                }
+                waitForTFAUnlock = false;
+                act.fetchFiles(false);
+                new GetVersion(act).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                new GetPermissions(act).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                act.checkForPendingUploads();
             }
-
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    CustomAuthenticator.setToken(res.getMessage());
-                    if (waitForTFAUnlock) {
-                        finishActivity(REQUEST_TFA_CODE);
-                    }
-                    waitForTFAUnlock = false;
-                    fetchFiles(false);
-                    getVersion();
-                    getPermissions();
-                    checkForPendingUploads();
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
+                if (res.getStatus() == 403) {
+                    act.requestTFA(res.getMessage());
+                    new Connect(act).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 }
                 else {
-                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
-                    if (res.getStatus() == 403) {
-                        requestTFA(res.getMessage());
-                        connect();
-                    }
-                    else {
-                        // No connection
-                        showInfo(res.getMessage());
+                    // No connection
+                    act.showInfo(res.getMessage());
 
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        mSwipeRefreshLayout.setEnabled(true);
-                    }
+                    act.mSwipeRefreshLayout.setRefreshing(false);
+                    act.mSwipeRefreshLayout.setEnabled(true);
                 }
             }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
     }
 
-    private void submitTFA(final String code) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                showInfo("Evaluating Code...");
+    private static class SubmitTFA extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<RemoteFiles> ref;
+        private String code;
+
+        SubmitTFA(RemoteFiles ctx, String code) {
+            this.ref = new WeakReference<>(ctx);
+            this.code = code;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if (ref.get() != null) {
+                final RemoteFiles act = ref.get();
+                act.showInfo("Evaluating Code...");
+            }
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... params) {
+            Connection con = new Connection("twofactor", "unlock");
+            con.addFormField("code", code);
+
+            return con.finish();
+        }
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... params) {
-                Connection con = new Connection("twofactor", "unlock");
-                con.addFormField("code", code);
-
-                return con.finish();
+            final RemoteFiles act = ref.get();
+            if (res.successful()) {
+                act.showInfo("");
             }
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    showInfo("");
-                }
-                else {
-                    requestTFA(res.getMessage());
-                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            else {
+                act.requestTFA(res.getMessage());
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
     }
 
     private void requestTFA(String error) {
@@ -1158,8 +1239,8 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     private void checkForPendingUploads() {
-        String photosyncFolder = SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_PHOTO_SYNC, "");
-        long lastPhotoSync = SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_LAST_PHOTO_SYNC, 0L);
+        String photosyncFolder = Preferences.getInstance(this).read(Preferences.TAG_PHOTO_SYNC, "");
+        long lastPhotoSync = Preferences.getInstance(this).read(Preferences.TAG_LAST_PHOTO_SYNC, 0L);
         final ArrayList<String> pending = new ArrayList<>();
 
         if (!photosyncFolder.equals("")) {
@@ -1180,7 +1261,7 @@ public class RemoteFiles extends AppCompatActivity {
                     .setPositiveButton("Upload", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            UploadManager.addUpload(ctx, pending, hierarchy.get(hierarchy.size() - 1).getID(), "1", null);
+                            Uploader.addUpload(ctx, pending, hierarchy.get(hierarchy.size() - 1).getID(), "1", null);
                         }
 
                     })
@@ -1225,7 +1306,8 @@ public class RemoteFiles extends AppCompatActivity {
                     Toast.makeText(ctx, "Enter a username", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    share(target, username, shareUser.getText().toString(), shareWrite.isChecked(), sharePublic.isChecked());
+                    //share(target, username, shareUser.getText().toString(), shareWrite.isChecked(), sharePublic.isChecked());
+                    new Share(RemoteFiles.this, target, username, shareUser.getText().toString(), shareWrite.isChecked(), sharePublic.isChecked()).execute();
                     dialog2.dismiss();
                 }
             }
@@ -1246,7 +1328,8 @@ public class RemoteFiles extends AppCompatActivity {
 
         alert.setPositiveButton("Create", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                create(hierarchy.get(hierarchy.size() - 1).getID(), input.getText().toString(), type);
+                //create(hierarchy.get(hierarchy.size() - 1).getID(), input.getText().toString(), type);
+                new Create(RemoteFiles.this, hierarchy.get(hierarchy.size() - 1).getID(), input.getText().toString(), type).execute();
             }
         });
 
@@ -1273,7 +1356,7 @@ public class RemoteFiles extends AppCompatActivity {
 
         alert.setPositiveButton("Encrypt", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                encrypt(source, input.getText().toString());
+                new Encrypt(RemoteFiles.this, getCurrentFolderId(), source, input.getText().toString()).execute();
             }
         });
 
@@ -1300,7 +1383,7 @@ public class RemoteFiles extends AppCompatActivity {
 
         alert.setPositiveButton("Decrypt", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                decrypt(source, input.getText().toString());
+                new Decrypt(RemoteFiles.this, getCurrentFolderId(), source, input.getText().toString()).execute();
             }
         });
 
@@ -1329,7 +1412,7 @@ public class RemoteFiles extends AppCompatActivity {
 
         alert.setPositiveButton("Rename", new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int whichButton) {
-            rename(target, input.getText().toString());
+            new Rename(RemoteFiles.this, target, input.getText().toString()).execute();
           }
         });
 
@@ -1385,7 +1468,7 @@ public class RemoteFiles extends AppCompatActivity {
                 hideAccounts();
 
                 if (item.getGroupId() == R.id.navigation_drawer_group_accounts) {
-                    if (DownloadManager.isRunning() || UploadManager.isRunning()) {
+                    if (Downloader.isRunning() || Uploader.isRunning()) {
                         Toast.makeText(ctx, "Up-/Download running", Toast.LENGTH_SHORT).show();
                     }
                     else {
@@ -1496,12 +1579,13 @@ public class RemoteFiles extends AppCompatActivity {
                 break;
 
             case R.id.delete:
-                delete(getAllSelected(), viewmode.equals("trash"));
+                //delete(getAllSelected(), viewmode.equals("trash"));
+                new Delete(this, getAllSelected(), viewmode.equals("trash")).execute();
                 actionMode.finish();
                 break;
 
             case R.id.restore:
-                restore(getAllSelected());
+                new Restore(RemoteFiles.this, getAllSelected()).execute();
                 actionMode.finish();
                 break;
 
@@ -1542,17 +1626,17 @@ public class RemoteFiles extends AppCompatActivity {
                 break;
 
             case R.id.download:
-                DownloadManager.addDownload(this, getAllSelected(), null);
+                Downloader.queueForDownload(getAllSelected());
                 actionMode.finish();
                 break;
 
             case R.id.zip:
-                zip(hierarchy.get(hierarchy.size() - 1).getID(), getAllSelected());
+                new Zip(RemoteFiles.this, hierarchy.get(hierarchy.size() - 1).getID(), getAllSelected()).execute();
                 actionMode.finish();
                 break;
 
             case R.id.unzip:
-                unzip(hierarchy.get(hierarchy.size() - 1).getID(), getFirstSelected());
+                new Unzip(RemoteFiles.this, hierarchy.get(hierarchy.size() - 1).getID(), getFirstSelected()).execute();
                 actionMode.finish();
                 break;
 
@@ -1562,7 +1646,7 @@ public class RemoteFiles extends AppCompatActivity {
                 break;
 
             case R.id.unshare:
-                unshare(getFirstSelected());
+                new Unshare(RemoteFiles.this, getFirstSelected()).execute();
                 actionMode.finish();
                 break;
 
@@ -1592,7 +1676,7 @@ public class RemoteFiles extends AppCompatActivity {
 
     private void initList() {
         // Set layout
-        listLayout = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_LIST_LAYOUT, "list").equals("list")) ? R.layout.listview_detail: R.layout.gridview;
+        listLayout = (Preferences.getInstance(this).read(Preferences.TAG_LIST_LAYOUT, "list").equals("list")) ? R.layout.listview_detail: R.layout.gridview;
         setListLayout(listLayout);
 
         // Set listeners
@@ -1663,7 +1747,7 @@ public class RemoteFiles extends AppCompatActivity {
                     mContextMenu.findItem(R.id.zip).setVisible(!trash && !item.is("archive"));
                     mContextMenu.findItem(R.id.unzip).setVisible(!trash && item.is("archive"));
                     mContextMenu.findItem(R.id.rename).setVisible(!trash && checkedItemcount == 1);
-                    mContextMenu.findItem(R.id.share).setVisible(!trash && checkedItemcount == 1 && item.selfshared());
+                    mContextMenu.findItem(R.id.share).setVisible(!trash && checkedItemcount == 1 && !item.selfshared());
                     mContextMenu.findItem(R.id.unshare).setVisible(!trash && checkedItemcount == 1 && item.selfshared());
                     mContextMenu.findItem(R.id.encrypt).setVisible(!trash && checkedItemcount == 1 && !item.is("folder") && !item.is("encrypted"));
                     mContextMenu.findItem(R.id.decrypt).setVisible(!trash && checkedItemcount == 1 && item.is("encrypted"));
@@ -1712,7 +1796,7 @@ public class RemoteFiles extends AppCompatActivity {
     private void setListLayout(int layout) {
         listLayout = layout;
         String layoutString = (listLayout == R.layout.gridview) ? "grid" : "list";
-        SharedPrefManager.getInstance(this).write(SharedPrefManager.TAG_LIST_LAYOUT, layoutString);
+        Preferences.getInstance(this).write(Preferences.TAG_LIST_LAYOUT, layoutString);
 
         if (listLayout == R.layout.listview_detail) {
             list = (ListView) findViewById(R.id.list);
@@ -1743,22 +1827,22 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     private void createCache() {
-        PermissionManager pm = new PermissionManager(ctx, REQUEST_CACHE);
+        Permissions pm = new Permissions(ctx, REQUEST_CACHE);
         pm.wantStorage();
-        pm.request("Access files", "Need access to files to create cache folder.", new PermissionManager.TaskListener() {
+        pm.request("Access files", "Need access to files to create cache folder.", new Permissions.TaskListener() {
             @Override
             public void onPositive() {
-                // Create image cache folder
-                File cache = new File(Util.getCacheDir());
-                if (!cache.exists() && !cache.mkdir()) {
-                    SharedPrefManager.getInstance(ctx).write(SharedPrefManager.TAG_LOAD_THUMB, false);
+                // Create cache folder
+                //if (!Cache.create()) {
+                if (!Util.createCache()) {
+                    Preferences.getInstance(ctx).write(Preferences.TAG_LOAD_THUMB, false);
                     Toast.makeText(ctx, "Could not create cache", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onNegative() {
-                SharedPrefManager.getInstance(ctx).write(SharedPrefManager.TAG_LOAD_THUMB, false);
+                Preferences.getInstance(ctx).write(Preferences.TAG_LOAD_THUMB, false);
                 Toast.makeText(ctx, "Could not create cache", Toast.LENGTH_SHORT).show();
             }
         });
@@ -1778,421 +1862,589 @@ public class RemoteFiles extends AppCompatActivity {
         }
     }
 
-    private void create(final String target, final String filename, final String type) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
+    private static class Delete extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<RemoteFiles> ref;
+        private String target;
+        private boolean fullyDelete;
 
-            @Override
-            protected Connection.Response doInBackground(Void... params) {
-                Connection con = new Connection("files", "create");
-                con.addFormField("target", target);
-                con.addFormField("filename", filename);
-                con.addFormField("type", type);
-                return con.finish();
-            }
+        Delete(RemoteFiles ctx, String target, boolean fullyDelete) {
+            this.ref = new WeakReference<>(ctx);
+            this.target = target;
+            this.fullyDelete = fullyDelete;
+        }
 
-            @Override
-            protected void onPostExecute(Connection.Response res) {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if (ref.get() != null) {
+                RemoteFiles act = ref.get();
+                act.mSwipeRefreshLayout.setRefreshing(true);
+            }
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... params) {
+            Connection con = new Connection("files", "delete");
+            con.addFormField("target", target);
+            con.addFormField("final", Boolean.toString(fullyDelete));
+
+            return con.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() != null) {
+                RemoteFiles act = ref.get();
+                act.mSwipeRefreshLayout.setRefreshing(true);
                 if (res.successful()) {
-                    fetchFiles(true);
+                    act.fetchFiles(true);
                 }
                 else {
-                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
-        }.execute();
+        }
     }
 
-    private void share(final String target, final String userfrom, final String userto, final boolean shareWrite, final boolean sharePublic) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+    private static class Create extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<RemoteFiles> ref;
+        private String target;
+        private String filename;
+        private String type;
+
+        Create(RemoteFiles ctx, String target, String filename, String type) {
+            this.ref = new WeakReference<>(ctx);
+            this.target = target;
+            this.filename = filename;
+            this.type = type;
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... params) {
+            Connection con = new Connection("files", "create");
+            con.addFormField("target", target);
+            con.addFormField("filename", filename);
+            con.addFormField("type", type);
+            return con.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... params) {
-                String w = (shareWrite) ? "1" : "0";
-                String p = (sharePublic) ? "1" : "0";
+            RemoteFiles act = ref.get();
+            act.mSwipeRefreshLayout.setRefreshing(true);
 
-                Connection con = new Connection("files", "share");
-                con.addFormField("target", target);
-                con.addFormField("mail", "");
-                con.addFormField("key", "");
-                con.addFormField("userto", userto);
-                con.addFormField("pubAcc", p);
-                con.addFormField("write", w);
-
-                return con.finish();
+            if (res.successful()) {
+                act.fetchFiles(true);
             }
-            @Override
-            protected void onPostExecute(final Connection.Response res) {
-                if (res.successful()) {
-                    fetchFiles(true);
-
-                    if (sharePublic) {
-                        final android.support.v7.app.AlertDialog.Builder dialog = new android.support.v7.app.AlertDialog.Builder(ctx);
-
-                        dialog.setMessage("Send link?").setPositiveButton("Send", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String htmlBody = userfrom + " wants to share a file with you.<br>Access it via the following link:<br><br>" + res.getMessage();
-                                Spanned shareBody = Html.fromHtml(htmlBody);
-                                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                                sharingIntent.setType("text/plain");
-                                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "simpleDrive share link");
-                                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-                                startActivity(Intent.createChooser(sharingIntent, "Send via"));
-                            }
-                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Util.copyToClipboard(RemoteFiles.this, res.getMessage(), "Link copied to clipbard");
-                                dialog.cancel();
-                            }
-                        }).show();
-                    }
-                }
-                else {
-                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }.execute();
+        }
     }
 
-    private void unshare(final String target) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+    private static class Share extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<RemoteFiles> ref;
+        private String target;
+        private String userfrom;
+        private String userto;
+        private boolean shareWrite;
+        private boolean sharePublic;
+
+        Share(RemoteFiles ctx, String target, String userfrom, String userto, boolean shareWrite, boolean sharePublic) {
+            this.ref = new WeakReference<>(ctx);
+            this.target = target;
+            this.userfrom = userfrom;
+            this.userto = userto;
+            this.shareWrite = shareWrite;
+            this.sharePublic = sharePublic;
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... params) {
+            String w = (shareWrite) ? "1" : "0";
+            String p = (sharePublic) ? "1" : "0";
+
+            Connection con = new Connection("files", "share");
+            con.addFormField("target", target);
+            con.addFormField("mail", "");
+            con.addFormField("key", "");
+            con.addFormField("userto", userto);
+            con.addFormField("pubAcc", p);
+            con.addFormField("write", w);
+
+            return con.finish();
+        }
+        @Override
+        protected void onPostExecute(final Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... params) {
-                Connection con = new Connection("files", "unshare");
-                con.addFormField("target", target);
+            final RemoteFiles act = ref.get();
+            if (res.successful()) {
+                act.fetchFiles(true);
 
-                return con.finish();
-            }
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    fetchFiles(true);
-                }
-                else {
-                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        }.execute();
-    }
+                if (sharePublic) {
+                    final android.support.v7.app.AlertDialog.Builder dialog = new android.support.v7.app.AlertDialog.Builder(act);
 
-    private void zip(final String target, final String source) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
-
-            @Override
-            protected Connection.Response doInBackground(Void... params) {
-                Connection con = new Connection("files", "zip");
-                con.addFormField("target", target);
-                con.addFormField("source", source);
-
-                return con.finish();
-            }
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    fetchFiles(true);
-                }
-                else {
-                    Toast.makeText(ctx, "Error zipping", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }.execute();
-    }
-
-    private void unzip(final String target, final String source) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
-
-            @Override
-            protected Connection.Response doInBackground(Void... params) {
-                Connection con = new Connection("files", "unzip");
-                con.addFormField("target", target);
-                con.addFormField("source", source);
-
-                return con.finish();
-            }
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    fetchFiles(true);
-                }
-                else {
-                    Toast.makeText(ctx, "Error unzipping", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }.execute();
-    }
-
-    private void restore(final String target) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
-
-            @Override
-            protected Connection.Response doInBackground(Void... params) {
-                Connection con = new Connection("files", "restore");
-                con.addFormField("target", target);
-
-                return con.finish();
-            }
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    fetchFiles(true);
-                }
-                else {
-                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        }.execute();
-    }
-
-    private void delete(final String target, final boolean fullyDelete) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                mSwipeRefreshLayout.setRefreshing(true);
-            }
-
-            @Override
-            protected Connection.Response doInBackground(Void... params) {
-                Connection con = new Connection("files", "delete");
-                con.addFormField("target", target);
-                con.addFormField("final", Boolean.toString(fullyDelete));
-
-                return con.finish();
-            }
-
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                mSwipeRefreshLayout.setRefreshing(false);
-                if (res.successful()) {
-                    fetchFiles(true);
-                }
-                else {
-                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        }.execute();
-    }
-
-    private void paste(final String source, final String target, final boolean cut) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                mSwipeRefreshLayout.setRefreshing(true);
-            }
-
-            @Override
-            protected Connection.Response doInBackground(Void... params) {
-                String action = (cut) ? "move" : "copy";
-                Connection con = new Connection("files", action);
-                con.addFormField("target", target);
-                con.addFormField("source", source);
-                con.addFormField("trash", "false");
-
-                return con.finish();
-            }
-
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                mSwipeRefreshLayout.setRefreshing(false);
-                if (res.successful()) {
-                    clipboard = new JSONArray();
-                    togglePaste(false);
-                    fetchFiles(true);
-                }
-                else {
-                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        }.execute();
-    }
-
-    private void refreshToken(final String client_old, final String client_new) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
-
-            @Override
-            protected Connection.Response doInBackground(Void... params) {
-                Connection con = new Connection("twofactor", "update");
-                con.addFormField("client_old", client_old);
-                con.addFormField("client_new", client_new);
-
-                return con.finish();
-            }
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    SharedPrefManager.getInstance(ctx).write(SharedPrefManager.TAG_FIREBASE_TOKEN_OLD, "");
-                    Toast.makeText(ctx, "Updated 2FA-Token", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        }.execute();
-    }
-
-    private void getPermissions() {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected Connection.Response doInBackground(Void... pos) {
-                Connection con = new Connection("user", "admin");
-                return con.finish();
-            }
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful() && res.getMessage().equals("true")) {
-                    isAdmin = true;
-                    unhideDrawerItem(R.id.navigation_view_item_server);
-                }
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
-
-    private void getVersion() {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected Connection.Response doInBackground(Void... pos) {
-                Connection con = new Connection("core", "version");
-
-                return con.finish();
-            }
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    try {
-                        JSONObject job = new JSONObject(res.getMessage());
-                        String latest = job.getString("recent");
-                        if (latest.length() > 0 && !latest.equals("null")) {
-                            Toast.makeText(ctx, "Server update available", Toast.LENGTH_SHORT).show();
+                    dialog.setMessage("Send link?").setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String htmlBody = userfrom + " wants to share a file with you.<br>Access it via the following link:<br><br>" + res.getMessage();
+                            Spanned shareBody = Html.fromHtml(htmlBody);
+                            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                            sharingIntent.setType("text/plain");
+                            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "simpleDrive share link");
+                            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                            act.startActivity(Intent.createChooser(sharingIntent, "Send via"));
                         }
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Util.copyToClipboard(act, res.getMessage(), "Link copied to clipbard");
+                            dialog.cancel();
+                        }
+                    }).show();
+                }
+            }
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private static class Unshare extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<RemoteFiles> ref;
+        private String target;
+
+        Unshare(RemoteFiles ctx, String target) {
+            this.ref = new WeakReference<>(ctx);
+            this.target = target;
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... params) {
+            Connection con = new Connection("files", "unshare");
+            con.addFormField("target", target);
+
+            return con.finish();
+        }
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
+            }
+
+            final RemoteFiles act = ref.get();
+            if (res.successful()) {
+                act.fetchFiles(true);
+            }
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private static class Zip extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<RemoteFiles> ref;
+        private String target;
+        private String source;
+
+        Zip(RemoteFiles ctx, String target, String source) {
+            this.ref = new WeakReference<>(ctx);
+            this.target = target;
+            this.source = source;
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... params) {
+            Connection con = new Connection("files", "zip");
+            con.addFormField("target", target);
+            con.addFormField("source", source);
+
+            return con.finish();
+        }
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
+            }
+
+            final RemoteFiles act = ref.get();
+            if (res.successful()) {
+                act.fetchFiles(true);
+            }
+            else {
+                Toast.makeText(act, "Error zipping", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private static class Unzip extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<RemoteFiles> ref;
+        private String target;
+        private String source;
+
+        Unzip(RemoteFiles ctx, String target, String source) {
+            this.ref = new WeakReference<>(ctx);
+            this.target = target;
+            this.source = source;
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... params) {
+            Connection con = new Connection("files", "unzip");
+            con.addFormField("target", target);
+            con.addFormField("source", source);
+
+            return con.finish();
+        }
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
+            }
+
+            final RemoteFiles act = ref.get();
+            if (res.successful()) {
+                act.fetchFiles(true);
+            }
+            else {
+                Toast.makeText(act, "Error unzipping", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private static class Restore extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<RemoteFiles> ref;
+        private String target;
+
+        Restore(RemoteFiles ctx, String target) {
+            this.ref = new WeakReference<>(ctx);
+            this.target = target;
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... params) {
+            Connection con = new Connection("files", "restore");
+            con.addFormField("target", target);
+
+            return con.finish();
+        }
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
+            }
+
+            final RemoteFiles act = ref.get();
+            if (res.successful()) {
+                act.fetchFiles(true);
+            }
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private static class Paste extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<RemoteFiles> ref;
+        private String target;
+        private String source;
+        private boolean cut;
+
+        Paste(RemoteFiles ctx, String target, String source, boolean cut) {
+            this.ref = new WeakReference<>(ctx);
+            this.target = target;
+            this.source = source;
+            this.cut = cut;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            if (ref.get() != null) {
+                final RemoteFiles act = ref.get();
+                act.mSwipeRefreshLayout.setRefreshing(true);
+            }
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... params) {
+            String action = (cut) ? "move" : "copy";
+            Connection con = new Connection("files", action);
+            con.addFormField("target", target);
+            con.addFormField("source", source);
+            con.addFormField("trash", "false");
+
+            return con.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
+            }
+
+            final RemoteFiles act = ref.get();
+            act.mSwipeRefreshLayout.setRefreshing(false);
+            if (res.successful()) {
+                act.clipboard = new JSONArray();
+                act.togglePaste(false);
+                act.fetchFiles(true);
+            }
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private static class RefreshToken extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<RemoteFiles> ref;
+        private String client_old;
+        private String client_new;
+
+        RefreshToken(RemoteFiles ctx, String client_old, String client_new) {
+            this.ref = new WeakReference<>(ctx);
+            this.client_old = client_old;
+            this.client_new = client_new;
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... params) {
+            Connection con = new Connection("twofactor", "update");
+            con.addFormField("client_old", client_old);
+            con.addFormField("client_new", client_new);
+
+            return con.finish();
+        }
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
+            }
+
+            final RemoteFiles act = ref.get();
+            if (res.successful()) {
+                Preferences.getInstance(act).write(Preferences.TAG_FIREBASE_TOKEN_OLD, "");
+                Toast.makeText(act, "Updated 2FA-Token", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private static class GetPermissions extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<RemoteFiles> ref;
+
+        GetPermissions(RemoteFiles ctx) {
+            this.ref = new WeakReference<>(ctx);
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... pos) {
+            Connection con = new Connection("user", "admin");
+            return con.finish();
+        }
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
+            }
+
+            final RemoteFiles act = ref.get();
+            if (res.successful() && res.getMessage().equals("true")) {
+                act.isAdmin = true;
+                act.unhideDrawerItem(R.id.navigation_view_item_server);
+            }
+        }
+    }
+
+    private static class GetVersion extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<RemoteFiles> ref;
+
+        GetVersion(RemoteFiles ctx) {
+            this.ref = new WeakReference<>(ctx);
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... pos) {
+            Connection con = new Connection("core", "version");
+
+            return con.finish();
+        }
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
+            }
+
+            final RemoteFiles act = ref.get();
+            if (res.successful()) {
+                try {
+                    JSONObject job = new JSONObject(res.getMessage());
+                    String latest = job.getString("recent");
+                    if (latest.length() > 0 && !latest.equals("null")) {
+                        Toast.makeText(act, "Server update available", Toast.LENGTH_SHORT).show();
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
     }
 
-    private void rename(final String target, final String filename) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                mSwipeRefreshLayout.setRefreshing(true);
+    private static class Rename extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<RemoteFiles> ref;
+        private String target;
+        private String filename;
+
+        Rename(RemoteFiles ctx, String target, String filename) {
+            this.ref = new WeakReference<>(ctx);
+            this.target = target;
+            this.filename = filename;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            if (ref.get() != null) {
+                final RemoteFiles act = ref.get();
+                act.mSwipeRefreshLayout.setRefreshing(true);
+            }
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... names) {
+            Connection con = new Connection("files", "rename");
+            con.addFormField("target", target);
+            con.addFormField("newFilename", filename);
+
+            return con.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... names) {
-                Connection con = new Connection("files", "rename");
-                con.addFormField("target", target);
-                con.addFormField("newFilename", filename);
-
-                return con.finish();
+            final RemoteFiles act = ref.get();
+            act.mSwipeRefreshLayout.setRefreshing(false);
+            if (res.successful()) {
+                act.fetchFiles(true);
             }
-
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                mSwipeRefreshLayout.setRefreshing(false);
-                if (res.successful()) {
-                    fetchFiles(true);
-                }
-                else {
-                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }.execute();
+        }
     }
 
-    private void encrypt(final String source, final String secret) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                mSwipeRefreshLayout.setRefreshing(true);
+    private static class Encrypt extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<RemoteFiles> ref;
+        private String target;
+        private String source;
+        private String secret;
+
+        Encrypt(RemoteFiles ctx, String target, String source, String secret) {
+            this.ref = new WeakReference<>(ctx);
+            this.target = target;
+            this.source = source;
+            this.secret = secret;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            if (ref.get() != null) {
+                final RemoteFiles act = ref.get();
+                act.mSwipeRefreshLayout.setRefreshing(true);
+            }
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... names) {
+            Connection con = new Connection("files", "encrypt");
+            con.addFormField("target", target);
+            con.addFormField("source", source);
+            con.addFormField("secret", secret);
+
+            return con.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... names) {
-                Connection con = new Connection("files", "encrypt");
-                con.addFormField("target", hierarchy.get(hierarchy.size() - 1).getID());
-                con.addFormField("source", source);
-                con.addFormField("secret", secret);
-
-                return con.finish();
+            final RemoteFiles act = ref.get();
+            act.mSwipeRefreshLayout.setRefreshing(false);
+            if (res.successful()) {
+                act.fetchFiles(true);
             }
-
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                mSwipeRefreshLayout.setRefreshing(false);
-                if (res.successful()) {
-                    fetchFiles(true);
-                }
-                else {
-                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }.execute();
+        }
     }
 
-    private void decrypt(final String source, final String secret) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                mSwipeRefreshLayout.setRefreshing(true);
+    private static class Decrypt extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<RemoteFiles> ref;
+        private String target;
+        private String source;
+        private String secret;
+
+        Decrypt(RemoteFiles ctx, String target, String source, String secret) {
+            this.ref = new WeakReference<>(ctx);
+            this.target = target;
+            this.source = source;
+            this.secret = secret;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            if (ref.get() != null) {
+                final RemoteFiles act = ref.get();
+                act.mSwipeRefreshLayout.setRefreshing(true);
+            }
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... names) {
+            Connection con = new Connection("files", "decrypt");
+            con.addFormField("target", target);
+            con.addFormField("source", source);
+            con.addFormField("secret", secret);
+
+            return con.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... names) {
-                Connection con = new Connection("files", "decrypt");
-                con.addFormField("target", hierarchy.get(hierarchy.size() - 1).getID());
-                con.addFormField("source", source);
-                con.addFormField("secret", secret);
-
-                return con.finish();
+            final RemoteFiles act = ref.get();
+            act.mSwipeRefreshLayout.setRefreshing(false);
+            if (res.successful()) {
+                act.fetchFiles(true);
             }
-
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                mSwipeRefreshLayout.setRefreshing(false);
-                if (res.successful()) {
-                    fetchFiles(true);
-                }
-                else {
-                    Toast.makeText(ctx, res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }.execute();
+        }
     }
 
     private void hideAccounts() {

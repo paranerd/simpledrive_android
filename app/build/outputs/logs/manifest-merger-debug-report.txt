@@ -1,25 +1,55 @@
 -- Merging decision tree log ---
 manifest
 ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:2:1-183:12
+INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:2:1-183:12
+INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:2:1-183:12
+INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:2:1-183:12
+MERGED from [com.android.support:design:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/design-24.2.1.aar/d19dec0bccf6719d98a6e88a281a845a/AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:percent:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/percent-24.2.1.aar/59a18e35d126cc3db84fac6b9aa5094a/AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:appcompat-v7:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/AndroidManifest.xml:17:1-27:12
+MERGED from [com.google.firebase:firebase-messaging:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-messaging-10.0.1.aar/6d82601dfa1f9a02750d47f7c76c4c6a/AndroidManifest.xml:16:1-30:12
+MERGED from [com.google.firebase:firebase-core:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-core-10.0.1.aar/ddfa3bdf7eca22d099e8dd7d10f40bf9/AndroidManifest.xml:2:1-6:12
+MERGED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:16:1-34:12
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.0.1.aar/6969259b44cafb7a483cb7da2ee21ffb/AndroidManifest.xml:16:1-29:12
+MERGED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:16:1-51:12
+MERGED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-common-10.0.1.aar/59f05d8805f6cdb63a9d3e10e0340d3a/AndroidManifest.xml:2:1-8:12
+MERGED from [com.google.android.gms:play-services-tasks:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/play-services-tasks-10.0.1.aar/8d6e15a35426da62675ca51b36099c51/AndroidManifest.xml:2:1-5:12
+MERGED from [com.google.android.gms:play-services-basement:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.0.1.aar/ad5c919a486affda48b8492e52a39d71/AndroidManifest.xml:16:1-23:12
+MERGED from [com.android.support:support-v4:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-v4-24.2.1.aar/bcc34bc67fa2b903ed83b6a7fa86de93/AndroidManifest.xml:17:1-27:12
+MERGED from [com.android.support:recyclerview-v7:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-24.2.1.aar/574e3eafdbf70e0da64f441ed9e93706/AndroidManifest.xml:17:1-22:12
+MERGED from [de.hdodenhof:circleimageview:1.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/circleimageview-1.2.1.aar/61fbbf2953f068cb1a516f8dbb357ff6/AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:support-fragment:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-fragment-24.2.1.aar/3fea2a4b1d6f4a132d62dfe092f45ce5/AndroidManifest.xml:17:1-27:12
+MERGED from [com.android.support:support-core-ui:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-core-ui-24.2.1.aar/2cb7a9db84db4cbe18495be5490c08cf/AndroidManifest.xml:17:1-27:12
+MERGED from [com.android.support:animated-vector-drawable:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-24.2.1.aar/0d1bb619ea98d59f5edf6e14596674a3/AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:support-vector-drawable:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-24.2.1.aar/a463416ecd6613e728320f07db1e8cfc/AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:support-media-compat:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-media-compat-24.2.1.aar/d989f51113daf8bde2795f39b07c7763/AndroidManifest.xml:17:1-27:12
+MERGED from [com.android.support:support-core-utils:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-core-utils-24.2.1.aar/02f94cdebe2cb5fa775391998df1d652/AndroidManifest.xml:17:1-27:12
+MERGED from [com.android.support:support-compat:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-compat-24.2.1.aar/88776784acbcc4d75e59233d49da664f/AndroidManifest.xml:17:1-27:12
+INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:2:1-183:12
+INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:2:1-183:12
+INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:2:1-183:12
 	package
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:3:5-30
 		INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
 		INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
 	android:versionName
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:5:5-33
-		INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
-		INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
-	android:versionCode
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:4:5-30
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:5:5-32
 		INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
 		INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:2:11-69
+	android:versionCode
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:4:5-30
+		INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
+		INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
 uses-permission#android.permission.INTERNET
 ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:7:5-67
-MERGED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:20:5-66
-MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.android/build-cache/5dda58e8823b0ce7344db482502a6ea897ab2521/output/AndroidManifest.xml:20:5-66
-MERGED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.0.1.aar/6969259b44cafb7a483cb7da2ee21ffb/AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.0.1.aar/6969259b44cafb7a483cb7da2ee21ffb/AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:20:5-66
 	android:name
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:7:22-64
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
@@ -48,32 +78,52 @@ ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidMa
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:13:22-77
 application
 ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:15:5-181:19
-MERGED from [com.android.support:design:24.2.1] /home/paranerd/.android/build-cache/41ed2336d2f736605e4e12c0e0bfb0727c56f2dc/output/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:percent:24.2.1] /home/paranerd/.android/build-cache/9273f23c9f41c4a01023d2e061deaeee9d3ccd87/output/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:appcompat-v7:24.2.1] /home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:animated-vector-drawable:24.2.1] /home/paranerd/.android/build-cache/66f872a2b83e948f26cdbc94a96c0c7321d80ff9/output/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-vector-drawable:24.2.1] /home/paranerd/.android/build-cache/dfb2dd4601af965ebf8808612c82769dd51a233a/output/AndroidManifest.xml:23:5-20
-MERGED from [de.hdodenhof:circleimageview:1.2.1] /home/paranerd/.android/build-cache/54dfcc2d672f1625fa964326680b5ecc6f0adfea/output/AndroidManifest.xml:9:5-20
-MERGED from [com.google.firebase:firebase-messaging:10.0.1] /home/paranerd/.android/build-cache/e3e52caed89b2ce73b5052273da9871d90f46fea/output/AndroidManifest.xml:19:5-29:19
-MERGED from [com.google.firebase:firebase-core:10.0.1] /home/paranerd/.android/build-cache/5cff994269bf8bacd79cb996608175945654cb49/output/AndroidManifest.xml:5:5-20
-MERGED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:24:5-33:19
-MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.android/build-cache/5dda58e8823b0ce7344db482502a6ea897ab2521/output/AndroidManifest.xml:24:5-28:19
-MERGED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:28:5-50:19
-MERGED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.android/build-cache/d1351202d0feea53e0ea360f5c1dacb11f0589e5/output/AndroidManifest.xml:4:5-7:19
-MERGED from [com.google.android.gms:play-services-tasks:10.0.1] /home/paranerd/.android/build-cache/2507d0da68fd175ca39ce35a849ff7103cadc731/output/AndroidManifest.xml:4:5-19
-MERGED from [com.google.android.gms:play-services-basement:10.0.1] /home/paranerd/.android/build-cache/fe957b760e493aef42d52ef87d547978505db3f9/output/AndroidManifest.xml:19:5-21:19
-MERGED from [com.android.support:support-v4:24.2.1] /home/paranerd/.android/build-cache/03b39c0a2974d3b534d2ce9136dd77388c6b535c/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-fragment:24.2.1] /home/paranerd/.android/build-cache/57121ff633bf53ff6d4a746940bbdae5de294249/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-media-compat:24.2.1] /home/paranerd/.android/build-cache/03bcd4970e16a6645879488c71a93a62bb4fb53e/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-core-ui:24.2.1] /home/paranerd/.android/build-cache/7d27c0d0503eb008c52d9afc7a3a12a2cbea7e48/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-core-utils:24.2.1] /home/paranerd/.android/build-cache/c023e93922822e21fed883bf2f6dff94fffadd81/output/AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-compat:24.2.1] /home/paranerd/.android/build-cache/34c24c9a2f3be0447ed71c5aa97f1baec6632563/output/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:design:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/design-24.2.1.aar/d19dec0bccf6719d98a6e88a281a845a/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:design:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/design-24.2.1.aar/d19dec0bccf6719d98a6e88a281a845a/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:percent:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/percent-24.2.1.aar/59a18e35d126cc3db84fac6b9aa5094a/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:percent:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/percent-24.2.1.aar/59a18e35d126cc3db84fac6b9aa5094a/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:appcompat-v7:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:appcompat-v7:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/AndroidManifest.xml:25:5-20
+MERGED from [com.google.firebase:firebase-messaging:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-messaging-10.0.1.aar/6d82601dfa1f9a02750d47f7c76c4c6a/AndroidManifest.xml:19:5-29:19
+MERGED from [com.google.firebase:firebase-messaging:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-messaging-10.0.1.aar/6d82601dfa1f9a02750d47f7c76c4c6a/AndroidManifest.xml:19:5-29:19
+MERGED from [com.google.firebase:firebase-core:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-core-10.0.1.aar/ddfa3bdf7eca22d099e8dd7d10f40bf9/AndroidManifest.xml:5:5-20
+MERGED from [com.google.firebase:firebase-core:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-core-10.0.1.aar/ddfa3bdf7eca22d099e8dd7d10f40bf9/AndroidManifest.xml:5:5-20
+MERGED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:24:5-33:19
+MERGED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:24:5-33:19
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.0.1.aar/6969259b44cafb7a483cb7da2ee21ffb/AndroidManifest.xml:24:5-28:19
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.0.1.aar/6969259b44cafb7a483cb7da2ee21ffb/AndroidManifest.xml:24:5-28:19
+MERGED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:28:5-50:19
+MERGED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:28:5-50:19
+MERGED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-common-10.0.1.aar/59f05d8805f6cdb63a9d3e10e0340d3a/AndroidManifest.xml:4:5-7:19
+MERGED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-common-10.0.1.aar/59f05d8805f6cdb63a9d3e10e0340d3a/AndroidManifest.xml:4:5-7:19
+MERGED from [com.google.android.gms:play-services-tasks:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/play-services-tasks-10.0.1.aar/8d6e15a35426da62675ca51b36099c51/AndroidManifest.xml:4:5-19
+MERGED from [com.google.android.gms:play-services-tasks:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/play-services-tasks-10.0.1.aar/8d6e15a35426da62675ca51b36099c51/AndroidManifest.xml:4:5-19
+MERGED from [com.google.android.gms:play-services-basement:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.0.1.aar/ad5c919a486affda48b8492e52a39d71/AndroidManifest.xml:19:5-21:19
+MERGED from [com.google.android.gms:play-services-basement:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.0.1.aar/ad5c919a486affda48b8492e52a39d71/AndroidManifest.xml:19:5-21:19
+MERGED from [com.android.support:support-v4:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-v4-24.2.1.aar/bcc34bc67fa2b903ed83b6a7fa86de93/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-v4-24.2.1.aar/bcc34bc67fa2b903ed83b6a7fa86de93/AndroidManifest.xml:25:5-20
+MERGED from [de.hdodenhof:circleimageview:1.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/circleimageview-1.2.1.aar/61fbbf2953f068cb1a516f8dbb357ff6/AndroidManifest.xml:9:5-20
+MERGED from [de.hdodenhof:circleimageview:1.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/circleimageview-1.2.1.aar/61fbbf2953f068cb1a516f8dbb357ff6/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support:support-fragment:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-fragment-24.2.1.aar/3fea2a4b1d6f4a132d62dfe092f45ce5/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-fragment:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-fragment-24.2.1.aar/3fea2a4b1d6f4a132d62dfe092f45ce5/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-ui:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-core-ui-24.2.1.aar/2cb7a9db84db4cbe18495be5490c08cf/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-ui:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-core-ui-24.2.1.aar/2cb7a9db84db4cbe18495be5490c08cf/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:animated-vector-drawable:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-24.2.1.aar/0d1bb619ea98d59f5edf6e14596674a3/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:animated-vector-drawable:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-24.2.1.aar/0d1bb619ea98d59f5edf6e14596674a3/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-vector-drawable:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-24.2.1.aar/a463416ecd6613e728320f07db1e8cfc/AndroidManifest.xml:23:5-20
+MERGED from [com.android.support:support-vector-drawable:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-24.2.1.aar/a463416ecd6613e728320f07db1e8cfc/AndroidManifest.xml:23:5-20
+MERGED from [com.android.support:support-media-compat:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-media-compat-24.2.1.aar/d989f51113daf8bde2795f39b07c7763/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-media-compat:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-media-compat-24.2.1.aar/d989f51113daf8bde2795f39b07c7763/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-utils:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-core-utils-24.2.1.aar/02f94cdebe2cb5fa775391998df1d652/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-utils:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-core-utils-24.2.1.aar/02f94cdebe2cb5fa775391998df1d652/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-compat:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-compat-24.2.1.aar/88776784acbcc4d75e59233d49da664f/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-compat:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-compat-24.2.1.aar/88776784acbcc4d75e59233d49da664f/AndroidManifest.xml:25:5-20
 	android:label
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:18:9-41
-	android:allowBackup
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:16:9-35
 	android:icon
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:17:9-43
+	android:allowBackup
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:16:9-35
 	android:theme
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:19:9-47
 activity#org.simpledrive.activities.RemoteFiles
@@ -312,146 +362,195 @@ ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidMa
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:178:25-75
 uses-sdk
 INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
-MERGED from [com.android.support:design:24.2.1] /home/paranerd/.android/build-cache/41ed2336d2f736605e4e12c0e0bfb0727c56f2dc/output/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:percent:24.2.1] /home/paranerd/.android/build-cache/9273f23c9f41c4a01023d2e061deaeee9d3ccd87/output/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:appcompat-v7:24.2.1] /home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/AndroidManifest.xml:21:5-23:78
-MERGED from [com.android.support:animated-vector-drawable:24.2.1] /home/paranerd/.android/build-cache/66f872a2b83e948f26cdbc94a96c0c7321d80ff9/output/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:24.2.1] /home/paranerd/.android/build-cache/dfb2dd4601af965ebf8808612c82769dd51a233a/output/AndroidManifest.xml:21:5-43
-MERGED from [com.android.support:recyclerview-v7:24.2.1] /home/paranerd/.android/build-cache/de84e7e60db0d9e53e3af8856b9b552e03b480aa/output/AndroidManifest.xml:20:5-43
-MERGED from [de.hdodenhof:circleimageview:1.2.1] /home/paranerd/.android/build-cache/54dfcc2d672f1625fa964326680b5ecc6f0adfea/output/AndroidManifest.xml:5:5-7:41
-MERGED from [com.google.firebase:firebase-messaging:10.0.1] /home/paranerd/.android/build-cache/e3e52caed89b2ce73b5052273da9871d90f46fea/output/AndroidManifest.xml:17:5-42
-MERGED from [com.google.firebase:firebase-core:10.0.1] /home/paranerd/.android/build-cache/5cff994269bf8bacd79cb996608175945654cb49/output/AndroidManifest.xml:4:5-42
-MERGED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:17:5-42
-MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.android/build-cache/5dda58e8823b0ce7344db482502a6ea897ab2521/output/AndroidManifest.xml:17:5-42
-MERGED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:17:5-42
-MERGED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.android/build-cache/d1351202d0feea53e0ea360f5c1dacb11f0589e5/output/AndroidManifest.xml:3:5-42
-MERGED from [com.google.android.gms:play-services-tasks:10.0.1] /home/paranerd/.android/build-cache/2507d0da68fd175ca39ce35a849ff7103cadc731/output/AndroidManifest.xml:3:5-42
-MERGED from [com.google.android.gms:play-services-basement:10.0.1] /home/paranerd/.android/build-cache/fe957b760e493aef42d52ef87d547978505db3f9/output/AndroidManifest.xml:17:5-42
-MERGED from [com.android.support:support-v4:24.2.1] /home/paranerd/.android/build-cache/03b39c0a2974d3b534d2ce9136dd77388c6b535c/output/AndroidManifest.xml:21:5-23:54
-MERGED from [com.android.support:support-fragment:24.2.1] /home/paranerd/.android/build-cache/57121ff633bf53ff6d4a746940bbdae5de294249/output/AndroidManifest.xml:21:5-23:60
-MERGED from [com.android.support:support-media-compat:24.2.1] /home/paranerd/.android/build-cache/03bcd4970e16a6645879488c71a93a62bb4fb53e/output/AndroidManifest.xml:21:5-23:63
-MERGED from [com.android.support:support-core-ui:24.2.1] /home/paranerd/.android/build-cache/7d27c0d0503eb008c52d9afc7a3a12a2cbea7e48/output/AndroidManifest.xml:21:5-23:58
-MERGED from [com.android.support:support-core-utils:24.2.1] /home/paranerd/.android/build-cache/c023e93922822e21fed883bf2f6dff94fffadd81/output/AndroidManifest.xml:21:5-23:61
-MERGED from [com.android.support:support-compat:24.2.1] /home/paranerd/.android/build-cache/34c24c9a2f3be0447ed71c5aa97f1baec6632563/output/AndroidManifest.xml:21:5-23:58
+INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
+INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
+MERGED from [com.android.support:design:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/design-24.2.1.aar/d19dec0bccf6719d98a6e88a281a845a/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:design:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/design-24.2.1.aar/d19dec0bccf6719d98a6e88a281a845a/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:percent:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/percent-24.2.1.aar/59a18e35d126cc3db84fac6b9aa5094a/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:percent:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/percent-24.2.1.aar/59a18e35d126cc3db84fac6b9aa5094a/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:appcompat-v7:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:appcompat-v7:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/AndroidManifest.xml:21:5-23:78
+MERGED from [com.google.firebase:firebase-messaging:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-messaging-10.0.1.aar/6d82601dfa1f9a02750d47f7c76c4c6a/AndroidManifest.xml:17:5-42
+MERGED from [com.google.firebase:firebase-messaging:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-messaging-10.0.1.aar/6d82601dfa1f9a02750d47f7c76c4c6a/AndroidManifest.xml:17:5-42
+MERGED from [com.google.firebase:firebase-core:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-core-10.0.1.aar/ddfa3bdf7eca22d099e8dd7d10f40bf9/AndroidManifest.xml:4:5-42
+MERGED from [com.google.firebase:firebase-core:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-core-10.0.1.aar/ddfa3bdf7eca22d099e8dd7d10f40bf9/AndroidManifest.xml:4:5-42
+MERGED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:17:5-42
+MERGED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:17:5-42
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.0.1.aar/6969259b44cafb7a483cb7da2ee21ffb/AndroidManifest.xml:17:5-42
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.0.1.aar/6969259b44cafb7a483cb7da2ee21ffb/AndroidManifest.xml:17:5-42
+MERGED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:17:5-42
+MERGED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:17:5-42
+MERGED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-common-10.0.1.aar/59f05d8805f6cdb63a9d3e10e0340d3a/AndroidManifest.xml:3:5-42
+MERGED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-common-10.0.1.aar/59f05d8805f6cdb63a9d3e10e0340d3a/AndroidManifest.xml:3:5-42
+MERGED from [com.google.android.gms:play-services-tasks:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/play-services-tasks-10.0.1.aar/8d6e15a35426da62675ca51b36099c51/AndroidManifest.xml:3:5-42
+MERGED from [com.google.android.gms:play-services-tasks:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/play-services-tasks-10.0.1.aar/8d6e15a35426da62675ca51b36099c51/AndroidManifest.xml:3:5-42
+MERGED from [com.google.android.gms:play-services-basement:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.0.1.aar/ad5c919a486affda48b8492e52a39d71/AndroidManifest.xml:17:5-42
+MERGED from [com.google.android.gms:play-services-basement:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.0.1.aar/ad5c919a486affda48b8492e52a39d71/AndroidManifest.xml:17:5-42
+MERGED from [com.android.support:support-v4:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-v4-24.2.1.aar/bcc34bc67fa2b903ed83b6a7fa86de93/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-v4:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-v4-24.2.1.aar/bcc34bc67fa2b903ed83b6a7fa86de93/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:recyclerview-v7:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-24.2.1.aar/574e3eafdbf70e0da64f441ed9e93706/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:recyclerview-v7:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-24.2.1.aar/574e3eafdbf70e0da64f441ed9e93706/AndroidManifest.xml:20:5-43
+MERGED from [de.hdodenhof:circleimageview:1.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/circleimageview-1.2.1.aar/61fbbf2953f068cb1a516f8dbb357ff6/AndroidManifest.xml:5:5-7:41
+MERGED from [de.hdodenhof:circleimageview:1.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/circleimageview-1.2.1.aar/61fbbf2953f068cb1a516f8dbb357ff6/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:support-fragment:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-fragment-24.2.1.aar/3fea2a4b1d6f4a132d62dfe092f45ce5/AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-fragment:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-fragment-24.2.1.aar/3fea2a4b1d6f4a132d62dfe092f45ce5/AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-core-ui:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-core-ui-24.2.1.aar/2cb7a9db84db4cbe18495be5490c08cf/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-ui:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-core-ui-24.2.1.aar/2cb7a9db84db4cbe18495be5490c08cf/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:animated-vector-drawable:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-24.2.1.aar/0d1bb619ea98d59f5edf6e14596674a3/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-24.2.1.aar/0d1bb619ea98d59f5edf6e14596674a3/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-24.2.1.aar/a463416ecd6613e728320f07db1e8cfc/AndroidManifest.xml:21:5-43
+MERGED from [com.android.support:support-vector-drawable:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-24.2.1.aar/a463416ecd6613e728320f07db1e8cfc/AndroidManifest.xml:21:5-43
+MERGED from [com.android.support:support-media-compat:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-media-compat-24.2.1.aar/d989f51113daf8bde2795f39b07c7763/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-media-compat:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-media-compat-24.2.1.aar/d989f51113daf8bde2795f39b07c7763/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-utils:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-core-utils-24.2.1.aar/02f94cdebe2cb5fa775391998df1d652/AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-core-utils:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-core-utils-24.2.1.aar/02f94cdebe2cb5fa775391998df1d652/AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-compat:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-compat-24.2.1.aar/88776784acbcc4d75e59233d49da664f/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-compat:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/support-compat-24.2.1.aar/88776784acbcc4d75e59233d49da664f/AndroidManifest.xml:21:5-23:58
+INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
+INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
 	tools:overrideLibrary
-		ADDED from [com.android.support:appcompat-v7:24.2.1] /home/paranerd/.android/build-cache/70f63220f50685e70e25e59bebbfe83d43b6156f/output/AndroidManifest.xml:23:9-75
+		ADDED from [com.android.support:appcompat-v7:24.2.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/AndroidManifest.xml:23:9-75
 	android:targetSdkVersion
 		INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
 		INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
 	android:minSdkVersion
 		INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
 		INJECTED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml
 service#com.google.firebase.messaging.FirebaseMessagingService
-ADDED from [com.google.firebase:firebase-messaging:10.0.1] /home/paranerd/.android/build-cache/e3e52caed89b2ce73b5052273da9871d90f46fea/output/AndroidManifest.xml:23:9-27:19
+ADDED from [com.google.firebase:firebase-messaging:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-messaging-10.0.1.aar/6d82601dfa1f9a02750d47f7c76c4c6a/AndroidManifest.xml:23:9-27:19
 	android:exported
-		ADDED from [com.google.firebase:firebase-messaging:10.0.1] /home/paranerd/.android/build-cache/e3e52caed89b2ce73b5052273da9871d90f46fea/output/AndroidManifest.xml:23:88-111
+		ADDED from [com.google.firebase:firebase-messaging:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-messaging-10.0.1.aar/6d82601dfa1f9a02750d47f7c76c4c6a/AndroidManifest.xml:23:88-111
 	android:name
-		ADDED from [com.google.firebase:firebase-messaging:10.0.1] /home/paranerd/.android/build-cache/e3e52caed89b2ce73b5052273da9871d90f46fea/output/AndroidManifest.xml:23:18-87
+		ADDED from [com.google.firebase:firebase-messaging:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-messaging-10.0.1.aar/6d82601dfa1f9a02750d47f7c76c4c6a/AndroidManifest.xml:23:18-87
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:21:5-78
-MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.android/build-cache/5dda58e8823b0ce7344db482502a6ea897ab2521/output/AndroidManifest.xml:21:5-78
-MERGED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:19:5-78
+ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:21:5-78
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.0.1.aar/6969259b44cafb7a483cb7da2ee21ffb/AndroidManifest.xml:21:5-78
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.0.1.aar/6969259b44cafb7a483cb7da2ee21ffb/AndroidManifest.xml:21:5-78
+MERGED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:19:5-78
+MERGED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:19:5-78
 	android:name
-		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:21:22-76
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:21:22-76
 uses-permission#android.permission.WAKE_LOCK
-ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:22:5-67
-MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.android/build-cache/5dda58e8823b0ce7344db482502a6ea897ab2521/output/AndroidManifest.xml:22:5-67
-MERGED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:21:5-67
+ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:22:5-67
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.0.1.aar/6969259b44cafb7a483cb7da2ee21ffb/AndroidManifest.xml:22:5-67
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.0.1.aar/6969259b44cafb7a483cb7da2ee21ffb/AndroidManifest.xml:22:5-67
+MERGED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:21:5-67
+MERGED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:21:5-67
 	android:name
-		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:22:22-65
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:22:22-65
 receiver#com.google.android.gms.measurement.AppMeasurementReceiver
-ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:25:7-26:18
-MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.android/build-cache/5dda58e8823b0ce7344db482502a6ea897ab2521/output/AndroidManifest.xml:25:7-26:18
+ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:25:7-26:18
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.0.1.aar/6969259b44cafb7a483cb7da2ee21ffb/AndroidManifest.xml:25:7-26:18
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.0.1.aar/6969259b44cafb7a483cb7da2ee21ffb/AndroidManifest.xml:25:7-26:18
 	android:enabled
-		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:25:90-112
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:25:90-112
 	android:exported
-		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:25:113-137
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:25:113-137
 	android:name
-		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:25:17-89
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:25:17-89
 receiver#com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver
-ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:27:7-31:18
+ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:27:7-31:18
 	android:enabled
-		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:27:162-184
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:27:162-184
 	android:permission
-		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:27:105-161
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:27:105-161
 	android:name
-		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:27:17-104
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:27:17-104
 intent-filter#com.android.vending.INSTALL_REFERRER
-ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:28:11-30:27
+ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:28:11-30:27
 action#com.android.vending.INSTALL_REFERRER
-ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:29:15-76
+ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:29:15-76
 	android:name
-		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:29:23-74
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:29:23-74
 service#com.google.android.gms.measurement.AppMeasurementService
-ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:32:7-137
-MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.android/build-cache/5dda58e8823b0ce7344db482502a6ea897ab2521/output/AndroidManifest.xml:27:7-137
+ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:32:7-137
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.0.1.aar/6969259b44cafb7a483cb7da2ee21ffb/AndroidManifest.xml:27:7-137
+MERGED from [com.google.firebase:firebase-analytics-impl:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-10.0.1.aar/6969259b44cafb7a483cb7da2ee21ffb/AndroidManifest.xml:27:7-137
 	android:enabled
-		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:32:88-110
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:32:88-110
 	android:exported
-		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:32:111-135
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:32:111-135
 	android:name
-		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.android/build-cache/dbcd89164fb722826982e52fbce48a8c9e963d1b/output/AndroidManifest.xml:32:16-87
+		ADDED from [com.google.firebase:firebase-analytics:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-analytics-10.0.1.aar/85747419281008ad6cd40f57243fd541/AndroidManifest.xml:32:16-87
 uses-permission#com.google.android.c2dm.permission.RECEIVE
-ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:22:5-81
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:22:5-81
 	android:name
-		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:22:22-79
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:22:22-79
 permission#${applicationId}.permission.C2D_MESSAGE
-ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:24:5-109
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:24:5-109
 	android:protectionLevel
-		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:24:72-107
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:24:72-107
 	android:name
-		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:24:17-71
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:24:17-71
+permission#org.simpledrive.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:24:5-109
+	android:protectionLevel
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:24:72-107
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:24:17-71
 uses-permission#${applicationId}.permission.C2D_MESSAGE
-ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:26:5-78
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:26:5-78
 	android:name
-		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:26:22-76
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:26:22-76
+uses-permission#org.simpledrive.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:26:5-78
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:26:22-76
 receiver#com.google.firebase.iid.FirebaseInstanceIdReceiver
-ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:30:9-36:20
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:30:9-36:20
 	android:exported
-		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:30:85-108
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:30:85-108
 	android:permission
-		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:30:109-169
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:30:109-169
 	android:name
-		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:30:19-84
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:30:19-84
 intent-filter#${applicationId}+com.google.android.c2dm.intent.RECEIVE+com.google.android.c2dm.intent.REGISTRATION
-ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:31:13-35:29
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:31:13-35:29
+intent-filter#com.google.android.c2dm.intent.RECEIVE+com.google.android.c2dm.intent.REGISTRATION+org.simpledrive
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:31:13-35:29
 action#com.google.android.c2dm.intent.RECEIVE
-ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:32:17-80
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:32:17-80
 	android:name
-		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:32:25-78
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:32:25-78
 action#com.google.android.c2dm.intent.REGISTRATION
-ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:33:17-85
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:33:17-85
 	android:name
-		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:33:25-83
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:33:25-83
 category#${applicationId}
-ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:34:17-60
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:34:17-60
 	android:name
-		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:34:27-58
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:34:27-58
+category#org.simpledrive
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:34:17-60
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:34:27-58
 receiver#com.google.firebase.iid.FirebaseInstanceIdInternalReceiver
-ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:40:9-119
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:40:9-119
 	android:exported
-		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:40:93-117
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:40:93-117
 	android:name
-		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:40:19-92
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:40:19-92
 service#com.google.firebase.iid.FirebaseInstanceIdService
-ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:44:9-48:19
+ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:44:9-48:19
 	android:exported
-		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:44:83-106
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:44:83-106
 	android:name
-		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.android/build-cache/bb2b21ce520441e6b5e2cd2f2822d71620b86cb4/output/AndroidManifest.xml:44:18-82
+		ADDED from [com.google.firebase:firebase-iid:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-iid-10.0.1.aar/363cdf5bf2db3da5a1a6ace7382c3143/AndroidManifest.xml:44:18-82
 provider#com.google.firebase.provider.FirebaseInitProvider
-ADDED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.android/build-cache/d1351202d0feea53e0ea360f5c1dacb11f0589e5/output/AndroidManifest.xml:6:9-194
+ADDED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-common-10.0.1.aar/59f05d8805f6cdb63a9d3e10e0340d3a/AndroidManifest.xml:6:9-194
 	android:authorities
-		ADDED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.android/build-cache/d1351202d0feea53e0ea360f5c1dacb11f0589e5/output/AndroidManifest.xml:6:19-78
+		ADDED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-common-10.0.1.aar/59f05d8805f6cdb63a9d3e10e0340d3a/AndroidManifest.xml:6:19-78
 	android:exported
-		ADDED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.android/build-cache/d1351202d0feea53e0ea360f5c1dacb11f0589e5/output/AndroidManifest.xml:6:144-168
+		ADDED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-common-10.0.1.aar/59f05d8805f6cdb63a9d3e10e0340d3a/AndroidManifest.xml:6:144-168
 	android:initOrder
-		ADDED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.android/build-cache/d1351202d0feea53e0ea360f5c1dacb11f0589e5/output/AndroidManifest.xml:6:169-192
+		ADDED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-common-10.0.1.aar/59f05d8805f6cdb63a9d3e10e0340d3a/AndroidManifest.xml:6:169-192
 	android:name
-		ADDED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.android/build-cache/d1351202d0feea53e0ea360f5c1dacb11f0589e5/output/AndroidManifest.xml:6:79-143
+		ADDED from [com.google.firebase:firebase-common:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/firebase-common-10.0.1.aar/59f05d8805f6cdb63a9d3e10e0340d3a/AndroidManifest.xml:6:79-143
 meta-data#com.google.android.gms.version
-ADDED from [com.google.android.gms:play-services-basement:10.0.1] /home/paranerd/.android/build-cache/fe957b760e493aef42d52ef87d547978505db3f9/output/AndroidManifest.xml:20:9-121
+ADDED from [com.google.android.gms:play-services-basement:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.0.1.aar/ad5c919a486affda48b8492e52a39d71/AndroidManifest.xml:20:9-121
 	android:value
-		ADDED from [com.google.android.gms:play-services-basement:10.0.1] /home/paranerd/.android/build-cache/fe957b760e493aef42d52ef87d547978505db3f9/output/AndroidManifest.xml:20:66-119
+		ADDED from [com.google.android.gms:play-services-basement:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.0.1.aar/ad5c919a486affda48b8492e52a39d71/AndroidManifest.xml:20:66-119
 	android:name
-		ADDED from [com.google.android.gms:play-services-basement:10.0.1] /home/paranerd/.android/build-cache/fe957b760e493aef42d52ef87d547978505db3f9/output/AndroidManifest.xml:20:20-65
+		ADDED from [com.google.android.gms:play-services-basement:10.0.1] /home/paranerd/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.0.1.aar/ad5c919a486affda48b8492e52a39d71/AndroidManifest.xml:20:20-65

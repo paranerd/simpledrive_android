@@ -22,7 +22,7 @@ import android.widget.Toast;
 import org.simpledrive.R;
 import org.simpledrive.adapters.AccountAdapter;
 import org.simpledrive.authenticator.CustomAuthenticator;
-import org.simpledrive.helper.SharedPrefManager;
+import org.simpledrive.helper.Preferences;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.AccountItem;
 
@@ -42,7 +42,7 @@ public class Accounts extends AppCompatActivity {
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
 
-        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        int theme = (Preferences.getInstance(this).read(Preferences.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         setContentView(R.layout.activity_users);

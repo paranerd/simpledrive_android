@@ -24,18 +24,19 @@ import android.widget.Toast;
 
 import org.simpledrive.R;
 import org.simpledrive.adapters.FileAdapter;
-import org.simpledrive.helper.PermissionManager;
-import org.simpledrive.helper.SharedPrefManager;
+import org.simpledrive.helper.Permissions;
+import org.simpledrive.helper.Preferences;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.FileItem;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FileSelector extends AppCompatActivity {
     // General
-    private static FileSelector e;
+    //private static FileSelector e;
     private boolean multi;
     private boolean foldersonly;
     private int selectedPos;
@@ -57,7 +58,7 @@ public class FileSelector extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        e = this;
+        //e = this;
 
         Bundle extras = getIntent().getExtras();
         multi = extras.getBoolean("multi", false);
@@ -71,7 +72,7 @@ public class FileSelector extends AppCompatActivity {
 
     private void initInterface() {
         // Set theme
-        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        int theme = (Preferences.getInstance(this).read(Preferences.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         // Set view
@@ -82,9 +83,9 @@ public class FileSelector extends AppCompatActivity {
     }
 
     public void checkPermission() {
-        PermissionManager pm = new PermissionManager(e, REQUEST_STORAGE);
+        Permissions pm = new Permissions(this, REQUEST_STORAGE);
         pm.wantStorage();
-        pm.request("Access files", "Need access to files to do that.", new PermissionManager.TaskListener() {
+        pm.request("Access files", "Need access to files to do that.", new Permissions.TaskListener() {
             @Override
             public void onPositive() {
                 initHierarchy();
@@ -92,10 +93,10 @@ public class FileSelector extends AppCompatActivity {
 
             @Override
             public void onNegative() {
-                Toast.makeText(e, "No access to files", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "No access to files", Toast.LENGTH_SHORT).show();
                 Intent returnIntent = new Intent();
-                e.setResult(RESULT_CANCELED, returnIntent);
-                e.finish();
+                setResult(RESULT_CANCELED, returnIntent);
+                finish();
             }
         });
     }
@@ -175,13 +176,14 @@ public class FileSelector extends AppCompatActivity {
 
     private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             toolbar.setNavigationIcon(R.drawable.ic_arrow);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    e.finish();
+                    FileSelector.this.finish();
                 }
             });
         }
@@ -249,7 +251,7 @@ public class FileSelector extends AppCompatActivity {
 
         } else if (hierarchy.size() > 1) {
             hierarchy.remove(hierarchy.size() - 1);
-            fetchFiles();
+            new FetchFiles(this, getCurrentFolder().getPath(), foldersonly).execute();
 
         } else {
             Intent returnIntent = new Intent();
@@ -260,9 +262,9 @@ public class FileSelector extends AppCompatActivity {
 
     private void openFile(int position) {
         if (items.get(position).is("folder")) {
-            hierarchy.get(hierarchy.size() - 1).setScrollPos(position);
+            getCurrentFolder().setScrollPos(position);
             hierarchy.add(items.get(position));
-            fetchFiles();
+            new FetchFiles(this, getCurrentFolder().getPath(), foldersonly).execute();
         }
         else {
             Intent i = new Intent();
@@ -302,70 +304,88 @@ public class FileSelector extends AppCompatActivity {
     private void initHierarchy() {
         hierarchy = new ArrayList<>();
         hierarchy.add(new FileItem("", "", ""));
-        hierarchy.add(new FileItem("", "root", Environment.getExternalStorageDirectory() + "/"));
-        fetchFiles();
+        hierarchy.add(new FileItem("", "storage", Environment.getExternalStorageDirectory() + "/"));
+        new FetchFiles(this, getCurrentFolder().getPath(), foldersonly).execute();
     }
 
-    private void fetchFiles() {
-        new AsyncTask<Void, Void, ArrayList<FileItem>>() {
-            ProgressDialog pDialog;
+    private FileItem getCurrentFolder() {
+        return hierarchy.get(hierarchy.size() - 1);
+    }
 
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                pDialog = new ProgressDialog(FileSelector.this);
+    private static class FetchFiles extends AsyncTask<Void, Void, ArrayList<FileItem>> {
+        private WeakReference<FileSelector> ref;
+        private ProgressDialog pDialog;
+        private String path;
+        private  boolean foldersonly;
+        private File[] externalFilesDirs;
+
+        FetchFiles(FileSelector ctx, String path, boolean foldersonly) {
+            this.ref = new WeakReference<>(ctx);
+            this.path = path;
+            this.foldersonly = foldersonly;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            if (ref.get() != null) {
+                final FileSelector act = ref.get();
+                pDialog = new ProgressDialog(act);
                 pDialog.setMessage("Loading files ...");
                 pDialog.setIndeterminate(false);
                 pDialog.setCancelable(false);
                 pDialog.show();
 
-                items = new ArrayList<>();
+                externalFilesDirs = act.getExternalFilesDirs(null);
 
-                if (mAdapter != null) {
-                    mAdapter.cancelThumbLoad();
+                if (act.mAdapter != null) {
+                    act.mAdapter.cancelThumbLoad();
                 }
             }
+        }
 
-            @Override
-            protected ArrayList<FileItem> doInBackground(Void... args) {
-                // "root"-directories (i.e. "Internal Storage" and "SD-Card")
-                if (hierarchy.size() <= 1) {
-                    File[] dirs = getExternalFilesDirs(null);
-                    for (File d : dirs) {
-                        File f = d.getParentFile().getParentFile().getParentFile().getParentFile();
-                        items.add(new FileItem("", f.getName(), f.getAbsolutePath(), "", "", "folder", "", false, false));
+        @Override
+        protected ArrayList<FileItem> doInBackground(Void... args) {
+            ArrayList<FileItem> items = new ArrayList<>();
+            // "root"-directories (i.e. "Internal Storage" and "SD-Card")
+            //if (hierarchy.size() <= 1) {
+            if (path.equals("")) {
+                for (File d : externalFilesDirs) {
+                    File f = d.getParentFile().getParentFile().getParentFile().getParentFile();
+                    items.add(new FileItem("", f.getName(), f.getAbsolutePath(), "", "", "folder", "", false, false));
+                }
+            }
+            else {
+                File[] elements = new File(path).listFiles();
+                for (File file : elements) {
+                    if (!file.canRead() || (!file.isDirectory() && foldersonly)) {
+                        continue;
                     }
+                    String filename = file.getName();
+                    String path = file.getAbsolutePath();
+                    String size = (file.isDirectory()) ? ((file.listFiles().length == 1) ? file.listFiles().length + " element" : file.listFiles().length + " elements") : Util.convertSize(file.length() + "");
+                    String type = (file.isDirectory()) ? "folder" : getMimeType(file);
+
+                    items.add(new FileItem("", filename, path, size, "", type, "", false, false));
                 }
-                else {
-                    String dirPath = hierarchy.get(hierarchy.size() - 1).getPath();
-                    File dir = new File(dirPath);
-
-                    File[] elements = dir.listFiles();
-                    for (File file : elements) {
-                        if (!file.canRead() || (!file.isDirectory() && foldersonly)) {
-                            continue;
-                        }
-                        String filename = file.getName();
-                        String path = file.getAbsolutePath();
-                        String size = (file.isDirectory()) ? ((file.listFiles().length == 1) ? file.listFiles().length + " element" : file.listFiles().length + " elements") : Util.convertSize(file.length() + "");
-                        String type = (file.isDirectory()) ? "folder" : getMimeType(file);
-
-                        items.add(new FileItem("", filename, path, size, "", type, "", false, false));
-                    }
-                }
-
-                Util.sortFilesByName(items, 1);
-
-                return null;
             }
 
-            @Override
-            protected void onPostExecute(ArrayList<FileItem> value) {
-                pDialog.dismiss();
+            return Util.sortFilesByName(items, 1);
+        }
 
-                displayFiles();
+        @Override
+        protected void onPostExecute(ArrayList<FileItem> items) {
+            if (ref.get() == null) {
+                return;
             }
-        }.execute();
+
+            final FileSelector act = ref.get();
+            pDialog.dismiss();
+            act.items = items;
+
+            act.displayFiles();
+        }
     }
 
     private void displayFiles() {
@@ -378,15 +398,15 @@ public class FileSelector extends AppCompatActivity {
         }
 
         int foldersCount = countFolders();
-        setToolbarTitle(hierarchy.size() == 1 ? "Select" : hierarchy.get(hierarchy.size() - 1).getFilename());
+        setToolbarTitle(hierarchy.size() == 1 ? "Select" : getCurrentFolder().getFilename());
         setToolbarSubtitle("Folders: " + foldersCount + ", Files: " + (items.size() - foldersCount));
 
-        mAdapter = new FileAdapter(e, R.layout.listview_detail, list, true);
+        mAdapter = new FileAdapter(this, R.layout.listview_detail, list, true);
         mAdapter.setData(items);
         mAdapter.notifyDataSetChanged();
 
         list.setAdapter(mAdapter);
-        list.setSelection(hierarchy.get(hierarchy.size() - 1).getScrollPos());
+        list.setSelection(getCurrentFolder().getScrollPos());
     }
 
     private int countFolders() {
@@ -400,7 +420,7 @@ public class FileSelector extends AppCompatActivity {
         return count;
     }
 
-    private String getMimeType(File file) {
+    private static String getMimeType(File file) {
         String extension = MimeTypeMap.getFileExtensionFromUrl(file.getAbsolutePath());
 
         if (extension != null) {

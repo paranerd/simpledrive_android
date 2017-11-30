@@ -29,4 +29,11 @@
         android:title="Toggle View"
         android:icon="@drawable/ic_grid"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/cacheimages"
+        android:orderInCategory="300"
+        android:title="Cache Images"
+        android:icon="@drawable/ic_download"
+        app:showAsAction="never" />
 </menu>

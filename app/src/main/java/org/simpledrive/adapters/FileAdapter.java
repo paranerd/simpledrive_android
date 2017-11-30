@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,27 +15,27 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.simpledrive.R;
-import org.simpledrive.helper.Connection;
-import org.simpledrive.helper.SharedPrefManager;
+import org.simpledrive.helper.Downloader;
+import org.simpledrive.helper.Preferences;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.FileItem;
 
-import java.io.File;
 import java.io.Serializable;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable {
     private LayoutInflater layoutInflater;
     private int layout;
     private boolean loadthumbs = false;
-    private ArrayList<FileItem> thumbQueue = new ArrayList<>();
-    private boolean thumbLoading = false;
+    private static boolean thumbLoading = false;
+    private boolean blockLoading = false;
     private AppCompatActivity ctx;
     private AbsListView list;
     private Integer thumbSize;
 
     public FileAdapter(AppCompatActivity ctx, int layoutResourceId, AbsListView list) {
-        this(ctx, layoutResourceId, list, SharedPrefManager.getInstance(ctx).read(SharedPrefManager.TAG_LOAD_THUMB, false));
+        this(ctx, layoutResourceId, list, Preferences.getInstance(ctx).read(Preferences.TAG_LOAD_THUMB, false));
     }
 
     public FileAdapter(AppCompatActivity ctx, int layoutResourceId, AbsListView list, boolean loadthumbs) {
@@ -86,24 +87,24 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
             holder.separator.setText(text);
         }
 
-        if (item.is("image") && item.getThumb() == null && loadthumbs && !itemIsInQueue(item)) {
+        if (item.is("image") && item.getThumb() == null && !blockLoading) {
             if (ctx.getClass().getSimpleName().equals("RemoteFiles")) {
                 // Try to load cached thumb
-                Bitmap cachedThumb = Util.getThumb(Util.getCacheDir() + item.getThumbName() + thumbSize, thumbSize);
+                String cachedThumb = Downloader.isThumbnailCached(item, thumbSize);
                 if (cachedThumb != null) {
-                    item.setThumb(cachedThumb);
+                    Log.i("debug", "we have a cached thumb");
+                    Bitmap thumb = Util.resizeImage(cachedThumb, thumbSize);
+                    item.setThumb(thumb);
                 }
                 // Load thumb from server
-                else {
-                    thumbQueue.add(item);
-                    if (!thumbLoading) {
-                        new LoadThumb().execute();
-                    }
+                else if (loadthumbs  && !thumbLoading) {
+                    thumbLoading = true;
+                    loadRemoteThumb(item, thumbSize);
                 }
             }
             else if (!thumbLoading && ctx.getClass().getSimpleName().equals("FileSelector")) {
-                thumbQueue.add(item);
-                new LocalThumb().execute();
+                thumbLoading = true;
+                new LoadLocalThumb(this, item, thumbSize).execute();
             }
         }
 
@@ -147,11 +148,12 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
     }
 
     public void cancelThumbLoad() {
-        thumbQueue.clear();
+        blockLoading = true;
         thumbLoading = false;
     }
 
     public void setData(ArrayList<FileItem> arg1) {
+        blockLoading = false;
         clear();
         if(arg1 != null) {
             for (int i=0; i < arg1.size(); i++) {
@@ -160,90 +162,45 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
         }
     }
 
-    private boolean itemIsInQueue(FileItem item) {
-        for (FileItem t : thumbQueue) {
-            if (t.getID().equals(item.getID())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private class LoadThumb extends AsyncTask<String, Integer, Connection.Response> {
-        FileItem item;
-        String thumbName;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            thumbLoading = true;
-        }
-
-        @Override
-        protected Connection.Response doInBackground(String... info) {
-            if (thumbQueue.size() > 0) {
-                item = thumbQueue.remove(0);
-                thumbName = item.getThumbName() + thumbSize;
-            }
-            else {
-                return null;
-            }
-
-            File thumb = new File(Util.getCacheDir() + thumbName);
-
-            Connection multipart = new Connection("files", "get");
-
-            multipart.addFormField("target", "[\"" + item.getID() + "\"]");
-            multipart.addFormField("width", Integer.toString(thumbSize));
-            multipart.addFormField("height", Integer.toString(thumbSize));
-            multipart.addFormField("thumbnail", "1");
-            multipart.setDownloadPath(thumb.getParent(), thumbName);
-            return multipart.finish();
-        }
-
-        @Override
-        protected void onPostExecute(Connection.Response res) {
-            if (res != null) {
-                Bitmap bmp = Util.getThumb(Util.getCacheDir() + thumbName, thumbSize);
-
+    private void loadRemoteThumb(final FileItem item, final int size) {
+        Downloader.cache(item, size, size, true, new Downloader.TaskListener() {
+            @Override
+            public void onFinished(boolean success, String path) {
                 thumbLoading = false;
-                if (bmp != null && list != null) {
+                if (success && list != null && !blockLoading) {
                     // Update adapter to display thumb
-                    item.setThumb(bmp);
                     notifyDataSetChanged();
                 }
-
-                if (thumbQueue.size() > 0) {
-                    new LoadThumb().execute();
-                }
             }
-        }
+        });
     }
 
-    private class LocalThumb extends AsyncTask<Integer, Bitmap, Bitmap> {
+    private static class LoadLocalThumb extends AsyncTask<Integer, Void, Bitmap> {
+        private WeakReference<FileAdapter> ref;
         private FileItem item;
+        private int size;
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        LoadLocalThumb(FileAdapter ctx, FileItem item, int size) {
+            this.ref = new WeakReference<>(ctx);
+            this.item = item;
+            this.size = size;
         }
 
         @Override
         protected Bitmap doInBackground(Integer... hm) {
-            if (thumbQueue.size() > 0) {
-                item = thumbQueue.remove(0);
-            }
-            else {
-                return null;
-            }
-
-            return Util.getThumb(item.getPath(), thumbSize);
+            return Util.resizeImage(this.item.getPath(), size);
         }
+
         @Override
         protected void onPostExecute(Bitmap bmp) {
+            thumbLoading = false;
+            if (ref.get() == null) {
+                return;
+            }
+
+            final FileAdapter act = ref.get();
             if (bmp != null) {
-                item.setThumb(bmp);
-                notifyDataSetChanged();
+                act.notifyDataSetChanged();
             }
         }
     }

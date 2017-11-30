@@ -20,15 +20,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.simpledrive.R;
 import org.simpledrive.helper.Connection;
-import org.simpledrive.helper.SharedPrefManager;
+import org.simpledrive.helper.Preferences;
+
+import java.lang.ref.WeakReference;
 
 public class Editor extends AppCompatActivity {
-    // General
-    public Editor e;
-
     // Editor
     private String file;
-    private String filename;
+    private static String filename;
     private boolean saved = true;
 
     // Interface
@@ -40,8 +39,6 @@ public class Editor extends AppCompatActivity {
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
 
-        e = this;
-
         Bundle extras = getIntent().getExtras();
         file = extras.getString("file");
         filename = extras.getString("filename");
@@ -50,7 +47,7 @@ public class Editor extends AppCompatActivity {
         initToolbar();
 
         maximizeEditor();
-        load(file);
+        new Load(this, file).execute();
     }
 
     private void initToolbar() {
@@ -62,14 +59,14 @@ public class Editor extends AppCompatActivity {
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    e.finish();
+                    finish();
                 }
             });
         }
     }
 
     private void initInterface() {
-        int theme = (SharedPrefManager.getInstance(this).read(SharedPrefManager.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
+        int theme = (Preferences.getInstance(this).read(Preferences.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
 
         setContentView(R.layout.activity_editor);
@@ -150,77 +147,91 @@ public class Editor extends AppCompatActivity {
 
             case R.id.savetext:
                 setToolbarSubtitle("Saving...");
-                save(file, editor.getText().toString());
+                new Save(this, file, editor.getText().toString());
                 break;
         }
         return true;
     }
 
-    private void load(final String target) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+    private static class Load extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<Editor> ref;
+        private String target;
+
+        Load(Editor ctx, String target) {
+            this.ref = new WeakReference<>(ctx);
+            this.target = target;
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... pos) {
+            Connection multipart = new Connection("files", "loadtext");
+            multipart.addFormField("target", target);
+
+            return multipart.finish();
+        }
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... pos) {
-                Connection multipart = new Connection("files", "loadtext");
-                multipart.addFormField("target", target);
+            final Editor act = ref.get();
+            if (res.successful()) {
+                try {
+                    JSONObject job = new JSONObject(res.getMessage());
+                    String filename = job.getString("filename");
+                    String content = job.getString("content");
 
-                return multipart.finish();
-            }
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    try {
-                        JSONObject job = new JSONObject(res.getMessage());
-                        String filename = job.getString("filename");
-                        String content = job.getString("content");
-
-                        editor.setText(content);
-                        saved = true;
-                        setToolbarTitle(filename);
-                        setToolbarSubtitle("Saved.");
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                    }
+                    act.editor.setText(content);
+                    act.saved = true;
+                    act.setToolbarTitle(filename);
+                    act.setToolbarSubtitle("Saved.");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
                 }
-                else {
-                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
             }
-        }.execute();
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
-    private void save(final String target, final String data) {
-        new AsyncTask<Void, Void, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+    private static class Save extends AsyncTask<Void, Void, Connection.Response> {
+        private WeakReference<Editor> ref;
+        private String target;
+        private String data;
+
+        Save(Editor ctx, String target, String data) {
+            this.ref = new WeakReference<>(ctx);
+            this.target = target;
+            this.data = data;
+        }
+
+        @Override
+        protected Connection.Response doInBackground(Void... pos) {
+            Connection multipart = new Connection("files", "savetext");
+            multipart.addFormField("target", target);
+            multipart.addFormField("data", data);
+
+            return multipart.finish();
+        }
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (ref.get() == null) {
+                return;
             }
 
-            @Override
-            protected Connection.Response doInBackground(Void... pos) {
-                Connection multipart = new Connection("files", "savetext");
-                multipart.addFormField("target", target);
-                multipart.addFormField("data", data);
-
-                return multipart.finish();
+            final Editor act = ref.get();
+            if (res.successful()) {
+                act.saved = true;
+                act.setToolbarTitle(filename);
+                act.setToolbarSubtitle("Saved.");
+                act.invalidateOptionsMenu();
             }
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (res.successful()) {
-                    saved = true;
-                    setToolbarTitle(filename);
-                    setToolbarSubtitle("Saved.");
-                    invalidateOptionsMenu();
-                }
-                else {
-                    Toast.makeText(e, res.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            else {
+                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }.execute();
+        }
     }
 
     private void setToolbarTitle(final String title) {
