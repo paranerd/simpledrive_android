@@ -18,7 +18,7 @@ import org.simpledrive.models.FileItem;
 import java.util.ArrayList;
 
 public class ImageViewer extends AppCompatActivity {
-    private TouchImageAdapter mAdapter;
+    private TouchImageAdapter adapter;
     private boolean titleVisible = true;
     private Toolbar toolbar;
     private ArrayList<FileItem> images;
@@ -27,8 +27,8 @@ public class ImageViewer extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
 
-        if (mAdapter != null) {
-            mAdapter.cancelLoad();
+        if (adapter != null) {
+            adapter.cancelLoad();
         }
     }
 
@@ -46,8 +46,8 @@ public class ImageViewer extends AppCompatActivity {
         setContentView(R.layout.activity_imageviewer);
 
         ExtendedViewPager mViewPager = (ExtendedViewPager) findViewById(R.id.view_pager);
-        mAdapter = new TouchImageAdapter(this, images);
-        mViewPager.setAdapter(mAdapter);
+        adapter = new TouchImageAdapter(this, images);
+        mViewPager.setAdapter(adapter);
         mViewPager.setCurrentItem(getIntent().getExtras().getInt("position"));
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

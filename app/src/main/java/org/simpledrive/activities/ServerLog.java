@@ -300,7 +300,7 @@ public class ServerLog extends AppCompatActivity {
         else {
             setInfo("");
             page.setVisibility(View.VISIBLE);
-            page.setText((currentPage + 1) + " / " + totalPages);
+            page.setText(getResources().getString(R.string.log_page, (currentPage + 1) + "", totalPages + ""));
         }
 
         LogAdapter newAdapter = new LogAdapter(this, R.layout.listview_detail);

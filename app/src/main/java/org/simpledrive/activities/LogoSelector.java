@@ -32,7 +32,6 @@ public class LogoSelector extends AppCompatActivity {
 
         initList();
         initToolbar();
-        setToolbarTitle("Select Logo");
         displayLogos();
     }
 
@@ -66,12 +65,6 @@ public class LogoSelector extends AppCompatActivity {
                     finish();
                 }
             });
-        }
-    }
-
-    private void setToolbarTitle(final String title) {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(title);
         }
     }
 

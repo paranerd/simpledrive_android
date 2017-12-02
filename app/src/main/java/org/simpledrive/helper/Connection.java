@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.lang.ref.WeakReference;
 import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -24,6 +25,8 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.net.ssl.HostnameVerifier;
@@ -35,19 +38,27 @@ import javax.net.ssl.X509TrustManager;
 
 public class Connection {
     // General
-    private static Context ctx;
+    private static WeakReference<Context> ref;
     private final String boundary = "===" + System.currentTimeMillis() + "===";
     private final String LINE_FEED = "\r\n";
 
+    // Connection
     private HttpURLConnection httpConn;
     private OutputStream outputStream;
     private PrintWriter writer;
+    private HashMap<String, String> formFields;
+    private ArrayList<File> fileParts;
     private static final int timeout = 10000;
 
+    // Reconnect/Replay
+    private String endpoint;
+    private String action;
+    private int tryCount = 0;
+
+    // Progress
+    private ProgressListener pListener;
     private long bytesTransferred;
     private long total;
-
-    private ProgressListener pListener;
 
     private static String fingerprint = "";
 
@@ -84,8 +95,12 @@ public class Connection {
             httpConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
             httpConn.setRequestProperty("Cookie", fingerprint);
 
+            this.endpoint = endpoint;
+            this.action = action;
             outputStream = httpConn.getOutputStream();
             writer = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"), true);
+            formFields = new HashMap<>();
+            fileParts = new ArrayList<>();
         } catch (NoSuchAlgorithmException | IOException | KeyManagementException e) {
             e.printStackTrace();
         }
@@ -96,8 +111,15 @@ public class Connection {
      * @param context Activity context
      */
     public static void init(Context context) {
-        ctx = context;
-        fingerprint = Preferences.getInstance(ctx).read(Preferences.TAG_FINGERPRINT, "");
+        ref = new WeakReference<>(context);
+        if (ref.get() != null) {
+            Context ctx = ref.get();
+            fingerprint = Preferences.getInstance(ctx).read(Preferences.TAG_FINGERPRINT, "");
+        }
+    }
+
+    interface ProgressListener {
+        void transferred(Integer num);
     }
 
     /**
@@ -108,6 +130,11 @@ public class Connection {
         this.pListener = listener;
     }
 
+    void setDownloadPath(String path, String filename) {
+        downloadPath = path;
+        downloadFilename = filename;
+    }
+
     /**
      * Add a form field to the request
      * @param name  Field name
@@ -115,6 +142,7 @@ public class Connection {
      */
     public void addFormField(String name, String value) {
         if (writer != null) {
+            formFields.put(name, value);
             writer.append(LINE_FEED).append("--").append(boundary).append(LINE_FEED);
             writer.append("Content-Disposition: form-data; name=\"").append(name).append("\"").append(LINE_FEED);
             writer.append("Content-Type: text/plain; charset=UTF-8").append(LINE_FEED);
@@ -124,25 +152,16 @@ public class Connection {
         }
     }
 
-    interface ProgressListener {
-        void transferred(Integer num);
-    }
-
-    public void setDownloadPath(String path, String filename) {
-        downloadPath = path;
-        downloadFilename = filename;
-    }
-
     /**
      * Adds a upload file section to the request
-     * @param fieldName  Name attribute in <input type="file" name="..." />
      * @param uploadFile File to be uploaded
      */
-    void addFilePart(String fieldName, File uploadFile) {
+    void addFilePart(File uploadFile) {
         try {
+            fileParts.add(uploadFile);
             String fileName = uploadFile.getName();
             writer.append(LINE_FEED).append("--").append(boundary).append(LINE_FEED);
-            writer.append("Content-Disposition: form-data; name=\"").append(fieldName).append("\"; filename=\"").append(fileName).append("\"").append(LINE_FEED);
+            writer.append("Content-Disposition: form-data; name=\"0\"; filename=\"").append(fileName).append("\"").append(LINE_FEED);
             writer.append("Content-Type: ").append(URLConnection.guessContentTypeFromName(fileName)).append(LINE_FEED);
             writer.append("Content-Transfer-Encoding: binary").append(LINE_FEED);
             writer.append(LINE_FEED);
@@ -172,6 +191,44 @@ public class Connection {
         }
     }
 
+    private boolean renewToken() {
+        int maxTryCount = 1;
+        if (tryCount >= maxTryCount) {
+            return false;
+        }
+
+        tryCount++;
+        Connection con = new Connection("core", "login");
+        con.addFormField("user", CustomAuthenticator.getUsername());
+        con.addFormField("pass", CustomAuthenticator.getPassword());
+
+        Response res = con.finish();
+
+        if (res.successful()) {
+            CustomAuthenticator.setToken(res.getMessage());
+        }
+
+        return res.successful();
+    }
+
+    /**
+     * Executes the same request again
+     * @return Replay response
+     */
+    private Response retry() {
+        Connection con = new Connection(endpoint, action);
+        // Add form-fields
+        for (HashMap.Entry<String, String> entry : formFields.entrySet()) {
+            con.addFormField(entry.getKey(), entry.getValue());
+        }
+        // Add file-parts
+        for (File file : fileParts) {
+            con.addFilePart(file);
+        }
+
+        return con.finish();
+    }
+
     /**
      * Complete the request and receive response from the server
      * @return Response
@@ -193,7 +250,12 @@ public class Connection {
                 extractCookies(cookieList);
             }
 
+            // Get status code
             status = httpConn.getResponseCode();
+
+            if (status == HttpURLConnection.HTTP_FORBIDDEN && renewToken()) {
+                return retry();
+            }
 
             // Handle download
             if (downloadPath != null && status == HttpURLConnection.HTTP_OK) {
@@ -276,8 +338,9 @@ public class Connection {
             HttpCookie cookie = HttpCookie.parse(cookieList.get(i).toString()).get(0);
 
             // Only override fingerprint if none is set
-            if (cookie.getName().equals("fingerprint") && fingerprint.equals("")) {
+            if (cookie.getName().equals("fingerprint") && fingerprint.equals("") && ref != null && ref.get() != null) {
                 fingerprint = cookie.toString();
+                Context ctx = ref.get();
                 Preferences.getInstance(ctx).write(Preferences.TAG_FINGERPRINT, fingerprint);
             }
         }

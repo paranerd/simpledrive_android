@@ -9,8 +9,6 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.simpledrive.R;
@@ -18,6 +16,7 @@ import org.simpledrive.activities.RemoteFiles;
 import org.simpledrive.models.FileItem;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -28,14 +27,14 @@ public class Downloader {
     private static int successful = 0;
     private static boolean running = false;
     private static ArrayList<QueueItem> queue = new ArrayList<>();
-    private static AppCompatActivity ctx;
+    private static WeakReference<Context> ref;
 
     private static final int NOTIFICATION_ID = 2;
     private static NotificationCompat.Builder mBuilder;
     private static NotificationManager mNotifyManager;
 
-    public static void setContext(AppCompatActivity act) {
-        ctx = act;
+    public static void setContext(Context context) {
+        ref = new WeakReference<>(context);
     }
 
     public static boolean isRunning() {
@@ -70,7 +69,8 @@ public class Downloader {
         if (running) {
             queue.add(next);
         }
-        if (!running && ctx != null) {
+        if (!running && ref.get() != null) {
+            Context ctx = ref.get();
             mNotifyManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
             fetch(next);
             Toast.makeText(ctx, "Download started", Toast.LENGTH_SHORT).show();
@@ -84,8 +84,8 @@ public class Downloader {
     /**
      * Cache regular file
      *
-     * @param item
-     * @param callback
+     * @param item File to cache
+     * @param callback Callback for after finish
      */
     public static void cache(FileItem item, TaskListener callback) {
         fetch(Util.stringToJsonString(item.getID()), Util.getCacheDir(), item.getID(), 0, 0, false, callback);
@@ -94,10 +94,10 @@ public class Downloader {
     /**
      * Cache image
      *
-     * @param item
-     * @param width
-     * @param height
-     * @param callback
+     * @param item File to cache
+     * @param width Image target width
+     * @param height Image target height
+     * @param callback Callback for after finish
      */
     public static void cache(FileItem item, int width, int height, boolean thumb, TaskListener callback) {
         String destination = (thumb) ? Util.getThumbDir() : Util.getCacheDir();
@@ -107,8 +107,8 @@ public class Downloader {
     /**
      * Download regular file
      *
-     * @param item
-     * @param callback
+     * @param item File to cache
+     * @param callback Callback for after finish
      */
     public static void download(FileItem item, TaskListener callback) {
         fetch(Util.stringToJsonString(item.getID()), Util.getDownloadDir(), null, 0, 0, false, callback);
@@ -117,11 +117,6 @@ public class Downloader {
     @SuppressLint("StaticFieldLeak")
     private static void fetch(final String target, final String destination, final String name, final int width, final int height, final boolean thumb, final TaskListener callback) {
         new AsyncTask<String, Integer, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
-
             @Override
             protected Connection.Response doInBackground(String... params) {
                 Connection con = new Connection("files", "get");
@@ -151,20 +146,24 @@ public class Downloader {
                 super.onPreExecute();
                 running = true;
 
-                Intent intent = new Intent(ctx, RemoteFiles.class);
-                PendingIntent pIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
+                if (ref.get() != null) {
+                    Context ctx = ref.get();
 
-                current++;
+                    Intent intent = new Intent(ctx, RemoteFiles.class);
+                    PendingIntent pIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
 
-                mBuilder = new NotificationCompat.Builder(ctx)
-                        .setContentTitle("Downloading " + current + " of " + total)
-                        .setContentIntent(pIntent)
-                        .setOngoing(true)
-                        .setSmallIcon(R.drawable.ic_cloud)
-                        .setColor(ContextCompat.getColor(ctx, R.color.darkgreen))
-                        .setProgress(100, 0, false);
+                    current++;
 
-                mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
+                    mBuilder = new NotificationCompat.Builder(ctx)
+                            .setContentTitle("Downloading " + current + " of " + total)
+                            .setContentIntent(pIntent)
+                            .setOngoing(true)
+                            .setSmallIcon(R.drawable.ic_cloud)
+                            .setColor(ContextCompat.getColor(ctx, R.color.darkgreen))
+                            .setProgress(100, 0, false);
+
+                    mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
+                }
             }
 
             @Override
@@ -227,7 +226,7 @@ public class Downloader {
     /**
      * Check if a regular file exists in cache
      *
-     * @param item
+     * @param item File to check
      * @return String Path to cached file if exists
      */
     public static String isCached(FileItem item) {
@@ -238,28 +237,22 @@ public class Downloader {
     /**
      * Check if a thumbnail exists in cache that could cover a given size
      *
-     * @param item
-     * @param size
+     * @param item File to check
+     * @param size Thumbnail must cover this size
      * @return String Path to cached thumbnail if exists
      */
     public static String isThumbnailCached(FileItem item, int size) {
         String cachePath = Util.getThumbDir() + item.getID();
-        Log.i("debug", "isThumbnailCached for " + cachePath);
 
         if (new File(cachePath).exists()) {
-            Log.i("debug", "cachePath exists");
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inJustDecodeBounds = true;
             BitmapFactory.decodeFile(cachePath, o);
 
             float scale = (1 / Math.min((float) size / o.outHeight, (float) size / o.outWidth));
 
-            Log.i("debug", "scale: " + scale);
-
             return (scale > 0.9) ? cachePath : null;
         }
-
-        Log.i("debug", "returning null");
 
         return null;
     }
@@ -281,11 +274,11 @@ public class Downloader {
             this.thumb = thumb;
         }
 
-        public String getID() {
+        String getID() {
             return this.id;
         }
 
-        public String getDestination() {
+        String getDestination() {
             return this.destination;
         }
 

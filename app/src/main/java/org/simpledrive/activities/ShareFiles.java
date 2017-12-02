@@ -38,16 +38,13 @@ import java.util.ArrayList;
 
 public class ShareFiles extends AppCompatActivity {
     // General
-    private ShareFiles ctx;
     private boolean preventLock = false;
     private String username = "";
-    private int loginAttempts = 0;
-    private static boolean waitForTFAUnlock = false;
+    private String accountID = "";
 
     // Files
     private ArrayList<FileItem> items = new ArrayList<>();
     private ArrayList<FileItem> hierarchy = new ArrayList<>();
-    private FileAdapter newAdapter;
 
     // Interface
     private AbsListView list;
@@ -63,14 +60,13 @@ public class ShareFiles extends AppCompatActivity {
 
     // Request codes
     private final int REQUEST_UNLOCK = 0;
-    private final int REQUEST_TFA_CODE = 2;
 
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
 
-        ctx = this;
         CustomAuthenticator.setContext(this);
         Connection.init(this);
+        Uploader.setContext(this);
 
         // If there's no account, return to login
         if (CustomAuthenticator.getActiveAccount() == null) {
@@ -80,6 +76,7 @@ public class ShareFiles extends AppCompatActivity {
 
         uploadsPending = getUploads(getIntent());
         username = CustomAuthenticator.getUsername();
+        accountID = CustomAuthenticator.getID();
 
         clearHierarchy();
         initInterface();
@@ -107,8 +104,8 @@ public class ShareFiles extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uploader.addUpload(ctx, uploadsPending, hierarchy.get(hierarchy.size() - 1).getID(), "0", null);
-                ctx.finish();
+                Uploader.addUpload(uploadsPending, hierarchy.get(hierarchy.size() - 1).getID(), "0", null);
+                ShareFiles.this.finish();
             }
         });
 
@@ -124,7 +121,6 @@ public class ShareFiles extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loginAttempts = 0;
                 new FetchFilesFromServer(ShareFiles.this, getCurrentFolderId()).execute();
             }
         });
@@ -168,19 +164,22 @@ public class ShareFiles extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        preventLock = false;
-
         if (CustomAuthenticator.getActiveAccount() == null) {
             // No-one is logged in
             startActivity(new Intent(getApplicationContext(), Login.class));
             finish();
         }
+        else if (!CustomAuthenticator.isActive(accountID)) {
+            // Current account is not active
+            finish();
+            startActivity(getIntent());
+        }
         else if (CustomAuthenticator.isLocked()) {
             requestPIN();
         }
-        else if (!waitForTFAUnlock) {
-            new FetchFilesFromServer(this, getCurrentFolderId()).execute();
+        else {
             preventLock = false;
+            new FetchFilesFromServer(this, getCurrentFolderId()).execute();
         }
     }
 
@@ -249,14 +248,10 @@ public class ShareFiles extends AppCompatActivity {
             final ShareFiles act = ref.get();
             act.mSwipeRefreshLayout.setRefreshing(false);
             if (res.successful()) {
-                act.loginAttempts = 0;
                 act.extractFiles(res.getMessage());
-                act.displayFiles();
             }
             else {
-                if (act.loginAttempts < 2) {
-                    new Connect(act).execute();
-                }
+                act.showInfo(res.getMessage());
             }
         }
     }
@@ -268,15 +263,6 @@ public class ShareFiles extends AppCompatActivity {
                     CustomAuthenticator.unlock(data.getStringExtra("passphrase"));
                 }
                 else {
-                    finish();
-                }
-                break;
-
-            case REQUEST_TFA_CODE:
-                if (resultCode == RESULT_OK) {
-                    new SubmitTFA(this, data.getStringExtra("passphrase")).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                }
-                else if (CustomAuthenticator.getToken().equals("")) {
                     finish();
                 }
                 break;
@@ -340,6 +326,8 @@ public class ShareFiles extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        displayFiles();
     }
 
     /**
@@ -355,9 +343,9 @@ public class ShareFiles extends AppCompatActivity {
             info.setVisibility(View.GONE);
         }
 
-        newAdapter = new FileAdapter(this, listLayout, list, false);
-        newAdapter.setData(items);
-        list.setAdapter(newAdapter);
+        FileAdapter adapter = new FileAdapter(this, listLayout, list, false);
+        adapter.setData(items);
+        list.setAdapter(adapter);
 
         // Show current directory in toolbar
         String title;
@@ -388,128 +376,6 @@ public class ShareFiles extends AppCompatActivity {
         FileItem item = items.get(position);
         hierarchy.add(item);
         new FetchFilesFromServer(this, getCurrentFolderId()).execute();
-    }
-
-    private static class Connect extends AsyncTask<Void, Void, Connection.Response> {
-        private WeakReference<ShareFiles> ref;
-
-        Connect(ShareFiles ctx) {
-            this.ref = new WeakReference<>(ctx);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            if (ref.get() != null) {
-                final ShareFiles act = ref.get();
-                act.loginAttempts++;
-                CustomAuthenticator.removeToken();
-                act.emptyList();
-                act.mSwipeRefreshLayout.setRefreshing(true);
-            }
-        }
-
-        @Override
-        protected Connection.Response doInBackground(Void... params) {
-            Connection con = (waitForTFAUnlock) ? new Connection("core", "login", 30000) : new Connection("core", "login");
-            con.addFormField("user", CustomAuthenticator.getUsername());
-            con.addFormField("pass", CustomAuthenticator.getPassword());
-            con.addFormField("callback", String.valueOf(waitForTFAUnlock));
-            return con.finish();
-        }
-        @Override
-        protected void onPostExecute(Connection.Response res) {
-            if (ref.get() == null) {
-                return;
-            }
-
-            final ShareFiles act = ref.get();
-            if (res.successful()) {
-                act.clearHierarchy();
-
-                CustomAuthenticator.setToken(res.getMessage());
-                if (waitForTFAUnlock) {
-                    act.finishActivity(act.REQUEST_TFA_CODE);
-                }
-                waitForTFAUnlock = false;
-                new FetchFilesFromServer(act, act.getCurrentFolderId()).execute();
-            }
-            else {
-                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
-                if (res.getStatus() == 403) {
-                    act.requestTFA(res.getMessage());
-                    new Connect(act).execute();
-                }
-                else {
-                    // No connection
-                    act.showInfo(res.getMessage());
-
-                    act.mSwipeRefreshLayout.setRefreshing(false);
-                    act.mSwipeRefreshLayout.setEnabled(true);
-                }
-            }
-        }
-    }
-
-    private static class SubmitTFA extends AsyncTask<Void, Void, Connection.Response> {
-        private WeakReference<ShareFiles> ref;
-        private String code;
-
-        SubmitTFA(ShareFiles ctx, String code) {
-            this.ref = new WeakReference<>(ctx);
-            this.code = code;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            if (ref.get() != null) {
-                final ShareFiles act = ref.get();
-                act.showInfo("Evaluating Code...");
-            }
-        }
-
-        @Override
-        protected Connection.Response doInBackground(Void... params) {
-            Connection con = new Connection("twofactor", "unlock", 30000);
-            con.addFormField("code", code);
-
-            return con.finish();
-        }
-        @Override
-        protected void onPostExecute(Connection.Response res) {
-            if (ref.get() == null) {
-                return;
-            }
-
-            final ShareFiles act = ref.get();
-            if (res.successful()) {
-                act.showInfo("");
-            }
-            else {
-                act.requestTFA(res.getMessage());
-                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void requestTFA(String error) {
-        Intent i = new Intent(getApplicationContext(), PinScreen.class);
-        i.putExtra("error", error);
-        i.putExtra("label", "2FA-code");
-        i.putExtra("length", 5);
-        startActivityForResult(i, REQUEST_TFA_CODE);
-        waitForTFAUnlock = true;
-    }
-
-    private void emptyList() {
-        items = new ArrayList<>();
-
-        if (newAdapter != null) {
-            newAdapter.setData(null);
-            newAdapter.notifyDataSetChanged();
-        }
     }
 
     private void showInfo(String msg) {
@@ -551,7 +417,7 @@ public class ShareFiles extends AppCompatActivity {
         alert.show();
         input.requestFocus();
         input.selectAll();
-        Util.showVirtualKeyboard(ctx);
+        Util.showVirtualKeyboard(getApplicationContext());
     }
 
     private String getRealPathFromURI(Uri contentURI) {

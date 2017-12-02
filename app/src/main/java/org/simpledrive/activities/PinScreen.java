@@ -61,7 +61,7 @@ public class PinScreen extends AppCompatActivity {
             }
             else if (!pin1.equals("") && repeat && !pin1.equals(enteredPin)) {
                 pin1 = "";
-                error.setText("Entries don't match");
+                error.setText(R.string.entries_do_not_match);
                 clearPin();
             }
             else {

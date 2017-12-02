@@ -13,7 +13,7 @@ import org.simpledrive.activities.Login;
 public class AccountAuthenticator extends AbstractAccountAuthenticator {
   private final Context mContext;
 
-  public AccountAuthenticator(Context paramContext) {
+  AccountAuthenticator(Context paramContext) {
     super(paramContext);
     mContext = paramContext;
   }

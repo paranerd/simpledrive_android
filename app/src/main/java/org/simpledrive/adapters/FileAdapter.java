@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,7 +91,6 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
                 // Try to load cached thumb
                 String cachedThumb = Downloader.isThumbnailCached(item, thumbSize);
                 if (cachedThumb != null) {
-                    Log.i("debug", "we have a cached thumb");
                     Bitmap thumb = Util.resizeImage(cachedThumb, thumbSize);
                     item.setThumb(thumb);
                 }

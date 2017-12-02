@@ -20,42 +20,42 @@ public class Preferences {
     public static final String TAG_FINGERPRINT = "fingerprint";
 
     // General
-    private static Preferences mInstance;
-    private static Context mCtx;
+    private static Preferences instance;
+    private static Context ctx;
 
     private Preferences(Context context) {
-        mCtx = context;
+        ctx = context;
     }
 
     public static synchronized Preferences getInstance(Context context) {
-        if (mInstance == null) {
-            mInstance = new Preferences(context);
+        if (instance == null) {
+            instance = new Preferences(context);
         }
-        return mInstance;
+        return instance;
     }
 
     public String read(String tag, String def) {
-        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return  sharedPreferences.getString(tag, def);
     }
 
     public boolean read(String tag, boolean def) {
-        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(tag, def);
     }
 
     public long read(String tag, long def) {
-        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getLong(tag, def);
     }
 
     public int read(String tag, int def) {
-        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getInt(tag, def);
     }
 
     public boolean write(String tag, String msg) {
-        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(tag, msg);
         editor.apply();
@@ -63,7 +63,7 @@ public class Preferences {
     }
 
     public boolean write(String tag, boolean value) {
-        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(tag, value);
         editor.apply();
@@ -71,7 +71,7 @@ public class Preferences {
     }
 
     public boolean write(String tag, long value) {
-        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putLong(tag, value);
         editor.apply();

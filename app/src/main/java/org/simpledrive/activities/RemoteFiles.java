@@ -28,7 +28,6 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -76,20 +75,18 @@ public class RemoteFiles extends AppCompatActivity {
     // General
     private RemoteFiles ctx;
     private String username = "";
+    private String accountID = "";
     private String viewmode = "files";
     private boolean appVisible;
-    private int loginAttempts = 0;
     private int lastSelected = 0;
     private boolean preventLock = false;
     private boolean isAdmin = false;
     private ArrayList<AccountItem> accounts = new ArrayList<>();
-    private static boolean waitForTFAUnlock = false;
     private FilelistCache db;
     private long requestId = 0;
 
     // Request codes
     private final int REQUEST_UPLOAD = 1;
-    private final int REQUEST_TFA_CODE = 2;
     private final int REQUEST_UNLOCK = 3;
     private final int REQUEST_FORCE_RELOAD = 5;
     private final int REQUEST_CACHE = 6;
@@ -148,7 +145,7 @@ public class RemoteFiles extends AppCompatActivity {
     private ArrayList<FileItem> items = new ArrayList<>();
     private static ArrayList<FileItem> filteredItems = new ArrayList<>();
     private ArrayList<FileItem> hierarchy = new ArrayList<>();
-    public FileAdapter newAdapter;
+    public FileAdapter adapter;
     private int sortOrder = 1;
     private JSONArray clipboard = new JSONArray();
     private boolean deleteAfterCopy = false;
@@ -171,6 +168,7 @@ public class RemoteFiles extends AppCompatActivity {
 
         ctx = this;
         Downloader.setContext(this);
+        Uploader.setContext(this);
         CustomAuthenticator.setContext(this);
         Connection.init(this);
 
@@ -193,8 +191,9 @@ public class RemoteFiles extends AppCompatActivity {
         checkForPendingUploads();
         bottomToolbarEnabled = Preferences.getInstance(this).read(Preferences.TAG_BOTTOM_TOOLBAR, false);
         username = CustomAuthenticator.getUsername();
+        accountID = CustomAuthenticator.getID();
         updateNavigationDrawer();
-        db = new FilelistCache(this, Util.md5(username + CustomAuthenticator.getServer()));
+        db = new FilelistCache(this, accountID);
 
         // Update firebase-token if refreshed
         if (!Preferences.getInstance(this).read(Preferences.TAG_FIREBASE_TOKEN_OLD, "").equals("")) {
@@ -233,13 +232,18 @@ public class RemoteFiles extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), Login.class));
             finish();
         }
+        else if (!CustomAuthenticator.isActive(accountID)) {
+            // Current account is not active
+            finish();
+            startActivity(getIntent());
+        }
         else if (CustomAuthenticator.isLocked()) {
             requestPIN();
         }
-        else if (!waitForTFAUnlock) {
-            fetchFiles(false);
+        else {
             preventLock = false;
             appVisible = true;
+            fetchFiles(false);
         }
     }
 
@@ -337,7 +341,7 @@ public class RemoteFiles extends AppCompatActivity {
 
                     String[] paths = data.getStringArrayExtra("paths");
                     Collections.addAll(ul_paths, paths);
-                    Uploader.addUpload(this, ul_paths, hierarchy.get(hierarchy.size() - 1).getID(), "0", new Uploader.TaskListener() {
+                    Uploader.addUpload(ul_paths, getCurrentFolderId(), "0", new Uploader.TaskListener() {
                         @Override
                         public void onFinished() {
                             fetchFiles(true);
@@ -350,15 +354,6 @@ public class RemoteFiles extends AppCompatActivity {
             case REQUEST_FORCE_RELOAD:
                 finish();
                 startActivity(getIntent());
-                break;
-
-            case REQUEST_TFA_CODE:
-                if (resultCode == RESULT_OK) {
-                    new SubmitTFA(RemoteFiles.this, data.getStringExtra("passphrase")).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                }
-                else if (CustomAuthenticator.getToken().equals("")) {
-                    finish();
-                }
                 break;
 
             case REQUEST_UNLOCK:
@@ -420,7 +415,7 @@ public class RemoteFiles extends AppCompatActivity {
         if (searchItem != null) {
             searchView = (SearchView) searchItem.getActionView();
         }
-        if (searchView != null) {
+        if (searchView != null && searchManager != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
             SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
@@ -463,7 +458,6 @@ public class RemoteFiles extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 selectAll();
-                                //delete(getAllSelected(), viewmode.equals("trash"));
                                 new Delete(ctx, getAllSelected(), viewmode.equals("trash")).execute();
                                 unselectAll();
                             }
@@ -612,7 +606,7 @@ public class RemoteFiles extends AppCompatActivity {
         fab_paste.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Paste(RemoteFiles.this, hierarchy.get(hierarchy.size() - 1).getID(), clipboard.toString(), deleteAfterCopy).execute();
+                new Paste(RemoteFiles.this, getCurrentFolderId(), clipboard.toString(), deleteAfterCopy).execute();
             }
         });
 
@@ -629,13 +623,7 @@ public class RemoteFiles extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loginAttempts = 0;
-                if (hierarchy.size() > 0 && CustomAuthenticator.isActive(username)) {
-                    fetchFiles(true);
-                }
-                else {
-                    new Connect(RemoteFiles.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                }
+                fetchFiles(true);
             }
         });
 
@@ -695,7 +683,7 @@ public class RemoteFiles extends AppCompatActivity {
      * @return String
      */
     private String getCurrentFolderId() {
-        return (hierarchy.size() == 1 && hierarchy.get(hierarchy.size() -1).getFilename().equals("")) ? "0" : hierarchy.get(hierarchy.size() - 1).getID();
+        return (hierarchy.size() == 0 || (hierarchy.size() == 1 && hierarchy.get(hierarchy.size() -1).getFilename().equals(""))) ? "0" : hierarchy.get(hierarchy.size() - 1).getID();
     }
 
     /**
@@ -715,23 +703,20 @@ public class RemoteFiles extends AppCompatActivity {
      * @return if successful
      */
     private boolean fetchFilesFromCache() {
-        if (newAdapter != null) {
-            newAdapter.cancelThumbLoad();
+        if (adapter != null) {
+            adapter.cancelThumbLoad();
         }
 
         // Reset anything related to listing files
         toggleFAB(false);
+
+        // Get cached files
+        ArrayList<FileItem> cachedFiles = db.getChildren(getCurrentFolderId());
+
+        // Update files
         emptyList();
-
-        // Cache-parent is "0" for root elements
-        String parent = getCurrentFolderId();
-        ArrayList<FileItem> cachedFiles = db.getChildren(parent);
-
-        // Add files
-        for (FileItem item : cachedFiles) {
-            items.add(item);
-            filteredItems.add(item);
-        }
+        items.addAll(cachedFiles);
+        filteredItems.addAll(cachedFiles);
 
         displayFiles();
 
@@ -758,8 +743,8 @@ public class RemoteFiles extends AppCompatActivity {
             super.onPreExecute();
             if (ref.get() != null) {
                 final RemoteFiles act = ref.get();
-                if (act.newAdapter != null) {
-                    act.newAdapter.cancelThumbLoad();
+                if (act.adapter != null) {
+                    act.adapter.cancelThumbLoad();
                 }
 
                 act.requestId = currentRequestId;
@@ -787,17 +772,12 @@ public class RemoteFiles extends AppCompatActivity {
             if (act.requestId != currentRequestId) {
                 return;
             }
+
             if (res.successful()) {
-                act.loginAttempts = 0;
                 act.extractFiles(res.getMessage());
-                act.displayFiles();
             }
             else {
                 act.showInfo(res.getMessage());
-                if (act.loginAttempts < 2) {
-                    act.clearHierarchy();
-                    new Connect(act).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                }
             }
         }
     }
@@ -850,6 +830,8 @@ public class RemoteFiles extends AppCompatActivity {
             exp.printStackTrace();
             Toast.makeText(this, R.string.unknown_error, Toast.LENGTH_SHORT).show();
         }
+
+        displayFiles();
     }
 
     private void cacheAllImages() {
@@ -893,12 +875,12 @@ public class RemoteFiles extends AppCompatActivity {
             showInfo(getString(R.string.empty));
         }
         else {
-            info.setVisibility(View.GONE);
+            showInfo("");
         }
 
-        newAdapter = new FileAdapter(this, listLayout, list);
-        newAdapter.setData(filteredItems);
-        list.setAdapter(newAdapter);
+        adapter = new FileAdapter(this, listLayout, list);
+        adapter.setData(filteredItems);
+        list.setAdapter(adapter);
 
         // Show current directory in toolbar
         String title;
@@ -973,7 +955,6 @@ public class RemoteFiles extends AppCompatActivity {
             Downloader.download(item, new Downloader.TaskListener() {
                 @Override
                 public void onFinished(boolean success, String path) {
-                    Log.i("debug", "onFinished: " + path);
                     if (success) {
                         openLocally(path, "application/pdf");
                     }
@@ -1109,133 +1090,20 @@ public class RemoteFiles extends AppCompatActivity {
         return "";
     }
 
-    private static class Connect extends AsyncTask<Void, Void, Connection.Response> {
-        private WeakReference<RemoteFiles> ref;
-
-        Connect(RemoteFiles ctx) {
-            this.ref = new WeakReference<>(ctx);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            if (ref.get() != null) {
-                final RemoteFiles act = ref.get();
-                act.loginAttempts++;
-                CustomAuthenticator.removeToken();
-                act.emptyList();
-                act.mSwipeRefreshLayout.setRefreshing(true);
-            }
-        }
-
-        @Override
-        protected Connection.Response doInBackground(Void... login) {
-            Connection con = (waitForTFAUnlock) ? new Connection("core", "login", 30000) : new Connection("core", "login");
-            con.addFormField("user", CustomAuthenticator.getUsername());
-            con.addFormField("pass", CustomAuthenticator.getPassword());
-            con.addFormField("callback", String.valueOf(waitForTFAUnlock));
-            return con.finish();
-        }
-
-        @Override
-        protected void onPostExecute(Connection.Response res) {
-            if (ref.get() == null) {
-                return;
-            }
-
-            final RemoteFiles act = ref.get();
-            if (res.successful()) {
-                CustomAuthenticator.setToken(res.getMessage());
-                if (waitForTFAUnlock) {
-                    act.finishActivity(act.REQUEST_TFA_CODE);
-                }
-                waitForTFAUnlock = false;
-                act.fetchFiles(false);
-                new GetVersion(act).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                new GetPermissions(act).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                act.checkForPendingUploads();
-            }
-            else {
-                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
-                if (res.getStatus() == 403) {
-                    act.requestTFA(res.getMessage());
-                    new Connect(act).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                }
-                else {
-                    // No connection
-                    act.showInfo(res.getMessage());
-
-                    act.mSwipeRefreshLayout.setRefreshing(false);
-                    act.mSwipeRefreshLayout.setEnabled(true);
-                }
-            }
-        }
-    }
-
-    private static class SubmitTFA extends AsyncTask<Void, Void, Connection.Response> {
-        private WeakReference<RemoteFiles> ref;
-        private String code;
-
-        SubmitTFA(RemoteFiles ctx, String code) {
-            this.ref = new WeakReference<>(ctx);
-            this.code = code;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            if (ref.get() != null) {
-                final RemoteFiles act = ref.get();
-                act.showInfo("Evaluating Code...");
-            }
-        }
-
-        @Override
-        protected Connection.Response doInBackground(Void... params) {
-            Connection con = new Connection("twofactor", "unlock");
-            con.addFormField("code", code);
-
-            return con.finish();
-        }
-        @Override
-        protected void onPostExecute(Connection.Response res) {
-            if (ref.get() == null) {
-                return;
-            }
-
-            final RemoteFiles act = ref.get();
-            if (res.successful()) {
-                act.showInfo("");
-            }
-            else {
-                act.requestTFA(res.getMessage());
-                Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void requestTFA(String error) {
-        Intent i = new Intent(getApplicationContext(), PinScreen.class);
-        i.putExtra("error", error);
-        i.putExtra("label", "2FA-code");
-        i.putExtra("length", 5);
-        startActivityForResult(i, REQUEST_TFA_CODE);
-        waitForTFAUnlock = true;
-    }
-
     private void emptyList() {
         items = new ArrayList<>();
         filteredItems = new ArrayList<>();
 
-        if (newAdapter != null) {
-            newAdapter.setData(null);
-            newAdapter.notifyDataSetChanged();
+        if (adapter != null) {
+            adapter.setData(null);
+            adapter.notifyDataSetChanged();
         }
     }
 
     private void showInfo(String msg) {
-        info.setVisibility(View.VISIBLE);
+        int visibility = (msg.equals("")) ? View.GONE : View.VISIBLE;
         info.setText(msg);
+        info.setVisibility(visibility);
     }
 
     private void checkForPendingUploads() {
@@ -1261,7 +1129,7 @@ public class RemoteFiles extends AppCompatActivity {
                     .setPositiveButton("Upload", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Uploader.addUpload(ctx, pending, hierarchy.get(hierarchy.size() - 1).getID(), "1", null);
+                            Uploader.addUpload(pending, getCurrentFolderId(), "1", null);
                         }
 
                     })
@@ -1306,7 +1174,6 @@ public class RemoteFiles extends AppCompatActivity {
                     Toast.makeText(ctx, "Enter a username", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    //share(target, username, shareUser.getText().toString(), shareWrite.isChecked(), sharePublic.isChecked());
                     new Share(RemoteFiles.this, target, username, shareUser.getText().toString(), shareWrite.isChecked(), sharePublic.isChecked()).execute();
                     dialog2.dismiss();
                 }
@@ -1314,7 +1181,7 @@ public class RemoteFiles extends AppCompatActivity {
         });
 
         shareUser.requestFocus();
-        Util.showVirtualKeyboard(ctx);
+        Util.showVirtualKeyboard(getApplicationContext());
     }
 
     private void showCreate(final String type) {
@@ -1328,8 +1195,7 @@ public class RemoteFiles extends AppCompatActivity {
 
         alert.setPositiveButton("Create", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                //create(hierarchy.get(hierarchy.size() - 1).getID(), input.getText().toString(), type);
-                new Create(RemoteFiles.this, hierarchy.get(hierarchy.size() - 1).getID(), input.getText().toString(), type).execute();
+                new Create(RemoteFiles.this, getCurrentFolderId(), input.getText().toString(), type).execute();
             }
         });
 
@@ -1631,12 +1497,12 @@ public class RemoteFiles extends AppCompatActivity {
                 break;
 
             case R.id.zip:
-                new Zip(RemoteFiles.this, hierarchy.get(hierarchy.size() - 1).getID(), getAllSelected()).execute();
+                new Zip(RemoteFiles.this, getCurrentFolderId(), getAllSelected()).execute();
                 actionMode.finish();
                 break;
 
             case R.id.unzip:
-                new Unzip(RemoteFiles.this, hierarchy.get(hierarchy.size() - 1).getID(), getFirstSelected()).execute();
+                new Unzip(RemoteFiles.this, getCurrentFolderId(), getFirstSelected()).execute();
                 actionMode.finish();
                 break;
 
@@ -1754,7 +1620,7 @@ public class RemoteFiles extends AppCompatActivity {
                 }
 
                 lastSelected = position;
-                newAdapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
                 mode.setTitle(list.getCheckedItemCount() + " selected");
             }
         });
@@ -1816,14 +1682,9 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     private void clearHierarchy() {
-        if (hierarchy.size() > 0) {
-            FileItem first = hierarchy.get(0);
-            hierarchy = new ArrayList<>();
-            hierarchy.add(first);
-        }
-        else {
-            hierarchy.add(new FileItem("0", "", ""));
-        }
+        FileItem first = (hierarchy.size() > 0) ? hierarchy.get(0) : new FileItem("0", "", "");
+        hierarchy = new ArrayList<>();
+        hierarchy.add(first);
     }
 
     private void createCache() {
@@ -1833,7 +1694,6 @@ public class RemoteFiles extends AppCompatActivity {
             @Override
             public void onPositive() {
                 // Create cache folder
-                //if (!Cache.create()) {
                 if (!Util.createCache()) {
                     Preferences.getInstance(ctx).write(Preferences.TAG_LOAD_THUMB, false);
                     Toast.makeText(ctx, "Could not create cache", Toast.LENGTH_SHORT).show();
