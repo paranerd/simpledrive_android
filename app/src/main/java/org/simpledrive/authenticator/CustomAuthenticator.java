@@ -10,11 +10,13 @@ import org.simpledrive.helper.Uploader;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.AccountItem;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 public class CustomAuthenticator {
     // General
-    private static Context ctx;
+    private static WeakReference<Context> ref;
+
     // Accounts
     private static AccountManager am;
     private static Account[] aaccount;
@@ -41,12 +43,15 @@ public class CustomAuthenticator {
      * Refill the account-array with all current accounts
      */
     private static void refresh() {
-        am = AccountManager.get(ctx);
+        if (ref.get() != null) {
+            am = AccountManager.get(ref.get());
+        }
+
         aaccount = am.getAccountsByType(ACCOUNT_TYPE);
     }
 
     public static void setContext(Context context) {
-        ctx = context;
+        ref = new WeakReference<>(context);
     }
 
     public static boolean accountExists(String username, String server) {
@@ -184,12 +189,6 @@ public class CustomAuthenticator {
         }
     }
 
-    public static void removeToken() {
-        if (getActiveAccount() != null) {
-            am.setUserData(getActiveAccount(), KEY_TOKEN, "");
-        }
-    }
-
     public static void lock() {
         if (hasPIN()) {
             am.setUserData(getActiveAccount(), KEY_LOCKED, TRUE);
@@ -272,11 +271,11 @@ public class CustomAuthenticator {
         return accounts;
     }
 
-    public static boolean isActive(String username) {
+    public static boolean isActive(String id) {
         refresh();
 
         for (Account a : aaccount) {
-            if (am.getUserData(a, KEY_USER).equals(username) && am.getUserData(a, KEY_ACTIVE).equals(TRUE)) {
+            if (am.getUserData(a, KEY_ID).equals(id) && am.getUserData(a, KEY_ACTIVE).equals(TRUE)) {
                 return true;
             }
         }

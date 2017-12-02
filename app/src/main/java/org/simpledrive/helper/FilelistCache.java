@@ -94,7 +94,7 @@ public class FilelistCache extends SQLiteOpenHelper {
         db.close();
     }
 
-    // Getting single contact
+    // Getting single file
     FileItem getFile(String id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -108,11 +108,12 @@ public class FilelistCache extends SQLiteOpenHelper {
 
         if (cursor != null) {
             cursor.moveToFirst();
+            FileItem file = new FileItem(cursor.getString(0), cursor.getString(1), "", cursor.getString(2), "", "", "", false, false);
+            cursor.close();
+            return file;
         }
 
-        FileItem file = new FileItem(cursor.getString(0), cursor.getString(1), "", cursor.getString(2), "", "", "", false, false);
-        cursor.close();
-        return file;
+        return null;
     }
 
     // Getting all files for parent-id
@@ -125,7 +126,7 @@ public class FilelistCache extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, selectArgs);
 
-        // looping through all rows and adding to list
+        // Looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
                 FileItem file = new FileItem(cursor.getString(0), cursor.getString(2), "", cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), Boolean.parseBoolean(cursor.getString(8)), Boolean.parseBoolean(cursor.getString(9)));
@@ -134,11 +135,13 @@ public class FilelistCache extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        // Get count
+        // int count = cursor.getCount();
         cursor.close();
         return files;
     }
 
-    // Updating single contact
+    // Updating single file
     /*public int updateFile(FileItem file) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -146,7 +149,7 @@ public class FilelistCache extends SQLiteOpenHelper {
         values.put(KEY_NAME, contact.getName());
         values.put(KEY_PH_NO, contact.getPhoneNumber());
 
-        // updating row
+        // Update row
         return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?",
                 new String[] { String.valueOf(contact.getID()) });
     }*/
@@ -157,17 +160,4 @@ public class FilelistCache extends SQLiteOpenHelper {
         db.delete(TABLE_FILES, KEY_ACCOUNT + " = ? AND " + KEY_PARENT + " = ?",
                 new String[] { String.valueOf(account), String.valueOf(id) });
     }
-
-
-    // Getting contacts Count
-    /*public int getContactsCount() {
-        String countQuery = "SELECT  * FROM " + TABLE_CONTACTS;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
-        cursor.close();
-
-        // return count
-        return cursor.getCount();
-    }*/
-
 }

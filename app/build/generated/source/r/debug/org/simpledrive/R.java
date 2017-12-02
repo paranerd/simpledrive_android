@@ -3360,15 +3360,16 @@ public final class R {
     public static final int google_crash_reporting_api_key=0x7f0d0032;
     public static final int google_storage_bucket=0x7f0d0033;
     public static final int loading=0x7f0d0034;
-    public static final int login_error=0x7f0d0035;
-    public static final int logout=0x7f0d0036;
-    public static final int newfolder=0x7f0d0037;
-    public static final int no_blank_fields=0x7f0d0038;
-    public static final int search_menu_title=0x7f0d0039;
-    public static final int status_bar_notification_info_overflow=0x7f0d003a;
-    public static final int swipe_down=0x7f0d003b;
-    public static final int unknown_error=0x7f0d003c;
-    public static final int upload=0x7f0d003d;
+    public static final int log_page=0x7f0d0035;
+    public static final int login_error=0x7f0d0036;
+    public static final int logout=0x7f0d0037;
+    public static final int newfolder=0x7f0d0038;
+    public static final int no_blank_fields=0x7f0d0039;
+    public static final int search_menu_title=0x7f0d003a;
+    public static final int status_bar_notification_info_overflow=0x7f0d003b;
+    public static final int swipe_down=0x7f0d003c;
+    public static final int unknown_error=0x7f0d003d;
+    public static final int upload=0x7f0d003e;
   }
   public static final class style {
     public static final int AlertDialog_AppCompat=0x7f0e0000;

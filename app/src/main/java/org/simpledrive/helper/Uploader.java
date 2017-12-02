@@ -7,13 +7,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import org.simpledrive.R;
 import org.simpledrive.activities.RemoteFiles;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -22,8 +22,15 @@ public class Uploader {
     private static int uploadTotal = 0;
     private static int uploadSuccessful = 0;
     private static int NOTIFICATION_ID = 1;
+    private static NotificationCompat.Builder mBuilder;
+    private static NotificationManager mNotifyManager;
     private static ArrayList<HashMap<String, String>> uploadQueue = new ArrayList<>();
-    private static AppCompatActivity ctx;
+    private static WeakReference<Context> ref;
+    private static TaskListener callback;
+
+    public static void setContext(Context context) {
+        ref = new WeakReference<>(context);
+    }
 
     public static boolean isRunning() {
         return uploadQueue.size() > 0;
@@ -48,13 +55,14 @@ public class Uploader {
         }
     }
 
-    public static void addUpload(AppCompatActivity act, ArrayList<String> paths, String target, String photosync, TaskListener listener) {
+    public static void addUpload(ArrayList<String> paths, String target, String photosync, TaskListener tl) {
         for (String path : paths) {
             File file = new File(path);
             if (file.canRead()) {
                 if (file.isDirectory()) {
                     addFolder(file.getParent(), file, target);
-                } else {
+                }
+                else {
                     HashMap<String, String> ul_elem = new HashMap<>();
                     ul_elem.put("filename", file.getName());
                     ul_elem.put("relative", "");
@@ -68,9 +76,13 @@ public class Uploader {
         }
 
         if (uploadQueue.size() > 0 && uploadQueue.size() == paths.size()) {
-            ctx = act;
-            upload(listener);
-            Toast.makeText(ctx, "Upload started", Toast.LENGTH_SHORT).show();
+            new Upload().execute();
+            callback = tl;
+            if (ref.get() != null) {
+                Context ctx = ref.get();
+                mNotifyManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+                Toast.makeText(ctx, "Upload started", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -78,23 +90,21 @@ public class Uploader {
         void onFinished();
     }
 
-    private static void upload(final TaskListener taskListener) {
-        new AsyncTask<String, Integer, Connection.Response>() {
-            private NotificationCompat.Builder mBuilder;
-            private NotificationManager mNotifyManager;
-            private String filename;
-            private HashMap<String, String> ul_elem;
+    private static class Upload extends AsyncTask<String, Integer, Connection.Response> {
+        private String filename;
+        private HashMap<String, String> ul_elem;
 
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            if (ref.get() != null) {
+                Context ctx = ref.get();
 
                 Intent intent = new Intent(ctx, RemoteFiles.class);
                 PendingIntent pIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
 
                 uploadCurrent++;
-
-                mNotifyManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
                 mBuilder = new NotificationCompat.Builder(ctx);
                 mBuilder.setContentIntent(pIntent)
                         .setContentTitle("Uploading " + uploadCurrent + " of " + uploadTotal)
@@ -104,58 +114,59 @@ public class Uploader {
                         .setProgress(100, 0, false);
                 mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
             }
+        }
 
-            @Override
-            protected Connection.Response doInBackground(String... path) {
-                ul_elem = uploadQueue.remove(0);
-                filename = ul_elem.get("filename");
+        @Override
+        protected Connection.Response doInBackground(String... path) {
+            ul_elem = uploadQueue.remove(0);
+            filename = ul_elem.get("filename");
 
-                Connection con = new Connection("files", "upload");
-                con.setListener(new Connection.ProgressListener() {
-                    @Override
-                    public void transferred(Integer num) {
-                        publishProgress(num);
-                    }
-                });
-                con.addFormField("target", ul_elem.get("target"));
-                con.addFormField("paths", ul_elem.get("relative"));
-                con.addFilePart("0", new File(ul_elem.get("path")));
+            Connection con = new Connection("files", "upload");
+            con.setListener(new Connection.ProgressListener() {
+                @Override
+                public void transferred(Integer num) {
+                    publishProgress(num);
+                }
+            });
+            con.addFormField("target", ul_elem.get("target"));
+            con.addFormField("paths", ul_elem.get("relative"));
+            con.addFilePart(new File(ul_elem.get("path")));
 
-                return con.finish();
+            return con.finish();
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            mBuilder.setProgress(100, values[0], false)
+                    .setContentTitle("Uploading " + uploadCurrent + " of " + uploadTotal)
+                    .setContentText(filename);
+            mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            uploadSuccessful = (!res.successful()) ? uploadSuccessful : uploadSuccessful + 1;
+            if (ul_elem.get("photosync").equals("1") && ref.get() != null) {
+                Context ctx = ref.get();
+                Preferences.getInstance(ctx).write(Preferences.TAG_LAST_PHOTO_SYNC, Util.getTimestamp());
             }
 
-            @Override
-            protected void onProgressUpdate(Integer... values) {
-                super.onProgressUpdate(values);
-                mBuilder.setProgress(100, values[0], false)
-                        .setContentTitle("Uploading " + uploadCurrent + " of " + uploadTotal)
-                        .setContentText(filename);
+            if (uploadQueue.size() > 0) {
+                new Upload().execute();
+            }
+            else {
+                String file = (uploadTotal == 1) ? "file" : "files";
+                mBuilder.setContentTitle("Upload complete")
+                        .setContentText(uploadSuccessful + " of " + uploadTotal + " " + file + " added")
+                        .setOngoing(false)
+                        .setProgress(0, 0, false);
                 mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
-            }
 
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                uploadSuccessful = (!res.successful()) ? uploadSuccessful : uploadSuccessful + 1;
-                if (ul_elem.get("photosync").equals("1")) {
-                    Preferences.getInstance(ctx).write(Preferences.TAG_LAST_PHOTO_SYNC, Util.getTimestamp());
-                }
-
-                if (uploadQueue.size() > 0) {
-                    upload(taskListener);
-                }
-                else {
-                    String file = (uploadTotal == 1) ? "file" : "files";
-                    mBuilder.setContentTitle("Upload complete")
-                            .setContentText(uploadSuccessful + " of " + uploadTotal + " " + file + " added")
-                            .setOngoing(false)
-                            .setProgress(0, 0, false);
-                    mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
-
-                    if (taskListener != null) {
-                        taskListener.onFinished();
-                    }
+                if (callback != null) {
+                    callback.onFinished();
                 }
             }
-        }.execute();
+        }
     }
 }
