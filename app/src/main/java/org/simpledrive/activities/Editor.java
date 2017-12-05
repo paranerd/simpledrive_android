@@ -147,7 +147,7 @@ public class Editor extends AppCompatActivity {
 
             case R.id.savetext:
                 setToolbarSubtitle("Saving...");
-                new Save(this, file, editor.getText().toString());
+                new Save(this, file, editor.getText().toString()).execute();
                 break;
         }
         return true;
