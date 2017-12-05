@@ -76,13 +76,13 @@ public class Uploader {
         }
 
         if (uploadQueue.size() > 0 && uploadQueue.size() == paths.size()) {
-            new Upload().execute();
             callback = tl;
             if (ref.get() != null) {
                 Context ctx = ref.get();
                 mNotifyManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
                 Toast.makeText(ctx, "Upload started", Toast.LENGTH_SHORT).show();
             }
+            new Upload().execute();
         }
     }
 

@@ -879,8 +879,8 @@ public final class R {
         public static final int appbar_scrolling_view_behavior = 0x7f0d0022;
         public static final int bottom_sheet_behavior = 0x7f0d0023;
         public static final int character_counter_pattern = 0x7f0d0024;
-        public static final int search_menu_title = 0x7f0d003a;
-        public static final int status_bar_notification_info_overflow = 0x7f0d003b;
+        public static final int search_menu_title = 0x7f0d003b;
+        public static final int status_bar_notification_info_overflow = 0x7f0d003c;
     }
     public static final class style {
         public static final int AlertDialog_AppCompat = 0x7f0e0000;

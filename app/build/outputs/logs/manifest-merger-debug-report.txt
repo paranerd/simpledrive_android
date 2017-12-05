@@ -297,7 +297,7 @@ ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidMa
 activity#org.simpledrive.activities.LogoSelector
 ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:137:9-141:20
 	android:label
-		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:139:13-42
+		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:139:13-40
 	android:theme
 		ADDED from /home/paranerd/Development/simpledrive_android/app/src/main/AndroidManifest.xml:140:13-51
 	android:name

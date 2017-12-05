@@ -639,6 +639,7 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="empty">Nothing to see here.</string>
+    <string name="entries_do_not_match">Entries do not match</string>
     <string name="files">Files</string>
     <string name="firebase_database_url" translatable="false">https://simpledriveandroid.firebaseio.com</string>
     <string name="folders">Folders</string>
@@ -657,6 +658,7 @@
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="swipe_down">Swipe down to try again</string>
     <string name="unknown_error">An error occurred</string>
+    <string name="unlock">Unlock</string>
     <string name="upload">Upload</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
