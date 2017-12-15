@@ -151,16 +151,16 @@ public class RemoteFiles extends AppCompatActivity {
     private boolean deleteAfterCopy = false;
 
     ServiceConnection mServiceConnection = new ServiceConnection() {
-		public void onServiceDisconnected(ComponentName name) {
-			mBound = false;
-			mPlayerService = null;
-		}
+        public void onServiceDisconnected(ComponentName name) {
+            mBound = false;
+            mPlayerService = null;
+        }
 
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			LocalBinder binder = (LocalBinder) service;
-			mPlayerService = binder.getService();
-			mBound = true;
-		}
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            LocalBinder binder = (LocalBinder) service;
+            mPlayerService = binder.getService();
+            mBound = true;
+        }
     };
 
     protected void onCreate(Bundle paramBundle) {
@@ -213,8 +213,7 @@ public class RemoteFiles extends AppCompatActivity {
                 if (grantResults.length > 0) {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                         createCache();
-                    }
-                    else {
+                    } else {
                         Preferences.getInstance(ctx).write(Preferences.TAG_LOAD_THUMB, false);
                         Toast.makeText(ctx, "Could not create cache", Toast.LENGTH_SHORT).show();
                     }
@@ -231,16 +230,13 @@ public class RemoteFiles extends AppCompatActivity {
             // No-one is logged in
             startActivity(new Intent(getApplicationContext(), Login.class));
             finish();
-        }
-        else if (!CustomAuthenticator.isActive(accountID)) {
+        } else if (!CustomAuthenticator.isActive(accountID)) {
             // Current account is not active
             finish();
             startActivity(getIntent());
-        }
-        else if (CustomAuthenticator.isLocked()) {
+        } else if (CustomAuthenticator.isLocked()) {
             requestPIN();
-        }
-        else {
+        } else {
             preventLock = false;
             appVisible = true;
             fetchFiles(false);
@@ -257,8 +253,7 @@ public class RemoteFiles extends AppCompatActivity {
 
         if (cooldown > 0) {
             error = "Locked for " + cooldown + " second(s).";
-        }
-        else if (CustomAuthenticator.MAX_UNLOCK_ATTEMPTS - remainingUnlockAttempts > 0 && remainingUnlockAttempts > 0) {
+        } else if (CustomAuthenticator.MAX_UNLOCK_ATTEMPTS - remainingUnlockAttempts > 0 && remainingUnlockAttempts > 0) {
             error = "Incorrect PIN, " + remainingUnlockAttempts + " attempt(s) remaining";
         }
         Intent i = new Intent(getApplicationContext(), PinScreen.class);
@@ -327,8 +322,7 @@ public class RemoteFiles extends AppCompatActivity {
             Intent localIntent = new Intent(this, RemoteFiles.class);
             localIntent.setAction("org.simpledrive.action.startbackground");
             startService(localIntent);
-        }
-        else if (mBound) {
+        } else if (mBound) {
             getApplicationContext().unbindService(mServiceConnection);
         }
     }
@@ -359,8 +353,7 @@ public class RemoteFiles extends AppCompatActivity {
             case REQUEST_UNLOCK:
                 if (resultCode == RESULT_OK) {
                     CustomAuthenticator.unlock(data.getStringExtra("passphrase"));
-                }
-                else {
+                } else {
                     finish();
                 }
                 break;
@@ -370,18 +363,14 @@ public class RemoteFiles extends AppCompatActivity {
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
-        }
-        else if (list.getCheckedItemCount() > 0) {
+        } else if (list.getCheckedItemCount() > 0) {
             unselectAll();
-        }
-        else if (hierarchy.size() > 1) {
+        } else if (hierarchy.size() > 1) {
             hierarchy.remove(hierarchy.size() - 1);
             fetchFiles(false);
-        }
-        else if (viewmode.equals("trash")) {
+        } else if (viewmode.equals("trash")) {
             setViewmode("files");
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -393,8 +382,7 @@ public class RemoteFiles extends AppCompatActivity {
         if (listLayout == R.layout.listview_detail) {
             menu.findItem(R.id.toggle_view).setIcon(R.drawable.ic_grid);
             menu.findItem(R.id.toggle_view).setTitle("Grid view");
-        }
-        else {
+        } else {
             menu.findItem(R.id.toggle_view).setIcon(R.drawable.ic_list);
             menu.findItem(R.id.toggle_view).setTitle("List view");
         }
@@ -453,8 +441,7 @@ public class RemoteFiles extends AppCompatActivity {
                 new android.support.v7.app.AlertDialog.Builder(this)
                         .setTitle("Empty trash")
                         .setMessage("Are you sure you want to delete all files in this folder?")
-                        .setPositiveButton("Delete", new DialogInterface.OnClickListener()
-                        {
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 selectAll();
@@ -468,7 +455,7 @@ public class RemoteFiles extends AppCompatActivity {
                 break;
 
             case R.id.toggle_view:
-                listLayout = (listLayout == R.layout.gridview) ? R.layout.listview_detail: R.layout.gridview;
+                listLayout = (listLayout == R.layout.gridview) ? R.layout.listview_detail : R.layout.gridview;
                 setListLayout(listLayout);
                 initList();
                 displayFiles();
@@ -595,8 +582,7 @@ public class RemoteFiles extends AppCompatActivity {
                 if (!FAB_Status) {
                     // Display FAB menu
                     toggleFAB(true);
-                }
-                else {
+                } else {
                     // Close FAB menu
                     toggleFAB(false);
                 }
@@ -683,7 +669,7 @@ public class RemoteFiles extends AppCompatActivity {
      * @return String
      */
     private String getCurrentFolderId() {
-        return (hierarchy.size() == 0 || (hierarchy.size() == 1 && hierarchy.get(hierarchy.size() -1).getFilename().equals(""))) ? "0" : hierarchy.get(hierarchy.size() - 1).getID();
+        return (hierarchy.size() == 0 || (hierarchy.size() == 1 && hierarchy.get(hierarchy.size() - 1).getFilename().equals(""))) ? "0" : hierarchy.get(hierarchy.size() - 1).getID();
     }
 
     /**
@@ -700,6 +686,7 @@ public class RemoteFiles extends AppCompatActivity {
 
     /**
      * Load files from DB-cache
+     *
      * @return if successful
      */
     private boolean fetchFilesFromCache() {
@@ -775,8 +762,7 @@ public class RemoteFiles extends AppCompatActivity {
 
             if (res.successful()) {
                 act.extractFiles(res.getMessage());
-            }
-            else {
+            } else {
                 act.showInfo(res.getMessage());
             }
         }
@@ -808,11 +794,11 @@ public class RemoteFiles extends AppCompatActivity {
                 hierarchy.add(new FileItem(obj.getString("id"), obj.getString("filename"), ""));
             }
 
-            for (int i = 0; i < files.length(); i++){
+            for (int i = 0; i < files.length(); i++) {
                 JSONObject obj = files.getJSONObject(i);
 
                 String id = obj.getString("id");
-                String filename = obj.getString ("filename");
+                String filename = obj.getString("filename");
                 String type = obj.getString("type");
                 String edit = obj.getString("edit");
                 String size = (obj.getString("type").equals("folder")) ? ((obj.getString("size").equals("1")) ? obj.getString("size") + " element" : obj.getString("size") + " elements") : Util.convertSize(obj.getString("size"));
@@ -873,8 +859,7 @@ public class RemoteFiles extends AppCompatActivity {
 
         if (filteredItems.size() == 0) {
             showInfo(getString(R.string.empty));
-        }
-        else {
+        } else {
             showInfo("");
         }
 
@@ -888,17 +873,13 @@ public class RemoteFiles extends AppCompatActivity {
 
         if (thisFolder.getFilename().length() > 0) {
             title = thisFolder.getFilename();
-        }
-        else if (viewmode.equals("shareout")) {
+        } else if (viewmode.equals("shareout")) {
             title = "My shares";
-        }
-        else if (viewmode.equals("sharein")) {
+        } else if (viewmode.equals("sharein")) {
             title = "Shared with me";
-        }
-        else if (viewmode.equals("trash")) {
+        } else if (viewmode.equals("trash")) {
             title = "Trash";
-        }
-        else {
+        } else {
             title = "Homefolder";
         }
 
@@ -926,30 +907,25 @@ public class RemoteFiles extends AppCompatActivity {
         FileItem item = filteredItems.get(position);
         if (viewmode.equals("trash")) {
             return;
-        }
-        else if (item.is("folder")) {
+        } else if (item.is("folder")) {
             hierarchy.add(item);
             fetchFiles(false);
-        }
-        else if (item.is("image")) {
+        } else if (item.is("image")) {
             preventLock = true;
             Intent i = new Intent(getApplicationContext(), ImageViewer.class);
             i.putExtra("position", getImagePosition(item));
             startActivity(i);
-        }
-        else if (item.is("audio") && mPlayerService != null) {
+        } else if (item.is("audio") && mPlayerService != null) {
             mPlayerService.initPlay(item);
             showAudioPlayer();
             Toast.makeText(this, "Loading audio...", Toast.LENGTH_SHORT).show();
-        }
-        else if (item.is("text")) {
+        } else if (item.is("text")) {
             preventLock = true;
             Intent i = new Intent(getApplicationContext(), Editor.class);
             i.putExtra("file", filteredItems.get(position).getID());
             i.putExtra("filename", filteredItems.get(position).getFilename());
             startActivity(i);
-        }
-        else if (item.is("pdf")) {
+        } else if (item.is("pdf")) {
             Toast.makeText(ctx, "Download started", Toast.LENGTH_SHORT).show();
 
             Downloader.download(item, new Downloader.TaskListener() {
@@ -960,8 +936,7 @@ public class RemoteFiles extends AppCompatActivity {
                     }
                 }
             });
-        }
-        else {
+        } else {
             Toast.makeText(this, "Can not open file", Toast.LENGTH_SHORT).show();
         }
         unselectAll();
@@ -1003,15 +978,13 @@ public class RemoteFiles extends AppCompatActivity {
 
                         seek.setProgress(pos);
                         bPlay.setImageResource(R.drawable.ic_pause);
-                    }
-                    else {
+                    } else {
                         bPlay.setImageResource(R.drawable.ic_play);
                     }
 
                     if (AudioService.isActive() && appVisible) {
                         mHandler.postDelayed(this, 1000);
-                    }
-                    else {
+                    } else {
                         audioUpdateRunning = false;
                         hideAudioPlayer();
                     }
@@ -1172,8 +1145,7 @@ public class RemoteFiles extends AppCompatActivity {
             public void onClick(View v) {
                 if (shareUser.getText().toString().isEmpty() && !sharePublic.isChecked()) {
                     Toast.makeText(ctx, "Enter a username", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     new Share(RemoteFiles.this, target, username, shareUser.getText().toString(), shareWrite.isChecked(), sharePublic.isChecked()).execute();
                     dialog2.dismiss();
                 }
@@ -1187,7 +1159,7 @@ public class RemoteFiles extends AppCompatActivity {
     private void showCreate(final String type) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
-        alert.setTitle("New " + type.substring(0,1).toUpperCase() + type.substring(1));
+        alert.setTitle("New " + type.substring(0, 1).toUpperCase() + type.substring(1));
 
         // Set an EditText view to get user input
         final EditText input = new EditText(this);
@@ -1277,15 +1249,15 @@ public class RemoteFiles extends AppCompatActivity {
         input.setText(fn_without_ext);
 
         alert.setPositiveButton("Rename", new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int whichButton) {
-            new Rename(RemoteFiles.this, target, input.getText().toString()).execute();
-          }
+            public void onClick(DialogInterface dialog, int whichButton) {
+                new Rename(RemoteFiles.this, target, input.getText().toString()).execute();
+            }
         });
 
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int whichButton) {
-            // Canceled.
-          }
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
         });
 
         alert.show();
@@ -1327,82 +1299,80 @@ public class RemoteFiles extends AppCompatActivity {
                 });
 
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
-                mDrawerLayout.closeDrawer(GravityCompat.START);
+                                                              @Override
+                                                              public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
+                                                                  mDrawerLayout.closeDrawer(GravityCompat.START);
 
-                hideAccounts();
+                                                                  hideAccounts();
 
-                if (item.getGroupId() == R.id.navigation_drawer_group_accounts) {
-                    if (Downloader.isRunning() || Uploader.isRunning()) {
-                        Toast.makeText(ctx, "Up-/Download running", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        CustomAuthenticator.setActive(accounts.get(item.getItemId()).getName());
-                        finish();
-                        startActivity(getIntent());
-                    }
-                }
-                else {
-                    switch (item.getItemId()) {
-                        case R.id.navigation_view_item_files:
-                            setViewmode("files");
-                            break;
+                                                                  if (item.getGroupId() == R.id.navigation_drawer_group_accounts) {
+                                                                      if (Downloader.isRunning() || Uploader.isRunning()) {
+                                                                          Toast.makeText(ctx, "Up-/Download running", Toast.LENGTH_SHORT).show();
+                                                                      } else {
+                                                                          CustomAuthenticator.setActive(accounts.get(item.getItemId()).getName());
+                                                                          finish();
+                                                                          startActivity(getIntent());
+                                                                      }
+                                                                  } else {
+                                                                      switch (item.getItemId()) {
+                                                                          case R.id.navigation_view_item_files:
+                                                                              setViewmode("files");
+                                                                              break;
 
-                        case R.id.navigation_view_item_shareout:
-                            setViewmode("shareout");
-                            break;
+                                                                          case R.id.navigation_view_item_shareout:
+                                                                              setViewmode("shareout");
+                                                                              break;
 
-                        case R.id.navigation_view_item_sharein:
-                            setViewmode("sharein");
-                            break;
+                                                                          case R.id.navigation_view_item_sharein:
+                                                                              setViewmode("sharein");
+                                                                              break;
 
-                        case R.id.navigation_view_item_trash:
-                            setViewmode("trash");
-                            break;
+                                                                          case R.id.navigation_view_item_trash:
+                                                                              setViewmode("trash");
+                                                                              break;
 
-                        case R.id.navigation_view_item_vault:
-                            preventLock = true;
-                            startActivity(new Intent(getApplicationContext(), Vault.class));
-                            break;
+                                                                          case R.id.navigation_view_item_vault:
+                                                                              preventLock = true;
+                                                                              startActivity(new Intent(getApplicationContext(), Vault.class));
+                                                                              break;
 
-                        case R.id.navigation_view_item_settings:
-                            preventLock = true;
-                            startActivityForResult(new Intent(getApplicationContext(), AppSettings.class), REQUEST_FORCE_RELOAD);
-                            break;
+                                                                          case R.id.navigation_view_item_settings:
+                                                                              preventLock = true;
+                                                                              startActivityForResult(new Intent(getApplicationContext(), AppSettings.class), REQUEST_FORCE_RELOAD);
+                                                                              break;
 
-                        case R.id.navigation_view_item_server:
-                            preventLock = true;
-                            startActivity(new Intent(getApplicationContext(), ServerSettings.class));
-                            break;
+                                                                          case R.id.navigation_view_item_server:
+                                                                              preventLock = true;
+                                                                              startActivity(new Intent(getApplicationContext(), ServerSettings.class));
+                                                                              break;
 
-                        case R.id.navigation_view_item_logout:
-                            new android.support.v7.app.AlertDialog.Builder(ctx)
-                                    .setTitle("Logout")
-                                    .setMessage("Are you sure you want to logout?")
-                                    .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            logout();
-                                        }
+                                                                          case R.id.navigation_view_item_logout:
+                                                                              new android.support.v7.app.AlertDialog.Builder(ctx)
+                                                                                      .setTitle("Logout")
+                                                                                      .setMessage("Are you sure you want to logout?")
+                                                                                      .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                                                                                          @Override
+                                                                                          public void onClick(DialogInterface dialog, int which) {
+                                                                                              logout();
+                                                                                          }
 
-                                    })
-                                    .setNegativeButton("Cancel", null)
-                                    .show();
-                            break;
+                                                                                      })
+                                                                                      .setNegativeButton("Cancel", null)
+                                                                                      .show();
+                                                                              break;
 
-                        case R.id.navigation_view_item_add_account:
-                            startActivityForResult(new Intent(getApplicationContext(), Login.class), REQUEST_FORCE_RELOAD);
-                            break;
+                                                                          case R.id.navigation_view_item_add_account:
+                                                                              startActivityForResult(new Intent(getApplicationContext(), Login.class), REQUEST_FORCE_RELOAD);
+                                                                              break;
 
-                        case R.id.navigation_view_item_manage_accounts:
-                            startActivityForResult(new Intent(getApplicationContext(), Accounts.class), REQUEST_FORCE_RELOAD);
-                            break;
-                    }
-                }
-                return true;
-            }
-            }
+                                                                          case R.id.navigation_view_item_manage_accounts:
+                                                                              startActivityForResult(new Intent(getApplicationContext(), Accounts.class), REQUEST_FORCE_RELOAD);
+                                                                              break;
+                                                                      }
+                                                                  }
+                                                                  return true;
+                                                              }
+                                                          }
         );
     }
 
@@ -1542,7 +1512,7 @@ public class RemoteFiles extends AppCompatActivity {
 
     private void initList() {
         // Set layout
-        listLayout = (Preferences.getInstance(this).read(Preferences.TAG_LIST_LAYOUT, "list").equals("list")) ? R.layout.listview_detail: R.layout.gridview;
+        listLayout = (Preferences.getInstance(this).read(Preferences.TAG_LIST_LAYOUT, "list").equals("list")) ? R.layout.listview_detail : R.layout.gridview;
         setListLayout(listLayout);
 
         // Set listeners
@@ -1603,8 +1573,7 @@ public class RemoteFiles extends AppCompatActivity {
                     bottomContextMenu.findItem(R.id.unshare).setVisible(!trash && checkedItemcount == 1 && item.selfshared());
                     bottomContextMenu.findItem(R.id.encrypt).setVisible(!trash && checkedItemcount == 1 && !item.is("folder") && !item.is("encrypted"));
                     bottomContextMenu.findItem(R.id.decrypt).setVisible(!trash && checkedItemcount == 1 && item.is("encrypted"));
-                }
-                else {
+                } else {
                     mContextMenu.findItem(R.id.restore).setVisible(trash);
                     mContextMenu.findItem(R.id.download).setVisible(!trash);
                     mContextMenu.findItem(R.id.delete).setVisible(true);
@@ -1668,8 +1637,7 @@ public class RemoteFiles extends AppCompatActivity {
             list = (ListView) findViewById(R.id.list);
             // Hide Grid
             findViewById(R.id.grid).setVisibility(View.GONE);
-        }
-        else {
+        } else {
             list = (GridView) findViewById(R.id.grid);
             // Hide List
             findViewById(R.id.list).setVisibility(View.GONE);
@@ -1716,8 +1684,7 @@ public class RemoteFiles extends AppCompatActivity {
 
         if (AudioService.isPlaying()) {
             showAudioPlayer();
-        }
-        else {
+        } else {
             hideAudioPlayer();
         }
     }
@@ -1758,8 +1725,7 @@ public class RemoteFiles extends AppCompatActivity {
                 act.mSwipeRefreshLayout.setRefreshing(true);
                 if (res.successful()) {
                     act.fetchFiles(true);
-                }
-                else {
+                } else {
                     Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -1799,8 +1765,7 @@ public class RemoteFiles extends AppCompatActivity {
 
             if (res.successful()) {
                 act.fetchFiles(true);
-            }
-            else {
+            } else {
                 Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
@@ -1838,6 +1803,7 @@ public class RemoteFiles extends AppCompatActivity {
 
             return con.finish();
         }
+
         @Override
         protected void onPostExecute(final Connection.Response res) {
             if (ref.get() == null) {
@@ -1870,8 +1836,7 @@ public class RemoteFiles extends AppCompatActivity {
                         }
                     }).show();
                 }
-            }
-            else {
+            } else {
                 Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
@@ -1893,6 +1858,7 @@ public class RemoteFiles extends AppCompatActivity {
 
             return con.finish();
         }
+
         @Override
         protected void onPostExecute(Connection.Response res) {
             if (ref.get() == null) {
@@ -1902,8 +1868,7 @@ public class RemoteFiles extends AppCompatActivity {
             final RemoteFiles act = ref.get();
             if (res.successful()) {
                 act.fetchFiles(true);
-            }
-            else {
+            } else {
                 Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
@@ -1928,6 +1893,7 @@ public class RemoteFiles extends AppCompatActivity {
 
             return con.finish();
         }
+
         @Override
         protected void onPostExecute(Connection.Response res) {
             if (ref.get() == null) {
@@ -1937,8 +1903,7 @@ public class RemoteFiles extends AppCompatActivity {
             final RemoteFiles act = ref.get();
             if (res.successful()) {
                 act.fetchFiles(true);
-            }
-            else {
+            } else {
                 Toast.makeText(act, "Error zipping", Toast.LENGTH_SHORT).show();
             }
         }
@@ -1963,6 +1928,7 @@ public class RemoteFiles extends AppCompatActivity {
 
             return con.finish();
         }
+
         @Override
         protected void onPostExecute(Connection.Response res) {
             if (ref.get() == null) {
@@ -1972,8 +1938,7 @@ public class RemoteFiles extends AppCompatActivity {
             final RemoteFiles act = ref.get();
             if (res.successful()) {
                 act.fetchFiles(true);
-            }
-            else {
+            } else {
                 Toast.makeText(act, "Error unzipping", Toast.LENGTH_SHORT).show();
             }
         }
@@ -1995,6 +1960,7 @@ public class RemoteFiles extends AppCompatActivity {
 
             return con.finish();
         }
+
         @Override
         protected void onPostExecute(Connection.Response res) {
             if (ref.get() == null) {
@@ -2004,8 +1970,7 @@ public class RemoteFiles extends AppCompatActivity {
             final RemoteFiles act = ref.get();
             if (res.successful()) {
                 act.fetchFiles(true);
-            }
-            else {
+            } else {
                 Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
@@ -2057,8 +2022,7 @@ public class RemoteFiles extends AppCompatActivity {
                 act.clipboard = new JSONArray();
                 act.togglePaste(false);
                 act.fetchFiles(true);
-            }
-            else {
+            } else {
                 Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
@@ -2083,6 +2047,7 @@ public class RemoteFiles extends AppCompatActivity {
 
             return con.finish();
         }
+
         @Override
         protected void onPostExecute(Connection.Response res) {
             if (ref.get() == null) {
@@ -2093,8 +2058,7 @@ public class RemoteFiles extends AppCompatActivity {
             if (res.successful()) {
                 Preferences.getInstance(act).write(Preferences.TAG_FIREBASE_TOKEN_OLD, "");
                 Toast.makeText(act, "Updated 2FA-Token", Toast.LENGTH_SHORT).show();
-            }
-            else {
+            } else {
                 Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
@@ -2112,6 +2076,7 @@ public class RemoteFiles extends AppCompatActivity {
             Connection con = new Connection("user", "admin");
             return con.finish();
         }
+
         @Override
         protected void onPostExecute(Connection.Response res) {
             if (ref.get() == null) {
@@ -2139,6 +2104,7 @@ public class RemoteFiles extends AppCompatActivity {
 
             return con.finish();
         }
+
         @Override
         protected void onPostExecute(Connection.Response res) {
             if (ref.get() == null) {
@@ -2200,8 +2166,7 @@ public class RemoteFiles extends AppCompatActivity {
             act.mSwipeRefreshLayout.setRefreshing(false);
             if (res.successful()) {
                 act.fetchFiles(true);
-            }
-            else {
+            } else {
                 Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
@@ -2250,8 +2215,7 @@ public class RemoteFiles extends AppCompatActivity {
             act.mSwipeRefreshLayout.setRefreshing(false);
             if (res.successful()) {
                 act.fetchFiles(true);
-            }
-            else {
+            } else {
                 Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
@@ -2300,8 +2264,7 @@ public class RemoteFiles extends AppCompatActivity {
             act.mSwipeRefreshLayout.setRefreshing(false);
             if (res.successful()) {
                 act.fetchFiles(true);
-            }
-            else {
+            } else {
                 Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
@@ -2326,8 +2289,7 @@ public class RemoteFiles extends AppCompatActivity {
 
         if (accountsVisible) {
             header_indicator.setText("\u25B2");
-        }
-        else {
+        } else {
             header_indicator.setText("\u25BC");
             mNavigationView.getMenu().findItem(R.id.navigation_view_item_server).setVisible(isAdmin);
         }
@@ -2343,8 +2305,7 @@ public class RemoteFiles extends AppCompatActivity {
                 finish();
                 if (CustomAuthenticator.getAllAccounts(true).size() == 0) {
                     startActivity(new Intent(getApplicationContext(), Login.class));
-                }
-                else {
+                } else {
                     startActivity(getIntent());
                 }
             }
