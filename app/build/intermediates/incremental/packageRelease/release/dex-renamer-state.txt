@@ -1,0 +1,4 @@
+#Fri Dec 15 18:31:49 CET 2017
+base.0=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/release/0
+renamed.0=classes.dex
+file.0=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/release/0/classes.dex

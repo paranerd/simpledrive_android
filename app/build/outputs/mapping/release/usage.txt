@@ -6155,8 +6155,13 @@ org.simpledrive.activities.AppSettings:
     private static final int REQUEST_STORAGE
     private static final int REQUEST_SET_PIN
     private static final int REQUEST_ENABLE_PHOTO_SYNC
-org.simpledrive.activities.PasswordGenerator:
-    80:83:private void setToolbarTitle(java.lang.String)
+org.simpledrive.activities.Login:
+    private static final int REQUEST_TFA_CODE
+org.simpledrive.activities.Vault:
+    private static final int REQUEST_UNLOCK
+    private static final int REQUEST_SET_PASSPHRASE
+    private static final int REQUEST_WEBSITE
+    private static final int REQUEST_NOTE
 org.simpledrive.activities.VaultWebsite:
     public static final java.lang.String COPY_USER
     public static final java.lang.String COPY_PASS
@@ -6164,6 +6169,7 @@ org.simpledrive.authenticator.CustomAuthenticator:
     public static final int MAX_UNLOCK_ATTEMPTS
     private static final int COOLDOWN_ADD
     private static final java.lang.String ACCOUNT_TYPE
+    private static final java.lang.String KEY_ID
     private static final java.lang.String KEY_USER
     private static final java.lang.String KEY_TOKEN
     private static final java.lang.String KEY_SALT
@@ -6176,16 +6182,23 @@ org.simpledrive.authenticator.CustomAuthenticator:
     private static final java.lang.String KEY_ACTIVE
     private static final java.lang.String TRUE
     private static final java.lang.String FALSE
-    15:15:public CustomAuthenticator()
+    16:16:public CustomAuthenticator()
 org.simpledrive.helper.Connection:
     private static final int timeout
+    73:74:public Connection(java.lang.String,java.lang.String,int)
 org.simpledrive.helper.Crypto:
     20:20:public Crypto()
     50:58:private static java.lang.String randomString(int)
     85:85:public static java.lang.String encryptFile(java.lang.String,java.lang.String)
     90:101:public static java.lang.String encryptFile(java.lang.String,java.lang.String,boolean,boolean)
     151:163:public static java.lang.String decryptFile(java.lang.String,java.lang.String,boolean)
-org.simpledrive.helper.DatabaseHandler:
+org.simpledrive.helper.Downloader:
+    private static final int NOTIFICATION_ID
+    24:24:public Downloader()
+    45:46:public static void queueForCache(org.simpledrive.models.FileItem)
+    62:63:public static void queueForDownload(org.simpledrive.models.FileItem)
+    91:92:public static void cache(org.simpledrive.models.FileItem,org.simpledrive.helper.Downloader$TaskListener)
+org.simpledrive.helper.FilelistCache:
     private static final int DATABASE_VERSION
     private static final java.lang.String DATABASE_NAME
     private static final java.lang.String TABLE_FILES
@@ -6199,11 +6212,8 @@ org.simpledrive.helper.DatabaseHandler:
     private static final java.lang.String KEY_OWNER
     private static final java.lang.String KEY_SELFSHARED
     private static final java.lang.String KEY_SHARED
-    99:115:org.simpledrive.models.FileItem getFile(java.lang.String)
-org.simpledrive.helper.DownloadManager:
-    private static final int NOTIFICATION_ID
-    19:19:public DownloadManager()
-org.simpledrive.helper.SharedPrefManager:
+    99:116:org.simpledrive.models.FileItem getFile(java.lang.String)
+org.simpledrive.helper.Preferences:
     private static final java.lang.String SHARED_PREF_NAME
     public static final java.lang.String TAG_FIREBASE_TOKEN
     public static final java.lang.String TAG_FIREBASE_TOKEN_OLD
@@ -6220,22 +6230,22 @@ org.simpledrive.helper.TouchImageView:
     private static final java.lang.String DEBUG
     private static final float SUPER_MIN_MULTIPLIER
     private static final float SUPER_MAX_MULTIPLIER
-    98:110:public TouchImageView(android.content.Context,android.util.AttributeSet)
-    98:115:public TouchImageView(android.content.Context,android.util.AttributeSet,int)
-    444:445:public void setScrollPosition(float,float)
-    1277:1280:private void printMatrixInfo()
+    97:109:public TouchImageView(android.content.Context,android.util.AttributeSet)
+    97:114:public TouchImageView(android.content.Context,android.util.AttributeSet,int)
+    443:444:public void setScrollPosition(float,float)
+    1276:1279:private void printMatrixInfo()
 org.simpledrive.helper.TouchImageView$DoubleTapZoom:
     private static final float ZOOM_TIME
-org.simpledrive.helper.UploadManager:
-    20:20:public UploadManager()
+org.simpledrive.helper.Uploader:
+    20:20:public Uploader()
 org.simpledrive.helper.Util:
-    52:52:public Util()
-    175:178:public static int pxToDp(int)
-    254:272:public static java.lang.String readTextFromStorage(java.lang.String)
-    276:287:public static byte[] readFromStorage(java.lang.String)
-    292:302:public static boolean writeTextToStorage(java.lang.String,java.lang.String)
-    308:316:public static boolean writeToStorage(java.lang.String,byte[])
-    428:436:public static android.graphics.Bitmap getBitmapFromURL(java.lang.String)
+    55:55:public Util()
+    187:190:public static int pxToDp(int)
+    266:284:public static java.lang.String readTextFromStorage(java.lang.String)
+    288:299:public static byte[] readFromStorage(java.lang.String)
+    304:314:public static boolean writeTextToStorage(java.lang.String,java.lang.String)
+    320:328:public static boolean writeToStorage(java.lang.String,byte[])
+    469:478:public static android.graphics.Bitmap getBitmapFromURL(java.lang.String)
 org.simpledrive.models.AccountItem:
     25:25:public java.lang.String getServer()
     30:30:public java.lang.String getUser()

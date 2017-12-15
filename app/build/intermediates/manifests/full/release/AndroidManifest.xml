@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.simpledrive"
-    android:versionCode="113"
-    android:versionName="6.5.0" >
+    android:versionCode="116"
+    android:versionName="6.6.2" >
 
     <uses-sdk
-        android:minSdkVersion="9"
+        android:minSdkVersion="11"
         android:targetSdkVersion="24" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -136,7 +136,7 @@
         </activity>
         <activity
             android:name="org.simpledrive.activities.LogoSelector"
-            android:label="Icon Selector"
+            android:label="Select Logo"
             android:theme="@style/MainTheme.Light" >
         </activity>
         <activity
@@ -153,13 +153,11 @@
         <service android:name="org.simpledrive.authenticator.AuthenticationService" >
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
-"
             </intent-filter>
 
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
-"
         </service>
         <service
             android:name="org.simpledrive.services.AudioService"

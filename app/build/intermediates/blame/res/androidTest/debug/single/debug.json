@@ -644,10 +644,6 @@
         "source": "/home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/drawable-hdpi-v4/abc_list_selector_disabled_holo_dark.9.png"
     },
     {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/androidTest/debug/color_abc_background_cache_hint_selector_material_dark.xml.flat",
-        "source": "/home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/color/abc_background_cache_hint_selector_material_dark.xml"
-    },
-    {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/androidTest/debug/layout_abc_expanded_menu_layout.xml.flat",
         "source": "/home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_expanded_menu_layout.xml"
     },
@@ -1014,10 +1010,6 @@
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/androidTest/debug/layout_abc_action_bar_title_item.xml.flat",
         "source": "/home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_action_bar_title_item.xml"
-    },
-    {
-        "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/androidTest/debug/color_abc_background_cache_hint_selector_material_light.xml.flat",
-        "source": "/home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/color/abc_background_cache_hint_selector_material_light.xml"
     },
     {
         "merged": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/res/merged/androidTest/debug/layout_support_simple_spinner_dropdown_item.xml.flat",

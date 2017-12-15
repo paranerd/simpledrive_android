@@ -1,260 +1,225 @@
-# view res/layout/design_navigation_item.xml #generated:17
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/design-24.2.1.aar/d19dec0bccf6719d98a6e88a281a845a/res/layout/design_navigation_item.xml:0
 -keep class android.support.design.internal.NavigationMenuItemView { <init>(...); }
 
-# view res/layout/design_navigation_menu.xml #generated:17
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/design-24.2.1.aar/d19dec0bccf6719d98a6e88a281a845a/res/layout/design_navigation_menu.xml:0
 -keep class android.support.design.internal.NavigationMenuView { <init>(...); }
 
-# view res/layout/design_text_input_password_icon.xml #generated:18
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/design-24.2.1.aar/d19dec0bccf6719d98a6e88a281a845a/res/layout/design_text_input_password_icon.xml:0
 -keep class android.support.design.widget.CheckableImageButton { <init>(...); }
 
-# view res/layout/design_bottom_sheet_dialog.xml #generated:17
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/design-24.2.1.aar/d19dec0bccf6719d98a6e88a281a845a/res/layout/design_bottom_sheet_dialog.xml:0
 -keep class android.support.design.widget.CoordinatorLayout { <init>(...); }
 
-# view res/layout/activity_remotefiles.xml #generated:111
-# view res/layout/activity_remotefiles.xml #generated:123
-# view res/layout/activity_remotefiles.xml #generated:138
-# view res/layout/activity_remotefiles.xml #generated:68
-# view res/layout/activity_remotefiles.xml #generated:83
-# view res/layout/activity_remotefiles.xml #generated:97
-# view res/layout/activity_sharefiles.xml #generated:53
-# view res/layout/activity_sharefiles.xml #generated:67
-# view res/layout/activity_users.xml #generated:46
-# view res/layout/activity_vault.xml #generated:48
-# view res/layout/activity_vault.xml #generated:61
-# view res/layout/activity_vault.xml #generated:74
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_remotefiles.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_sharefiles.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_users.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vault.xml:0
 -keep class android.support.design.widget.FloatingActionButton { <init>(...); }
 
-# view res/layout/activity_remotefiles.xml #generated:267
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_remotefiles.xml:0
 -keep class android.support.design.widget.NavigationView { <init>(...); }
 
-# view res/layout/design_layout_snackbar.xml #generated:18
-# view sw600dp-v13/res/layout-sw600dp-v13/design_layout_snackbar.xml #generated:18
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/design-24.2.1.aar/d19dec0bccf6719d98a6e88a281a845a/res/layout-sw600dp-v13/design_layout_snackbar.xml:0
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/design-24.2.1.aar/d19dec0bccf6719d98a6e88a281a845a/res/layout/design_layout_snackbar.xml:0
 -keep class android.support.design.widget.Snackbar$SnackbarLayout { <init>(...); }
 
-# view res/layout/activity_passwordscreen.xml #generated:46
-# view res/layout/activity_vault_note.xml #generated:109
-# view res/layout/activity_vault_note.xml #generated:61
-# view res/layout/activity_vault_note.xml #generated:85
-# view res/layout/activity_vault_website.xml #generated:114
-# view res/layout/activity_vault_website.xml #generated:151
-# view res/layout/activity_vault_website.xml #generated:192
-# view res/layout/activity_vault_website.xml #generated:61
-# view res/layout/activity_vault_website.xml #generated:85
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_passwordscreen.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vault_note.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vault_website.xml:0
 -keep class android.support.design.widget.TextInputEditText { <init>(...); }
 
-# view res/layout/activity_passwordscreen.xml #generated:38
-# view res/layout/activity_vault_note.xml #generated:100
-# view res/layout/activity_vault_note.xml #generated:52
-# view res/layout/activity_vault_note.xml #generated:76
-# view res/layout/activity_vault_website.xml #generated:105
-# view res/layout/activity_vault_website.xml #generated:142
-# view res/layout/activity_vault_website.xml #generated:182
-# view res/layout/activity_vault_website.xml #generated:52
-# view res/layout/activity_vault_website.xml #generated:76
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_passwordscreen.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vault_note.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vault_website.xml:0
 -keep class android.support.design.widget.TextInputLayout { <init>(...); }
 
-# view res/layout/activity_log.xml #generated:2
-# view res/layout/activity_remotefiles.xml #generated:2
-# view res/layout/activity_users.xml #generated:2
-# view res/layout/activity_vault.xml #generated:2
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_log.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_remotefiles.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_users.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vault.xml:0
 -keep class android.support.v4.widget.DrawerLayout { <init>(...); }
 
-# view res/layout/abc_alert_dialog_material.xml #generated:75
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_alert_dialog_material.xml:0
 -keep class android.support.v4.widget.NestedScrollView { <init>(...); }
 
-# view res/layout/abc_alert_dialog_button_bar_material.xml #generated:39
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_alert_dialog_button_bar_material.xml:0
 -keep class android.support.v4.widget.Space { <init>(...); }
 
-# view res/layout/activity_log.xml #generated:17
-# view res/layout/activity_remotefiles.xml #generated:16
-# view res/layout/activity_sharefiles.xml #generated:8
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_log.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_remotefiles.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_sharefiles.xml:0
 -keep class android.support.v4.widget.SwipeRefreshLayout { <init>(...); }
 
-# view res/layout/abc_action_menu_item_layout.xml #generated:17
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_action_menu_item_layout.xml:0
 -keep class android.support.v7.view.menu.ActionMenuItemView { <init>(...); }
 
-# view res/layout/abc_expanded_menu_layout.xml #generated:17
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_expanded_menu_layout.xml:0
 -keep class android.support.v7.view.menu.ExpandedMenuView { <init>(...); }
 
-# view res/layout/abc_list_menu_item_layout.xml #generated:17
-# view res/layout/abc_popup_menu_item_layout.xml #generated:17
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_list_menu_item_layout.xml:0
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_popup_menu_item_layout.xml:0
 -keep class android.support.v7.view.menu.ListMenuItemView { <init>(...); }
 
-# view res/layout/abc_screen_toolbar.xml #generated:27
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_screen_toolbar.xml:0
 -keep class android.support.v7.widget.ActionBarContainer { <init>(...); }
 
-# view res/layout/abc_action_mode_bar.xml #generated:19
-# view res/layout/abc_screen_toolbar.xml #generated:43
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_action_mode_bar.xml:0
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_screen_toolbar.xml:0
 -keep class android.support.v7.widget.ActionBarContextView { <init>(...); }
 
-# view res/layout/abc_screen_toolbar.xml #generated:17
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_screen_toolbar.xml:0
 -keep class android.support.v7.widget.ActionBarOverlayLayout { <init>(...); }
 
-# view res/layout/abc_action_menu_layout.xml #generated:17
-# view res/layout/activity_remotefiles.xml #generated:257
-# view res/layout/toolbar_bottom.xml #generated:13
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_action_menu_layout.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_remotefiles.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/toolbar_bottom.xml:0
 -keep class android.support.v7.widget.ActionMenuView { <init>(...); }
 
-# view res/layout/abc_activity_chooser_view.xml #generated:19
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_activity_chooser_view.xml:0
 -keep class android.support.v7.widget.ActivityChooserView$InnerLayout { <init>(...); }
 
-# view res/layout/abc_alert_dialog_button_bar_material.xml #generated:18
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_alert_dialog_button_bar_material.xml:0
 -keep class android.support.v7.widget.ButtonBarLayout { <init>(...); }
 
-# view res/layout/abc_screen_content_include.xml #generated:19
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_screen_content_include.xml:0
 -keep class android.support.v7.widget.ContentFrameLayout { <init>(...); }
 
-# view res/layout/abc_alert_dialog_material.xml #generated:48
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_alert_dialog_material.xml:0
 -keep class android.support.v7.widget.DialogTitle { <init>(...); }
 
-# view res/layout/abc_screen_simple_overlay_action_mode.xml #generated:23
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_screen_simple_overlay_action_mode.xml:0
 -keep class android.support.v7.widget.FitWindowsFrameLayout { <init>(...); }
 
-# view res/layout/abc_dialog_title_material.xml #generated:22
-# view res/layout/abc_screen_simple.xml #generated:17
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_dialog_title_material.xml:0
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_screen_simple.xml:0
 -keep class android.support.v7.widget.FitWindowsLinearLayout { <init>(...); }
 
-# view res/layout/abc_search_view.xml #generated:75
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_search_view.xml:0
 -keep class android.support.v7.widget.SearchView$SearchAutoComplete { <init>(...); }
 
-# view res/layout/abc_screen_toolbar.xml #generated:36
-# view res/layout/activity_remotefiles.xml #generated:244
-# view res/layout/toolbar.xml #generated:2
-# view res/layout/toolbar_bottom.xml #generated:1
-# view v21/res/layout-v21/toolbar.xml #generated:2
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_screen_toolbar.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout-v21/toolbar.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_remotefiles.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/toolbar.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/toolbar_bottom.xml:0
 -keep class android.support.v7.widget.Toolbar { <init>(...); }
 
-# view res/layout/abc_screen_simple.xml #generated:25
-# view res/layout/abc_screen_simple_overlay_action_mode.xml #generated:32
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_screen_simple.xml:0
+# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/layout/abc_screen_simple_overlay_action_mode.xml:0
 -keep class android.support.v7.widget.ViewStubCompat { <init>(...); }
 
-# view AndroidManifest.xml #generated:195
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:193
 -keep class com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver { <init>(...); }
 
-# view AndroidManifest.xml #generated:190
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:188
 -keep class com.google.android.gms.measurement.AppMeasurementReceiver { <init>(...); }
 
-# view AndroidManifest.xml #generated:204
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:202
 -keep class com.google.android.gms.measurement.AppMeasurementService { <init>(...); }
 
-# view AndroidManifest.xml #generated:224
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:222
 -keep class com.google.firebase.iid.FirebaseInstanceIdInternalReceiver { <init>(...); }
 
-# view AndroidManifest.xml #generated:209
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:207
 -keep class com.google.firebase.iid.FirebaseInstanceIdReceiver { <init>(...); }
 
-# view AndroidManifest.xml #generated:231
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:229
 -keep class com.google.firebase.iid.FirebaseInstanceIdService { <init>(...); }
 
-# view AndroidManifest.xml #generated:182
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:180
 -keep class com.google.firebase.messaging.FirebaseMessagingService { <init>(...); }
 
-# view AndroidManifest.xml #generated:239
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:237
 -keep class com.google.firebase.provider.FirebaseInitProvider { <init>(...); }
 
-# view res/layout/nav_header.xml #generated:11
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/nav_header.xml:0
 -keep class de.hdodenhof.circleimageview.CircleImageView { <init>(...); }
 
-# view AndroidManifest.xml #generated:112
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:112
 -keep class org.simpledrive.activities.Accounts { <init>(...); }
 
-# view AndroidManifest.xml #generated:82
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:82
 -keep class org.simpledrive.activities.AppSettings { <init>(...); }
 
-# view AndroidManifest.xml #generated:77
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:77
 -keep class org.simpledrive.activities.Editor { <init>(...); }
 
-# view AndroidManifest.xml #generated:62
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:62
 -keep class org.simpledrive.activities.FileSelector { <init>(...); }
 
-# view AndroidManifest.xml #generated:72
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:72
 -keep class org.simpledrive.activities.ImageViewer { <init>(...); }
 
-# view AndroidManifest.xml #generated:66
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:66
 -keep class org.simpledrive.activities.Login { <init>(...); }
 
-# view AndroidManifest.xml #generated:137
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:137
 -keep class org.simpledrive.activities.LogoSelector { <init>(...); }
 
-# view AndroidManifest.xml #generated:142
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:142
 -keep class org.simpledrive.activities.PasswordGenerator { <init>(...); }
 
-# view AndroidManifest.xml #generated:132
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:132
 -keep class org.simpledrive.activities.PasswordScreen { <init>(...); }
 
-# view AndroidManifest.xml #generated:107
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:107
 -keep class org.simpledrive.activities.PinScreen { <init>(...); }
 
-# view AndroidManifest.xml #generated:33
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:33
 -keep class org.simpledrive.activities.RemoteFiles { <init>(...); }
 
-# view AndroidManifest.xml #generated:92
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:92
 -keep class org.simpledrive.activities.ServerLog { <init>(...); }
 
-# view AndroidManifest.xml #generated:87
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:87
 -keep class org.simpledrive.activities.ServerSettings { <init>(...); }
 
-# view AndroidManifest.xml #generated:43
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:43
 -keep class org.simpledrive.activities.ShareFiles { <init>(...); }
 
-# view AndroidManifest.xml #generated:147
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:147
 -keep class org.simpledrive.activities.UnlockTFA { <init>(...); }
 
-# view AndroidManifest.xml #generated:102
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:102
 -keep class org.simpledrive.activities.UserDetails { <init>(...); }
 
-# view AndroidManifest.xml #generated:97
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:97
 -keep class org.simpledrive.activities.Users { <init>(...); }
 
-# view AndroidManifest.xml #generated:117
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:117
 -keep class org.simpledrive.activities.Vault { <init>(...); }
 
-# view AndroidManifest.xml #generated:127
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:127
 -keep class org.simpledrive.activities.VaultNote { <init>(...); }
 
-# view AndroidManifest.xml #generated:122
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:122
 -keep class org.simpledrive.activities.VaultWebsite { <init>(...); }
 
-# view AndroidManifest.xml #generated:153
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:153
 -keep class org.simpledrive.authenticator.AuthenticationService { <init>(...); }
 
-# view res/layout/activity_imageviewer.xml #generated:11
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_imageviewer.xml:0
 -keep class org.simpledrive.helper.ExtendedViewPager { <init>(...); }
 
-# view res/layout/gridview.xml #generated:2
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/gridview.xml:0
 -keep class org.simpledrive.models.GridViewItem { <init>(...); }
 
-# view AndroidManifest.xml #generated:164
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:162
 -keep class org.simpledrive.services.AudioService { <init>(...); }
 
-# view AndroidManifest.xml #generated:168
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:166
 -keep class org.simpledrive.services.MyFirebaseInstanceIDService { <init>(...); }
 
-# view AndroidManifest.xml #generated:173
+# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:171
 -keep class org.simpledrive.services.MyFirebaseMessagingService { <init>(...); }
 
-# onClick res/layout/activity_passwordgenerator.xml #generated:64
-# onClick res/layout/activity_passwordgenerator.xml #generated:76
-# onClick res/layout/activity_passwordscreen.xml #generated:60
-# onClick res/layout/activity_pinscreen.xml #generated:102
-# onClick res/layout/activity_pinscreen.xml #generated:116
-# onClick res/layout/activity_pinscreen.xml #generated:123
-# onClick res/layout/activity_pinscreen.xml #generated:130
-# onClick res/layout/activity_pinscreen.xml #generated:144
-# onClick res/layout/activity_pinscreen.xml #generated:151
-# onClick res/layout/activity_pinscreen.xml #generated:158
-# onClick res/layout/activity_pinscreen.xml #generated:172
-# onClick res/layout/activity_pinscreen.xml #generated:180
-# onClick res/layout/activity_pinscreen.xml #generated:50
-# onClick res/layout/activity_pinscreen.xml #generated:87
-# onClick res/layout/activity_pinscreen.xml #generated:95
-# onClick res/layout/activity_unlock_tfa.xml #generated:54
-# onClick res/layout/activity_unlock_tfa.xml #generated:60
-# onClick res/layout/activity_vault_website.xml #generated:166
-# onClick res/layout/activity_vault_website.xml #generated:207
-# onClick res/layout/activity_vault_website.xml #generated:216
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_passwordgenerator.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_passwordscreen.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_pinscreen.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_unlock_tfa.xml:0
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vault_website.xml:0
 -keepclassmembers class * { *** onClick(...); }
 
-# onClick res/layout/activity_vault_website.xml #generated:129
+# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vault_website.xml:0
 -keepclassmembers class * { *** openURL(...); }
 
