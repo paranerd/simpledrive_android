@@ -44,6 +44,12 @@ public class TouchImageAdapter extends PagerAdapter {
     }
 
     @Override
+    public int getItemPosition(Object object) {
+        // Important for notifyDataSetChanged to call instantiateItem
+        return POSITION_NONE;
+    }
+
+    @Override
     public View instantiateItem(ViewGroup container, final int position) {
         FileItem item = images.get(position);
         String path = Downloader.isCached(item);
