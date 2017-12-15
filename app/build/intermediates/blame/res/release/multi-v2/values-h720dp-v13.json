@@ -4,7 +4,7 @@
             "outputFile": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-h720dp-v13/values-h720dp-v13.xml",
             "map": [
                 {
-                    "source": "/home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/values-h720dp-v13/values-h720dp-v13.xml",
+                    "source": "/home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/values-h720dp-v13/values-h720dp-v13.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

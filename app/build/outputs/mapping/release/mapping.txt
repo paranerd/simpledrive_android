@@ -21448,6 +21448,7 @@ org.simpledrive.adapters.TouchImageAdapter -> org.simpledrive.a.d:
     boolean doLoad -> e
     void <init>(org.simpledrive.activities.ImageViewer,java.util.ArrayList) -> <init>
     int getCount() -> a
+    int getItemPosition(java.lang.Object) -> a
     android.view.View instantiateItem(android.view.ViewGroup,int) -> b
     void loadImage(org.simpledrive.models.FileItem) -> a
     void destroyItem(android.view.ViewGroup,int,java.lang.Object) -> a

@@ -4,7 +4,7 @@
             "outputFile": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-land/values-land.xml",
             "map": [
                 {
-                    "source": "/home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/560d8548a46a2350e37316c49468ec1e/res/values-land/values-land.xml",
+                    "source": "/home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/values-land/values-land.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "/home/paranerd/.gradle/caches/transforms-1/files-1.1/design-24.2.1.aar/d19dec0bccf6719d98a6e88a281a845a/res/values-land/values-land.xml",
+                    "source": "/home/paranerd/.gradle/caches/transforms-1/files-1.1/design-24.2.1.aar/0da9796647e0c989e9c387bcd09c7b18/res/values-land/values-land.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
