@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Fri Dec 15 18:31:49 CET 2017
+#Fri Dec 15 18:33:26 CET 2017
 1863.set=ANDROID_RESOURCE
 1117.file=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/proguard/release/0.jar/android/support/design/widget/BottomSheetBehavior$1.class
 1391.set=JAVA_RESOURCE
