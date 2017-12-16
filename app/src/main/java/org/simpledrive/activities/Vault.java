@@ -84,9 +84,32 @@ public class Vault extends AppCompatActivity {
 
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
-
         initInterface();
         initToolbar();
+    }
+
+    protected void onResume() {
+        super.onResume();
+
+        if (!waitingForUnlock && !waitingForSetPassphrase) {
+            initList();
+            supportInvalidateOptionsMenu();
+            load();
+        }
+    }
+
+    protected void onPause() {
+        super.onPause();
+
+        toggleFAB(false);
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+        items = new ArrayList<>();
+        vaultEncrypted = "";
+        passphrase = "";
+
     }
 
     private void initInterface() {
@@ -149,31 +172,6 @@ public class Vault extends AppCompatActivity {
         Animation anim2 = (status) ? show_fab_note: hide_fab_note;
         fab_note.startAnimation(anim2);
         fab_note.setClickable(status);
-    }
-
-    protected void onResume() {
-        super.onResume();
-
-        initList();
-        supportInvalidateOptionsMenu();
-
-        if (!waitingForUnlock && !waitingForSetPassphrase) {
-            load();
-        }
-    }
-
-    protected void onPause() {
-        super.onPause();
-
-        toggleFAB(false);
-    }
-
-    protected void onDestroy() {
-        super.onDestroy();
-        items = new ArrayList<>();
-        vaultEncrypted = "";
-        passphrase = "";
-
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -263,6 +261,11 @@ public class Vault extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem paramMenuItem) {
+        if (!is_unlocked()) {
+            // Vault is not yet unlocked
+            return false;
+        }
+
         switch (paramMenuItem.getItemId()) {
             default:
                 return super.onOptionsItemSelected(paramMenuItem);
@@ -390,6 +393,7 @@ public class Vault extends AppCompatActivity {
     }
 
     private void load() {
+        showInfo("Loading...");
         // Vault has already been loaded - just display
         if (items.size() > 0 || createNewVault) {
             display();
@@ -606,13 +610,18 @@ public class Vault extends AppCompatActivity {
         filteredItems.addAll(items);
     }
 
+    private void showInfo(String msg) {
+        int visibility = (msg.equals("")) ? View.GONE : View.VISIBLE;
+        info.setText(msg);
+        info.setVisibility(visibility);
+    }
+
     private void display() {
         if (filteredItems.size() == 0) {
-            info.setVisibility(View.VISIBLE);
-            info.setText(R.string.empty);
+            showInfo(getString(R.string.empty));
         }
         else {
-            info.setVisibility(View.GONE);
+            showInfo("");
         }
 
         newAdapter = new VaultAdapter(this, R.layout.listview_detail, list);
@@ -653,7 +662,19 @@ public class Vault extends AppCompatActivity {
         return -1;
     }
 
+    private boolean is_unlocked() {
+        boolean unlocked = !passphrase.equals("");
+        if (!unlocked) {
+            Toast.makeText(Vault.this, "Vault not loaded yet", Toast.LENGTH_SHORT).show();
+        }
+
+        return unlocked;
+    }
+
     private void createEntry(String type) {
+        if (!is_unlocked()) {
+            return;
+        }
         Intent i;
         int requestCode;
         switch (type) {
@@ -723,7 +744,7 @@ public class Vault extends AppCompatActivity {
         final EditText newpass1 = (EditText) shareView.findViewById(R.id.newpass1);
         final EditText newpass2 = (EditText) shareView.findViewById(R.id.newpass2);
 
-        dialog.setTitle("Create user")
+        dialog.setTitle("Change Password")
                 .setView(shareView)
                 .setCancelable(true)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
