@@ -43,11 +43,11 @@ public class TouchImageAdapter extends PagerAdapter {
         return images.size();
     }
 
-    /*@Override
+    @Override
     public int getItemPosition(Object object) {
         // Important for notifyDataSetChanged to call instantiateItem
         return POSITION_NONE;
-    }*/
+    }
 
     @Override
     public View instantiateItem(ViewGroup container, final int position) {
@@ -111,21 +111,19 @@ public class TouchImageAdapter extends PagerAdapter {
                 // Set placeholder and get image in background
                 img.setImageResource(R.drawable.ic_image);
             }
-            loadImage(img, item);
+            loadImage(item);
         }
 
         container.addView(img, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         return img;
     }
 
-    private void loadImage(final TouchImageView img, final FileItem item) {
+    private void loadImage(final FileItem item) {
         Downloader.cache(item, displayWidth, displayHeight, false, new Downloader.TaskListener() {
             @Override
             public void onFinished(boolean success, String path) {
                 if (success && doLoad) {
                     // Update adapter to display thumb
-                    Bitmap bmp = BitmapFactory.decodeFile(path);
-                    img.setImageBitmap(bmp);
                     notifyDataSetChanged();
                 }
             }

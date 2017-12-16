@@ -1,7 +1,0 @@
-#Internal package file, do not edit.
-#Sat Dec 16 09:15:21 CET 2017
-0.baseType=DIRECTORY
-0.base=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/release/0
-0.path=classes.dex
-0.set=DEX
-count=1

@@ -21450,8 +21450,9 @@ org.simpledrive.adapters.TouchImageAdapter -> org.simpledrive.a.d:
     boolean doLoad -> e
     void <init>(org.simpledrive.activities.ImageViewer,java.util.ArrayList) -> <init>
     int getCount() -> a
+    int getItemPosition(java.lang.Object) -> a
     android.view.View instantiateItem(android.view.ViewGroup,int) -> b
-    void loadImage(org.simpledrive.helper.TouchImageView,org.simpledrive.models.FileItem) -> a
+    void loadImage(org.simpledrive.models.FileItem) -> a
     void destroyItem(android.view.ViewGroup,int,java.lang.Object) -> a
     boolean isViewFromObject(android.view.View,java.lang.Object) -> a
     void cancelLoad() -> d
@@ -21467,9 +21468,8 @@ org.simpledrive.adapters.TouchImageAdapter$2 -> org.simpledrive.a.d$2:
     void <init>(org.simpledrive.adapters.TouchImageAdapter) -> <init>
     void onClick(android.view.View) -> onClick
 org.simpledrive.adapters.TouchImageAdapter$3 -> org.simpledrive.a.d$3:
-    org.simpledrive.helper.TouchImageView val$img -> a
-    org.simpledrive.adapters.TouchImageAdapter this$0 -> b
-    void <init>(org.simpledrive.adapters.TouchImageAdapter,org.simpledrive.helper.TouchImageView) -> <init>
+    org.simpledrive.adapters.TouchImageAdapter this$0 -> a
+    void <init>(org.simpledrive.adapters.TouchImageAdapter) -> <init>
     void onFinished(boolean,java.lang.String) -> a
 org.simpledrive.adapters.UserAdapter -> org.simpledrive.a.e:
     android.view.LayoutInflater layoutInflater -> a
