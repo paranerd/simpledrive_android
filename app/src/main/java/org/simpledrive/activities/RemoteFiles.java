@@ -859,7 +859,8 @@ public class RemoteFiles extends AppCompatActivity {
 
         if (filteredItems.size() == 0) {
             showInfo(getString(R.string.empty));
-        } else {
+        }
+        else {
             showInfo("");
         }
 

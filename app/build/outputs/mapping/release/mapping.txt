@@ -21140,11 +21140,11 @@ org.simpledrive.activities.Vault -> org.simpledrive.activities.Vault:
     android.view.animation.Animation hide_fab_note -> M
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
-    void initInterface() -> i
-    void toggleFAB(boolean) -> b
     void onResume() -> onResume
     void onPause() -> onPause
     void onDestroy() -> onDestroy
+    void initInterface() -> i
+    void toggleFAB(boolean) -> b
     void onActivityResult(int,int,android.content.Intent) -> onActivityResult
     boolean onPrepareOptionsMenu(android.view.Menu) -> onPrepareOptionsMenu
     boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
@@ -21156,15 +21156,17 @@ org.simpledrive.activities.Vault -> org.simpledrive.activities.Vault:
     long getLastEdit() -> n
     void extractEntries(java.lang.String) -> a
     void resetFilter() -> o
+    void showInfo(java.lang.String) -> b
     void display() -> p
-    void filter(java.lang.String) -> b
+    void filter(java.lang.String) -> c
     void unselectAll() -> q
     int getFirstSelected() -> r
-    void createEntry(java.lang.String) -> c
+    boolean is_unlocked() -> s
+    void createEntry(java.lang.String) -> d
     void deleteEntry(int) -> c
-    void save() -> s
+    void save() -> t
     void saveEntry(org.simpledrive.models.VaultItem,int) -> a
-    void showChangePassword() -> t
+    void showChangePassword() -> u
     boolean access$000(org.simpledrive.activities.Vault) -> a
     void access$100(org.simpledrive.activities.Vault,boolean) -> a
     void access$200(org.simpledrive.activities.Vault,java.lang.String) -> a
@@ -21448,9 +21450,8 @@ org.simpledrive.adapters.TouchImageAdapter -> org.simpledrive.a.d:
     boolean doLoad -> e
     void <init>(org.simpledrive.activities.ImageViewer,java.util.ArrayList) -> <init>
     int getCount() -> a
-    int getItemPosition(java.lang.Object) -> a
     android.view.View instantiateItem(android.view.ViewGroup,int) -> b
-    void loadImage(org.simpledrive.models.FileItem) -> a
+    void loadImage(org.simpledrive.helper.TouchImageView,org.simpledrive.models.FileItem) -> a
     void destroyItem(android.view.ViewGroup,int,java.lang.Object) -> a
     boolean isViewFromObject(android.view.View,java.lang.Object) -> a
     void cancelLoad() -> d
@@ -21466,8 +21467,9 @@ org.simpledrive.adapters.TouchImageAdapter$2 -> org.simpledrive.a.d$2:
     void <init>(org.simpledrive.adapters.TouchImageAdapter) -> <init>
     void onClick(android.view.View) -> onClick
 org.simpledrive.adapters.TouchImageAdapter$3 -> org.simpledrive.a.d$3:
-    org.simpledrive.adapters.TouchImageAdapter this$0 -> a
-    void <init>(org.simpledrive.adapters.TouchImageAdapter) -> <init>
+    org.simpledrive.helper.TouchImageView val$img -> a
+    org.simpledrive.adapters.TouchImageAdapter this$0 -> b
+    void <init>(org.simpledrive.adapters.TouchImageAdapter,org.simpledrive.helper.TouchImageView) -> <init>
     void onFinished(boolean,java.lang.String) -> a
 org.simpledrive.adapters.UserAdapter -> org.simpledrive.a.e:
     android.view.LayoutInflater layoutInflater -> a
