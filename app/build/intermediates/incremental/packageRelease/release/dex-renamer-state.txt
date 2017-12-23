@@ -1,4 +1,4 @@
-#Sat Dec 16 12:49:57 CET 2017
+#Sat Dec 23 22:44:56 CET 2017
 base.0=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dex/release/0
 path.0=classes.dex
 renamed.0=classes.dex

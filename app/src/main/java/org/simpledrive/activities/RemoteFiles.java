@@ -679,7 +679,11 @@ public class RemoteFiles extends AppCompatActivity {
      */
     private void fetchFiles(boolean forceRefresh) {
         mSwipeRefreshLayout.setRefreshing(false);
-        if (viewmode.equals("files") && (forceRefresh || !fetchFilesFromCache())) {
+
+        // Hide action buttons
+        toggleFAB(false);
+
+        if (forceRefresh || !fetchFilesFromCache()) {
             new FetchFilesFromServer(RemoteFiles.this, getCurrentFolderId(), viewmode).execute();
         }
     }
@@ -694,8 +698,9 @@ public class RemoteFiles extends AppCompatActivity {
             adapter.cancelThumbLoad();
         }
 
-        // Reset anything related to listing files
-        toggleFAB(false);
+        if (!viewmode.equals("files")) {
+            return false;
+        }
 
         // Get cached files
         ArrayList<FileItem> cachedFiles = db.getChildren(getCurrentFolderId());
