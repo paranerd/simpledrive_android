@@ -21647,42 +21647,41 @@ org.simpledrive.helper.Downloader -> org.simpledrive.helper.c:
     void queue(java.lang.String,java.lang.String,java.lang.String,int,int,boolean) -> a
     void cache(org.simpledrive.models.FileItem,int,int,boolean,org.simpledrive.helper.Downloader$TaskListener) -> a
     void download(org.simpledrive.models.FileItem,org.simpledrive.helper.Downloader$TaskListener) -> a
-    void fetch(java.lang.String,java.lang.String,java.lang.String,int,int,boolean,org.simpledrive.helper.Downloader$TaskListener) -> a
-    void fetch(org.simpledrive.helper.Downloader$QueueItem) -> b
     void showFinished() -> l
     java.lang.String isCached(org.simpledrive.models.FileItem) -> a
     java.lang.String isThumbnailCached(org.simpledrive.models.FileItem,int) -> a
-    boolean access$102(boolean) -> a
-    java.lang.ref.WeakReference access$200() -> b
-    int access$308() -> c
-    android.support.v4.app.NotificationCompat$Builder access$402(android.support.v4.app.NotificationCompat$Builder) -> a
-    int access$300() -> d
-    int access$500() -> e
-    android.support.v4.app.NotificationCompat$Builder access$400() -> f
-    android.app.NotificationManager access$600() -> g
-    int access$802(int) -> a
-    int access$800() -> h
-    java.util.ArrayList access$900() -> i
-    void access$1000(org.simpledrive.helper.Downloader$QueueItem) -> a
+    boolean access$202(boolean) -> a
+    java.lang.ref.WeakReference access$300() -> b
+    int access$408() -> c
+    android.support.v4.app.NotificationCompat$Builder access$502(android.support.v4.app.NotificationCompat$Builder) -> a
+    int access$400() -> d
+    int access$600() -> e
+    android.support.v4.app.NotificationCompat$Builder access$500() -> f
+    android.app.NotificationManager access$700() -> g
+    java.util.ArrayList access$800() -> h
+    int access$1002(int) -> a
+    int access$1000() -> i
     void access$1100() -> j
-    boolean access$100() -> k
+    boolean access$200() -> k
     void <clinit>() -> <clinit>
 org.simpledrive.helper.Downloader$1 -> org.simpledrive.helper.c$1:
-    java.lang.String val$target -> a
-    int val$width -> b
-    int val$height -> c
-    boolean val$thumb -> d
-    java.lang.String val$destination -> e
-    java.lang.String val$name -> f
-    org.simpledrive.helper.Downloader$TaskListener val$callback -> g
-    void <init>(java.lang.String,int,int,boolean,java.lang.String,java.lang.String,org.simpledrive.helper.Downloader$TaskListener) -> <init>
+    void <init>() -> <init>
+    void run() -> run
+org.simpledrive.helper.Downloader$DownloadDirectly -> org.simpledrive.helper.c$a:
+    java.lang.String target -> a
+    java.lang.String destination -> b
+    java.lang.String name -> c
+    int width -> d
+    int height -> e
+    boolean thumb -> f
+    org.simpledrive.helper.Downloader$TaskListener callback -> g
+    void <init>(java.lang.String,java.lang.String,java.lang.String,int,int,boolean,org.simpledrive.helper.Downloader$TaskListener) -> <init>
     org.simpledrive.helper.Connection$Response doInBackground(java.lang.String[]) -> a
     void onPostExecute(org.simpledrive.helper.Connection$Response) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-org.simpledrive.helper.Downloader$2 -> org.simpledrive.helper.c$2:
-    org.simpledrive.helper.Downloader$QueueItem val$item -> a
-    void <init>(org.simpledrive.helper.Downloader$QueueItem) -> <init>
+org.simpledrive.helper.Downloader$DownloadFromQueue -> org.simpledrive.helper.c$b:
+    void <init>() -> <init>
     void onPreExecute() -> onPreExecute
     org.simpledrive.helper.Connection$Response doInBackground(java.lang.String[]) -> a
     void onProgressUpdate(java.lang.Integer[]) -> a
@@ -21690,15 +21689,13 @@ org.simpledrive.helper.Downloader$2 -> org.simpledrive.helper.c$2:
     void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-    void access$700(org.simpledrive.helper.Downloader$2,java.lang.Object[]) -> a
-org.simpledrive.helper.Downloader$2$1 -> org.simpledrive.helper.c$2$1:
-    org.simpledrive.helper.Downloader$2 this$0 -> a
-    void <init>(org.simpledrive.helper.Downloader$2) -> <init>
+    void <init>(org.simpledrive.helper.Downloader$1) -> <init>
+    void access$900(org.simpledrive.helper.Downloader$DownloadFromQueue,java.lang.Object[]) -> a
+org.simpledrive.helper.Downloader$DownloadFromQueue$1 -> org.simpledrive.helper.c$b$1:
+    org.simpledrive.helper.Downloader$DownloadFromQueue this$0 -> a
+    void <init>(org.simpledrive.helper.Downloader$DownloadFromQueue) -> <init>
     void transferred(java.lang.Integer) -> a
-org.simpledrive.helper.Downloader$3 -> org.simpledrive.helper.c$3:
-    void <init>() -> <init>
-    void run() -> run
-org.simpledrive.helper.Downloader$QueueItem -> org.simpledrive.helper.c$a:
+org.simpledrive.helper.Downloader$QueueItem -> org.simpledrive.helper.c$c:
     java.lang.String id -> a
     java.lang.String destination -> b
     java.lang.String name -> c
@@ -21713,7 +21710,7 @@ org.simpledrive.helper.Downloader$QueueItem -> org.simpledrive.helper.c$a:
     int getWidth() -> e
     boolean isThumb() -> f
     void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Integer,boolean,org.simpledrive.helper.Downloader$1) -> <init>
-org.simpledrive.helper.Downloader$TaskListener -> org.simpledrive.helper.c$b:
+org.simpledrive.helper.Downloader$TaskListener -> org.simpledrive.helper.c$d:
     void onFinished(boolean,java.lang.String) -> a
 org.simpledrive.helper.ExtendedViewPager -> org.simpledrive.helper.ExtendedViewPager:
     void <init>(android.content.Context) -> <init>

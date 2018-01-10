@@ -6195,9 +6195,9 @@ org.simpledrive.helper.Crypto:
 org.simpledrive.helper.Downloader:
     private static final int NOTIFICATION_ID
     24:24:public Downloader()
-    45:46:public static void queueForCache(org.simpledrive.models.FileItem)
-    62:63:public static void queueForDownload(org.simpledrive.models.FileItem)
-    91:92:public static void cache(org.simpledrive.models.FileItem,org.simpledrive.helper.Downloader$TaskListener)
+    60:61:public static void queueForCache(org.simpledrive.models.FileItem)
+    91:92:public static void queueForDownload(org.simpledrive.models.FileItem)
+    133:134:public static void cache(org.simpledrive.models.FileItem,org.simpledrive.helper.Downloader$TaskListener)
 org.simpledrive.helper.FilelistCache:
     private static final int DATABASE_VERSION
     private static final java.lang.String DATABASE_NAME

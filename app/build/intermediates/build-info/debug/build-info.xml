@@ -2,40 +2,72 @@
 <instant-run
     abi="armeabi-v7a,armeabi"
     api-level="24"
-    build-mode="HOT_WARM"
+    build-mode="FULL"
     density="xhdpi"
     format="10"
+    ir-eligibility="FIELD_TYPE_CHANGE"
     plugin-version="3.0.1"
-    timestamp="1514065289452"
+    timestamp="1515606108917"
     token="249320380156378329"
-    verifier="COMPATIBLE" >
+    verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="2253" />
+        duration="1301" />
     <task
         name="instant-run-dex"
-        duration="3658" />
+        duration="0" />
     <task
         name="instant-run-transform"
-        duration="777" />
+        duration="6" />
     <task
         name="verifier"
-        duration="82" />
+        duration="1" />
 
     <artifact
-        location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/reload-dex/debug/classes.dex"
-        type="RELOAD_DEX" />
+        location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/dep/dependencies.apk"
+        type="SPLIT" />
+    <artifact
+        location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
+        type="SPLIT" />
+    <artifact
+        location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/slices/slice_1.apk"
+        type="SPLIT" />
+    <artifact
+        location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
+        type="SPLIT" />
+    <artifact
+        location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
+        type="SPLIT" />
+    <artifact
+        location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
+        type="SPLIT" />
+    <artifact
+        location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/slices/slice_6.apk"
+        type="SPLIT" />
+    <artifact
+        location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/slices/slice_5.apk"
+        type="SPLIT" />
+    <artifact
+        location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
+        type="SPLIT" />
+    <artifact
+        location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
+        type="SPLIT" />
+    <artifact
+        location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/slices/slice_8.apk"
+        type="SPLIT" />
+    <artifact
+        location="/home/paranerd/Development/simpledrive_android/app/build/outputs/apk/debug/app-debug.apk"
+        type="SPLIT_MAIN" />
 
     <build
         build-mode="FULL"
-        timestamp="1514065155682"
-        verifier="FULL_BUILD_REQUESTED" >
+        ir-eligibility="FIELD_TYPE_CHANGE"
+        timestamp="1515606108917"
+        verifier="COLD_SWAP_REQUESTED" >
         <artifact
-            location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/slices/slice_8.apk"
+            location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/dep/dependencies.apk"
             type="SPLIT" />
         <artifact
             location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
@@ -50,13 +82,7 @@
             location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
             type="SPLIT" />
         <artifact
-            location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/dep/dependencies.apk"
-            type="SPLIT" />
-        <artifact
             location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
             type="SPLIT" />
         <artifact
             location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/slices/slice_6.apk"
@@ -65,16 +91,17 @@
             location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/slices/slice_5.apk"
             type="SPLIT" />
         <artifact
+            location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
+            type="SPLIT" />
+        <artifact
+            location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
+            type="SPLIT" />
+        <artifact
+            location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/split-apk/debug/slices/slice_8.apk"
+            type="SPLIT" />
+        <artifact
             location="/home/paranerd/Development/simpledrive_android/app/build/outputs/apk/debug/app-debug.apk"
             type="SPLIT_MAIN" />
-    </build>
-    <build
-        build-mode="HOT_WARM"
-        timestamp="1514065289452"
-        verifier="COMPATIBLE" >
-        <artifact
-            location="/home/paranerd/Development/simpledrive_android/app/build/intermediates/reload-dex/debug/classes.dex"
-            type="RELOAD_DEX" />
     </build>
 
 </instant-run>
