@@ -230,13 +230,16 @@ public class RemoteFiles extends AppCompatActivity {
             // No-one is logged in
             startActivity(new Intent(getApplicationContext(), Login.class));
             finish();
-        } else if (!CustomAuthenticator.isActive(accountID)) {
+        }
+        else if (!CustomAuthenticator.isActive(accountID)) {
             // Current account is not active
             finish();
             startActivity(getIntent());
-        } else if (CustomAuthenticator.isLocked()) {
+        }
+        else if (CustomAuthenticator.isLocked()) {
             requestPIN();
-        } else {
+        }
+        else {
             preventLock = false;
             appVisible = true;
             fetchFiles(false);

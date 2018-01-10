@@ -1,11 +1,11 @@
 package org.simpledrive.helper;
 
-import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -33,24 +33,48 @@ public class Downloader {
     private static NotificationCompat.Builder mBuilder;
     private static NotificationManager mNotifyManager;
 
+    /**
+     * Set the context
+     *
+     * @param context Activity context
+     */
     public static void setContext(Context context) {
         ref = new WeakReference<>(context);
     }
 
+    /**
+     * Determine if a download is running
+     *
+     * @return If download running
+     */
     public static boolean isRunning() {
         return running;
     }
 
+    /**
+     * Add regular file to queue to be cached
+     *
+     * @param item File
+     */
     public static void queueForCache(FileItem item) {
         queue(Util.stringToJsonString(item.getID()), Util.getCacheDir(), item.getID(), 0, 0, false);
     }
 
+    /**
+     * Add image file to queue to be cached
+     *
+     * @param item File
+     * @param width Image width
+     * @param height Image height
+     * @param thumb Whether image is thumbnail
+     */
     public static void queueForCache(FileItem item, int width, int height, boolean thumb) {
         String destination = (thumb) ? Util.getThumbDir() : Util.getCacheDir();
         queue(Util.stringToJsonString(item.getID()), destination, item.getID(), width, height, thumb);
     }
 
     /**
+     * Add multiple files to queue to be downloaded
      *
      * @param ids Stringified JSON-Array of FileIDs
      */
@@ -58,41 +82,59 @@ public class Downloader {
         queue(ids, Util.getDownloadDir(), null, 0, 0, false);
     }
 
+    /**
+     * Add regular file to queue to be downloaded
+     *
+     * @param item File
+     */
     public static void queueForDownload(FileItem item) {
         queue(Util.stringToJsonString(item.getID()), Util.getDownloadDir(), null, 0, 0, false);
     }
 
+    /**
+     * Add file to download queue
+     *
+     * @param id FileID
+     * @param destination Destination for downloaded file
+     * @param name Filename
+     * @param width Image width
+     * @param height Image height
+     * @param thumb If file is thumbnail
+     */
     private static void queue(String id, String destination, String name, int width, int height, boolean thumb) {
         QueueItem next = new QueueItem(id, destination, name, width, height, thumb);
         total++;
 
-        if (running) {
+        //f (running) {
             queue.add(next);
-        }
+        //}
         if (!running && ref.get() != null) {
             Context ctx = ref.get();
             mNotifyManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-            fetch(next);
+            new DownloadFromQueue().execute();
             Toast.makeText(ctx, "Download started", Toast.LENGTH_SHORT).show();
         }
     }
 
+    /**
+     * TaskListener for finished downloads
+     */
     public interface TaskListener {
         void onFinished(boolean success, String path);
     }
 
     /**
-     * Cache regular file
+     * Cache regular file directly
      *
      * @param item File to cache
      * @param callback Callback for after finish
      */
     public static void cache(FileItem item, TaskListener callback) {
-        fetch(Util.stringToJsonString(item.getID()), Util.getCacheDir(), item.getID(), 0, 0, false, callback);
+        new DownloadDirectly(Util.stringToJsonString(item.getID()), Util.getCacheDir(), item.getID(), 0, 0, false, callback).execute();
     }
 
     /**
-     * Cache image
+     * Cache image directly
      *
      * @param item File to cache
      * @param width Image target width
@@ -101,120 +143,150 @@ public class Downloader {
      */
     public static void cache(FileItem item, int width, int height, boolean thumb, TaskListener callback) {
         String destination = (thumb) ? Util.getThumbDir() : Util.getCacheDir();
-        fetch(Util.stringToJsonString(item.getID()), destination, item.getID(), width, height, thumb, callback);
+        new DownloadDirectly(Util.stringToJsonString(item.getID()), destination, item.getID(), width, height, thumb, callback).execute();
     }
 
     /**
-     * Download regular file
+     * Download regular file directly
      *
-     * @param item File to cache
+     * @param item File to download
      * @param callback Callback for after finish
      */
     public static void download(FileItem item, TaskListener callback) {
-        fetch(Util.stringToJsonString(item.getID()), Util.getDownloadDir(), null, 0, 0, false, callback);
+        new DownloadDirectly(Util.stringToJsonString(item.getID()), Util.getDownloadDir(), null, 0, 0, false, callback).execute();
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private static void fetch(final String target, final String destination, final String name, final int width, final int height, final boolean thumb, final TaskListener callback) {
-        new AsyncTask<String, Integer, Connection.Response>() {
-            @Override
-            protected Connection.Response doInBackground(String... params) {
-                Connection con = new Connection("files", "get");
-                con.addFormField("target", target);
-                con.addFormField("width", Integer.toString(width));
-                con.addFormField("height", Integer.toString(height));
-                con.addFormField("thumbnail", (thumb) ? "1" : "0");
-                con.setDownloadPath(destination, name);
+    /**
+     * Download a single file directly
+     */
+    private static class DownloadDirectly extends AsyncTask<String, Integer, Connection.Response> {
+        String target;
+        String destination;
+        String name;
+        int width;
+        int height;
+        boolean thumb;
+        TaskListener callback;
 
-                return con.finish();
-            }
+        DownloadDirectly(String target, String destination, String name, int width, int height, boolean thumb, TaskListener callback) {
+            this.target = target;
+            this.destination = destination;
+            this.name = name;
+            this.width = width;
+            this.height = height;
+            this.thumb = thumb;
+            this.callback = callback;
+        }
 
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                if (callback != null) {
-                    callback.onFinished(res.successful(), res.getMessage());
-                }
+        @Override
+        protected Connection.Response doInBackground(String... params) {
+            Connection con = new Connection("files", "get");
+            con.addFormField("target", target);
+            con.addFormField("width", Integer.toString(width));
+            con.addFormField("height", Integer.toString(height));
+            con.addFormField("thumbnail", (thumb) ? "1" : "0");
+            con.setDownloadPath(destination, name);
+
+            return con.finish();
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            if (callback != null) {
+                callback.onFinished(res.successful(), res.getMessage());
             }
-        }.execute();
+        }
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private static void fetch(final QueueItem item) {
-        new AsyncTask<String, Integer, Connection.Response>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                running = true;
+    /**
+     * Download all files from the queue
+     */
+    private static class DownloadFromQueue extends AsyncTask<String, Integer, Connection.Response> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            running = true;
 
-                if (ref.get() != null) {
-                    Context ctx = ref.get();
+            if (ref.get() != null) {
+                Context ctx = ref.get();
 
-                    Intent intent = new Intent(ctx, RemoteFiles.class);
-                    PendingIntent pIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
+                Intent intent = new Intent(ctx, RemoteFiles.class);
+                intent.setDataAndType(Uri.parse(Util.getDownloadDir()), "resource/folder");
+                PendingIntent pIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
 
-                    current++;
+                current++;
 
-                    mBuilder = new NotificationCompat.Builder(ctx)
-                            .setContentTitle("Downloading " + current + " of " + total)
-                            .setContentIntent(pIntent)
-                            .setOngoing(true)
-                            .setSmallIcon(R.drawable.ic_cloud)
-                            .setColor(ContextCompat.getColor(ctx, R.color.darkgreen))
-                            .setProgress(100, 0, false);
-
-                    mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
-                }
-            }
-
-            @Override
-            protected Connection.Response doInBackground(String... params) {
-                Connection con = new Connection("files", "get");
-                con.setListener(new Connection.ProgressListener() {
-                    @Override
-                    public void transferred(Integer num) {
-                        publishProgress(num);
-                    }
-                });
-                con.addFormField("target", item.getID());
-                con.addFormField("width", Integer.toString(item.getWidth()));
-                con.addFormField("height", Integer.toString(item.getHeight()));
-                con.addFormField("thumbnail", (item.isThumb()) ? "1" : "0");
-                con.setDownloadPath(item.getDestination(), item.getName());
-                return con.finish();
-            }
-
-            @Override
-            protected void onProgressUpdate(Integer... values) {
-                super.onProgressUpdate(values);
-                mBuilder.setProgress(100, values[0], false)
+                mBuilder = new NotificationCompat.Builder(ctx)
                         .setContentTitle("Downloading " + current + " of " + total)
-                        .setContentText("");
+                        .setContentIntent(pIntent)
+                        .setOngoing(true)
+                        .setSmallIcon(R.drawable.ic_cloud)
+                        .setColor(ContextCompat.getColor(ctx, R.color.darkgreen))
+                        .setProgress(100, 0, false);
+
                 mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
             }
+        }
 
-            @Override
-            protected void onPostExecute(Connection.Response res) {
-                successful = (res.successful()) ? successful + 1 : successful;
-                if (queue.size() > 0) {
-                    fetch(queue.remove(0));
+        @Override
+        protected Connection.Response doInBackground(String... params) {
+            QueueItem item = queue.remove(0);
+
+            Connection con = new Connection("files", "get");
+            con.setListener(new Connection.ProgressListener() {
+                @Override
+                public void transferred(Integer num) {
+                    publishProgress(num);
                 }
-                else {
-                    running = false;
-                    showFinished();
-                }
+            });
+            con.addFormField("target", item.getID());
+            con.addFormField("width", Integer.toString(item.getWidth()));
+            con.addFormField("height", Integer.toString(item.getHeight()));
+            con.addFormField("thumbnail", (item.isThumb()) ? "1" : "0");
+            con.setDownloadPath(item.getDestination(), item.getName());
+            return con.finish();
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            mBuilder.setProgress(100, values[0], false)
+                    .setContentTitle("Downloading " + current + " of " + total)
+                    .setContentText("");
+            mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
+        }
+
+        @Override
+        protected void onPostExecute(Connection.Response res) {
+            successful = (res.successful()) ? successful + 1 : successful;
+            if (queue.size() > 0) {
+                new DownloadFromQueue().execute();
             }
-        }.execute();
+            else {
+                running = false;
+                showFinished();
+            }
+        }
     }
 
+    /**
+     * Show finished notification
+     */
     private static void showFinished() {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (!running) {
+                if (!running && ref.get() != null) {
+                    Context ctx = ref.get();
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.parse(Util.getDownloadDir()), "resource/folder");
+                    PendingIntent pIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
+
                     String file = (total == 1) ? "file" : "files";
                     mBuilder.setContentTitle("Download complete")
                             .setContentText(successful + " of " + total + " " + file + " downloaded")
+                            .setContentIntent(pIntent)
                             .setOngoing(false)
                             .setProgress(0, 0, false);
                     mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
