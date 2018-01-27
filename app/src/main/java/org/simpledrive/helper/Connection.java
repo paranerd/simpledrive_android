@@ -234,7 +234,6 @@ public class Connection {
      * @return Response
      */
     public Response finish() {
-        int status = 404;
         addFormField("token", CustomAuthenticator.getToken());
 
         try {
@@ -251,7 +250,7 @@ public class Connection {
             }
 
             // Get status code
-            status = httpConn.getResponseCode();
+            int status = httpConn.getResponseCode();
 
             if (status == HttpURLConnection.HTTP_FORBIDDEN && renewToken()) {
                 return retry();
@@ -303,6 +302,7 @@ public class Connection {
                 outputStream.close();
                 is.close();
                 httpConn.disconnect();
+
                 return new Response(true, status, saveFilePath);
             }
             // Receive answer from server
@@ -324,12 +324,24 @@ public class Connection {
                 reader.close();
                 is.close();
                 httpConn.disconnect();
+
                 return new Response(success, status, obj.getString("msg"));
             }
         } catch (Exception e) {
             e.printStackTrace();
+
+            int status = 400;
+            String message = "Unknown error";
+            try {
+                status = httpConn.getResponseCode();
+                message = httpConn.getResponseMessage();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+
             httpConn.disconnect();
-            return new Response(false, status, "Connection error");
+
+            return new Response(false, status, message);
         }
     }
 
