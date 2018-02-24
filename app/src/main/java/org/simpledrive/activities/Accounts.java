@@ -30,6 +30,7 @@ import java.util.ArrayList;
 
 public class Accounts extends AppCompatActivity {
     // General
+    private Accounts ctx;
     private ArrayList<AccountItem> items = new ArrayList<>();
     private AccountAdapter newAdapter;
     private int selectedPos;
@@ -41,6 +42,8 @@ public class Accounts extends AppCompatActivity {
 
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
+
+        ctx = this;
 
         int theme = (Preferences.getInstance(this).read(Preferences.TAG_COLOR_THEME, "light").equals("light")) ? R.style.MainTheme_Light : R.style.MainTheme_Dark;
         setTheme(theme);
@@ -110,7 +113,7 @@ public class Accounts extends AppCompatActivity {
             public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.delete:
-                        new android.support.v7.app.AlertDialog.Builder(getApplicationContext())
+                        new android.support.v7.app.AlertDialog.Builder(ctx)
                                 .setTitle("Remove " + getFirstSelected())
                                 .setMessage("Are you sure you want to remove this account?")
                                 .setPositiveButton("Remove", new DialogInterface.OnClickListener() {

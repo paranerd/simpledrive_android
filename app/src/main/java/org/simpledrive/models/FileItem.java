@@ -15,16 +15,15 @@ public class FileItem
 	private String type;
 	private String owner;
 	private Integer scrollPos = 0;
-	private boolean selfshared;
-	private boolean shared;
+	private Integer shareStatus;
 
 	// Used for hierarchy elements
 	public FileItem(String id, String filename, String path) {
-		this(id, filename, path, "", "", "folder", "", false, false);
+		this(id, filename, path, "", "", "folder", "", 0);
 	}
 
 	// For all other elements
-	public FileItem(String id, String filename, String path, String size, String edit, String type, String owner, boolean selfshared, boolean shared)
+	public FileItem(String id, String filename, String path, String size, String edit, String type, String owner, Integer sharestatus)
     {
 		this.id = id;
 		this.filename = filename;
@@ -33,8 +32,7 @@ public class FileItem
 		this.path = path;
 		this.type = type;
 		this.owner = owner;
-		this.selfshared = selfshared;
-		this.shared = shared;
+		this.shareStatus = sharestatus;
 	}
 
 	public boolean is(String type)
@@ -86,13 +84,8 @@ public class FileItem
 		return this.owner;
 	}
 
-	public boolean selfshared() {
-		return this.selfshared;
-	}
-
-	public boolean shared()
-    {
-		return this.shared;
+	public Integer getShareStatus() {
+		return this.shareStatus;
 	}
 
 	public void setScrollPos(int pos)

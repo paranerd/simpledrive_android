@@ -39,7 +39,6 @@ import java.util.ArrayList;
 public class ShareFiles extends AppCompatActivity {
     // General
     private boolean preventLock = false;
-    private String username = "";
     private String accountID = "";
 
     // Files
@@ -75,7 +74,6 @@ public class ShareFiles extends AppCompatActivity {
         }
 
         uploadsPending = getUploads(getIntent());
-        username = CustomAuthenticator.getUsername();
         accountID = CustomAuthenticator.getID();
 
         clearHierarchy();
@@ -314,12 +312,11 @@ public class ShareFiles extends AppCompatActivity {
                 String filename = obj.getString("filename");
                 String type = obj.getString("type");
                 String size = (obj.getString("type").equals("folder")) ? ((obj.getString("size").equals("1")) ? obj.getString("size") + " element" : obj.getString("size") + " elements") : Util.convertSize(obj.getString("size"));
-                boolean selfshared = Boolean.parseBoolean(obj.getString("selfshared"));
-                boolean shared = Boolean.parseBoolean(obj.getString("shared"));
-                String owner = (!obj.getString("owner").equals(username)) ? obj.getString("owner") : ((shared) ? "shared" : "");
+                String owner = obj.getString("owner");
+                Integer shareStatus = obj.getInt("sharestatus");
 
                 if (type.equals("folder")) {
-                    FileItem item = new FileItem(id, filename, "", size, obj.getString("edit"), type, owner, selfshared, shared);
+                    FileItem item = new FileItem(id, filename, "", size, obj.getString("edit"), type, owner, shareStatus);
                     items.add(item);
                 }
             }
@@ -339,7 +336,8 @@ public class ShareFiles extends AppCompatActivity {
         if (items.size() == 0) {
             info.setVisibility(View.VISIBLE);
             info.setText(R.string.empty);
-        } else {
+        }
+        else {
             info.setVisibility(View.GONE);
         }
 

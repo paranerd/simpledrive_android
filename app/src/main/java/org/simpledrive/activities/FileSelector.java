@@ -58,8 +58,6 @@ public class FileSelector extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //e = this;
-
         Bundle extras = getIntent().getExtras();
         multi = extras.getBoolean("multi", false);
         foldersonly = extras.getBoolean("foldersonly", false);
@@ -353,7 +351,7 @@ public class FileSelector extends AppCompatActivity {
             if (path.equals("")) {
                 for (File d : externalFilesDirs) {
                     File f = d.getParentFile().getParentFile().getParentFile().getParentFile();
-                    items.add(new FileItem("", f.getName(), f.getAbsolutePath(), "", "", "folder", "", false, false));
+                    items.add(new FileItem("", f.getName(), f.getAbsolutePath(), "", "", "folder", "", 0));
                 }
             }
             else {
@@ -367,7 +365,7 @@ public class FileSelector extends AppCompatActivity {
                     String size = (file.isDirectory()) ? ((file.listFiles().length == 1) ? file.listFiles().length + " element" : file.listFiles().length + " elements") : Util.convertSize(file.length() + "");
                     String type = (file.isDirectory()) ? "folder" : getMimeType(file);
 
-                    items.add(new FileItem("", filename, path, size, "", type, "", false, false));
+                    items.add(new FileItem("", filename, path, size, "", type, "", 0));
                 }
             }
 
