@@ -59,6 +59,7 @@ import org.simpledrive.helper.Downloader;
 import org.simpledrive.helper.FilelistCache;
 import org.simpledrive.helper.Permissions;
 import org.simpledrive.helper.Preferences;
+import org.simpledrive.helper.RequestCache;
 import org.simpledrive.helper.Uploader;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.AccountItem;
@@ -68,6 +69,7 @@ import org.simpledrive.services.AudioService.LocalBinder;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -83,6 +85,7 @@ public class RemoteFiles extends AppCompatActivity {
     private boolean isAdmin = false;
     private ArrayList<AccountItem> accounts = new ArrayList<>();
     private FilelistCache db;
+    private RequestCache requestCache;
     private long requestId = 0;
 
     // Request codes
@@ -185,7 +188,7 @@ public class RemoteFiles extends AppCompatActivity {
         initAudioPlayer();
         createCache();
 
-        clearHierarchy();
+        initHierarchy();
         new GetVersion(RemoteFiles.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         new GetPermissions(RemoteFiles.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         checkForPendingUploads();
@@ -193,6 +196,7 @@ public class RemoteFiles extends AppCompatActivity {
         username = CustomAuthenticator.getUsername();
         accountID = CustomAuthenticator.getID();
         updateNavigationDrawer();
+
         db = new FilelistCache(this, accountID);
 
         // Update firebase-token if refreshed
@@ -303,7 +307,7 @@ public class RemoteFiles extends AppCompatActivity {
                 break;
         }
 
-        clearHierarchy();
+        initHierarchy();
         fetchFiles(false);
     }
 
@@ -366,14 +370,18 @@ public class RemoteFiles extends AppCompatActivity {
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
-        } else if (list.getCheckedItemCount() > 0) {
+        }
+        else if (list.getCheckedItemCount() > 0) {
             unselectAll();
-        } else if (hierarchy.size() > 1) {
+        }
+        else if (hierarchy.size() > 1) {
             hierarchy.remove(hierarchy.size() - 1);
             fetchFiles(false);
-        } else if (viewmode.equals("trash")) {
+        }
+        else if (viewmode.equals("trash")) {
             setViewmode("files");
-        } else {
+        }
+        else {
             super.onBackPressed();
         }
     }
@@ -707,15 +715,19 @@ public class RemoteFiles extends AppCompatActivity {
 
         // Get cached files
         ArrayList<FileItem> cachedFiles = db.getChildren(getCurrentFolderId());
+        if (cachedFiles.size() > 0) {
+            emptyList();
+            items.addAll(cachedFiles);
+            filteredItems.addAll(cachedFiles);
 
-        // Update files
-        emptyList();
-        items.addAll(cachedFiles);
-        filteredItems.addAll(cachedFiles);
-
-        displayFiles();
+            displayFiles();
+        }
 
         return (cachedFiles.size() > 0);
+    }
+
+    private Timestamp getTimestamp() {
+        return new Timestamp(System.currentTimeMillis());
     }
 
     /**
@@ -770,7 +782,8 @@ public class RemoteFiles extends AppCompatActivity {
 
             if (res.successful()) {
                 act.extractFiles(res.getMessage());
-            } else {
+            }
+            else {
                 act.showInfo(res.getMessage());
             }
         }
@@ -810,15 +823,14 @@ public class RemoteFiles extends AppCompatActivity {
                 String type = obj.getString("type");
                 String edit = obj.getString("edit");
                 String size = (obj.getString("type").equals("folder")) ? ((obj.getString("size").equals("1")) ? obj.getString("size") + " element" : obj.getString("size") + " elements") : Util.convertSize(obj.getString("size"));
-                boolean selfshared = obj.has("selfshared") && Boolean.parseBoolean(obj.getString("selfshared"));
-                boolean shared = obj.has("shared") && Boolean.parseBoolean(obj.getString("shared"));
                 String owner = obj.getString("owner");
+                Integer shareStatus = obj.getInt("sharestatus");
 
-                FileItem item = new FileItem(id, filename, "", size, edit, type, owner, selfshared, shared);
+                FileItem item = new FileItem(id, filename, "", size, edit, type, owner, shareStatus);
                 items.add(item);
                 filteredItems.add(item);
 
-                db.addFile(item, parent);
+                db.addFile(item, parent, true);
             }
         } catch (JSONException exp) {
             exp.printStackTrace();
@@ -877,23 +889,8 @@ public class RemoteFiles extends AppCompatActivity {
         list.setAdapter(adapter);
 
         // Show current directory in toolbar
-        String title;
-        FileItem thisFolder = hierarchy.get(hierarchy.size() - 1);
-
-        if (thisFolder.getFilename().length() > 0) {
-            title = thisFolder.getFilename();
-        } else if (viewmode.equals("shareout")) {
-            title = "My shares";
-        } else if (viewmode.equals("sharein")) {
-            title = "Shared with me";
-        } else if (viewmode.equals("trash")) {
-            title = "Trash";
-        } else {
-            title = "Homefolder";
-        }
-
         int foldersCount = countFolders();
-        setToolbarTitle(title);
+        setToolbarTitle(hierarchy.get(hierarchy.size() - 1).getFilename());
         setToolbarSubtitle("Folders: " + foldersCount + ", Files: " + (filteredItems.size() - foldersCount));
 
         unselectAll();
@@ -916,25 +913,30 @@ public class RemoteFiles extends AppCompatActivity {
         FileItem item = filteredItems.get(position);
         if (viewmode.equals("trash")) {
             return;
-        } else if (item.is("folder")) {
+        }
+        else if (item.is("folder")) {
             hierarchy.add(item);
             fetchFiles(false);
-        } else if (item.is("image")) {
+        }
+        else if (item.is("image")) {
             preventLock = true;
             Intent i = new Intent(getApplicationContext(), ImageViewer.class);
             i.putExtra("position", getImagePosition(item));
             startActivity(i);
-        } else if (item.is("audio") && mPlayerService != null) {
+        }
+        else if (item.is("audio") && mPlayerService != null) {
             mPlayerService.initPlay(item);
             showAudioPlayer();
             Toast.makeText(this, "Loading audio...", Toast.LENGTH_SHORT).show();
-        } else if (item.is("text")) {
+        }
+        else if (item.is("text")) {
             preventLock = true;
             Intent i = new Intent(getApplicationContext(), Editor.class);
             i.putExtra("file", filteredItems.get(position).getID());
             i.putExtra("filename", filteredItems.get(position).getFilename());
             startActivity(i);
-        } else if (item.is("pdf")) {
+        }
+        else if (item.is("pdf")) {
             Toast.makeText(ctx, "Download started", Toast.LENGTH_SHORT).show();
 
             Downloader.download(item, new Downloader.TaskListener() {
@@ -945,7 +947,8 @@ public class RemoteFiles extends AppCompatActivity {
                     }
                 }
             });
-        } else {
+        }
+        else {
             Toast.makeText(this, "Can not open file", Toast.LENGTH_SHORT).show();
         }
         unselectAll();
@@ -1578,8 +1581,8 @@ public class RemoteFiles extends AppCompatActivity {
                     bottomContextMenu.findItem(R.id.zip).setVisible(!trash && !item.is("archive"));
                     bottomContextMenu.findItem(R.id.unzip).setVisible(!trash && item.is("archive"));
                     bottomContextMenu.findItem(R.id.rename).setVisible(!trash && checkedItemcount == 1);
-                    bottomContextMenu.findItem(R.id.share).setVisible(!trash && checkedItemcount == 1 && !item.selfshared());
-                    bottomContextMenu.findItem(R.id.unshare).setVisible(!trash && checkedItemcount == 1 && item.selfshared());
+                    bottomContextMenu.findItem(R.id.share).setVisible(!trash && checkedItemcount == 1 && item.getShareStatus() != 2);
+                    bottomContextMenu.findItem(R.id.unshare).setVisible(!trash && checkedItemcount == 1 && item.getShareStatus() == 2);
                     bottomContextMenu.findItem(R.id.encrypt).setVisible(!trash && checkedItemcount == 1 && !item.is("folder") && !item.is("encrypted"));
                     bottomContextMenu.findItem(R.id.decrypt).setVisible(!trash && checkedItemcount == 1 && item.is("encrypted"));
                 } else {
@@ -1591,8 +1594,8 @@ public class RemoteFiles extends AppCompatActivity {
                     mContextMenu.findItem(R.id.zip).setVisible(!trash && !item.is("archive"));
                     mContextMenu.findItem(R.id.unzip).setVisible(!trash && item.is("archive"));
                     mContextMenu.findItem(R.id.rename).setVisible(!trash && checkedItemcount == 1);
-                    mContextMenu.findItem(R.id.share).setVisible(!trash && checkedItemcount == 1 && !item.selfshared());
-                    mContextMenu.findItem(R.id.unshare).setVisible(!trash && checkedItemcount == 1 && item.selfshared());
+                    mContextMenu.findItem(R.id.share).setVisible(!trash && checkedItemcount == 1 && item.getShareStatus() != 2);
+                    mContextMenu.findItem(R.id.unshare).setVisible(!trash && checkedItemcount == 1 && item.getShareStatus() == 2);
                     mContextMenu.findItem(R.id.encrypt).setVisible(!trash && checkedItemcount == 1 && !item.is("folder") && !item.is("encrypted"));
                     mContextMenu.findItem(R.id.decrypt).setVisible(!trash && checkedItemcount == 1 && item.is("encrypted"));
                 }
@@ -1658,10 +1661,9 @@ public class RemoteFiles extends AppCompatActivity {
         }
     }
 
-    private void clearHierarchy() {
-        FileItem first = (hierarchy.size() > 0) ? hierarchy.get(0) : new FileItem("0", "", "");
+    private void initHierarchy() {
         hierarchy = new ArrayList<>();
-        hierarchy.add(first);
+        hierarchy.add(new FileItem("0", "", ""));
     }
 
     private void createCache() {

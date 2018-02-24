@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Wed Jan 10 18:41:53 CET 2018
+#Fri Feb 23 22:36:52 CET 2018
 2.base=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dexMerger/debug/11
 5.set=DEX
 0.path=classes.dex

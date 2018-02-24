@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.simpledrive.R;
+import org.simpledrive.authenticator.CustomAuthenticator;
 import org.simpledrive.helper.Downloader;
 import org.simpledrive.helper.Preferences;
 import org.simpledrive.helper.Util;
@@ -32,6 +33,7 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
     private AppCompatActivity ctx;
     private AbsListView list;
     private Integer thumbSize;
+    private String username = CustomAuthenticator.getUsername();
 
     public FileAdapter(AppCompatActivity ctx, int layoutResourceId, AbsListView list) {
         this(ctx, layoutResourceId, list, Preferences.getInstance(ctx).read(Preferences.TAG_LOAD_THUMB, false));
@@ -63,7 +65,7 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
             holder.icon_area = (RelativeLayout) convertView.findViewById(R.id.icon_area);
             holder.name = (TextView) convertView.findViewById(R.id.title);
             holder.size = (TextView) convertView.findViewById(R.id.detail1);
-            holder.owner = (TextView) convertView.findViewById(R.id.detail2);
+            holder.shareInfo = (TextView) convertView.findViewById(R.id.detail2);
 
             if (layout == R.layout.listview_detail) {
                 holder.separator = (TextView) convertView.findViewById(R.id.separator);
@@ -74,9 +76,12 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
             holder = (ViewHolder) convertView.getTag();
         }
 
-        if (item.shared()) {
+        String shareInfo = (item.getShareStatus() > 0) ? ((!item.getOwner().equals(username)) ? username : "shared") : "";
+        holder.shareInfo.setText(shareInfo);
+
+        /*if (item.getShareStatus() > 0) {
             holder.owner.setText(item.getOwner());
-        }
+        }*/
 
         if (layout == R.layout.listview_detail) {
             int separatorVisibility = (position == 0 || !item.getType().equals("folder") && getItem(position - 1).getType().equals("folder")) ? View.VISIBLE : View.GONE;
@@ -139,7 +144,7 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
         ImageView thumb;
         TextView name;
         TextView size;
-        TextView owner;
+        TextView shareInfo;
         TextView separator;
         RelativeLayout checked;
         RelativeLayout icon_area;
@@ -153,8 +158,8 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
     public void setData(ArrayList<FileItem> arg1) {
         blockLoading = false;
         clear();
-        if(arg1 != null) {
-            for (int i=0; i < arg1.size(); i++) {
+        if (arg1 != null) {
+            for (int i = 0; i < arg1.size(); i++) {
                 add(arg1.get(i));
             }
         }
@@ -198,6 +203,7 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
 
             final FileAdapter act = ref.get();
             if (bmp != null) {
+                item.setThumb(bmp);
                 act.notifyDataSetChanged();
             }
         }
