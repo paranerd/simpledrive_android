@@ -100,7 +100,7 @@ public class AppSettings extends AppCompatActivity {
     public void clearCache() {
         if (Util.clearCache()) {
             Toast.makeText(this, "Cache cleared", Toast.LENGTH_SHORT).show();
-            prefsFragment.setSummary("clearcache", "Empty");
+            prefsFragment.setSummary("clearcache", Util.convertSize("" + Util.folderSize(Util.getCacheDir())));
         }
         else {
             Toast.makeText(this, "Error clearing cache", Toast.LENGTH_SHORT).show();
@@ -208,7 +208,7 @@ public class AppSettings extends AppCompatActivity {
             });
 
             Preference clearcache = findPreference("clearcache");
-            clearcache.setSummary((cacheEnabled) ? "Size: " + Util.convertSize("" + Util.folderSize(Util.getCacheDir())) : "No access to cache");
+            clearcache.setSummary((cacheEnabled) ? Util.convertSize("" + Util.folderSize(Util.getCacheDir())) : "No access to cache");
             clearcache.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -269,7 +269,7 @@ public class AppSettings extends AppCompatActivity {
                 }
             });
 
-            Preference version = findPreference("appversion");
+            Preference version = findPreference("version");
             PackageInfo pInfo;
             try {
                 pInfo = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);

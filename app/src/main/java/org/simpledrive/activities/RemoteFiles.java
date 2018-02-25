@@ -28,6 +28,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -59,7 +60,6 @@ import org.simpledrive.helper.Downloader;
 import org.simpledrive.helper.FilelistCache;
 import org.simpledrive.helper.Permissions;
 import org.simpledrive.helper.Preferences;
-import org.simpledrive.helper.RequestCache;
 import org.simpledrive.helper.Uploader;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.AccountItem;
@@ -84,8 +84,7 @@ public class RemoteFiles extends AppCompatActivity {
     private boolean preventLock = false;
     private boolean isAdmin = false;
     private ArrayList<AccountItem> accounts = new ArrayList<>();
-    private FilelistCache db;
-    private RequestCache requestCache;
+    private FilelistCache filelistCache;
     private long requestId = 0;
 
     // Request codes
@@ -197,7 +196,7 @@ public class RemoteFiles extends AppCompatActivity {
         accountID = CustomAuthenticator.getID();
         updateNavigationDrawer();
 
-        db = new FilelistCache(this, accountID);
+        filelistCache = new FilelistCache(this, accountID);
 
         // Update firebase-token if refreshed
         if (!Preferences.getInstance(this).read(Preferences.TAG_FIREBASE_TOKEN_OLD, "").equals("")) {
@@ -322,7 +321,7 @@ public class RemoteFiles extends AppCompatActivity {
     }
 
     protected void onDestroy() {
-        db.close();
+        filelistCache.close();
         super.onDestroy();
 
         if (mBound && AudioService.isPlaying()) {
@@ -713,21 +712,22 @@ public class RemoteFiles extends AppCompatActivity {
             return false;
         }
 
-        // Get cached files
-        ArrayList<FileItem> cachedFiles = db.getChildren(getCurrentFolderId());
+        // Get cached children
+        ArrayList<FileItem> cachedFiles = filelistCache.getChildren(getCurrentFolderId());
+
         if (cachedFiles.size() > 0) {
             emptyList();
             items.addAll(cachedFiles);
             filteredItems.addAll(cachedFiles);
 
+            if (hierarchy.size() == 1) {
+                hierarchy.set(0, filelistCache.getFile(getCurrentFolderId()));
+            }
+
             displayFiles();
         }
 
         return (cachedFiles.size() > 0);
-    }
-
-    private Timestamp getTimestamp() {
-        return new Timestamp(System.currentTimeMillis());
     }
 
     /**
@@ -801,7 +801,6 @@ public class RemoteFiles extends AppCompatActivity {
         // Reset anything related to listing files
         toggleFAB(false);
         emptyList();
-        db.deleteFolder(parent);
 
         try {
             JSONObject job = new JSONObject(rawJSON);
@@ -813,6 +812,15 @@ public class RemoteFiles extends AppCompatActivity {
             for (int i = 0; i < h.length(); i++) {
                 JSONObject obj = h.getJSONObject(i);
                 hierarchy.add(new FileItem(obj.getString("id"), obj.getString("filename"), ""));
+            }
+
+            if (files.length() > 0 && viewmode.equals("files")) {
+                filelistCache.deleteFolder(parent);
+            }
+
+            if (hierarchy.size() == 1 && viewmode.equals("files")) {
+                FileItem current = hierarchy.get(hierarchy.size() - 1);
+                filelistCache.addFile(new FileItem(parent, current.getFilename(), ""), "", false);
             }
 
             for (int i = 0; i < files.length(); i++) {
@@ -830,7 +838,7 @@ public class RemoteFiles extends AppCompatActivity {
                 items.add(item);
                 filteredItems.add(item);
 
-                db.addFile(item, parent, true);
+                filelistCache.addFile(item, parent, true);
             }
         } catch (JSONException exp) {
             exp.printStackTrace();

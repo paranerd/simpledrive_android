@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import org.simpledrive.models.FileItem;
 
@@ -21,15 +22,15 @@ public class FilelistCache extends SQLiteOpenHelper {
     private static final String TABLE_FILES = "files";
 
     // Table Columns names
-    private static final String KEY_ID = "id";
-    private static final String KEY_ACCOUNT = "account";
-    private static final String KEY_FILENAME = "filename";
-    private static final String KEY_PARENT = "parent";
-    private static final String KEY_SIZE = "size";
-    private static final String KEY_EDIT = "edit";
-    private static final String KEY_TYPE = "type";
-    private static final String KEY_OWNER = "owner";
-    private static final String KEY_SHARESTATUS = "sharestatus";
+    private final String KEY_ID = "id";
+    private final String KEY_ACCOUNT = "account";
+    private final String KEY_FILENAME = "filename";
+    private final String KEY_PARENT = "parent";
+    private final String KEY_SIZE = "size";
+    private final String KEY_EDIT = "edit";
+    private final String KEY_TYPE = "type";
+    private final String KEY_OWNER = "owner";
+    private final String KEY_SHARESTATUS = "sharestatus";
 
     // Account hash
     private static String account;
@@ -70,6 +71,7 @@ public class FilelistCache extends SQLiteOpenHelper {
      */
     // Adding new contact
     public void addFile(FileItem file, String parent, boolean replace) {
+        Log.i("sd_debug", "add " + file.getFilename() + "(" + file.getID() + ") | parent: " + parent);
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -84,27 +86,20 @@ public class FilelistCache extends SQLiteOpenHelper {
         values.put(KEY_SHARESTATUS, file.getShareStatus());
 
         // Inserting Row
-        //db.insert(TABLE_FILES, null, values);
         int mode = (replace) ? SQLiteDatabase.CONFLICT_REPLACE : SQLiteDatabase.CONFLICT_IGNORE;
         db.insertWithOnConflict(TABLE_FILES, null, values, mode);
         db.close();
     }
 
-    // Getting single file
-    FileItem getFile(String id) {
-        SQLiteDatabase db = this.getReadableDatabase();
+    public FileItem getFile(String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_FILES + " WHERE " + KEY_ACCOUNT + " = ? AND " + KEY_ID + " = ?";
+        String[] args = { account, id };
 
-        Cursor cursor = db.query(
-                TABLE_FILES,
-                new String[] { KEY_ID, KEY_FILENAME, KEY_SIZE },
-                KEY_ID + "=?",
-                new String[] { id },
-                null, null, null, null
-        );
+        Cursor cursor = db.rawQuery(query, args);
 
-        if (cursor != null) {
-            cursor.moveToFirst();
-            FileItem file = new FileItem(cursor.getString(0), cursor.getString(1), "", cursor.getString(2), "", "", "", 0);
+        if (cursor != null && cursor.moveToFirst()) {
+            FileItem file = new FileItem(cursor.getString(0), cursor.getString(2), "", cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getInt(8));
             cursor.close();
             return file;
         }
@@ -133,53 +128,6 @@ public class FilelistCache extends SQLiteOpenHelper {
         return files;
     }
 
-    private FileItem getParent(String id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT " + KEY_ID + "," + KEY_FILENAME
-                + " FROM " + TABLE_FILES
-                + " WHERE " + KEY_ID + " = (SELECT " + KEY_PARENT + " FROM " + TABLE_FILES + " WHERE " + KEY_ID + " = ?)";
-        String[] args = { id };
-
-        Cursor cursor = db.rawQuery(query, args);
-
-        if (cursor != null && cursor.moveToFirst()) {
-            FileItem parent = new FileItem(cursor.getString(0), cursor.getString(1), "");
-            cursor.close();
-            return parent;
-        }
-
-        return null;
-    }
-
-    public ArrayList<FileItem> getHierarchy(String id) {
-        ArrayList<FileItem> hierarchy = new ArrayList<>();
-        FileItem parent;
-
-        do {
-            parent = getParent(id);
-
-            if (parent != null) {
-                hierarchy.add(parent);
-                id = parent.getID();
-            }
-        } while (parent != null);
-
-        return hierarchy;
-    }
-
-    // Updating single file
-    /*public int updateFile(FileItem file) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(KEY_NAME, contact.getName());
-        values.put(KEY_PH_NO, contact.getPhoneNumber());
-
-        // Update row
-        return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?",
-                new String[] { String.valueOf(contact.getID()) });
-    }*/
-
     // Deleting single contact
     public void deleteFolder(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -191,4 +139,5 @@ public class FilelistCache extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_FILES, KEY_ACCOUNT + " = ?", new String[] { account });
     }
+
 }

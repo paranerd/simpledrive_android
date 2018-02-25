@@ -44,6 +44,7 @@ public class ShareFiles extends AppCompatActivity {
     // Files
     private ArrayList<FileItem> items = new ArrayList<>();
     private ArrayList<FileItem> hierarchy = new ArrayList<>();
+    private ArrayList<String> uploadsPending;
 
     // Interface
     private AbsListView list;
@@ -53,9 +54,6 @@ public class ShareFiles extends AppCompatActivity {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private GridView tmp_grid;
     private ListView tmp_list;
-
-    // Files
-    private ArrayList<String> uploadsPending;
 
     // Request codes
     private final int REQUEST_UNLOCK = 0;
@@ -346,15 +344,7 @@ public class ShareFiles extends AppCompatActivity {
         list.setAdapter(adapter);
 
         // Show current directory in toolbar
-        String title;
-        FileItem thisFolder = hierarchy.get(hierarchy.size() - 1);
-        if (!thisFolder.getFilename().equals("")) {
-            title = thisFolder.getFilename();
-        } else {
-            title = "Homefolder";
-        }
-
-        setToolbarTitle(title);
+        setToolbarTitle(hierarchy.get(hierarchy.size() - 1).getFilename());
         setToolbarSubtitle("Folders: " + items.size());
     }
 
