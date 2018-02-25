@@ -6157,9 +6157,6 @@ org.simpledrive.activities.AppSettings:
     private static final int REQUEST_ENABLE_PHOTO_SYNC
 org.simpledrive.activities.Login:
     private static final int REQUEST_TFA_CODE
-org.simpledrive.activities.RemoteFiles:
-    private org.simpledrive.helper.RequestCache requestCache
-    730:730:private java.sql.Timestamp getTimestamp()
 org.simpledrive.activities.Vault:
     private static final int REQUEST_UNLOCK
     private static final int REQUEST_SET_PASSPHRASE
@@ -6205,19 +6202,7 @@ org.simpledrive.helper.FilelistCache:
     private static final int DATABASE_VERSION
     private static final java.lang.String DATABASE_NAME
     private static final java.lang.String TABLE_FILES
-    private static final java.lang.String KEY_ID
-    private static final java.lang.String KEY_ACCOUNT
-    private static final java.lang.String KEY_FILENAME
-    private static final java.lang.String KEY_PARENT
-    private static final java.lang.String KEY_SIZE
-    private static final java.lang.String KEY_EDIT
-    private static final java.lang.String KEY_TYPE
-    private static final java.lang.String KEY_OWNER
-    private static final java.lang.String KEY_SHARESTATUS
-    95:112:org.simpledrive.models.FileItem getFile(java.lang.String)
-    137:151:private org.simpledrive.models.FileItem getParent(java.lang.String)
-    155:167:public java.util.ArrayList getHierarchy(java.lang.String)
-    191:193:public void clear()
+    139:141:public void clear()
 org.simpledrive.helper.Preferences:
     private static final java.lang.String SHARED_PREF_NAME
     public static final java.lang.String TAG_FIREBASE_TOKEN
@@ -6231,7 +6216,6 @@ org.simpledrive.helper.Preferences:
     public static final java.lang.String TAG_VAULT_IN_SYNC
     public static final java.lang.String TAG_FINGERPRINT
     53:54:public int read(java.lang.String,int)
-org.simpledrive.helper.RequestCache
 org.simpledrive.helper.TouchImageView:
     private static final java.lang.String DEBUG
     private static final float SUPER_MIN_MULTIPLIER

@@ -20198,7 +20198,7 @@ org.simpledrive.activities.RemoteFiles -> org.simpledrive.activities.RemoteFiles
     boolean preventLock -> w
     boolean isAdmin -> x
     java.util.ArrayList accounts -> y
-    org.simpledrive.helper.FilelistCache db -> z
+    org.simpledrive.helper.FilelistCache filelistCache -> z
     long requestId -> A
     int REQUEST_UPLOAD -> B
     int REQUEST_UNLOCK -> C
@@ -20831,14 +20831,14 @@ org.simpledrive.activities.ShareFiles -> org.simpledrive.activities.ShareFiles:
     java.lang.String accountID -> o
     java.util.ArrayList items -> p
     java.util.ArrayList hierarchy -> q
-    android.widget.AbsListView list -> r
-    android.widget.TextView info -> s
-    int listLayout -> t
-    int theme -> u
-    android.support.v4.widget.SwipeRefreshLayout mSwipeRefreshLayout -> v
-    android.widget.GridView tmp_grid -> w
-    android.widget.ListView tmp_list -> x
-    java.util.ArrayList uploadsPending -> y
+    java.util.ArrayList uploadsPending -> r
+    android.widget.AbsListView list -> s
+    android.widget.TextView info -> t
+    int listLayout -> u
+    int theme -> v
+    android.support.v4.widget.SwipeRefreshLayout mSwipeRefreshLayout -> w
+    android.widget.GridView tmp_grid -> x
+    android.widget.ListView tmp_list -> y
     int REQUEST_UNLOCK -> z
     void <init>() -> <init>
     void onCreate(android.os.Bundle) -> onCreate
@@ -21719,13 +21719,23 @@ org.simpledrive.helper.ExtendedViewPager -> org.simpledrive.helper.ExtendedViewP
     void <init>(android.content.Context,android.util.AttributeSet) -> <init>
     boolean canScroll(android.view.View,boolean,int,int,int) -> a
 org.simpledrive.helper.FilelistCache -> org.simpledrive.helper.d:
-    java.lang.String account -> a
+    java.lang.String KEY_ID -> a
+    java.lang.String KEY_ACCOUNT -> b
+    java.lang.String KEY_FILENAME -> c
+    java.lang.String KEY_PARENT -> d
+    java.lang.String KEY_SIZE -> e
+    java.lang.String KEY_EDIT -> f
+    java.lang.String KEY_TYPE -> g
+    java.lang.String KEY_OWNER -> h
+    java.lang.String KEY_SHARESTATUS -> i
+    java.lang.String account -> j
     void <init>(android.content.Context,java.lang.String) -> <init>
     void onCreate(android.database.sqlite.SQLiteDatabase) -> onCreate
     void onUpgrade(android.database.sqlite.SQLiteDatabase,int,int) -> onUpgrade
     void addFile(org.simpledrive.models.FileItem,java.lang.String,boolean) -> a
-    java.util.ArrayList getChildren(java.lang.String) -> a
-    void deleteFolder(java.lang.String) -> b
+    org.simpledrive.models.FileItem getFile(java.lang.String) -> a
+    java.util.ArrayList getChildren(java.lang.String) -> b
+    void deleteFolder(java.lang.String) -> c
 org.simpledrive.helper.Permissions -> org.simpledrive.helper.e:
     android.support.v7.app.AppCompatActivity e -> a
     int REQUEST_CODE -> b

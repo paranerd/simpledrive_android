@@ -30,7 +30,7 @@
 
         <CheckBoxPreference
             android:key="context"
-            android:title="Enable bottom context menu"
+            android:title="Bottom context menu"
             android:defaultValue="false"/>
     </PreferenceCategory>
 
@@ -40,19 +40,21 @@
         <Preference
             android:id="@+id/clearcache"
             android:key="clearcache"
-            android:title="Clear cache"
-            android:summary="Size: calculating..." />
+            android:title="Clear cache" />
 
         <CheckBoxPreference
             android:key="photosync"
             android:title="Photo Sync"
             android:summary=""
             android:defaultValue="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Security">
 
         <CheckBoxPreference
             android:key="pin"
             android:title="PIN"
-            android:summary="Protect app-access"
             android:defaultValue="false"/>
 
         <CheckBoxPreference
@@ -66,9 +68,8 @@
         android:title="Info">
 
         <Preference
-            android:key="appversion"
-            android:title="App version"
-            android:summary="" />
+            android:key="version"
+            android:title="Version" />
 
     </PreferenceCategory>
 
