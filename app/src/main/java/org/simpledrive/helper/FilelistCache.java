@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import org.simpledrive.models.FileItem;
 
@@ -71,7 +70,6 @@ public class FilelistCache extends SQLiteOpenHelper {
      */
     // Adding new contact
     public void addFile(FileItem file, String parent, boolean replace) {
-        Log.i("sd_debug", "add " + file.getFilename() + "(" + file.getID() + ") | parent: " + parent);
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -87,7 +85,7 @@ public class FilelistCache extends SQLiteOpenHelper {
 
         // Inserting Row
         int mode = (replace) ? SQLiteDatabase.CONFLICT_REPLACE : SQLiteDatabase.CONFLICT_IGNORE;
-        db.insertWithOnConflict(TABLE_FILES, null, values, mode);
+        db.insertWithOnConflict(TABLE_FILES, null, values, SQLiteDatabase.CONFLICT_IGNORE);
         db.close();
     }
 
