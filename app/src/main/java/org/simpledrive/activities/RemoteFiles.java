@@ -679,7 +679,7 @@ public class RemoteFiles extends AppCompatActivity {
      * @return String
      */
     private String getCurrentFolderId() {
-        return (hierarchy.size() == 0 || (hierarchy.size() == 1 && hierarchy.get(hierarchy.size() - 1).getFilename().equals(""))) ? "0" : hierarchy.get(hierarchy.size() - 1).getID();
+        return hierarchy.get(hierarchy.size() - 1).getID();
     }
 
     /**
@@ -795,9 +795,6 @@ public class RemoteFiles extends AppCompatActivity {
      * @param rawJSON The raw JSON-Data from the server
      */
     private void extractFiles(String rawJSON) {
-        // Cache-parent is "0" for root elements
-        String parent = getCurrentFolderId();
-
         // Reset anything related to listing files
         toggleFAB(false);
         emptyList();
@@ -814,13 +811,15 @@ public class RemoteFiles extends AppCompatActivity {
                 hierarchy.add(new FileItem(obj.getString("id"), obj.getString("filename"), ""));
             }
 
+            FileItem current = hierarchy.get(hierarchy.size() - 1);
+
             if (files.length() > 0 && viewmode.equals("files")) {
-                filelistCache.deleteFolder(parent);
+                filelistCache.deleteFolder(current.getID());
             }
 
             if (hierarchy.size() == 1 && viewmode.equals("files")) {
-                FileItem current = hierarchy.get(hierarchy.size() - 1);
-                filelistCache.addFile(new FileItem(parent, current.getFilename(), ""), "", false);
+                filelistCache.addFile(current, "", false);
+                CustomAuthenticator.setRootId(current.getID());
             }
 
             for (int i = 0; i < files.length(); i++) {
@@ -838,7 +837,7 @@ public class RemoteFiles extends AppCompatActivity {
                 items.add(item);
                 filteredItems.add(item);
 
-                filelistCache.addFile(item, parent, true);
+                filelistCache.addFile(item, current.getID(), true);
             }
         } catch (JSONException exp) {
             exp.printStackTrace();
@@ -1671,7 +1670,7 @@ public class RemoteFiles extends AppCompatActivity {
 
     private void initHierarchy() {
         hierarchy = new ArrayList<>();
-        hierarchy.add(new FileItem("0", "", ""));
+        hierarchy.add(new FileItem(CustomAuthenticator.getRootId(), "", ""));
     }
 
     private void createCache() {

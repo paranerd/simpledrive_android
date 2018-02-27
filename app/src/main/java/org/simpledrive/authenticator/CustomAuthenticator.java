@@ -36,6 +36,7 @@ public class CustomAuthenticator {
     private static final String KEY_LAST_UNLOCK_ATTEMPT = "lastUnlockAttempt";
     private static final String KEY_LOCKED = "locked";
     private static final String KEY_ACTIVE = "active";
+    private static final String KEY_ROOT_ID = "rootId";
     private static final String TRUE = "1";
     private static final String FALSE = "0";
 
@@ -79,6 +80,7 @@ public class CustomAuthenticator {
         userdata.putString(KEY_LAST_UNLOCK_ATTEMPT, "0");
         userdata.putString(KEY_NICKNAME, "");
         userdata.putString(KEY_PIN, "");
+        userdata.putString(KEY_ROOT_ID, "");
         userdata.putString(KEY_ACTIVE, FALSE);
         userdata.putString(KEY_LOCKED, FALSE);
 
@@ -186,6 +188,16 @@ public class CustomAuthenticator {
     public static void setToken(String token) {
         if (getActiveAccount() != null) {
             am.setUserData(getActiveAccount(), KEY_TOKEN, token);
+        }
+    }
+
+    public static String getRootId() {
+        return (getActiveAccount() != null) ? am.getUserData(getActiveAccount(), KEY_ROOT_ID) : "";
+    }
+
+    public static void setRootId(String id) {
+        if (getActiveAccount() != null) {
+            am.setUserData(getActiveAccount(), KEY_ROOT_ID, id);
         }
     }
 
