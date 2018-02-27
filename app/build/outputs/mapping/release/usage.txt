@@ -6180,6 +6180,7 @@ org.simpledrive.authenticator.CustomAuthenticator:
     private static final java.lang.String KEY_LAST_UNLOCK_ATTEMPT
     private static final java.lang.String KEY_LOCKED
     private static final java.lang.String KEY_ACTIVE
+    private static final java.lang.String KEY_ROOT_ID
     private static final java.lang.String TRUE
     private static final java.lang.String FALSE
     16:16:public CustomAuthenticator()
@@ -6202,7 +6203,7 @@ org.simpledrive.helper.FilelistCache:
     private static final int DATABASE_VERSION
     private static final java.lang.String DATABASE_NAME
     private static final java.lang.String TABLE_FILES
-    139:141:public void clear()
+    137:139:public void clear()
 org.simpledrive.helper.Preferences:
     private static final java.lang.String SHARED_PREF_NAME
     public static final java.lang.String TAG_FIREBASE_TOKEN

@@ -21538,7 +21538,7 @@ org.simpledrive.authenticator.CustomAuthenticator -> org.simpledrive.authenticat
     java.lang.ref.WeakReference ref -> a
     android.accounts.AccountManager am -> b
     android.accounts.Account[] aaccount -> c
-    void refresh() -> n
+    void refresh() -> o
     void setContext(android.content.Context) -> a
     boolean accountExists(java.lang.String,java.lang.String) -> a
     boolean addAccount(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
@@ -21554,16 +21554,18 @@ org.simpledrive.authenticator.CustomAuthenticator -> org.simpledrive.authenticat
     java.lang.String getSalt() -> g
     java.lang.String getToken() -> h
     void setToken(java.lang.String) -> c
-    void lock() -> i
-    boolean isLocked() -> j
-    boolean unlock(java.lang.String) -> d
-    long getRemainingUnlockAttempts() -> k
-    long getCooldown() -> l
-    void incrementUnlockCounter() -> o
-    void setPIN(java.lang.String) -> e
-    boolean hasPIN() -> m
+    java.lang.String getRootId() -> i
+    void setRootId(java.lang.String) -> d
+    void lock() -> j
+    boolean isLocked() -> k
+    boolean unlock(java.lang.String) -> e
+    long getRemainingUnlockAttempts() -> l
+    long getCooldown() -> m
+    void incrementUnlockCounter() -> p
+    void setPIN(java.lang.String) -> f
+    boolean hasPIN() -> n
     java.util.ArrayList getAllAccounts(boolean) -> a
-    boolean isActive(java.lang.String) -> f
+    boolean isActive(java.lang.String) -> g
 org.simpledrive.helper.Connection -> org.simpledrive.helper.a:
     java.lang.ref.WeakReference ref -> a
     java.lang.String boundary -> b
