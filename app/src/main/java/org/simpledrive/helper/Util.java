@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -392,13 +393,13 @@ public class Util {
         return (layout == R.layout.listview_detail) ? Util.dpToPx(50) : displaymetrics.widthPixels / 3;
     }
 
-    public static Bitmap getDrawableByName(AppCompatActivity ctx, String name, int def) {
+    public static Drawable getDrawableByName(AppCompatActivity ctx, String name, int def) {
         // Get resource ID
         int drawableResourceId = ctx.getResources().getIdentifier(name, "drawable", ctx.getPackageName());
         drawableResourceId = (drawableResourceId != 0) ? drawableResourceId : def;
 
         // Create bitmap
-        return BitmapFactory.decodeResource(ctx.getResources(), drawableResourceId);
+        return ContextCompat.getDrawable(ctx, drawableResourceId);
     }
 
     public static Drawable getIconByName(AppCompatActivity ctx, String name, int def) {

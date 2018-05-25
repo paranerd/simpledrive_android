@@ -20,6 +20,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class Crypto {
     private static int blockSize = 16; // Bytes
     private static int keySize = 256; // Bit - AES-256
+    private static int iterations = 2048;
 
     private static String sign(byte[] str, SecretKeySpec key) {
         try {
@@ -35,7 +36,7 @@ public class Crypto {
 
     private static SecretKeySpec generateKey(String password, byte[] salt) {
         try {
-            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 2048, keySize);
+            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, keySize);
             SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             byte[] key = f.generateSecret(spec).getEncoded();
             return new SecretKeySpec(key, "AES");

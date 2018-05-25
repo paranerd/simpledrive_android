@@ -181,7 +181,7 @@ public class Downloader {
         @Override
         protected Connection.Response doInBackground(String... params) {
             Connection con = new Connection("files", "get");
-            con.addFormField("target", target);
+            con.addFormField("targets", target);
             con.addFormField("width", Integer.toString(width));
             con.addFormField("height", Integer.toString(height));
             con.addFormField("thumbnail", (thumb) ? "1" : "0");
@@ -239,7 +239,7 @@ public class Downloader {
                     publishProgress(num);
                 }
             });
-            con.addFormField("target", item.getID());
+            con.addFormField("targets", item.getID());
             con.addFormField("width", Integer.toString(item.getWidth()));
             con.addFormField("height", Integer.toString(item.getHeight()));
             con.addFormField("thumbnail", (item.isThumb()) ? "1" : "0");

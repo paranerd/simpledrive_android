@@ -10,18 +10,18 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,12 +36,13 @@ import org.simpledrive.helper.Crypto;
 import org.simpledrive.helper.Preferences;
 import org.simpledrive.helper.Util;
 import org.simpledrive.models.VaultItem;
-import org.simpledrive.models.VaultItemNote;
-import org.simpledrive.models.VaultItemWebsite;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Vault extends AppCompatActivity {
     // General
@@ -56,6 +57,8 @@ public class Vault extends AppCompatActivity {
     private int unlockAttempts= 0;
 
     // Vault
+    private ArrayList<VaultItem> vault = new ArrayList<>();
+    private String currentGroup = "";
     private final String username = CustomAuthenticator.getUsername();
     private final String server = CustomAuthenticator.getServer();
     private final String salt = CustomAuthenticator.getSalt();
@@ -66,21 +69,13 @@ public class Vault extends AppCompatActivity {
     // Request Codes
     private static final int REQUEST_UNLOCK = 0;
     private static final int REQUEST_SET_PASSPHRASE = 1;
-    private static final int REQUEST_WEBSITE= 2;
-    private static final int REQUEST_NOTE = 3;
+    private static final int REQUEST_ITEM = 2;
 
     // Interface
     private TextView info;
     private AbsListView list;
     private Menu mContextMenu;
     private SearchView searchView = null;
-    private boolean FAB_Status = false;
-    private FloatingActionButton fab_website;
-    private Animation show_fab_website;
-    private Animation hide_fab_website;
-    private FloatingActionButton fab_note;
-    private Animation show_fab_note;
-    private Animation hide_fab_note;
 
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
@@ -98,18 +93,20 @@ public class Vault extends AppCompatActivity {
         }
     }
 
-    protected void onPause() {
-        super.onPause();
-
-        toggleFAB(false);
-    }
-
     protected void onDestroy() {
         super.onDestroy();
         items = new ArrayList<>();
         vaultEncrypted = "";
         passphrase = "";
+    }
 
+    public void onBackPressed() {
+        if (!currentGroup.equals("")) {
+            showGroups();
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 
     private void initInterface() {
@@ -128,50 +125,9 @@ public class Vault extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toggleFAB(!FAB_Status);
+                createEntry();
             }
         });
-
-        fab_website = (FloatingActionButton) findViewById(R.id.fab_website);
-        show_fab_website = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_vertical_1_show);
-        hide_fab_website = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_vertical_1_hide);
-
-        fab_note = (FloatingActionButton) findViewById(R.id.fab_note);
-        show_fab_note = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_vertical_2_show);
-        hide_fab_note = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_vertical_2_hide);
-
-        fab_website.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createEntry("website");
-            }
-        });
-
-        fab_note.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createEntry("note");
-            }
-        });
-    }
-
-
-    private void toggleFAB(boolean status) {
-        if (status == FAB_Status) {
-            return;
-        }
-
-        FAB_Status = status;
-
-        // Floating Action Button 2
-        Animation anim1 = (status) ? show_fab_website : hide_fab_website;
-        fab_website.startAnimation(anim1);
-        fab_website.setClickable(status);
-
-        // Floating Action Button 3
-        Animation anim2 = (status) ? show_fab_note: hide_fab_note;
-        fab_note.startAnimation(anim2);
-        fab_note.setClickable(status);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -199,25 +155,16 @@ public class Vault extends AppCompatActivity {
                 }
                 break;
 
-            case REQUEST_WEBSITE:
+            case REQUEST_ITEM:
                 if (resultCode == RESULT_OK) {
                     int id = data.getIntExtra("id", -1);
-                    VaultItemWebsite web = data.getParcelableExtra("item");
-                    if (web == null) {
-                        web = new VaultItemWebsite();
-                    }
-                    saveEntry(web, id);
-                }
-                break;
+                    VaultItem item = data.getParcelableExtra("item");
 
-            case REQUEST_NOTE:
-                if (resultCode == RESULT_OK) {
-                    int id = data.getIntExtra("id", -1);
-                    VaultItemNote note = data.getParcelableExtra("item");
-                    if (note == null) {
-                        note = new VaultItemNote();
+                    if (item == null) {
+                        item = new VaultItem();
                     }
-                    saveEntry(note, id);
+
+                    saveEntry(item);
                 }
                 break;
         }
@@ -336,7 +283,7 @@ public class Vault extends AppCompatActivity {
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        deleteEntry(getFirstSelected());
+                                        deleteEntry(filteredItems.get(getFirstSelected()).getId());
                                         mode.finish();
                                     }
 
@@ -367,27 +314,20 @@ public class Vault extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                VaultItem item = filteredItems.get(position);
-                Intent i;
-                int requestCode;
-
-                switch (item.getType()) {
-                    case "website":
-                        i = new Intent(getApplicationContext(), VaultWebsite.class);
-                        requestCode = REQUEST_WEBSITE;
-                        break;
-                    case "note":
-                        i = new Intent(getApplicationContext(), VaultNote.class);
-                        requestCode = REQUEST_NOTE;
-                        break;
-                    default:
-                        return;
+                if (list.getAdapter() instanceof SimpleAdapter) {
+                    if (list.getAdapter().getItem(position) instanceof Map) {
+                        Log.i("sd_debug", "is map!");
+                        Map<String, Object> group = (Map<String, Object>) list.getAdapter().getItem(position);
+                        openGroup(group.get("name").toString());
+                    }
                 }
+                else {
+                    Intent i = new Intent(getApplicationContext(), VaultEntry.class);
 
-                i.putExtra("id", position);
-                i.putExtra("item", filteredItems.get(position));
-                unselectAll();
-                startActivityForResult(i, requestCode);
+                    i.putExtra("item", filteredItems.get(position));
+                    unselectAll();
+                    startActivityForResult(i, REQUEST_ITEM);
+                }
             }
         });
     }
@@ -395,7 +335,7 @@ public class Vault extends AppCompatActivity {
     private void load() {
         showInfo("Loading...");
         // Vault has already been loaded - just display
-        if (items.size() > 0 || createNewVault) {
+        if (vault.size() > 0 || createNewVault) {
             display();
         }
         // Load vault from local file
@@ -559,7 +499,7 @@ public class Vault extends AppCompatActivity {
      * @param rawJSON The raw JSON-Data from the server
      */
     private void extractEntries(String rawJSON) {
-        items = new ArrayList<>();
+        vault = new ArrayList<>();
 
         try {
             JSONArray entries = new JSONArray(rawJSON);
@@ -567,29 +507,18 @@ public class Vault extends AppCompatActivity {
             for (int i = 0; i < entries.length(); i++){
                 JSONObject obj = entries.getJSONObject(i);
 
+                String id = obj.getString("id");
                 String title = obj.getString("title");
-                String category = obj.getString("category");
-                String type = obj.getString("type");
+                String group = obj.getString("group");
                 String edit = obj.getString("edit");
                 String logo = obj.getString("logo");
+                String url = obj.getString("url");
+                String user = obj.getString("username");
+                String pass = obj.getString("password");
+                String note = obj.getString("note");
 
-
-                switch (type) {
-                    case "website":
-                        String url = obj.getString("url");
-                        String user = obj.getString("user");
-                        String pass = obj.getString("pass");
-
-                        VaultItemWebsite website = new VaultItemWebsite(title, category, type, url, user, pass, edit, logo);
-                        items.add(website);
-                        break;
-
-                    case "note":
-                        String content = obj.getString("content");
-                        VaultItemNote note = new VaultItemNote(title, category, content, edit, logo);
-                        items.add(note);
-                        break;
-                }
+                VaultItem item = new VaultItem(id, title, group, edit, logo, url, user, pass, note);
+                vault.add(item);
             }
         } catch (JSONException exp) {
             exp.printStackTrace();
@@ -598,11 +527,23 @@ public class Vault extends AppCompatActivity {
 
         resetFilter();
 
-        if (filteredItems.size() > 0 && changed) {
+        if (vault.size() > 0 && changed) {
             save();
         }
 
         display();
+    }
+
+    private ArrayList<String> getAllGroups() {
+        ArrayList<String> groups = new ArrayList<>();
+
+        for (VaultItem item: vault) {
+            if (!item.getGroup().equals("") && !groups.contains(item.getGroup())) {
+                groups.add(item.getGroup());
+            }
+        }
+
+        return groups;
     }
 
     private void resetFilter() {
@@ -616,17 +557,63 @@ public class Vault extends AppCompatActivity {
         info.setVisibility(visibility);
     }
 
-    private void display() {
-        if (filteredItems.size() == 0) {
+    private void showGroups() {
+        List<Map<String, Object>> groups = new ArrayList<>();
+        ArrayList<String> groupNames = getAllGroups();
+        int folderDrawableId = this.getResources().getIdentifier("ic_folder", "drawable", this.getPackageName());
+
+        for (int i = 0; i < groupNames.size(); i++) {
+            HashMap<String, Object> group = new HashMap<>();
+            group.put("name", groupNames.get(i));
+            group.put("icon", folderDrawableId);
+            group.put("type", "group");
+            groups.add(group);
+        }
+
+        if (groups.size() == 0) {
             showInfo(getString(R.string.empty));
         }
         else {
             showInfo("");
         }
 
+        currentGroup = "";
+        list.setAdapter(new SimpleAdapter(this, groups, R.layout.listview_detail, new String[] {"icon", "name", "type"}, new int[] {R.id.icon, R.id.title, R.id.detail1}));
+    }
+
+    private void openGroup(String title) {
+        items = new ArrayList<>();
+
+        for (VaultItem item: vault) {
+            if (item.getGroup().equals(title)) {
+                items.add(item);
+            }
+        }
+
+        resetFilter();
+
+        if (filteredItems.size() == 0) {
+            showGroups();
+            return;
+        }
+        else {
+            showInfo("");
+        }
+
+        currentGroup = title;
+
         newAdapter = new VaultAdapter(this, R.layout.listview_detail, list);
         newAdapter.setData(filteredItems);
         list.setAdapter(newAdapter);
+    }
+
+    private void display() {
+        if (currentGroup.equals("")) {
+            showGroups();
+        }
+        else {
+            openGroup(currentGroup);
+        }
     }
 
     private void filter(String needle) {
@@ -671,32 +658,24 @@ public class Vault extends AppCompatActivity {
         return unlocked;
     }
 
-    private void createEntry(String type) {
+    private void createEntry() {
         if (!is_unlocked()) {
             return;
         }
-        Intent i;
-        int requestCode;
-        switch (type) {
-            case "website":
-                requestCode = REQUEST_WEBSITE;
-                i = new Intent(getApplicationContext(), VaultWebsite.class);
-                break;
 
-            case "note":
-                requestCode = REQUEST_NOTE;
-                i = new Intent(getApplicationContext(), VaultNote.class);
-                break;
+        Intent i = new Intent(getApplicationContext(), VaultEntry.class);
 
-            default:
-                return;
-        }
-
-        startActivityForResult(i, requestCode);
+        startActivityForResult(i, REQUEST_ITEM);
     }
 
-    private void deleteEntry(int pos) {
-        items.remove(pos);
+    private void deleteEntry(String id) {
+        for (int i = 0; i < vault.size(); i++) {
+            if (vault.get(i).getId().equals(id)) {
+                vault.remove(i);
+                break;
+            }
+        }
+
         resetFilter();
         save();
         display();
@@ -705,7 +684,7 @@ public class Vault extends AppCompatActivity {
 
     private void save() {
         changed = false;
-        vaultEncrypted = Crypto.encryptString(items.toString(), passphrase);
+        vaultEncrypted = Crypto.encryptString(vault.toString(), passphrase);
         boolean vaultInSync = Preferences.getInstance(this).read(Preferences.TAG_VAULT_IN_SYNC, false);
 
         if (vaultEncrypted != null && !vaultEncrypted.equals("")) {
@@ -718,16 +697,47 @@ public class Vault extends AppCompatActivity {
         }
     }
 
-    public void saveEntry(VaultItem item, int id) {
+    private String getUniqueId() {
+        boolean found = false;
+
+        while (true) {
+            String id = String.valueOf(Util.getTimestamp());
+
+            for (VaultItem item: vault) {
+                if (item.getId().equals(id)) {
+                    found = true;
+                }
+            }
+
+            if (!found) {
+                return id;
+            }
+        }
+    }
+
+    private Integer getVaultPositionById(String id) {
+        for (int i = 0; i < vault.size(); i++) {
+            if (vault.get(i).getId().equals(id)) {
+                return i;
+            }
+        }
+
+        return null;
+    }
+
+    public void saveEntry(VaultItem item) {
         if (item.getTitle().equals("")) {
             return;
         }
 
-        if (id < 0 || id > items.size() - 1) {
-            items.add(item);
+        Integer id = getVaultPositionById(item.getId());
+
+        if (id != null) {
+            vault.set(id, item);
         }
         else {
-            items.set(id, item);
+            item.setId(getUniqueId());
+            vault.add(item);
         }
 
         resetFilter();

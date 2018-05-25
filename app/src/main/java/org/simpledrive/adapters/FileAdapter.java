@@ -79,10 +79,6 @@ public class FileAdapter extends ArrayAdapter<FileItem> implements Serializable 
         String shareInfo = (item.getShareStatus() > 0) ? ((!item.getOwner().equals(username)) ? username : "shared") : "";
         holder.shareInfo.setText(shareInfo);
 
-        /*if (item.getShareStatus() > 0) {
-            holder.owner.setText(item.getOwner());
-        }*/
-
         if (layout == R.layout.listview_detail) {
             int separatorVisibility = (position == 0 || !item.getType().equals("folder") && getItem(position - 1).getType().equals("folder")) ? View.VISIBLE : View.GONE;
             String text = (item.getType().equals("folder")) ? "Folders" : "Files";

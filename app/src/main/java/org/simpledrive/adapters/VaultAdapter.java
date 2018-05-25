@@ -16,6 +16,8 @@ import org.simpledrive.helper.Util;
 import org.simpledrive.models.VaultItem;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class VaultAdapter extends ArrayAdapter<VaultItem> {
     private LayoutInflater layoutInflater;
@@ -43,7 +45,6 @@ public class VaultAdapter extends ArrayAdapter<VaultItem> {
             holder = new ViewHolder();
             holder.icon = (ImageView) convertView.findViewById(R.id.icon);
             holder.icon_area = (RelativeLayout) convertView.findViewById(R.id.icon_area);
-            holder.thumb = (ImageView) convertView.findViewById(R.id.thumb);
             holder.checked = (RelativeLayout) convertView.findViewById(R.id.checked);
             holder.title = (TextView) convertView.findViewById(R.id.title);
             holder.detail1 = (TextView) convertView.findViewById(R.id.detail1);
@@ -54,20 +55,8 @@ public class VaultAdapter extends ArrayAdapter<VaultItem> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        if (item.getLogo().equals("")) {
-            holder.icon.setVisibility(View.VISIBLE);
-            holder.thumb.setVisibility(View.GONE);
-        }
-        else {
-            if (item.getLogoBmp() == null) {
-                item.setLogoBmp(Util.getDrawableByName(ctx, "logo_" + item.getLogo(), 0));
-            }
-            holder.icon.setVisibility(View.GONE);
-            holder.thumb.setVisibility(View.VISIBLE);
-        }
-
-        if (item.getIcon() == null) {
-            item.setIcon(Util.getIconByName(ctx, item.getType(), R.drawable.ic_lock));
+        if (item.getLogo() == null) {
+            item.setLogo(Util.getDrawableByName(ctx, "logo_" + item.getLogoName(), R.drawable.logo_key));
         }
 
         if (list.isItemChecked(position)) {
@@ -78,11 +67,16 @@ public class VaultAdapter extends ArrayAdapter<VaultItem> {
             holder.checked.setBackgroundColor(ContextCompat.getColor(ctx, R.color.transparent));
         }
 
+        Pattern pattern = Pattern.compile("^https?://[^/?]+");
+        Matcher matcher = pattern.matcher(item.getUrl());
+
+        if (matcher.find()) {
+            holder.detail1.setText(matcher.group(0));
+        }
+
         holder.title.setText(item.getTitle());
-        holder.detail1.setText(item.getCategory());
         holder.detail2.setText(Util.timestampToDate(ctx, item.getEdit()));
-        holder.icon.setImageDrawable(item.getIcon());
-        holder.thumb.setImageBitmap(item.getLogoBmp());
+        holder.icon.setImageDrawable(item.getLogo());
         holder.icon_area.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,7 +90,6 @@ public class VaultAdapter extends ArrayAdapter<VaultItem> {
 
     class ViewHolder {
         ImageView icon;
-        ImageView thumb;
         TextView title;
         TextView detail1;
         TextView detail2;

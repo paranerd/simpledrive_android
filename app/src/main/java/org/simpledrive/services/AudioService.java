@@ -154,7 +154,7 @@ public class AudioService extends Service {
 			// Add fingerprint as cookie
 			Map<String, String> headers = new HashMap<>();
 			headers.put("Cookie", Preferences.getInstance(getApplicationContext()).read(Preferences.TAG_FINGERPRINT, ""));
-			URI uri = new URI(CustomAuthenticator.getServer() + "api/files/get?target=[" + URLEncoder.encode('"' + item.getID() + '"', "UTF-8") + "]&token=" + CustomAuthenticator.getToken());
+			URI uri = new URI(CustomAuthenticator.getServer() + "api/files/get?targets=[" + URLEncoder.encode('"' + item.getID() + '"', "UTF-8") + "]&token=" + CustomAuthenticator.getToken());
 			mediaPlayer.reset();
 			mediaPlayer.setDataSource(getApplicationContext(), android.net.Uri.parse(uri.toASCIIString()), headers);
 		} catch (IllegalArgumentException | IOException | IllegalStateException | SecurityException | URISyntaxException e) {
