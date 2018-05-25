@@ -6160,9 +6160,8 @@ org.simpledrive.activities.Login:
 org.simpledrive.activities.Vault:
     private static final int REQUEST_UNLOCK
     private static final int REQUEST_SET_PASSPHRASE
-    private static final int REQUEST_WEBSITE
-    private static final int REQUEST_NOTE
-org.simpledrive.activities.VaultWebsite:
+    private static final int REQUEST_ITEM
+org.simpledrive.activities.VaultEntry:
     public static final java.lang.String COPY_USER
     public static final java.lang.String COPY_PASS
 org.simpledrive.authenticator.CustomAuthenticator:
@@ -6189,10 +6188,10 @@ org.simpledrive.helper.Connection:
     73:74:public Connection(java.lang.String,java.lang.String,int)
 org.simpledrive.helper.Crypto:
     20:20:public Crypto()
-    50:58:private static java.lang.String randomString(int)
-    85:85:public static java.lang.String encryptFile(java.lang.String,java.lang.String)
-    90:101:public static java.lang.String encryptFile(java.lang.String,java.lang.String,boolean,boolean)
-    151:163:public static java.lang.String decryptFile(java.lang.String,java.lang.String,boolean)
+    51:59:private static java.lang.String randomString(int)
+    86:86:public static java.lang.String encryptFile(java.lang.String,java.lang.String)
+    91:102:public static java.lang.String encryptFile(java.lang.String,java.lang.String,boolean,boolean)
+    152:164:public static java.lang.String decryptFile(java.lang.String,java.lang.String,boolean)
 org.simpledrive.helper.Downloader:
     private static final int NOTIFICATION_ID
     24:24:public Downloader()
@@ -6230,13 +6229,13 @@ org.simpledrive.helper.TouchImageView$DoubleTapZoom:
 org.simpledrive.helper.Uploader:
     20:20:public Uploader()
 org.simpledrive.helper.Util:
-    55:55:public Util()
-    187:190:public static int pxToDp(int)
-    266:284:public static java.lang.String readTextFromStorage(java.lang.String)
-    288:299:public static byte[] readFromStorage(java.lang.String)
-    304:314:public static boolean writeTextToStorage(java.lang.String,java.lang.String)
-    320:328:public static boolean writeToStorage(java.lang.String,byte[])
-    469:478:public static android.graphics.Bitmap getBitmapFromURL(java.lang.String)
+    56:56:public Util()
+    188:191:public static int pxToDp(int)
+    267:285:public static java.lang.String readTextFromStorage(java.lang.String)
+    289:300:public static byte[] readFromStorage(java.lang.String)
+    305:315:public static boolean writeTextToStorage(java.lang.String,java.lang.String)
+    321:329:public static boolean writeToStorage(java.lang.String,byte[])
+    470:479:public static android.graphics.Bitmap getBitmapFromURL(java.lang.String)
 org.simpledrive.models.AccountItem:
     25:25:public java.lang.String getServer()
     30:30:public java.lang.String getUser()

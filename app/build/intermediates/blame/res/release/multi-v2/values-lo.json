@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-lo/values-lo.xml",
+            "outputFile": "C:\\Users\\paranerd\\Development\\simpledrive_android\\app\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-lo\\values-lo.xml",
             "map": [
                 {
-                    "source": "/home/paranerd/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.0.1.aar/fb871ec94876373e945806fc501f1913/res/values-lo/values.xml",
+                    "source": "C:\\Users\\paranerd\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-10.0.1.aar\\49d7157a2d6ce0f59b81004afa38eec5\\res\\values-lo\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",

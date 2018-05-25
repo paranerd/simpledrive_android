@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-kn-rIN/values-kn-rIN.xml",
+            "outputFile": "C:\\Users\\paranerd\\Development\\simpledrive_android\\app\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-kn-rIN\\values-kn-rIN.xml",
             "map": [
                 {
-                    "source": "/home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/values-kn-rIN/values-kn-rIN.xml",
+                    "source": "C:\\Users\\paranerd\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\ec66644ff7ecaf75fbb0fdb060085327\\res\\values-kn-rIN\\values-kn-rIN.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.simpledrive"
-    android:versionCode="125"
-    android:versionName="6.7.4" >
+    android:versionCode="128"
+    android:versionName="7.0.0" >
 
     <uses-sdk
         android:minSdkVersion="11"
@@ -120,12 +120,7 @@
             android:theme="@style/MainTheme.Light" >
         </activity>
         <activity
-            android:name="org.simpledrive.activities.VaultWebsite"
-            android:label="Vault Entry"
-            android:theme="@style/MainTheme.Light" >
-        </activity>
-        <activity
-            android:name="org.simpledrive.activities.VaultNote"
+            android:name="org.simpledrive.activities.VaultEntry"
             android:label="Vault Entry"
             android:theme="@style/MainTheme.Light" >
         </activity>

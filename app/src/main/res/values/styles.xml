@@ -70,6 +70,13 @@
         <item name="android:background">@color/red</item>
     </style>
 
+    <style name="MyButtonIcon" parent="Base.Widget.AppCompat.Button.Colored">
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_width">50dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
     <style name="MyButtonCircle">
         <item name="android:layout_width">80dp</item>
         <item name="android:layout_height">80dp</item>

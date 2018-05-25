@@ -4921,9 +4921,18 @@ org.simpledrive.R$drawable: int ic_users
 org.simpledrive.R$drawable: int ic_warning
 org.simpledrive.R$drawable: int ic_website
 org.simpledrive.R$drawable: int item_selector
-org.simpledrive.R$drawable: int logo_
 org.simpledrive.R$drawable: int logo_amazon
-org.simpledrive.R$drawable: int logo_comdirect
+org.simpledrive.R$drawable: int logo_creditcard
+org.simpledrive.R$drawable: int logo_dollar
+org.simpledrive.R$drawable: int logo_earth
+org.simpledrive.R$drawable: int logo_ebay
+org.simpledrive.R$drawable: int logo_envelope
+org.simpledrive.R$drawable: int logo_facebook
+org.simpledrive.R$drawable: int logo_idcard
+org.simpledrive.R$drawable: int logo_key
+org.simpledrive.R$drawable: int logo_mobile
+org.simpledrive.R$drawable: int logo_paypal
+org.simpledrive.R$drawable: int logo_twitter
 org.simpledrive.R$drawable: int navigation_empty_icon
 org.simpledrive.R$drawable: int notification_template_icon_bg
 org.simpledrive.R$drawable: int progressbar
@@ -5027,11 +5036,9 @@ org.simpledrive.R$id: int expanded_menu
 org.simpledrive.R$id: int fab
 org.simpledrive.R$id: int fab_file
 org.simpledrive.R$id: int fab_folder
-org.simpledrive.R$id: int fab_note
 org.simpledrive.R$id: int fab_paste
 org.simpledrive.R$id: int fab_paste_cancel
 org.simpledrive.R$id: int fab_upload
-org.simpledrive.R$id: int fab_website
 org.simpledrive.R$id: int fd_Icon1
 org.simpledrive.R$id: int fill
 org.simpledrive.R$id: int fill_horizontal
@@ -5224,10 +5231,9 @@ org.simpledrive.R$id: int user_admin
 org.simpledrive.R$id: int user_quota_max
 org.simpledrive.R$id: int user_quota_used
 org.simpledrive.R$id: int username
-org.simpledrive.R$id: int vault_category
-org.simpledrive.R$id: int vault_content
-org.simpledrive.R$id: int vault_info
+org.simpledrive.R$id: int vault_group
 org.simpledrive.R$id: int vault_logo
+org.simpledrive.R$id: int vault_note
 org.simpledrive.R$id: int vault_pass
 org.simpledrive.R$id: int vault_save
 org.simpledrive.R$id: int vault_title
@@ -5289,8 +5295,7 @@ org.simpledrive.R$layout: int activity_sharefiles
 org.simpledrive.R$layout: int activity_unlock_tfa
 org.simpledrive.R$layout: int activity_users
 org.simpledrive.R$layout: int activity_vault
-org.simpledrive.R$layout: int activity_vault_note
-org.simpledrive.R$layout: int activity_vault_website
+org.simpledrive.R$layout: int activity_vault_entry
 org.simpledrive.R$layout: int design_bottom_sheet_dialog
 org.simpledrive.R$layout: int design_layout_snackbar
 org.simpledrive.R$layout: int design_layout_snackbar_include
@@ -5569,6 +5574,7 @@ org.simpledrive.R$style: int MainTheme_Login
 org.simpledrive.R$style: int MenuItemAppearance
 org.simpledrive.R$style: int MyButton
 org.simpledrive.R$style: int MyButtonCircle
+org.simpledrive.R$style: int MyButtonIcon
 org.simpledrive.R$style: int MyButtonLarge
 org.simpledrive.R$style: int Platform_AppCompat
 org.simpledrive.R$style: int Platform_AppCompat_Light
@@ -6373,23 +6379,17 @@ org.simpledrive.activities.Users$7: void onClick(android.view.View)
 org.simpledrive.activities.Vault
 org.simpledrive.activities.Vault: Vault()
 org.simpledrive.activities.Vault$1: void onClick(android.view.View)
-org.simpledrive.activities.Vault$10: void onClick(android.view.View)
-org.simpledrive.activities.Vault$2: void onClick(android.view.View)
 org.simpledrive.activities.Vault$3: void onClick(android.view.View)
-org.simpledrive.activities.Vault$5: void onClick(android.view.View)
-org.simpledrive.activities.Vault$6$1: void onClick(android.content.DialogInterface,int)
-org.simpledrive.activities.Vault$8: void onClick(android.content.DialogInterface,int)
-org.simpledrive.activities.Vault$9: void onClick(android.content.DialogInterface,int)
-org.simpledrive.activities.VaultNote
-org.simpledrive.activities.VaultNote: VaultNote()
-org.simpledrive.activities.VaultNote$1: void onClick(android.view.View)
-org.simpledrive.activities.VaultNote$2: void onClick(android.view.View)
-org.simpledrive.activities.VaultWebsite
-org.simpledrive.activities.VaultWebsite: VaultWebsite()
-org.simpledrive.activities.VaultWebsite: void openURL(android.view.View)
-org.simpledrive.activities.VaultWebsite: void onClick(android.view.View)
-org.simpledrive.activities.VaultWebsite$1: void onClick(android.view.View)
-org.simpledrive.activities.VaultWebsite$2: void onClick(android.view.View)
+org.simpledrive.activities.Vault$4$1: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.Vault$6: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.Vault$7: void onClick(android.content.DialogInterface,int)
+org.simpledrive.activities.Vault$8: void onClick(android.view.View)
+org.simpledrive.activities.VaultEntry
+org.simpledrive.activities.VaultEntry: VaultEntry()
+org.simpledrive.activities.VaultEntry: void openURL(android.view.View)
+org.simpledrive.activities.VaultEntry: void onClick(android.view.View)
+org.simpledrive.activities.VaultEntry$2: void onClick(android.view.View)
+org.simpledrive.activities.VaultEntry$3: void onClick(android.view.View)
 org.simpledrive.adapters.FileAdapter$1: void onClick(android.view.View)
 org.simpledrive.adapters.TouchImageAdapter$1: void onClick(android.view.View)
 org.simpledrive.adapters.TouchImageAdapter$2: void onClick(android.view.View)
@@ -6431,8 +6431,6 @@ org.simpledrive.models.GridViewItem: GridViewItem(android.content.Context)
 org.simpledrive.models.GridViewItem: GridViewItem(android.content.Context,android.util.AttributeSet)
 org.simpledrive.models.GridViewItem: GridViewItem(android.content.Context,android.util.AttributeSet,int)
 org.simpledrive.models.VaultItem: android.os.Parcelable$Creator CREATOR
-org.simpledrive.models.VaultItemNote: android.os.Parcelable$Creator CREATOR
-org.simpledrive.models.VaultItemWebsite: android.os.Parcelable$Creator CREATOR
 org.simpledrive.services.AudioService
 org.simpledrive.services.AudioService: AudioService()
 org.simpledrive.services.MyFirebaseInstanceIDService

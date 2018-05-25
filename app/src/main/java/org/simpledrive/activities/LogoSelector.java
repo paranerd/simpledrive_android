@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -83,6 +84,6 @@ public class LogoSelector extends AppCompatActivity {
             }
         }
 
-        list.setAdapter(new SimpleAdapter(this, logos, R.layout.listview_detail, new String[] {"logo", "name", "type"}, new int[] {R.id.thumb, R.id.title, R.id.detail1}));
+        list.setAdapter(new SimpleAdapter(this, logos, R.layout.listview_detail, new String[] {"logo", "name", "type"}, new int[] {R.id.icon, R.id.title, R.id.detail1}));
     }
 }

@@ -1,0 +1,230 @@
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?android:colorBackground"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <include android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        xmlns:android="http://schemas.android.com/apk/res/android" />
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar">
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:orientation="vertical"
+            android:padding="10.0dp"
+            android:focusable="true"
+            android:gravity="center_horizontal"
+            android:focusableInTouchMode="true">
+
+            <FrameLayout
+                android:id="@+id/logo_wrapper"
+                android:layout_width="200dp"
+                android:layout_height="95dp"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:id="@+id/vault_logo"
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="fitCenter"
+                    android:tint="?android:textColorPrimary" />
+            </FrameLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="20.0dp"
+                app:hintTextAppearance="@style/TextLabel"
+                android:layout_weight="1">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/vault_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textUri"
+                    android:textColor="?android:textColorPrimary"
+                    android:textColorHint="@color/grey3transparent"
+                    android:textSize="19sp"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="Title"
+                    android:maxLines="1"
+                    android:nextFocusDown="@id/txtPassword"
+                    android:background="@drawable/custom_edittext"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="20.0dp"
+                app:hintTextAppearance="@style/TextLabel"
+                android:layout_weight="1">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/vault_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textUri"
+                    android:textColor="?android:textColorPrimary"
+                    android:textColorHint="@color/grey3transparent"
+                    android:textSize="19sp"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="Group"
+                    android:maxLines="1"
+                    android:nextFocusDown="@id/txtPassword"
+                    android:background="@drawable/custom_edittext"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="20.0dp"
+                    app:hintTextAppearance="@style/TextLabel"
+                    android:layout_weight="1">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/vault_url"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="textUri"
+                        android:textColor="?android:textColorPrimary"
+                        android:textColorHint="@color/grey3transparent"
+                        android:textSize="19sp"
+                        android:fontFamily="sans-serif-light"
+                        android:hint="URL"
+                        android:maxLines="1"
+                        android:nextFocusDown="@id/txtPassword"
+                        android:background="@drawable/custom_edittext"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <Button
+                    android:id="@+id/openurl"
+                    android:onClick="openURL"
+                    style="@style/MyButtonIcon"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/ic_website"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="20.0dp"
+                    app:hintTextAppearance="@style/TextLabel"
+                    android:layout_weight="1">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/vault_user"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="textUri"
+                        android:textColor="?android:textColorPrimary"
+                        android:textColorHint="@color/grey3transparent"
+                        android:textSize="19sp"
+                        android:fontFamily="sans-serif-light"
+                        android:hint="Username"
+                        android:maxLines="1"
+                        android:nextFocusDown="@id/txtPassword"
+                        android:background="@drawable/custom_edittext"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <Button
+                    android:id="@+id/copyuser"
+                    style="@style/MyButtonIcon"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/ic_copy"
+                    android:onClick="onClick"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etPasswordLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="20.0dp"
+                    android:layout_weight="1"
+                    app:passwordToggleEnabled="true">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/vault_pass"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="textPassword"
+                        android:textColor="?android:textColorPrimary"
+                        android:textColorHint="@color/grey3transparent"
+                        android:textSize="19sp"
+                        android:fontFamily="sans-serif-light"
+                        android:hint="Password"
+                        android:maxLines="1"
+                        android:nextFocusDown="@id/txtPassword"
+                        android:background="@drawable/custom_edittext"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <Button
+                    android:id="@+id/generatepass"
+                    style="@style/MyButtonIcon"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/ic_add"
+                    android:onClick="onClick"
+                    android:visibility="gone"/>
+
+                <Button
+                    android:id="@+id/copypass"
+                    style="@style/MyButtonIcon"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/ic_copy"
+                    android:onClick="onClick"/>
+            </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="20.0dp"
+                app:hintTextAppearance="@style/TextLabel">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/vault_note"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textMultiLine"
+                    android:singleLine="false"
+                    android:gravity="top"
+                    android:textColor="?android:textColorPrimary"
+                    android:textColorHint="@color/grey3transparent"
+                    android:textSize="19sp"
+                    android:focusable="true"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="Note"
+                    android:background="@drawable/custom_edittext"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="insideInset"
+                    android:scrollbars="vertical"/>
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

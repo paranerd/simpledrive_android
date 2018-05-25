@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/paranerd/Development/simpledrive_android/app/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-w820dp-v13/values-w820dp-v13.xml",
+            "outputFile": "C:\\Users\\paranerd\\Development\\simpledrive_android\\app\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
             "map": [
                 {
-                    "source": "/home/paranerd/Development/simpledrive_android/app/src/main/res/values-w820dp/dimens.xml",
+                    "source": "C:\\Users\\paranerd\\Development\\simpledrive_android\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "4",

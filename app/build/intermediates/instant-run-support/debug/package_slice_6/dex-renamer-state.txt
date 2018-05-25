@@ -1,4 +1,4 @@
-#Mon Feb 26 14:35:55 CET 2018
-base.0=/home/paranerd/Development/simpledrive_android/app/build/intermediates/transforms/dexMerger/debug/6
+#Thu May 24 20:13:58 CEST 2018
+base.0=C\:\\Users\\paranerd\\Development\\simpledrive_android\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\6
 path.0=classes.dex
 renamed.0=classes.dex

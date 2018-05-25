@@ -28,7 +28,7 @@ public class Editor extends AppCompatActivity {
     // Editor
     private String file;
     private static String filename;
-    private boolean saved = true;
+    private boolean changed = false;
 
     // Interface
     private Menu mMenu;
@@ -87,7 +87,7 @@ public class Editor extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                saved = false;
+                changed = true;
                 setToolbarTitle(filename + "*");
                 setToolbarSubtitle("Changed...");
                 invalidateOptionsMenu();
@@ -96,7 +96,7 @@ public class Editor extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        if (!saved) {
+        if (changed) {
             new AlertDialog.Builder(this)
                     .setTitle("Closing Editor")
                     .setMessage("Discard changes?")
@@ -130,11 +130,11 @@ public class Editor extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (saved) {
-            mMenu.findItem(R.id.savetext).setVisible(false);
+        if (changed) {
+            mMenu.findItem(R.id.savetext).setVisible(true);
         }
         else {
-            mMenu.findItem(R.id.savetext).setVisible(true);
+            mMenu.findItem(R.id.savetext).setVisible(false);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -146,7 +146,6 @@ public class Editor extends AppCompatActivity {
                 return super.onOptionsItemSelected(paramMenuItem);
 
             case R.id.savetext:
-                setToolbarSubtitle("Saving...");
                 new Save(this, file, editor.getText().toString()).execute();
                 break;
         }
@@ -183,7 +182,7 @@ public class Editor extends AppCompatActivity {
                     String content = job.getString("content");
 
                     act.editor.setText(content);
-                    act.saved = true;
+                    act.changed = false;
                     act.setToolbarTitle(filename);
                     act.setToolbarSubtitle("Saved.");
                 } catch (JSONException e1) {
@@ -208,6 +207,16 @@ public class Editor extends AppCompatActivity {
         }
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if (ref.get() != null) {
+                final Editor act = ref.get();
+                act.setToolbarSubtitle("Saving...");
+                act.changed = false;
+            }
+        }
+
+        @Override
         protected Connection.Response doInBackground(Void... pos) {
             Connection multipart = new Connection("files", "savetext");
             multipart.addFormField("target", target);
@@ -223,12 +232,14 @@ public class Editor extends AppCompatActivity {
 
             final Editor act = ref.get();
             if (res.successful()) {
-                act.saved = true;
-                act.setToolbarTitle(filename);
-                act.setToolbarSubtitle("Saved.");
-                act.invalidateOptionsMenu();
+                if (!act.changed) {
+                    act.setToolbarTitle(filename);
+                    act.setToolbarSubtitle("Saved.");
+                    act.invalidateOptionsMenu();
+                }
             }
             else {
+                act.setToolbarSubtitle("Error saving.");
                 Toast.makeText(act, res.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }

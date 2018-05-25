@@ -1,225 +1,220 @@
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/design-24.2.1.aar/0da9796647e0c989e9c387bcd09c7b18/res/layout/design_navigation_item.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\design-24.2.1.aar\eded93b5a79747ea734c08b458918c99\res\layout\design_navigation_item.xml:0
 -keep class android.support.design.internal.NavigationMenuItemView { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/design-24.2.1.aar/0da9796647e0c989e9c387bcd09c7b18/res/layout/design_navigation_menu.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\design-24.2.1.aar\eded93b5a79747ea734c08b458918c99\res\layout\design_navigation_menu.xml:0
 -keep class android.support.design.internal.NavigationMenuView { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/design-24.2.1.aar/0da9796647e0c989e9c387bcd09c7b18/res/layout/design_text_input_password_icon.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\design-24.2.1.aar\eded93b5a79747ea734c08b458918c99\res\layout\design_text_input_password_icon.xml:0
 -keep class android.support.design.widget.CheckableImageButton { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/design-24.2.1.aar/0da9796647e0c989e9c387bcd09c7b18/res/layout/design_bottom_sheet_dialog.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\design-24.2.1.aar\eded93b5a79747ea734c08b458918c99\res\layout\design_bottom_sheet_dialog.xml:0
 -keep class android.support.design.widget.CoordinatorLayout { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_remotefiles.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_sharefiles.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_users.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vault.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_remotefiles.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_sharefiles.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_users.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_vault.xml:0
 -keep class android.support.design.widget.FloatingActionButton { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_remotefiles.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_remotefiles.xml:0
 -keep class android.support.design.widget.NavigationView { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/design-24.2.1.aar/0da9796647e0c989e9c387bcd09c7b18/res/layout-sw600dp-v13/design_layout_snackbar.xml:0
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/design-24.2.1.aar/0da9796647e0c989e9c387bcd09c7b18/res/layout/design_layout_snackbar.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\design-24.2.1.aar\eded93b5a79747ea734c08b458918c99\res\layout-sw600dp-v13\design_layout_snackbar.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\design-24.2.1.aar\eded93b5a79747ea734c08b458918c99\res\layout\design_layout_snackbar.xml:0
 -keep class android.support.design.widget.Snackbar$SnackbarLayout { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_passwordscreen.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vault_note.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vault_website.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_passwordscreen.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_vault_entry.xml:0
 -keep class android.support.design.widget.TextInputEditText { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_passwordscreen.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vault_note.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vault_website.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_passwordscreen.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_vault_entry.xml:0
 -keep class android.support.design.widget.TextInputLayout { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_log.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_remotefiles.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_users.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vault.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_log.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_remotefiles.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_users.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_vault.xml:0
 -keep class android.support.v4.widget.DrawerLayout { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_alert_dialog_material.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_alert_dialog_material.xml:0
 -keep class android.support.v4.widget.NestedScrollView { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_alert_dialog_button_bar_material.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_alert_dialog_button_bar_material.xml:0
 -keep class android.support.v4.widget.Space { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_log.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_remotefiles.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_sharefiles.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_log.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_remotefiles.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_sharefiles.xml:0
 -keep class android.support.v4.widget.SwipeRefreshLayout { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_action_menu_item_layout.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_action_menu_item_layout.xml:0
 -keep class android.support.v7.view.menu.ActionMenuItemView { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_expanded_menu_layout.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_expanded_menu_layout.xml:0
 -keep class android.support.v7.view.menu.ExpandedMenuView { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_list_menu_item_layout.xml:0
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_popup_menu_item_layout.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_list_menu_item_layout.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_popup_menu_item_layout.xml:0
 -keep class android.support.v7.view.menu.ListMenuItemView { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_screen_toolbar.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_screen_toolbar.xml:0
 -keep class android.support.v7.widget.ActionBarContainer { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_action_mode_bar.xml:0
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_screen_toolbar.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_action_mode_bar.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_screen_toolbar.xml:0
 -keep class android.support.v7.widget.ActionBarContextView { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_screen_toolbar.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_screen_toolbar.xml:0
 -keep class android.support.v7.widget.ActionBarOverlayLayout { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_action_menu_layout.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_remotefiles.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/toolbar_bottom.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_action_menu_layout.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_remotefiles.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\toolbar_bottom.xml:0
 -keep class android.support.v7.widget.ActionMenuView { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_activity_chooser_view.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_activity_chooser_view.xml:0
 -keep class android.support.v7.widget.ActivityChooserView$InnerLayout { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_alert_dialog_button_bar_material.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_alert_dialog_button_bar_material.xml:0
 -keep class android.support.v7.widget.ButtonBarLayout { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_screen_content_include.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_screen_content_include.xml:0
 -keep class android.support.v7.widget.ContentFrameLayout { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_alert_dialog_material.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_alert_dialog_material.xml:0
 -keep class android.support.v7.widget.DialogTitle { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_screen_simple_overlay_action_mode.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_screen_simple_overlay_action_mode.xml:0
 -keep class android.support.v7.widget.FitWindowsFrameLayout { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_dialog_title_material.xml:0
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_screen_simple.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_dialog_title_material.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_screen_simple.xml:0
 -keep class android.support.v7.widget.FitWindowsLinearLayout { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_search_view.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_search_view.xml:0
 -keep class android.support.v7.widget.SearchView$SearchAutoComplete { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_screen_toolbar.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout-v21/toolbar.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_remotefiles.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/toolbar.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/toolbar_bottom.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_screen_toolbar.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout-v21\toolbar.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_remotefiles.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\toolbar.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\toolbar_bottom.xml:0
 -keep class android.support.v7.widget.Toolbar { <init>(...); }
 
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_screen_simple.xml:0
-# Referenced at /home/paranerd/.gradle/caches/transforms-1/files-1.1/appcompat-v7-24.2.1.aar/d0eb1dc06ce029e6e9fef2f4af4f6332/res/layout/abc_screen_simple_overlay_action_mode.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_screen_simple.xml:0
+# Referenced at C:\Users\paranerd\.gradle\caches\transforms-1\files-1.1\appcompat-v7-24.2.1.aar\ec66644ff7ecaf75fbb0fdb060085327\res\layout\abc_screen_simple_overlay_action_mode.xml:0
 -keep class android.support.v7.widget.ViewStubCompat { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:193
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:188
 -keep class com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:188
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:183
 -keep class com.google.android.gms.measurement.AppMeasurementReceiver { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:202
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:197
 -keep class com.google.android.gms.measurement.AppMeasurementService { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:222
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:217
 -keep class com.google.firebase.iid.FirebaseInstanceIdInternalReceiver { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:207
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:202
 -keep class com.google.firebase.iid.FirebaseInstanceIdReceiver { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:229
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:224
 -keep class com.google.firebase.iid.FirebaseInstanceIdService { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:180
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:175
 -keep class com.google.firebase.messaging.FirebaseMessagingService { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:237
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:232
 -keep class com.google.firebase.provider.FirebaseInitProvider { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/nav_header.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\nav_header.xml:0
 -keep class de.hdodenhof.circleimageview.CircleImageView { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:112
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:112
 -keep class org.simpledrive.activities.Accounts { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:82
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:82
 -keep class org.simpledrive.activities.AppSettings { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:77
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:77
 -keep class org.simpledrive.activities.Editor { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:62
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:62
 -keep class org.simpledrive.activities.FileSelector { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:72
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:72
 -keep class org.simpledrive.activities.ImageViewer { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:66
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:66
 -keep class org.simpledrive.activities.Login { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:137
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:132
 -keep class org.simpledrive.activities.LogoSelector { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:142
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:137
 -keep class org.simpledrive.activities.PasswordGenerator { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:132
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:127
 -keep class org.simpledrive.activities.PasswordScreen { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:107
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:107
 -keep class org.simpledrive.activities.PinScreen { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:33
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:33
 -keep class org.simpledrive.activities.RemoteFiles { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:92
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:92
 -keep class org.simpledrive.activities.ServerLog { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:87
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:87
 -keep class org.simpledrive.activities.ServerSettings { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:43
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:43
 -keep class org.simpledrive.activities.ShareFiles { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:147
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:142
 -keep class org.simpledrive.activities.UnlockTFA { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:102
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:102
 -keep class org.simpledrive.activities.UserDetails { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:97
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:97
 -keep class org.simpledrive.activities.Users { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:117
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:117
 -keep class org.simpledrive.activities.Vault { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:127
--keep class org.simpledrive.activities.VaultNote { <init>(...); }
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:122
+-keep class org.simpledrive.activities.VaultEntry { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:122
--keep class org.simpledrive.activities.VaultWebsite { <init>(...); }
-
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:153
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:148
 -keep class org.simpledrive.authenticator.AuthenticationService { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_imageviewer.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_imageviewer.xml:0
 -keep class org.simpledrive.helper.ExtendedViewPager { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/gridview.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\gridview.xml:0
 -keep class org.simpledrive.models.GridViewItem { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:162
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:157
 -keep class org.simpledrive.services.AudioService { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:166
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:161
 -keep class org.simpledrive.services.MyFirebaseInstanceIDService { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/build/intermediates/manifests/full/release/AndroidManifest.xml:171
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\manifests\full\release\AndroidManifest.xml:166
 -keep class org.simpledrive.services.MyFirebaseMessagingService { <init>(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_passwordgenerator.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_passwordscreen.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_pinscreen.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_unlock_tfa.xml:0
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vault_website.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_passwordgenerator.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_passwordscreen.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_pinscreen.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_unlock_tfa.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_vault_entry.xml:0
 -keepclassmembers class * { *** onClick(...); }
 
-# Referenced at /home/paranerd/Development/simpledrive_android/app/src/main/res/layout/activity_vault_website.xml:0
+# Referenced at C:\Users\paranerd\Development\simpledrive_android\app\src\main\res\layout\activity_vault_entry.xml:0
 -keepclassmembers class * { *** openURL(...); }
 

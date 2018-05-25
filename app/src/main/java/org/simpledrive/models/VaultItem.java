@@ -1,50 +1,53 @@
 package org.simpledrive.models;
 
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class VaultItem implements Parcelable {
+    private String id;
     private String title;
-    private String type;
-    private String category;
+    private String logoName;
+    private Drawable logo;
+    private String group;
     private String edit;
-    private Drawable icon;
-    private String logo;
-    private Bitmap logoBmp;
+    private String url;
+    private String username;
+    private String password;
+    private String note;
 
-    VaultItem(String title, String category, String type, String edit, String logo) {
+    public VaultItem() {
+        this("", "", "General", "", "", "", "", "", "");
+    }
+
+    public VaultItem(String id, String title, String group, String edit, String logoName, String url, String username, String password, String note) {
+        this.id = id;
         this.title = title;
-        this.category = category;
-        this.type = type;
+        this.group = group;
         this.edit = edit;
-        this.logo = logo;
+        this.logoName = logoName;
+        this.url = url;
+        this.username = username;
+        this.password = password;
+        this.note = note;
     }
 
-    public Drawable getIcon() {
-        return this.icon;
-    }
+    public String getId() { return this.id; }
 
-    public void setIcon(Drawable icon) {
-        this.icon = icon;
-    }
+    public void setId(String id) { this.id = id; }
 
-    public String getLogo() {
+    public String getLogoName() { return this.logoName; }
+
+    public void setLogoName(String logoName) { this.logoName = logoName; }
+
+    public Drawable getLogo() {
         return this.logo;
     }
 
-    public void setLogo(String logo) {
-        this.logo = logo;
-    }
-
-    public Bitmap getLogoBmp() {
-        return this.logoBmp;
-    }
-
-    public void setLogoBmp(Bitmap logoBmp) {
-        this.logoBmp = logoBmp;
-    }
+    public void setLogo(Drawable logo) { this.logo = logo; }
 
     public String getTitle() {
         return this.title;
@@ -52,19 +55,11 @@ public class VaultItem implements Parcelable {
 
     public void setTitle(String title) { this.title = title; }
 
-    public String getCategory() {
-        return this.category;
+    public String getGroup() {
+        return this.group;
     }
 
-    public void setCategory(String category) { this.category = category; }
-
-    public String getType() {
-        return this.type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
+    public void setGroup(String group) { this.group = group; }
 
     public void setEdit(String edit) {
         this.edit = edit;
@@ -74,12 +69,67 @@ public class VaultItem implements Parcelable {
         return this.edit;
     }
 
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return this.url;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getNote() {
+        return this.note;
+    }
+
+    public String toString() {
+        JSONObject job = new JSONObject();
+        try {
+            job.put("id", getId());
+            job.put("title", getTitle());
+            job.put("group", getGroup());
+            job.put("edit", getEdit());
+            job.put("logo", getLogoName());
+            job.put("url", this.url);
+            job.put("username", this.username);
+            job.put("password", this.password);
+            job.put("note", this.note);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return job.toString();
+    }
+
     VaultItem(Parcel in) {
+        this.id = in.readString();
         this.title = in.readString();
-        this.category = in.readString();
-        this.type = in.readString();
+        this.group = in.readString();
         this.edit = in.readString();
-        this.logo = in.readString();
+        this.logoName = in.readString();
+        this.url = in.readString();
+        this.username = in.readString();
+        this.password = in.readString();
+        this.note = in.readString();
     }
 
     @Override
@@ -89,11 +139,15 @@ public class VaultItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(this.id);
         parcel.writeString(this.title);
-        parcel.writeString(this.category);
-        parcel.writeString(this.type);
+        parcel.writeString(this.group);
         parcel.writeString(this.edit);
-        parcel.writeString(this.logo);
+        parcel.writeString(this.logoName);
+        parcel.writeString(this.url);
+        parcel.writeString(this.username);
+        parcel.writeString(this.password);
+        parcel.writeString(this.note);
     }
 
     public static final Parcelable.Creator<VaultItem> CREATOR = new Parcelable.Creator<VaultItem>() {
