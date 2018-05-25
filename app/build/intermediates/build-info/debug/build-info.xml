@@ -1,36 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <instant-run
     abi="armeabi-v7a,armeabi"
-    api-level="24"
-    build-mode="HOT_WARM"
+    api-level="26"
+    build-mode="COLD"
     density="xhdpi"
     format="10"
+    ir-eligibility="COMPATIBLE"
     plugin-version="3.0.1"
-    timestamp="1527190077841"
+    timestamp="1527286807785"
     token="5261386854361497269"
-    verifier="COMPATIBLE" >
+    verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="2628" />
+        duration="3488" />
     <task
         name="instant-run-dex"
-        duration="1309" />
+        duration="0" />
     <task
         name="instant-run-transform"
-        duration="107" />
+        duration="28" />
     <task
         name="verifier"
-        duration="38" />
+        duration="31" />
 
     <artifact
-        location="C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\reload-dex\debug\classes.dex"
-        type="RELOAD_DEX" />
+        location="C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
+        type="SPLIT" />
 
     <build
         build-mode="FULL"
-        timestamp="1527181472928"
+        timestamp="1527286440455"
         verifier="FULL_BUILD_REQUESTED" >
+        <artifact
+            location="C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
+            type="SPLIT" />
         <artifact
             location="C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
             type="SPLIT" />
@@ -62,55 +66,17 @@
             location="C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\split-apk\debug\dep\dependencies.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
-            type="SPLIT" />
-        <artifact
             location="C:\Users\paranerd\Development\simpledrive_android\app\build\outputs\apk\debug\app-debug.apk"
             type="SPLIT_MAIN" />
     </build>
     <build
         build-mode="COLD"
         ir-eligibility="COMPATIBLE"
-        timestamp="1527185632911"
+        timestamp="1527286807785"
         verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
-            type="SPLIT" />
-    </build>
-    <build
-        build-mode="COLD"
-        ir-eligibility="FIELD_ADDED"
-        timestamp="1527187158848"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
-            type="SPLIT" />
         <artifact
             location="C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
             type="SPLIT" />
-        <artifact
-            location="C:\Users\paranerd\Development\simpledrive_android\app\build\outputs\apk\debug\app-debug.apk"
-            type="SPLIT_MAIN" />
-    </build>
-    <build
-        build-mode="COLD"
-        ir-eligibility="COMPATIBLE"
-        timestamp="1527189841633"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
-            type="SPLIT" />
-    </build>
-    <build
-        build-mode="HOT_WARM"
-        timestamp="1527190077841"
-        verifier="COMPATIBLE" >
-        <artifact
-            location="C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\reload-dex\debug\classes.dex"
-            type="RELOAD_DEX" />
     </build>
 
 </instant-run>

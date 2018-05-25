@@ -2,6 +2,7 @@ package org.simpledrive.helper;
 
 import android.content.Context;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.simpledrive.authenticator.CustomAuthenticator;
 
@@ -318,14 +319,15 @@ public class Connection {
                 }
 
                 String result = sb.toString();
-                JSONObject obj = new JSONObject(result);
+                //JSONArray arr
+                //JSONObject obj = new JSONObject(result);
 
                 // Cleanup
                 reader.close();
                 is.close();
                 httpConn.disconnect();
 
-                return new Response(success, status, obj.getString("msg"));
+                return new Response(success, status, result);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -359,7 +361,7 @@ public class Connection {
     }
 
     private void trustCertificate(final String server) throws KeyManagementException, NoSuchAlgorithmException {
-        System.setProperty("https.protocols", "SSLv3");
+        System.setProperty("https.protocols", "TLS");
 
         TrustManager[] trustAllCerts = new TrustManager[] {
                 new X509TrustManager() {
@@ -379,7 +381,7 @@ public class Connection {
                     }
                 }
         };
-        final SSLContext sc = SSLContext.getInstance("SSLv3");
+        final SSLContext sc = SSLContext.getInstance("TLS");
         sc.init(null, trustAllCerts, new java.security.SecureRandom());
         HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
         HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {

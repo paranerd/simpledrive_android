@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Fri May 25 23:51:52 CEST 2018
+#Sat May 26 00:37:48 CEST 2018
 0.baseType=DIRECTORY
 0.base=C\:\\Users\\paranerd\\Development\\simpledrive_android\\app\\build\\intermediates\\transforms\\dex\\release\\0
 0.path=classes.dex

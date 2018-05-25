@@ -38,7 +38,6 @@
     </layouts>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="sd_debug" />
     <option name="TOOL_WINDOW_LOG_LEVEL" value="info" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
     <option name="TOOL_WINDOW_REGEXP_FILTER" value="false" />
@@ -102,8 +101,8 @@
       <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="3" column="28" lean-forward="false" selection-start-line="3" selection-start-column="28" selection-end-line="3" selection-end-column="28" />
+            <state relative-caret-position="34">
+              <caret line="4" column="30" lean-forward="false" selection-start-line="4" selection-start-column="30" selection-end-line="4" selection-end-column="30" />
               <folding>
                 <element signature="e#847#865#0" expanded="true" />
                 <element signature="e#1010#1028#0" expanded="true" />
@@ -117,11 +116,21 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="Connection.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/helper/Connection.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="383" column="57" lean-forward="false" selection-start-line="383" selection-start-column="57" selection-end-line="383" selection-end-column="57" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="RemoteFiles.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/RemoteFiles.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="948" column="31" lean-forward="false" selection-start-line="948" selection-start-column="23" selection-end-line="948" selection-end-column="31" />
+            <state relative-caret-position="342">
+              <caret line="795" column="7" lean-forward="false" selection-start-line="795" selection-start-column="7" selection-end-line="795" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -230,14 +239,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>SimpleAd</find>
-      <find>groups</find>
-      <find>simple</find>
-      <find>general</find>
-      <find>General</find>
-      <find>sync com</find>
-      <find>decrypt(</find>
-      <find>extract</find>
       <find>showgrou</find>
       <find>Log.i</find>
       <find>getallgr</find>
@@ -260,6 +261,14 @@
       <find>target</find>
       <find>con.addFormField(&quot;targets&quot;, target);</find>
       <find>targets</find>
+      <find>msg</find>
+      <find>fetch</find>
+      <find>fetchfilesfromserver</find>
+      <find>getheaderf</find>
+      <find>trustm</find>
+      <find>tls</find>
+      <find>TLS</find>
+      <find>tsl</find>
     </findStrings>
   </component>
   <component name="GenerateSignedApkSettings">
@@ -1888,7 +1897,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/adapters/TouchImageAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/models/LogItem.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/ServerLog.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/helper/Connection.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/models/FileItem.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/FileSelector.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Accounts.java" />
@@ -1925,11 +1933,12 @@
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/logo_facebook.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/logo_twitter.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/VaultEntry.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/Vault.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/adapters/FileAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/services/AudioService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/helper/Downloader.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/simpledrive/helper/Connection.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
       </list>
     </option>
   </component>
@@ -2555,7 +2564,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1527285115172" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1527287877970" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -2603,7 +2612,7 @@
       </Profilers>
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1527285115172" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1527287877971" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -2765,7 +2774,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1527285115175" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1527287877973" />
       </method>
     </configuration>
     <list size="1">
@@ -2914,7 +2923,7 @@
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.32939914" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3174274" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -3010,14 +3019,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2448">
           <caret line="157" column="18" lean-forward="false" selection-start-line="157" selection-start-column="18" selection-end-line="157" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/helper/Connection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6444">
-          <caret line="394" column="26" lean-forward="false" selection-start-line="394" selection-start-column="23" selection-end-line="394" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3373,14 +3374,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/RemoteFiles.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="948" column="31" lean-forward="false" selection-start-line="948" selection-start-column="23" selection-end-line="948" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/ImageViewer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-85">
@@ -3429,10 +3422,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/activities/RemoteFiles.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="795" column="7" lean-forward="false" selection-start-line="795" selection-start-column="7" selection-end-line="795" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/simpledrive/helper/Connection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="383" column="57" lean-forward="false" selection-start-line="383" selection-start-column="57" selection-end-line="383" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="3" column="28" lean-forward="false" selection-start-line="3" selection-start-column="28" selection-end-line="3" selection-end-column="28" />
+        <state relative-caret-position="34">
+          <caret line="4" column="30" lean-forward="false" selection-start-line="4" selection-start-column="30" selection-end-line="4" selection-end-column="30" />
           <folding>
             <element signature="e#847#865#0" expanded="true" />
             <element signature="e#1010#1028#0" expanded="true" />
