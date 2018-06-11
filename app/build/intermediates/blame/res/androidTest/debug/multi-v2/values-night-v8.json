@@ -4,7 +4,7 @@
             "outputFile": "C:\\Users\\paranerd\\Development\\simpledrive_android\\app\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\paranerd\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.1.aar\\ec66644ff7ecaf75fbb0fdb060085327\\res\\values-night-v8\\values-night-v8.xml",
+                    "source": "C:\\Users\\paranerd\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\4646e0b07643d2a8e7f7eb53248f4590\\res\\values-night-v8\\values-night-v8.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8",
                         "startColumns": "4,4,4,4,4,4,4",

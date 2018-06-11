@@ -1,10 +1,12 @@
 package org.simpledrive.helper;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
@@ -112,6 +114,18 @@ public class Uploader {
                         .setSmallIcon(R.drawable.ic_cloud)
                         .setColor(ContextCompat.getColor(ctx, R.color.darkgreen))
                         .setProgress(100, 0, false);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    String CHANNEL_ID = "simpledrive_quiet";// The id of the channel.
+                    CharSequence name = "simpleDrive";// The user-visible name of the channel.
+                    int importance = NotificationManager.IMPORTANCE_DEFAULT;
+                    NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+                    mChannel.setSound(null, null);
+
+                    mNotifyManager.createNotificationChannel(mChannel);
+                    mBuilder = mBuilder.setChannelId(CHANNEL_ID);
+                }
+
                 mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
             }
         }

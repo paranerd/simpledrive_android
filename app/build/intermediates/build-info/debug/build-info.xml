@@ -7,30 +7,30 @@
     format="10"
     ir-eligibility="COMPATIBLE"
     plugin-version="3.0.1"
-    timestamp="1527286807785"
+    timestamp="1528729184763"
     token="5261386854361497269"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="3488" />
+        duration="12085" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="28" />
+        duration="270" />
     <task
         name="verifier"
-        duration="31" />
+        duration="166" />
 
     <artifact
-        location="C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
+        location="C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
         type="SPLIT" />
 
     <build
         build-mode="FULL"
-        timestamp="1527286440455"
+        timestamp="1528728989696"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
@@ -72,10 +72,10 @@
     <build
         build-mode="COLD"
         ir-eligibility="COMPATIBLE"
-        timestamp="1527286807785"
+        timestamp="1528729184763"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
-            location="C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
+            location="C:\Users\paranerd\Development\simpledrive_android\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
             type="SPLIT" />
     </build>
 

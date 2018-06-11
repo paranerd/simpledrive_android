@@ -1,6 +1,7 @@
 package org.simpledrive.helper;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -55,6 +56,7 @@ public class Connection {
     private String endpoint;
     private String action;
     private int tryCount = 0;
+    private int maxTryCounts = 1;
 
     // Progress
     private ProgressListener pListener;
@@ -66,16 +68,20 @@ public class Connection {
     private String downloadPath;
     private String downloadFilename;
 
+    public Connection(String endpoint, String action, boolean retry, int retries) {
+        this(CustomAuthenticator.getServer(), endpoint, action, timeout, retries);
+    }
+
     public Connection(String endpoint, String action) {
-        this(CustomAuthenticator.getServer(), endpoint, action, timeout);
+        this(CustomAuthenticator.getServer(), endpoint, action, timeout, 0);
     }
 
     public Connection(String endpoint, String action, int timeout) {
-        this(CustomAuthenticator.getServer(), endpoint, action, timeout);
+        this(CustomAuthenticator.getServer(), endpoint, action, timeout, 0);
     }
 
     public Connection(String server, String endpoint, String action) {
-        this(server, endpoint, action, timeout);
+        this(server, endpoint, action, timeout, 0);
     }
 
     /**
@@ -83,8 +89,10 @@ public class Connection {
      * @param endpoint The endpoint to connect to
      * @param action The action to execute
      */
-    public Connection(String server, String endpoint, String action, int timeout) {
+    public Connection(String server, String endpoint, String action, int timeout, int tryCount) {
         try {
+            this.tryCount = tryCount;
+
             URL url = new URL(server + "api/" + endpoint + "/" + action);
             trustCertificate(server);
             httpConn = (server.startsWith("https")) ? (HttpsURLConnection) url.openConnection() : (HttpURLConnection) url.openConnection();
@@ -145,10 +153,11 @@ public class Connection {
         if (writer != null) {
             formFields.put(name, value);
             writer.append(LINE_FEED).append("--").append(boundary).append(LINE_FEED);
-            writer.append("Content-Disposition: form-data; name=\"").append(name).append("\"").append(LINE_FEED);
+            writer.append("Content-Disposition: form-data; name=\"").append(name).append("\""); //.append(LINE_FEED);
             writer.append("Content-Type: text/plain; charset=UTF-8").append(LINE_FEED);
             writer.append(LINE_FEED);
             writer.append(value);
+
             writer.flush();
         }
     }
@@ -193,8 +202,7 @@ public class Connection {
     }
 
     private boolean renewToken() {
-        int maxTryCount = 1;
-        if (tryCount >= maxTryCount) {
+        if (tryCount >= maxTryCounts) {
             return false;
         }
 
@@ -217,7 +225,7 @@ public class Connection {
      * @return Replay response
      */
     private Response retry() {
-        Connection con = new Connection(endpoint, action);
+        Connection con = new Connection(endpoint, action, true, tryCount);
         // Add form-fields
         for (HashMap.Entry<String, String> entry : formFields.entrySet()) {
             con.addFormField(entry.getKey(), entry.getValue());
@@ -319,15 +327,14 @@ public class Connection {
                 }
 
                 String result = sb.toString();
-                //JSONArray arr
-                //JSONObject obj = new JSONObject(result);
+                JSONObject obj = new JSONObject(result);
 
                 // Cleanup
                 reader.close();
                 is.close();
                 httpConn.disconnect();
 
-                return new Response(success, status, result);
+                return new Response(success, status, obj.getString("msg"));
             }
         } catch (Exception e) {
             e.printStackTrace();

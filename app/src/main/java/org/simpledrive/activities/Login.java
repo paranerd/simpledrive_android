@@ -119,7 +119,7 @@ public class Login extends AppCompatActivity {
 
         @Override
         protected Connection.Response doInBackground(Void... login) {
-            Connection con = (requestedTFAUnlock) ? new Connection(server, "core", "login", 30000) : new Connection(server, "core", "login");
+            Connection con = (requestedTFAUnlock) ? new Connection(server, "core", "login", 30000, 0) : new Connection(server, "core", "login");
             con.addFormField("user", username);
             con.addFormField("pass", password);
             con.addFormField("callback", String.valueOf(requestedTFAUnlock));

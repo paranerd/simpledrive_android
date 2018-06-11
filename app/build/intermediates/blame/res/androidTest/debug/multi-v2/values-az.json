@@ -4,7 +4,24 @@
             "outputFile": "C:\\Users\\paranerd\\Development\\simpledrive_android\\app\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-az\\values-az.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\paranerd\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-10.0.1.aar\\49d7157a2d6ce0f59b81004afa38eec5\\res\\values-az\\values.xml",
+                    "source": "C:\\Users\\paranerd\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\4646e0b07643d2a8e7f7eb53248f4590\\res\\values-az\\values-az.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,163,271,394,493,605,693,800,914,995,1074,1159,1266,1373,1473,1582,1686,1796,1893,1976",
+                        "endColumns": "107,107,122,98,111,87,106,113,80,78,84,106,106,99,108,103,109,96,82,100",
+                        "endOffsets": "158,266,389,488,600,688,795,909,990,1069,1154,1261,1368,1468,1577,1681,1791,1888,1971,2072"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21,22",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,213,321,444,543,655,743,850,964,1045,1124,1209,1316,1423,1523,1632,1736,1846,2164,2247",
+                        "endColumns": "107,107,122,98,111,87,106,113,80,78,84,106,106,99,108,103,109,96,82,100",
+                        "endOffsets": "208,316,439,538,650,738,845,959,1040,1119,1204,1311,1418,1518,1627,1731,1841,1938,2242,2343"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\paranerd\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-10.2.1.aar\\13f3a9f21ff24fff6cd5ff4a59304105\\res\\values-az\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -13,11 +30,11 @@
                         "endOffsets": "505"
                     },
                     "to": {
-                        "startLines": "2",
+                        "startLines": "20",
                         "startColumns": "4",
-                        "startOffsets": "105",
+                        "startOffsets": "1943",
                         "endColumns": "220",
-                        "endOffsets": "321"
+                        "endOffsets": "2159"
                     }
                 }
             ]
