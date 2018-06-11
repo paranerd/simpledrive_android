@@ -49,6 +49,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -693,7 +695,8 @@ public class RemoteFiles extends AppCompatActivity {
         // Hide action buttons
         toggleFAB(false);
 
-        if (forceRefresh || !fetchFilesFromCache()) {
+        //if (forceRefresh || !fetchFilesFromCache()) {
+        if (true) {
             new FetchFilesFromServer(RemoteFiles.this, getCurrentFolderId(), viewmode).execute();
         }
     }

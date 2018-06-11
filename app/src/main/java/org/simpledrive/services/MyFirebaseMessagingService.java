@@ -2,11 +2,13 @@ package org.simpledrive.services;
 
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -62,10 +64,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
 
+        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext());
-        Notification notification;
-        notification = mBuilder
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
                 .setTicker(title)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(0)
@@ -75,10 +77,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.ic_cloud)
                 .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ic_launcher))
                 .setContentText(message)
-                .setPriority(Notification.PRIORITY_MAX)
-                .build();
+                .setPriority(Notification.PRIORITY_MAX);
 
-        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String CHANNEL_ID = "my_channel_01";// The id of the channel.
+            CharSequence name = "simpleDrive";// The user-visible name of the channel.
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+
+            notificationManager.createNotificationChannel(mChannel);
+            mBuilder = mBuilder.setChannelId(CHANNEL_ID);
+        }
+
+        Notification notification = mBuilder.build();
         notificationManager.notify(NOTIFICATION_ID, notification);
     }
 }

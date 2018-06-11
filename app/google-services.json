@@ -15,12 +15,24 @@
       },
       "oauth_client": [
         {
+          "client_id": "285891304710-mdddqko934s3memu1719j0vfbnc24ftb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.simpledrive",
+            "certificate_hash": "cafa92652fde0abc8ab049493f50d6e75a0f079c"
+          }
+        },
+        {
           "client_id": "285891304710-dha6am9q2ardp3tmjopgui35md1btgup.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "org.simpledrive",
             "certificate_hash": "7373a2d16557b339312cac3f81f685a44e6e2fdf"
           }
+        },
+        {
+          "client_id": "285891304710-56bej2cn8gek5u08vfainus2jor3edjs.apps.googleusercontent.com",
+          "client_type": 3
         },
         {
           "client_id": "285891304710-56bej2cn8gek5u08vfainus2jor3edjs.apps.googleusercontent.com",
