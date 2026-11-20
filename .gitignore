@@ -44,3 +44,36 @@ Temporary Items
 
 SimpleDrive_key
 simpledrive_key.jks
+
+# =========================
+# Android / Gradle
+# =========================
+
+# Build output
+build/
+.gradle/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Built application files
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# Local configuration
+local.properties
+
+# IntelliJ / Android Studio
+*.iml
+.idea/workspace.xml
+.idea/libraries/
+.idea/caches/
+.idea/modules.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+
+# Signing keys
+*.jks
+*.keystore
